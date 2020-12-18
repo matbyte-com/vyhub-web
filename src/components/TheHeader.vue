@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar dense app color="primary" dark>
+  <v-app-bar app color="primary" dark>
     <div class="hidden-sm-and-up">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -9,35 +9,40 @@
           <v-list-item v-for="(link, index) in links" :key="index">
             <v-list-item-title>{{ link.title }}</v-list-item-title>
           </v-list-item>
+          <v-divider />
+          <v-list-item v-for="(dropdown, index) in dropdowns" :key="index">
+            <v-list-item-title>{{ dropdown.title }}</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </div>
 
     <div class="d-flex align-center pr-5">
       <v-img alt="Vuetify Logo" class="shrink mr-2" contain src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png" transition="scale-transition" width="40"/>
-      <span class="display-1">NyX</span>
+      <v-toolbar-title>NyX</v-toolbar-title>
     </div>
 
-    <v-toolbar-items class="hidden-xs-only">
-      <v-btn color="primary" small class="darken-1 ml-3" v-for="link in links" :key="link" dark>
+    <div class="hidden-xs-only">
+      <v-btn color="primary" class="ml-3" depressed v-for="link in links" :key="link" dark>
         {{ link.title }}
       </v-btn>
-    </v-toolbar-items>
+    </div>
 
     <v-spacer></v-spacer>
-
-    <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn fab color="primary" small class="darken-1" dark v-bind="attrs" v-on="on">
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item v-for="(dropdown, index) in dropdowns" :key="index">
-          <v-list-item-title>{{ dropdown.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+    <div class="hidden-xs-only">
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-account-circle</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="(dropdown, index) in dropdowns" :key="index">
+            <v-list-item-title>{{ dropdown.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
   </v-app-bar>
 </template>
 
