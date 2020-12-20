@@ -1,5 +1,6 @@
 <template>
   <v-app-bar app color="primary" dark>
+    <!-- burger menu on the left-->
     <div class="hidden-sm-and-up">
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -17,23 +18,39 @@
       </v-menu>
     </div>
 
+    <!-- Logo -->
     <div class="d-flex align-center pr-5">
       <v-img alt="Vuetify Logo" class="shrink mr-2" contain src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png" transition="scale-transition" width="40"/>
       <v-toolbar-title>NyX</v-toolbar-title>
     </div>
 
+    <!-- navigation links-->
     <div class="hidden-xs-only">
-      <v-btn color="primary" class="ml-3" depressed v-for="link in links" :key="link" dark>
-        {{ link.title }}
-      </v-btn>
+      <v-menu open-on-hover offset-y v-for="link in links" :key="link.id">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" class="ml-3" depressed dark v-bind="attrs" v-on="on">
+            <v-icon left>{{ link.icon }}</v-icon>
+            <span>{{ link.title }}</span>
+          </v-btn>
+        </template>
+        <v-list dense v-if="link.tabs.length > 0">
+          <v-list-item v-for="(tab, index) in link.tabs" :key="index">
+            <v-list-item-title>
+              <v-icon left>{{ tab.icon }}</v-icon>
+              <span>{{ tab.title }}</span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
 
+    <!-- profile icon with dropdown-->
     <v-spacer></v-spacer>
     <div class="hidden-xs-only">
-      <v-menu offset-y>
+      <v-menu open-on-hover offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-account-circle</v-icon>
+            <v-icon left>mdi-account-circle</v-icon>
           </v-btn>
         </template>
         <v-list>
@@ -56,9 +73,15 @@ export default {
         { title: 'Logout' },
       ],
       links: [
-        { title: 'Dashboard' },
-        { title: 'Announcements' },
-        { title: 'Bans' },
+        {
+          id: 1, title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
+        },
+        {
+          id: 2, title: 'Announcements', icon: 'mdi-exclamation-thick', link: '/announcement', tabs: [],
+        },
+        {
+          id: 3, title: 'Bans', icon: 'mdi-account-cancel', tabs: [],
+        },
       ],
     };
   },
