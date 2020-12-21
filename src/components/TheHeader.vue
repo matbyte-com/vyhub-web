@@ -6,12 +6,14 @@
         <template v-slot:activator="{ on, attrs }">
           <v-app-bar-nav-icon v-on="on" v-bind="attrs"></v-app-bar-nav-icon>
         </template>
-        <v-list>
+        <v-list dense>
           <v-list-item v-for="(link, index) in links" :key="index">
+            <v-icon left>{{ link.icon }}</v-icon>
             <v-list-item-title>{{ link.title }}</v-list-item-title>
           </v-list-item>
           <v-divider />
           <v-list-item v-for="(dropdown, index) in dropdowns" :key="index">
+            <v-icon left>{{ dropdown.icon }}</v-icon>
             <v-list-item-title>{{ dropdown.title }}</v-list-item-title>
           </v-list-item>
         </v-list>
@@ -26,7 +28,7 @@
 
     <!-- navigation links-->
     <div class="hidden-xs-only">
-      <v-menu open-on-hover offset-y v-for="link in links" :key="link.id">
+      <v-menu open-on-hover offset-y v-for="(link, index) in links" :key="index">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" class="ml-3" depressed dark v-bind="attrs" v-on="on">
             <v-icon left>{{ link.icon }}</v-icon>
@@ -74,13 +76,13 @@ export default {
       ],
       links: [
         {
-          id: 1, title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
+          title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
         },
         {
-          id: 2, title: 'Announcements', icon: 'mdi-exclamation-thick', link: '/announcement', tabs: [],
+          title: 'Announcements', icon: 'mdi-exclamation-thick', link: '/announcement', tabs: [],
         },
         {
-          id: 3, title: 'Bans', icon: 'mdi-account-cancel', tabs: [],
+          title: 'Bans', icon: 'mdi-account-cancel', tabs: [],
         },
       ],
     };
