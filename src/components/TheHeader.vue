@@ -7,15 +7,37 @@
           <v-app-bar-nav-icon v-on="on" v-bind="attrs"></v-app-bar-nav-icon>
         </template>
         <v-list dense>
-          <v-list-item v-for="(link, index) in links" :key="index">
-            <v-icon left>{{ link.icon }}</v-icon>
-            <v-list-item-title>{{ link.title }}</v-list-item-title>
-          </v-list-item>
+          <!-- render tabs-->
+          <v-menu offset-x v-for="(link, index) in links" :key="index">
+            <template v-slot:activator="{ on, attrs }">
+              <v-list-item v-on="on" v-bind="attrs">
+                <v-icon left>{{ link.icon }}</v-icon>
+                <v-list-item-title>{{ link.title }}</v-list-item-title>
+              </v-list-item>
+            </template>
+            <v-list dense v-if="link.tabs.length > 0">
+              <v-list-item v-for="(tab, index) in link.tabs" :key="index">
+                <v-icon left>{{ tab.icon }}</v-icon>
+                <v-list-item-title>{{ tab.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
           <v-divider />
-          <v-list-item v-for="(dropdown, index) in dropdowns" :key="index">
-            <v-icon left>{{ dropdown.icon }}</v-icon>
-            <v-list-item-title>{{ dropdown.title }}</v-list-item-title>
-          </v-list-item>
+          <!-- render subtabs-->
+          <v-menu dense offset-x v-for="(dropdown, index) in dropdowns" :key="index">
+            <template v-slot:activator="{ on, attrs }">
+              <v-list-item v-on="on" v-bind="attrs">
+                <v-icon left>{{ dropdown.icon }}</v-icon>
+                <v-list-item-title>{{ dropdown.title }}</v-list-item-title>
+              </v-list-item>
+            </template>
+            <v-list dense v-if="dropdown.tabs.length > 0">
+              <v-list-item v-for="(tab, index) in dropdown.tabs" :key="index">
+                <v-icon left>{{ tab.icon }}</v-icon>
+                <v-list-item-title>{{ tab.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-list>
       </v-menu>
     </div>
@@ -70,13 +92,16 @@ export default {
   data() {
     return {
       dropdowns: [
-        { title: 'Profil' },
-        { title: 'Einstellungen' },
-        { title: 'Logout' },
+        {
+          title: 'Profil', icon: 'mdi-logout-variant', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
+        },
+        {
+          title: 'Logout', icon: 'mdi-account-circle', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
+        },
       ],
       links: [
         {
-          title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
+          title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }, { title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
         },
         {
           title: 'Announcements', icon: 'mdi-exclamation-thick', link: '/announcement', tabs: [],
