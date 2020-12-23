@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
+import Axios from 'axios';
 import messages from './lang';
 import App from './App.vue';
 import router from './router';
@@ -7,6 +8,8 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false;
+
+Axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
 
 Vue.use(VueI18n);
 // eslint-disable-next-line import/prefer-default-export
