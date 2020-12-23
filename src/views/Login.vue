@@ -27,15 +27,17 @@ export default {
           username: this.username,
           password: this.password,
         };
-        const response = await AuthService.login(credentials);
-        this.msg = response.msg;
 
-        // eslint-disable-next-line prefer-destructuring
-        const token = response.access_token;
+        AuthService.login(credentials, (response) => {
+          this.msg = response.msg;
 
-        this.$store.dispatch('login', token);
+          // eslint-disable-next-line prefer-destructuring
+          const token = response.access_token;
 
-        this.$router.push('/');
+          this.$store.dispatch('api_token', token);
+
+          this.$router.push('/');
+        });
       } catch (error) {
         this.msg = error.response.data.msg;
       }
