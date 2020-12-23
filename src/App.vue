@@ -4,7 +4,7 @@
     <TheHeader/>
 
     <v-main>
-      <HelloWorld/>
+      <router-view></router-view>
     </v-main>
 
     <TheFooter/>
@@ -22,7 +22,6 @@ export default Vue.extend({
   name: 'App',
 
   components: {
-    HelloWorld,
     TheHeader,
     TheFooter,
   },
