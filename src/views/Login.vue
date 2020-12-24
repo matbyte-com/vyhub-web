@@ -23,12 +23,7 @@ export default {
   methods: {
     async login() {
       try {
-        const credentials = {
-          username: this.username,
-          password: this.password,
-        };
-
-        AuthService.login(credentials, (response) => {
+        AuthService.login(this.username, this.password, (response) => {
           this.msg = response.msg;
 
           // eslint-disable-next-line prefer-destructuring

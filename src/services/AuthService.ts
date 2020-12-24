@@ -10,11 +10,16 @@ const config = {
 };
 
 export default {
-  login(credentials: object, callback: Function) {
+  login(email: string, password: string, callback: Function) {
     // create QueryObjectForCustomerAPI
     const sndQuery = {
       username: '-',
       password: '-',
+    };
+
+    const credentials = {
+      username: email,
+      password,
     };
 
     // query central api
