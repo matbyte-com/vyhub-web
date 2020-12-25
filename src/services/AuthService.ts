@@ -31,7 +31,5 @@ export default {
         callback(localResponse.data);
       });
     }, (error) => error.data);
-
-    // query customer api
   },
 };
