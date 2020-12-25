@@ -70,6 +70,7 @@
 
     <!-- profile icon with dropdown-->
     <v-spacer></v-spacer>
+    <Login />
     <div class="hidden-xs-only">
       <v-menu open-on-hover offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -88,7 +89,12 @@
 </template>
 
 <script>
+import Login from '@/components/Login.vue';
+
 export default {
+  components: {
+    Login,
+  },
   data() {
     return {
       dropdowns: [
