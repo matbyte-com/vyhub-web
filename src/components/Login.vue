@@ -12,29 +12,18 @@
             <span class="headline">{{ $t("login") }}</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
-              <v-col>
-                <v-text-field v-bind:label="$t('email')" required v-model="email" />
-              </v-col>
-              <v-col>
-                <v-text-field
-                  type="password"
-                  v-bind:label="$t('password')"
-                  required
-                  v-model="password">
-                </v-text-field>
-              </v-col>
-              <v-col>
-                <p v-if="msg">{{ msg }}</p>
-              </v-col>
-            </v-container>
+            <GenForm :form-schema="formSchema" :form-model="formModel" @submit="login"
+                     :error-message="errorMessage" :cancel-text="null" :submit-text="null"
+                     @cancel="dialog = false"
+                     ref="loginForm">
+            </GenForm>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary darken-1" text @click="dialog = false">
-              {{ $t("close") }}
-            </v-btn>
-            <v-btn color="primary darken-1" text @click="login">
+            <v-btn color="primary" text @click="$refs.loginForm.submitForm()">
               {{ $t("login") }}
+            </v-btn>
+            <v-btn color="lighten-5" text @click="$refs.loginForm.cancelForm()">
+              {{ $t("close") }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -45,32 +34,39 @@
 
 <script>
 import AuthService from '@/services/AuthService';
+import GenForm from '@/components/GenForm.vue';
+import loginFormSchema from '@/forms/LoginForm';
 
 export default {
   name: 'Login.vue',
+  components: {
+    GenForm,
+  },
   data() {
     return {
-      dialog: false,
-      email: '',
-      password: '',
-      msg: '',
+      dialog: null,
+      formSchema: loginFormSchema,
+      formModel: {},
+      errorMessage: null,
     };
   },
   methods: {
     async login() {
       try {
-        AuthService.login(this.email, this.password, (response) => {
+        AuthService.login(this.formModel.email, this.formModel.password, (response) => {
           this.msg = response.msg;
 
           // eslint-disable-next-line prefer-destructuring
           const token = response.access_token;
 
           this.$store.dispatch('api_token', token);
-          this.dialog = false;
+
           this.$router.push('/');
+        }, (phase, error) => {
+          this.errorMessage = `Error in phase ${phase}: ${error}`;
         });
       } catch (error) {
-        this.msg = error.response.data.msg;
+        this.errorMessage = error.response.data.msg;
       }
     },
   },
