@@ -10,7 +10,7 @@ const config = {
 };
 
 export default {
-  login(email: string, password: string, callback: Function) {
+  login(email: string, password: string, callback: Function, errorCallback: Function) {
     // create QueryObjectForCustomerAPI
     const sndQuery = {
       username: '-',
@@ -22,14 +22,15 @@ export default {
       password,
     };
 
-    // query central api
+    // Query central API
     axios.post(`${centralUrl}`, qs.stringify(credentials), config).then((centralResponse) => {
       // password = received token
       sndQuery.password = centralResponse.data.access_token;
 
+      // Query customer API
       axios.post(`${customerUrl}`, qs.stringify(sndQuery), config).then((localResponse) => {
         callback(localResponse.data);
-      });
-    }, (error) => error.data);
+      }, (error) => errorCallback(2, error));
+    }, (error) => errorCallback(1, error));
   },
 };
