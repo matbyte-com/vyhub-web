@@ -56,10 +56,11 @@ export default {
         AuthService.login(this.formModel.email, this.formModel.password, (response) => {
           this.msg = response.msg;
 
-          // eslint-disable-next-line prefer-destructuring
           const token = response.access_token;
+          // eslint-disable-next-line prefer-destructuring
+          const user = response.user;
 
-          this.$store.dispatch('api_token', token);
+          this.$store.dispatch('api_token', { token, user });
 
           this.$router.push('/');
         }, (phase, error) => {
