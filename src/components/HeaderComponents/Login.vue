@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" max-width="400px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" depressed dark v-bind="attrs" v-on="on">
+          <v-btn color="primary" depressed dark v-bind="attrs" v-on="on" class="mr-3 lighten-1">
             {{ $t("login") }}
           </v-btn>
         </template>
