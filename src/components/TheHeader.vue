@@ -68,43 +68,26 @@
       </v-menu>
     </div>
 
-    <!-- profile icon with dropdown-->
     <v-spacer></v-spacer>
-    <Login />
+    <!-- profile icon with dropdown-->
     <div class="hidden-xs-only">
-      <v-menu open-on-hover offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon left>mdi-account-circle</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item v-for="(dropdown, index) in dropdowns" :key="index">
-            <v-list-item-title>{{ dropdown.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <ProfileMenu v-if="$store.getters.isLoggedIn"/>
+      <Login v-else />
     </div>
   </v-app-bar>
 </template>
 
 <script>
-import Login from '@/components/Login.vue';
+import Login from '@/components/HeaderComponents/Login.vue';
+import ProfileMenu from '@/components/HeaderComponents/ProfileMenu.vue';
 
 export default {
   components: {
     Login,
+    ProfileMenu,
   },
   data() {
     return {
-      dropdowns: [
-        {
-          title: 'Profil', icon: 'mdi-logout-variant', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
-        },
-        {
-          title: 'Logout', icon: 'mdi-account-circle', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
-        },
-      ],
       links: [
         {
           title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }, { title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],

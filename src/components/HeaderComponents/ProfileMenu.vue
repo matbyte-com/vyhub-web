@@ -1,0 +1,51 @@
+<template>
+  <v-menu open-on-hover offset-y eager>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn icon v-bind="attrs" v-on="on">
+        <v-icon left>mdi-account-circle</v-icon>
+      </v-btn>
+    </template>
+    <v-list>
+      <v-list-item
+        v-for="(link, index) in links"
+        :key="index"
+        @click="$router.push(link.link)">
+        <v-list-item-title>
+          <v-icon left>{{ link.icon }}</v-icon>
+          <span>{{ link.title }}</span>
+        </v-list-item-title>
+      </v-list-item>
+      <v-list-item @click="logout">
+        <v-list-item-title>
+          <v-icon left>mdi-logout-variant</v-icon>
+          <span>{{ $t('Logout') }}</span>
+        </v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
+</template>
+
+<script>
+export default {
+  name: 'ProfileMenu.vue',
+  data() {
+    return {
+      links: [
+        {
+          title: 'Profil', icon: 'mdi-account-circle', link: '/',
+        },
+        {
+          title: 'Settings', icon: 'mdi-cog', link: '/settings',
+        },
+      ],
+    };
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.push('/');
+    },
+  },
+};
+
+</script>
