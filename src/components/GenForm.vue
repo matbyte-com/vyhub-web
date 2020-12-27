@@ -1,10 +1,10 @@
 <template>
-  <v-row>
+  <v-row @keyup.enter="submitForm">
     <v-col cols="12">
       <v-row v-if="errorMessage != null">
         <v-col cols="12" class="mt-4">
           <v-alert
-            color="red"
+            color="error"
             type="error"
           >
             {{ errorMessage }}
@@ -14,14 +14,14 @@
       <v-row>
         <v-col cols="12">
           <v-form ref="form" v-model="valid">
-            <v-jsf v-model="formModel" :schema="formSchema" />
+            <v-jsf v-model="formModel" :schema="formSchema"/>
           </v-form>
         </v-col>
       </v-row>
       <v-row v-if="submitText != null || cancelText != null">
         <v-col cols="12">
           <v-btn v-if="submitText != null" class="mr-4" color="primary"
-                 @click="submitForm()">
+                 @click="submitForm">
             {{ $t(submitText) }}
           </v-btn>
 
