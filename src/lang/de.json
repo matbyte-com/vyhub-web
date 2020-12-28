@@ -1,6 +1,7 @@
 {
-  "close": "Close",
+  "close": "Schließen",
   "email": "E-Mail",
   "login": "Login",
-  "password": "Password"
+  "password": "Passwort",
+  "hello": "HallWelt"
 }
