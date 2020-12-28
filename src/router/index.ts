@@ -12,9 +12,8 @@ const routes: Array<RouteConfig> = [
     beforeEnter: (to, from, next) => {
       const { locale } = to.params;
       if (!i18n.availableLocales.includes(locale)) {
-        next(i18n.locale);
-      }
-      if (i18n.locale !== locale) {
+        next(`${i18n.locale}${to.fullPath}`);
+      } else {
         i18n.locale = locale;
       }
       return next();
