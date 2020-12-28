@@ -5,12 +5,13 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
+import i18n from './plugins/i18n';
 
 Vue.config.productionTip = false;
 
 Axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
 
-function loadLocaleMessages() {
+/* function loadLocaleMessages() {
   const locales = require.context(
     './lang',
     true,
@@ -35,7 +36,7 @@ export const i18n = new VueI18n({
   locale: 'en',
   fallbackLocale: 'en',
   messages: loadLocaleMessages(),
-});
+}); */
 
 new Vue({
   router,
