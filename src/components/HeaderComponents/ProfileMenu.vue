@@ -28,22 +28,16 @@
 <script>
 export default {
   name: 'ProfileMenu.vue',
+  props: {
+    menuLinks: Array,
+  },
   data() {
     return {
-      links: [
-        {
-          title: 'Profil', icon: 'mdi-account-circle', link: '/',
-        },
-        {
-          title: 'Settings', icon: 'mdi-cog', link: '/settings',
-        },
-      ],
     };
   },
   methods: {
-    logout() {
-      this.$store.dispatch('logout');
-      this.$router.push('/');
+    emitLogout() {
+      this.$emit('logout');
     },
   },
 };
