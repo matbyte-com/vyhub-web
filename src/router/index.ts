@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import i18n from '@/plugins/i18n';
+import store from '@/store/index';
 import RouterView from '@/views/RouterView.vue';
 
 Vue.use(VueRouter);
@@ -25,6 +26,12 @@ const routes: Array<RouteConfig> = [
         component: () => import('../views/Home.vue'),
       },
       {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('../views/Dashboard.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
         path: 'about',
         name: 'About',
         // route level code-splitting
@@ -46,6 +53,22 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if ((to.query.login !== 'true') && (to.matched.some((record) => record.meta.requiresAuth))) {
+    // this route requires auth
+    if (!store.getters.isLoggedIn) {
+      next({
+        path: to.fullPath,
+        query: { login: 'true' },
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
