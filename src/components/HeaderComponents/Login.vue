@@ -2,11 +2,11 @@
   <div>
     <v-row justify="center">
       <v-dialog v-model="dialog" max-width="400px">
-        <template v-slot:activator="{ on, attrs }">
+        <!--<template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" depressed dark v-bind="attrs" v-on="on" class="mr-3 lighten-1">
             {{ $t("login") }}
           </v-btn>
-        </template>
+        </template>-->
         <v-card>
           <v-card-title>
             <span class="headline">{{ $t("login") }}</span>
@@ -50,6 +50,11 @@ export default {
       errorMessage: null,
     };
   },
+  watch: {
+    $route(to, from) {
+      this.checkLoginNeeded();
+    },
+  },
   methods: {
     async login() {
       try {
@@ -69,6 +74,14 @@ export default {
       } catch (error) {
         this.errorMessage = error.response.data.msg;
       }
+    },
+    checkLoginNeeded() {
+      if (this.$route.query.login === 'true') {
+        this.dialog = true;
+      }
+    },
+    showLoginDialog() {
+      this.dialog = true;
     },
   },
 };
