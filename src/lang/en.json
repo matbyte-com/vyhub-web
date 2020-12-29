@@ -2,6 +2,8 @@
   "close": "Close",
   "email": "E-Mail",
   "login": "Login",
+  "register": "Register",
+  "logout": "Logout",
   "password": "Password",
   "hello": "Hello World"
 }
