@@ -82,7 +82,9 @@ export default {
       const propertyTitle = this.formSchema.properties[property].titleK;
       const propertyDesc = this.formSchema.properties[property].descriptionK;
 
-      this.formSchema.properties[property].title = this.$t(`${propertyTitle}`);
+      if (propertyTitle != null) {
+        this.formSchema.properties[property].title = this.$t(`${propertyTitle}`);
+      }
 
       if (propertyDesc != null) {
         this.formSchema.properties[property].description = this.$t(`${propertyDesc}`);
