@@ -36,6 +36,8 @@
 import AuthService from '@/services/AuthService';
 import GenForm from '@/components/GenForm.vue';
 import loginFormSchema from '@/forms/LoginForm';
+import Axios from 'axios';
+import store from '@/store';
 
 export default {
   name: 'Login.vue',
@@ -58,16 +60,18 @@ export default {
   methods: {
     async login() {
       try {
-        AuthService.login(this.formModel.email, this.formModel.password, (response) => {
-          this.msg = response.msg;
+        AuthService.login(this.formModel.email, this.formModel.password, (token) => {
+          this.$store.dispatch('login', { token });
+          Axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
 
-          const token = response.access_token;
-          // eslint-disable-next-line prefer-destructuring
-          const user = response.user;
-
-          this.$store.dispatch('api_token', { token, user });
-
-          this.$router.push('/');
+          AuthService.fetchUserData((user) => {
+            // console.log(data);
+            this.$store.dispatch('setUserData', { user });
+            this.dialog = false;
+            this.$router.push('/');
+          }, (error) => {
+            this.errorMessage = `Error in phase 3: ${error}`;
+          });
         }, (phase, error) => {
           this.errorMessage = `Error in phase ${phase}: ${error}`;
         });
