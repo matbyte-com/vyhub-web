@@ -13,21 +13,25 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <v-form ref="form" v-model="valid">
-            <v-jsf v-model="formModel" :schema="formSchema"/>
-          </v-form>
-        </v-col>
-      </v-row>
-      <v-row v-if="submitText != null || cancelText != null">
-        <v-col cols="12">
-          <v-btn v-if="submitText != null" class="mr-4" color="primary"
-                 @click="submitForm">
-            {{ $t(submitText) }}
-          </v-btn>
+          <v-form ref="form" @submit.prevent="validateAndRun">
+            <v-row>
+              <v-col cols="12">
+                <v-jsf v-model="formModel" :schema="formSchema"/>
+              </v-col>
+            </v-row>
 
-          <v-btn v-if="cancelText != null" color="lighten-5" @click="cancelForm">
-            {{ $t(cancelText) }}
-          </v-btn>
+            <v-row v-if="submitText != null || cancelText != null">
+              <v-col cols="12">
+                <v-btn v-if="submitText != null" class="mr-4" color="primary" type="submit">
+                  {{ $t(submitText) }}
+                </v-btn>
+
+                <v-btn v-if="cancelText != null" color="lighten-5" @click="cancelForm">
+                  {{ $t(cancelText) }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-col>
       </v-row>
     </v-col>
@@ -58,12 +62,16 @@ export default {
     },
   },
   methods: {
-    submitForm() {
+    validateAndRun() {
       if (this.$refs.form.validate()) {
         this.$emit('submit');
       }
     },
     cancelForm() {
+      console.log(`close form ${this.errorMessage}`);
+      this.errorMessage = null;
+      console.log(`close form ${this.errorMessage}`);
+      this.$refs.form.reset();
       this.$emit('cancel');
     },
   },

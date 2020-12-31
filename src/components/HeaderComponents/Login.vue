@@ -7,25 +7,18 @@
             {{ $t("login") }}
           </v-btn>
         </template>-->
+        <!-- :cancel-text="null" :submit-text="null"-->
         <v-card>
           <v-card-title>
             <span class="headline">{{ $t("login") }}</span>
           </v-card-title>
           <v-card-text>
             <GenForm :form-schema="formSchema" :form-model="formModel" @submit="login"
-                     :error-message="errorMessage" :cancel-text="null" :submit-text="null"
+                     :error-message="errorMessage" cancel-text="close" submit-text="login"
                      @cancel="dialog = false"
                      ref="loginForm">
             </GenForm>
           </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary" text @click="$refs.loginForm.submitForm()">
-              {{ $t("login") }}
-            </v-btn>
-            <v-btn color="lighten-5" text @click="$refs.loginForm.cancelForm()">
-              {{ $t("close") }}
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-dialog>
     </v-row>
