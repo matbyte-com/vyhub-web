@@ -4,7 +4,6 @@
       <v-row v-if="errorMessage != null">
         <v-col cols="12" class="mt-4">
           <v-alert
-            color="error"
             type="error"
           >
             {{ errorMessage }}
