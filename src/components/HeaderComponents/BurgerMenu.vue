@@ -4,28 +4,39 @@
       <v-app-bar-nav-icon v-on="on" v-bind="attrs"></v-app-bar-nav-icon>
     </template>
     <v-list dense>
-      <!-- render tabs-->
-      <v-menu offset-x v-for="(navLink, index) in navLinks" :key="index">
-        <template v-slot:activator="{ on, attrs }">
-          <v-list-item v-on="on" v-bind="attrs">
-            <v-icon left>{{ navLink.icon }}</v-icon>
-            <v-list-item-title>{{ navLink.title }}</v-list-item-title>
-          </v-list-item>
-        </template>
-        <v-list dense v-if="navLink.tabs.length > 0">
-          <v-list-item v-for="(tab, index) in navLink.tabs" :key="index">
+      <!-- render navlinks -->
+      <div v-for="(navLink, index) in navLinks" :key="index">
+        <!-- if tabs are existent -->
+        <v-list-group
+          v-if="navLink.tabs.length > 0" v-on:click.stop="">
+          <template v-slot:activator>
+              <v-icon left>{{ navLink.icon }}</v-icon>
+              <v-list-item-title>{{ navLink.title }}</v-list-item-title>
+          </template>
+          <v-list-item
+            v-for="(tab, index) in navLink.tabs" :key="index"
+            @click="$router.push(tab.link)"
+            link>
             <v-icon left>{{ tab.icon }}</v-icon>
             <v-list-item-title>{{ tab.title }}</v-list-item-title>
           </v-list-item>
-        </v-list>
-      </v-menu>
+        </v-list-group>
+        <!-- if no tabs are existent -->
+        <v-list-item v-if="navLink.tabs.length == 0" @click="$router.push(navLink.link)">
+          <v-icon left>{{ navLink.icon }}</v-icon>
+          <v-list-item-title>{{ navLink.title }}</v-list-item-title>
+        </v-list-item>
+      </div>
       <v-divider />
       <!-- render menuTabs + Logout-->
-      <v-list-item v-for="(menuLink, index) in menuLinks" :key="index">
-        <v-icon left>{{ menuLink.icon }}</v-icon>
-        <v-list-item-title>{{ menuLink.title }}</v-list-item-title>
-      </v-list-item>
       <div v-if="$store.getters.isLoggedIn">
+        <v-list-item v-for="(menuLink, index) in menuLinks"
+                     :key="index"
+                     @click="$router.push(menuLink.link)"
+                      >
+          <v-icon left>{{ menuLink.icon }}</v-icon>
+          <v-list-item-title>{{ menuLink.title }}</v-list-item-title>
+        </v-list-item>
         <v-list-item @click="emitLogout">
           <v-icon left>mdi-logout-variant</v-icon>
           <v-list-item-title>{{ $t('logout') }}</v-list-item-title>

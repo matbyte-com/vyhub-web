@@ -11,13 +11,13 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Home.vue'),
   },
   {
-    path: 'dashboard',
+    path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../views/Dashboard.vue'),
     meta: { requiresAuth: true },
   },
   {
-    path: 'about',
+    path: '/about',
     name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -25,7 +25,7 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
   },
   {
-    path: 'settings',
+    path: '/settings',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
   },
