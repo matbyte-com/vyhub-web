@@ -6,8 +6,13 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import i18n from './plugins/i18n';
 
+const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
+
 Vue.config.productionTip = false;
 
+Axios.defaults.baseURL = API_URL;
+Axios.defaults.headers.common['Content-Type'] = 'application/json';
+Axios.defaults.headers.common.Accept = 'application/json';
 Axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
 
 /* function loadLocaleMessages() {
