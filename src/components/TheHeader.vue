@@ -12,30 +12,18 @@
     </div>
 
     <!-- Logo -->
-    <div class="d-flex align-center pr-5">
+    <div class="d-flex align-center pr-5" @click="$router.push('/')">
       <v-img alt="Vuetify Logo" class="shrink mr-2" contain src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png" transition="scale-transition" width="40"/>
       <v-toolbar-title>NyX</v-toolbar-title>
     </div>
 
     <!-- navigation links-->
-    <div class="hidden-xs-only">
-      <v-menu open-on-hover offset-y v-for="(link, index) in links" :key="index">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" class="ml-1" depressed dark v-bind="attrs" v-on="on">
-            <v-icon left>{{ link.icon }}</v-icon>
-            <span>{{ link.title }}</span>
-          </v-btn>
-        </template>
-        <v-list dense v-if="link.tabs.length > 0">
-          <v-list-item v-for="(tab, index) in link.tabs" :key="index">
-            <v-list-item-title>
-              <v-icon left>{{ tab.icon }}</v-icon>
-              <span>{{ tab.title }}</span>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </div>
+    <NavigationLink
+      class="hidden-xs-only"
+      :link="link"
+      v-for="(link, index) in links"
+      :key="index">
+    </NavigationLink>
 
     <v-spacer></v-spacer>
     <!-- profile icon with dropdown or login-->
@@ -62,24 +50,26 @@
 import Login from '@/components/HeaderComponents/Login.vue';
 import ProfileMenu from '@/components/HeaderComponents/ProfileMenu.vue';
 import BurgerMenu from '@/components/HeaderComponents/BurgerMenu.vue';
+import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
 
 export default {
   components: {
     Login,
     ProfileMenu,
     BurgerMenu,
+    NavigationLink,
   },
   data() {
     return {
       links: [
         {
-          title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }, { title: 'Edit', icon: 'mdi-home-edit-outline', link: '/home' }],
+          title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon: 'mdi-home-edit-outline', link: '/dashboard' }],
         },
         {
-          title: 'Announcements', icon: 'mdi-exclamation-thick', link: '/announcement', tabs: [],
+          title: 'Announcements', icon: 'mdi-exclamation-thick', link: '/dashboard', tabs: [],
         },
         {
-          title: 'Bans', icon: 'mdi-account-cancel', tabs: [],
+          title: 'Settings', icon: 'mdi-account-cancel', link: '/settings', tabs: [],
         },
       ],
       linksRight: [
