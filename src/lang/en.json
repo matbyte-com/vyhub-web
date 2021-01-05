@@ -1,9 +1,20 @@
 {
-  "close": "Close",
-  "email": "E-Mail",
-  "login": "Login",
-  "register": "Register",
-  "logout": "Logout",
-  "password": "Password",
-  "hello": "Hello World"
+  "hello": "Hello World",
+  "header": {
+    "labels": {
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout",
+      "close": "close"
+    },
+    "forms": {
+      "email": "Email",
+      "password": "Password"
+    }
+  },
+  "footer": {
+    "labels": {
+      "language": "language"
+    }
+  }
 }

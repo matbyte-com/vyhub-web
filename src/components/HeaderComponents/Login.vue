@@ -10,11 +10,12 @@
         <!-- :cancel-text="null" :submit-text="null"-->
         <v-card>
           <v-card-title>
-            <span class="headline">{{ $t("login") }}</span>
+            <span class="headline">{{ $t("header.labels.login") }}</span>
           </v-card-title>
           <v-card-text>
             <GenForm :form-schema="formSchema" :form-model="formModel" @submit="login"
-                     :error-message="errorMessage" cancel-text="close" submit-text="login"
+                     :error-message="errorMessage"
+                     cancel-text="header.labels.close" submit-text="header.labels.login"
                      @cancel="dialog = false"
                      ref="loginForm">
             </GenForm>

@@ -39,15 +39,15 @@
         </v-list-item>
         <v-list-item @click="emitLogout">
           <v-icon left>mdi-logout-variant</v-icon>
-          <v-list-item-title>{{ $t('logout') }}</v-list-item-title>
+          <v-list-item-title>{{ $t('header.labels.logout') }}</v-list-item-title>
         </v-list-item>
       </div>
       <div v-else>
         <v-list-item @click="emitLogin">
-          <v-list-item-title>{{ $t('login') }}</v-list-item-title>
+          <v-list-item-title>{{ $t('header.labels.login') }}</v-list-item-title>
         </v-list-item>
         <v-list-item @click="emitRegister">
-          <v-list-item-title>{{ $t('register') }}</v-list-item-title>
+          <v-list-item-title>{{ $t('header.labels.register') }}</v-list-item-title>
         </v-list-item>
       </div>
     </v-list>

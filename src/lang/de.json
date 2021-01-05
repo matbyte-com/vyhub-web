@@ -1,7 +1,20 @@
 {
-  "close": "Schließen",
-  "email": "E-Mail",
-  "login": "Login",
-  "password": "Passwort",
-  "hello": "HallWelt"
+  "hello": "HallWelt",
+  "header": {
+    "labels": {
+      "login": "Login",
+      "register": "Registrieren",
+      "logout": "Logout",
+      "close": "Schließen"
+    },
+    "forms": {
+      "email": "Email",
+      "password": "Passwort"
+    }
+  },
+  "footer": {
+    "labels": {
+      "language": "language"
+    }
+  }
 }

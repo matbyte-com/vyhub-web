@@ -21,11 +21,12 @@
 
             <v-row v-if="submitText != null || cancelText != null">
               <v-col cols="12">
-                <v-btn v-if="submitText != null" class="mr-4" color="primary" type="submit">
+                <v-btn v-if="submitText != null" class="mr-4"
+                       depressed color="primary" type="submit">
                   {{ $t(submitText) }}
                 </v-btn>
 
-                <v-btn v-if="cancelText != null" color="lighten-5" @click="cancelForm">
+                <v-btn v-if="cancelText != null" color="lighten-5" depressed @click="cancelForm">
                   {{ $t(cancelText) }}
                 </v-btn>
               </v-col>

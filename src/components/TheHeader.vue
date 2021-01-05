@@ -35,10 +35,10 @@
       <div v-else>
         <v-btn outlined class="mr-1 lighten-1 white--text"
                @click="showLoginDialog">
-          {{ $t("login") }}
+          {{ $t("header.labels.login") }}
         </v-btn>
         <v-btn color="primary" depressed class="mr-1">
-          {{ $t("register") }}
+          {{ $t("header.labels.register") }}
         </v-btn>
       </div>
 
