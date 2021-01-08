@@ -4,7 +4,7 @@
     <TheHeader/>
 
     <v-main>
-      <v-container>
+      <v-container class="">
         <router-view></router-view>
       </v-container>
     </v-main>

@@ -16,5 +16,10 @@
     "labels": {
       "language": "language"
     }
+  },
+  "dashboard": {
+    "labels": {
+      "title": "Dashboard für {usr}"
+    }
   }
 }

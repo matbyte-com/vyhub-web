@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle title='Dashboard'/>
+    <PageTitle :title="$t('dashboard.labels.title', { usr: user.username })"/>
   </div>
 </template>
 
@@ -10,6 +10,14 @@ import PageTitle from '@/components/PageTitle.vue';
 export default {
   components: {
     PageTitle,
+  },
+  data() {
+    return {
+      // user: this.$store.getters.user,
+      user: {
+        username: 'Nutzer 1',
+      },
+    };
   },
 };
 
