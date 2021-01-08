@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-3">
+  <div class="mt-3 mb-3">
     <h1 class="display-3">{{ title }}</h1>
     <v-divider></v-divider>
   </div>
