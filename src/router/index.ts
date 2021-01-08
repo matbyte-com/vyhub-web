@@ -14,7 +14,6 @@ const routes: Array<RouteConfig> = [
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../views/Dashboard.vue'),
-    meta: { requiresAuth: true },
   },
   {
     path: '/about',
@@ -28,6 +27,7 @@ const routes: Array<RouteConfig> = [
     path: '/settings',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
+    meta: { requiresAuth: true },
   },
   {
     path: '*',

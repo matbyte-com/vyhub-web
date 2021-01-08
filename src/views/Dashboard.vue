@@ -1,5 +1,16 @@
 <template>
-  <div class="about">
-    <h1>This is the user Dashboard and it is protected</h1>
+  <div>
+    <PageTitle title='Dashboard'/>
   </div>
 </template>
+
+<script>
+import PageTitle from '@/components/PageTitle.vue';
+
+export default {
+  components: {
+    PageTitle,
+  },
+};
+
+</script>
