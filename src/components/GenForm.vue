@@ -15,7 +15,7 @@
           <v-form ref="form" @submit.prevent="validateAndRun">
             <v-row>
               <v-col cols="12">
-                <v-jsf v-model="formModel" :schema="formSchema"/>
+                <v-jsf v-model="formModel" :schema="formSchema" :options="options"/>
               </v-col>
             </v-row>
 
@@ -42,6 +42,7 @@
 import VJsf from '@koumoul/vjsf';
 import '@koumoul/vjsf/dist/main.css';
 import '@koumoul/vjsf/lib/deps/third-party';
+import i18n from '@/plugins/i18n';
 
 export default {
   name: 'GenForm',
@@ -78,6 +79,9 @@ export default {
   data() {
     return {
       valid: false,
+      options: {
+        locale: 'en',
+      },
     };
   },
   created() {
@@ -98,6 +102,7 @@ export default {
         this.formSchema.properties[property].description = this.$t(`${propertyDesc}`);
       }
     }
+    this.options.locale = i18n.locale;
   },
 };
 </script>
