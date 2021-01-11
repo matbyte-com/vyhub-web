@@ -1,32 +1,51 @@
 <template>
   <div>
     <h1>Groups</h1>
-      <h3>Resultierende Properties:</h3>
-      <span v-for="(prop, index) in getProperties" :key="index" >
-        <v-hover>
-        <v-chip
-          @mouseover="setActiveGroups(prop)"
-          @mouseleave="resetActives"
-          class="ml-1 mb-1 a secondary"
-          :class="checkProps(prop)"
-          >{{ prop }}
-        </v-chip>
-      </v-hover>
-      </span>
-    <v-divider />
     <div class="pb-4">
-      <h3>Aktive Gruppen</h3>
-      <span v-for="(group, index) in groups" :key="index">
-        <v-hover>
-          <v-chip
-            @mouseover="setActiveProps(group)"
-            @mouseleave="resetActives"
-            class="ml-1 mb-1 a secondary"
-            :class="checkGroups(group)"
-            >{{ group.name }}
-          </v-chip>
-        </v-hover>
-      </span>
+      <v-simple-table :hover="primary">
+          <thead>
+            <tr>
+              <th class="text-left">
+                Serverbundle
+              </th>
+              <th class="text-left">
+                Gruppen
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                TTT
+              </td>
+              <td>
+                <span v-for="(group, index) in groups" :key="index">
+                  <v-chip
+                    @mouseover="setActiveProps(group)"
+                    @mouseleave="resetActives"
+                    class="ml-1 mb-1 a secondary"
+                    :class="checkGroups(group)"
+                  >{{ group.name }}
+                  </v-chip>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+      </v-simple-table>
+    </div>
+    <v-divider />
+    <h3>Resultierende Properties:</h3>
+    <div class="pb-4">
+      <span v-for="(prop, index) in getProperties" :key="index" >
+      <v-chip
+        @mouseover="setActiveGroups(prop)"
+        @mouseleave="resetActives"
+        small
+        class="ml-1 mb-1 a secondary"
+        :class="checkProps(prop)"
+      >{{ prop }}
+      </v-chip>
+    </span>
     </div>
   </div>
 </template>
@@ -83,7 +102,6 @@ export default {
       return '';
     },
     checkProps(prop) {
-      console.log('psdfgoijf');
       if (this.activeProps.includes(prop)) {
         return 'accent';
       }
