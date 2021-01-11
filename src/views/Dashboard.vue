@@ -2,7 +2,7 @@
   <div>
     <PageTitle :title="$t('dashboard.labels.title', { usr: user.username })"/>
     <TabComponent ref="tabComponent" :tabs="tabs" @change="switchTab"/>
-    <v-card class="mt-3 mb-3">
+    <v-card class="mt-3 mb-3" max-width="500px">
       <keep-alive>
         <component :is="component"></component>
       </keep-alive>
