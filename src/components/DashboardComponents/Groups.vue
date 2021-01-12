@@ -2,7 +2,7 @@
   <div>
     <h1>Groups</h1>
     <div class="pb-4">
-      <v-simple-table :hover="primary">
+      <v-simple-table>
           <thead>
             <tr>
               <th class="text-left">

@@ -1,10 +1,15 @@
 <template>
   <div>
     <PageTitle :title="$t('dashboard.labels.title', { usr: user.username })"/>
-    <TabComponent ref="tabComponent" :tabs="tabs" @change="switchTab"/>
-    <v-card class="mt-3 mb-3 pa-3" max-width="500px">
+    <v-tabs @change="switchTab">
+      <v-tab>General</v-tab>
+      <v-tab v-for="tab in tabs" :key="tab.id">
+        <span>{{ tab.name }}</span>
+      </v-tab>
+    </v-tabs>
+    <v-card class="mt-3 mb-3 pa-3">
       <keep-alive>
-        <component :is="component"></component>
+        <component :is="componentInstance" :bundleId="bundleId"></component>
       </keep-alive>
     </v-card>
   </div>
@@ -12,16 +17,12 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
-import TabComponent from '@/components/TabComponent.vue';
-import LinkedAccount from '@/components/DashboardComponents/LinkedAccounts.vue';
-import Groups from '@/components/DashboardComponents/Groups.vue';
+
+import axios from 'axios';
 
 export default {
   components: {
     PageTitle,
-    TabComponent,
-    General: LinkedAccount,
-    Bundle1: Groups,
   },
   data() {
     return {
@@ -29,23 +30,30 @@ export default {
       user: {
         username: 'Nutzer 1',
       },
-      tabs: [
-        {
-          title: 'General', icon: 'mdi-adjust',
-        },
-        {
-          title: 'Bundle1', icon: 'mdi-alpha-m-circle',
-        },
-        {
-          title: 'Bundle2', icon: 'mdi-alpha-g-circle',
-        },
-      ],
-      component: LinkedAccount,
+      bundleId: 0,
+      bundleType: 'General',
+      tabs: null,
     };
   },
   methods: {
     switchTab(payload) {
-      this.component = this.tabs[payload].title;
+      if (payload === 0) {
+        this.bundleId = '';
+        this.bundleType = 'General';
+      } else {
+        this.bundleId = this.tabs[payload - 1].id;
+        this.bundleType = this.tabs[payload - 1].server_type;
+      }
+    },
+  },
+  mounted() {
+    axios.get('http://localhost:5050/api/v1/server/bundle/').then((response) => { (this.tabs = response.data); });
+  },
+  computed: {
+    componentInstance() {
+      // need to get and return the correct bundle type for id e.G. GMOD, MINECRAFT
+      const type = this.bundleType;
+      return () => import(`@/components/DashboardComponents/Dashboards/${type}`);
     },
   },
 };
