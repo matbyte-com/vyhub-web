@@ -20,6 +20,8 @@ import PageTitle from '@/components/PageTitle.vue';
 
 import axios from 'axios';
 
+const customerURL = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}`;
+
 export default {
   components: {
     PageTitle,
@@ -47,7 +49,7 @@ export default {
     },
   },
   mounted() {
-    axios.get('http://localhost:5050/api/v1/server/bundle/').then((response) => { (this.tabs = response.data); });
+    axios.get(`${customerURL}/server/bundle/`).then((response) => { (this.tabs = response.data); });
   },
   computed: {
     componentInstance() {
