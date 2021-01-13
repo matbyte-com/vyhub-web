@@ -2,6 +2,7 @@
   <div>
     <h1>Groups</h1>
     <div class="pb-4">
+      <!--
       <v-simple-table>
           <thead>
             <tr>
@@ -31,33 +32,69 @@
               </td>
             </tr>
           </tbody>
+      </v-simple-table> -->
+      <v-simple-table v-if="groups.length != 0">
+        <thead>
+        <tr>
+          <th class="text-left">
+            Serverbundle
+          </th>
+          <th class="text-left">
+            Gruppen
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr v-for="bundle in serverBundles" :key="bundle.id">
+            <td>
+              {{ bundle.name }}
+            </td>
+            <td>
+              <span v-for="group in getGroups" :key="group.id">
+                  <v-chip
+                    @mouseover="setActiveProps(group)"
+                    @mouseleave="resetActives"
+                    class="ml-1 mb-1 a secondary"
+                    :class="checkGroups(group)"
+                  >{{ group.name }}
+                  </v-chip>
+                </span>
+            </td>
+          </tr>
+        </tbody>
       </v-simple-table>
     </div>
     <v-divider />
     <h3>Resultierende Properties:</h3>
     <div class="pb-4">
-      <span v-for="(prop, index) in getProperties" :key="index" >
-      <v-chip
-        @mouseover="setActiveGroups(prop)"
-        @mouseleave="resetActives"
-        small
-        class="ml-1 mb-1 a secondary"
-        :class="checkProps(prop)"
-      >{{ prop }}
-      </v-chip>
-    </span>
+      <span v-for="(prop, index) in getProps" :key="index" >
+        <v-chip
+          @mouseover="setActiveGroups(prop)"
+          @mouseleave="resetActives"
+          small
+          class="ml-1 mb-1 a secondary"
+          :class="checkProps(prop)"
+        >{{ prop.name }}
+        </v-chip>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import store from '@/store/index';
+
+const uuid = store.getters.user.id;
+const customerURL = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}`;
+
 export default {
   name: 'Groups',
   data() {
     return {
       activeProps: [],
       activeGroups: [],
-      test: false,
+      test: {},
       groups: [
         {
           name: 'admin', props: ['settings', 'dashboard', 'setting2'],
@@ -69,16 +106,17 @@ export default {
           name: '123', props: ['12345', 'sdf', '45'],
         },
       ],
+      memberships: [],
+      serverBundles: [],
+      bundleGroups: [],
     };
   },
+  async beforeMount() {
+    axios.get(`${customerURL}/group/`).then((response) => { (this.groups = response.data); });
+    axios.get(`${customerURL}/user/${uuid}/memberships/`).then((response) => { (this.memberships = response.data); });
+    axios.get(`${customerURL}/server/bundle/`).then((response) => { (this.serverBundles = response.data); });
+  },
   methods: {
-    toogletest() {
-      if (this.test === true) {
-        this.test = false;
-      } else {
-        this.test = true;
-      }
-    },
     resetActives() {
       this.activeProps = [];
       this.activeGroups = [];
@@ -109,10 +147,18 @@ export default {
     },
   },
   computed: {
-    // remove duplicate properties
-    getProperties() {
-      const props = new Set();
-      this.groups.forEach((group) => group.props.forEach((prop) => props.add(prop)));
+    // get currently active groups of user
+    getGroups() {
+      const groups = [];
+      this.memberships.forEach((membership) => groups
+        .push(this.groups.find((x) => x.id === membership.group_id)));
+      return groups;
+    },
+    getProps() {
+      const props = [];
+      this.getGroups.forEach((group) => {
+        Object.values(group.properties).forEach((prop) => props.push(prop));
+      });
       return props;
     },
   },
