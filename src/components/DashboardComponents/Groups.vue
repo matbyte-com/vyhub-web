@@ -42,6 +42,9 @@
           <th class="text-left">
             Gruppen
           </th>
+          <th class="text-left">
+            Properties
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -50,7 +53,7 @@
               {{ bundle.name }}
             </td>
             <td>
-              <span v-for="group in getGroups" :key="group.id">
+              <span v-for="group in getGroupsByBundle(bundle.id)" :key="group.id">
                   <v-chip
                     @mouseover="setActiveProps(group)"
                     @mouseleave="resetActives"
@@ -60,11 +63,22 @@
                   </v-chip>
                 </span>
             </td>
+            <td>
+              <span v-for="prop in getPropsByBundle(bundle.id)" :key="prop.id">
+                <v-chip
+                  @mouseover="setActiveGroups(prop)"
+                  @mouseleave="resetActives"
+                  class="ml-1 mb-1 a secondary"
+                  :class="checkProps(prop)"
+                >{{ prop.name }}
+                </v-chip>
+              </span>
+            </td>
           </tr>
         </tbody>
       </v-simple-table>
     </div>
-    <v-divider />
+    <!-- <v-divider />
     <h3>Resultierende Properties:</h3>
     <div class="pb-4">
       <span v-for="(prop, index) in getProps" :key="index" >
@@ -77,7 +91,7 @@
         >{{ prop.name }}
         </v-chip>
       </span>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -122,28 +136,42 @@ export default {
       this.activeGroups = [];
     },
     setActiveProps(group) {
-      group.props.forEach((prop) => this.activeProps.push(prop));
-      this.activeGroups.push(group.name);
+      // group.props.forEach((prop) => this.activeProps.push(prop));
+      // this.activeGroups.push(group.name);
+      Object.values(group.properties).forEach((prop) => this.activeProps.push(prop.name));
+      // group.properties.forEach((prop) => this.activeProps.push(prop.id));
+      this.activeGroups.push(group.id);
     },
     setActiveGroups(prop) {
-      this.groups.forEach((group) => {
-        if (group.props.includes(prop)) {
-          this.activeGroups.push(group.name);
-        }
-      });
-      this.activeProps.push(prop);
+      // this.groups.forEach((group) => {
+      //  if (group.props.includes(prop)) {
+      //    this.activeGroups.push(group.name);
+      //  }
+      // });
+      this.activeGroups.push(prop.group_id);
+      this.activeProps.push(prop.name);
     },
     checkGroups(group) {
-      if (this.activeGroups.includes(group.name)) {
+      if (this.activeGroups.includes(group.id)) {
         return 'accent';
       }
       return '';
     },
     checkProps(prop) {
-      if (this.activeProps.includes(prop)) {
+      if (this.activeProps.includes(prop.name)) {
         return 'accent';
       }
       return '';
+    },
+    getGroupsByBundle(bundleId) {
+      return this.getGroups.filter((g) => g.serverbundle_id === bundleId);
+    },
+    getPropsByBundle(bundleId) {
+      const props = [];
+      this.getGroupsByBundle(bundleId).forEach((group) => {
+        Object.values(group.properties).forEach((prop) => props.push(prop));
+      });
+      return props;
     },
   },
   computed: {
@@ -167,6 +195,6 @@ export default {
 
 <style scoped>
   .a {
-    transition: background 0.5s linear 0.1s , color 0.5s linear
+    transition: background 0.3s linear 0.1s , color 0.5s linear
   }
 </style>
