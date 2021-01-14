@@ -35,17 +35,17 @@
       </v-simple-table> -->
       <v-simple-table v-if="groups.length != 0">
         <thead>
-        <tr>
-          <th class="text-left">
-            Serverbundle
-          </th>
-          <th class="text-left">
-            Gruppen
-          </th>
-          <th class="text-left">
-            Properties
-          </th>
-        </tr>
+          <tr>
+            <th class="text-left">
+              Serverbundle
+            </th>
+            <th class="text-left">
+              Gruppen
+            </th>
+            <th class="text-left">
+              Properties
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="bundle in serverBundles" :key="bundle.id">
@@ -77,6 +77,36 @@
           </tr>
         </tbody>
       </v-simple-table>
+      <v-expansion-panels flat>
+        <v-expansion-panel class="mt-3">
+          <v-expansion-panel-header class="text-left">Alle Gruppen</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-simple-table>
+              <thead>
+                <tr>
+                  <th>Gruppe</th>
+                  <th>Startdatum</th>
+                  <th>Enddatum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="membership in memberships"
+                    :key="membership.id">
+                  <td>
+                    {{ getGroupById(membership.group_id).name }}
+                  </td>
+                  <td>
+                    {{ $d(new Date(membership.begin), 'short', $i18n.locale) }}
+                  </td>
+                  <td>
+                    {{ $d(new Date(membership.end), 'short', $i18n.locale) }}
+                  </td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </div>
     <!-- <v-divider />
     <h3>Resultierende Properties:</h3>
@@ -127,7 +157,10 @@ export default {
   },
   async beforeMount() {
     axios.get(`${customerURL}/group/`).then((response) => { (this.groups = response.data); });
-    axios.get(`${customerURL}/user/${uuid}/memberships/`).then((response) => { (this.memberships = response.data); });
+    axios.get(`${customerURL}/user/${uuid}/memberships/`).then((response) => {
+      this.memberships = response.data;
+      this.memberships.sort((a, b) => new Date(a.end) + new Date(b.end));
+    });
     axios.get(`${customerURL}/server/bundle/`).then((response) => { (this.serverBundles = response.data); });
   },
   methods: {
@@ -173,15 +206,22 @@ export default {
       });
       return props;
     },
+    getGroupById(groupId) {
+      return this.groups.find((g) => g.id === groupId);
+    },
   },
   computed: {
     // get currently active groups of user
     getGroups() {
       const groups = [];
-      this.memberships.forEach((membership) => groups
-        .push(this.groups.find((x) => x.id === membership.group_id)));
+      this.memberships.forEach((membership) => {
+        if (new Date() < new Date(membership.end)) {
+          groups.push(this.groups.find((g) => g.id === membership.group_id));
+        }
+      });
       return groups;
     },
+    // unused
     getProps() {
       const props = [];
       this.getGroups.forEach((group) => {
