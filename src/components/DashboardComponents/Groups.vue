@@ -85,6 +85,7 @@
               <thead>
                 <tr>
                   <th>Gruppe</th>
+                  <th>Serverbundle</th>
                   <th>Startdatum</th>
                   <th>Enddatum</th>
                 </tr>
@@ -94,6 +95,9 @@
                     :key="membership.id">
                   <td>
                     {{ getGroupById(membership.group_id).name }}
+                  </td>
+                  <td>
+                    {{ getBundleById(getGroupById(membership.group_id).serverbundle_id).name }}
                   </td>
                   <td>
                     {{ $d(new Date(membership.begin), 'short', $i18n.locale) }}
@@ -208,6 +212,9 @@ export default {
     },
     getGroupById(groupId) {
       return this.groups.find((g) => g.id === groupId);
+    },
+    getBundleById(bundleId) {
+      return this.serverBundles.find((b) => b.id === bundleId);
     },
   },
   computed: {
