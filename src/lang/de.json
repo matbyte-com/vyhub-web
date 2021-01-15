@@ -23,6 +23,7 @@
       "linkedAccounts": "Verbundene Konten"
     }
   },
+  "type": "Typ",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
   "startdate": "Startdatum",
@@ -30,5 +31,6 @@
   "groups": "Gruppen",
   "allGroups": "Alle Gruppen",
   "allProperties": "Alle Properties",
-  "properties": "Properties"
+  "properties": "Properties",
+  "username": "Nutzername"
 }

@@ -23,6 +23,7 @@
       "linkedAccounts": "Linked Accounts"
     }
   },
+  "type": "Type",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
   "startdate": "Begin",
@@ -30,5 +31,6 @@
   "groups": "Groups",
   "allGroups": "All Groups",
   "allProperties": "All Properties",
-  "properties": "Properties"
+  "properties": "Properties",
+  "username": "Username"
 }
