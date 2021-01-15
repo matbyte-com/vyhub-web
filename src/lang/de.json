@@ -19,7 +19,16 @@
   },
   "dashboard": {
     "labels": {
-      "title": "Dashboard for {usr}"
+      "title": "Dashboard for {usr}",
+      "linkedAccounts": "Verbundene Konten"
     }
-  }
+  },
+  "serverbundle": "Serverbundle",
+  "groupname": "Name",
+  "startdate": "Startdatum",
+  "enddate": "Enddatum",
+  "groups": "Gruppen",
+  "allGroups": "Alle Gruppen",
+  "allProperties": "Alle Properties",
+  "properties": "Properties"
 }

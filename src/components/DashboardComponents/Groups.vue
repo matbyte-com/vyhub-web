@@ -1,19 +1,19 @@
 <template>
   <div>
-    <h2 class="text-h4">Groups</h2>
+    <h2 class="text-h4">{{ $t("groups") }}</h2>
     <v-divider class="mb-3"/>
-    <v-simple-table v-if="groups.length != 0">
+    <v-simple-table class="mb-3">
       <thead>
         <tr>
           <th class="text-left">
-            Serverbundle
+            {{ $t("serverbundle") }}
           </th>
           <th class="text-left">
-            Gruppen
+            {{ $t("groups") }}
           </th>
-          <th class="text-left">
-            Properties
-          </th>
+          <!-- <th class="text-left">
+            {{ $t("properties") }}
+          </th> -->
         </tr>
       </thead>
       <tbody>
@@ -32,7 +32,7 @@
                 </v-chip>
               </span>
           </td>
-          <td>
+          <!-- <td>
             <span v-for="prop in getPropsByBundle(bundle.id)" :key="prop.id">
               <v-chip
                 @mouseover="setActiveGroups(prop)"
@@ -42,22 +42,38 @@
               >{{ prop.name }}
               </v-chip>
             </span>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </v-simple-table>
-    <v-expansion-panels flat>
-      <v-expansion-panel class="mt-3">
-        <v-expansion-panel-header class="text-left">Alle Gruppen</v-expansion-panel-header>
+    <v-divider />
+    <v-expansion-panels flat accordion>
+      <v-expansion-panel>
+        <v-expansion-panel-header>{{ $t("allGroups") }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-data-table
           :headers="groupTableHeaders"
           :items="getMembershipTable"
           :items-per-page="5"
           dense
+          :hide-default-footer="true"
           >
-            <v-data-footer disable-items-per-page="true" />
           </v-data-table>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header>{{ $t("allProperties") }}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <span v-for="prop in getProps" :key="prop.id">
+              <v-chip
+                @mouseover="setActiveGroups(prop)"
+                @mouseleave="resetActives"
+                class="ml-1 mb-1 a secondary"
+                :class="checkProps(prop)"
+                small
+              >{{ prop.name }}
+              </v-chip>
+            </span>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -83,19 +99,16 @@ export default {
       serverBundles: [],
       bundleGroups: [],
       groupTableHeaders: [
-        { text: 'Name', align: 'start', value: 'name' },
-        { text: 'Serverbundle', value: 'bundle' },
-        { text: 'Startdatum', value: 'startDate' },
-        { text: 'Enddatum', value: 'endDate' },
+        { text: this.$t('groupname'), align: 'start', value: 'name' },
+        { text: this.$t('serverbundle'), value: 'bundle' },
+        { text: this.$t('startdate'), value: 'startDate' },
+        { text: this.$t('enddate'), value: 'endDate' },
       ],
     };
   },
   async beforeMount() {
     axios.get(`${customerURL}/group/`).then((response) => { (this.groups = response.data); });
-    axios.get(`${customerURL}/user/${uuid}/memberships/`).then((response) => {
-      this.memberships = response.data;
-      this.memberships.sort((a, b) => new Date(a.end) + new Date(b.end));
-    });
+    axios.get(`${customerURL}/user/${uuid}/memberships/`).then((response) => { this.memberships = response.data; });
     axios.get(`${customerURL}/server/bundle/`).then((response) => { (this.serverBundles = response.data); });
   },
   methods: {

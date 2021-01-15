@@ -19,7 +19,16 @@
   },
   "dashboard": {
     "labels": {
-      "title": "Dashboard für {usr}"
+      "title": "Dashboard für {usr}",
+      "linkedAccounts": "Linked Accounts"
     }
-  }
+  },
+  "serverbundle": "Serverbundle",
+  "groupname": "Name",
+  "startdate": "Begin",
+  "enddate": "End",
+  "groups": "Groups",
+  "allGroups": "All Groups",
+  "allProperties": "All Properties",
+  "properties": "Properties"
 }

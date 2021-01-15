@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="ma-3 pa-3" max-width="500px">
+    <v-card class="ma-3 pa-3" max-width="600px">
       <Groups />
     </v-card>
     <v-card class="ma-3 pa-3" max-width="500px">
