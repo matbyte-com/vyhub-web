@@ -20,7 +20,13 @@
   "dashboard": {
     "labels": {
       "title": "Dashboard for {usr}",
-      "linkedAccounts": "Verbundene Konten"
+      "linkedAccounts": "Verbundene Konten",
+      "linkNewAccount": "Account verknüpfen"
+    }
+  },
+  "ban":{
+    "labels": {
+      "title": "Alle Bans"
     }
   },
   "type": "Typ",
@@ -32,5 +38,7 @@
   "allGroups": "Alle Gruppen",
   "allProperties": "Alle Properties",
   "properties": "Properties",
+  "username": "Nutzername",
+  "email": "Email",
   "username": "Nutzername"
 }
