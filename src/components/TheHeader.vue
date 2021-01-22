@@ -63,13 +63,19 @@ export default {
     return {
       links: [
         {
-          title: 'Dashboard', icon: 'mdi-home', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon: 'mdi-home-edit-outline', link: '/dashboard' }],
+          title: 'Home', icon: 'mdi-home', link: '/', tabs: [],
         },
         {
-          title: 'Announcements', icon: 'mdi-exclamation-thick', link: '/dashboard', tabs: [],
+          title: 'Dashboard', icon: 'mdi-account', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon: 'mdi-home-edit-outline', link: '/dashboard' }],
         },
         {
-          title: 'Settings', icon: 'mdi-account-cancel', link: '/settings', tabs: [],
+          title: 'Shop', icon: 'mdi-cash-multiple', link: '/shop', tabs: [],
+        },
+        {
+          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', tabs: [],
+        },
+        {
+          title: 'Settings', icon: 'mdi-cog-outline', link: '/settings', tabs: [],
         },
       ],
       linksRight: [
