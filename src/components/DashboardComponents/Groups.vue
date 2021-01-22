@@ -81,11 +81,10 @@
 </template>
 
 <script>
-import axios from 'axios';
 import store from '@/store/index';
+import api from '@/api/api';
 
 const uuid = store.getters.user.id;
-const customerURL = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}`;
 
 export default {
   name: 'Groups',
@@ -93,10 +92,8 @@ export default {
     return {
       activeProps: [],
       activeGroups: [],
-      test: {},
       groups: [],
       memberships: [],
-      serverBundles: [],
       bundleGroups: [],
       groupTableHeaders: [
         { text: this.$t('groupname'), align: 'start', value: 'name' },
@@ -106,10 +103,10 @@ export default {
       ],
     };
   },
+  props: ['serverBundles'],
   async beforeMount() {
-    axios.get(`${customerURL}/group/`).then((response) => { (this.groups = response.data); });
-    axios.get(`${customerURL}/user/${uuid}/memberships/`).then((response) => { this.memberships = response.data; });
-    axios.get(`${customerURL}/server/bundle/`).then((response) => { (this.serverBundles = response.data); });
+    api.server.getGroups().then((response) => { (this.groups = response.data); });
+    api.user.getMemberships(uuid).then((response) => { this.memberships = response.data; });
   },
   methods: {
     resetActives() {
@@ -164,7 +161,6 @@ export default {
       });
       return groups;
     },
-    // unused
     getProps() {
       const props = [];
       this.getGroups.forEach((group) => {

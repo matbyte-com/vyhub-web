@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle :title="$t('dashboard.labels.title', { usr: user.username })"/>
+    <PageTitle :title="$t('dashboard.labels.title', { usr: user.attributes.username })"/>
     <v-tabs @change="switchTab">
       <v-tab>General</v-tab>
       <v-tab v-for="tab in tabs" :key="tab.id">
@@ -9,7 +9,7 @@
     </v-tabs>
     <v-card class="mt-3 mb-3 pa-3">
       <keep-alive>
-        <component :is="componentInstance" :bundleId="bundleId"></component>
+        <component :is="componentInstance" :bundleId="bundleId" :serverBundles="tabs"></component>
       </keep-alive>
     </v-card>
   </div>
@@ -17,10 +17,7 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
-
-import axios from 'axios';
-
-const customerURL = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}`;
+import apiService from '@/api/api';
 
 export default {
   components: {
@@ -28,13 +25,10 @@ export default {
   },
   data() {
     return {
-      // user: this.$store.getters.user,
-      user: {
-        username: 'Nutzer 1',
-      },
+      user: this.$store.getters.user,
       bundleId: 0,
       bundleType: 'General',
-      tabs: null,
+      tabs: [],
     };
   },
   methods: {
@@ -49,7 +43,7 @@ export default {
     },
   },
   mounted() {
-    axios.get(`${customerURL}/server/bundle/`).then((response) => { (this.tabs = response.data); });
+    apiService.server.getBundles().then((rsp) => { (this.tabs = rsp.data); });
   },
   computed: {
     componentInstance() {

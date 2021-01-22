@@ -1,43 +1,61 @@
 <template>
   <div>
-    <h2 class="text-h4">{{ $t("dashboard.labels.linkedAccounts") }}</h2>
+    <v-row>
+      <v-col>
+        <h2 class="text-h4">{{ $t("dashboard.labels.linkedAccounts") }}</h2>
+      </v-col>
+      <v-col>
+        <span class="float-right">
+          <v-btn color="secondary" depressed>
+            <v-icon left>mdi-plus</v-icon>
+            <span>{{ $t("dashboard.labels.linkNewAccount") }}</span>
+          </v-btn>
+        </span>
+      </v-col>
+    </v-row>
     <v-divider class="mb-3"/>
     <v-data-iterator
       :items="getAccountData"
       item-key="id"
       hide-default-footer>
       <template v-slot:default="{ items }">
-        <v-col
-          v-for="item in items"
-          :key="item.id"
-          cols="12">
-          <v-card>
-            <v-card-title>
-              <h4>{{ item.type }}</h4>
-            </v-card-title>
-            <v-divider />
-            <v-list
-              dense>
-              <v-list-item
-                v-for="(value, key) in item.attributes"
-                :key="key">
-                <v-list-item-content>{{ key }}</v-list-item-content>
-                <v-list-item-content>{{ value }}</v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-col>
+        <v-row>
+          <v-col
+            v-for="item in items"
+            :key="item.id"
+            cols="12"
+            sm="6"
+            lg="6">
+            <v-card>
+              <v-card-title>
+                <v-row>
+                  <v-col cols="2"></v-col>
+                  <v-col><h4>{{ item.type }}</h4></v-col>
+                </v-row>
+              </v-card-title>
+              <v-divider />
+              <v-list
+                dense>
+                <v-list-item
+                  v-for="(value, key) in item.attributes"
+                  :key="key">
+                  <v-list-item-content>{{ $t(key) }}</v-list-item-content>
+                  <v-list-item-content>{{ value }}</v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-col>
+        </v-row>
       </template>
     </v-data-iterator>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 import store from '@/store/index';
+import api from '@/api/api';
 
 const uuid = store.getters.user.id;
-const customerURL = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}`;
 
 export default {
   name: 'LinkedAccounts',
@@ -49,13 +67,16 @@ export default {
     };
   },
   beforeMount() {
-    axios.get(`${customerURL}/user/${uuid}`).then((response) => { this.userAccounts = response.data; this.componentLoaded = true; });
-    axios.get(`${customerURL}/user/attribute/definitions`).then((response) => { this.attributeDefinitions = response.data; });
+    api.user.getAttributeDefinitions().then((rsp) => { this.attributeDefinitions = rsp.data; });
+    api.user.getUser(uuid).then((rsp) => {
+      this.userAccounts = rsp.data;
+      this.componentLoaded = true;
+    });
   },
   computed: {
     getAccounts() {
       const accs = [];
-      if (this.userAccounts === {}) { return []; }
+      // if (this.userAccounts === {}) { return []; }
       const object = {};
       object.type = this.userAccounts.type;
       object.username = this.userAccounts.attributes.username;

@@ -19,7 +19,7 @@
   },
   "dashboard": {
     "labels": {
-      "title": "Dashboard für {usr}",
+      "title": "Dashboard for {usr}",
       "linkedAccounts": "Linked Accounts",
       "linkNewAccount": "link new Account"
     }
