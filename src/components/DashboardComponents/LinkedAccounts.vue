@@ -62,8 +62,9 @@ export default {
     };
   },
   beforeMount() {
+    const username = this.$route.params.id;
     api.user.getAttributeDefinitions().then((rsp) => { this.attributeDefinitions = rsp.data; });
-    api.user.getUser(uuid).then((rsp) => {
+    api.user.getUser(username).then((rsp) => {
       this.userAccounts = rsp.data;
       this.componentLoaded = true;
     });
@@ -71,7 +72,6 @@ export default {
   computed: {
     getAccounts() {
       const accs = [];
-      // if (this.userAccounts === {}) { return []; }
       const object = {};
       object.type = this.userAccounts.type;
       object.username = this.userAccounts.attributes.username;
@@ -84,6 +84,10 @@ export default {
       });
       return accs;
     },
+    /**
+     * get onley unspecific Accountdata
+     * @returns {[]} accounts with manipulated attributes
+     */
     getAccountData() {
       if (!this.componentLoaded) { return []; }
       const accs = [];

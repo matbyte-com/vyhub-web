@@ -22,7 +22,7 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: '/dashboard/:uName',
+    path: '/dashboard/:id',
     name: 'UserDashboard',
     component: () => import('../views/Dashboard.vue'),
     meta: { requiresAuth: true },

@@ -16,9 +16,6 @@
               <th class="text-left">
                 {{ $t("groups") }}
               </th>
-              <!-- <th class="text-left">
-                {{ $t("properties") }}
-              </th> -->
             </tr>
             </thead>
             <tbody>
@@ -37,17 +34,6 @@
                 </v-chip>
               </span>
               </td>
-              <!-- <td>
-                <span v-for="prop in getPropsByBundle(bundle.id)" :key="prop.id">
-                  <v-chip
-                    @mouseover="setActiveGroups(prop)"
-                    @mouseleave="resetActives"
-                    class="ml-1 mb-1 a secondary"
-                    :class="checkProps(prop)"
-                  >{{ prop.name }}
-                  </v-chip>
-                </span>
-              </td> -->
             </tr>
             </tbody>
           </v-simple-table>
@@ -93,10 +79,7 @@
 </template>
 
 <script>
-import store from '@/store/index';
 import api from '@/api/api';
-
-const uuid = store.getters.user.id;
 
 export default {
   name: 'Groups',
@@ -117,10 +100,15 @@ export default {
   },
   props: ['serverBundles'],
   async beforeMount() {
+    const username = this.$route.params.id;
     api.server.getGroups().then((response) => { (this.groups = response.data); });
-    api.user.getMemberships(uuid).then((response) => { this.memberships = response.data; });
+    api.user.getMemberships(username).then((response) => { this.memberships = response.data; });
   },
   methods: {
+    /**
+     * resetActives, setActiveProps, setActiveGroups, checkGroups
+     * and Checkprops are used for highliting the hovered Groups or Props
+     */
     resetActives() {
       this.activeProps = [];
       this.activeGroups = [];
@@ -145,6 +133,7 @@ export default {
       }
       return '';
     },
+    // -----
     getGroupsByBundle(bundleId) {
       return this.getGroups.filter((g) => g.serverbundle_id === bundleId);
     },
@@ -163,17 +152,26 @@ export default {
     },
   },
   computed: {
-    // get currently active groups of user
+    /**
+     * get active Groups of Current User
+     * @returns {[Groups]} Array of active UserGroups
+     */
     getGroups() {
+      if (this.groups === []) { return []; }
       const groups = [];
       this.memberships.forEach((membership) => {
-        if (new Date() < new Date(membership.end)) {
+        if (membership.active === true) {
           groups.push(this.groups.find((g) => g.id === membership.group_id));
         }
       });
       return groups;
     },
+    /**
+     * @link {getGroups()} get all props belonging to active Group
+     * @returns {[]} Array of props
+     */
     getProps() {
+      if (this.groups === []) { return []; }
       const props = [];
       this.getGroups.forEach((group) => {
         Object.values(group.properties).forEach((prop) => props.push(prop));
@@ -181,6 +179,7 @@ export default {
       return props;
     },
     getMembershipTable() {
+      if (this.groups === []) { return []; }
       const memberships = [];
       this.memberships.forEach((m) => {
         const object = {};

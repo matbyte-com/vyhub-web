@@ -1,16 +1,22 @@
 <template>
   <div>
-    <PageTitle :title="$t('dashboard.labels.title', { usr: user.attributes.username })"/>
-    <v-tabs @change="switchTab">
-      <v-tab>General</v-tab>
-      <v-tab v-for="tab in tabs" :key="tab.id">
-        <span>{{ tab.name }}</span>
-      </v-tab>
-    </v-tabs>
-    <div class="mt-2">
-      <keep-alive>
-        <component :is="componentInstance" :bundleId="bundleId" :serverBundles="tabs"></component>
-      </keep-alive>
+    <div v-if="error">
+      FEHLER! NUTZER NICHT GEFUNDEN
+      {{ error }}
+    </div>
+    <div v-if="user">
+      <PageTitle :title="$t('dashboard.labels.title', { usr: user.username })"/>
+      <v-tabs @change="switchTab">
+        <v-tab>General</v-tab>
+        <v-tab v-for="tab in tabs" :key="tab.id">
+          <span>{{ tab.name }}</span>
+        </v-tab>
+      </v-tabs>
+      <div class="mt-2">
+        <keep-alive>
+          <component :is="componentInstance" :bundleId="bundleId" :serverBundles="tabs"></component>
+        </keep-alive>
+      </div>
     </div>
   </div>
 </template>
@@ -25,11 +31,21 @@ export default {
   },
   data() {
     return {
-      user: this.$store.getters.user,
+      error: null,
+      user: null,
       bundleId: 0,
       bundleType: 'General',
       tabs: [],
     };
+  },
+  beforeMount() {
+    const username = this.$route.params.id;
+    // check if there is a user with the given id
+    apiService.user.getUser(username).then((rsp) => {
+      this.user = rsp.data;
+    }).catch((error) => {
+      this.error = error;
+    });
   },
   methods: {
     switchTab(payload) {
@@ -48,7 +64,7 @@ export default {
   computed: {
     componentInstance() {
       // TODO need to get and return the correct bundle type for id e.G. GMOD, MINECRAFT
-      const type = this.bundleType;
+      const type = this.bundleType.charAt(0) + this.bundleType.slice(1).toLowerCase();
       return () => import(`@/components/DashboardComponents/Dashboards/${type}`);
     },
   },
