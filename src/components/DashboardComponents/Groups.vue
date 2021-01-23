@@ -4,7 +4,20 @@
       <v-icon class="mr-2">mdi-account-group</v-icon>
       {{ $t('groups') }}
     </v-card-title>
-    <v-card-text>
+
+    <!-- skeleton loader-->
+    <v-sheet
+      v-if="dataFetched != 2"
+      class="pa-3"
+    >
+      <v-skeleton-loader
+        class="mx-auto"
+        type="card"
+      ></v-skeleton-loader>
+    </v-sheet>
+
+    <!-- rendered components-->
+    <v-card-text v-if="dataFetched === 2">
       <v-row class="mb-1">
         <v-col>
           <v-simple-table>
@@ -85,6 +98,7 @@ export default {
   name: 'Groups',
   data() {
     return {
+      dataFetched: 0,
       activeProps: [],
       activeGroups: [],
       groups: [],
@@ -101,8 +115,14 @@ export default {
   props: ['serverBundles'],
   async beforeMount() {
     const username = this.$route.params.id;
-    api.server.getGroups().then((response) => { (this.groups = response.data); });
-    api.user.getMemberships(username).then((response) => { this.memberships = response.data; });
+    api.server.getGroups().then((response) => {
+      this.groups = response.data;
+      this.dataFetched += 1;
+    });
+    api.user.getMemberships(username).then((response) => {
+      this.memberships = response.data;
+      this.dataFetched += 1;
+    });
   },
   methods: {
     /**
@@ -138,6 +158,7 @@ export default {
       return this.getGroups.filter((g) => g.serverbundle_id === bundleId);
     },
     getPropsByBundle(bundleId) {
+      if (!this.dataFetched) { return []; }
       const props = [];
       this.getGroupsByBundle(bundleId).forEach((group) => {
         Object.values(group.properties).forEach((prop) => props.push(prop));
@@ -157,7 +178,6 @@ export default {
      * @returns {[Groups]} Array of active UserGroups
      */
     getGroups() {
-      if (this.groups === []) { return []; }
       const groups = [];
       this.memberships.forEach((membership) => {
         if (membership.active === true) {
@@ -171,7 +191,6 @@ export default {
      * @returns {[]} Array of props
      */
     getProps() {
-      if (this.groups === []) { return []; }
       const props = [];
       this.getGroups.forEach((group) => {
         Object.values(group.properties).forEach((prop) => props.push(prop));
@@ -179,7 +198,6 @@ export default {
       return props;
     },
     getMembershipTable() {
-      if (this.groups === []) { return []; }
       const memberships = [];
       this.memberships.forEach((m) => {
         const object = {};
