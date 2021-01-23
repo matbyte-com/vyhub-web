@@ -6,7 +6,6 @@
       :items="getBans"
       :search="search">
     </v-data-table>
-    {{ bundles }}
   </div>
 </template>
 
@@ -24,8 +23,8 @@ export default {
       search: '',
       headers: [
         { text: 'Bundle', value: 'serverbundle' },
-        { text: 'User', value: 'user_id' },
-        { text: 'Creator', value: 'creator_id' },
+        { text: 'User', value: 'user.username' },
+        { text: 'Creator', value: 'creator.username' },
         { text: 'length', value: 'length' },
         { text: 'Ending', value: 'endDate' },
         { text: 'createdOn', value: 'created_on' },
