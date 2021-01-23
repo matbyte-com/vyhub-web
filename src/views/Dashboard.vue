@@ -7,11 +7,11 @@
         <span>{{ tab.name }}</span>
       </v-tab>
     </v-tabs>
-    <v-card class="mt-3 mb-3 pa-3">
+    <div class="mt-2">
       <keep-alive>
         <component :is="componentInstance" :bundleId="bundleId" :serverBundles="tabs"></component>
       </keep-alive>
-    </v-card>
+    </div>
   </div>
 </template>
 

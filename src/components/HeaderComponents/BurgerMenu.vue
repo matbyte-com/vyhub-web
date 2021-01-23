@@ -8,7 +8,7 @@
       <div v-for="(navLink, index) in navLinks" :key="index">
         <!-- if tabs are existent -->
         <v-list-group
-          v-if="navLink.tabs.length > 0" v-on:click.stop="">
+          v-if="(navLink.tabs || []).length > 0" v-on:click.stop="">
           <template v-slot:activator>
               <v-icon left>{{ navLink.icon }}</v-icon>
               <v-list-item-title>{{ navLink.title }}</v-list-item-title>
@@ -22,7 +22,7 @@
           </v-list-item>
         </v-list-group>
         <!-- if no tabs are existent -->
-        <v-list-item v-if="navLink.tabs.length == 0" @click="$router.push(navLink.link)">
+        <v-list-item v-if="(navLink.tabs || []).length == 0" @click="$router.push(navLink.link)">
           <v-icon left>{{ navLink.icon }}</v-icon>
           <v-list-item-title>{{ navLink.title }}</v-list-item-title>
         </v-list-item>

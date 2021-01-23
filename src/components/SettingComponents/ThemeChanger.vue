@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1 class="display-2"> dark mode switch</h1>
-    <v-switch v-model="$vuetify.theme.dark" />
+    <v-switch v-model="$vuetify.theme.dark" :label="$t('dark_mode')" />
     <v-card class="my-2"
             :disabled="$vuetify.theme.themes.name === theme.name"
             @click="setTheme(theme)"

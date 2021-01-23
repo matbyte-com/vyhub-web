@@ -2,7 +2,7 @@
   <div>
     <!-- Menu when Tabs are existend -->
     <v-menu
-      v-if="link.tabs.length > 0"
+      v-if="(link.tabs || []).length > 0"
       open-on-hover
       offset-y>
       <template v-slot:activator="{ on, attrs }">
@@ -12,7 +12,7 @@
         </v-btn>
       </template>
       <v-list dense>
-        <v-list-item v-for="(tab, index) in link.tabs"
+        <v-list-item v-for="(tab, index) in link.tabs || []"
                      :key="index"
                      @click="$router.push(tab.link)">
           <v-list-item-title>

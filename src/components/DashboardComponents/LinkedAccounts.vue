@@ -1,54 +1,49 @@
 <template>
-  <div>
-    <v-row>
-      <v-col>
-        <h2 class="text-h4">{{ $t("dashboard.labels.linkedAccounts") }}</h2>
-      </v-col>
-      <v-col>
-        <span class="float-right">
-          <v-btn color="secondary" depressed>
-            <v-icon left>mdi-plus</v-icon>
-            <span>{{ $t("dashboard.labels.linkNewAccount") }}</span>
-          </v-btn>
-        </span>
-      </v-col>
-    </v-row>
-    <v-divider class="mb-3"/>
-    <v-data-iterator
-      :items="getAccountData"
-      item-key="id"
-      hide-default-footer>
-      <template v-slot:default="{ items }">
-        <v-row>
-          <v-col
-            v-for="item in items"
-            :key="item.id"
-            cols="12"
-            sm="6"
-            lg="6">
-            <v-card>
-              <v-card-title>
-                <v-row>
-                  <v-col cols="2"></v-col>
-                  <v-col><h4>{{ item.type }}</h4></v-col>
-                </v-row>
-              </v-card-title>
-              <v-divider />
-              <v-list
-                dense>
-                <v-list-item
-                  v-for="(value, key) in item.attributes"
-                  :key="key">
-                  <v-list-item-content>{{ $t(key) }}</v-list-item-content>
-                  <v-list-item-content>{{ value }}</v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-col>
-        </v-row>
-      </template>
-    </v-data-iterator>
-  </div>
+  <v-card outlined class="flex-grow-1">
+    <v-card-title>
+      <v-icon class="mr-2">mdi-link</v-icon>
+      {{ $t('dashboard.labels.linkedAccounts') }}
+    </v-card-title>
+    <v-card-text>
+      <v-data-iterator
+        :items="getAccountData"
+        item-key="id"
+        hide-default-footer>
+        <template v-slot:default="{ items }">
+          <v-row>
+            <v-col
+              v-for="item in items"
+              :key="item.id"
+              cols="12"
+              lg="6">
+              <v-card>
+                <v-card-title>
+                  <v-icon class="mr-2">mdi-steam</v-icon>
+                  {{ item.type }}
+                </v-card-title>
+                <v-divider />
+                <v-list
+                  dense>
+                  <v-list-item
+                    v-for="(value, key) in item.attributes"
+                    :key="key">
+                    <v-list-item-content>{{ $t(key) }}</v-list-item-content>
+                    <v-list-item-content>{{ value }}</v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-card>
+            </v-col>
+          </v-row>
+        </template>
+      </v-data-iterator>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn text color="success">
+        <v-icon left>mdi-plus</v-icon>
+        <span>{{ $t("dashboard.labels.linkNewAccount") }}</span>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

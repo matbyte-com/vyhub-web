@@ -63,10 +63,13 @@ export default {
     return {
       links: [
         {
-          title: 'Home', icon: 'mdi-home', link: '/', tabs: [],
+          title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [],
         },
         {
-          title: 'Dashboard', icon: 'mdi-account', link: '/home', tabs: [{ title: 'Edit', icon: 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon: 'mdi-home-edit-outline', link: '/dashboard' }],
+          title: 'Dashboard', icon: 'mdi-account', link: '/dashboard',
+          // title: 'Dashboard', icon: 'mdi-account', link: '/home', tabs: [{ title: 'Edit', icon:
+          // 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon:
+          // 'mdi-home-edit-outline', link: '/dashboard' }],
         },
         {
           title: 'Shop', icon: 'mdi-cash-multiple', link: '/shop', tabs: [],

@@ -1,27 +1,32 @@
 <template>
-  <div>
-    <h2 class="text-h4">{{ $t("groups") }}</h2>
-    <v-divider class="mb-3"/>
-    <v-simple-table class="mb-3">
-      <thead>
-        <tr>
-          <th class="text-left">
-            {{ $t("serverbundle") }}
-          </th>
-          <th class="text-left">
-            {{ $t("groups") }}
-          </th>
-          <!-- <th class="text-left">
-            {{ $t("properties") }}
-          </th> -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="bundle in serverBundles" :key="bundle.id">
-          <td>
-            {{ bundle.name }}
-          </td>
-          <td>
+  <v-card outlined class="flex-grow-1">
+    <v-card-title>
+      <v-icon class="mr-2">mdi-account-group</v-icon>
+      {{ $t('groups') }}
+    </v-card-title>
+    <v-card-text>
+      <v-row class="mb-1">
+        <v-col>
+          <v-simple-table>
+            <thead>
+            <tr>
+              <th class="text-left">
+                {{ $t("serverbundle") }}
+              </th>
+              <th class="text-left">
+                {{ $t("groups") }}
+              </th>
+              <!-- <th class="text-left">
+                {{ $t("properties") }}
+              </th> -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="bundle in serverBundles" :key="bundle.id">
+              <td>
+                {{ bundle.name }}
+              </td>
+              <td>
             <span v-for="group in getGroupsByBundle(bundle.id)" :key="group.id">
                 <v-chip
                   @mouseover="setActiveProps(group)"
@@ -31,39 +36,43 @@
                 >{{ group.name }}
                 </v-chip>
               </span>
-          </td>
-          <!-- <td>
-            <span v-for="prop in getPropsByBundle(bundle.id)" :key="prop.id">
-              <v-chip
-                @mouseover="setActiveGroups(prop)"
-                @mouseleave="resetActives"
-                class="ml-1 mb-1 a secondary"
-                :class="checkProps(prop)"
-              >{{ prop.name }}
-              </v-chip>
-            </span>
-          </td> -->
-        </tr>
-      </tbody>
-    </v-simple-table>
-    <v-divider />
-    <v-expansion-panels flat accordion>
-      <v-expansion-panel>
-        <v-expansion-panel-header>{{ $t("allGroups") }}</v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-data-table
-          :headers="groupTableHeaders"
-          :items="getMembershipTable"
-          :items-per-page="5"
-          dense
-          :hide-default-footer="true"
-          >
-          </v-data-table>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-      <v-expansion-panel>
-        <v-expansion-panel-header>{{ $t("allProperties") }}</v-expansion-panel-header>
-        <v-expansion-panel-content>
+              </td>
+              <!-- <td>
+                <span v-for="prop in getPropsByBundle(bundle.id)" :key="prop.id">
+                  <v-chip
+                    @mouseover="setActiveGroups(prop)"
+                    @mouseleave="resetActives"
+                    class="ml-1 mb-1 a secondary"
+                    :class="checkProps(prop)"
+                  >{{ prop.name }}
+                  </v-chip>
+                </span>
+              </td> -->
+            </tr>
+            </tbody>
+          </v-simple-table>
+        </v-col>
+      </v-row>
+      <v-divider />
+      <v-row>
+        <v-col>
+          <v-expansion-panels flat accordion>
+            <v-expansion-panel>
+              <v-expansion-panel-header>{{ $t("allGroups") }}</v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-data-table
+                  :headers="groupTableHeaders"
+                  :items="getMembershipTable"
+                  :items-per-page="5"
+                  dense
+                  :hide-default-footer="true"
+                >
+                </v-data-table>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>{{ $t("allProperties") }}</v-expansion-panel-header>
+              <v-expansion-panel-content>
           <span v-for="prop in getProps" :key="prop.id">
               <v-chip
                 @mouseover="setActiveGroups(prop)"
@@ -74,10 +83,13 @@
               >{{ prop.name }}
               </v-chip>
             </span>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

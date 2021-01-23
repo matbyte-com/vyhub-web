@@ -1,7 +1,13 @@
 <template>
-  <div>
-    {{ packets }}
-  </div>
+  <v-card outlined class="flex-grow-1">
+    <v-card-title>
+      <v-icon class="mr-2">mdi-gift-open</v-icon>
+      {{ $t('packets') }}
+    </v-card-title>
+    <v-card-text>
+      {{ packets }}
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

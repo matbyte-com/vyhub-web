@@ -3,9 +3,15 @@
 
     <TheHeader/>
 
-    <v-main>
-      <v-container class="">
-        <router-view></router-view>
+    <v-main class="grey lighten-5">
+      <v-container>
+        <v-card
+          min-height="70vh"
+        >
+          <v-card-text>
+            <router-view></router-view>
+          </v-card-text>
+        </v-card>
       </v-container>
     </v-main>
 

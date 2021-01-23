@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-3 mb-3">
-    <h1 class="text-h2">{{ title }}</h1>
+  <div class="mb-1">
+    <h4 class="text-h4 mb-2">{{ title }}</h4>
     <v-divider></v-divider>
   </div>
 </template>

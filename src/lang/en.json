@@ -45,5 +45,6 @@
   "properties": "Properties",
   "username": "Username",
   "email": "Email",
-  "username": "Username"
+  "packets": "Packets",
+  "dark_mode": "Dark Mode"
 }
