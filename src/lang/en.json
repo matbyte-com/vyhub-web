@@ -29,6 +29,11 @@
       "title": "All Bans"
     }
   },
+  "settings": {
+    "labels": {
+      "title": "Settings"
+    }
+  },
   "type": "Type",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
