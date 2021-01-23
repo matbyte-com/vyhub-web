@@ -13,16 +13,24 @@ const routes: Array<RouteConfig> = [
   {
     path: '/dashboard',
     name: 'Dashboard',
+    redirect() {
+      if (store.getters.isLoggedIn) {
+        const userName = store.getters.user.username;
+        return `/dashboard/${userName}`;
+      }
+      return { path: '/', query: { login: 'true' } };
+    },
+  },
+  {
+    path: '/dashboard/:uName',
+    name: 'UserDashboard',
     component: () => import('../views/Dashboard.vue'),
     meta: { requiresAuth: true },
   },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
+    component: () => import('@/views/About.vue'),
   },
   {
     path: '/settings',
