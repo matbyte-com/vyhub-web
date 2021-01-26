@@ -33,7 +33,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/About.vue'),
   },
   {
-    path: '/settings',
+    path: '/settings/:component?',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
     meta: { requiresAuth: true },

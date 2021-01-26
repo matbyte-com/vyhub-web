@@ -6,8 +6,10 @@
       <v-col
       cols="2">
         <v-card flat outlined>
-          <v-tabs @change="switchTab" vertical>
-            <v-tab v-for="tab in tabs" :key="tab.id">
+          <v-tabs vertical>
+            <v-tab v-for="tab in tabs"
+                   :key="tab.id"
+                   @click="$router.push({ name: 'Settings', params: { component: tab.component} })">
               <v-icon left>{{ tab.icon }}</v-icon>
               <span>{{ tab.name }}</span>
             </v-tab>
@@ -32,23 +34,41 @@ export default {
   components: {
     PageTitle,
   },
+  watch: {
+    /**
+     * get active component from url and set tab accordingly
+     * @param to
+     * @param from
+     */
+    $route(to, from) {
+      if (to.params.component === 0) {
+        this.activeTab = this.tabs[0].component;
+      }
+      this.activeTab = to.params.component;
+    },
+  },
   data() {
     return {
-      activeTab: 0,
       tabs: [
         {
-          name: 'General', icon: 'mdi-cog', component: '123',
+          name: 'General', icon: 'mdi-cog', component: 'General',
         },
         {
           name: 'Theme', icon: 'mdi-format-color-fill', component: 'ThemeChanger',
         },
+        {
+          name: 'Groups', icon: 'mdi-account-multiple', component: 'Groups',
+        },
       ],
+      activeTab: null,
     };
   },
   methods: {
-    switchTab(payload) {
-      this.activeTab = this.tabs[payload].component;
-    },
+  },
+  beforeMount() {
+    if (!this.$route.params.component) {
+      this.activeTab = this.tabs[0].component;
+    }
   },
   computed: {
     componentInstance() {
