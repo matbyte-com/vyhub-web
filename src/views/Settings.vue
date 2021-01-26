@@ -6,7 +6,7 @@
       <v-col
       cols="2">
         <v-card flat outlined>
-          <v-tabs vertical>
+          <v-tabs vertical v-model="tabModel">
             <v-tab v-for="tab in tabs"
                    :key="tab.id"
                    @click="$router.push({ name: 'Settings', params: { component: tab.component} })">
@@ -41,10 +41,10 @@ export default {
      * @param from
      */
     $route(to, from) {
-      if (to.params.component === 0) {
+      /* if (to.params.component === 0) {
         this.activeTab = this.tabs[0].component;
-      }
-      this.activeTab = to.params.component;
+      } */
+      this.activeComponent = to.params.component;
     },
   },
   data() {
@@ -60,19 +60,24 @@ export default {
           name: 'Groups', icon: 'mdi-account-multiple', component: 'Groups',
         },
       ],
-      activeTab: null,
+      activeComponent: 'General',
+      tabModel: null,
     };
   },
   methods: {
   },
   beforeMount() {
-    if (!this.$route.params.component) {
-      this.activeTab = this.tabs[0].component;
+    if (this.$route.params.component) {
+      const tab = this.tabs.find((t) => t.component === this.$route.params.component);
+      this.tabModel = this.tabs.indexOf(tab);
+      this.activeComponent = tab.component;
+    } else {
+      this.activeComponent = this.tabs[0].component;
     }
   },
   computed: {
     componentInstance() {
-      const type = this.activeTab;
+      const type = this.activeComponent;
       return () => import(`@/components/SettingComponents/${type}`);
     },
   },
