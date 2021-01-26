@@ -31,7 +31,8 @@
   },
   "settings": {
     "labels": {
-      "title": "Einstellungen"
+      "title": "Einstellungen",
+      "groupSettings":  "Gruppeneinstellungen"
     }
   },
   "type": "Typ",
