@@ -9,6 +9,7 @@
           <v-tabs vertical v-model="tabModel">
             <v-tab v-for="tab in tabs"
                    :key="tab.id"
+                   class="justify-start"
                    @click="$router.push({ name: 'Settings', params: { component: tab.component} })">
               <v-icon left>{{ tab.icon }}</v-icon>
               <span>{{ tab.name }}</span>
@@ -58,6 +59,9 @@ export default {
         },
         {
           name: 'Groups', icon: 'mdi-account-multiple', component: 'Groups',
+        },
+        {
+          name: 'Serverbundles', icon: 'mdi-server', component: 'Server',
         },
       ],
       activeComponent: 'General',

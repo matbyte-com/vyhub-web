@@ -9,16 +9,24 @@
     <div class="mt-2">
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="tab in bundles" :key="tab.id">
-          {{ tab.name }}
-          <v-data-table
-            :headers="headers"
-            :items="getGroupsByBundle(tab.id)">
+          <v-card flat>
+            {{ tab.name }}
+            <v-data-table
+              :headers="headers"
+              :items="getGroupsByBundle(tab.id)">
               <template v-slot:item.properties="{ item }">
                 <v-chip v-for="(prop, index) in item.properties" :key="index" small color="primary">
                   {{ prop.name }}
                 </v-chip>
               </template>
-          </v-data-table>
+            </v-data-table>
+            <v-card-actions>
+              <v-btn text color="primary">
+                <v-icon left>mdi-plus</v-icon>
+                <span>__Add Group</span>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
         </v-tab-item>
       </v-tabs-items>
     </div>
