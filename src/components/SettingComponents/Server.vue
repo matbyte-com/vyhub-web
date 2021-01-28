@@ -1,10 +1,11 @@
 <template>
   <div>
-    <PageTitle :title="'__ServerSettings'" />
     <v-row>
       <v-col>
-        <v-card outlined flat>
-          <h2>Bundles</h2>
+        <v-card outlined flat class="fill-height">
+          <v-card-title>
+            {{ $t('serverbundle') }}
+          </v-card-title>
           <v-data-table
             :headers="bundleHeaders"
             :items="bundles">
@@ -18,9 +19,10 @@
         </v-card>
       </v-col>
       <v-col>
-        <h2>Server</h2>
-        <v-card outlined flat>
-          Server
+        <v-card outlined flat class="fill-height">
+          <v-card-title>
+            {{ $t('settings.gameserver') }}
+          </v-card-title>
         </v-card>
       </v-col>
     </v-row>
@@ -28,22 +30,20 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import api from '@/api/api';
 
 export default {
   name: 'Server',
   components: {
-    PageTitle,
   },
   data() {
     return {
       bundles: [],
       server: [],
       bundleHeaders: [
-        { text: '__Name', value: 'name' },
-        { text: '__Typ', value: 'server_type' },
-        { text: '__DefaultGroup', value: 'default_group_id' },
+        { text: this.$t('name'), value: 'name' },
+        { text: this.$t('type'), value: 'server_type' },
+        { text: this.$t('defaultGroup'), value: 'default_group_id' },
       ],
     };
   },

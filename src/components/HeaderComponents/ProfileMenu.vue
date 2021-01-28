@@ -19,7 +19,7 @@
       <v-list-item @click="logout">
         <v-list-item-title>
           <v-icon left>mdi-logout-variant</v-icon>
-          <span>{{ $t('Logout') }}</span>
+          <span>{{ $t('header.labels.logout') }}</span>
         </v-list-item-title>
       </v-list-item>
     </v-list>

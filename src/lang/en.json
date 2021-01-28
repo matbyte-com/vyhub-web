@@ -30,16 +30,20 @@
     }
   },
   "settings": {
+    "permissionlevel": "Permission Level",
+    "membercount": "Members",
+    "gameserver": "Gameserver",
     "labels": {
       "title": "Settings",
-      "groupSettings":  "Groupsettings"
+      "groupSettings":  "Groupsettings",
+      "addGroup": "Add Group"
     }
   },
   "type": "Type",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
   "startdate": "Begin",
-  "enddate": "End",
+  "enddate": "Ending",
   "groups": "Groups",
   "allGroups": "All Groups",
   "allProperties": "All Properties",
@@ -48,12 +52,11 @@
   "email": "Email",
   "packets": "Packets",
   "dark_mode": "Dark Mode",
-  "bundle": "Bundle",
-  "creator": "Creator",
+  "username": "Nutzername",
+  "email": "Email",
   "length": "Length",
-  "ends_on": "Ends on",
-  "created_on": "Created on",
-  "ban_add": "Add ban",
   "user": "User",
-  "link_account": "Link new account"
+  "creator": "Creator",
+  "name": "Name",
+  "server": "Server"
 }

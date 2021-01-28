@@ -30,9 +30,13 @@
     }
   },
   "settings": {
+    "permissionlevel": "Berechtigungslevel",
+    "membercount": "Mitgliederanzahl",
+    "gameserver": "Spielserver",
     "labels": {
       "title": "Einstellungen",
-      "groupSettings":  "Gruppeneinstellungen"
+      "groupSettings":  "Gruppeneinstellungen",
+      "addGroup": "Gruppe hinzufügen"
     }
   },
   "type": "Typ",
@@ -46,5 +50,9 @@
   "properties": "Properties",
   "username": "Nutzername",
   "email": "Email",
-  "packets": "Pakete"
+  "length": "Dauer",
+  "user": "Spieler",
+  "creator": "Ersteller",
+  "name": "Name",
+  "server": "Server"
 }

@@ -3,9 +3,8 @@
     <PageTitle :title="$t('settings.labels.title')" />
     <v-row
     no-gutters>
-      <v-col
-      cols="2">
-        <v-card flat outlined>
+      <v-col cols="2">
+        <v-card flat outlined class="pa-3 fill-height">
           <v-tabs vertical v-model="tabModel">
             <v-tab v-for="tab in tabs"
                    :key="tab.id"
@@ -18,7 +17,7 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-card class="mb-3 pa-3" flat outlined>
+        <v-card class="pa-3 fill-height" flat outlined>
           <keep-alive>
             <component :is="componentInstance"></component>
           </keep-alive>

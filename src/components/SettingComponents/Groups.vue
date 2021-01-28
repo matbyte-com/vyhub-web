@@ -1,6 +1,8 @@
 <template>
   <div>
-    <PageTitle :title="$t('settings.labels.groupSettings')" />
+    <v-card-title>
+      {{ $t('groups') }}
+    </v-card-title>
     <v-tabs v-model="tab">
       <v-tab v-for="tab in bundles" :key="tab.id">
         {{ tab.name }}
@@ -10,7 +12,6 @@
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="tab in bundles" :key="tab.id">
           <v-card flat>
-            {{ tab.name }}
             <v-data-table
               :headers="headers"
               :items="getGroupsByBundle(tab.id)">
@@ -23,7 +24,7 @@
             <v-card-actions>
               <v-btn text color="primary">
                 <v-icon left>mdi-plus</v-icon>
-                <span>__Add Group</span>
+                <span>{{ $t('settings.labels.addGroup') }}</span>
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -34,13 +35,11 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import api from '@/api/api';
 
 export default {
   name: 'Groups',
   components: {
-    PageTitle,
   },
   data() {
     return {
@@ -48,10 +47,10 @@ export default {
       bundles: [],
       tab: null,
       headers: [
-        { text: '__Name', value: 'name' },
-        { text: '__Permission_Level', value: 'permission_level' },
-        { text: '__Member Count', value: '' },
-        { text: '__properties', value: 'properties' },
+        { text: this.$t('name'), value: 'name' },
+        { text: this.$t('settings.permissionlevel'), value: 'permission_level' },
+        { text: this.$t('settings.membercount'), value: '' },
+        { text: this.$t('properties'), value: 'properties' },
       ],
     };
   },
