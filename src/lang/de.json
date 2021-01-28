@@ -45,5 +45,6 @@
   "allProperties": "Alle Properties",
   "properties": "Properties",
   "username": "Nutzername",
-  "email": "Email"
+  "email": "Email",
+  "packets": "Pakete"
 }
