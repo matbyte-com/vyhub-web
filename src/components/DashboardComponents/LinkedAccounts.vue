@@ -38,7 +38,7 @@
       </v-data-iterator>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="success">
+      <v-btn text color="success" href="http://localhost:5050/api/v1/auth/social/steam/start">
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t("dashboard.labels.linkNewAccount") }}</span>
       </v-btn>
