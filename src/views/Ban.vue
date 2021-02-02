@@ -4,7 +4,8 @@
     <v-data-table
       :headers="headers"
       :items="getBans"
-      :search="search">
+      :search="search"
+      :item-class="banRowFormatter">
       <template v-slot:top>
         <v-row>
           <v-col lg="4" md="6" sm="12">
@@ -83,6 +84,17 @@ export default {
     formatLength(seconds) {
       momentDurationFormatSetup(moment);
       return (seconds == null ? '∞' : moment.duration(seconds + 20000, 'seconds').format());
+    },
+    banRowFormatter(item) {
+      if (item.is_active) {
+        return 'green lighten-4';
+      }
+
+      if (item.status === 1) {
+        return 'red lighten-4';
+      }
+
+      return 'orange lighten-4';
     },
   },
 };
