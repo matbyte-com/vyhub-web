@@ -47,5 +47,12 @@
   "username": "Username",
   "email": "Email",
   "packets": "Packets",
-  "dark_mode": "Dark Mode"
+  "dark_mode": "Dark Mode",
+  "bundle": "Bundle",
+  "creator": "Creator",
+  "length": "Length",
+  "ends_on": "Ends on",
+  "created_on": "Created on",
+  "ban_add": "Add ban",
+  "user": "User"
 }
