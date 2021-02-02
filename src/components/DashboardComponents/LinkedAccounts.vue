@@ -22,15 +22,23 @@
                   {{ item.type }}
                 </v-card-title>
                 <v-divider />
-                <v-list
-                  dense>
-                  <v-list-item
-                    v-for="(value, key) in item.attributes"
-                    :key="key">
-                    <v-list-item-content>{{ $t(key) }}</v-list-item-content>
-                    <v-list-item-content>{{ value }}</v-list-item-content>
-                  </v-list-item>
-                </v-list>
+                <v-img :src="item.avatar"></v-img>
+                <v-divider />
+                <v-card-text>
+                  <v-row>
+                    <v-col>
+                      <v-list
+                        dense>
+                        <v-list-item
+                          v-for="(value, key) in item.attributes"
+                          :key="key">
+                          <v-list-item-content>{{ $t(key) }}</v-list-item-content>
+                          <v-list-item-content>{{ value }}</v-list-item-content>
+                        </v-list-item>
+                      </v-list>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
               </v-card>
             </v-col>
           </v-row>
