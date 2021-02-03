@@ -46,10 +46,11 @@
       </v-data-iterator>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="success" href="http://localhost:5050/api/v1/auth/social/steam/start">
+      <v-btn text color="success" @click="$refs.linkAccountDialog.show()">
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t("dashboard.labels.linkNewAccount") }}</span>
       </v-btn>
+      <LinkAccountDialog ref="linkAccountDialog" />
     </v-card-actions>
   </v-card>
 </template>
@@ -57,11 +58,15 @@
 <script>
 import store from '@/store/index';
 import api from '@/api/api';
+import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 
 const uuid = store.getters.user.id;
 
 export default {
   name: 'LinkedAccounts',
+  components: {
+    LinkAccountDialog,
+  },
   data() {
     return {
       userAccounts: {},

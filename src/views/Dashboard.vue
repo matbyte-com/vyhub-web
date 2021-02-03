@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="error">
-      FEHLER! NUTZER NICHT GEFUNDEN
+      Error, user not found:
       {{ error }}
     </div>
     <div v-if="user">
