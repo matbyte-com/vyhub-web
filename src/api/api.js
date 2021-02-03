@@ -30,13 +30,16 @@ export default {
   },
   user: {
     getMemberships(uuid) {
-      return http.get(`user/${uuid}/memberships`);
+      return http.get(`/user/${uuid}/memberships`);
     },
     getUser(uuid) {
-      return http.get(`user/${uuid}`);
+      return http.get(`/user/${uuid}`);
     },
     getAttributeDefinitions() {
-      return throttledHttp.get('user/attribute/definitions');
+      return throttledHttp.get('/user/attribute/definitions');
+    },
+    prepareSocialAuth() {
+      return http.get('/auth/social/prepare', { withCredentials: true });
     },
   },
 };
