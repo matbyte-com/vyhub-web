@@ -2,7 +2,7 @@
   <v-menu open-on-hover offset-y eager>
     <template v-slot:activator="{ on, attrs }">
       <v-btn depressed color="primary" v-bind="attrs" v-on="on">
-        {{ $store.getters.user.attributes.username }}
+        {{ $store.getters.user.username }}
         <v-icon right>mdi-account-circle</v-icon>
       </v-btn>
     </template>
