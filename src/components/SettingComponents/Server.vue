@@ -13,7 +13,7 @@
           <v-card-actions>
             <v-btn text color="primary">
               <v-icon left>mdi-plus</v-icon>
-              <span>__Add another Bundle</span>
+              <span>{{ $t('settings.labels.addBundle') }}</span>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -43,7 +43,7 @@ export default {
       bundleHeaders: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'server_type' },
-        { text: this.$t('defaultGroup'), value: 'default_group_id' },
+        { text: this.$t('settings.defaultGroup'), value: 'default_group.name' },
       ],
     };
   },
