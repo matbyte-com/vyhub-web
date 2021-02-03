@@ -14,15 +14,26 @@
             <v-col
               v-for="item in items"
               :key="item.id"
-              cols="12"
-              lg="6">
+              sm="6">
               <v-card>
                 <v-card-title>
-                  <v-icon class="mr-2">mdi-steam</v-icon>
-                  {{ item.type }}
+                  <v-row>
+                    <v-col>
+                      <v-icon class="mr-2">mdi-steam</v-icon>
+                      {{ item.type }}
+                    </v-col>
+                    <v-col cols="3">
+                      <v-avatar
+                        size="35">
+                        <img :src="item.avatar"
+                             size="5"
+                             alt="avatar">
+                      </v-avatar>
+                    </v-col>
+                  </v-row>
                 </v-card-title>
                 <v-divider />
-                <v-img :src="item.avatar"></v-img>
+
                 <v-divider />
                 <v-card-text>
                   <v-row>

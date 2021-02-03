@@ -1,9 +1,9 @@
 <template>
   <v-row>
-    <v-col cols="4" class="d-flex">
+    <v-col md="4" sm="12"  class="d-flex">
       <Groups :server-bundles="serverBundles" />
     </v-col>
-    <v-col cols="3" class="d-flex">
+    <v-col md="3" sm="12" class="d-flex">
       <Packets />
     </v-col>
     <v-col class="d-flex">
