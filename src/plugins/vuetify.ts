@@ -11,6 +11,7 @@ import {
   VTextarea,
   VCheckbox,
 } from 'vuetify/lib';
+import minifyTheme from 'minify-css-string';
 
 Vue.use(Vuetify);
 
@@ -28,6 +29,7 @@ export default new Vuetify({
   theme: {
     options: {
       customProperties: true,
+      minifyTheme,
     },
     themes: {
       light: {
