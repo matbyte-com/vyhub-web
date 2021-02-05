@@ -41,6 +41,10 @@
       "addBundle": "Add Serverbundle"
     }
   },
+  "properties": {
+    "ban_show": "Enables user to display bans in specified bundle",
+    "ban_edit": "Enables user to edit bans in specified bundle"
+  },
   "type": "Type",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
