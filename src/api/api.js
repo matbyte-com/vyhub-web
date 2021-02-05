@@ -27,6 +27,9 @@ export default {
     getGroups() {
       return throttledHttp.get('/group');
     },
+    getServer() {
+      return http.get('/server/gameserver');
+    },
   },
   user: {
     getMemberships(uuid) {
