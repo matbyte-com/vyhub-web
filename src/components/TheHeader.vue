@@ -26,6 +26,7 @@
     </NavigationLink>
 
     <v-spacer></v-spacer>
+    <Search />
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
       <ProfileMenu
@@ -51,6 +52,7 @@ import Login from '@/components/HeaderComponents/Login.vue';
 import ProfileMenu from '@/components/HeaderComponents/ProfileMenu.vue';
 import BurgerMenu from '@/components/HeaderComponents/BurgerMenu.vue';
 import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
+import Search from '@/components/HeaderComponents/Search.vue';
 
 export default {
   components: {
@@ -58,6 +60,7 @@ export default {
     ProfileMenu,
     BurgerMenu,
     NavigationLink,
+    Search,
   },
   data() {
     return {
