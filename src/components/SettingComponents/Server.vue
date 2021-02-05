@@ -9,7 +9,8 @@
           <v-data-table
             :headers="bundleHeaders"
             :items="bundles"
-            :hide-default-footer="true">
+            :hide-default-footer="true"
+            :disable-pagination="true">
           </v-data-table>
           <v-card-actions>
             <v-btn text color="primary">
@@ -27,7 +28,9 @@
           <v-data-table
             :headers="gameserverHeaders"
             :items="server"
-            :hide-default-footer="true">
+            :hide-default-footer="true"
+            :disable-pagination="true"
+            >
             <template v-slot:item.serverbundle_id="{ item }">
               {{ getBundle(item) }}
             </template>
@@ -55,6 +58,7 @@ export default {
     return {
       bundles: [],
       server: [],
+      dataFetched: 0,
       bundleHeaders: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'server_type' },
@@ -70,12 +74,16 @@ export default {
     };
   },
   beforeMount() {
-    api.server.getBundles().then((rsp) => { this.bundles = rsp.data; });
-    api.server.getServer().then((rsp) => { this.server = rsp.data; });
+    api.server.getBundles().then((rsp) => { this.bundles = rsp.data; this.dataFetched += 1; });
+    api.server.getServer().then((rsp) => { this.server = rsp.data; this.dataFetched += 1; });
   },
   methods: {
     getBundle(item) {
-      return this.bundles.find((b) => b.id === item.serverbundle_id).name;
+      if (this.dataFetched !== 2) { return ''; }
+      if (item.serverbundle_id) {
+        return this.bundles.find((b) => b.id === item.serverbundle_id).name;
+      }
+      return '-';
     },
   },
 };
