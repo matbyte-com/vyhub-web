@@ -26,11 +26,16 @@ Vue.component('v-checkbox', VCheckbox);
 
 export default new Vuetify({
   theme: {
+    options: {
+      customProperties: true,
+    },
     themes: {
       light: {
-        primary: '#9652ff',
+        // primary: '#9652ff', beautiful purple ;)
+        primary: '#FAFAFA',
         secondary: '#00d8ff',
         accent: '#3cd1c2',
+        background: '#FAFAFA',
       },
     },
   },

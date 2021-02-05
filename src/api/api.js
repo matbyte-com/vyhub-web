@@ -42,4 +42,9 @@ export default {
       return http.get('/auth/social/prepare', { withCredentials: true });
     },
   },
+  design: {
+    getTheme() {
+      return throttledHttp.get('/design/theme');
+    },
+  },
 };
