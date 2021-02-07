@@ -50,4 +50,6 @@ export default {
       return throttledHttp.get('/design/theme');
     },
   },
+  http,
+  throttledHttp,
 };

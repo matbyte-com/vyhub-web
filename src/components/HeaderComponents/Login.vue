@@ -32,6 +32,7 @@ import GenForm from '@/components/GenForm.vue';
 import loginFormSchema from '@/forms/LoginForm';
 import Axios from 'axios';
 import store from '@/store';
+import api from '@/api/api';
 
 export default {
   name: 'Login.vue',
@@ -57,6 +58,8 @@ export default {
         AuthService.login(this.formModel.email, this.formModel.password, (token) => {
           this.$store.dispatch('login', { token });
           Axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
+          api.http.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
+          api.throttledHttp.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
 
           AuthService.fetchUserData((user) => {
             // console.log(data);
