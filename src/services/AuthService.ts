@@ -1,5 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
+import store from '@/store';
+import api from '@/api/api';
 
 const centralUrl = `${process.env.VUE_APP_BACKEND_CENTRAL_URL}/auth/token`;
 
@@ -31,5 +33,11 @@ export default {
     axios.get('/user/current').then((rsp) => {
       callback(rsp.data);
     }, (error) => errorCallback(error));
+  },
+  logout() {
+    store.dispatch('logout');
+    delete api.http.defaults.headers.common.Authorization;
+    delete api.throttledHttp.defaults.headers.common.Authorization;
+    delete axios.defaults.headers.common.Authorization;
   },
 };

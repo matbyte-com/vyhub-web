@@ -53,6 +53,7 @@ import ProfileMenu from '@/components/HeaderComponents/ProfileMenu.vue';
 import BurgerMenu from '@/components/HeaderComponents/BurgerMenu.vue';
 import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
 import Search from '@/components/HeaderComponents/Search.vue';
+import AuthService from '@/services/AuthService';
 
 export default {
   components: {
@@ -102,7 +103,7 @@ export default {
       this.$refs.login.showLoginDialog();
     },
     logout() {
-      this.$store.dispatch('logout');
+      AuthService.logout();
       this.$router.push('/');
     },
   },
