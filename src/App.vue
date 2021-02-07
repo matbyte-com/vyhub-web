@@ -23,9 +23,9 @@
 <script>
 import Vue from 'vue';
 import apiService from '@/api/api';
+import AuthService from '@/services/AuthService';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
-import AuthService from '@/services/AuthService';
 
 export default Vue.extend({
   name: 'App',
