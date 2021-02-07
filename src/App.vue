@@ -36,6 +36,7 @@ export default Vue.extend({
 
   data: () => ({
     background: '#FAFAFA',
+    backgroundImage: null,
   }),
   beforeMount() {
     this.setTheme();
@@ -44,21 +45,32 @@ export default Vue.extend({
   methods: {
     setTheme() {
       apiService.design.getTheme().then((rsp) => {
-        const theme = JSON.parse(rsp.data);
-        if (theme.background) {
-          this.background = theme.background;
-        }
-        if (theme.dark === true) {
-          this.$vuetify.theme.dark = true;
-          this.$vuetify.theme.dark.primary = theme.primary;
-        } else {
-          this.$vuetify.theme.currentTheme.primary = theme.primary;
+        try {
+          const theme = JSON.parse(rsp.data);
+          if (theme.image) {
+            this.backgroundImage = theme.image;
+          }
+          if (theme.background) {
+            this.background = theme.background;
+          }
+          if (theme.dark === true) {
+            this.$vuetify.theme.dark = true;
+            this.$vuetify.theme.dark.primary = theme.primary;
+          } else {
+            this.$vuetify.theme.currentTheme.primary = theme.primary;
+          }
+        } catch (e) {
+          this.$vuetify.theme.currentTheme.primary = '#3f51b5';
+          throw e;
         }
       });
     },
   },
   computed: {
     backgroundColor() {
+      if (this.backgroundImage) {
+        return `background: url(${this.backgroundImage}) no-repeat center fixed !important; background-size: cover;`;
+      }
       return `background-color: ${this.background}`;
     },
   },
