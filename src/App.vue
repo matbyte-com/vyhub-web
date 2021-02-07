@@ -25,6 +25,7 @@ import Vue from 'vue';
 import apiService from '@/api/api';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
+import AuthService from '@/services/AuthService';
 
 export default Vue.extend({
   name: 'App',
@@ -39,6 +40,7 @@ export default Vue.extend({
     backgroundImage: null,
   }),
   beforeMount() {
+    AuthService.setAuthTokens();
     this.setTheme();
     this.background = this.$vuetify.theme.currentTheme.background;
   },

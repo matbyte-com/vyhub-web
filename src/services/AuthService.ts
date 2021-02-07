@@ -2,6 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 import store from '@/store';
 import api from '@/api/api';
+import Axios from 'axios';
 
 const centralUrl = `${process.env.VUE_APP_BACKEND_CENTRAL_URL}/auth/token`;
 
@@ -39,5 +40,12 @@ export default {
     delete api.http.defaults.headers.common.Authorization;
     delete api.throttledHttp.defaults.headers.common.Authorization;
     delete axios.defaults.headers.common.Authorization;
+  },
+  setAuthTokens() {
+    if (store.getters.isLoggedIn) {
+      Axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
+      api.http.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
+      api.throttledHttp.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
+    }
   },
 };
