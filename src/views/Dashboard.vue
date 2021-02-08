@@ -38,15 +38,6 @@ export default {
       tabs: [],
     };
   },
-  beforeMount() {
-    const username = this.$route.params.id;
-    // check if there is a user with the given id
-    apiService.user.getUser(username).then((rsp) => {
-      this.user = rsp.data;
-    }).catch((error) => {
-      this.error = error;
-    });
-  },
   methods: {
     switchTab(payload) {
       if (payload === 0) {
@@ -57,6 +48,18 @@ export default {
         this.bundleType = this.tabs[payload - 1].server_type;
       }
     },
+    loadUser() {
+      const userId = this.$route.params.id;
+      // check if there is a user with the given id
+      apiService.user.getUser(userId).then((rsp) => {
+        this.user = rsp.data;
+      }).catch((error) => {
+        this.error = error;
+      });
+    },
+  },
+  beforeMount() {
+    this.loadUser();
   },
   mounted() {
     apiService.server.getBundles().then((rsp) => { (this.tabs = rsp.data); });
@@ -66,6 +69,11 @@ export default {
       // TODO need to get and return the correct bundle type for id e.G. GMOD, MINECRAFT
       const type = this.bundleType.charAt(0) + this.bundleType.slice(1).toLowerCase();
       return () => import(`@/components/DashboardComponents/Dashboards/${type}`);
+    },
+  },
+  watch: {
+    $route() {
+      this.loadUser();
     },
   },
 };
