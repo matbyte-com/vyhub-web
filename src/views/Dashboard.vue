@@ -24,6 +24,7 @@
 <script>
 import PageTitle from '@/components/PageTitle.vue';
 import apiService from '@/api/api';
+import router from '@/router';
 
 export default {
   components: {
@@ -53,6 +54,9 @@ export default {
       // check if there is a user with the given id
       apiService.user.getUser(userId).then((rsp) => {
         this.user = rsp.data;
+        if (this.user.type === 'CENTRAL') {
+          this.$router.replace({ name: 'UserDashboard', params: { id: this.user.username } });
+        }
       }).catch((error) => {
         this.error = error;
       });
