@@ -86,12 +86,22 @@ export default {
     };
   },
   beforeMount() {
-    const username = this.$route.params.id;
-    api.user.getAttributeDefinitions().then((rsp) => { this.attributeDefinitions = rsp.data; });
-    api.user.getUser(username).then((rsp) => {
-      this.userAccounts = rsp.data;
-      this.componentLoaded = true;
-    });
+    this.queryData();
+  },
+  watch: {
+    $route(to, from) {
+      this.queryData();
+    },
+  },
+  methods: {
+    queryData() {
+      const username = this.$route.params.id;
+      api.user.getAttributeDefinitions().then((rsp) => { this.attributeDefinitions = rsp.data; });
+      api.user.getUser(username).then((rsp) => {
+        this.userAccounts = rsp.data;
+        this.componentLoaded = true;
+      });
+    },
   },
   computed: {
     getAccounts() {

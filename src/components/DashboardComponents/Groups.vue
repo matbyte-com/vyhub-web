@@ -5,19 +5,8 @@
       {{ $t('groups') }}
     </v-card-title>
 
-    <!-- skeleton loader-->
-    <v-sheet
-      v-if="dataFetched != 2"
-      class="pa-3"
-    >
-      <v-skeleton-loader
-        class="mx-auto"
-        type="card"
-      ></v-skeleton-loader>
-    </v-sheet>
-
     <!-- rendered components-->
-    <v-card-text v-if="dataFetched === 2">
+    <v-card-text v-if="dataFetched >= 2">
       <v-row class="mb-1">
         <v-col>
           <v-simple-table>
@@ -112,17 +101,14 @@ export default {
       ],
     };
   },
+  watch: {
+    $route(to, from) {
+      this.queryData();
+    },
+  },
   props: ['serverBundles'],
   async beforeMount() {
-    const username = this.$route.params.id;
-    api.server.getGroups().then((response) => {
-      this.groups = response.data;
-      this.dataFetched += 1;
-    });
-    api.user.getMemberships(username).then((response) => {
-      this.memberships = response.data;
-      this.dataFetched += 1;
-    });
+    this.queryData();
   },
   methods: {
     /**
@@ -170,6 +156,17 @@ export default {
     },
     getBundleById(bundleId) {
       return this.serverBundles.find((b) => b.id === bundleId);
+    },
+    queryData() {
+      const username = this.$route.params.id;
+      api.server.getGroups().then((response) => {
+        this.groups = response.data;
+        this.dataFetched += 1;
+      });
+      api.user.getMemberships(username).then((response) => {
+        this.memberships = response.data;
+        this.dataFetched += 1;
+      });
     },
   },
   computed: {
