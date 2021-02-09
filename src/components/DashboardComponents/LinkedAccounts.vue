@@ -19,7 +19,9 @@
                 <v-card-title>
                   <v-row>
                     <v-col>
-                      <v-icon class="mr-2">mdi-steam</v-icon>
+                      <v-icon class="mr-2">
+                        {{ userTypeIcons[item.type] }}
+                      </v-icon>
                       {{ item.type }}
                     </v-col>
                     <v-col cols="3">
@@ -70,6 +72,7 @@
 import store from '@/store/index';
 import api from '@/api/api';
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
+import userService from '@/services/UserService';
 
 const uuid = store.getters.user.id;
 
@@ -83,6 +86,7 @@ export default {
       userAccounts: {},
       attributeDefinitions: [],
       componentLoaded: false,
+      userTypeIcons: userService.userTypeIcons,
     };
   },
   beforeMount() {

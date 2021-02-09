@@ -20,24 +20,36 @@
     @keydown.esc="searchInput = null">
     <template slot="item"
               slot-scope="{ item }">
-      <v-row align="center" justify="center">
-        <v-col cols="3">
-          <v-avatar
-            size="30">
-            <img :src="item.avatar"
-                 alt="avatar">
-          </v-avatar>
-        </v-col>
-        <v-col>
-          {{ item.username }}
-        </v-col>
-      </v-row>
+        <v-list tile>
+          <v-list-item>
+            <v-list-item-avatar>
+                <img :src="item.avatar" alt="avatar">
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title><h2>{{ item.username }}</h2></v-list-item-title>
+              <v-list-item-subtitle>
+                {{ item.id }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle v-for="linked in item.linked_users" :key="linked.id">
+                <v-row dense align="center" justify="center">
+                  <v-col cols="1">
+                    <v-icon>{{ userTypeIcons[linked.type] }}</v-icon>
+                  </v-col>
+                  <v-col>
+                    {{ linked.username }}
+                  </v-col>
+                </v-row>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
     </template>
   </v-autocomplete>
 </template>
 
 <script>
 import api from '@/api/api';
+import userService from '@/services/UserService';
 
 export default {
   name: 'Search',
@@ -48,6 +60,7 @@ export default {
       items: [],
       isLoading: false,
       search: null,
+      userTypeIcons: userService.userTypeIcons,
     };
   },
   watch: {
@@ -83,7 +96,7 @@ export default {
 <style lang="sass">
   .v-input.expanding-search
     transition: max-width 0.3s
-    max-width: 200px
+    max-width: 500px
     .v-input__slot
       cursor: pointer !important
       &:before
