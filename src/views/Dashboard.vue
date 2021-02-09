@@ -70,7 +70,6 @@ export default {
   },
   computed: {
     componentInstance() {
-      // TODO need to get and return the correct bundle type for id e.G. GMOD, MINECRAFT
       const type = this.bundleType.charAt(0) + this.bundleType.slice(1).toLowerCase();
       return () => import(`@/components/DashboardComponents/Dashboards/${type}`);
     },
