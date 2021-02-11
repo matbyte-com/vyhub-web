@@ -2,13 +2,19 @@
   <v-dialog
     v-model="dialog"
     width="500">
-    <v-card class="pa-3">
-      <GenForm :form-schema="formSchema" :form-model="formModel" @submit="$emit('submit')"
-               :error-message="errorMessage"
-               :cancel-text="cancelText" :submit-text="submitText"
-               @cancel="dialog = false"
-               >
-      </GenForm>
+    <v-card>
+      <v-card-title>
+        <span class="headline">{{ title }}</span>
+      </v-card-title>
+      <v-card-text>
+        <GenForm :form-schema="formSchema" @submit="$emit('submit')"
+                 :error-message="errorMessage"
+                 :cancel-text="cancelText" :submit-text="submitText"
+                 @cancel="dialog = false"
+                 ref="form"
+                 >
+        </GenForm>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
@@ -22,16 +28,30 @@ export default {
     GenForm,
   },
   props: {
-    formSchema: null, // VJSF schema
-    formModel: null, // data model
-    errorMessage: null, // error message variable
-    cancelText: null,
-    submitText: null,
+    title: String,
+    formSchema: Object,
+    errorMessage: String,
+    submitText: String,
+    cancelText: String,
   },
   data() {
     return {
       dialog: null,
     };
+  },
+  methods: {
+    show() {
+      this.dialog = true;
+    },
+    getData() {
+      return this.$refs.form.getData();
+    },
+    validateAndRun() {
+      return this.$refs.form.validateAndRun();
+    },
+    cancelForm() {
+      return this.$refs.form.cancelForm();
+    },
   },
 };
 </script>

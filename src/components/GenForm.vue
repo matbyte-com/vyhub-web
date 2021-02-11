@@ -23,11 +23,11 @@
               <v-col cols="12">
                 <v-btn v-if="submitText != null" class="mr-4"
                        depressed color="primary" type="submit">
-                  {{ $t(submitText) }}
+                  {{ submitText }}
                 </v-btn>
 
                 <v-btn v-if="cancelText != null" color="lighten-5" depressed @click="cancelForm">
-                  {{ $t(cancelText) }}
+                  {{ cancelText }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -43,6 +43,7 @@ import VJsf from '@koumoul/vjsf';
 import '@koumoul/vjsf/dist/main.css';
 import '@koumoul/vjsf/lib/deps/third-party';
 import i18n from '@/plugins/i18n';
+import axios from 'axios';
 
 export default {
   name: 'GenForm',
@@ -51,7 +52,6 @@ export default {
   },
   props: {
     formSchema: Object,
-    formModel: Object,
     errorMessage: String,
     submitText: {
       type: String,
@@ -69,11 +69,12 @@ export default {
       }
     },
     cancelForm() {
-      console.log(`close form ${this.errorMessage}`);
       this.errorMessage = null;
-      console.log(`close form ${this.errorMessage}`);
       this.$refs.form.reset();
       this.$emit('cancel');
+    },
+    getData() {
+      return this.formModel;
     },
   },
   data() {
@@ -81,7 +82,9 @@ export default {
       valid: false,
       options: {
         locale: 'en',
+        httpLib: axios,
       },
+      formModel: null,
     };
   },
   created() {
