@@ -60,7 +60,7 @@ export default {
     return {
       search: '',
       headers: [
-        { text: this.$t('bundle'), value: 'serverbundle' },
+        { text: this.$t('bundle'), value: 'serverbundle.name' },
         { text: this.$t('user'), value: 'user.username' },
         { text: this.$t('reason'), value: 'reason' },
         { text: this.$t('length'), value: 'length' },
@@ -79,14 +79,7 @@ export default {
   },
   computed: {
     getBans() {
-      const res = [];
-      this.bans.forEach((ban) => {
-        const eBan = ban;
-        eBan.serverbundle = this.bundles.find((x) => x.id === ban.serverbundle_id).name;
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        res.push(eBan);
-      });
-      return res;
+      return this.bans;
     },
   },
   methods: {
