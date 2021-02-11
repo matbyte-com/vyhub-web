@@ -74,8 +74,7 @@ export default {
     };
   },
   beforeMount() {
-    apiService.ban.getBans().then((rsp) => { this.bans = rsp.data; });
-    apiService.server.getBundles().then((rsp) => { this.bundles = rsp.data; });
+    this.queryData();
   },
   computed: {
     getBans() {
@@ -83,6 +82,10 @@ export default {
     },
   },
   methods: {
+    queryData() {
+      apiService.ban.getBans().then((rsp) => { this.bans = rsp.data; });
+      apiService.server.getBundles().then((rsp) => { this.bundles = rsp.data; });
+    },
     formatLength(seconds) {
       momentDurationFormatSetup(moment);
       return (seconds == null ? '∞' : moment.duration(seconds + 20000, 'seconds').format());
@@ -107,9 +110,10 @@ export default {
         data.length * 60,
         data.serverbundleId,
       ).then((rsp) => {
-        console.log(rsp.data);
+        this.queryData();
+        this.$refs.banAddDialog.closeAndReset();
       }).catch((err) => {
-        console.log(err);
+        this.$refs.banAddDialog.setErrorMessage(err.response.data.detail);
       });
     },
   },
