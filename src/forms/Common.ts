@@ -16,4 +16,9 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
+  serverTypeSelectField: {
+    type: 'string',
+    titleK: 'type',
+    'x-fromUrl': `${API_URL}/server/type`,
+  },
 };

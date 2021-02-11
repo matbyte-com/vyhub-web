@@ -34,6 +34,8 @@
     "membercount": "Mitgliederanzahl",
     "gameserver": "Spielserver",
     "defaultGroup": "Standardgruppe",
+    "multigroup": "Mehrfache Gruppen",
+    "multigroupDescription": "Dem Bundle können mehrere Gruppen zugewiesen werden",
     "labels": {
       "title": "Einstellungen",
       "groupSettings":  "Gruppeneinstellungen",
@@ -43,7 +45,8 @@
   },
   "properties": {
     "ban_show": "Bans im jeweiligen Serverbundle anzeigen",
-    "ban_edit": "Bans im jeweiligen Serverbundle bearbeiten"
+    "ban_edit": "Bans im jeweiligen Serverbundle bearbeiten",
+    "bundle_edit": "Serverbundle Erstellen und Bearbeiten"
   },
   "type": "Typ",
   "serverbundle": "Serverbundle",

@@ -44,6 +44,14 @@ export default {
     getServer() {
       return http.get('/server/gameserver/');
     },
+    addBundle(name: string, type: string, multigroup: boolean, default_group_id: string) {
+      return http.post('/server/bundle', {
+        name,
+        server_type: type,
+        default_group_id,
+        multigroup,
+      });
+    },
   },
   user: {
     getMemberships(uuid: string) {
