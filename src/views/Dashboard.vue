@@ -24,7 +24,6 @@
 <script>
 import PageTitle from '@/components/PageTitle.vue';
 import apiService from '@/api/api';
-import router from '@/router';
 
 export default {
   components: {

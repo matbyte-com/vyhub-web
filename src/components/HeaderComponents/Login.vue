@@ -13,8 +13,8 @@
             <span class="headline">{{ $t("header.labels.login") }}</span>
           </v-card-title>
           <v-card-text>
-            <GenForm :form-schema="formSchema" :form-model="formModel" @submit="login"
-                     :error-message="errorMessage"
+            <GenForm :form-schema="formSchema" @submit="login"
+                     :error-message="$t('errorMessage')"
                      cancel-text="header.labels.close" submit-text="header.labels.login"
                      @cancel="dialog = false"
                      ref="loginForm">
@@ -43,7 +43,6 @@ export default {
     return {
       dialog: null,
       formSchema: loginFormSchema,
-      formModel: {},
       errorMessage: null,
     };
   },
@@ -55,7 +54,9 @@ export default {
   methods: {
     async login() {
       try {
-        AuthService.login(this.formModel.email, this.formModel.password, (token) => {
+        const data = this.$refs.loginForm.getData();
+
+        AuthService.login(data.email, data.password, (token) => {
           this.$store.dispatch('login', { token });
           Axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
           api.http.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;

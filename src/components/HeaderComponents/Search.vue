@@ -71,7 +71,7 @@ export default {
       this.isLoading = true;
 
       // Lazily load input items
-      api.user.search(query).then((rsp) => {
+      api.user.search(query, 10).then((rsp) => {
         this.items = rsp.data;
       }).catch((reason) => {
         console.log(reason);
@@ -86,7 +86,7 @@ export default {
         this.$router.push({ name: 'UserDashboard', params: { id: user.id } });
       }
     },
-    searchFilter(item, queryString, itemText) {
+    searchFilter() {
       return true;
     },
   },

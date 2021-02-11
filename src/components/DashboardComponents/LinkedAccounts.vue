@@ -69,12 +69,9 @@
 </template>
 
 <script>
-import store from '@/store/index';
 import api from '@/api/api';
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import userService from '@/services/UserService';
-
-const uuid = store.getters.user.id;
 
 export default {
   name: 'LinkedAccounts',
@@ -93,7 +90,7 @@ export default {
     this.queryData();
   },
   watch: {
-    $route(to, from) {
+    $route() {
       this.queryData();
     },
   },

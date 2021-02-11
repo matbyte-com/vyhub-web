@@ -26,7 +26,9 @@
   },
   "ban":{
     "labels": {
-      "title": "All Bans"
+      "title": "All Bans",
+      "add": "Add Ban",
+      "lengthInMinutes": "Length (in minutes)"
     }
   },
   "settings": {
@@ -55,14 +57,17 @@
   "allProperties": "All Properties",
   "properties": "Properties",
   "username": "Username",
-  "email": "Email",
+  "email": "E-Mail",
   "packets": "Packets",
   "dark_mode": "Dark Mode",
-  "username": "Nutzername",
-  "email": "Email",
   "length": "Length",
   "user": "User",
   "creator": "Creator",
   "name": "Name",
-  "server": "Server"
+  "server": "Server",
+  "endsOn": "Ends on",
+  "createdOn": "Created on",
+  "reason": "Reason",
+  "create": "Create",
+  "bundle": "Bundle"
 }

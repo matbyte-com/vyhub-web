@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
 import axios from 'axios';
 import { throttleAdapterEnhancer } from 'axios-extensions';
 
@@ -21,7 +23,7 @@ const throttledHttp = axios.create({
 export default {
   ban: {
     getBans() {
-      return http.get('/ban');
+      return http.get('/ban/');
     },
     addBan(userId: string, reason: string, length: number, serverbundleId: string) {
       return http.post('/ban/', {
@@ -34,35 +36,35 @@ export default {
   },
   server: {
     getBundles() {
-      return throttledHttp.get('/server/bundle');
+      return throttledHttp.get('/server/bundle/');
     },
     getGroups() {
-      return throttledHttp.get('/group');
+      return throttledHttp.get('/group/');
     },
     getServer() {
-      return http.get('/server/gameserver');
+      return http.get('/server/gameserver/');
     },
   },
   user: {
     getMemberships(uuid: string) {
-      return http.get(`/user/${uuid}/memberships`);
+      return http.get(`/user/${uuid}/memberships/`);
     },
     getUser(uuid: string) {
-      return http.get(`/user/${uuid}`);
+      return http.get(`/user/${uuid}/`);
     },
     getAttributeDefinitions() {
-      return throttledHttp.get('/user/attribute/definitions');
+      return throttledHttp.get('/user/attribute/definitions/');
     },
     prepareSocialAuth() {
-      return http.get('/auth/social/prepare', { withCredentials: true });
+      return http.get('/auth/social/prepare/', { withCredentials: true });
     },
-    search(query: string) {
-      return http.get('/user/', { params: { query } });
+    search(query: string, max = 50) {
+      return http.get('/user/', { params: { query, max } });
     },
   },
   design: {
     getTheme() {
-      return throttledHttp.get('/design/theme');
+      return throttledHttp.get('/design/theme/');
     },
   },
   http,

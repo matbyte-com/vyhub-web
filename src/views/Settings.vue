@@ -4,23 +4,28 @@
     <v-row
     no-gutters>
       <v-col cols="2">
-        <v-card flat outlined class="pa-3 fill-height">
-          <v-tabs vertical v-model="tabModel">
-            <v-tab v-for="tab in tabs"
-                   :key="tab.id"
-                   class="justify-start"
-                   @click="$router.push({ name: 'Settings', params: { component: tab.component} })">
-              <v-icon left>{{ tab.icon }}</v-icon>
-              <span>{{ tab.name }}</span>
-            </v-tab>
-          </v-tabs>
+        <v-card flat outlined class="fill-height">
+          <v-card-text>
+            <v-tabs vertical v-model="tabModel">
+              <v-tab v-for="tab in tabs"
+                     :key="tab.id"
+                     class="justify-start"
+                     @click="$router.push({ name: 'Settings',
+                                            params: { component: tab.component} })">
+                <v-icon left>{{ tab.icon }}</v-icon>
+                <span>{{ tab.name }}</span>
+              </v-tab>
+            </v-tabs>
+          </v-card-text>
         </v-card>
       </v-col>
       <v-col>
-        <v-card class="pa-3 fill-height" flat outlined>
-          <keep-alive>
-            <component :is="componentInstance"></component>
-          </keep-alive>
+        <v-card class="fill-height" flat outlined>
+          <v-card-text>
+            <keep-alive>
+              <component :is="componentInstance"></component>
+            </keep-alive>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -40,7 +45,7 @@ export default {
      * @param to
      * @param from
      */
-    $route(to, from) {
+    $route(to) {
       /* if (to.params.component === 0) {
         this.activeTab = this.tabs[0].component;
       } */
