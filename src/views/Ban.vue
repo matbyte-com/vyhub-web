@@ -9,9 +9,9 @@
       <template v-slot:top>
         <v-row>
           <v-col lg="4" md="6" sm="12">
-            <v-btn outlined color="success">
+            <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
               <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t("ban_add") }}</span>
+              <span>{{ $t("ban.labels.add") }}</span>
             </v-btn>
           </v-col>
           <v-spacer/>
@@ -35,11 +35,17 @@
         <span>{{ new Date(item.created_on).toLocaleString() }}</span>
       </template>
     </v-data-table>
+    <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
+                :title="$t('ban.labels.add')" :submit-text="$t('create')"
+                @submit="addBan">
+    </DialogForm>
   </div>
 </template>
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
+import DialogForm from '@/components/DialogForm.vue';
+import banAddFormSchema from '@/forms/BanAddForm';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import apiService from '../api/api';
@@ -48,6 +54,7 @@ export default {
   name: 'Ban.vue',
   components: {
     PageTitle,
+    DialogForm,
   },
   data() {
     return {
@@ -55,13 +62,15 @@ export default {
       headers: [
         { text: this.$t('bundle'), value: 'serverbundle' },
         { text: this.$t('user'), value: 'user.username' },
-        { text: this.$t('creator'), value: 'creator.username' },
+        { text: this.$t('reason'), value: 'reason' },
         { text: this.$t('length'), value: 'length' },
-        { text: this.$t('ends_on'), value: 'ends_on' },
-        { text: this.$t('created_on'), value: 'created_on' },
+        { text: this.$t('endsOn'), value: 'ends_on' },
+        { text: this.$t('creator'), value: 'creator.username' },
+        { text: this.$t('createdOn'), value: 'created_on' },
       ],
       bans: [],
       bundles: [],
+      banAddFormSchema,
     };
   },
   beforeMount() {
@@ -95,6 +104,20 @@ export default {
       }
 
       return 'orange lighten-4';
+    },
+    addBan() {
+      const data = this.$refs.banAddDialog.getData();
+
+      apiService.ban.addBan(
+        data.userId,
+        data.reason,
+        data.length * 60,
+        data.serverbundleId,
+      ).then((rsp) => {
+        console.log(rsp.data);
+      }).catch((err) => {
+        console.log(err);
+      });
     },
   },
 };

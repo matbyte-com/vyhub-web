@@ -23,6 +23,14 @@ export default {
     getBans() {
       return http.get('/ban');
     },
+    addBan(userId: string, reason: string, length: number, serverbundleId: string) {
+      return http.post('/ban/', {
+        user_id: userId,
+        reason,
+        length,
+        serverbundle_id: serverbundleId,
+      });
+    },
   },
   server: {
     getBundles() {
