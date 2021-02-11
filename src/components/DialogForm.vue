@@ -43,6 +43,10 @@ export default {
     show() {
       this.dialog = true;
     },
+    closeAndReset() {
+      this.dialog = false;
+      return this.$refs.form.cancelForm();
+    },
     getData() {
       return this.$refs.form.getData();
     },
@@ -51,6 +55,9 @@ export default {
     },
     cancelForm() {
       return this.$refs.form.cancelForm();
+    },
+    setErrorMessage(text) {
+      return this.$refs.form.setErrorMessage(text);
     },
   },
 };

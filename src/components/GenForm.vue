@@ -52,7 +52,6 @@ export default {
   },
   props: {
     formSchema: Object,
-    errorMessage: String,
     submitText: {
       type: String,
       default: 'submit',
@@ -76,9 +75,13 @@ export default {
     getData() {
       return this.formModel;
     },
+    setErrorMessage(text) {
+      this.errorMessage = text;
+    },
   },
   data() {
     return {
+      errorMessage: null,
       valid: false,
       options: {
         locale: 'en',
