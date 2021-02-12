@@ -1,9 +1,11 @@
 <template>
   <v-dialog
     v-model="dialog"
-    width="500">
+    :fullscreen="$vuetify.breakpoint.xsOnly"
+    max-width="500">
     <v-card>
       <v-card-title>
+        <v-icon :if="titleIcon != null" class="mr-1">{{ titleIcon }}</v-icon>
         <span class="headline">{{ title }}</span>
       </v-card-title>
       <v-card-text>
@@ -29,6 +31,7 @@ export default {
   },
   props: {
     title: String,
+    titleIcon: String,
     formSchema: Object,
     errorMessage: String,
     submitText: String,
