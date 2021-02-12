@@ -42,6 +42,11 @@ const routes: Array<RouteConfig> = [
     path: '/ban',
     name: 'Bans',
     component: () => import('@/views/Ban.vue'),
+  },
+  {
+    path: '/ban/:banId',
+    name: 'BanDetail',
+    component: () => import('@/views/Ban.vue'),
     meta: { requiresAuth: true },
   },
   {

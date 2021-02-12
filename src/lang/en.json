@@ -28,7 +28,9 @@
     "labels": {
       "title": "All Bans",
       "add": "Add Ban",
-      "lengthInMinutes": "Length (in minutes)"
+      "lengthInMinutes": "Length (in minutes)",
+      "edit": "Edit Ban",
+      "details": "Ban Details"
     }
   },
   "settings": {
@@ -58,7 +60,6 @@
   "groups": "Groups",
   "allGroups": "All Groups",
   "allProperties": "All Properties",
-  "properties": "Properties",
   "username": "Username",
   "email": "E-Mail",
   "packets": "Packets",
@@ -72,5 +73,6 @@
   "createdOn": "Created on",
   "reason": "Reason",
   "create": "Create",
-  "bundle": "Bundle"
+  "bundle": "Bundle",
+  "actions": "Actions"
 }
