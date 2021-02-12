@@ -15,7 +15,8 @@
           <v-card-text>
             <GenForm :form-schema="formSchema" @submit="login"
                      :error-message="$t('errorMessage')"
-                     cancel-text="header.labels.close" submit-text="header.labels.login"
+                     :cancel-text="$t('header.labels.close')"
+                     :submit-text="$t('header.labels.login')"
                      @cancel="dialog = false"
                      ref="loginForm">
             </GenForm>
