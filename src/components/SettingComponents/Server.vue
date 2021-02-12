@@ -17,6 +17,14 @@
               :items="bundles"
               :hide-default-footer="true"
               :disable-pagination="true">
+              <template v-slot:item.actions="{ item }">
+                <v-icon small class="mr-2" @click="editBundle(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small @click="deleteBundle(item)">
+                  mdi-delete
+                </v-icon>
+              </template>
             </v-data-table>
           </v-card-text>
           <v-card-actions>
@@ -75,6 +83,7 @@ export default {
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'server_type' },
         { text: this.$t('settings.defaultGroup'), value: 'default_group.name' },
+        { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
       gameserverHeaders: [
         { text: this.$t('name'), value: 'name' },
@@ -112,7 +121,7 @@ export default {
         data.multigroup,
         data.defaultgroup,
       ).then((rsp) => {
-        this.queryData();
+        api.server.getBundles(false).then((response) => { this.bundles = response.data; });
         this.$refs.addBundleDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.addBundleDialog.setErrorMessage(err.response.data.detail);
