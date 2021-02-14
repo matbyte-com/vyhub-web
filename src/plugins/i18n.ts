@@ -44,7 +44,8 @@ Vue.use(VueI18n);
 // eslint-disable-next-line import/prefer-default-export
 export default new VueI18n({
   dateTimeFormats,
-  locale: navigator.language.split('-')[0],
+  // TODO use default server language
+  // locale: navigator.language.split('-')[0],
   fallbackLocale: 'en',
   messages: loadLocaleMessages(),
 });
