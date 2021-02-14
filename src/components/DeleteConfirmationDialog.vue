@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" max-width="500px">
     <v-card>
-      <v-card-title class="headline">{{ $t('are you sure') }}</v-card-title>
+      <v-card-title class="headline">{{ $t('areYouSure') }}</v-card-title>
       <v-card-text>
         <v-alert v-if="errorMessage != null" type="error">
           {{ errorMessage }}
