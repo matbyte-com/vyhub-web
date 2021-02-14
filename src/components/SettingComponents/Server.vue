@@ -54,6 +54,14 @@
               <template v-slot:item.serverbundle_id="{ item }">
                 {{ getBundle(item) }}
               </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon small class="mr-2" @click="editBundle(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small @click="openDeleteDialog(item)">
+                  mdi-delete
+                </v-icon>
+              </template>
             </v-data-table>
           </v-card-text>
           <v-card-actions>
@@ -98,6 +106,7 @@ export default {
         { text: this.$t('__address'), value: 'address' },
         { text: this.$t('__port'), value: 'port' },
         { text: this.$t('bundle'), value: 'serverbundle_id' },
+        { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
       addBundleSchema: AddBundleForm,
       addBundleModel: {},
