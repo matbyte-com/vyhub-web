@@ -52,6 +52,9 @@ export default {
         multigroup,
       });
     },
+    deleteBundle(uuid: string) {
+      return http.delete(`server/bundle/${uuid}`);
+    },
   },
   user: {
     getMemberships(uuid: string) {

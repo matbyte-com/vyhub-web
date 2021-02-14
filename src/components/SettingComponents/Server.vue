@@ -5,6 +5,10 @@
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
                 :title="$t('settings.labels.addBundle')"/>
+    <DeleteConfirmationDialog
+                ref="deleteBundleDialog"
+                :item="itemToDelete"
+                @submitDelete="deleteBundle"/>
     <v-row>
       <v-col>
         <v-card outlined flat class="fill-height">
@@ -21,7 +25,7 @@
                 <v-icon small class="mr-2" @click="editBundle(item)">
                   mdi-pencil
                 </v-icon>
-                <v-icon small @click="deleteBundle(item)">
+                <v-icon small @click="openDeleteDialog(item)">
                   mdi-delete
                 </v-icon>
               </template>
@@ -68,10 +72,12 @@
 import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
 import AddBundleForm from '@/forms/AddBundleForm';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
   name: 'Server',
   components: {
+    DeleteConfirmationDialog,
     DialogForm,
   },
   data() {
@@ -121,10 +127,20 @@ export default {
         data.multigroup,
         data.defaultgroup,
       ).then((rsp) => {
-        api.server.getBundles(false).then((response) => { this.bundles = response.data; });
+        api.server.getBundles().then((response) => { this.bundles = response.data; });
         this.$refs.addBundleDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.addBundleDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
+    openDeleteDialog(item) {
+      this.$refs.deleteBundleDialog.show(item);
+    },
+    deleteBundle(bundle) {
+      api.server.deleteBundle(bundle.id).then((rsp) => {
+        this.$refs.deleteBundleDialog.cancel();
+      }).catch((err) => {
+        this.$refs.deleteBundleDialog.setErrorMessage(err.response.data.detail);
       });
     },
   },
