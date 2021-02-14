@@ -6,7 +6,6 @@ export default {
     'userId',
   ],
   properties: {
-    user: Common.userSelectField,
     reason: {
       type: 'string',
       titleK: 'reason',

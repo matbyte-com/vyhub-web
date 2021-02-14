@@ -63,18 +63,58 @@
           <v-icon class="mr-1">mdi-account-cancel</v-icon>
           <span class="headline">{{ $t('ban.labels.details') }}</span>
         </v-card-title>
-        <v-card-text v-if="$route.params.banId != null">
-          <v-list>
-            <v-list-item>
-              <v-list-item-content>{{ $t('id') }}:</v-list-item-content>
-              <v-list-item-content class="align-end">
-                {{ $route.params.banId }}
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+        <v-card-text v-if="currentBan != null">
+          <v-simple-table>
+            <template v-slot:default>
+              <tbody>
+                <tr v-for="raw in ['id', 'reason']" :key="raw">
+                  <td>{{ $t(raw) }}</td>
+                  <td>{{ currentBan[raw] }}</td>
+                </tr>
+                <tr>
+                  <td>{{ $t('user') }}</td>
+                  <td><UserLink :user="currentBan.user"></UserLink></td>
+                </tr>
+                <tr>
+                  <td>{{ $t('length') }}</td>
+                  <td>
+                    {{ formatLength(currentBan['length']) }}
+
+                    ({{ (currentBan.ends_on == null ? '-' : new
+                    Date(currentBan.ends_on).toLocaleString()) }})
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ $t('bundle') }}</td>
+                  <td>{{ currentBan.serverbundle.name}}</td>
+                </tr>
+                <tr>
+                  <td>{{ $t('creator') }}</td>
+                  <td><UserLink :user="currentBan.creator"></UserLink></td>
+                </tr>
+                <tr>
+                  <td>{{ $t('createdOn') }}</td>
+                  <td>{{ new Date(currentBan.created_on).toLocaleString() }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-card-text>
+        <v-card-actions>
+          <v-btn text color="primary" @click="showEditDialog">{{ $t('edit') }}</v-btn>
+          <v-btn text color="warning">{{ $t('ban.labels.unban') }}</v-btn>
+          <v-btn text color="error" @click="showDeleteDialog">{{ $t('delete') }}</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
+    <DialogForm :form-schema="banEditFormSchema" ref="banEditDialog"
+                :title="$t('ban.labels.edit')" :submit-text="$t('edit')"
+                title-icon="mdi-account-cancel"
+                @submit="editBan">
+    </DialogForm>
+    <DeleteConfirmationDialog
+      ref="deleteBanDialog"
+      @submitDelete="deleteBan"/>
   </div>
 </template>
 
@@ -82,7 +122,9 @@
 import PageTitle from '@/components/PageTitle.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import UserLink from '@/components/UserLink.vue';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
+import banEditFormSchema from '@/forms/BanEditForm';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import apiService from '../api/api';
@@ -93,6 +135,7 @@ export default {
     PageTitle,
     DialogForm,
     UserLink,
+    DeleteConfirmationDialog,
   },
   data() {
     return {
@@ -112,6 +155,7 @@ export default {
       bans: [],
       bundles: [],
       banAddFormSchema,
+      banEditFormSchema,
     };
   },
   beforeMount() {
@@ -123,13 +167,25 @@ export default {
     },
     banDetailShown: {
       get() {
-        return this.$route.params.banId != null;
+        return this.$route.params.banId != null && (!this.$refs.banEditDialog
+          || !this.$refs.banEditDialog.dialog);
       },
       set(newValue) {
-        if (!newValue) {
+        if (!newValue && !this.$refs.banEditDialog.dialog) {
           this.$router.push({ name: 'Bans' });
         }
       },
+    },
+    currentBan() {
+      if (this.bans.length > 0) {
+        const bans = this.bans.filter((ban) => ban.id === this.$route.params.banId);
+
+        if (bans.length > 0) {
+          return bans[0];
+        }
+      }
+
+      return null;
     },
   },
   methods: {
@@ -139,7 +195,7 @@ export default {
     },
     formatLength(seconds) {
       momentDurationFormatSetup(moment);
-      return (seconds == null ? '∞' : moment.duration(seconds + 20000, 'seconds').format());
+      return (seconds == null ? '∞' : moment.duration(seconds, 'seconds').format());
     },
     banRowFormatter(item) {
       if (item.is_active) {
@@ -159,10 +215,10 @@ export default {
       const data = this.$refs.banAddDialog.getData();
 
       apiService.ban.addBan(
-        data.userId,
+        (data.user ? data.user.id : null),
         data.reason,
         data.length * 60,
-        data.serverbundleId,
+        (data.serverbundle ? data.serverbundle.id : null),
       ).then(() => {
         this.queryData();
         this.$refs.banAddDialog.closeAndReset();
@@ -171,10 +227,44 @@ export default {
       });
     },
     editBan() {
-      // A
+      const data = this.$refs.banEditDialog.getData();
+
+      apiService.ban.editBan(
+        this.currentBan.id,
+        data.reason,
+        data.length * 60,
+        (data.serverbundle ? data.serverbundle.id : null),
+      ).then(() => {
+        this.queryData();
+        this.$refs.banEditDialog.closeAndReset();
+      }).catch((err) => {
+        console.log(err);
+        this.$refs.banEditDialog.setErrorMessage(err.response.data.detail);
+      });
     },
-    deleteBan() {
-      // B
+    deleteBan(ban) {
+      apiService.ban.deleteBan(
+        ban.id,
+      ).then(() => {
+        this.$refs.deleteBanDialog.closeAndReset();
+        this.banDetailShown = false;
+        this.queryData();
+      }).catch((err) => {
+        this.$refs.deleteBanDialog.setErrorMessage(err.response.data.detail);
+        console.log(err);
+      });
+    },
+    showEditDialog() {
+      this.$refs.banEditDialog.show();
+      this.banDetailShown = false;
+
+      const ban = { ...this.currentBan };
+      ban.length = (ban.length != null ? ban.length / 60 : null);
+
+      this.$refs.banEditDialog.setData(ban);
+    },
+    showDeleteDialog() {
+      this.$refs.deleteBanDialog.show(this.currentBan);
     },
   },
 };

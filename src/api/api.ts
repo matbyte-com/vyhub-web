@@ -33,6 +33,16 @@ export default {
         serverbundle_id: serverbundleId,
       });
     },
+    editBan(banId: string, reason: string, length: number, serverbundleId: string) {
+      return http.patch(`/ban/${banId}`, {
+        reason,
+        length,
+        serverbundle_id: serverbundleId,
+      });
+    },
+    deleteBan(banId: string) {
+      return http.delete(`/ban/${banId}`);
+    },
   },
   server: {
     getBundles() {
