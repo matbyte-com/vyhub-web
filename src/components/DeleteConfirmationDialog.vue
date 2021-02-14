@@ -3,7 +3,9 @@
     <v-card>
       <v-card-title class="headline">{{ $t('delete') }}</v-card-title>
       <v-card-text>
-        {{ errorMessage }}
+        <v-alert v-if="errorMessage != null" type="error">
+          {{ errorMessage }}
+        </v-alert>
         <v-row>
           <v-col cols="12">
             <v-btn class="mr-4"
@@ -45,7 +47,7 @@ export default {
       this.dialog = true;
     },
     setErrorMessage(text) {
-      return this.errorMessage(text);
+      this.errorMessage = text;
     },
   },
 };
