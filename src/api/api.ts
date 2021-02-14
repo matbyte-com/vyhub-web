@@ -42,7 +42,7 @@ export default {
       return throttledHttp.get('/group/');
     },
     getServer() {
-      return http.get('/server/gameserver/');
+      return http.get('/server/');
     },
     addBundle(name: string, type: string, multigroup: boolean, default_group_id: string) {
       return http.post('/server/bundle', {
@@ -56,7 +56,7 @@ export default {
       return http.delete(`server/bundle/${uuid}`);
     },
     deleteServer(uuid: string) {
-      return http.delete(`server/gameserver/${uuid}`);
+      return http.delete(`server/${uuid}`);
     },
   },
   user: {
