@@ -88,6 +88,7 @@ export default {
       bundleHeaders: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'server_type' },
+        { text: this.$t('settings.multigroup'), value: 'multigroup' },
         { text: this.$t('settings.defaultGroup'), value: 'default_group.name' },
         { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
