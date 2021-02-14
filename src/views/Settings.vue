@@ -46,9 +46,10 @@ export default {
      * @param from
      */
     $route(to) {
-      /* if (to.params.component === 0) {
-        this.activeTab = this.tabs[0].component;
-      } */
+      if (this.$route.params.component) {
+        const tab = this.tabs.find((t) => t.component === this.$route.params.component);
+        this.tabModel = this.tabs.indexOf(tab);
+      }
       this.activeComponent = to.params.component;
     },
   },
