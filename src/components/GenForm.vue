@@ -75,6 +75,10 @@ export default {
     getData() {
       return this.formModel;
     },
+    setData(data) {
+      // Copy data object to not modify the source object
+      this.formModel = { ...data };
+    },
     setErrorMessage(text) {
       this.errorMessage = text;
     },
@@ -109,6 +113,9 @@ export default {
       }
     }
     this.options.locale = i18n.locale;
+  },
+  mounted() {
+    this.$emit('mounted');
   },
 };
 </script>

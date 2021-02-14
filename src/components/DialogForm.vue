@@ -14,6 +14,7 @@
                  :cancel-text="cancelText" :submit-text="submitText"
                  @cancel="dialog = false"
                  ref="form"
+                 @mounted="genFormMounted"
                  >
         </GenForm>
       </v-card-text>
@@ -39,7 +40,8 @@ export default {
   },
   data() {
     return {
-      dialog: null,
+      dataBeforeMount: null,
+      dialog: false,
     };
   },
   methods: {
@@ -53,6 +55,13 @@ export default {
     getData() {
       return this.$refs.form.getData();
     },
+    setData(data) {
+      if (this.$refs.form === undefined) {
+        this.dataBeforeMount = data;
+      } else {
+        this.$refs.form.setData(data);
+      }
+    },
     validateAndRun() {
       return this.$refs.form.validateAndRun();
     },
@@ -61,6 +70,9 @@ export default {
     },
     setErrorMessage(text) {
       return this.$refs.form.setErrorMessage(text);
+    },
+    genFormMounted() {
+      this.$refs.form.setData(this.dataBeforeMount);
     },
   },
 };
