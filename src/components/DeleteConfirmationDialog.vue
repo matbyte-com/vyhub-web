@@ -13,7 +13,7 @@
                    color="primary"
                    type="submit"
                    @click="submit">
-              {{ $t('submit') }}
+              {{ $t('delete') }}
             </v-btn>
             <v-btn color="lighten-5" depressed @click="cancel">
               {{ $t('cancel') }}
@@ -38,6 +38,11 @@ export default {
   methods: {
     cancel() {
       this.dialog = false;
+      this.errorMessage = null;
+    },
+    closeAndReset() {
+      this.dialog = false;
+      this.errorMessage = null;
     },
     submit() {
       this.$emit('submitDelete', this.item);
