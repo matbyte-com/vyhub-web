@@ -15,6 +15,11 @@
             <v-data-table
               :headers="headers"
               :items="getGroupsByBundle(tab.id)">
+              <template v-slot:item.name="{ item }">
+                <div :style="{ color: item.color }">
+                  {{ item.name }}
+                </div>
+              </template>
               <template v-slot:item.properties="{ item }">
                 <v-chip v-for="(prop, index) in item.properties" :key="index" small color="primary">
                   {{ prop.name }}
