@@ -55,6 +55,9 @@ export default {
     deleteBundle(uuid: string) {
       return http.delete(`server/bundle/${uuid}`);
     },
+    deleteServer(uuid: string) {
+      return http.delete(`server/gameserver/${uuid}`);
+    },
   },
   user: {
     getMemberships(uuid: string) {

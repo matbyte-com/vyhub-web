@@ -7,8 +7,10 @@
                 :title="$t('settings.labels.addBundle')"/>
     <DeleteConfirmationDialog
                 ref="deleteBundleDialog"
-                :item="itemToDelete"
                 @submitDelete="deleteBundle"/>
+    <DeleteConfirmationDialog
+                ref="deleteServerDialog"
+                @submitDelete="deleteServer"/>
     <v-row>
       <v-col>
         <v-card outlined flat class="fill-height">
@@ -25,7 +27,7 @@
                 <v-icon small class="mr-2" @click="editBundle(item)">
                   mdi-pencil
                 </v-icon>
-                <v-icon small @click="openDeleteDialog(item)">
+                <v-icon small @click="openDeleteBundleDialog(item)">
                   mdi-delete
                 </v-icon>
               </template>
@@ -58,7 +60,7 @@
                 <v-icon small class="mr-2" @click="editBundle(item)">
                   mdi-pencil
                 </v-icon>
-                <v-icon small @click="openDeleteDialog(item)">
+                <v-icon small @click="openDeleteServerDialog(item)">
                   mdi-delete
                 </v-icon>
               </template>
@@ -143,14 +145,27 @@ export default {
         this.$refs.addBundleDialog.setErrorMessage(err.response.data.detail);
       });
     },
-    openDeleteDialog(item) {
+    openDeleteBundleDialog(item) {
       this.$refs.deleteBundleDialog.show(item);
+    },
+    openDeleteServerDialog(item) {
+      this.$refs.deleteServerDialog.show(item);
     },
     deleteBundle(bundle) {
       api.server.deleteBundle(bundle.id).then((rsp) => {
         this.$refs.deleteBundleDialog.cancel();
+        api.server.getBundles().then((response) => { this.bundles = response.data; });
       }).catch((err) => {
         this.$refs.deleteBundleDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
+    deleteServer(server) {
+      console.log('test');
+      api.server.deleteServer(server.id).then((rsp) => {
+        this.$refs.deleteServerDialog.cancel();
+        api.server.getServer().then((response) => { this.server = response.data; });
+      }).catch((err) => {
+        this.$refs.deleteServerDialog.setErrorMessage(err.response.data.detail);
       });
     },
   },
