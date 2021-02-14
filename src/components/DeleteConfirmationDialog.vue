@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="500px">
+  <v-dialog v-model="dialog" max-width="300">
     <v-card>
       <v-card-title class="headline">{{ $t('areYouSure') }}</v-card-title>
       <v-card-text>
