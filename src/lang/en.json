@@ -30,7 +30,9 @@
       "add": "Add Ban",
       "lengthInMinutes": "Length (in minutes)",
       "edit": "Edit Ban",
-      "details": "Ban Details"
+      "details": "Ban Details",
+      "unban": "Unban",
+      "reban": "Reban"
     }
   },
   "settings": {
@@ -75,5 +77,6 @@
   "create": "Create",
   "bundle": "Bundle",
   "actions": "Actions",
-  "areYouSure": "Are you sure?"
+  "areYouSure": "Are you sure?",
+  "delete": "Delete"
 }
