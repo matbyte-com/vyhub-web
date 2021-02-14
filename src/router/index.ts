@@ -9,10 +9,12 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'Home',
     component: () => import('../views/Home.vue'),
+    meta: { title: 'Nyx Web' },
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
+    meta: { title: 'Dashboard' },
     redirect() {
       if (store.getters.isLoggedIn) {
         const userName = store.getters.user.username;
@@ -30,18 +32,20 @@ const routes: Array<RouteConfig> = [
   {
     path: '/about',
     name: 'About',
+    meta: { title: 'About' },
     component: () => import('@/views/About.vue'),
   },
   {
     path: '/settings/:component?',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, title: 'Settings' },
   },
   {
     path: '/ban',
     name: 'Bans',
     component: () => import('@/views/Ban.vue'),
+    meta: { title: 'Bans' },
   },
   {
     path: '/ban/:banId',
@@ -78,6 +82,13 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+});
+
+const DEFAULT_TITLE = process.env.VUE_APP_DEFAULT_TITLE;
+router.afterEach((to, from) => {
+  Vue.nextTick(() => {
+    document.title = to.meta.title || DEFAULT_TITLE;
+  });
 });
 
 export default router;
