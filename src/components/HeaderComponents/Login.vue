@@ -1,35 +1,16 @@
 <template>
   <div>
-    <v-row justify="center">
-      <v-dialog v-model="dialog" max-width="400px">
-        <!--<template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" depressed dark v-bind="attrs" v-on="on" class="mr-3 lighten-1">
-            {{ $t("login") }}
-          </v-btn>
-        </template>-->
-        <!-- :cancel-text="null" :submit-text="null"-->
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ $t("header.labels.login") }}</span>
-          </v-card-title>
-          <v-card-text>
-            <GenForm :form-schema="formSchema" @submit="login"
-                     :error-message="$t('errorMessage')"
-                     :cancel-text="$t('header.labels.close')"
-                     :submit-text="$t('header.labels.login')"
-                     @cancel="dialog = false"
-                     ref="loginForm">
-            </GenForm>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </v-row>
+    <DialogForm  :form-schema="formSchema" @submit="login"
+             :cancel-text="$t('header.labels.close')"
+             :submit-text="$t('header.labels.login')"
+             ref="loginDialog">
+    </DialogForm>
   </div>
 </template>
 
 <script>
 import AuthService from '@/services/AuthService';
-import GenForm from '@/components/GenForm.vue';
+import DialogForm from '@/components/DialogForm.vue';
 import loginFormSchema from '@/forms/LoginForm';
 import Axios from 'axios';
 import store from '@/store';
@@ -38,13 +19,11 @@ import api from '@/api/api';
 export default {
   name: 'Login.vue',
   components: {
-    GenForm,
+    DialogForm,
   },
   data() {
     return {
-      dialog: null,
       formSchema: loginFormSchema,
-      errorMessage: null,
     };
   },
   watch: {
@@ -55,7 +34,7 @@ export default {
   methods: {
     async login() {
       try {
-        const data = this.$refs.loginForm.getData();
+        const data = this.$refs.loginDialog.getData();
 
         AuthService.login(data.email, data.password, (token) => {
           this.$store.dispatch('login', { token });
@@ -66,25 +45,25 @@ export default {
           AuthService.fetchUserData((user) => {
             // console.log(data);
             this.$store.dispatch('setUserData', { user });
-            this.dialog = false;
+            this.$refs.loginDialog.closeAndReset();
             this.$router.push('/');
           }, (error) => {
-            this.errorMessage = `Error in phase 3: ${error}`;
+            this.$refs.loginDialog.setErrorMessage(`Error in phase 3: ${error}`);
           });
         }, (phase, error) => {
-          this.errorMessage = `Error in phase ${phase}: ${error}`;
+          this.$refs.loginDialog.setErrorMessage(`Error in phase ${phase}: ${error}`);
         });
       } catch (error) {
-        this.errorMessage = error.response.data.msg;
+        this.$refs.loginDialog.setErrorMessage(error.response.data.msg);
       }
     },
     checkLoginNeeded() {
       if (this.$route.query.login === 'true') {
-        this.dialog = true;
+        this.showLoginDialog();
       }
     },
     showLoginDialog() {
-      this.dialog = true;
+      this.$refs.loginDialog.show();
     },
   },
 };
