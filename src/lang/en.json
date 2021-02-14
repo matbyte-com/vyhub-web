@@ -74,5 +74,6 @@
   "reason": "Reason",
   "create": "Create",
   "bundle": "Bundle",
-  "actions": "Actions"
+  "actions": "Actions",
+  "delete": "Are you sure?"
 }
