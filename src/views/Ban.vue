@@ -44,7 +44,7 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2"
-                @click="$router.push({ name: 'BanDetail', params: {banId: item.id}})">
+                @click="$router.push({ name: 'Bans', params: {banId: item.id}})">
           mdi-eye
         </v-icon>
       </template>

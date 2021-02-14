@@ -42,16 +42,10 @@ const routes: Array<RouteConfig> = [
     meta: { requiresAuth: true, title: 'Settings' },
   },
   {
-    path: '/ban',
+    path: '/ban/:banId?',
     name: 'Bans',
     component: () => import('@/views/Ban.vue'),
     meta: { title: 'Bans' },
-  },
-  {
-    path: '/ban/:banId',
-    name: 'BanDetail',
-    component: () => import('@/views/Ban.vue'),
-    meta: { requiresAuth: true },
   },
   {
     path: '*',
