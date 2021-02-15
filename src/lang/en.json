@@ -32,7 +32,8 @@
       "edit": "Edit Ban",
       "details": "Ban Details",
       "unban": "Unban",
-      "reban": "Reban"
+      "reban": "Reban",
+      "unbanned": "Unbanned"
     }
   },
   "settings": {
@@ -74,9 +75,15 @@
   "endsOn": "Ends on",
   "createdOn": "Created on",
   "reason": "Reason",
+  "status": "Status",
+  "id": "ID",
+  "edit": "Edit",
+  "cancel": "Cancel",
   "create": "Create",
   "bundle": "Bundle",
   "actions": "Actions",
+  "expired": "Expired",
+  "active": "Active",
   "areYouSure": "Are you sure?",
   "delete": "Delete"
 }
