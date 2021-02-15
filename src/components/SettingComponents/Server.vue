@@ -1,7 +1,6 @@
 <template>
   <div>
     <DialogForm ref="addBundleDialog"
-                :form-model="addBundleModel"
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
                 :title="$t('settings.labels.addBundle')">
@@ -119,7 +118,6 @@ export default {
         { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
       addBundleSchema: AddBundleForm,
-      addBundleModel: {},
     };
   },
   beforeMount() {
@@ -138,7 +136,6 @@ export default {
       return '-';
     },
     addBundle() {
-      this.addBundleModel = {};
       const data = this.$refs.addBundleDialog.getData();
 
       api.server.addBundle(
@@ -170,7 +167,6 @@ export default {
       });
     },
     deleteServer(server) {
-      console.log('test');
       api.server.deleteServer(server.id).then((rsp) => {
         this.$refs.deleteServerDialog.cancel();
         api.server.getServer().then((response) => { this.server = response.data; });
