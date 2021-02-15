@@ -7,7 +7,6 @@ export default {
   required: [
     'name',
     'serverType',
-    'multigroup',
     'defaultgroup',
   ],
   properties: {
@@ -19,6 +18,11 @@ export default {
       type: 'boolean',
       titleK: 'settings.multigroup',
       descriptionK: 'settings.multigroupDescription',
+    },
+    color: Common.colorPicker,
+    icon: {
+      type: 'string',
+      titleK: 'icon',
     },
     serverType: Common.serverTypeSelectField,
   },

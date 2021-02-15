@@ -19,6 +19,20 @@ export default {
   serverTypeSelectField: {
     type: 'string',
     titleK: 'type',
+    default: 'GMOD',
     'x-fromUrl': `${API_URL}/server/type/`,
+  },
+  colorPicker: {
+    type: 'string',
+    titleK: 'color',
+    format: 'hexcolor',
+    default: '#000000',
+    'x-props': {
+      showSwatches: true,
+      hideCanvas: true,
+      hideSliders: true,
+      hideInputs: true,
+      hideModeSwitch: true,
+    },
   },
 };

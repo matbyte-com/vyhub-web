@@ -59,12 +59,15 @@ export default {
     getServer() {
       return http.get('/server/');
     },
-    addBundle(name: string, type: string, multigroup: boolean, default_group_id: string) {
-      return http.post('/server/bundle', {
+    addBundle(name: string, type: string, multigroup: boolean,
+      default_group_id: string, color: string, icon: string) {
+      return http.post('/server/bundle/', {
         name,
         server_type: type,
         default_group_id,
         multigroup,
+        color,
+        icon,
       });
     },
     deleteBundle(uuid: string) {

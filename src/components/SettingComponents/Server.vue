@@ -4,7 +4,8 @@
                 :form-model="addBundleModel"
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
-                :title="$t('settings.labels.addBundle')"/>
+                :title="$t('settings.labels.addBundle')">
+    </DialogForm>
     <DeleteConfirmationDialog
                 ref="deleteBundleDialog"
                 @submitDelete="deleteBundle"/>
@@ -23,6 +24,13 @@
               :items="bundles"
               :hide-default-footer="true"
               :disable-pagination="true">
+              <template v-slot:item.name="{ item }">
+                <v-chip :color="item.color ? item.color : '#000000'"
+                        :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                        outlined>
+                  {{ item.name }}
+                </v-chip>
+              </template>
               <template v-slot:item.actions="{ item }">
                 <v-icon small class="mr-2" @click="editBundle(item)">
                   mdi-pencil
@@ -138,6 +146,8 @@ export default {
         data.serverType,
         data.multigroup,
         data.defaultgroup,
+        data.color,
+        data.icon,
       ).then((rsp) => {
         api.server.getBundles().then((response) => { this.bundles = response.data; });
         this.$refs.addBundleDialog.closeAndReset();
