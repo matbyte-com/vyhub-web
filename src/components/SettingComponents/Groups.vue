@@ -33,6 +33,14 @@
                   {{ prop.name }}
                 </v-chip>
               </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon small class="mr-2" @click="editBundle(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small @click="openDeleteBundleDialog(item)">
+                  mdi-delete
+                </v-icon>
+              </template>
             </v-data-table>
             <v-card-actions>
               <v-btn text color="primary" @click="$refs.addGroupDialog.show()">
@@ -67,18 +75,34 @@ export default {
         { text: this.$t('settings.permissionlevel'), value: 'permission_level' },
         { text: this.$t('settings.membercount'), value: '' },
         { text: this.$t('properties'), value: 'properties' },
+        { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
       addGroupModel: {},
       addGroupSchema: AddGroupForm,
     };
   },
   beforeMount() {
-    api.server.getGroups().then((response) => { this.groups = response.data; });
+    api.group.getGroups().then((response) => { this.groups = response.data; });
     api.server.getBundles().then((response) => { this.bundles = response.data; });
   },
   methods: {
     getGroupsByBundle(bundleId) {
       return this.groups.filter((g) => g.serverbundle_id === bundleId);
+    },
+    addGroup() {
+      const data = this.$refs.addGroupDialog.getData();
+
+      api.group.addGroup(
+        data.name,
+        data.permissionLevel,
+        data.serverbundle.id,
+        data.color,
+      ).then((rsp) => {
+        api.group.getGroups().then((response) => { this.groups = response.data; });
+        this.$refs.addGroupDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.addGroupDialog.setErrorMessage(err.response.data.detail);
+      });
     },
   },
 };

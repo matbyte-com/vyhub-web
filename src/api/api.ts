@@ -53,9 +53,6 @@ export default {
     getBundles() {
       return throttledHttp.get('/server/bundle/');
     },
-    getGroups() {
-      return throttledHttp.get('/group/');
-    },
     getServer() {
       return http.get('/server/');
     },
@@ -97,6 +94,19 @@ export default {
   design: {
     getTheme() {
       return throttledHttp.get('/design/theme/');
+    },
+  },
+  group: {
+    getGroups() {
+      return throttledHttp.get('/group/');
+    },
+    addGroup(name: string, permission_level: number, serverbundle_id: string, color: string) {
+      return http.post('/group/', {
+        name,
+        serverbundle_id,
+        color,
+        permission_level,
+      });
     },
   },
   http,

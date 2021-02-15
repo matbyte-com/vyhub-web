@@ -159,7 +159,7 @@ export default {
     },
     queryData() {
       const username = this.$route.params.id;
-      api.server.getGroups().then((response) => {
+      api.group.getGroups().then((response) => {
         this.groups = response.data;
         this.dataFetched += 1;
       });
