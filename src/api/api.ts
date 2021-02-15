@@ -40,6 +40,11 @@ export default {
         serverbundle_id: serverbundleId,
       });
     },
+    editBanStatus(banId: string, status: string) {
+      return http.patch(`/ban/${banId}`, {
+        status,
+      });
+    },
     deleteBan(banId: string) {
       return http.delete(`/ban/${banId}`);
     },

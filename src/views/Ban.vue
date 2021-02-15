@@ -57,13 +57,14 @@
     <v-dialog
       v-model="banDetailShown"
       :fullscreen="$vuetify.breakpoint.xsOnly"
+      v-if="currentBan != null"
       max-width="500">
       <v-card>
         <v-card-title>
           <v-icon class="mr-1">mdi-account-cancel</v-icon>
           <span class="headline">{{ $t('ban.labels.details') }}</span>
         </v-card-title>
-        <v-card-text v-if="currentBan != null">
+        <v-card-text>
           <v-simple-table>
             <template v-slot:default>
               <tbody>
@@ -96,13 +97,28 @@
                   <td>{{ $t('createdOn') }}</td>
                   <td>{{ new Date(currentBan.created_on).toLocaleString() }}</td>
                 </tr>
+                <tr>
+                  <td>{{ $t('status') }}</td>
+                  <td v-if="currentBan.is_active" class="green--text">{{ $t('active') }}</td>
+                  <td v-else-if="currentBan.status === 'UNBANNED'" class="orange--text">
+                    {{ $t('ban.labels.unbanned') }}
+                  </td>
+                  <td v-else class="red--text">
+                    {{ $t('expired') }}
+                  </td>
+                </tr>
               </tbody>
             </template>
           </v-simple-table>
         </v-card-text>
         <v-card-actions>
           <v-btn text color="primary" @click="showEditDialog">{{ $t('edit') }}</v-btn>
-          <v-btn text color="warning">{{ $t('ban.labels.unban') }}</v-btn>
+          <v-btn text color="warning" @click="unbanBan" v-if="currentBan.status === 'ACTIVE'">
+            {{ $t('ban.labels.unban') }}
+          </v-btn>
+          <v-btn text color="warning" @click="rebanBan" v-if="currentBan.status === 'UNBANNED'">
+            {{ $t('ban.labels.reban') }}
+          </v-btn>
           <v-btn text color="error" @click="showDeleteDialog">{{ $t('delete') }}</v-btn>
         </v-card-actions>
       </v-card>
@@ -251,6 +267,26 @@ export default {
         this.queryData();
       }).catch((err) => {
         this.$refs.deleteBanDialog.setErrorMessage(err.response.data.detail);
+        console.log(err);
+      });
+    },
+    unbanBan() {
+      apiService.ban.editBanStatus(
+        this.currentBan.id,
+        'UNBANNED',
+      ).then(() => {
+        this.queryData();
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    rebanBan() {
+      apiService.ban.editBanStatus(
+        this.currentBan.id,
+        'ACTIVE',
+      ).then(() => {
+        this.queryData();
+      }).catch((err) => {
         console.log(err);
       });
     },
