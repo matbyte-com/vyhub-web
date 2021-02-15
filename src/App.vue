@@ -57,7 +57,7 @@ export default Vue.extend({
           }
           if (theme.dark === true) {
             this.$vuetify.theme.dark = true;
-            this.$vuetify.theme.dark.primary = theme.primary;
+            this.$vuetify.theme.currentTheme.primary = theme.primary;
           } else {
             this.$vuetify.theme.currentTheme.primary = theme.primary;
           }
