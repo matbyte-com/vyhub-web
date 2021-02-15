@@ -1,5 +1,11 @@
 <template>
   <div>
+    <DialogForm
+            ref="addGroupDialog"
+            :form-model="addGroupModel"
+            :form-schema="addGroupSchema"
+            @submit="addGroup"
+            :title="$t('settings.labels.addGroup')"/>
     <v-card-title>
       {{ $t('groups') }}
     </v-card-title>
@@ -16,9 +22,11 @@
               :headers="headers"
               :items="getGroupsByBundle(tab.id)">
               <template v-slot:item.name="{ item }">
-                <div :style="{ color: item.color }">
+                <v-chip :color="item.color ? item.color : '#000000'"
+                        :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                        outlined>
                   {{ item.name }}
-                </div>
+                </v-chip>
               </template>
               <template v-slot:item.properties="{ item }">
                 <v-chip v-for="(prop, index) in item.properties" :key="index" small color="primary">
@@ -27,7 +35,7 @@
               </template>
             </v-data-table>
             <v-card-actions>
-              <v-btn text color="primary">
+              <v-btn text color="primary" @click="$refs.addGroupDialog.show()">
                 <v-icon left>mdi-plus</v-icon>
                 <span>{{ $t('settings.labels.addGroup') }}</span>
               </v-btn>
@@ -41,10 +49,13 @@
 
 <script>
 import api from '@/api/api';
+import DialogForm from '@/components/DialogForm.vue';
+import AddGroupForm from '@/forms/AddGroupForm';
 
 export default {
   name: 'Groups',
   components: {
+    DialogForm,
   },
   data() {
     return {
@@ -57,6 +68,8 @@ export default {
         { text: this.$t('settings.membercount'), value: '' },
         { text: this.$t('properties'), value: 'properties' },
       ],
+      addGroupModel: {},
+      addGroupSchema: AddGroupForm,
     };
   },
   beforeMount() {

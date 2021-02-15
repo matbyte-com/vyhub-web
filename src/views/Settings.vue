@@ -4,7 +4,7 @@
     <v-row
     no-gutters>
       <v-col cols="2">
-        <v-card flat outlined class="fill-height">
+        <v-card flat class="fill-height">
           <v-card-text>
             <v-tabs vertical v-model="tabModel">
               <v-tab v-for="tab in tabs"
@@ -19,8 +19,9 @@
           </v-card-text>
         </v-card>
       </v-col>
+      <v-divider vertical/>
       <v-col>
-        <v-card class="fill-height" flat outlined>
+        <v-card class="fill-height" flat>
           <v-card-text>
             <keep-alive>
               <component :is="componentInstance"></component>
