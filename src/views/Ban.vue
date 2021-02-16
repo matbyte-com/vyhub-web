@@ -88,7 +88,10 @@
                 </tr>
                 <tr>
                   <td>{{ $t('bundle') }}</td>
-                  <td>{{ currentBan.serverbundle.name}}</td>
+                  <td>
+                    {{ (currentBan.serverbundle != null
+                    ? currentBan.serverbundle.name : $t('global')) }}
+                  </td>
                 </tr>
                 <tr>
                   <td>{{ $t('creator') }}</td>
@@ -106,9 +109,8 @@
                   <td v-else-if="currentBan.status === 'UNBANNED'">
                     <v-chip color="orange">{{ $t('ban.labels.unbanned') }}</v-chip>
                   </td>
-                  <td v-else class="red--text">
-                    {{ $t('expired') }}
-                    <v-chip color="green">{{ $t('expired') }}</v-chip>
+                  <td v-else>
+                    <v-chip color="red">{{ $t('expired') }}</v-chip>
                   </td>
                 </tr>
               </tbody>
