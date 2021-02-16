@@ -48,6 +48,9 @@ export default {
     deleteBan(banId: string) {
       return http.delete(`/ban/${banId}`);
     },
+    getLog(banId: string) {
+      return http.get(`/ban/${banId}/logs`);
+    },
   },
   server: {
     getBundles() {
@@ -76,13 +79,13 @@ export default {
   },
   user: {
     getMemberships(uuid: string) {
-      return http.get(`/user/${uuid}/memberships/`);
+      return http.get(`/user/${uuid}/memberships`);
     },
     getUser(uuid: string) {
-      return http.get(`/user/${uuid}/`);
+      return http.get(`/user/${uuid}`);
     },
     getAttributeDefinitions() {
-      return throttledHttp.get('/user/attribute/definitions/');
+      return throttledHttp.get('/user/attribute/definitions');
     },
     prepareSocialAuth() {
       return http.get('/auth/social/prepare/', { withCredentials: true });
@@ -90,10 +93,13 @@ export default {
     search(query: string, max = 50) {
       return http.get('/user/', { params: { query, max } });
     },
+    getLog(userId: string) {
+      return http.get(`/user/${userId}/logs`);
+    },
   },
   design: {
     getTheme() {
-      return throttledHttp.get('/design/theme/');
+      return throttledHttp.get('/design/theme');
     },
   },
   group: {
@@ -107,6 +113,13 @@ export default {
         color,
         permission_level,
       });
+    },
+  },
+  log: {
+    getEntries(category: string) {
+      const params = (category != null ? { category } : {});
+
+      return http.get('/log/', { params });
     },
   },
   http,
