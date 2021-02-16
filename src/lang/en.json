@@ -55,6 +55,18 @@
     "ban_edit": "Enables user to edit bans in specified bundle",
     "bundle_edit": "Add and Edit Serverbundles"
   },
+  "log": {
+    "labels": {
+      "log": "Log"
+    },
+    "ban_deleted": "Deleted ban {banId}.",
+    "ban_new": "Added ban in bundle {bundleName} until {endDate}. Reason: {reason}.",
+    "ban_new_full": "User {creatorId} added ban {banId} for user {userId} in bundle {bundleId} from {createdOn} until {endDate}. Reason: {reason}.",
+    "ban_edit_reason": "Changed reason to {reason}.",
+    "ban_edit_bundle": "Changed bundle to {bundleName}.",
+    "ban_edit_status": "Changed status to {status}.",
+    "ban_edit_length": "Changed end-date to {endDate}."
+  },
   "type": "Type",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
@@ -71,6 +83,9 @@
   "user": "User",
   "creator": "Creator",
   "name": "Name",
+  "message": "Message",
+  "date": "Date",
+  "details": "Details",
   "server": "Server",
   "endsOn": "Ends on",
   "createdOn": "Created on",
