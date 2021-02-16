@@ -58,13 +58,14 @@
       v-model="banDetailShown"
       :fullscreen="$vuetify.breakpoint.xsOnly"
       v-if="currentBan != null"
-      max-width="500">
+      max-width="700">
       <v-card>
         <v-card-title>
           <v-icon class="mr-1">mdi-account-cancel</v-icon>
           <span class="headline">{{ $t('ban.labels.details') }}</span>
         </v-card-title>
         <v-card-text>
+          <h6 class="text-h6 mb-2">{{ $t('details') }}</h6>
           <v-simple-table>
             <template v-slot:default>
               <tbody>
@@ -99,17 +100,25 @@
                 </tr>
                 <tr>
                   <td>{{ $t('status') }}</td>
-                  <td v-if="currentBan.is_active" class="green--text">{{ $t('active') }}</td>
-                  <td v-else-if="currentBan.status === 'UNBANNED'" class="orange--text">
-                    {{ $t('ban.labels.unbanned') }}
+                  <td v-if="currentBan.is_active">
+                    <v-chip color="green">{{ $t('active') }}</v-chip>
+                  </td>
+                  <td v-else-if="currentBan.status === 'UNBANNED'">
+                    <v-chip color="orange">{{ $t('ban.labels.unbanned') }}</v-chip>
                   </td>
                   <td v-else class="red--text">
                     {{ $t('expired') }}
+                    <v-chip color="green">{{ $t('expired') }}</v-chip>
                   </td>
                 </tr>
               </tbody>
             </template>
           </v-simple-table>
+          <br/>
+          <h6 class="text-h6 mb-2">{{ $t('log.labels.log') }}</h6>
+          <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
+
+          </LogTable>
         </v-card-text>
         <v-card-actions>
           <v-btn text color="primary" @click="showEditDialog">{{ $t('edit') }}</v-btn>
@@ -138,6 +147,7 @@
 import PageTitle from '@/components/PageTitle.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import UserLink from '@/components/UserLink.vue';
+import LogTable from '@/components/LogTable.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
@@ -148,6 +158,7 @@ import apiService from '../api/api';
 export default {
   name: 'Ban.vue',
   components: {
+    LogTable,
     PageTitle,
     DialogForm,
     UserLink,
@@ -197,6 +208,10 @@ export default {
         const bans = this.bans.filter((ban) => ban.id === this.$route.params.banId);
 
         if (bans.length > 0) {
+          if (this.$refs.banLogTable) {
+            this.$refs.banLogTable.queryData();
+          }
+
           return bans[0];
         }
       }
