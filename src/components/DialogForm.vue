@@ -4,11 +4,13 @@
     :fullscreen="$vuetify.breakpoint.xsOnly"
     max-width="500">
     <v-card>
-      <v-card-title>
+      <v-card-title class="grey lighten-3">
         <v-icon :if="titleIcon != null" class="mr-1">{{ titleIcon }}</v-icon>
         <span class="headline">{{ title }}</span>
+        <v-spacer />
+        <v-icon @click="$refs.form.cancelForm()">mdi-close</v-icon>
       </v-card-title>
-      <v-card-text>
+      <v-card-text stlye="color: green">
         <GenForm :form-schema="formSchema" @submit="$emit('submit')"
                  :error-message="errorMessage"
                  :cancel-text="cancelText" :submit-text="submitText"
