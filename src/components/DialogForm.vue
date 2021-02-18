@@ -11,7 +11,7 @@
         <v-icon @click="$refs.form.cancelForm()">mdi-close</v-icon>
       </v-card-title>
       <v-card-text stlye="color: green">
-        <GenForm :form-schema="formSchema" @submit="$emit('submit')"
+        <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
                  :error-message="errorMessage"
                  :cancel-text="cancelText" :submit-text="submitText"
                  @cancel="dialog = false"
@@ -44,11 +44,13 @@ export default {
     return {
       dataBeforeMount: null,
       dialog: false,
+      item: null,
     };
   },
   methods: {
-    show() {
+    show(item) {
       this.dialog = true;
+      this.item = item;
     },
     closeAndReset() {
       this.dialog = false;
