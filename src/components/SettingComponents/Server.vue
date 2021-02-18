@@ -11,6 +11,10 @@
     <DeleteConfirmationDialog
                 ref="deleteServerDialog"
                 @submitDelete="deleteServer"/>
+    <DialogForm ref="editBundleDialog"
+                :form-schema="editBundleSchema"
+                @submit="editBundle"
+                :title="$t('__editBundle')" />
     <v-row>
       <v-col>
         <v-card outlined flat class="fill-height">
@@ -31,7 +35,7 @@
                 </v-chip>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="editBundle(item)">
+                <v-icon small class="mr-2" @click="openEditBundleDialog(item)">
                   mdi-pencil
                 </v-icon>
                 <v-icon small @click="openDeleteBundleDialog(item)">
@@ -89,6 +93,7 @@
 import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
 import AddBundleForm from '@/forms/AddBundleForm';
+import EditBundleForm from '@/forms/EditBundleForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
@@ -118,6 +123,7 @@ export default {
         { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
       addBundleSchema: AddBundleForm,
+      editBundleSchema: null,
     };
   },
   beforeMount() {
@@ -173,6 +179,10 @@ export default {
       }).catch((err) => {
         this.$refs.deleteServerDialog.setErrorMessage(err.response.data.detail);
       });
+    },
+    openEditBundleDialog(item) {
+      this.editBundleSchema = EditBundleForm.returnForm(item.server_type);
+      this.$refs.editBundleDialog.show(item);
     },
   },
 };
