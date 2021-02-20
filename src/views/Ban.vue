@@ -60,7 +60,7 @@
       v-if="currentBan != null"
       max-width="700">
       <v-card>
-        <v-card-title>
+        <v-card-title class="grey lighten-3">
           <v-icon class="mr-1">mdi-account-cancel</v-icon>
           <span class="headline">{{ $t('ban.labels.details') }}</span>
         </v-card-title>
@@ -153,9 +153,8 @@ import LogTable from '@/components/LogTable.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
 import apiService from '../api/api';
+import utilService from '../services/UtilService';
 
 export default {
   name: 'Ban.vue',
@@ -185,6 +184,7 @@ export default {
       bundles: [],
       banAddFormSchema,
       banEditFormSchema,
+      formatLength: utilService.formatLength,
     };
   },
   beforeMount() {
@@ -225,10 +225,6 @@ export default {
     queryData() {
       apiService.ban.getBans().then((rsp) => { this.bans = rsp.data; });
       apiService.server.getBundles().then((rsp) => { this.bundles = rsp.data; });
-    },
-    formatLength(seconds) {
-      momentDurationFormatSetup(moment);
-      return (seconds == null ? '∞' : moment.duration(seconds, 'seconds').format());
     },
     banRowFormatter(item) {
       if (item.is_active) {
