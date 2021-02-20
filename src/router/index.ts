@@ -48,6 +48,18 @@ const routes: Array<RouteConfig> = [
     meta: { title: 'Bans' },
   },
   {
+    path: '/shop',
+    name: 'Shop',
+    component: () => import('@/views/Shop/Start.vue'),
+    meta: { title: 'Shop' },
+  },
+  {
+    path: '/shop/category/:categoryId',
+    name: 'ShopCategory',
+    component: () => import('@/views/Shop/Category.vue'),
+    meta: { title: 'Shop - Category' },
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {

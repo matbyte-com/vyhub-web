@@ -122,6 +122,16 @@ export default {
       return http.get('/log/', { params });
     },
   },
+  shop: {
+    getCategories() {
+      return throttledHttp.get('/packet/category');
+    },
+    getPackets(categoryId: string) {
+      const params = (categoryId != null ? { category_id: categoryId } : {});
+
+      return throttledHttp.get('/packet/', { params });
+    },
+  },
   http,
   throttledHttp,
 };
