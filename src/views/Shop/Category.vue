@@ -36,16 +36,50 @@
             <v-card-title>
               <div>{{ packet.title }}</div>
               <v-spacer></v-spacer>
-              <v-chip
-                class="ma-2"
-                color="green"
-                text-color="white"
-              >
-                {{ packet.currency.symbol }} {{ packet.price }}
-                <div v-if="packet.recurring" class="pl-1">
-                  / {{ formatLength(packet.active_for) }}
+              <div>
+                <div v-if="packet.price_with_discount != null
+                && packet.price_with_discount.total !== packet.price_without_discount.total">
+                  <v-chip
+                    class="text-decoration-line-through"
+                    color="green lighten-2"
+                    text-color="white"
+                  >
+                    {{ packet.price_without_discount.total.toFixed(2).toLocaleString() }}
+                    {{ packet.currency.symbol }}
+                  </v-chip>
+                  <v-chip
+                    class="ml-2"
+                    color="orange"
+                    text-color="white"
+                  >
+                    {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
+                    {{ packet.currency.symbol }}
+                    <div v-if="packet.recurring" class="pl-1">
+                      / {{ formatLength(packet.active_for) }}
+                    </div>
+                  </v-chip>
                 </div>
-              </v-chip>
+                <v-chip
+                  color="green"
+                  text-color="white"
+                  v-else-if="packet.price_with_discount != null"
+                >
+                  {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
+                  {{ packet.currency.symbol }}
+                  <div v-if="packet.recurring" class="pl-1">
+                    / {{ formatLength(packet.active_for) }}
+                  </div>
+                </v-chip>
+                <v-chip
+                  class="l-2"
+                  color="red"
+                  text-color="white"
+                  v-else
+                >
+                  {{ $t('not_available') }}
+                </v-chip>
+
+              </div>
             </v-card-title>
             <v-card-subtitle v-if="packet.subtitle != null">
               {{ packet.subtitle }}
