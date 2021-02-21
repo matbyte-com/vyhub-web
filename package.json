@@ -23,7 +23,7 @@
     "vuetify": "^2.4.0",
     "vuex": "^3.4.0",
     "vuex-persistedstate": "^4.0.0-beta.1",
-    "humanize-duration-ts": "^2.1.1",
+    "humanize-duration-ts": "^2.1.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
