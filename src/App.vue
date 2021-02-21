@@ -48,7 +48,7 @@ export default Vue.extend({
     setTheme() {
       apiService.design.getTheme().then((rsp) => {
         try {
-          const theme = JSON.parse(rsp.data);
+          const theme = rsp.data;
           if (theme.image) {
             this.backgroundImage = theme.image;
           }
