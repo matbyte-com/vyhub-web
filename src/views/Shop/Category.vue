@@ -26,7 +26,7 @@
               </div>
               <v-chip
                 v-if="packet.active_for != null && (!hover || packet.abstract == null)"
-                class="ma-6" style="float: right;">
+                class="ma-4" style="float: right;">
                 {{ formatLength(packet.active_for) }}
                 <div v-if="packet.recurring" class="pl-1">
                   <v-icon>mdi-calendar-sync</v-icon>

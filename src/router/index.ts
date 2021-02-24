@@ -60,6 +60,12 @@ const routes: Array<RouteConfig> = [
     meta: { title: 'Shop - Category' },
   },
   {
+    path: '/cart',
+    name: 'Cart',
+    meta: { title: 'Cart' },
+    component: () => import('../views/Shop/Cart.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {
@@ -91,7 +97,7 @@ router.beforeEach((to, from, next) => {
 });
 
 const DEFAULT_TITLE = process.env.VUE_APP_DEFAULT_TITLE;
-router.afterEach((to, from) => {
+router.afterEach((to) => {
   Vue.nextTick(() => {
     document.title = to.meta.title || DEFAULT_TITLE;
   });

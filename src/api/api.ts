@@ -124,12 +124,12 @@ export default {
   },
   shop: {
     getCategories() {
-      return throttledHttp.get('/packet/category');
+      return throttledHttp.get('/shop/category');
     },
     getPackets(categoryId: string) {
       const params = (categoryId != null ? { category_id: categoryId } : {});
 
-      return throttledHttp.get('/packet/', { params });
+      return throttledHttp.get('/shop/packet/', { params });
     },
   },
   http,

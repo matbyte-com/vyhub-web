@@ -29,10 +29,14 @@
     <Search />
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
-      <ProfileMenu
-        v-if="$store.getters.isLoggedIn"
-        :menu-links="linksRight"
-        @logout="logout"/>
+      <div v-if="$store.getters.isLoggedIn">
+        <v-btn icon @click="$router.push({ name: 'Cart' })">
+          <v-icon>mdi-cart-variant</v-icon>
+        </v-btn>
+        <ProfileMenu
+          :menu-links="linksRight"
+          @logout="logout"/>
+      </div>
       <div v-else>
         <v-btn outlined class="mr-1 lighten-1 white--text"
                @click="showLoginDialog">
