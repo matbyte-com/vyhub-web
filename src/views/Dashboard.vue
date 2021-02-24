@@ -7,8 +7,12 @@
     <div v-if="user">
       <PageTitle :title="$t('dashboard.labels.title', { usr: user.username })"/>
       <v-tabs @change="switchTab">
-        <v-tab>General</v-tab>
-        <v-tab v-for="tab in tabs" :key="tab.id">
+        <v-tab>
+          <v-icon left>mdi-gamepad</v-icon>
+          General
+        </v-tab>
+        <v-tab v-for="tab in tabs" :key="tab.id" :style="'color:' + tab.color">
+          <v-icon left :color="tab.color">{{ tab.icon }}</v-icon>
           <span>{{ tab.name }}</span>
         </v-tab>
       </v-tabs>

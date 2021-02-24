@@ -31,6 +31,7 @@
                 <v-chip :color="item.color ? item.color : '#000000'"
                         :text-color="$vuetify.theme.dark ? 'white' : 'black'"
                         outlined>
+                  <v-icon left>{{ item.icon }}</v-icon>
                   {{ item.name }}
                 </v-chip>
               </template>
