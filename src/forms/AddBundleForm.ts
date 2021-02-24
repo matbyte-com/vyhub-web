@@ -7,7 +7,6 @@ export default {
   required: [
     'name',
     'serverType',
-    'defaultgroup',
   ],
   properties: {
     name: {
