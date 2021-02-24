@@ -47,7 +47,8 @@
       "title": "Settings",
       "groupSettings":  "Groupsettings",
       "addGroup": "Add Group",
-      "addBundle": "Add Serverbundle"
+      "addBundle": "Add Serverbundle",
+      "addServer": "Add Server"
     }
   },
   "properties": {
@@ -105,5 +106,9 @@
   "areYouSure": "Are you sure?",
   "delete": "Delete",
   "color": "Color",
-  "properties": "Properties"
+  "properties": "Properties",
+  "icon": "Icon",
+  "address": "address",
+  "port": "Port",
+  "ipAddress": "IP-Address"
 }

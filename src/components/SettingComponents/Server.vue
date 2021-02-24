@@ -81,7 +81,7 @@
           <v-card-actions>
             <v-btn text color="primary">
               <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('__addServer') }}</span>
+              <span>{{ $t('settings.labels.addServer') }}</span>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -118,8 +118,8 @@ export default {
       gameserverHeaders: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'type' },
-        { text: this.$t('__address'), value: 'address' },
-        { text: this.$t('__port'), value: 'port' },
+        { text: this.$t('ipAddress'), value: 'address' },
+        { text: this.$t('port'), value: 'port' },
         { text: this.$t('bundle'), value: 'serverbundle_id' },
         { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
