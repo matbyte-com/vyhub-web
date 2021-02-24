@@ -37,7 +37,7 @@
     }
   },
   "settings": {
-    "permissionlevel": "Permission Level",
+    "permissionLevel": "Permission Level",
     "membercount": "Members",
     "gameserver": "Gameserver",
     "defaultGroup": "Default Group",
@@ -103,5 +103,7 @@
   "expired": "Expired",
   "active": "Active",
   "areYouSure": "Are you sure?",
-  "delete": "Delete"
+  "delete": "Delete",
+  "color": "Color",
+  "properties": "Properties"
 }
