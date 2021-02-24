@@ -69,6 +69,9 @@ export default {
         {
           name: 'Serverbundles', icon: 'mdi-server', component: 'Server',
         },
+        {
+          name: 'Packets', icon: 'mdi-gift-open', component: 'Packets',
+        },
       ],
       activeComponent: 'General',
       tabModel: null,
