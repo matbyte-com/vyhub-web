@@ -12,7 +12,7 @@
           General
         </v-tab>
         <v-tab v-for="tab in tabs" :key="tab.id" :style="'color:' + tab.color">
-          <v-icon left :color="tab.color">{{ tab.icon }}</v-icon>
+          <v-icon v-if="tab.icon" left :color="tab.color">{{ tab.icon }}</v-icon>
           <span>{{ tab.name }}</span>
         </v-tab>
       </v-tabs>
