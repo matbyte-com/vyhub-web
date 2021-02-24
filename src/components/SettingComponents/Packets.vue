@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'Packets.vue'
+  name: 'Packets.vue',
 };
 </script>
 
