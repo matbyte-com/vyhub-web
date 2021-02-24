@@ -10,7 +10,8 @@
       {{ $t('groups') }}
     </v-card-title>
     <v-tabs v-model="tab">
-      <v-tab v-for="tab in bundles" :key="tab.id">
+      <v-tab v-for="tab in bundles" :key="tab.id" :style="'color:' + tab.color">
+        <v-icon v-if="tab.icon" left :color="tab.color">{{ tab.icon }}</v-icon>
         {{ tab.name }}
       </v-tab>
     </v-tabs>
