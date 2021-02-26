@@ -43,12 +43,17 @@
     "defaultGroup": "Default Group",
     "multigroup": "Multiple Groups",
     "multigroupDescription": "Able to assign multiple groups to bundle",
+    "backgroundColorDescription": "Background image overwrites the background color",
     "labels": {
       "title": "Settings",
       "groupSettings":  "Groupsettings",
       "addGroup": "Add Group",
       "addBundle": "Add Serverbundle",
-      "addServer": "Add Server"
+      "addServer": "Add Server",
+      "primaryColor": "Primary Color",
+      "backgroundColor": "Background Color",
+      "darkmode": "Darkmode",
+      "backgroundUrl": "Background Image"
     }
   },
   "properties": {
@@ -110,5 +115,6 @@
   "icon": "Icon",
   "address": "address",
   "port": "Port",
-  "ipAddress": "IP-Address"
+  "ipAddress": "IP-Address",
+  "theme": "Theme"
 }

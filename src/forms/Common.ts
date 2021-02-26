@@ -22,17 +22,21 @@ export default {
     default: 'GMOD',
     'x-fromUrl': `${API_URL}/server/type/`,
   },
-  colorPicker: {
-    type: 'string',
-    titleK: 'color',
-    format: 'hexcolor',
-    default: '#000000',
-    'x-props': {
-      showSwatches: true,
-      hideCanvas: true,
-      hideSliders: true,
-      hideInputs: true,
-      hideModeSwitch: true,
-    },
+  colorPicker(title = 'Color', description?: string) {
+    const form = {
+      type: 'string',
+      titleK: title,
+      format: 'hexcolor',
+      default: '#000000',
+      descriptionK: description,
+      'x-props': {
+        showSwatches: true,
+        hideCanvas: true,
+        hideSliders: true,
+        hideInputs: true,
+        hideModeSwitch: true,
+      },
+    };
+    return form;
   },
 };

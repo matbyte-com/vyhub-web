@@ -1,19 +1,21 @@
+import common from '@/forms/Common';
+
 export default {
   type: 'object',
   required: [
+    'dark',
   ],
   properties: {
-    primary: {
-      type: 'string',
-      titleK: 'PrimaryColor',
-      format: 'hexcolor',
-      'x-props': {
-      },
+    primary: common.colorPicker('settings.labels.primaryColor'),
+    dark: {
+      type: 'boolean',
+      titleK: 'settings.labels.darkmode',
+      'x-display': 'switch',
     },
-    secondary: {
+    image: {
       type: 'string',
-      titleK: 'Secondary',
-      format: 'hexcolor',
+      titleK: 'settings.labels.backgroundUrl',
     },
+    background: common.colorPicker('settings.labels.backgroundColor', 'settings.backgroundColorDescription'),
   },
 };
