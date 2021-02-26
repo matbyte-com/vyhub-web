@@ -101,6 +101,14 @@ export default {
     getTheme() {
       return throttledHttp.get('/design/theme');
     },
+    setTheme(primary: string, dark: boolean, image: string, background: string) {
+      return http.patch('/design/theme', {
+        primary,
+        dark,
+        image,
+        background,
+      });
+    },
   },
   group: {
     getGroups() {

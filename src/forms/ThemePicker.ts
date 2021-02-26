@@ -15,6 +15,9 @@ export default {
     image: {
       type: 'string',
       titleK: 'settings.labels.backgroundUrl',
+      'x-props': {
+        clearable: true,
+      },
     },
     background: common.colorPicker('settings.labels.backgroundColor', 'settings.backgroundColorDescription'),
   },
