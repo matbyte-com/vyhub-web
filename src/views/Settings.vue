@@ -50,8 +50,11 @@ export default {
       if (this.$route.params.component) {
         const tab = this.tabs.find((t) => t.component === this.$route.params.component);
         this.tabModel = this.tabs.indexOf(tab);
+        this.activeComponent = to.params.component;
+      } else {
+        this.tabModel = this.tabs.indexOf(0);
+        this.activeComponent = 'General';
       }
-      this.activeComponent = to.params.component;
     },
   },
   data() {
