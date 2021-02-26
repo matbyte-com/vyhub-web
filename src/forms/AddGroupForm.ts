@@ -19,6 +19,6 @@ export default {
       maximum: 100,
     },
     serverbundle: Common.serverbundleSelectField,
-    color: Common.colorPicker,
+    color: Common.colorPicker(),
   },
 };

@@ -18,7 +18,7 @@ export default {
       titleK: 'settings.multigroup',
       descriptionK: 'settings.multigroupDescription',
     },
-    color: Common.colorPicker,
+    color: Common.colorPicker(),
     icon: {
       type: 'string',
       titleK: 'icon',
