@@ -18,6 +18,9 @@
                  ref="form"
                  @mounted="genFormMounted"
                  >
+          <template v-for="(index, name) in $slots" v-slot:[name]>
+            <slot :name="name"/>
+          </template>
         </GenForm>
       </v-card-text>
     </v-card>
@@ -39,6 +42,7 @@ export default {
     errorMessage: String,
     submitText: String,
     cancelText: String,
+    slots: Array,
   },
   data() {
     return {
