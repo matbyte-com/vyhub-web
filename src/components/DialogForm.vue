@@ -17,6 +17,7 @@
                  @cancel="dialog = false"
                  ref="form"
                  @mounted="genFormMounted"
+                 @updated="$emit('updated')"
                  >
           <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name"/>

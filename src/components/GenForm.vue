@@ -15,7 +15,10 @@
           <v-form ref="form" @submit.prevent="validateAndRun">
             <v-row>
               <v-col cols="12">
-                <v-jsf v-model="formModel" :schema="formSchema" :options="options">
+                <v-jsf v-model="formModel"
+                       :schema="formSchema"
+                       :options="options"
+                       @input="$emit('updated')">
                   <template v-for="(index, name) in $slots" v-slot:[name]>
                     <slot :name="name"/>
                   </template>
@@ -94,6 +97,9 @@ export default {
       options: {
         locale: 'en',
         httpLib: axios,
+        markdownit: {
+          html: true,
+        },
       },
       formModel: null,
     };
