@@ -73,6 +73,9 @@
     "ban_edit_status": "Changed status to {status}.",
     "ban_edit_length": "Changed end-date to {endDate}."
   },
+  "forms": {
+    "iconDescription": "available Icons"
+  },
   "type": "Type",
   "serverbundle": "Serverbundle",
   "groupname": "Name",

@@ -3,7 +3,13 @@
     <DialogForm ref="addBundleDialog"
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
-                :title="$t('settings.labels.addBundle')">
+                :title="$t('settings.labels.addBundle')"
+                @updated="getIcon">
+      <template slot="icon-append">
+        <v-icon>
+          {{ icon }}
+        </v-icon>
+      </template>
     </DialogForm>
     <DeleteConfirmationDialog
                 ref="deleteBundleDialog"
@@ -105,6 +111,7 @@ export default {
   },
   data() {
     return {
+      icon: 'mdi-access-point',
       bundles: [],
       server: [],
       dataFetched: 0,
@@ -151,7 +158,7 @@ export default {
         data.multigroup,
         data.defaultgroup,
         data.color,
-        data.icon,
+        `mdi-${data.icon}`,
       ).then((rsp) => {
         api.server.getBundles().then((response) => { this.bundles = response.data; });
         this.$refs.addBundleDialog.closeAndReset();
@@ -184,6 +191,9 @@ export default {
     openEditBundleDialog(item) {
       this.editBundleSchema = EditBundleForm.returnForm(item.server_type);
       this.$refs.editBundleDialog.show(item);
+    },
+    getIcon() {
+      this.icon = `mdi-${this.$refs.addBundleDialog.getData().icon}`;
     },
   },
 };
