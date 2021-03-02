@@ -33,8 +33,8 @@ export default new Vuetify({
     },
     themes: {
       light: {
-        // primary: '#9652ff', beautiful purple ;)
-        primary: '#FAFAFA',
+        primary: '#9652ff',
+        // primary: '#FAFAFA',
         secondary: '#00d8ff',
         accent: '#3cd1c2',
         background: '#FAFAFA',
