@@ -1,13 +1,12 @@
 <template>
   <v-app-bar app color="primary" dark>
-    <Login ref="login"/>
     <!-- burger menu on the left-->
     <div class="hidden-sm-and-up">
       <BurgerMenu
         :nav-links="links"
         :menu-links="linksRight"
         @logout="logout"
-        @login="showLoginDialog"
+        @login="redirectToLogin"
         @register="showRegisterDialog"/>
     </div>
 
@@ -39,7 +38,7 @@
       </div>
       <div v-else>
         <v-btn outlined class="mr-1 lighten-1 white--text"
-               @click="showLoginDialog">
+               @click="redirectToLogin">
           {{ $t("header.labels.login") }}
         </v-btn>
         <v-btn color="primary" depressed class="mr-1">
@@ -52,7 +51,6 @@
 </template>
 
 <script>
-import Login from '@/components/HeaderComponents/Login.vue';
 import ProfileMenu from '@/components/HeaderComponents/ProfileMenu.vue';
 import BurgerMenu from '@/components/HeaderComponents/BurgerMenu.vue';
 import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
@@ -61,7 +59,6 @@ import AuthService from '@/services/AuthService';
 
 export default {
   components: {
-    Login,
     ProfileMenu,
     BurgerMenu,
     NavigationLink,
@@ -100,11 +97,11 @@ export default {
     };
   },
   methods: {
-    showLoginDialog() {
-      this.$refs.login.showLoginDialog();
+    redirectToLogin() {
+      window.location.href = AuthService.getSocialAuthUrl('nyx_central');
     },
     showRegisterDialog() {
-      this.$refs.login.showLoginDialog();
+      // this.$refs.login.showLoginDialog();
     },
     logout() {
       AuthService.logout();

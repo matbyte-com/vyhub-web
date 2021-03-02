@@ -5,7 +5,8 @@ import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 const getDefaultState = () => ({
-  token: null,
+  accessToken: null,
+  refreshToken: null,
   user: null,
 });
 
@@ -14,16 +15,17 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: getDefaultState(),
   getters: {
-    isLoggedIn: (state) => state.token != null && state.user != null,
+    isLoggedIn: (state) => state.accessToken != null && state.user != null,
     user: (state) => state.user,
-    token: (state) => state.token,
+    accessToken: (state) => state.accessToken,
+    refreshToken: (state) => state.refreshToken,
   },
   mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token;
+    SET_TOKEN: (state, { accessToken, refreshToken }) => {
+      state.accessToken = accessToken;
+      state.refreshToken = refreshToken;
     },
     SET_USER: (state, user) => {
-      console.log(user);
       state.user = user;
     },
     RESET: (state) => {
@@ -31,8 +33,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    login: ({ commit }, { token }) => {
-      commit('SET_TOKEN', token);
+    login: ({ commit }, { accessToken, refreshToken }) => {
+      commit('SET_TOKEN', { accessToken, refreshToken });
     },
     logout: ({ commit }) => {
       commit('RESET', '');

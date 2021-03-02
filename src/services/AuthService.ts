@@ -1,33 +1,46 @@
-import axios from 'axios';
+/* eslint-disable @typescript-eslint/camelcase */
+
+import axios, { AxiosError } from 'axios';
 import qs from 'qs';
 import store from '@/store';
 import api from '@/api/api';
 
-const centralUrl = `${process.env.VUE_APP_BACKEND_CENTRAL_URL}/auth/token`;
-
 export default {
-  login(email: string, password: string, callback: Function, errorCallback: Function) {
+  login(refreshToken: string, callback: Function, errorCallback: Function) {
+    this.getToken(refreshToken, (accessToken: string, newRefreshToken: string) => {
+      store.dispatch('login', {
+        accessToken,
+        refreshToken: newRefreshToken,
+      });
+
+      this.setAuthTokens();
+
+      this.fetchUserData((user: object) => {
+        // console.log(data);
+        store.dispatch('setUserData', { user });
+        callback(user);
+      }, (err: object) => {
+        console.log(`Error in phase user_data: ${err}`);
+        errorCallback(2, err);
+      });
+    }, (err: AxiosError) => {
+      if (err !== undefined && err.response !== undefined) {
+        console.log(`Error in phase login: ${err.response.data.msg}`);
+      }
+      errorCallback(1, err);
+    });
+  },
+  getToken(refreshToken: string, callback: Function, errorCallback: Function) {
     // create QueryObjectForCustomerAPI
     const sndQuery = {
-      username: '-',
-      password: '-',
+      refresh_token: refreshToken,
+      grant_type: 'refresh_token',
     };
 
-    const credentials = {
-      username: email,
-      password,
-    };
-
-    // Query central API
-    axios.post(`${centralUrl}`, qs.stringify(credentials)).then((centralResponse) => {
-      // password = received token
-      sndQuery.password = centralResponse.data.access_token;
-
-      // Query customer API
-      axios.post('/auth/token', qs.stringify(sndQuery)).then((localResponse) => {
-        callback(localResponse.data.access_token);
-      }, (error) => errorCallback(2, error));
-    }, (error) => errorCallback(1, error));
+    // Query customer API
+    axios.post('/auth/token', qs.stringify(sndQuery)).then((rsp) => {
+      callback(rsp.data.access_token, rsp.data.refresh_token);
+    }, (error) => errorCallback(error));
   },
   fetchUserData(callback: Function, errorCallback: Function) {
     axios.get('/user/current').then((rsp) => {
@@ -41,10 +54,13 @@ export default {
     delete axios.defaults.headers.common.Authorization;
   },
   setAuthTokens() {
-    if (store.getters.isLoggedIn) {
-      axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
-      api.http.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
-      api.throttledHttp.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
+    if (store.getters.accessToken) {
+      axios.defaults.headers.common.Authorization = `Bearer ${store.getters.accessToken}`;
+      api.http.defaults.headers.common.Authorization = `Bearer ${store.getters.accessToken}`;
+      api.throttledHttp.defaults.headers.common.Authorization = `Bearer ${store.getters.accessToken}`;
     }
+  },
+  getSocialAuthUrl(backend: string) {
+    return `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/auth/social/${backend}/start`;
   },
 };

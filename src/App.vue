@@ -10,6 +10,7 @@
         >
           <v-card-text>
             <router-view></router-view>
+            {{ this.$route.query.refresh_token }}
           </v-card-text>
         </v-card>
       </v-container>
@@ -44,6 +45,11 @@ export default Vue.extend({
     this.setTheme();
     this.background = this.$vuetify.theme.currentTheme.background;
   },
+  watch: {
+    $route() {
+      this.checkLogin();
+    },
+  },
   methods: {
     setTheme() {
       apiService.design.getTheme().then((rsp) => {
@@ -66,6 +72,21 @@ export default Vue.extend({
           throw e;
         }
       });
+    },
+    checkLogin() {
+      const refreshToken = this.$route.query.refresh_token;
+
+      if (refreshToken != null) {
+        this.$router.push({ query: {} });
+
+        if (!this.$store.getters.isLoggedIn) {
+          AuthService.login(refreshToken, (user) => {
+            //
+          }, (err) => {
+            //
+          });
+        }
+      }
     },
   },
   computed: {

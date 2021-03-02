@@ -8,10 +8,7 @@
           </v-card-title>
           <v-card-text>
             <v-col v-for="backend in backends" :key="backend.id">
-              <form :action="`${socialBaseURL}/${backend.id}/start`" method="POST">
-                <input type="hidden" name="authorization" :value="`Bearer ${$store.getters.token}`">
-                <v-btn @click="startAuth">{{ backend.name }}</v-btn>
-              </form>
+              <v-btn @click="startAuth(backend.id)">{{ backend.name }}</v-btn>
             </v-col>
           </v-card-text>
         </v-card>
@@ -22,13 +19,13 @@
 
 <script>
 import api from '@/api/api';
+import AuthService from '@/services/AuthService';
 
 export default {
   name: 'Login.vue',
   data() {
     return {
       dialog: null,
-      socialBaseURL: `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/auth/social`,
       backends: [
         {
           id: 'steam',
@@ -41,9 +38,9 @@ export default {
     show() {
       this.dialog = true;
     },
-    startAuth() {
+    startAuth(backend) {
       api.user.prepareSocialAuth().then(() => {
-        window.location.href = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/auth/social/steam/start`;
+        window.location.href = AuthService.getSocialAuthUrl(backend);
       }).catch(() => {
         // TODO: Error handling
       });

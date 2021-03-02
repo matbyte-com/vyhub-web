@@ -13,34 +13,6 @@ Vue.config.productionTip = false;
 Axios.defaults.baseURL = API_URL;
 Axios.defaults.headers.common['Content-Type'] = 'application/json';
 Axios.defaults.headers.common.Accept = 'application/json';
-Axios.defaults.headers.common.Authorization = `Bearer ${store.state.token}`;
-
-/* function loadLocaleMessages() {
-  const locales = require.context(
-    './lang',
-    true,
-    /[A-Za-z0-9-_,\s]+\.json$/i,
-  );
-  const messages: any = {};
-  locales.keys().forEach((key) => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i);
-    if (matched) {
-      if (matched.length > 1) {
-        const locale: string = matched[1];
-        messages[locale] = locales(key);
-      }
-    }
-  });
-  return messages;
-}
-
-Vue.use(VueI18n);
-// eslint-disable-next-line import/prefer-default-export
-export const i18n = new VueI18n({
-  locale: 'en',
-  fallbackLocale: 'en',
-  messages: loadLocaleMessages(),
-}); */
 
 new Vue({
   router,
