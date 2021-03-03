@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import axios from 'axios';
-import { throttleAdapterEnhancer } from 'axios-extensions';
+import { cacheAdapterEnhancer, throttleAdapterEnhancer } from 'axios-extensions';
 
 if (axios.defaults.adapter === undefined) {
   throw new ReferenceError();
@@ -14,10 +14,11 @@ const http = axios.create({
 });
 
 // Adapter with 5 Minute Cache
+// TODO not correctly working at the moment
 const throttledHttp = axios.create({
   baseURL: process.env.VUE_APP_BACKEND_CUSTOMER_URL,
   headers: { 'Cache-Control': 'no-cache' },
-  adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 300 * 1000 }),
+  adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 2 * 1000 }),
 });
 
 export default {
@@ -95,6 +96,9 @@ export default {
     },
     getLog(userId: string) {
       return http.get(`/user/${userId}/logs`);
+    },
+    getProperties(userId: string) {
+      return throttledHttp.get(`/user/${userId}/properties`);
     },
   },
   design: {
