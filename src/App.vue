@@ -25,8 +25,11 @@
 import Vue from 'vue';
 import apiService from '@/api/api';
 import AuthService from '@/services/AuthService';
+import AccessControlService from '@/services/AccessControlService';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
+
+Vue.mixin(AccessControlService);
 
 export default Vue.extend({
   name: 'App',
@@ -42,6 +45,7 @@ export default Vue.extend({
   }),
   beforeMount() {
     AuthService.setAuthTokens();
+    AuthService.setProperties();
     this.setTheme();
     this.background = this.$vuetify.theme.currentTheme.background;
   },

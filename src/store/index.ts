@@ -8,6 +8,7 @@ const getDefaultState = () => ({
   accessToken: null,
   refreshToken: null,
   user: null,
+  properties: null,
 });
 
 export default new Vuex.Store({
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     user: (state) => state.user,
     accessToken: (state) => state.accessToken,
     refreshToken: (state) => state.refreshToken,
+    properties: (state) => state.properties,
   },
   mutations: {
     SET_TOKEN: (state, { accessToken, refreshToken }) => {
@@ -31,6 +33,9 @@ export default new Vuex.Store({
     RESET: (state) => {
       Object.assign(state, getDefaultState());
     },
+    SET_PROPERTIES: (state, properties) => {
+      state.properties = properties;
+    },
   },
   actions: {
     login: ({ commit }, { accessToken, refreshToken }) => {
@@ -41,6 +46,9 @@ export default new Vuex.Store({
     },
     setUserData: ({ commit }, { user }) => {
       commit('SET_USER', user);
+    },
+    setProperties: ({ commit }, { properties }) => {
+      commit('SET_PROPERTIES', properties);
     },
   },
   modules: {

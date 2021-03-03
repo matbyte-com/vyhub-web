@@ -63,4 +63,11 @@ export default {
   getSocialAuthUrl(backend: string) {
     return `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/auth/social/${backend}/start`;
   },
+  setProperties() {
+    let properties = null;
+    api.user.getProperties(store.getters.user.id).then((rsp) => {
+      properties = rsp.data;
+      store.dispatch('setProperties', { properties });
+    }).catch((e) => console.log('Could not query properties'));
+  },
 };
