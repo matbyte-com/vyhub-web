@@ -17,8 +17,7 @@ const routes: Array<RouteConfig> = [
     meta: { title: 'Dashboard' },
     redirect() {
       if (store.getters.isLoggedIn) {
-        const userName = store.getters.user.username;
-        return `/dashboard/${userName}`;
+        return `/dashboard/${store.getters.user.id}`;
       }
       return { path: '/', query: { login: 'true' } };
     },
