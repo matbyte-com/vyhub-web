@@ -23,7 +23,7 @@ export default {
        */
       if (bundleId) {
         return properties
-          .some((el: any) => el.name === prop && el.group.serverbundle_id === bundleId);
+          .some((el: any) => el.name === prop && el.serverbundle_id === bundleId);
       }
       return properties.some((el: { name: string }) => el.name === prop);
     },
