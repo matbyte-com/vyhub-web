@@ -3,13 +3,26 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" max-width="400px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="grey lighten-3">
             <span class="headline">{{ $t("link_account") }}</span>
+            <v-spacer />
+            <v-icon @click="dialog = false">mdi-close</v-icon>
           </v-card-title>
           <v-card-text>
-            <v-col v-for="backend in backends" :key="backend.id">
-              <v-btn @click="startAuth(backend.id)">{{ backend.name }}</v-btn>
-            </v-col>
+            <v-list tile>
+              <v-list-item v-for="backend in backends" :key="backend.id"
+                           @click="startAuth(backend.id)">
+                <v-list-item-icon>
+                  <v-icon> {{ backend.icon }} </v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ backend.name }}</v-list-item-title>
+                  <div class="grey--text" v-if="backend.info != null">
+                    {{ backend.info }}
+                  </div>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -28,8 +41,15 @@ export default {
       dialog: null,
       backends: [
         {
+          id: 'nyx_central',
+          name: 'Central',
+          icon: 'mdi-image-filter-center-focus-strong',
+          info: 'Link multiple accounts, make purchases and more.',
+        },
+        {
           id: 'steam',
           name: 'Steam',
+          icon: 'mdi-steam',
         },
       ], // TODO: Fetch backends from API
     };
@@ -38,12 +58,20 @@ export default {
     show() {
       this.dialog = true;
     },
+    redirectToSocial(backend) {
+      window.location.href = AuthService.getSocialAuthUrl(backend);
+    },
     startAuth(backend) {
-      api.user.prepareSocialAuth().then(() => {
-        window.location.href = AuthService.getSocialAuthUrl(backend);
-      }).catch(() => {
-        // TODO: Error handling
-      });
+      if (this.$store.getters.isLoggedIn) {
+        api.user.prepareSocialAuth().then(() => {
+          this.redirectToSocial(backend);
+        }).catch((err) => {
+          console.log(err);
+          // TODO: Error handling
+        });
+      } else {
+        this.redirectToSocial(backend);
+      }
     },
   },
 };

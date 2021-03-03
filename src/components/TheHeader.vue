@@ -6,7 +6,7 @@
         :nav-links="links"
         :menu-links="linksRight"
         @logout="logout"
-        @login="redirectToLogin"
+        @login="$refs.linkAccountDialog.show()"
         @register="showRegisterDialog"/>
     </div>
 
@@ -38,15 +38,16 @@
       </div>
       <div v-else>
         <v-btn outlined class="mr-1 lighten-1 white--text"
-               @click="redirectToLogin">
+               @click="$refs.linkAccountDialog.show()">
           {{ $t("header.labels.login") }}
         </v-btn>
         <v-btn color="primary" depressed class="mr-1">
           {{ $t("header.labels.register") }}
         </v-btn>
       </div>
-
     </div>
+    <LinkAccountDialog ref="linkAccountDialog" v-if="!$store.getters.isLoggedIn">
+    </LinkAccountDialog>
   </v-app-bar>
 </template>
 
@@ -55,6 +56,7 @@ import ProfileMenu from '@/components/HeaderComponents/ProfileMenu.vue';
 import BurgerMenu from '@/components/HeaderComponents/BurgerMenu.vue';
 import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
 import Search from '@/components/HeaderComponents/Search.vue';
+import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import AuthService from '@/services/AuthService';
 
 export default {
@@ -63,6 +65,7 @@ export default {
     BurgerMenu,
     NavigationLink,
     Search,
+    LinkAccountDialog,
   },
   data() {
     return {
@@ -97,9 +100,6 @@ export default {
     };
   },
   methods: {
-    redirectToLogin() {
-      window.location.href = AuthService.getSocialAuthUrl('nyx_central');
-    },
     showRegisterDialog() {
       // this.$refs.login.showLoginDialog();
     },
