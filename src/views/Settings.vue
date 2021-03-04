@@ -48,11 +48,11 @@ export default {
      */
     $route(to) {
       if (this.$route.params.component) {
-        const tab = this.tabs.find((t) => t.component === this.$route.params.component);
-        this.tabModel = this.tabs.indexOf(tab);
+        const tab = this.allowedTabs.find((t) => t.component === this.$route.params.component);
+        this.tabModel = this.allowedTabs.indexOf(tab);
         this.activeComponent = to.params.component;
       } else {
-        this.tabModel = this.tabs.indexOf(0);
+        this.tabModel = this.allowedTabs.indexOf(0);
         this.activeComponent = 'General';
       }
     },
@@ -85,10 +85,10 @@ export default {
   beforeMount() {
     if (this.$route.params.component) {
       const tab = this.tabs.find((t) => t.component === this.$route.params.component);
-      this.tabModel = this.tabs.indexOf(tab);
+      this.tabModel = this.allowedTabs.indexOf(tab);
       this.activeComponent = tab.component;
     } else {
-      this.activeComponent = this.tabs[0].component;
+      this.activeComponent = this.allowedTabs[0].component;
     }
   },
   computed: {
