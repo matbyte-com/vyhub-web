@@ -83,7 +83,7 @@ export default {
           title: 'Shop', icon: 'mdi-cash-multiple', link: '/shop', tabs: [],
         },
         {
-          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', tabs: [],
+          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', reqProp: 'ban_show', tabs: [],
         },
         {
           title: 'Settings', icon: 'mdi-cog-outline', link: '/settings', tabs: [],

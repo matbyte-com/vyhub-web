@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!link.reqProp || $checkProp(link.reqProp)">
     <!-- Menu when Tabs are existend -->
     <v-menu
       v-if="(link.tabs || []).length > 0"
