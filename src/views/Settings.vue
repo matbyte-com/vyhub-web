@@ -7,7 +7,7 @@
         <v-card flat class="fill-height">
           <v-card-text>
             <v-tabs vertical v-model="tabModel">
-              <v-tab v-for="tab in tabs"
+              <v-tab v-for="tab in allowedTabs"
                      :key="tab.id"
                      class="justify-start"
                      @click="$router.push({ name: 'Settings',
@@ -64,16 +64,16 @@ export default {
           name: 'General', icon: 'mdi-cog', component: 'General',
         },
         {
-          name: 'Theme', icon: 'mdi-format-color-fill', component: 'ThemeChanger',
+          name: 'Theme', icon: 'mdi-format-color-fill', component: 'ThemeChanger', reqProp: 'theme_show',
         },
         {
-          name: 'Groups', icon: 'mdi-account-multiple', component: 'Groups',
+          name: 'Groups', icon: 'mdi-account-multiple', component: 'Groups', reqProp: 'group_show',
         },
         {
-          name: 'Serverbundles', icon: 'mdi-server', component: 'Server',
+          name: 'Serverbundles', icon: 'mdi-server', component: 'Server', reqProp: 'server_show',
         },
         {
-          name: 'Packets', icon: 'mdi-gift-open', component: 'Packets',
+          name: 'Packets', icon: 'mdi-gift-open', component: 'Packets', reqProp: 'packets_show',
         },
       ],
       activeComponent: 'General',
@@ -95,6 +95,9 @@ export default {
     componentInstance() {
       const type = this.activeComponent;
       return () => import(`@/components/SettingComponents/${type}`);
+    },
+    allowedTabs() {
+      return this.tabs.filter((t) => this.$checkProp(t.reqProp) === true);
     },
   },
 };
