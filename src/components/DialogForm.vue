@@ -12,7 +12,7 @@
       </v-card-title>
       <v-card-text stlye="color: green">
         <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
-                 :error-message="errorMessage"
+                 :error-message="errorMessage" :hide-buttons="true"
                  :cancel-text="cancelText" :submit-text="submitText"
                  @cancel="dialog = false"
                  ref="form"
@@ -24,6 +24,18 @@
           </template>
         </GenForm>
       </v-card-text>
+      <v-card-actions v-if="submitText != null || cancelText != null"
+                      class="grey lighten-3">
+            <v-btn v-if="submitText != null" class="mr-4"
+                   depressed color="primary" @click="submit">
+              {{ submitText }}
+            </v-btn>
+
+            <v-btn v-if="cancelText != null" color="lighten-5"
+                   depressed @click="cancelForm">
+              {{ cancelText }}
+            </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -41,8 +53,14 @@ export default {
     titleIcon: String,
     formSchema: Object,
     errorMessage: String,
-    submitText: String,
-    cancelText: String,
+    submitText: {
+      type: String,
+      default: 'submit',
+    },
+    cancelText: {
+      type: String,
+      default: 'cancel',
+    },
     slots: Array,
   },
   data() {
@@ -62,7 +80,9 @@ export default {
       return this.$refs.form.cancelForm();
     },
     getData() {
-      return this.$refs.form.getData();
+      if (this.$refs.form) {
+        return this.$refs.form.getData();
+      } return Object;
     },
     setData(data) {
       if (this.$refs.form === undefined) {
@@ -82,6 +102,9 @@ export default {
     },
     genFormMounted() {
       this.$refs.form.setData(this.dataBeforeMount);
+    },
+    submit() {
+      this.$refs.form.validateAndRun();
     },
   },
 };

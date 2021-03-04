@@ -1,5 +1,5 @@
 <template>
-  <v-row @keyup.enter="submitForm">
+  <v-row @keydown.enter="validateAndRun">
     <v-col cols="12">
       <v-row v-if="errorMessage != null">
         <v-col cols="12" class="mt-4">
@@ -26,7 +26,7 @@
               </v-col>
             </v-row>
 
-            <v-row v-if="submitText != null || cancelText != null">
+            <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
               <v-col cols="12">
                 <v-btn v-if="submitText != null" class="mr-4"
                        depressed color="primary" type="submit">
@@ -66,6 +66,10 @@ export default {
     cancelText: {
       type: String,
       default: 'cancel',
+    },
+    hideButtons: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
