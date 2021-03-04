@@ -4,11 +4,11 @@
  * It can be used out of any component by calling $checkProp(prop: string)
  */
 import store from '@/store/index';
-import PropertyService from '@/services/PropertyService';
+import Properties from '@/services/PropertyService';
 
 export default {
   methods: {
-    $checkProp(prop: PropertyService, bundleId?: string): boolean {
+    $checkProp(prop: Properties, bundleId?: string): boolean {
       /**
        * return True if user is admin
        */

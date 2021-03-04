@@ -2,14 +2,15 @@
  * This file contains a list of all available properties
  * Useful for PropChecking in the AccessControlService
  */
-export default PropertyService;
+enum Properties {
+  serverEdit = 'server_edit',
+  serverShow = 'server_show',
+  bundleEdit = 'bundle_edit',
+  themeShow = 'theme_show',
+  themeEdit = 'theme_edit',
+  banShow = 'ban_show',
+  banEdit = 'ban_edit',
+  packetsShow = 'packets_show',
+}
 
-type PropertyService =
-  | 'server_edit'
-  | 'server_show'
-  | 'bundle_edit'
-  | 'theme_show'
-  | 'theme_edit'
-  | 'ban_show'
-  | 'ban_edit'
-  | 'packets_show'
+export default Properties;
