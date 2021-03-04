@@ -2,6 +2,7 @@
  * This is a mixin which checks if a user possesses a given property
  * This mixin is registered in the App.vue
  * It can be used out of any component by calling $checkProp(prop: string)
+ * When the optional Parameter Bundle is given the Property has to exist in the given bundle
  */
 import store from '@/store/index';
 import Properties from '@/services/PropertyService';
