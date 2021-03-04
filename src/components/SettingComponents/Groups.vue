@@ -2,10 +2,14 @@
   <div>
     <DialogForm
             ref="addGroupDialog"
-            :form-model="addGroupModel"
             :form-schema="addGroupSchema"
             @submit="addGroup"
             :title="$t('settings.labels.addGroup')"/>
+    <DialogForm
+            ref="editGroupDialog"
+            :form-schema="editGroupSchema"
+            @submit="editGroup"
+            :title="$t('settings.labels.editGroup')"/>
     <v-card-title>
       {{ $t('groups') }}
     </v-card-title>
@@ -35,10 +39,10 @@
                 </v-chip>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="editBundle(item)">
+                <v-icon small class="mr-2" @click="openEditGroupDialog(item)">
                   mdi-pencil
                 </v-icon>
-                <v-icon small @click="openDeleteBundleDialog(item)">
+                <v-icon small @click="openDeleteGroupDialog(item)">
                   mdi-delete
                 </v-icon>
               </template>
@@ -60,6 +64,7 @@
 import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
 import AddGroupForm from '@/forms/AddGroupForm';
+import EditGroupForm from '@/forms/EditGroupForm';
 
 export default {
   name: 'Groups',
@@ -78,8 +83,8 @@ export default {
         { text: this.$t('properties'), value: 'properties' },
         { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
-      addGroupModel: {},
       addGroupSchema: AddGroupForm,
+      editGroupSchema: EditGroupForm,
     };
   },
   beforeMount() {
@@ -104,6 +109,16 @@ export default {
       }).catch((err) => {
         this.$refs.addGroupDialog.setErrorMessage(err.response.data.detail);
       });
+    },
+    openEditGroupDialog(item) {
+      this.$refs.editGroupDialog.setData(item);
+      this.$refs.editGroupDialog.show(item);
+    },
+    openDeleteGroupDialog(item) {
+      console.log('xyz');
+    },
+    editGroup() {
+      console.log('xyz');
     },
   },
 };

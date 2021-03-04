@@ -189,11 +189,15 @@ export default {
       });
     },
     openEditBundleDialog(item) {
+      console.log(item);
       this.editBundleSchema = EditBundleForm.returnForm(item.server_type);
       this.$refs.editBundleDialog.show(item);
     },
     getIcon() {
       this.icon = `mdi-${this.$refs.addBundleDialog.getData().icon}`;
+    },
+    editBundle(item) {
+      console.log('xyz');
     },
   },
 };

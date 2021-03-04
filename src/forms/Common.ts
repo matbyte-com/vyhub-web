@@ -22,7 +22,7 @@ export default {
     default: 'GMOD',
     'x-fromUrl': `${API_URL}/server/type/`,
   },
-  colorPicker(title = 'Color', description?: string) {
+  colorPicker(title = 'color', description?: string) {
     const form = {
       type: 'string',
       titleK: title,
