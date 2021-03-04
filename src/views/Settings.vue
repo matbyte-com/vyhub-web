@@ -97,7 +97,7 @@ export default {
       return () => import(`@/components/SettingComponents/${type}`);
     },
     allowedTabs() {
-      return this.tabs.filter((t) => this.$checkProp(t.reqProp) === true);
+      return this.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
     },
   },
 };

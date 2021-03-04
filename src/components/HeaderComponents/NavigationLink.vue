@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!link.reqProp || $checkProp(link.reqProp)">
+  <div>
     <!-- Menu when Tabs are existend -->
     <v-menu
       v-if="(link.tabs || []).length > 0"
@@ -12,7 +12,7 @@
         </v-btn>
       </template>
       <v-list dense>
-        <v-list-item v-for="(tab, index) in link.tabs || []"
+        <v-list-item v-for="(tab, index) in allowedTabs || []"
                      :key="index"
                      @click="$router.push(tab.link)">
           <v-list-item-title>
@@ -40,6 +40,11 @@ export default {
   name: 'NavigationLinks.vue',
   props: {
     link: Object,
+  },
+  computed: {
+    allowedTabs() {
+      return this.link.tab.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
+    },
   },
 };
 </script>

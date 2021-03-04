@@ -20,7 +20,7 @@
     <NavigationLink
       class="hidden-xs-only"
       :link="link"
-      v-for="(link, index) in links"
+      v-for="(link, index) in allowedLinks"
       :key="index">
     </NavigationLink>
 
@@ -106,6 +106,11 @@ export default {
     logout() {
       AuthService.logout();
       this.$router.push('/');
+    },
+  },
+  computed: {
+    allowedLinks() {
+      return this.links.filter((l) => !l.reqProp || this.$checkProp(l.reqProp) === true);
     },
   },
 };
