@@ -76,9 +76,13 @@ export default {
     validateAndRun() {
       if (this.$refs.form.validate()) {
         this.$emit('submit');
+      } else {
+        this.$emit('notValid');
+        this.loading = false;
       }
     },
     cancelForm() {
+      this.loading = false;
       this.errorMessage = null;
       this.$refs.form.reset();
       this.$emit('cancel');
@@ -91,6 +95,7 @@ export default {
       this.formModel = { ...data };
     },
     setErrorMessage(text) {
+      this.loading = false;
       this.errorMessage = text;
     },
   },
@@ -106,6 +111,7 @@ export default {
         },
       },
       formModel: null,
+      loading: false,
     };
   },
   created() {

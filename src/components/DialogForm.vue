@@ -18,6 +18,7 @@
                  ref="form"
                  @mounted="genFormMounted"
                  @updated="$emit('updated')"
+                 @notValid="loading=false"
                  >
           <template v-for="(index, name) in $slots" v-slot:[name]>
             <slot :name="name"/>
@@ -28,7 +29,8 @@
                       class="grey lighten-3">
             <v-btn v-if="submitText != null" class="mr-4"
                    depressed color="primary" @click="submit">
-              {{ submitText }}
+              <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
+              <span v-else>{{ submitText }}</span>
             </v-btn>
 
             <v-btn v-if="cancelText != null" color="lighten-5"
@@ -68,6 +70,7 @@ export default {
       dataBeforeMount: null,
       dialog: false,
       item: null,
+      loading: false,
     };
   },
   methods: {
@@ -76,6 +79,7 @@ export default {
       this.item = item;
     },
     closeAndReset() {
+      this.loading = false;
       this.dialog = false;
       return this.$refs.form.cancelForm();
     },
@@ -95,15 +99,18 @@ export default {
       return this.$refs.form.validateAndRun();
     },
     cancelForm() {
+      this.loading = false;
       return this.$refs.form.cancelForm();
     },
     setErrorMessage(text) {
+      this.loading = false;
       return this.$refs.form.setErrorMessage(text);
     },
     genFormMounted() {
       this.$refs.form.setData(this.dataBeforeMount);
     },
     submit() {
+      this.loading = true;
       this.$refs.form.validateAndRun();
     },
   },
