@@ -105,21 +105,59 @@ export default {
     };
   },
   created() {
-    for (
-      let index = 0;
-      index < Object.keys(this.formSchema.properties).length;
-      index += 1
-    ) {
-      const property = Object.keys(this.formSchema.properties)[index];
-      const propertyTitle = this.formSchema.properties[property].titleK;
-      const propertyDesc = this.formSchema.properties[property].descriptionK;
+    if (!this.formSchema.allOf) {
+      for (
+        let index = 0;
+        index < Object.keys(this.formSchema.properties).length;
+        index += 1
+      ) {
+        const property = Object.keys(this.formSchema.properties)[index];
+        const propertyTitle = this.formSchema.properties[property].titleK;
+        const propertyDesc = this.formSchema.properties[property].descriptionK;
 
-      if (propertyTitle != null) {
-        this.formSchema.properties[property].title = this.$t(`${propertyTitle}`);
+        if (propertyTitle != null) {
+          this.formSchema.properties[property].title = this.$t(`${propertyTitle}`);
+        }
+
+        if (propertyDesc != null) {
+          this.formSchema.properties[property].description = this.$t(`${propertyDesc}`);
+        }
       }
+    }
+    if (this.formSchema.allOf) {
+      for (
+        let index = 0;
+        index < this.formSchema.allOf.length;
+        index += 1
+      ) {
+        for (
+          let innerIndex = 0;
+          innerIndex < Object.keys(this.formSchema.allOf[index].properties).length;
+          innerIndex += 1
+        ) {
+          const property = Object.keys(this.formSchema.allOf[index].properties)[innerIndex];
+          const propertyTitle = this.formSchema.allOf[index].properties[property].titleK;
+          const propertyDesc = this.formSchema.allOf[index].properties[property].descriptionK;
 
-      if (propertyDesc != null) {
-        this.formSchema.properties[property].description = this.$t(`${propertyDesc}`);
+          if (propertyTitle != null) {
+            this.formSchema.allOf[index].properties[property].title = this.$t(`${propertyTitle}`);
+          }
+
+          if (propertyDesc != null) {
+            this.formSchema.allOf[index].properties[property].description = this.$t(`${propertyDesc}`);
+          }
+        }
+
+        const sectionTitle = this.formSchema.allOf[index].titleK;
+        const sectionDesc = this.formSchema.allOf[index].decriptionK;
+
+        if (sectionTitle != null) {
+          this.formSchema.allOf[index].title = this.$t(`${sectionTitle}`);
+        }
+
+        if (sectionDesc != null) {
+          this.formSchema.allOf[index].description = this.$t(`${sectionDesc}`);
+        }
       }
     }
     this.options.locale = i18n.locale;
