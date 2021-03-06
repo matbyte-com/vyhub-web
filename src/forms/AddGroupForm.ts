@@ -1,4 +1,5 @@
 import Common from '@/forms/Common';
+import i18n from '@/plugins/i18n';
 
 export default {
   type: 'object',
@@ -10,11 +11,11 @@ export default {
   properties: {
     name: {
       type: 'string',
-      titleK: 'name',
+      title: i18n.t('name'),
     },
     permissionLevel: {
       type: 'integer',
-      titleK: 'settings.permissionLevel',
+      title: i18n.t('settings.permissionLevel'),
       minimum: 0,
       maximum: 100,
     },

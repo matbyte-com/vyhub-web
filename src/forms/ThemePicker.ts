@@ -1,4 +1,5 @@
 import common from '@/forms/Common';
+import i18n from '@/plugins/i18n';
 
 export default {
   type: 'object',
@@ -9,12 +10,12 @@ export default {
     primary: common.colorPicker('settings.labels.primaryColor'),
     dark: {
       type: 'boolean',
-      titleK: 'settings.labels.darkmode',
+      title: i18n.t('settings.labels.darkmode'),
       'x-display': 'switch',
     },
     image: {
       type: 'string',
-      titleK: 'settings.labels.backgroundUrl',
+      title: i18n.t('settings.labels.backgroundUrl'),
       'x-props': {
         clearable: true,
       },

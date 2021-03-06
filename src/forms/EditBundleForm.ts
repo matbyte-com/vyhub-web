@@ -1,4 +1,5 @@
 import Common from '@/forms/Common';
+import i18n from '@/plugins/i18n';
 
 const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
 
@@ -11,29 +12,27 @@ function returnForm(serverType: string) {
     },
     allOf: [
       {
-        title: 'section1',
-        titleK: 'details',
+        title: i18n.t('details'),
         type: 'object',
         properties: {
           name: {
             type: 'string',
-            titleK: 'name',
+            title: i18n.t('name'),
           },
           multigroup: {
             type: 'boolean',
-            titleK: 'settings.multigroup',
-            descriptionK: 'settings.multigroupDescription',
+            title: i18n.t('settings.multigroup'),
+            description: i18n.t('settings.multigroupDescription'),
           },
           color: Common.colorPicker,
           icon: {
             type: 'string',
-            titleK: 'icon',
+            title: i18n.t('icon'),
           },
         },
       },
       {
-        title: 'section2',
-        titleK: 'server',
+        title: i18n.t('server'),
         type: 'object',
         properties: {
           serverSelect: {

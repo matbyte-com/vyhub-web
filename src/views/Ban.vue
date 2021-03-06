@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle :title="$t('ban.labels.title')"/>
+    <PageTitle :title="$t('ban.labels.title')"></PageTitle>
     <v-data-table
       :headers="headers"
       :items="getBans"

@@ -1,9 +1,11 @@
+import i18n from '@/plugins/i18n';
+
 const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
 
 export default {
   userSelectField: {
     type: 'object',
-    titleK: 'user',
+    title: i18n.t('user'),
     'x-fromUrl': `${API_URL}/user/?query={q}&max=10`,
     'x-itemKey': 'id',
     'x-itemTitle': 'username',
@@ -11,24 +13,24 @@ export default {
   },
   serverbundleSelectField: {
     type: 'object',
-    titleK: 'serverbundle',
+    title: i18n.t('serverbundle'),
     'x-fromUrl': `${API_URL}/server/bundle/`,
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
   serverTypeSelectField: {
     type: 'string',
-    titleK: 'type',
+    title: i18n.t('type'),
     default: 'GMOD',
     'x-fromUrl': `${API_URL}/server/type/`,
   },
   colorPicker(title = 'color', description?: string) {
     const form = {
       type: 'string',
-      titleK: title,
+      title: i18n.t(title),
       format: 'hexcolor',
       default: '#000000',
-      descriptionK: description,
+      description: (description != null ? i18n.t(description) : null),
       'x-props': {
         showSwatches: true,
         hideCanvas: true,

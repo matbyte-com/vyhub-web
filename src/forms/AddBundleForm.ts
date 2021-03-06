@@ -12,17 +12,17 @@ export default {
   properties: {
     name: {
       type: 'string',
-      titleK: 'name',
+      title: i18n.t('name'),
     },
     multigroup: {
       type: 'boolean',
-      titleK: 'settings.multigroup',
-      descriptionK: 'settings.multigroupDescription',
+      title: i18n.t('settings.multigroup'),
+      description: i18n.t('settings.multigroupDescription'),
     },
     color: Common.colorPicker(),
     icon: {
       type: 'string',
-      titleK: 'icon',
+      title: i18n.t('icon'),
       'x-slots': {
         'append-outer': `<a href="https://materialdesignicons.com/" style="white-space: nowrap" target="_blank">${i18n.t('forms.iconDescription')}</a>`,
       },
@@ -34,7 +34,7 @@ export default {
       properties: {
         defaultgroup: {
           type: 'string',
-          titleK: 'settings.defaultGroup',
+          title: i18n.t('settings.defaultGroup'),
           'x-fromUrl': `${API_URL}/group/?_type={serverType}`,
           'x-itemTitle': 'name',
           'x-itemKey': 'id',

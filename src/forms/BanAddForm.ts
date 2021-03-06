@@ -1,4 +1,5 @@
 import Common from '@/forms/Common';
+import i18n from '@/plugins/i18n';
 
 export default {
   type: 'object',
@@ -9,11 +10,11 @@ export default {
     user: Common.userSelectField,
     reason: {
       type: 'string',
-      titleK: 'reason',
+      title: i18n.t('reason'),
     },
     length: {
       type: 'integer',
-      titleK: 'ban.labels.lengthInMinutes',
+      title: i18n.t('ban.labels.lengthInMinutes'),
       minimum: 1,
     },
     serverbundle: Common.serverbundleSelectField,

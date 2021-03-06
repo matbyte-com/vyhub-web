@@ -1,5 +1,6 @@
 import AddGroupForm from '@/forms/AddGroupForm';
 import Property from '@/services/PropertyService';
+import i18n from '@/plugins/i18n';
 
 export default {
   type: 'object',
@@ -9,17 +10,17 @@ export default {
   },
   allOf: [
     {
-      title: 'general',
+      title: i18n.t('general'),
       type: 'object',
       properties: AddGroupForm.properties,
     },
     {
-      titleK: 'properties',
+      title: i18n.t('properties'),
       type: 'object',
       properties: {
         groupProperties: {
           type: 'array',
-          titleK: 'properties',
+          title: i18n.t('properties'),
           'x-display': 'checkbox',
           items: {
             type: 'string',
