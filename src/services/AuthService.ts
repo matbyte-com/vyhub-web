@@ -65,9 +65,12 @@ export default {
   },
   setProperties() {
     let properties = null;
-    api.user.getProperties(store.getters.user.id).then((rsp) => {
+
+    const user_id = (store.getters.isLoggedIn ? store.getters.user.id : null);
+
+    api.user.getProperties(user_id).then((rsp) => {
       properties = rsp.data;
       store.dispatch('setProperties', { properties });
-    }).catch((e) => console.log('Could not query properties'));
+    }).catch((e) => console.log(`Could not query properties: ${e}`));
   },
 };

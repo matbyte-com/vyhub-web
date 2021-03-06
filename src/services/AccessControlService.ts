@@ -13,11 +13,21 @@ export default {
       /**
        * return True if user is admin
        */
+
+      // TODO: Replace with default group properties (in backend)
+      if (!store.getters.isLoggedIn) {
+        return true;
+      }
+
       if (store.getters.user.is_admin === true) {
         return true;
       }
 
       const { properties } = store.getters;
+
+      if (properties == null) {
+        return false;
+      }
 
       /**
        * return bool depending if Optional[bundleId] is set
