@@ -6,8 +6,7 @@
         :nav-links="links"
         :menu-links="linksRight"
         @logout="logout"
-        @login="$refs.linkAccountDialog.show()"
-        @register="showRegisterDialog"/>
+        @login="$refs.linkAccountDialog.show()"/>
     </div>
 
     <!-- Logo -->
@@ -40,9 +39,6 @@
         <v-btn outlined class="mr-1 lighten-1 white--text"
                @click="$refs.linkAccountDialog.show()">
           {{ $t("header.labels.login") }}
-        </v-btn>
-        <v-btn color="primary" depressed class="mr-1">
-          {{ $t("header.labels.register") }}
         </v-btn>
       </div>
     </div>
@@ -100,9 +96,6 @@ export default {
     };
   },
   methods: {
-    showRegisterDialog() {
-      // this.$refs.login.showLoginDialog();
-    },
     logout() {
       AuthService.logout();
       this.$router.push('/');
