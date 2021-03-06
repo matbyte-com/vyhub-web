@@ -14,6 +14,7 @@
       :loading="isLoading"
       item-text="username"
       item-value="id"
+      append-icon=""
       return-object
       v-on:change="showUser"
       :filter="searchFilter"
