@@ -63,8 +63,8 @@
 <script>
 import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
-import AddGroupForm from '@/forms/AddGroupForm';
-import EditGroupForm from '@/forms/EditGroupForm';
+import AddGroupForm from '@/forms/GroupAddForm';
+import EditGroupForm from '@/forms/GroupEditForm';
 
 export default {
   name: 'Groups',

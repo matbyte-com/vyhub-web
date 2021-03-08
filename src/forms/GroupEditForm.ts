@@ -1,4 +1,4 @@
-import AddGroupForm from '@/forms/AddGroupForm';
+import AddGroupForm from '@/forms/GroupAddForm';
 import Property from '@/services/PropertyService';
 import i18n from '@/plugins/i18n';
 

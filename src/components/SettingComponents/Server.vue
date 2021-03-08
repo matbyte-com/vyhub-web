@@ -99,8 +99,8 @@
 <script>
 import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
-import AddBundleForm from '@/forms/AddBundleForm';
-import EditBundleForm from '@/forms/EditBundleForm';
+import AddBundleForm from '@/forms/BundleAddForm';
+import EditBundleForm from '@/forms/BundleEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
