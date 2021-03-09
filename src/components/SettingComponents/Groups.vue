@@ -96,7 +96,9 @@ export default {
         { text: this.$t('settings.permissionLevel'), value: 'permission_level', width: '150px' },
         { text: this.$t('settings.membercount'), value: '', width: '100px' },
         { text: this.$t('properties'), value: 'properties' },
-        { text: this.$t('actions'), value: 'actions', width: '10px', sortable: false },
+        {
+          text: this.$t('actions'), value: 'actions', width: '10px', sortable: false,
+        },
       ],
       addGroupSchema: AddGroupForm,
       editGroupSchema: EditGroupForm,

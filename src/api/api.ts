@@ -106,7 +106,7 @@ export default {
       return throttledHttp.get('/design/theme');
     },
     setTheme(primary: string, dark: boolean, image: string, background: string) {
-      return http.patch('/design/theme', {
+      return http.put('/design/theme', {
         primary,
         dark,
         image,
