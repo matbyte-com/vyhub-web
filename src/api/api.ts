@@ -126,6 +126,17 @@ export default {
         permission_level,
       });
     },
+    editGroup(group_id: string, name: string, permission_level: number,
+      serverbundle_id: string, color: string, properties: [string]) {
+      console.log('asdasdsad');
+      return http.patch(`/group/${group_id}`, {
+        name,
+        serverbundle_id,
+        color,
+        permission_level,
+        properties,
+      });
+    },
   },
   log: {
     getEntries(category: string) {

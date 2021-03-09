@@ -25,7 +25,8 @@
           <v-card flat>
             <v-data-table
               :headers="headers"
-              :items="getGroupsByBundle(tab.id)">
+              :items="getGroupsByBundle(tab.id)"
+              item-key="id">
               <template v-slot:item.name="{ item }">
                 <v-chip :color="item.color ? item.color : '#000000'"
                         :text-color="$vuetify.theme.dark ? 'white' : 'black'"
@@ -33,8 +34,22 @@
                   {{ item.name }}
                 </v-chip>
               </template>
-              <template v-slot:item.properties="{ item }">
-                <v-chip v-for="(prop, index) in item.properties" :key="index" small color="primary">
+              <template v-slot:item.properties="{ item }" >
+                <v-expansion-panels v-if="Object.keys(item.properties).length > 5" flat>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      {{ $t('properties') }}
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-chip v-for="(prop, index) in item.properties" :key="index" small
+                              color="primary" class="mr-1 mb-1">
+                        {{ prop.name }}
+                      </v-chip>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+                <v-chip v-else v-for="(prop, index) in item.properties" :key="index" small
+                        color="primary" class="mr-1 mb-1">
                   {{ prop.name }}
                 </v-chip>
               </template>
@@ -77,11 +92,11 @@ export default {
       bundles: [],
       tab: null,
       headers: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('settings.permissionLevel'), value: 'permission_level' },
-        { text: this.$t('settings.membercount'), value: '' },
+        { text: this.$t('name'), value: 'name', width: '100px' },
+        { text: this.$t('settings.permissionLevel'), value: 'permission_level', width: '150px' },
+        { text: this.$t('settings.membercount'), value: '', width: '100px' },
         { text: this.$t('properties'), value: 'properties' },
-        { text: this.$t('actions'), value: 'actions', sortable: false },
+        { text: this.$t('actions'), value: 'actions', width: '10px', sortable: false },
       ],
       addGroupSchema: AddGroupForm,
       editGroupSchema: EditGroupForm,
@@ -117,8 +132,23 @@ export default {
     openDeleteGroupDialog(item) {
       console.log('xyz');
     },
-    editGroup() {
-      console.log('xyz');
+    editGroup(group) {
+      const data = this.$refs.editGroupDialog.getData();
+      api.group.editGroup(
+        group.id,
+        data.name,
+        data.permissionLevel,
+        data.serverbundle.id,
+        data.color,
+        data.groupProperties,
+      )
+        .then((rsp) => {
+          api.group.getGroups().then((response) => { this.groups = response.data; });
+          this.$refs.editGroupDialog.closeAndReset();
+        }).catch((err) => {
+          this.$refs.editGroupDialog.setErrorMessage(err.response.data.detail);
+        });
+      console.log(this.$refs.editGroupDialog.getData());
     },
   },
 };

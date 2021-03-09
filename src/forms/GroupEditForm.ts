@@ -1,4 +1,4 @@
-import AddGroupForm from '@/forms/GroupAddForm';
+import GroupAddForm from '@/forms/GroupAddForm';
 import Property from '@/services/PropertyService';
 import i18n from '@/plugins/i18n';
 
@@ -12,7 +12,7 @@ export default {
     {
       title: i18n.t('general'),
       type: 'object',
-      properties: AddGroupForm.properties,
+      properties: GroupAddForm.properties,
     },
     {
       title: i18n.t('properties'),
