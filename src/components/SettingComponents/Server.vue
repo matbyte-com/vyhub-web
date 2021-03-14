@@ -4,7 +4,7 @@
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
                 :title="$t('settings.labels.addBundle')"
-                @updated="getIcon">
+                @updated="getAddBundleIcon">
       <template slot="icon-append">
         <v-icon>
           {{ icon }}
@@ -20,7 +20,14 @@
     <DialogForm ref="editBundleDialog"
                 :form-schema="editBundleSchema"
                 @submit="editBundle"
-                :title="$t('__editBundle')" />
+                :title="$t('__editBundle')"
+                @updated="getEditBundleIcon">
+      <template slot="details-icon-append">
+        <v-icon>
+          {{ icon }}
+        </v-icon>
+      </template>
+    </DialogForm>
     <v-row>
       <v-col>
         <v-card outlined flat class="fill-height">
@@ -99,7 +106,7 @@
 <script>
 import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
-import AddBundleForm from '@/forms/BundleAddForm';
+import BundleAddForm from '@/forms/BundleAddForm';
 import EditBundleForm from '@/forms/BundleEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
@@ -130,7 +137,7 @@ export default {
         { text: this.$t('bundle'), value: 'serverbundle_id' },
         { text: this.$t('actions'), value: 'actions', sortable: false },
       ],
-      addBundleSchema: AddBundleForm,
+      addBundleSchema: BundleAddForm.returnForm(),
       editBundleSchema: null,
     };
   },
@@ -148,6 +155,12 @@ export default {
         return this.bundles.find((b) => b.id === item.serverbundle_id).name;
       }
       return '-';
+    },
+    getServerIdsByBundle(bundleId) {
+      const server = this.server.filter((s) => s.serverbundle_id === bundleId);
+      const serverIds = [];
+      server.forEach((s) => serverIds.push(s.id));
+      return serverIds;
     },
     addBundle() {
       const data = this.$refs.addBundleDialog.getData();
@@ -188,16 +201,39 @@ export default {
         this.$refs.deleteServerDialog.setErrorMessage(err.response.data.detail);
       });
     },
-    openEditBundleDialog(item) {
-      console.log(item);
-      this.editBundleSchema = EditBundleForm.returnForm(item.server_type);
-      this.$refs.editBundleDialog.show(item);
+    openEditBundleDialog(bundle) {
+      // set "old" data
+      const obj = bundle;
+      if (bundle.default_group) obj.defaultGroup = bundle.default_group.id;
+      obj.serverSelect = this.getServerIdsByBundle(bundle.id);
+      // render correct form
+      this.editBundleSchema = EditBundleForm.returnForm(String(bundle.server_type));
+      // open and show dialog
+      this.$refs.editBundleDialog.setData(obj);
+      this.$refs.editBundleDialog.show(bundle);
     },
-    getIcon() {
+    getAddBundleIcon() {
       this.icon = `mdi-${this.$refs.addBundleDialog.getData().icon}`;
     },
-    editBundle(item) {
-      console.log('xyz');
+    getEditBundleIcon() {
+      this.icon = `mdi-${this.$refs.editBundleDialog.getData().icon}`;
+    },
+    editBundle(bundle) {
+      const data = this.$refs.editBundleDialog.getData();
+      api.server.editBundle(
+        bundle.id,
+        data.name,
+        data.multigroup,
+        data.defaultgroup,
+        data.color,
+        `mdi-${data.icon}`,
+        data.serverSelect,
+      ).then((rsp) => {
+        this.queryData();
+        this.$refs.editBundleDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.editBundleDialog.setErrorMessage(err.response.data.detail);
+      });
     },
   },
 };

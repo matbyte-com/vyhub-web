@@ -18,11 +18,15 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
-  serverTypeSelectField: {
-    type: 'string',
-    title: i18n.t('type'),
-    default: 'GMOD',
-    'x-fromUrl': `${API_URL}/server/type/`,
+  serverTypeSelectField(disabled = false) {
+    const form = {
+      type: 'string',
+      title: i18n.t('type'),
+      default: 'GMOD',
+      readOnly: disabled,
+      'x-fromUrl': `${API_URL}/server/type/`,
+    };
+    return form;
   },
   colorPicker(title = 'color', description?: string) {
     const form = {

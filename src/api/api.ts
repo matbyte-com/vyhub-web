@@ -71,6 +71,17 @@ export default {
         icon,
       });
     },
+    editBundle(bundleId: string, name: string, multigroup: boolean,
+      default_group_id: string, color: string, icon: string, server: []) {
+      return http.patch(`server/bundle/${bundleId}`, {
+        name,
+        multigroup,
+        default_group_id,
+        color,
+        icon,
+        server,
+      });
+    },
     deleteBundle(uuid: string) {
       return http.delete(`server/bundle/${uuid}`);
     },

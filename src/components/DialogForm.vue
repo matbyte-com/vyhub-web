@@ -2,7 +2,9 @@
   <v-dialog
     v-model="dialog"
     :fullscreen="$vuetify.breakpoint.xsOnly"
-    max-width="500">
+    max-width="500"
+    @click:outside="closeAndReset"
+    @keydown.esc="closeAndReset">
     <v-card>
       <v-card-title class="grey lighten-3">
         <v-icon :if="titleIcon != null" class="mr-1">{{ titleIcon }}</v-icon>
@@ -10,7 +12,9 @@
         <v-spacer />
         <v-icon @click="$refs.form.cancelForm()">mdi-close</v-icon>
       </v-card-title>
-      <v-card-text style="overflow: hidden" :class="formSchema.properties ? '' : 'pl-0 pr-0'">
+      <v-card-text v-if="formSchema"
+                   style="overflow: hidden"
+                   :class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'">
         <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
                  :error-message="errorMessage" :hide-buttons="true"
                  :cancel-text="cancelText" :submit-text="submitText"

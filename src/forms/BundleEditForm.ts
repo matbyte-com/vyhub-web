@@ -1,9 +1,20 @@
 import Common from '@/forms/Common';
+import BundleAddForm from '@/forms/BundleAddForm';
 import i18n from '@/plugins/i18n';
 
 const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
 
+const section1Properties: {[k: string]: any} = { ...BundleAddForm.returnForm(true).properties };
+
 function returnForm(serverType: string) {
+  section1Properties.defaultGroup = {
+    type: 'string',
+    title: i18n.t('settings.defaultGroup'),
+    'x-fromUrl': `${API_URL}/group/?_type=${serverType}`,
+    'x-itemTitle': 'name',
+    'x-itemKey': 'id',
+  };
+
   const config = {
     type: 'object',
     'x-display': 'tabs',
@@ -14,22 +25,7 @@ function returnForm(serverType: string) {
       {
         title: i18n.t('details'),
         type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-            title: i18n.t('name'),
-          },
-          multigroup: {
-            type: 'boolean',
-            title: i18n.t('settings.multigroup'),
-            description: i18n.t('settings.multigroupDescription'),
-          },
-          color: Common.colorPicker,
-          icon: {
-            type: 'string',
-            title: i18n.t('icon'),
-          },
-        },
+        properties: section1Properties,
       },
       {
         title: i18n.t('server'),
