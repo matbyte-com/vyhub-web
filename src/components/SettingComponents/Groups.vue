@@ -10,6 +10,9 @@
             :form-schema="editGroupSchema"
             @submit="editGroup"
             :title="$t('settings.labels.editGroup')"/>
+    <DeleteConfirmationDialog
+            ref="deleteGroupDialog"
+            @submit="deleteGroup"/>
     <v-card-title>
       {{ $t('groups') }}
     </v-card-title>
@@ -80,10 +83,12 @@ import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
 import AddGroupForm from '@/forms/GroupAddForm';
 import EditGroupForm from '@/forms/GroupEditForm';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
   name: 'Groups',
   components: {
+    DeleteConfirmationDialog,
     DialogForm,
   },
   data() {
@@ -129,7 +134,6 @@ export default {
     },
     openEditGroupDialog(item) {
       const obj = {};
-      console.log(item);
       obj.name = item.name;
       obj.permissionLevel = item.permission_level;
       obj.color = item.color;
@@ -139,7 +143,15 @@ export default {
       this.$refs.editGroupDialog.setData(obj);
     },
     openDeleteGroupDialog(item) {
-      console.log('xyz');
+      this.$refs.deleteGroupDialog.show(item);
+    },
+    deleteGroup(item) {
+      api.group.deleteGroup(item.id).then((rsp) => {
+        this.$refs.deleteGroupDialog.cancel();
+        api.group.getGroups().then((response) => { this.groups = response.data; });
+      }).catch((err) => {
+        this.$refs.deleteGroupDialog.setErrorMessage(err.response.data.detail);
+      });
     },
     editGroup(group) {
       const data = this.$refs.editGroupDialog.getData();
@@ -157,7 +169,6 @@ export default {
         }).catch((err) => {
           this.$refs.editGroupDialog.setErrorMessage(err.response.data.detail);
         });
-      console.log(this.$refs.editGroupDialog.getData());
     },
   },
 };

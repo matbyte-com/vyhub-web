@@ -137,6 +137,9 @@ export default {
         properties,
       });
     },
+    deleteGroup(uuid: string) {
+      return http.delete(`/group/${uuid}`);
+    },
   },
   log: {
     getEntries(category: string) {
