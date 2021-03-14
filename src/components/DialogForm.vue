@@ -10,7 +10,7 @@
         <v-spacer />
         <v-icon @click="$refs.form.cancelForm()">mdi-close</v-icon>
       </v-card-title>
-      <v-card-text stlye="color: green">
+      <v-card-text style="overflow: hidden" :class="formSchema.properties ? '' : 'pl-0 pr-0'">
         <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
                  :error-message="errorMessage" :hide-buttons="true"
                  :cancel-text="cancelText" :submit-text="submitText"
