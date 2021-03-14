@@ -18,7 +18,8 @@
                 <v-jsf v-model="formModel"
                        :schema="formSchema"
                        :options="options"
-                       @input="$emit('updated')">
+                       @input="$emit('updated')"
+                       :key="componentKey">
                   <template v-for="(index, name) in $slots" v-slot:[name]>
                     <slot :name="name"/>
                   </template>
@@ -92,10 +93,14 @@ export default {
     setData(data) {
       // Copy data object to not modify the source object
       this.formModel = { ...data };
+      this.forceRerender();
     },
     setErrorMessage(text) {
       this.loading = false;
       this.errorMessage = text;
+    },
+    forceRerender() {
+      this.componentKey += 1;
     },
   },
   data() {
@@ -111,6 +116,7 @@ export default {
       },
       formModel: null,
       loading: false,
+      componentKey: 1,
     };
   },
   mounted() {
