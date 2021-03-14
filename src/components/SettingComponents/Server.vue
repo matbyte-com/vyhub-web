@@ -13,10 +13,10 @@
     </DialogForm>
     <DeleteConfirmationDialog
                 ref="deleteBundleDialog"
-                @submitDelete="deleteBundle"/>
+                @submit="deleteBundle"/>
     <DeleteConfirmationDialog
                 ref="deleteServerDialog"
-                @submitDelete="deleteServer"/>
+                @submit="deleteServer"/>
     <DialogForm ref="editBundleDialog"
                 :form-schema="editBundleSchema"
                 @submit="editBundle"

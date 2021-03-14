@@ -45,7 +45,7 @@ export default {
       this.errorMessage = null;
     },
     submit() {
-      this.$emit('submitDelete', this.item);
+      this.$emit('submit', this.item);
     },
     show(item) {
       this.item = item;

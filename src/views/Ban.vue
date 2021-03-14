@@ -141,7 +141,7 @@
     </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteBanDialog"
-      @submitDelete="deleteBan"/>
+      @submit="deleteBan"/>
   </div>
 </template>
 
