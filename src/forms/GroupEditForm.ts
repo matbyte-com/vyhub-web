@@ -24,7 +24,7 @@ export default {
           'x-display': 'checkbox',
           items: {
             type: 'string',
-            enum: Object.keys(Property),
+            enum: Object.values(Property),
           },
         },
       },

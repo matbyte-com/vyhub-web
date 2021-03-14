@@ -128,8 +128,15 @@ export default {
       });
     },
     openEditGroupDialog(item) {
-      this.$refs.editGroupDialog.setData(item);
+      const obj = {};
+      console.log(item);
+      obj.name = item.name;
+      obj.permissionLevel = item.permission_level;
+      obj.color = item.color;
+      obj.serverbundle = item.serverbundle_id;
+      obj.groupProperties = Object.keys(item.properties);
       this.$refs.editGroupDialog.show(item);
+      this.$refs.editGroupDialog.setData(obj);
     },
     openDeleteGroupDialog(item) {
       console.log('xyz');

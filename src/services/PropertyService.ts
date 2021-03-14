@@ -11,6 +11,7 @@ enum Properties {
   banShow = 'ban_show',
   banEdit = 'ban_edit',
   packetsShow = 'packets_show',
+  groupEdit = 'group_edit',
 }
 
 export default Properties;
