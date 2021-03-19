@@ -8,7 +8,7 @@
         {{ link }}
       </v-btn>
       <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
-        {{ new Date().getFullYear() }} — <strong>NyX</strong>
+        {{ new Date().getFullYear() }} — <strong>VyHub</strong>
       </v-col>
     </v-row>
     <LanguagePicker ref="languagePicker" />
