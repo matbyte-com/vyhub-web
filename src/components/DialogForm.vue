@@ -29,16 +29,14 @@
           </template>
         </GenForm>
       </v-card-text>
-      <v-card-actions v-if="submitText != null || cancelText != null"
-                      class="grey lighten-3">
-            <v-btn v-if="submitText != null" class="mr-4"
-                   depressed color="primary" @click="submit">
+      <v-card-actions v-if="submitText != null || cancelText != null">
+            <v-btn v-if="submitText != null"
+                   text color="primary" @click="submit">
               <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
               <span v-else>{{ submitText }}</span>
             </v-btn>
-
             <v-btn v-if="cancelText != null" color="lighten-5"
-                   depressed @click="cancelForm">
+                   text @click="cancelForm">
               {{ cancelText }}
             </v-btn>
       </v-card-actions>
