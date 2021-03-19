@@ -9,6 +9,8 @@ const getDefaultState = () => ({
   refreshToken: null,
   user: null,
   properties: null,
+  address: null,
+  cartPacketCount: 0,
 });
 
 export default new Vuex.Store({
@@ -21,8 +23,13 @@ export default new Vuex.Store({
     accessToken: (state) => state.accessToken,
     refreshToken: (state) => state.refreshToken,
     properties: (state) => state.properties,
+    address: (state) => state.address,
+    cartPacketCount: (state) => state.cartPacketCount,
   },
   mutations: {
+    RESET: (state) => {
+      Object.assign(state, getDefaultState());
+    },
     SET_TOKEN: (state, { accessToken, refreshToken }) => {
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
@@ -30,11 +37,14 @@ export default new Vuex.Store({
     SET_USER: (state, user) => {
       state.user = user;
     },
-    RESET: (state) => {
-      Object.assign(state, getDefaultState());
-    },
     SET_PROPERTIES: (state, properties) => {
       state.properties = properties;
+    },
+    SET_ADDRESS: (state, address) => {
+      state.address = address;
+    },
+    SET_CART_PACKET_COUNT: (state, cartPacketCount) => {
+      state.cartPacketCount = cartPacketCount;
     },
   },
   actions: {
@@ -49,6 +59,12 @@ export default new Vuex.Store({
     },
     setProperties: ({ commit }, { properties }) => {
       commit('SET_PROPERTIES', properties);
+    },
+    setAddress: ({ commit }, { address }) => {
+      commit('SET_ADDRESS', address);
+    },
+    setCartPacketCount: ({ commit }, { cartPacketCount }) => {
+      commit('SET_CART_PACKET_COUNT', cartPacketCount);
     },
   },
   modules: {

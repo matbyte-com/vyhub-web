@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     queryData() {
-      api.shop.getCategories()
+      api.packet.getCategories()
         .then((rsp) => {
           this.categories = rsp.data;
         });

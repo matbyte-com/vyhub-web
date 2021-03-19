@@ -4,7 +4,7 @@
     <v-row>
       <v-col lg="3" md="6" sm="12" v-for="packet in packets" :key="packet.id" class="d-flex">
         <v-hover v-slot:default="{ hover }">
-          <v-card @click="$router.push({ name: 'ShopPacket', packetId: packet.id })"
+          <v-card @click="$router.push({ name: 'ShopPacket', params: { packetId: packet.id }})"
                   class="flex-grow-1">
             <v-img
               :src="packet.image_url"
@@ -110,12 +110,15 @@ export default {
   },
   methods: {
     queryData() {
-      api.shop.getPackets(this.$route.params.categoryId)
+      const countryCode = (this.$store.getters.address != null
+        ? this.$store.getters.address.country.code : null);
+
+      api.shop.getPackets(this.$route.params.categoryId, countryCode)
         .then((rsp) => {
           this.packets = rsp.data;
         });
 
-      api.shop.getCategories()
+      api.packet.getCategories()
         .then((rsp) => {
           this.category = rsp.data.find((cat) => cat.id === this.$route.params.categoryId);
         });

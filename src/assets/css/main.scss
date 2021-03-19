@@ -1,0 +1,23 @@
+.vue-notification.vuetify-notification {
+    .notification-title {
+      font-size: 14px;
+    }
+
+    // style for content
+    .notification-content {
+      font-size: 14px;
+    }
+
+    &.success {
+         border-color: var(--v-success-darken2) !important;
+    }
+
+    &.warn {
+        background: var(--v-warning-base) !important;
+        border-color: var(--v-warning-darken2) !important;
+    }
+
+    &.error {
+         border-color: var(--v-error-darken2) !important;
+    }
+}

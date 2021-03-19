@@ -63,6 +63,36 @@
     "ban_edit": "Enables user to edit bans in specified bundle",
     "bundle_edit": "Add and Edit Serverbundles"
   },
+  "_shop": {
+    "labels": {
+      "cart": "Cart",
+      "tax": "Tax",
+      "subtotal": "Subtotal",
+      "checkout": "Checkout",
+      "addToCart": "Add to cart",
+      "total": "Total",
+      "credits": "Credits",
+      "cartTotal": "Cart total",
+      "billingAddress": "Billing Address",
+      "removeAllPackets": "Remove all packets"
+    },
+    "messages": {
+      "addToCartError": "An error occurred while adding the packet to your cart.",
+      "addToCartSuccess": "Packet successfully added to cart.",
+      "cartEmpty": "The cart is empty.",
+      "noAddressSpecified": "Address not specified yet.",
+      "removeFromCartSuccess": "Packet successfully removed from cart.",
+      "clearCartSuccess": "Successfully removed all packets from cart."
+    },
+    "errors": {
+      "cart_not_empty": "The cart must be empty to add this packet.",
+      "packet_requires_other": "This packet requires an other packet: {packet_title}.",
+      "packet_not_compatible": "This packet is not compatible with an other packet: {packet_title}.",
+      "packet_relation_violated": "This packet violates a packet relation with an other packet: {relation_type} {packet_title}.",
+      "packet_already_in_cart": "This packet is already in your cart.",
+      "packet_not_purchasable": "You cannot purchase this packet."
+    }
+  },
   "log": {
     "labels": {
       "log": "Log"
@@ -78,12 +108,26 @@
   "forms": {
     "iconDescription": "available Icons"
   },
+  "_address": {
+    "labels": {
+      "add": "Add Address",
+      "streetAndNumber": "Street and Number",
+      "addition": "Addition",
+      "city": "City",
+      "state": "State",
+      "zip_code": "Zip Code"
+    },
+    "messages": {
+      "addSuccess": "Successfully added new address."
+    }
+  },
   "type": "Type",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
   "startdate": "Begin",
   "enddate": "Ending",
   "groups": "Groups",
+  "country": "Country",
   "allGroups": "All Groups",
   "allProperties": "All Properties",
   "username": "Username",
@@ -118,8 +162,13 @@
   "color": "Color",
   "properties": "Properties",
   "icon": "Icon",
-  "address": "address",
+  "packet": "Packet",
+  "price": "Price",
+  "address": "Address",
   "port": "Port",
+  "or": "or",
   "ipAddress": "IP-Address",
+  "continue": "Continue",
+  "unexpectedErrorOccurred": "An unexpected error occurred.",
   "theme": "Theme"
 }

@@ -111,6 +111,26 @@ export default {
     getProperties(userId: string) {
       return throttledHttp.get(`/user/${userId}/properties`);
     },
+    getAddresses(userId: string) {
+      return http.get(`/user/${userId}/addresses`);
+    },
+    addAddress(name: string, street_and_number: string, addition: string,
+      zip_code: string, city: string, state: string, country: string) {
+      return http.post('/user/address', {
+        name,
+        street_and_number,
+        addition,
+        zip_code,
+        city,
+        state,
+        country: {
+          code: country,
+        },
+      });
+    },
+    getPurchases(userId: string) {
+      return http.get(`/user/${userId}/purchases`);
+    },
   },
   design: {
     getTheme() {
@@ -159,14 +179,71 @@ export default {
       return http.get('/log/', { params });
     },
   },
-  shop: {
+  packet: {
     getCategories() {
-      return throttledHttp.get('/shop/category');
+      return throttledHttp.get('/packet/category');
     },
-    getPackets(categoryId: string) {
-      const params = (categoryId != null ? { category_id: categoryId } : {});
-
-      return throttledHttp.get('/shop/packet/', { params });
+  },
+  shop: {
+    getPackets(category_id: string, country_code: string) {
+      return throttledHttp.get('/shop/packet', {
+        params: {
+          category_id,
+          country_code,
+        },
+      });
+    },
+    getCart(country_code: string) {
+      return http.get('/shop/cart', { params: { country_code } });
+    },
+    getCartPackets() {
+      return http.get('/shop/cart/packets');
+    },
+    addToCart(packetId: string) {
+      return http.post('/shop/cart', {
+        id: packetId,
+      });
+    },
+    removeFromCart(cartPacketId: string) {
+      return http.delete(`/shop/cart/${cartPacketId}`);
+    },
+    clearCart() {
+      return http.delete('/shop/cart');
+    },
+    getDiscount(discountCodeOrId: string) {
+      return http.get(`/shop/discount/${discountCodeOrId}`);
+    },
+    applyDiscount(discountCodeOrId: string) {
+      return http.post(`/shop/cart/discount/${discountCodeOrId}`);
+    },
+    removeDiscount(discountCodeOrId: string) {
+      return http.delete(`/shop/cart/discount/${discountCodeOrId}`);
+    },
+    startCheckout(addressId: string) {
+      return http.post('/shop/cart/checkout/', {
+        address: {
+          id: addressId,
+        },
+      });
+    },
+    startPayment(purchaseId: string, paymentGatewayId: string) {
+      return http.post('/shop/checkout/', {
+        purchase: {
+          id: purchaseId,
+        },
+        payment_gateway: {
+          id: paymentGatewayId,
+        },
+      });
+    },
+    cancelPayment(debitId: string) {
+      return http.patch(`/shop/checkout/${debitId}`);
+    },
+    checkPayment(debitId: string) {
+      return http.get(`/shop/checkout/${debitId}`);
+    },
+    getPurchases() {
+      return http.get('/shop/purchase');
     },
   },
   http,

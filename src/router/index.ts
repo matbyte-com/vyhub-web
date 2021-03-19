@@ -59,9 +59,15 @@ const routes: Array<RouteConfig> = [
     meta: { title: 'Shop - Category' },
   },
   {
-    path: '/cart',
-    name: 'Cart',
-    meta: { title: 'Cart' },
+    path: '/shop/packet/:packetId',
+    name: 'ShopPacket',
+    component: () => import('@/views/Shop/Packet.vue'),
+    meta: { title: 'Shop - Packet' },
+  },
+  {
+    path: '/shop/cart',
+    name: 'ShopCart',
+    meta: { title: 'Cart', requiresAuth: true },
     component: () => import('../views/Shop/Cart.vue'),
   },
   {

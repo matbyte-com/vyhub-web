@@ -28,9 +28,7 @@
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
       <div v-if="$store.getters.isLoggedIn">
-        <v-btn icon @click="$router.push({ name: 'Cart' })">
-          <v-icon>mdi-cart-variant</v-icon>
-        </v-btn>
+        <ShoppingCart></ShoppingCart>
         <ProfileMenu
           :menu-links="linksRight"
           @logout="logout"/>
@@ -54,9 +52,11 @@ import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
 import Search from '@/components/HeaderComponents/Search.vue';
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import AuthService from '@/services/AuthService';
+import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 
 export default {
   components: {
+    ShoppingCart,
     ProfileMenu,
     BurgerMenu,
     NavigationLink,
@@ -76,7 +76,7 @@ export default {
           // 'mdi-home-edit-outline', link: '/dashboard' }],
         },
         {
-          title: 'Shop', icon: 'mdi-cash-multiple', link: '/shop', tabs: [],
+          title: 'Shop', icon: 'mdi-sack', link: '/shop', tabs: [],
         },
         {
           title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', reqProp: 'ban_show', tabs: [],

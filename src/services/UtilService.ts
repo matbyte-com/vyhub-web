@@ -1,4 +1,6 @@
 import { HumanizeDurationLanguage, HumanizeDuration } from 'humanize-duration-ts';
+import i18n from '@/plugins/i18n';
+import Vue from 'vue';
 
 const langService: HumanizeDurationLanguage = new HumanizeDurationLanguage();
 const humanizeDuration: HumanizeDuration = new HumanizeDuration(langService);
@@ -18,5 +20,12 @@ export default {
       },
       units: ['y', 'mo', 'd', 'h', 'm'],
     }));
+  },
+  notifyUnexpectedError(detail: object) {
+    Vue.notify({
+      title: i18n.t('unexpectedErrorOccurred').toString(),
+      text: JSON.stringify(detail),
+      type: 'error',
+    });
   },
 };
