@@ -19,7 +19,7 @@ export default {
         return true;
       }
 
-      if (store.getters.user.is_admin === true) {
+      if (store.getters.user.admin === true) {
         return true;
       }
 
