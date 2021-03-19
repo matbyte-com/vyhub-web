@@ -112,8 +112,10 @@ export default {
       this.$refs.form.setData(this.dataBeforeMount);
     },
     submit() {
-      this.loading = true;
-      this.$refs.form.validateAndRun();
+      if (!this.loading) {
+        this.loading = true;
+        this.$refs.form.validateAndRun();
+      }
     },
   },
 };
