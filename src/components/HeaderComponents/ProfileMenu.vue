@@ -1,7 +1,7 @@
 <template>
   <v-menu open-on-hover offset-y eager>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn depressed color="primary" v-bind="attrs" v-on="on">
+      <v-btn text v-bind="attrs" v-on="on">
         {{ $store.getters.user.username }}
         <v-icon right>mdi-account-circle</v-icon>
       </v-btn>

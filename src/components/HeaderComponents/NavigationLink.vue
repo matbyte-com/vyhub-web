@@ -6,7 +6,7 @@
       open-on-hover
       offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" depressed dark v-bind="attrs" v-on="on">
+        <v-btn text dark v-bind="attrs" v-on="on">
           <v-icon left>{{ link.icon }}</v-icon>
           <span>{{ link.title }}</span>
         </v-btn>
@@ -25,8 +25,7 @@
     <!-- simple button when no tabs are existend -->
     <v-btn
       v-else
-      color="primary"
-      depressed
+      text
       dark
       @click="$router.push(link.link)">
       <v-icon left>{{ link.icon }}</v-icon>
