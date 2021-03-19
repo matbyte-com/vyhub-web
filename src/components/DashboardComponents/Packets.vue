@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined class="flex-grow-1">
+  <v-card class="flex-grow-1">
     <v-card-title>
       <v-icon class="mr-2">mdi-gift-open</v-icon>
       {{ $t('packets') }}
