@@ -8,7 +8,7 @@
     <v-card>
       <v-card-title class="grey lighten-3">
         <v-icon :if="titleIcon != null" class="mr-1">{{ titleIcon }}</v-icon>
-        <span class="headline">{{ title }}</span>
+        <span>{{ title }}</span>
         <v-spacer />
         <v-icon @click="$refs.form.cancelForm()">mdi-close</v-icon>
       </v-card-title>

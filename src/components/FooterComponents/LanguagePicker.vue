@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="400px">
     <v-card>
       <v-card-title>
-        <span class="headline">{{ $t("footer.labels.language") }}</span>
+        <span>{{ $t("footer.labels.language") }}</span>
       </v-card-title>
       <v-card-text>
         <v-form>

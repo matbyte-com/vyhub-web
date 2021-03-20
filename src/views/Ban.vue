@@ -62,7 +62,7 @@
       <v-card>
         <v-card-title class="grey lighten-3">
           <v-icon class="mr-1">mdi-account-cancel</v-icon>
-          <span class="headline">{{ $t('ban.labels.details') }}</span>
+          <span>{{ $t('ban.labels.details') }}</span>
         </v-card-title>
         <v-card-text>
           <h6 class="text-h6 mb-2">{{ $t('details') }}</h6>
