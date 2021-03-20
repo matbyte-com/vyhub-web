@@ -172,7 +172,7 @@ export default {
         data.defaultgroup,
         data.color,
         `mdi-${data.icon}`,
-      ).then((rsp) => {
+      ).then(() => {
         api.server.getBundles().then((response) => { this.bundles = response.data; });
         this.$refs.addBundleDialog.closeAndReset();
       }).catch((err) => {
@@ -186,7 +186,7 @@ export default {
       this.$refs.deleteServerDialog.show(item);
     },
     deleteBundle(bundle) {
-      api.server.deleteBundle(bundle.id).then((rsp) => {
+      api.server.deleteBundle(bundle.id).then(() => {
         this.$refs.deleteBundleDialog.cancel();
         api.server.getBundles().then((response) => { this.bundles = response.data; });
       }).catch((err) => {
@@ -194,7 +194,7 @@ export default {
       });
     },
     deleteServer(server) {
-      api.server.deleteServer(server.id).then((rsp) => {
+      api.server.deleteServer(server.id).then(() => {
         this.$refs.deleteServerDialog.cancel();
         api.server.getServer().then((response) => { this.server = response.data; });
       }).catch((err) => {
@@ -228,7 +228,7 @@ export default {
         data.color,
         `mdi-${data.icon}`,
         data.serverSelect,
-      ).then((rsp) => {
+      ).then(() => {
         this.queryData();
         this.$refs.editBundleDialog.closeAndReset();
       }).catch((err) => {

@@ -125,7 +125,7 @@ export default {
         data.permissionLevel,
         data.serverbundle.id,
         data.color,
-      ).then((rsp) => {
+      ).then(() => {
         api.group.getGroups().then((response) => { this.groups = response.data; });
         this.$refs.addGroupDialog.closeAndReset();
       }).catch((err) => {
@@ -146,7 +146,7 @@ export default {
       this.$refs.deleteGroupDialog.show(item);
     },
     deleteGroup(item) {
-      api.group.deleteGroup(item.id).then((rsp) => {
+      api.group.deleteGroup(item.id).then(() => {
         this.$refs.deleteGroupDialog.cancel();
         api.group.getGroups().then((response) => { this.groups = response.data; });
       }).catch((err) => {
@@ -163,7 +163,7 @@ export default {
         data.color,
         data.groupProperties,
       )
-        .then((rsp) => {
+        .then(() => {
           api.group.getGroups().then((response) => { this.groups = response.data; });
           this.$refs.editGroupDialog.closeAndReset();
         }).catch((err) => {

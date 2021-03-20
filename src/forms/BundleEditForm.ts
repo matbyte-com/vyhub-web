@@ -1,4 +1,3 @@
-import Common from '@/forms/Common';
 import BundleAddForm from '@/forms/BundleAddForm';
 import i18n from '@/plugins/i18n';
 

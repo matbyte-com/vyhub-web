@@ -120,9 +120,9 @@ export default Vue.extend({
         this.$router.push({ query: {} });
 
         if (!this.$store.getters.isLoggedIn) {
-          AuthService.login(refreshToken, (user) => {
+          AuthService.login(refreshToken, () => {
             //
-          }, (err) => {
+          }, () => {
             //
           });
         }
