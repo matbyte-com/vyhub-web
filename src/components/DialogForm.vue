@@ -2,9 +2,7 @@
   <v-dialog
     v-model="dialog"
     :fullscreen="$vuetify.breakpoint.xsOnly"
-    max-width="500"
-    @click:outside="closeAndReset"
-    @keydown.esc="closeAndReset">
+    max-width="500">
     <v-card>
       <v-card-title class="grey lighten-3">
         <v-icon :if="titleIcon != null" class="mr-1">{{ titleIcon }}</v-icon>
