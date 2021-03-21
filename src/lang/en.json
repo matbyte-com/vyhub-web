@@ -17,7 +17,7 @@
       "language": "language"
     }
   },
-  "dashboard": {
+  "_dashboard": {
     "labels": {
       "title": "Profile: {usr}",
       "linkedAccounts": "Linked Accounts",
@@ -69,10 +69,15 @@
       "tax": "Tax",
       "subtotal": "Subtotal",
       "checkout": "Checkout",
+      "payment": "Payment",
+      "paymentId": "Payment ID",
       "addToCart": "Add to cart",
       "total": "Total",
       "credits": "Credits",
-      "cartTotal": "Cart total",
+      "purchaseNow": "Purchase Now",
+      "orderOverview": "Order Overview",
+      "cartTotal": "Cart Total",
+      "unfinishedPurchase": "Unfinished Purchase",
       "billingAddress": "Billing Address",
       "removeAllPackets": "Remove all packets"
     },
@@ -80,9 +85,17 @@
       "addToCartError": "An error occurred while adding the packet to your cart.",
       "addToCartSuccess": "Packet successfully added to cart.",
       "cartEmpty": "The cart is empty.",
+      "mustAgree": "You must agree to continue!",
+      "selectGateway": "Please select your payment method.",
+      "noOngoingPurchase": "There is currently no ongoing purchase. Please start the checkout in the cart.",
       "noAddressSpecified": "Address not specified yet.",
       "removeFromCartSuccess": "Packet successfully removed from cart.",
-      "clearCartSuccess": "Successfully removed all packets from cart."
+      "clearCartSuccess": "Successfully removed all packets from cart.",
+      "paymentCancelled": "This payment has been cancelled. You can try it again by visiting your shopping cart.",
+      "paymentSuccess": "The payment has been finished successfully. The purchased packets have been assigned to your account.",
+      "paymentPending": "This payment is pending. Please complete it by visiting the shopping cart.",
+      "unfinishedPurchase": "There is an ongoing purchase that hasn't been finished yet.",
+      "purchaseCancelledSuccess": "The purchase has been cancelled."
     },
     "errors": {
       "cart_not_empty": "The cart must be empty to add this packet.",
@@ -115,10 +128,13 @@
       "addition": "Addition",
       "city": "City",
       "state": "State",
-      "zip_code": "Zip Code"
+      "zip_code": "Zip Code",
+      "selectAddress": "Select address"
     },
     "messages": {
-      "addSuccess": "Successfully added new address."
+      "addSuccess": "New address added successfully.",
+      "selectedSuccess": "Address successfully selected.",
+      "noAddressesYet": "You do not have any addresses yet."
     }
   },
   "type": "Type",
@@ -138,7 +154,10 @@
   "shop": "Shop",
   "user": "User",
   "creator": "Creator",
+  "select": "Select",
+  "add": "Add",
   "name": "Name",
+  "dashboard": "Dashboard",
   "message": "Message",
   "date": "Date",
   "details": "Details",

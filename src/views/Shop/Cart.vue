@@ -7,58 +7,13 @@
     </v-row>
 
     <v-row v-if="cartPackets != null">
+      <!-- Cart packets -->
       <v-col lg="9" md="8">
         <v-row v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id">
           <v-col>
-            <v-card>
-              <v-card-text>
-                <v-row>
-                  <v-col lg="2" align-self="center" class="text-center">
-                    <v-img
-                      :src="cartPacket.packet.image_url"
-                    ></v-img>
-                  </v-col>
-                  <v-col>
-                    <div class="text-h6">
-                      {{ cartPacket.packet.title }}
-                    </div>
-                    <div class="subtitle-2" v-if="cartPacket.packet.subtitle">
-                      {{ cartPacket.packet.subtitle }}
-                    </div>
-                    <div class="body-2">
-                      <ul>
-                        <li v-for="point in cartPacket.packet.abstract" :key="point">
-                          {{ point }}
-                        </li>
-                      </ul>
-                    </div>
-                  </v-col>
-                  <v-col lg="2" class="text-right" align-self="center">
-                    <v-row dense>
-                      <v-col>
-                        <div class="text-h6">
-                          {{ cartPacket.price.total.toFixed(2).toLocaleString() }}
-                          {{ cartPacket.currency.symbol }}
-                        </div>
-                      </v-col>
-                    </v-row>
-                    <v-row dense v-if="cartPacket.price.credits">
-                      <v-col>
-                        <div class="subtitle-2">
-                          {{ cartPacket.price.credits }} {{ $t('_shop.labels.credits') }}
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                  <v-col lg="1" align-self="center" class="text-center">
-                    <v-btn fab outlined small color="error"
-                           @click="removeCartPacket(cartPacket.id)">
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+            <CartPacket :cart-packet="cartPacket" show-outline show-remove
+                        @remove="removeCartPacket(cartPacket.id)">
+            </CartPacket>
           </v-col>
         </v-row>
         <div v-if="cartPackets.length === 0">{{ $t('_shop.messages.cartEmpty') }}</div>
@@ -68,7 +23,35 @@
           {{ $t('_shop.labels.removeAllPackets') }}
         </v-btn>
       </v-col>
+
+      <!-- Cart total, address and checkout -->
       <v-col>
+
+        <!-- Cart total -->
+        <v-row v-if="openPurchase != null">
+          <v-col>
+            <v-card>
+              <v-card-title>
+                <v-icon class="mr-1">mdi-cart-arrow-right</v-icon>
+                {{ $t('_shop.labels.unfinishedPurchase') }}
+              </v-card-title>
+              <v-card-text class="body-1">
+                {{ $t('_shop.messages.unfinishedPurchase') }}
+              </v-card-text>
+              <v-card-actions>
+                <v-btn text color="success" @click="$refs.checkoutDialog.show(openPurchase)">
+                  <v-icon class="mr-1">mdi-arrow-right</v-icon>
+                  {{ $t('continue') }}
+                </v-btn>
+                <v-btn text color="error" @click="cancelPurchase(openPurchase)">
+                  <v-icon class="mr-1">mdi-close</v-icon>
+                  {{ $t('cancel') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+
         <v-row>
           <v-col>
             <v-card>
@@ -77,57 +60,13 @@
                 {{ $t('_shop.labels.cartTotal') }}
               </v-card-title>
               <v-card-text v-if="cartPrice != null" class="body-1">
-                <v-row>
-                  <v-col>
-                    <div>
-                      {{ $t('_shop.labels.subtotal') }}
-                      <div class="float-right">
-                        {{ cartPrice.net.toFixed(2).toLocaleString() }}
-                        {{ cartPrice.currency.symbol }}
-                      </div>
-                    </div>
-                    <div>
-                      {{ $t('_shop.labels.tax') }} ({{ cartPrice.tax_rate }}%)
-                      <div class="float-right">
-                        {{ cartPrice.tax_amount.toFixed(2).toLocaleString() }}
-                        {{ cartPrice.currency.symbol }}
-                      </div>
-                    </div>
-                    <div class="font-weight-bold">
-                      {{ $t('_shop.labels.total') }}
-                      <div class="float-right">
-                        {{ cartPrice.total.toFixed(2).toLocaleString() }}
-                        {{ cartPrice.currency.symbol }}
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row align="center" v-if="cartPrice.credits != null">
-                  <v-divider></v-divider>
-                  <span class="mr-3 ml-3">{{ $t('or') }}</span>
-                  <v-divider></v-divider>
-                </v-row>
-                <v-row v-if="cartPrice.credits != null">
-                  <v-col>
-                    <div class="font-weight-bold">
-                      {{ $t('_shop.labels.credits') }}
-                      <div class="float-right">
-                        {{ cartPrice.credits }}
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col>
-                    <div class="font-italic body-2 text-center" v-if="cartPrice.tax_info">
-                      {{ cartPrice.tax_info }}
-                    </div>
-                  </v-col>
-                </v-row>
+                <CartTotal :price="cartPrice"></CartTotal>
               </v-card-text>
             </v-card>
           </v-col>
         </v-row>
+
+        <!-- Billing address -->
         <v-row>
           <v-col>
             <v-card>
@@ -144,7 +83,7 @@
                   <v-icon class="mr-1">mdi-plus</v-icon>
                   {{ $t('add') }}
                 </v-btn>
-                <v-btn text color="primary">
+                <v-btn text color="primary" @click="selectAddressDialog = true">
                   <v-icon class="mr-1">mdi-format-list-text</v-icon>
                   {{ $t('select') }}
                 </v-btn>
@@ -153,12 +92,16 @@
           </v-col>
         </v-row>
 
+        <!-- Checkout button -->
         <v-row>
           <v-col>
             <v-card>
               <v-card-actions>
-                <v-btn color="primary" block :disabled="cartPackets.length == 0">
-                  <v-icon class="mr-1">mdi-page-next-outline</v-icon>
+                <v-btn color="primary" block
+                       :disabled="cartPackets.length == 0 || currentAddress == null ||
+                       openPurchase != null"
+                       @click="startCheckout">
+                  <v-icon class="mr-1">mdi-cart-arrow-right</v-icon>
                   {{ $t('_shop.labels.checkout') }}
                 </v-btn>
               </v-card-actions>
@@ -167,22 +110,63 @@
         </v-row>
       </v-col>
     </v-row>
+
+    <!-- Skeleton loaders -->
     <v-row v-else>
       <v-col lg="9" md="8">
         <v-skeleton-loader v-for="n in 3"
                            v-bind:key="n"
                            type="card-heading, list-item-avatar">
         </v-skeleton-loader>
+        <v-skeleton-loader type="button"></v-skeleton-loader>
       </v-col>
       <v-col>
+        <v-skeleton-loader type="article"></v-skeleton-loader>
         <v-skeleton-loader type="article, actions"></v-skeleton-loader>
       </v-col>
     </v-row>
+
+    <!-- Address Add Form -->
     <DialogForm :form-schema="addressFormSchema" ref="addressAddDialog"
                 :title="$t('_address.labels.add')" :submit-text="$t('create')"
                 title-icon="mdi-map-marker"
                 @submit="addAddress">
     </DialogForm>
+
+    <!-- Address select dialog -->
+    <v-dialog
+      v-model="selectAddressDialog"
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+      max-width="500">
+      <v-card>
+        <v-card-title class="grey lighten-3">
+          <v-icon class="mr-1">mdi-map-marker</v-icon>
+          <span>{{ $t('_address.labels.selectAddress') }}</span>
+          <v-spacer />
+          <v-icon @click="selectAddressDialog = false">mdi-close</v-icon>
+        </v-card-title>
+        <v-card-text>
+          <div class="mt-2">
+            <div v-if="addresses != null && addresses.length > 0">
+              <v-row>
+                <v-col lg="6" md="12" v-for="address in addresses" v-bind:key="address.id"
+                       class="d-flex">
+                  <v-card @click="selectAddress(address)" class="flex-grow-1">
+                    <v-card-text>
+                      <Address :address="address"></Address>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </div>
+            <div v-else>
+              {{ $t('_address.messages.noAddressesYet') }}
+            </div>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>
   </div>
 </template>
 
@@ -194,9 +178,15 @@ import AddressForm from '@/forms/AddressForm';
 import DialogForm from '@/components/DialogForm.vue';
 import ShopService from '@/services/ShopService';
 import Address from '@/components/Address.vue';
+import CartPacket from '@/components/ShopComponents/CartPacket.vue';
+import CheckoutDialog from '@/components/ShopComponents/CheckoutDialog.vue';
+import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 
 export default {
   components: {
+    CartTotal,
+    CheckoutDialog,
+    CartPacket,
     Address,
     PageTitle,
     DialogForm,
@@ -207,10 +197,14 @@ export default {
       cartPrice: null,
       cartCorrect: false,
       addressFormSchema: AddressForm,
+      addresses: null,
+      selectAddressDialog: null,
+      openPurchase: null,
     };
   },
   beforeMount() {
     this.queryData();
+    this.queryAddresses();
   },
   methods: {
     queryData() {
@@ -230,6 +224,19 @@ export default {
           console.log(err);
           utilService.notifyUnexpectedError(err.response.data);
         });
+
+      api.user.getPurchases(this.$store.getters.user.id).then((rsp) => {
+        this.openPurchase = rsp.data.find((p) => p.status === 'OPEN');
+      });
+    },
+    queryAddresses() {
+      api.user.getAddresses(this.$store.getters.user.id).then((rsp) => {
+        this.addresses = rsp.data;
+
+        if (this.$store.getters.address == null && this.addresses.length > 0) {
+          ShopService.selectAddress(this.addresses[0]);
+        }
+      });
     },
     removeCartPacket(cartPacketId) {
       api.shop.removeFromCart(cartPacketId).then(() => {
@@ -270,6 +277,38 @@ export default {
       }).catch((err) => {
         console.log(err);
         this.$refs.addressAddDialog.setErrorMessage(err.response.data);
+      });
+    },
+    selectAddress(address) {
+      ShopService.selectAddress(address);
+      this.$notify({
+        title: this.$t('_address.messages.selectedSuccess'),
+        type: 'success',
+      });
+      this.selectAddressDialog = false;
+    },
+    startCheckout() {
+      api.shop.startCheckout(this.currentAddress.id).then((rsp) => {
+        const purchase = rsp.data;
+        this.$refs.checkoutDialog.show(purchase);
+        this.queryData();
+      }).catch((err) => {
+        console.log(err);
+        utilService.notifyUnexpectedError(err.response.data);
+        this.queryData();
+      });
+    },
+    cancelPurchase(purchase) {
+      api.shop.cancelPurchase(purchase.id).then(() => {
+        this.queryData();
+        this.$notify({
+          title: this.$t('_shop.messages.purchaseCancelledSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        console.log(err);
+        utilService.notifyUnexpectedError(err.response.data);
+        this.queryData();
       });
     },
   },

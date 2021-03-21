@@ -2,7 +2,7 @@
   <v-card class="flex-grow-1">
     <v-card-title>
       <v-icon class="mr-2">mdi-link</v-icon>
-      {{ $t('dashboard.labels.linkedAccounts') }}
+      {{ $t('_dashboard.labels.linkedAccounts') }}
     </v-card-title>
     <v-card-text>
       <v-data-iterator
@@ -61,7 +61,7 @@
     <v-card-actions>
       <v-btn text color="success" @click="$refs.linkAccountDialog.show()">
         <v-icon left>mdi-plus</v-icon>
-        <span>{{ $t("dashboard.labels.linkNewAccount") }}</span>
+        <span>{{ $t("_dashboard.labels.linkNewAccount") }}</span>
       </v-btn>
       <LinkAccountDialog ref="linkAccountDialog" />
     </v-card-actions>

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div>{{ address.name }}</div>
+      <div class="font-weight-bold">{{ address.name }}</div>
       <div>{{ address.street_and_number }}</div>
       <div>{{ address.addition }}</div>
       <div>{{ address.zip_code }} {{ address.city }}, {{ address.state }}</div>

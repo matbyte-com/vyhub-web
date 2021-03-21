@@ -71,6 +71,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Shop/Cart.vue'),
   },
   {
+    path: '/shop/checkout/:debitId/:action',
+    name: 'ShopCheckout',
+    meta: { title: 'Checkout', requiresAuth: true },
+    component: () => import('../views/Shop/Checkout.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {

@@ -10,7 +10,7 @@ if (axios.defaults.adapter === undefined) {
 const http = axios.create({
   baseURL: process.env.VUE_APP_BACKEND_CUSTOMER_URL,
   headers: { 'Cache-Control': 'no-cache' },
-  adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 2 * 1000 }),
+  adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 0 * 1000 }),
 });
 
 // Adapter with 5 Minute Cache
@@ -220,14 +220,12 @@ export default {
       return http.delete(`/shop/cart/discount/${discountCodeOrId}`);
     },
     startCheckout(addressId: string) {
-      return http.post('/shop/cart/checkout/', {
-        address: {
-          id: addressId,
-        },
+      return http.post('/shop/cart/checkout', {
+        id: addressId,
       });
     },
     startPayment(purchaseId: string, paymentGatewayId: string) {
-      return http.post('/shop/checkout/', {
+      return http.post('/shop/checkout', {
         purchase: {
           id: purchaseId,
         },
@@ -244,6 +242,12 @@ export default {
     },
     getPurchases() {
       return http.get('/shop/purchase');
+    },
+    cancelPurchase(purchaseId: string) {
+      return http.patch(`/shop/purchase/${purchaseId}`);
+    },
+    getPaymentGateways(purchaseId: string) {
+      return http.get(`/shop/purchase/${purchaseId}/gateways`);
     },
   },
   http,
