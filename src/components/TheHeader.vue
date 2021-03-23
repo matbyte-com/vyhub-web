@@ -53,6 +53,7 @@ import Search from '@/components/HeaderComponents/Search.vue';
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import AuthService from '@/services/AuthService';
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
+import api from '@/api/api';
 
 export default {
   components: {
@@ -65,7 +66,8 @@ export default {
   },
   data() {
     return {
-      links: [
+      links: [],
+      'links-depracated': [
         {
           title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [],
         },
@@ -105,6 +107,9 @@ export default {
     allowedLinks() {
       return this.links.filter((l) => !l.reqProp || this.$checkProp(l.reqProp) === true);
     },
+  },
+  beforeMount() {
+    api.design.getNavItems().then((rsp) => { this.links = rsp.data; }).catch((err) => console.log(`Could not query nav ${err}`));
   },
 };
 </script>

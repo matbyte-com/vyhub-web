@@ -139,6 +139,9 @@ export default {
     getTheme() {
       return throttledHttp.get('/design/theme');
     },
+    getNavItems() {
+      return throttledHttp.get('/design/nav');
+    },
     setTheme(primary: string, dark: boolean, image: string, background: string) {
       return http.put('/design/theme', {
         primary,
