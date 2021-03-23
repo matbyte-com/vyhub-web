@@ -18,7 +18,9 @@
       </v-tabs>
       <div class="mt-2">
         <keep-alive>
-          <component :is="componentInstance" :bundleId="bundleId" :serverBundles="tabs"></component>
+          <component :is="componentInstance" :bundleId="bundleId"
+                     :serverBundles="tabs" :user="user">
+          </component>
         </keep-alive>
       </div>
     </div>

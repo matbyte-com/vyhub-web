@@ -131,6 +131,9 @@ export default {
     getPurchases(userId: string) {
       return http.get(`/user/${userId}/purchases`);
     },
+    getPackets(userId: string) {
+      return http.get(`/user/${userId}/packets`);
+    },
   },
   design: {
     getTheme() {

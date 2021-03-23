@@ -78,6 +78,9 @@ export default {
   components: {
     LinkAccountDialog,
   },
+  props: {
+    user: Object,
+  },
   data() {
     return {
       userAccounts: {},
@@ -96,9 +99,8 @@ export default {
   },
   methods: {
     queryData() {
-      const username = this.$route.params.id;
       api.user.getAttributeDefinitions().then((rsp) => { this.attributeDefinitions = rsp.data; });
-      api.user.getUser(username).then((rsp) => {
+      api.user.getUser(this.user.id).then((rsp) => {
         this.userAccounts = rsp.data;
         this.componentLoaded = true;
       });

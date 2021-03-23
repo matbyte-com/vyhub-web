@@ -5,27 +5,46 @@
       {{ $t('packets') }}
     </v-card-title>
     <v-card-text>
-      {{ packets }}
+      <v-list dense>
+        <v-list-item v-for="userPacket in userPackets" v-bind:key="userPacket.id">
+          {{ userPacket.packet.title }}
+        </v-list-item>
+      </v-list>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import axios from 'axios';
-import store from '@/store';
-
-const uuid = store.getters.user.id;
-const customerURL = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}`;
+import api from '@/api/api';
+import UtilService from '@/services/UtilService';
 
 export default {
   name: 'Packets.vue',
   data() {
     return {
-      packets: [],
+      userPackets: [],
     };
   },
+  props: {
+    user: Object,
+  },
   beforeMount() {
-    axios.get(`${customerURL}/user/${uuid}/packets`).then((response) => { this.userAccounts = response.data; this.componentLoaded = true; });
+    this.queryData();
+  },
+  methods: {
+    queryData() {
+      api.user.getPackets(this.user.id).then((rsp) => {
+        this.userPackets = rsp.data;
+      }).catch((err) => {
+        console.log(err);
+        UtilService.notifyUnexpectedError(err.response.data);
+      });
+    },
+  },
+  watch: {
+    $route() {
+      this.queryData();
+    },
   },
 };
 </script>

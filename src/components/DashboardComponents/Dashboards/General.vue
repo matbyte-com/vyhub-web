@@ -1,13 +1,13 @@
 <template>
   <v-row>
     <v-col md="4" sm="12"  class="d-flex">
-      <Groups :server-bundles="serverBundles" />
+      <Groups :user="user"  :server-bundles="serverBundles" />
     </v-col>
     <v-col md="3" sm="12" class="d-flex">
-      <Packets />
+      <Packets :user="user"  />
     </v-col>
     <v-col class="d-flex">
-      <LinkedAccounts />
+      <LinkedAccounts :user="user" />
     </v-col>
   </v-row>
 </template>
@@ -24,7 +24,10 @@ export default {
     LinkedAccounts,
     Packets,
   },
-  props: ['serverBundles'],
+  props: {
+    serverBundles: Object,
+    user: Object,
+  },
 };
 </script>
 
