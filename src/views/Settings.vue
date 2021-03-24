@@ -64,6 +64,9 @@ export default {
           name: 'General', icon: 'mdi-cog', component: 'General',
         },
         {
+          name: 'Navigation', icon: 'mdi-navigation-outline', component: 'Navigation', reqProp: 'navigation_edit',
+        },
+        {
           name: 'Theme', icon: 'mdi-format-color-fill', component: 'ThemeChanger', reqProp: 'theme_show',
         },
         {
