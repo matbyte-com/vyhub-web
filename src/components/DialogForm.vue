@@ -2,7 +2,7 @@
   <v-dialog
     v-model="dialog"
     :fullscreen="$vuetify.breakpoint.xsOnly"
-    max-width="500">
+    :max-width="maxWidth">
     <v-card>
       <v-card-title class="grey lighten-3">
         <v-icon :if="titleIcon != null" class="mr-1">{{ titleIcon }}</v-icon>
@@ -55,6 +55,10 @@ export default {
     titleIcon: String,
     formSchema: Object,
     errorMessage: String,
+    maxWidth: {
+      type: Number,
+      default: 500,
+    },
     submitText: {
       type: String,
       default: 'submit',
