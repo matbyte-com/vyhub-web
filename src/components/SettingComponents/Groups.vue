@@ -1,80 +1,82 @@
 <template>
   <div>
-    <DialogForm
-            ref="addGroupDialog"
-            :form-schema="addGroupSchema"
-            @submit="addGroup"
-            :title="$t('settings.labels.addGroup')"/>
-    <DialogForm
-            ref="editGroupDialog"
-            :form-schema="editGroupSchema"
-            @submit="editGroup"
-            :title="$t('settings.labels.editGroup')"/>
-    <DeleteConfirmationDialog
-            ref="deleteGroupDialog"
-            @submit="deleteGroup"/>
-    <v-card-title>
-      {{ $t('groups') }}
-    </v-card-title>
-    <v-tabs v-model="tab">
-      <v-tab v-for="tab in bundles" :key="tab.id" :style="'color:' + tab.color">
-        <v-icon v-if="tab.icon" left :color="tab.color">{{ tab.icon }}</v-icon>
-        {{ tab.name }}
-      </v-tab>
-    </v-tabs>
-    <div class="mt-2">
-      <v-tabs-items v-model="tab">
-        <v-tab-item v-for="tab in bundles" :key="tab.id">
-          <v-card flat>
-            <v-data-table
-              :headers="headers"
-              :items="getGroupsByBundle(tab.id)"
-              item-key="id">
-              <template v-slot:item.name="{ item }">
-                <v-chip :color="item.color ? item.color : '#000000'"
-                        :text-color="$vuetify.theme.dark ? 'white' : 'black'"
-                        outlined>
-                  {{ item.name }}
-                </v-chip>
-              </template>
-              <template v-slot:item.properties="{ item }" >
-                <v-expansion-panels v-if="Object.keys(item.properties).length > 5" flat>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header>
-                      {{ $t('properties') }}
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <v-chip v-for="(prop, index) in item.properties" :key="index" small
-                              color="primary" class="mr-1 mb-1">
-                        {{ prop.name }}
-                      </v-chip>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                </v-expansion-panels>
-                <v-chip v-else v-for="(prop, index) in item.properties" :key="index" small
-                        color="primary" class="mr-1 mb-1">
-                  {{ prop.name }}
-                </v-chip>
-              </template>
-              <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="openEditGroupDialog(item)">
-                  mdi-pencil
-                </v-icon>
-                <v-icon small @click="openDeleteGroupDialog(item)">
-                  mdi-delete
-                </v-icon>
-              </template>
-            </v-data-table>
-            <v-card-actions>
-              <v-btn text color="primary" @click="$refs.addGroupDialog.show()">
-                <v-icon left>mdi-plus</v-icon>
-                <span>{{ $t('settings.labels.addGroup') }}</span>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
-    </div>
+    <v-card flat>
+      <DialogForm
+        ref="addGroupDialog"
+        :form-schema="addGroupSchema"
+        @submit="addGroup"
+        :title="$t('settings.labels.addGroup')"/>
+      <DialogForm
+        ref="editGroupDialog"
+        :form-schema="editGroupSchema"
+        @submit="editGroup"
+        :title="$t('settings.labels.editGroup')"/>
+      <DeleteConfirmationDialog
+        ref="deleteGroupDialog"
+        @submit="deleteGroup"/>
+      <v-card-title>
+        {{ $t('groups') }}
+      </v-card-title>
+      <v-tabs v-model="tab">
+        <v-tab v-for="tab in bundles" :key="tab.id" :style="'color:' + tab.color">
+          <v-icon v-if="tab.icon" left :color="tab.color">{{ tab.icon }}</v-icon>
+          {{ tab.name }}
+        </v-tab>
+      </v-tabs>
+      <div class="mt-2">
+        <v-tabs-items v-model="tab">
+          <v-tab-item v-for="tab in bundles" :key="tab.id">
+            <v-card flat>
+              <v-data-table
+                :headers="headers"
+                :items="getGroupsByBundle(tab.id)"
+                item-key="id">
+                <template v-slot:item.name="{ item }">
+                  <v-chip :color="item.color ? item.color : '#000000'"
+                          :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                          outlined>
+                    {{ item.name }}
+                  </v-chip>
+                </template>
+                <template v-slot:item.properties="{ item }" >
+                  <v-expansion-panels v-if="Object.keys(item.properties).length > 5" flat>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>
+                        {{ $t('properties') }}
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        <v-chip v-for="(prop, index) in item.properties" :key="index" small
+                                color="primary" class="mr-1 mb-1">
+                          {{ prop.name }}
+                        </v-chip>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                  <v-chip v-else v-for="(prop, index) in item.properties" :key="index" small
+                          color="primary" class="mr-1 mb-1">
+                    {{ prop.name }}
+                  </v-chip>
+                </template>
+                <template v-slot:item.actions="{ item }">
+                  <v-icon small class="mr-2" @click="openEditGroupDialog(item)">
+                    mdi-pencil
+                  </v-icon>
+                  <v-icon small @click="openDeleteGroupDialog(item)">
+                    mdi-delete
+                  </v-icon>
+                </template>
+              </v-data-table>
+              <v-card-actions>
+                <v-btn text color="primary" @click="$refs.addGroupDialog.show()">
+                  <v-icon left>mdi-plus</v-icon>
+                  <span>{{ $t('settings.labels.addGroup') }}</span>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-tab-item>
+        </v-tabs-items>
+      </div>
+    </v-card>
   </div>
 </template>
 
