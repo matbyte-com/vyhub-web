@@ -31,10 +31,14 @@
             <v-btn v-if="submitText != null"
                    text color="primary" @click="submit">
               <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
-              <span v-else>{{ submitText }}</span>
+              <span v-else>
+                <v-icon left>mdi-check</v-icon>
+                {{ submitText }}
+              </span>
             </v-btn>
             <v-btn v-if="cancelText != null" color="lighten-5"
                    text @click="cancelForm">
+              <v-icon left>mdi-close</v-icon>
               {{ cancelText }}
             </v-btn>
       </v-card-actions>
