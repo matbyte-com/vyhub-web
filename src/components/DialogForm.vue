@@ -1,5 +1,6 @@
 <template>
   <v-dialog
+    scrollable
     v-model="dialog"
     :fullscreen="$vuetify.breakpoint.xsOnly"
     :max-width="maxWidth">
@@ -11,7 +12,7 @@
         <v-icon @click="$refs.form.cancelForm()">mdi-close</v-icon>
       </v-card-title>
       <v-card-text v-if="formSchema"
-                   style="overflow: hidden"
+                   style="overflow-x: hidden"
                    :class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'">
         <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
                  :error-message="errorMessage" :hide-buttons="true"
