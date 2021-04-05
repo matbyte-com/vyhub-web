@@ -34,52 +34,56 @@
               </v-chip>
             </v-img>
             <v-card-title>
-              <div>{{ packet.title }}</div>
-              <v-spacer></v-spacer>
-              <div>
-                <div v-if="packet.price_with_discount != null
+              <v-row>
+                <v-col>
+                  {{ packet.title }}
+                </v-col>
+                <v-col lg="3" class="text-right">
+                  <div>
+                    <div v-if="packet.price_with_discount != null
                 && packet.price_with_discount.total !== packet.price_without_discount.total">
-                  <v-chip
-                    class="text-decoration-line-through"
-                    color="green lighten-2"
-                    text-color="white"
-                  >
-                    {{ packet.price_without_discount.total.toFixed(2).toLocaleString() }}
-                    {{ packet.currency.symbol }}
-                  </v-chip>
-                  <v-chip
-                    class="ml-2"
-                    color="orange"
-                    text-color="white"
-                  >
-                    {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
-                    {{ packet.currency.symbol }}
-                    <div v-if="packet.recurring" class="pl-1">
-                      / {{ formatLength(packet.active_for) }}
+                      <v-chip
+                        class="text-decoration-line-through"
+                        color="green lighten-2"
+                        text-color="white"
+                      >
+                        {{ packet.price_without_discount.total.toFixed(2).toLocaleString() }}
+                        {{ packet.currency.symbol }}
+                      </v-chip>
+                      <v-chip
+                        class="ml-2"
+                        color="orange"
+                        text-color="white"
+                      >
+                        {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
+                        {{ packet.currency.symbol }}
+                        <div v-if="packet.recurring" class="pl-1">
+                          / {{ formatLength(packet.active_for) }}
+                        </div>
+                      </v-chip>
                     </div>
-                  </v-chip>
-                </div>
-                <v-chip
-                  color="green"
-                  text-color="white"
-                  v-else-if="packet.price_with_discount != null"
-                >
-                  {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
-                  {{ packet.currency.symbol }}
-                  <div v-if="packet.recurring" class="pl-1">
-                    / {{ formatLength(packet.active_for) }}
+                    <v-chip
+                      color="green"
+                      text-color="white"
+                      v-else-if="packet.price_with_discount != null"
+                    >
+                      {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
+                      {{ packet.currency.symbol }}
+                      <div v-if="packet.recurring" class="pl-1">
+                        / {{ formatLength(packet.active_for) }}
+                      </div>
+                    </v-chip>
+                    <v-chip
+                      class="l-2"
+                      color="red"
+                      text-color="white"
+                      v-else
+                    >
+                      {{ $t('not_available') }}
+                    </v-chip>
                   </div>
-                </v-chip>
-                <v-chip
-                  class="l-2"
-                  color="red"
-                  text-color="white"
-                  v-else
-                >
-                  {{ $t('not_available') }}
-                </v-chip>
-
-              </div>
+                </v-col>
+              </v-row>
             </v-card-title>
             <v-card-subtitle v-if="packet.subtitle != null">
               {{ packet.subtitle }}

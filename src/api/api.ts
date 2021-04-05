@@ -114,19 +114,8 @@ export default {
     getAddresses(userId: string) {
       return http.get(`/user/${userId}/addresses`);
     },
-    addAddress(name: string, street_and_number: string, addition: string,
-      zip_code: string, city: string, state: string, country: string) {
-      return http.post('/user/address', {
-        name,
-        street_and_number,
-        addition,
-        zip_code,
-        city,
-        state,
-        country: {
-          code: country,
-        },
-      });
+    addAddress(address: object) {
+      return http.post('/user/address', address);
     },
     getPurchases(userId: string) {
       return http.get(`/user/${userId}/purchases`);
@@ -188,6 +177,15 @@ export default {
   packet: {
     getCategories() {
       return throttledHttp.get('/packet/category');
+    },
+    getPackets() {
+      return http.get('/packet/');
+    },
+    addPacket(packet: object) {
+      return http.post('/packet', packet);
+    },
+    editPacket(packetId: string, data: object) {
+      return http.patch(`/packet/${packetId}`, data);
     },
   },
   shop: {

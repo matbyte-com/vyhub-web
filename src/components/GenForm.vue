@@ -1,5 +1,5 @@
 <template>
-  <v-row @keydown.enter="validateAndRun">
+  <v-row>
     <v-col cols="12">
       <v-row v-if="errorMessage != null">
         <v-col cols="12" class="mt-4">
@@ -51,6 +51,7 @@ import VJsf from '@koumoul/vjsf';
 import '@koumoul/vjsf/dist/main.css';
 import '@koumoul/vjsf/lib/deps/third-party';
 import axios from 'axios';
+import i18n from '../plugins/i18n';
 
 export default {
   name: 'GenForm',
@@ -71,6 +72,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    optionsExtra: Object,
   },
   methods: {
     validateAndRun() {
@@ -88,7 +90,7 @@ export default {
       this.$emit('cancel');
     },
     getData() {
-      return this.formModel;
+      return { ...this.formModel };
     },
     setData(data) {
       // Copy data object to not modify the source object
@@ -107,8 +109,8 @@ export default {
     return {
       errorMessage: null,
       valid: false,
-      options: {
-        locale: 'en',
+      optionsBase: {
+        locale: i18n.locale,
         httpLib: axios,
         markdownit: {
           html: true,
@@ -122,6 +124,19 @@ export default {
   mounted() {
     this.$emit('mounted');
   },
+  computed: {
+    options() {
+      if (this.optionsExtra == null) {
+        return this.optionsBase;
+      }
+      return { ...this.optionsBase, ...this.optionsExtra };
+    },
+  },
+  /* watch: {
+    formModel() {
+      console.log(this.formModel);
+    },
+  }, */
 };
 </script>
 

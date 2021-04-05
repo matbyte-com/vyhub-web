@@ -263,10 +263,9 @@ export default {
       });
     },
     addAddress() {
-      const data = this.$refs.addressAddDialog.getData();
+      const address = this.$refs.addressAddDialog.getData();
 
-      api.user.addAddress(data.name, data.streetAndNumber, data.addition, data.zipCode, data.city,
-        data.state, data.country).then((rsp) => {
+      api.user.addAddress(address).then((rsp) => {
         ShopService.selectAddress(rsp.data);
         this.$notify({
           title: this.$t('_address.messages.addSuccess'),

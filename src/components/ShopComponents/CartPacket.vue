@@ -4,11 +4,13 @@
       <v-row>
         <v-col lg="2" align-self="center" class="text-center">
           <v-img
+            @click="showPacket"
+            style="cursor: pointer;"
             :src="cartPacket.packet.image_url"
           ></v-img>
         </v-col>
         <v-col>
-          <div class="text-h6">
+          <div class="text-h6" @click="showPacket" style="cursor: pointer;">
             {{ cartPacket.packet.title }}
           </div>
           <div class="subtitle-2" v-if="cartPacket.packet.subtitle">
@@ -60,6 +62,11 @@ export default {
     priceCols: {
       type: Number,
       default: 2,
+    },
+  },
+  methods: {
+    showPacket() {
+      this.$router.push({ name: 'ShopPacket', params: { packetId: this.cartPacket.packet.id } });
     },
   },
 };

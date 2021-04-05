@@ -1,16 +1,24 @@
 <template>
     <div>
       <div v-if="packet != null">
-        <PageTitle>{{ $t('packet') }}: {{ packet.title }}</PageTitle>
-
         <v-row>
-          <v-col md="8" lg="9" class="d-flex">
-            <v-card outlined class="flex-grow-1">
-              <v-card-title>{{ packet.title }}</v-card-title>
-              <v-divider></v-divider>
-              <v-card-text>
-                <v-row>
-                  <v-col lg="4">
+          <v-col>
+            <v-card>
+              <v-card-title class="pb-0">
+                {{ packet.title }}
+              </v-card-title>
+              <v-card-text v-if="packet.subtitle">
+                <div class="subtitle-1">{{ packet.subtitle }}</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col md="8" lg="9">
+            <v-row>
+              <v-col lg="4" class="d-flex">
+                <v-card class="flex-grow-1">
+                  <v-card-text>
                     <v-img
                       :src="packet.image_url"
                     ></v-img>
@@ -24,33 +32,40 @@
                         </v-list-item-content>
                       </v-list-item>
                     </v-list>
-                  </v-col>
-                  <v-divider vertical></v-divider>
-                  <v-col>
-                    <span v-if="packet.subtitle" class="subtitle-1">{{ packet.subtitle }}</span>
-                    <br v-if="packet.subtitle" />
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col class="d-flex">
+                <v-card class="flex-grow-1">
+                  <v-card-text>
                     <div class="body-2">
                       {{ packet.description }}
                     </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col class="d-flex">
-            <v-card outlined class="flex-grow-1">
+            <v-card class="flex-grow-1">
               <v-card-title>{{ $t('price') }}</v-card-title>
-              <v-divider></v-divider>
-              <v-card-text>
-                <span class="text-h2">
+              <v-card-text class="text-center">
+                <div class="text-h2">
                   {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
                   {{ packet.currency.symbol }}
-                </span>
+                </div>
+                <div class="subtitle-2 font-italic">
+                  {{ $t('_shop.messages.includesVAT',
+                  { tax_rate: packet.price_with_discount.tax_rate }) }}
+                </div>
               </v-card-text>
               <v-card-actions>
                 <v-btn block color="success" @click="addToCart">
-                  <v-icon class="mr-1">mdi-cart-arrow-down</v-icon>
-                  {{ $t('_shop.labels.addToCart') }}
+                  <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
+                  <div v-else>
+                    <v-icon class="mr-1">mdi-cart-arrow-down</v-icon>
+                    {{ $t('_shop.labels.addToCart') }}
+                  </div>
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -61,17 +76,18 @@
 </template>
 
 <script>
-import PageTitle from '../../components/PageTitle.vue';
 import utilService from '../../services/UtilService';
 import api from '../../api/api';
 import ShopService from '../../services/ShopService';
 
 export default {
-  components: { PageTitle },
   data() {
     return {
       packet: null,
       formatLength: utilService.formatLength,
+      loading: false,
+      addSuccess: false,
+      addFail: false,
     };
   },
   beforeMount() {
@@ -79,19 +95,32 @@ export default {
   },
   methods: {
     queryData() {
-      api.shop.getPackets(this.$route.params.categoryId)
+      const countryCode = (this.$store.getters.address != null
+        ? this.$store.getters.address.country.code : null);
+
+      api.shop.getPackets(this.$route.params.categoryId, countryCode)
         .then((rsp) => {
           this.packet = rsp.data.find((p) => p.id === this.$route.params.packetId);
         });
     },
     addToCart() {
+      this.loading = true;
+      this.addFail = false;
+      this.addSuccess = false;
+
       api.shop.addToCart(this.packet.id).then(() => {
+        this.loading = false;
+        this.addSuccess = true;
+
         this.$notify({
           title: this.$t('_shop.messages.addToCartSuccess'),
           type: 'success',
         });
         ShopService.refreshCartPacketCount();
       }).catch((err) => {
+        this.loading = false;
+        this.addFail = true;
+
         this.$notify({
           title: this.$t('_shop.messages.addToCartError'),
           text: this.$t(`_shop.errors.${err.response.data.detail.code}`, err.response.data.detail.detail),

@@ -11,14 +11,14 @@ const countryOptions = Object.entries(countries.getCodeList())
 export default {
   type: 'object',
   required: [
-    'name', 'streetAndNumber', 'city', 'state', 'zipCode', 'country',
+    'name', 'street_and_number', 'city', 'state', 'zip_code', 'country',
   ],
   properties: {
     name: {
       type: 'string',
       title: i18n.t('name'),
     },
-    streetAndNumber: {
+    street_and_number: {
       type: 'string',
       title: i18n.t('_address.labels.streetAndNumber'),
     },
@@ -26,7 +26,7 @@ export default {
       type: 'string',
       title: i18n.t('_address.labels.addition'),
     },
-    zipCode: {
+    zip_code: {
       type: 'string',
       title: i18n.t('_address.labels.zip_code'),
       'x-cols': 4,
@@ -40,7 +40,7 @@ export default {
       type: 'string',
       title: i18n.t('_address.labels.state'),
     },
-    country: {
+    country_code: {
       type: 'string',
       title: i18n.t('country'),
       oneOf: countryOptions,

@@ -45,4 +45,18 @@ export default {
     };
     return form;
   },
+  packetCategorySelectField: {
+    type: 'object',
+    title: i18n.t('category'),
+    'x-fromUrl': `${API_URL}/packet/category/`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'name',
+  },
+  packetSelectField: {
+    type: 'object',
+    title: i18n.t('packet'),
+    'x-fromUrl': `${API_URL}/packet/`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'title',
+  },
 };
