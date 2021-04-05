@@ -15,7 +15,7 @@
                    :class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'">
         <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
                  :error-message="errorMessage" :hide-buttons="true"
-                 :cancel-text="cancelText" :submit-text="submitText"
+                 :cancel-text="cancelText" :submit-text="submitText" :options-extra="optionsExtra"
                  @cancel="dialog = false"
                  ref="form"
                  @mounted="genFormMounted"
@@ -75,6 +75,9 @@ export default {
       dialog: false,
       item: null,
       loading: false,
+      optionsExtra: {
+        editMode: 'inline',
+      },
     };
   },
   methods: {
