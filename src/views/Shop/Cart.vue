@@ -12,16 +12,40 @@
         <v-row v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id">
           <v-col>
             <CartPacket :cart-packet="cartPacket" show-outline show-remove
-                        @remove="removeCartPacket(cartPacket.id)">
+                        @remove="removeCartPacket(cartPacket.id)"
+                        @removeDiscount="removeDiscount(cartPacket.discount.id)">
             </CartPacket>
           </v-col>
         </v-row>
         <div v-if="cartPackets.length === 0">{{ $t('_shop.messages.cartEmpty') }}</div>
-        <v-btn class="mt-2" color="error" @click="clearCart"
-               v-else outlined>
-          <v-icon class="mr-1">mdi-delete</v-icon>
-          {{ $t('_shop.labels.removeAllPackets') }}
-        </v-btn>
+        <div v-else>
+          <v-row>
+            <v-col lg="3" md="4" sm="12">
+              <v-text-field dense outlined :label="$t('_shop.labels.couponCode')"
+                            @keydown.enter="applyDiscount" v-model="couponCode"
+                            :style="couponStyle"
+                            :error-messages="couponError">
+                <template slot="prepend-inner">
+                  <v-icon>
+                    mdi-ticket-percent
+                  </v-icon>
+                </template>
+                <template slot="append">
+                  <v-icon>
+                    mdi-subdirectory-arrow-left
+                  </v-icon>
+                </template>
+              </v-text-field>
+            </v-col>
+            <v-col class="text-right">
+              <v-btn color="error" @click="clearCart" outlined>
+                <v-icon left>mdi-delete</v-icon>
+                {{ $t('_shop.labels.removeAllPackets') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </div>
+
       </v-col>
 
       <!-- Cart total, address and checkout -->
@@ -200,6 +224,9 @@ export default {
       addresses: null,
       selectAddressDialog: null,
       openPurchase: null,
+      couponCode: null,
+      couponError: null,
+      couponStyle: null,
     };
   },
   beforeMount() {
@@ -302,6 +329,47 @@ export default {
         this.queryData();
         this.$notify({
           title: this.$t('_shop.messages.purchaseCancelledSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        console.log(err);
+        utilService.notifyUnexpectedError(err.response.data);
+        this.queryData();
+      });
+    },
+    applyDiscount() {
+      this.couponError = null;
+      this.couponStyle = null;
+      const code = this.couponCode;
+
+      if (!code) {
+        return;
+      }
+
+      api.shop.applyDiscount(code).then((rsp) => {
+        this.couponCode = null;
+        this.queryData();
+
+        if (rsp.data.success === true) {
+          this.couponStyle = 'border-color: green !important;';
+          this.$notify({
+            title: this.$t('_shop.messages.couponApplySuccess'),
+            type: 'success',
+          });
+        } else {
+          this.couponError = this.$t('_shop.messages.couponNotApplied');
+        }
+      }).catch((err) => {
+        console.log(err);
+        this.couponError = this.$t(`_shop.errors.coupon.${err.response.data.detail.code}`,
+          err.response.data.detail.detail);
+      });
+    },
+    removeDiscount(id) {
+      api.shop.removeDiscount(id).then((rsp) => {
+        this.queryData();
+        this.$notify({
+          title: this.$t('_shop.messages.couponRemoveSuccess'),
           type: 'success',
         });
       }).catch((err) => {

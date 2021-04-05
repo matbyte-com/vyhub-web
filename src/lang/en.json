@@ -66,6 +66,8 @@
   "_shop": {
     "labels": {
       "cart": "Cart",
+      "applyCoupon": "Apply Coupon",
+      "couponCode": "Coupon Code",
       "tax": "Tax",
       "subtotal": "Subtotal",
       "checkout": "Checkout",
@@ -96,6 +98,9 @@
       "paymentPending": "This payment is pending. Please complete it by visiting the shopping cart.",
       "unfinishedPurchase": "There is an ongoing purchase that hasn't been finished yet.",
       "purchaseCancelledSuccess": "The purchase has been cancelled.",
+      "couponApplySuccess": "Coupon successfully applied.",
+      "couponRemoveSuccess": "Coupon successfully removed.",
+      "couponNotApplied": "Coupon could not be applied to any packet in your cart.",
       "includesVAT": "Includes {tax_rate}% VAT."
     },
     "errors": {
@@ -104,7 +109,10 @@
       "packet_not_compatible": "This packet is not compatible with an other packet: {packet_title}.",
       "packet_relation_violated": "This packet violates a packet relation with an other packet: {relation_type} {packet_title}.",
       "packet_already_in_cart": "This packet is already in your cart.",
-      "packet_not_purchasable": "You cannot purchase this packet."
+      "packet_not_purchasable": "You cannot purchase this packet.",
+      "coupon": {
+        "not_found": "This code is invalid."
+      }
     }
   },
   "log": {

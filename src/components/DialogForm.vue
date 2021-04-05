@@ -6,7 +6,7 @@
     :max-width="maxWidth">
     <v-card>
       <v-card-title class="grey lighten-3">
-        <v-icon :if="titleIcon != null" class="mr-1">{{ titleIcon }}</v-icon>
+        <v-icon :if="titleIcon != null" left>{{ titleIcon }}</v-icon>
         <span>{{ title }}</span>
         <v-spacer />
         <v-icon @click="$refs.form.cancelForm()">mdi-close</v-icon>

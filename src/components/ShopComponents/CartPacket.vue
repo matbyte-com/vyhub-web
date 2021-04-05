@@ -26,10 +26,18 @@
         </v-col>
         <v-col :lg="priceCols" class="text-right" align-self="center">
           <v-row dense>
-            <v-col>
+            <v-col :class="(cartPacket.discount ? 'green--text' : '')">
               <div class="text-h6">
                 {{ cartPacket.price.total.toFixed(2).toLocaleString() }}
                 {{ cartPacket.currency.symbol }}
+              </div>
+              <div v-if="cartPacket.discount">
+                <span class="caption">
+                  -{{ cartPacket.discount.percentage }}% {{ cartPacket.discount.name }}
+                </span>
+                <v-icon @click="$emit('removeDiscount')" v-if="showRemove" small>
+                  mdi-close
+                </v-icon>
               </div>
             </v-col>
           </v-row>
