@@ -86,7 +86,7 @@
     "messages": {
       "addToCartError": "An error occurred while adding the packet to your cart.",
       "addToCartSuccess": "Packet successfully added to cart.",
-      "cartEmpty": "The cart is empty.",
+      "cartEmpty": "Your cart is empty.",
       "mustAgree": "You must agree to continue!",
       "selectGateway": "Please select your payment method.",
       "noOngoingPurchase": "There is currently no ongoing purchase. Please start the checkout in the cart.",
@@ -104,7 +104,7 @@
       "includesVAT": "Includes {tax_rate}% VAT."
     },
     "errors": {
-      "cart_not_empty": "The cart must be empty to add this packet.",
+      "cart_not_empty": "Your cart must be empty to add this packet.",
       "packet_requires_other": "This packet requires an other packet: {packet_title}.",
       "packet_not_compatible": "This packet is not compatible with an other packet: {packet_title}.",
       "packet_relation_violated": "This packet violates a packet relation with an other packet: {relation_type} {packet_title}.",
