@@ -1,29 +1,18 @@
 <template>
   <div>
-    <PageTitle :title="$t('ban.labels.title')"></PageTitle>
-    <v-data-table
+    <PageTitle>{{ $t('ban.labels.title') }}</PageTitle>
+    <DataTable
       :headers="headers"
       :items="getBans"
-      :search="search"
+      :search="true"
       :sort-by="['created_on']"
       :sort-desc="[true]"
       :item-class="banRowFormatter">
-      <template v-slot:top>
-        <v-row>
-          <v-col lg="4" md="6" sm="12">
-            <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
-              <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t("ban.labels.add") }}</span>
-            </v-btn>
-          </v-col>
-          <v-spacer/>
-          <v-col lg="2" md="4" sm="12">
-            <v-text-field
-              v-model="search"
-              label="Search"
-            ></v-text-field>
-          </v-col>
-        </v-row>
+      <template v-slot:header>
+        <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
+          <v-icon left>mdi-plus</v-icon>
+          <span>{{ $t("ban.labels.add") }}</span>
+        </v-btn>
       </template>
       <template v-slot:item.user="{ item }">
         <UserLink :user="item.user"></UserLink>
@@ -48,7 +37,7 @@
           mdi-eye
         </v-icon>
       </template>
-    </v-data-table>
+    </DataTable>
     <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
                 :title="$t('ban.labels.add')" :submit-text="$t('create')"
                 title-icon="mdi-account-cancel"
@@ -61,7 +50,7 @@
       max-width="700">
       <v-card>
         <v-card-title class="grey lighten-3">
-          <v-icon class="mr-1">mdi-account-cancel</v-icon>
+          <v-icon left>mdi-account-cancel</v-icon>
           <span>{{ $t('ban.labels.details') }}</span>
           <v-spacer />
           <v-icon @click="banDetailShown = false">mdi-close</v-icon>
@@ -125,14 +114,22 @@
           </LogTable>
         </v-card-text>
         <v-card-actions>
-          <v-btn text color="primary" @click="showEditDialog">{{ $t('edit') }}</v-btn>
+          <v-btn text color="primary" @click="showEditDialog">
+            <v-icon left>mdi-pencil</v-icon>
+            {{ $t('edit') }}
+          </v-btn>
           <v-btn text color="warning" @click="unbanBan" v-if="currentBan.status === 'ACTIVE'">
+            <v-icon left>mdi-lock-open</v-icon>
             {{ $t('ban.labels.unban') }}
           </v-btn>
           <v-btn text color="warning" @click="rebanBan" v-if="currentBan.status === 'UNBANNED'">
+            <v-icon left>mdi-lock</v-icon>
             {{ $t('ban.labels.reban') }}
           </v-btn>
-          <v-btn text color="error" @click="showDeleteDialog">{{ $t('delete') }}</v-btn>
+          <v-btn text color="error" @click="showDeleteDialog">
+            <v-icon left>mdi-delete</v-icon>
+            {{ $t('delete') }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -155,12 +152,14 @@ import LogTable from '@/components/LogTable.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
-import apiService from '../api/api';
-import utilService from '../services/UtilService';
+import apiService from '@/api/api';
+import utilService from '@/services/UtilService';
+import DataTable from '@/components/DataTable.vue';
 
 export default {
   name: 'Ban.vue',
   components: {
+    DataTable,
     LogTable,
     PageTitle,
     DialogForm,
@@ -208,7 +207,7 @@ export default {
       },
     },
     currentBan() {
-      if (this.bans.length > 0) {
+      if (this.bans && this.bans.length > 0) {
         const bans = this.bans.filter((ban) => ban.id === this.$route.params.banId);
 
         if (bans.length > 0) {
