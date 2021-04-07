@@ -32,10 +32,10 @@
             <v-btn v-if="submitText != null"
                    text color="primary" @click="submit">
               <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
-              <span v-else>
-                <v-icon left>mdi-check</v-icon>
+              <v-icon v-if="!loading" left>mdi-check</v-icon>
+              <div v-if="!loading">
                 {{ submitText }}
-              </span>
+              </div>
             </v-btn>
             <v-btn v-if="cancelText != null" color="lighten-5"
                    text @click="cancelForm">
