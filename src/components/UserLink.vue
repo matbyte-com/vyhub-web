@@ -1,7 +1,9 @@
 <template>
-  <router-link :to="{ name: 'UserDashboard', params: {id: user.id}}">
+  <v-chip @click="$router.push({ name: 'UserDashboard', params: {id: user.id}})"
+          outlined color="primary">
+    <v-icon small>mdi-account</v-icon>
     {{ user.username }}
-  </router-link>
+  </v-chip>
 </template>
 
 <script>

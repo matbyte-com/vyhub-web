@@ -1,17 +1,11 @@
 <template>
   <div>
-      <v-card-title>
-        {{ $t('theme') }}
-      </v-card-title>
-    <v-card flat>
-      <v-card-text>
-        <GenForm :form-schema="formSchema" @submit="setTheme"
-                 :error-message="errorMessage" cancel-text="Cancel" submit-text="Submit"
-                 ref="themePicker"
-        />
-      </v-card-text>
-    </v-card>
+    <SettingTitle>{{ $t('theme') }}</SettingTitle>
 
+    <GenForm :form-schema="formSchema" @submit="setTheme"
+             :error-message="errorMessage" cancel-text="Cancel" submit-text="Submit"
+             ref="themePicker"
+    />
   </div>
 </template>
 
@@ -19,10 +13,12 @@
 import GenForm from '@/components/GenForm.vue';
 import ThemePickerSchema from '@/forms/ThemePicker';
 import api from '@/api/api';
+import SettingTitle from './SettingTitle.vue';
 
 export default {
   name: 'ThemeChanger.vue',
   components: {
+    SettingTitle,
     GenForm,
   },
   data() {

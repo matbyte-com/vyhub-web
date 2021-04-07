@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/camelcase */
+
 import i18n from '@/plugins/i18n';
 import countries from 'country-list';
 import countryUnicodeFlags from 'country-flag-icons/unicode';

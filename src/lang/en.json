@@ -26,7 +26,7 @@
   },
   "ban":{
     "labels": {
-      "title": "All Bans",
+      "title": "Bans",
       "add": "Add Ban",
       "lengthInMinutes": "Length (in minutes)",
       "edit": "Edit Ban",
@@ -195,6 +195,7 @@
   "allGroups": "All Groups",
   "allProperties": "All Properties",
   "username": "Username",
+  "navigation": "Navigation",
   "email": "E-Mail",
   "packets": "Packets",
   "dark_mode": "Dark Mode",

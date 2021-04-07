@@ -7,8 +7,9 @@
       :search="true"
       :sort-by="['created_on']"
       :sort-desc="[true]"
-      :item-class="banRowFormatter">
-      <template v-slot:header>
+      :item-class="banRowFormatter"
+      @click:row="showDetails">
+      <template v-slot:footer-right>
         <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t("ban.labels.add") }}</span>
@@ -32,10 +33,13 @@
         <span>{{ new Date(item.created_on).toLocaleString() }}</span>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2"
-                @click="$router.push({ name: 'Bans', params: {banId: item.id}})">
-          mdi-eye
-        </v-icon>
+        <v-btn outlined small color="error"
+               @click="showDetails(item)">
+          <v-icon left>
+            mdi-eye
+          </v-icon>
+          {{ $t('details') }}
+        </v-btn>
       </template>
     </DataTable>
     <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
@@ -315,6 +319,9 @@ export default {
     },
     showDeleteDialog() {
       this.$refs.deleteBanDialog.show(this.currentBan);
+    },
+    showDetails(item) {
+      this.$router.push({ name: 'Bans', params: { banId: item.id } });
     },
   },
 };

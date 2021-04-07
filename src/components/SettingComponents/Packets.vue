@@ -1,10 +1,17 @@
 <template>
   <div>
-    <h5 class="text-h5">{{ $t('packets') }}</h5>
-    <v-data-table
+    <SettingTitle>{{ $t('packets') }}</SettingTitle>
+
+    <DataTable
       :headers="headers"
       :items="packets"
-      item-key="id">
+      :search="true">
+      <template v-slot:footer-right>
+        <v-btn outlined color="success" @click="$refs.addPacketDialog.show()">
+          <v-icon left>mdi-plus</v-icon>
+          <span>{{ $t('_packet.labels.add') }}</span>
+        </v-btn>
+      </template>
       <template v-slot:item.flags="{ item }">
         <div v-if="item.flags.length === 0">
           -
@@ -28,11 +35,7 @@
           </v-btn>
         </div>
       </template>
-    </v-data-table>
-    <v-btn text color="primary" @click="$refs.addPacketDialog.show()">
-      <v-icon left>mdi-plus</v-icon>
-      <span>{{ $t('_packet.labels.add') }}</span>
-    </v-btn>
+    </DataTable>
     <DialogForm
       ref="addPacketDialog"
       :form-schema="packetSchema"
@@ -57,10 +60,12 @@ import api from '@/api/api';
 import UtilService from '@/services/UtilService';
 import DialogForm from '@/components/DialogForm.vue';
 import PacketForm from '@/forms/PacketForm';
+import DataTable from '@/components/DataTable.vue';
+import SettingTitle from './SettingTitle.vue';
 
 export default {
   name: 'Packets',
-  components: { DialogForm },
+  components: { SettingTitle, DataTable, DialogForm },
   data() {
     return {
       headers: [

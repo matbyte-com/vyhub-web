@@ -60,7 +60,7 @@
     </v-card-text>
     <v-card-actions>
       <v-btn text color="success" @click="$refs.linkAccountDialog.show()">
-        <v-icon left>mdi-plus</v-icon>
+        <v-icon left>mdi-account-plus</v-icon>
         <span>{{ $t("_dashboard.labels.linkNewAccount") }}</span>
       </v-btn>
       <LinkAccountDialog ref="linkAccountDialog" />

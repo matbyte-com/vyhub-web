@@ -1,5 +1,6 @@
 <template>
   <div>
+    <SettingTitle>{{ $t('navigation') }}</SettingTitle>
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
                  :title="$t('settings.addNavlink')"/>
     <!-- Edit NavLink Dialog -->
@@ -37,74 +38,68 @@
       </template>
     </dialog-form>
     <!-- real Component -->
-    <v-card flat>
-      <v-card-title>
-        {{ $t('navigation') }}
-      </v-card-title>
-      <v-list>
-        <draggable
-          :list="links">
-          <div
-            v-for="link in links"
-            :key="link.title">
-            <v-list-item>
-              <v-row :class="!link.enabled ? 'text--disabled' : ''">
-                <v-col cols="1">
-                  <v-icon>
-                    {{ link.icon }}
-                  </v-icon>
-                </v-col>
-                <v-col cols="3">
-                  {{ link.title }}
-                </v-col>
-                <v-col cols="3">
-                  {{ link.link }}
-                </v-col>
-                <v-col class="text-right">
-                  <v-icon v-if="link.html">
-                    mdi-web
-                  </v-icon>
-                  <v-icon v-if="!link.defaultLink" class="ml-1">
-                    mdi-link
-                  </v-icon>
-                </v-col>
-                <v-col cols="1" class="text-right">
-                  <v-icon small class="mr-2" @click="openNavEditDialog(link)">
-                    mdi-pencil
-                  </v-icon>
-                </v-col>
-              </v-row>
-            </v-list-item>
-          </div>
-        </draggable>
-      </v-list>
-      <v-divider class="mb-3"/>
-      <v-row>
-        <v-col>
-          <v-btn text color="primary" @click="$refs.navAddDialog.dialog = true">
-            <v-icon left>mdi-plus</v-icon>
-            <span>{{ $t('__addLink') }}</span>
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-row class="text--disabled">
-            <v-col>
-              <v-icon disabled>
-                mdi-web
-              </v-icon>
-              __html content
-            </v-col>
-            <v-col>
-              <v-icon disabled>
-                mdi-link
-              </v-icon>
-              __external link
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-card>
-
+    <v-list>
+      <draggable
+        :list="links">
+        <div
+          v-for="link in links"
+          :key="link.title">
+          <v-list-item>
+            <v-row :class="!link.enabled ? 'text--disabled' : ''">
+              <v-col cols="1">
+                <v-icon>
+                  {{ link.icon }}
+                </v-icon>
+              </v-col>
+              <v-col cols="3">
+                {{ link.title }}
+              </v-col>
+              <v-col cols="3">
+                {{ link.link }}
+              </v-col>
+              <v-col class="text-right">
+                <v-icon v-if="link.html">
+                  mdi-web
+                </v-icon>
+                <v-icon v-if="!link.defaultLink" class="ml-1">
+                  mdi-link
+                </v-icon>
+              </v-col>
+              <v-col cols="1" class="text-right">
+                <v-icon small class="mr-2" @click="openNavEditDialog(link)">
+                  mdi-pencil
+                </v-icon>
+              </v-col>
+            </v-row>
+          </v-list-item>
+        </div>
+      </draggable>
+    </v-list>
+    <v-divider class="mb-3"/>
+    <v-row>
+      <v-col>
+        <v-btn text color="primary" @click="$refs.navAddDialog.dialog = true">
+          <v-icon left>mdi-plus</v-icon>
+          <span>{{ $t('__addLink') }}</span>
+        </v-btn>
+      </v-col>
+      <v-col>
+        <v-row class="text--disabled">
+          <v-col>
+            <v-icon disabled>
+              mdi-web
+            </v-icon>
+            __html content
+          </v-col>
+          <v-col>
+            <v-icon disabled>
+              mdi-link
+            </v-icon>
+            __external link
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -113,10 +108,12 @@ import draggable from 'vuedraggable';
 import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import { VueEditor } from 'vue2-editor';
+import SettingTitle from './SettingTitle.vue';
 
 export default {
   name: 'Navigation',
   components: {
+    SettingTitle,
     DialogForm,
     draggable,
     VueEditor,

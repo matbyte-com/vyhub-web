@@ -4,6 +4,7 @@
       <v-dialog v-model="dialog" max-width="400px">
         <v-card>
           <v-card-title class="grey lighten-3">
+            <v-icon left>mdi-account-plus</v-icon>
             <span>{{ $t("link_account") }}</span>
             <v-spacer />
             <v-icon @click="dialog = false">mdi-close</v-icon>

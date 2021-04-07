@@ -1,12 +1,10 @@
 <template>
   <v-data-table
-    :headers="headers"
     :items="realItems"
     :search="searchModel"
-    :sort-by="['created_on']"
-    :sort-desc="[true]"
     :loading="loading"
-    :item-class="itemClass">
+    :item-key="itemKey"
+    v-bind="$attrs" v-on="$listeners">
     <template v-slot:top>
       <v-row>
         <v-col align-self="center">
@@ -31,6 +29,14 @@
         </v-col>
       </v-row>
     </template>
+    <template v-slot:footer.page-text>
+      <v-row>
+        <v-col align-self="center">
+          <slot name="footer-right">
+          </slot>
+        </v-col>
+      </v-row>
+    </template>
     <template v-for="(_, slot) of inheritSlots" v-slot:[slot]="scope">
       <slot :name="slot" v-bind="scope" />
     </template>
@@ -46,15 +52,15 @@ export default {
     };
   },
   props: {
-    headers: Array,
     items: Array,
     search: {
       type: Boolean,
       default: false,
     },
-    sortBy: Array,
-    sortDesc: Array,
-    itemClass: Function,
+    itemKey: {
+      type: String,
+      default: 'id',
+    },
   },
   computed: {
     loading() {
