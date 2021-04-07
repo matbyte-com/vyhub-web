@@ -79,6 +79,9 @@ export default Vue.extend({
     background: '#FAFAFA',
     backgroundImage: null,
   }),
+  created() {
+    this.setThemeFromCache();
+  },
   beforeMount() {
     AuthService.setAuthTokens();
     AuthService.setProperties();
@@ -93,25 +96,43 @@ export default Vue.extend({
   methods: {
     setTheme() {
       apiService.design.getTheme().then((rsp) => {
+        const cachedTheme = {};
         try {
           const theme = rsp.data;
           if (theme.image) {
             this.backgroundImage = theme.image;
+            cachedTheme.image = theme.image;
           }
           if (theme.background) {
             this.background = theme.background;
+            cachedTheme.background = theme.background;
           }
           if (theme.dark === true) {
             this.$vuetify.theme.dark = true;
+            cachedTheme.dark = true;
             this.$vuetify.theme.currentTheme.primary = theme.primary;
+            cachedTheme.primary = theme.primary;
           } else {
             this.$vuetify.theme.currentTheme.primary = theme.primary;
+            cachedTheme.primary = theme.primary;
           }
+          localStorage.setItem('theme', JSON.stringify(cachedTheme));
         } catch (e) {
           this.$vuetify.theme.currentTheme.primary = '#3f51b5';
           throw e;
         }
       });
+    },
+    setThemeFromCache() {
+      if (localStorage.theme) {
+        const obj = JSON.parse(localStorage.getItem('theme'));
+        this.backgroundImage = obj.image;
+        this.background = obj.background;
+        if (obj.dark) {
+          this.$vuetify.theme.dark = true;
+        }
+        this.$vuetify.theme.currentTheme.primary = obj.primary;
+      }
     },
     checkLogin() {
       const refreshToken = this.$route.query.refresh_token;
