@@ -102,6 +102,17 @@ export default {
       AuthService.logout();
       this.$router.push('/');
     },
+    getNavItems() {
+      api.design.getNavItems().then((rsp) => {
+        this.links = rsp.data;
+        localStorage.setItem('navItems', JSON.stringify(rsp.data));
+      }).catch((err) => console.log(`Could not query nav ${err}`));
+    },
+    getNavItemsFromCache() {
+      if (localStorage.getItem('navItems')) {
+        this.links = JSON.parse(localStorage.getItem('navItems'));
+      }
+    },
   },
   computed: {
     allowedLinks() {
@@ -109,7 +120,10 @@ export default {
     },
   },
   beforeMount() {
-    api.design.getNavItems().then((rsp) => { this.links = rsp.data; }).catch((err) => console.log(`Could not query nav ${err}`));
+    this.getNavItems();
+  },
+  created() {
+    this.getNavItemsFromCache();
   },
 };
 </script>
