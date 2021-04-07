@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import emitter from '@/services/EventBus';
 import Vue from 'vue';
 import apiService from '@/api/api';
 import AuthService from '@/services/AuthService';
@@ -87,6 +88,8 @@ export default Vue.extend({
     AuthService.setProperties();
     this.setTheme();
     this.background = this.$vuetify.theme.currentTheme.background;
+    // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
+    emitter.on('themeUpdated', this.setTheme);
   },
   watch: {
     $route() {

@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import emitter from '@/services/EventBus';
 import GenForm from '@/components/GenForm.vue';
 import ThemePickerSchema from '@/forms/ThemePicker';
 import api from '@/api/api';
@@ -33,14 +34,13 @@ export default {
   methods: {
     setTheme() {
       const data = this.$refs.themePicker.getData();
-      console.log(data.primary);
       api.design.setTheme(
         data.primary,
         data.dark,
         data.image,
         data.background,
       ).then((rsp) => {
-        this.$router.go();
+        emitter.emit('themeUpdated');
       }).catch((err) => {
         this.$refs.themePicker.setErrorMessage(err.response.data.detail);
       });
