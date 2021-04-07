@@ -21,6 +21,7 @@
     "currency-codes": "^2.1.0",
     "humanize-duration-ts": "^2.1.1",
     "minify-css-string": "^1.0.0",
+    "mitt": "^2.1.0",
     "qs": "^6.9.4",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
