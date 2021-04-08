@@ -11,7 +11,7 @@
                      :key="tab.id"
                      class="justify-start"
                      @click="$router.push({ name: 'Settings',
-                                            params: { component: tab.component} })">
+                                            params: { component: tab.name} })">
                 <v-icon left>{{ tab.icon }}</v-icon>
                 <span>{{ tab.name }}</span>
               </v-tab>
@@ -23,7 +23,9 @@
       <v-col>
         <v-card class="fill-height" flat>
           <v-card-text>
-            <component :is="componentInstance"></component>
+            <keep-alive>
+              <component :is="componentInstance"></component>
+            </keep-alive>
           </v-card-text>
         </v-card>
       </v-col>
@@ -46,9 +48,9 @@ export default {
      */
     $route(to) {
       if (this.$route.params.component) {
-        const tab = this.allowedTabs.find((t) => t.component === this.$route.params.component);
+        const tab = this.allowedTabs.find((t) => t.name === this.$route.params.component);
         this.tabModel = this.allowedTabs.indexOf(tab);
-        this.activeComponent = to.params.component;
+        this.activeComponent = tab.component;
       } else {
         this.tabModel = this.allowedTabs.indexOf(0);
         this.activeComponent = 'General';
@@ -59,22 +61,22 @@ export default {
     return {
       tabs: [
         {
-          name: 'General', icon: 'mdi-cog', component: 'General',
+          name: 'general', icon: 'mdi-cog', component: 'General',
         },
         {
-          name: 'Navigation', icon: 'mdi-navigation-outline', component: 'Navigation', reqProp: 'navigation_edit',
+          name: 'navigation', icon: 'mdi-navigation-outline', component: 'Navigation', reqProp: 'navigation_edit',
         },
         {
-          name: 'Theme', icon: 'mdi-format-color-fill', component: 'ThemeChanger', reqProp: 'theme_show',
+          name: 'theme', icon: 'mdi-format-color-fill', component: 'ThemeChanger', reqProp: 'theme_show',
         },
         {
-          name: 'Groups', icon: 'mdi-account-multiple', component: 'Groups', reqProp: 'group_show',
+          name: 'groups', icon: 'mdi-account-multiple', component: 'Groups', reqProp: 'group_show',
         },
         {
-          name: 'Serverbundles', icon: 'mdi-server', component: 'Server', reqProp: 'server_show',
+          name: 'serverbundles', icon: 'mdi-server', component: 'Server', reqProp: 'server_show',
         },
         {
-          name: 'Packets', icon: 'mdi-gift-open', component: 'Packets', reqProp: 'packets_show',
+          name: 'packets', icon: 'mdi-gift-open', component: 'Packets', reqProp: 'packets_show',
         },
       ],
       activeComponent: 'General',
@@ -85,7 +87,7 @@ export default {
   },
   beforeMount() {
     if (this.$route.params.component) {
-      const tab = this.tabs.find((t) => t.component === this.$route.params.component);
+      const tab = this.tabs.find((t) => t.name === this.$route.params.component);
       this.tabModel = this.allowedTabs.indexOf(tab);
       this.activeComponent = tab.component;
     } else {
