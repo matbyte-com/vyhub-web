@@ -116,6 +116,7 @@ export default Vue.extend({
             this.$vuetify.theme.currentTheme.primary = theme.primary;
             cachedTheme.primary = theme.primary;
           } else {
+            this.$vuetify.theme.dark = false;
             this.$vuetify.theme.currentTheme.primary = theme.primary;
             cachedTheme.primary = theme.primary;
           }
@@ -131,8 +132,10 @@ export default Vue.extend({
         const obj = JSON.parse(localStorage.getItem('theme'));
         this.backgroundImage = obj.image;
         this.background = obj.background;
-        if (obj.dark) {
+        if (obj.dark === true) {
           this.$vuetify.theme.dark = true;
+        } else {
+          this.$vuetify.theme.dark = false;
         }
         this.$vuetify.theme.currentTheme.primary = obj.primary;
       }
