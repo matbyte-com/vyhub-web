@@ -105,6 +105,8 @@ export default Vue.extend({
           if (theme.image) {
             this.backgroundImage = theme.image;
             cachedTheme.image = theme.image;
+          } else {
+            this.backgroundImage = null;
           }
           if (theme.background) {
             this.background = theme.background;
@@ -113,13 +115,12 @@ export default Vue.extend({
           if (theme.dark === true) {
             this.$vuetify.theme.dark = true;
             cachedTheme.dark = true;
-            this.$vuetify.theme.currentTheme.primary = theme.primary;
-            cachedTheme.primary = theme.primary;
           } else {
             this.$vuetify.theme.dark = false;
-            this.$vuetify.theme.currentTheme.primary = theme.primary;
-            cachedTheme.primary = theme.primary;
+            cachedTheme.dark = false;
           }
+          this.$vuetify.theme.currentTheme.primary = theme.primary;
+          cachedTheme.primary = theme.primary;
           localStorage.setItem('theme', JSON.stringify(cachedTheme));
         } catch (e) {
           this.$vuetify.theme.currentTheme.primary = '#3f51b5';

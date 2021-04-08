@@ -44,6 +44,7 @@
     "multigroup": "Multiple Groups",
     "multigroupDescription": "Able to assign multiple groups to bundle",
     "backgroundColorDescription": "Background image overwrites the background color",
+    "imageUrl": "Image URL",
     "labels": {
       "title": "Settings",
       "groupSettings":  "Groupsettings",

@@ -18,6 +18,7 @@ export default {
       title: i18n.t('settings.labels.backgroundUrl'),
       'x-props': {
         clearable: true,
+        placeholder: i18n.t('settings.imageUrl'),
       },
     },
     background: common.colorPicker('settings.labels.backgroundColor', 'settings.backgroundColorDescription'),
