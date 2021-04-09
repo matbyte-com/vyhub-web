@@ -139,6 +139,9 @@ export default {
         background,
       });
     },
+    setNavItems(links: object) {
+      return http.put('/design/nav', links);
+    },
   },
   group: {
     getGroups() {

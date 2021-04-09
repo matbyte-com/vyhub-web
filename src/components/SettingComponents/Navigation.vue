@@ -2,14 +2,16 @@
   <div>
     <SettingTitle>{{ $t('navigation') }}</SettingTitle>
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
-                 :title="$t('settings.addNavlink')"/>
+                 :title="$t('settings.addNavlink')"
+                 @submit="addLink"/>
     <!-- Edit NavLink Dialog -->
     <dialog-form ref="navEditDialog" :form-schema="navlinkAddSchema"
               :title="$t('settings.editNavLink')"
               @updated="isExternalLink"
-              :max-width="1000">
+              :max-width="1000"
+              >
       <template slot="linkType-after">
-        <v-carousel-transition>
+        <v-carousel-transition v-if="!defaultLink">
           <v-text-field v-if="externalLink" hide-details="auto"
                         :label="$t('url')"
                         v-model="linkInput" />
@@ -78,7 +80,7 @@
     <v-divider class="mb-3"/>
     <v-row>
       <v-col>
-        <v-btn text color="primary" @click="$refs.navAddDialog.dialog = true">
+        <v-btn text color="primary" @click="openNavAddDialog">
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t('__addLink') }}</span>
         </v-btn>
@@ -108,6 +110,7 @@ import draggable from 'vuedraggable';
 import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import { VueEditor } from 'vue2-editor';
+import api from '@/api/api';
 import SettingTitle from './SettingTitle.vue';
 
 export default {
@@ -120,17 +123,18 @@ export default {
   },
   data() {
     return {
-      navlinkAddSchema: NavlinkAddForm,
+      navlinkAddSchema: null,
       externalLink: false,
       linkInput: null,
       htmlInput: null,
       rawHtmlInput: null,
+      defaultLink: null,
       links: [
         {
-          title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [], enabled: false, defaultLink: true, html: false,
+          title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [], enabled: false, defaultLink: true, html: true,
         },
         {
-          title: 'Dashboard', icon: 'mdi-account', link: '/dashboard', enabled: true, defaultLink: true, html: false,
+          title: 'Dashboard', icon: 'mdi-account', link: '/dashboard', enabled: true, defaultLink: true,
           // title: 'Dashboard', icon: 'mdi-account', link: '/home', tabs: [{ title: 'Edit', icon:
           // 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon:
           // 'mdi-home-edit-outline', link: '/dashboard' }],
@@ -139,7 +143,7 @@ export default {
           title: 'Shop', icon: 'mdi-sack', link: '/shop', tabs: [], enabled: true, defaultLink: true, html: false,
         },
         {
-          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', reqProp: 'ban_show', tabs: [], enabled: true, defaultLink: true, html: false,
+          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', reqProp: 'ban_show', enabled: true, defaultLink: true, html: false,
         },
         {
           title: 'Settings', icon: 'mdi-cog-outline', link: '/settings', tabs: [], enabled: true, defaultLink: true, html: false,
@@ -155,8 +159,23 @@ export default {
       ],
     };
   },
+  beforeMount() {
+    this.getNavItems();
+  },
   methods: {
+    getNavItems() {
+      api.design.getNavItems().then((rsp) => {
+        this.links = rsp.data;
+      }).catch((err) => console.log(`Could not query nav ${err}`));
+    },
     openNavEditDialog(item) {
+      if (item.defaultLink) {
+        this.navlinkAddSchema = NavlinkAddForm.returnForm(true);
+        this.defaultLink = true;
+      } else {
+        this.navlinkAddSchema = NavlinkAddForm.returnForm();
+        this.defaultLink = false;
+      }
       this.$refs.navEditDialog.show(item);
       this.$refs.navEditDialog.setData(item);
     },
@@ -166,6 +185,23 @@ export default {
       } else {
         this.externalLink = false;
       }
+    },
+    openNavAddDialog() {
+      this.navlinkAddSchema = NavlinkAddForm.returnForm();
+      this.$refs.navAddDialog.show();
+    },
+    addLink() {
+      const data = this.$refs.navAddDialog.getData();
+      data.defaultLink = false;
+      this.links.push(data);
+      console.log(this.links);
+      api.design.setNavItems(this.links).then(() => {
+        this.$refs.navAddDialog.closeAndReset();
+        this.getNavItems();
+      }).catch((err) => {
+        this.$refs.navAddDialog.setErrorMessage(err.response.data.detail);
+        this.links.pop();
+      });
     },
   },
 };
