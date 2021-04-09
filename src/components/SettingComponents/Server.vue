@@ -171,7 +171,7 @@ export default {
         data.multigroup,
         data.defaultgroup,
         data.color,
-        `mdi-${data.icon}`,
+        data.icon,
       ).then(() => {
         api.server.getBundles().then((response) => { this.bundles = response.data; });
         this.$refs.addBundleDialog.closeAndReset();

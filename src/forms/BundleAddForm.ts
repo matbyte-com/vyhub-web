@@ -21,13 +21,14 @@ function returnForm(disableServerTypeSelectField = false) {
         description: i18n.t('settings.multigroupDescription'),
       },
       color: Common.colorPicker(),
-      icon: {
+      /* icon: {
         type: 'string',
         title: i18n.t('icon'),
         'x-slots': {
           'append-outer': `<a href="https://materialdesignicons.com/" style="white-space: nowrap" target="_blank">${i18n.t('forms.iconDescription')}</a>`,
         },
-      },
+      }, */
+      icon: Common.iconPicker,
       serverType: Common.serverTypeSelectField(disableServerTypeSelectField),
     },
     dependencies: {
