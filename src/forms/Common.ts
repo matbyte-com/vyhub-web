@@ -59,4 +59,13 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
+  iconPicker: {
+    title: i18n.t('icon'),
+    type: 'string',
+    'x-slots': {
+      'append-outer': `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.t('forms.iconDescription')}</a>`,
+    },
+    'x-display': 'icon',
+    'x-fromUrl': `${API_URL}/design/icons?query={q}`,
+  },
 };
