@@ -44,7 +44,16 @@
     "multigroup": "Multiple Groups",
     "multigroupDescription": "Able to assign multiple groups to bundle",
     "backgroundColorDescription": "Background image overwrites the background color",
+    "externalLink": "External Link",
+    "htmlContent": "HTML Content",
     "imageUrl": "Image URL",
+    "addNavlink": "Add Navigation Link",
+    "navUpdate": "Update Nav Order",
+    "navReset": "Reset Order",
+    "addLink": "Add Link",
+    "rawHtml": "Raw HTML",
+    "editNavLink": "Edit Navigation Link",
+    "editor": "Editor",
     "labels": {
       "title": "Settings",
       "groupSettings":  "Groupsettings",
@@ -245,5 +254,7 @@
   "ipAddress": "IP-Address",
   "continue": "Continue",
   "unexpectedErrorOccurred": "An unexpected error occurred.",
-  "theme": "Theme"
+  "theme": "Theme",
+  "url": "URL",
+  "enabled": "Enabled"
 }
