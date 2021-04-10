@@ -22,12 +22,12 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <!-- simple button when no tabs are existend -->
+    <!-- simple button when no tabs are existent -->
     <v-btn
       v-else
       text
       dark
-      @click="$router.push(link.link)">
+      @click="pushLink">
       <v-icon left>{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
     </v-btn>
@@ -43,6 +43,15 @@ export default {
   computed: {
     allowedTabs() {
       return this.link.tab.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
+    },
+  },
+  methods: {
+    pushLink() {
+      if (this.link.linkType === 'link') {
+        window.open(this.link.link);
+      } else {
+        this.$router.push(this.link.link);
+      }
     },
   },
 };
