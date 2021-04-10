@@ -54,6 +54,7 @@ import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import AuthService from '@/services/AuthService';
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 import api from '@/api/api';
+import EventBus from '@/services/EventBus';
 
 export default {
   components: {
@@ -121,6 +122,8 @@ export default {
   },
   beforeMount() {
     this.getNavItems();
+    // Event Emitted in Components/Settings/Navigation.vue
+    EventBus.on('navUpdated', this.getNavItems);
   },
   created() {
     this.getNavItemsFromCache();

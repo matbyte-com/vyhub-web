@@ -111,6 +111,7 @@ import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import { VueEditor } from 'vue2-editor';
 import api from '@/api/api';
+import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
 
 export default {
@@ -198,6 +199,7 @@ export default {
       api.design.setNavItems(this.links).then(() => {
         this.$refs.navAddDialog.closeAndReset();
         this.getNavItems();
+        EventBus.emit('navUpdated');
       }).catch((err) => {
         this.$refs.navAddDialog.setErrorMessage(err.response.data.detail);
         this.links.pop();
