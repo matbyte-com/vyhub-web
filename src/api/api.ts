@@ -142,6 +142,9 @@ export default {
     setNavItems(links: object) {
       return http.put('/design/nav', links);
     },
+    getHtml(uuid: string) {
+      return throttledHttp.get(`/design/html/${uuid}`);
+    },
   },
   group: {
     getGroups() {

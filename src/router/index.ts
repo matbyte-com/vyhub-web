@@ -77,6 +77,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
+    path: '/cms/:title',
+    name: 'Cms',
+    component: () => import('../views/UserCmsHtml.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {
