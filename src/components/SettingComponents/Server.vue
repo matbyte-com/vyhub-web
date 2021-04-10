@@ -3,14 +3,7 @@
     <DialogForm ref="addBundleDialog"
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
-                :title="$t('settings.labels.addBundle')"
-                @updated="getAddBundleIcon">
-      <template slot="icon-append">
-        <v-icon>
-          {{ icon }}
-        </v-icon>
-      </template>
-    </DialogForm>
+                :title="$t('settings.labels.addBundle')"/>
     <DeleteConfirmationDialog
                 ref="deleteBundleDialog"
                 @submit="deleteBundle"/>
@@ -20,14 +13,7 @@
     <DialogForm ref="editBundleDialog"
                 :form-schema="editBundleSchema"
                 @submit="editBundle"
-                :title="$t('__editBundle')"
-                @updated="getEditBundleIcon">
-      <template slot="details-icon-append">
-        <v-icon>
-          {{ icon }}
-        </v-icon>
-      </template>
-    </DialogForm>
+                :title="$t('__editBundle')"/>
     <v-row>
       <v-col>
         <v-card outlined flat class="fill-height">
@@ -212,12 +198,6 @@ export default {
       this.$refs.editBundleDialog.setData(obj);
       this.$refs.editBundleDialog.show(bundle);
     },
-    getAddBundleIcon() {
-      this.icon = `mdi-${this.$refs.addBundleDialog.getData().icon}`;
-    },
-    getEditBundleIcon() {
-      this.icon = `mdi-${this.$refs.editBundleDialog.getData().icon}`;
-    },
     editBundle(bundle) {
       const data = this.$refs.editBundleDialog.getData();
       api.server.editBundle(
@@ -226,7 +206,7 @@ export default {
         data.multigroup,
         data.defaultgroup,
         data.color,
-        `mdi-${data.icon}`,
+        data.icon,
         data.serverSelect,
       ).then(() => {
         this.queryData();
