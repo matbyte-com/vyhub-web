@@ -9,6 +9,7 @@
               :title="$t('settings.editNavLink')"
               @updated="isExternalLink"
               :max-width="1000"
+              @submit="editNavItem"
               >
       <template slot="linkType-after">
         <v-carousel-transition v-if="!defaultLink">
@@ -61,10 +62,10 @@
                 {{ link.link }}
               </v-col>
               <v-col class="text-right">
-                <v-icon v-if="link.html">
+                <v-icon v-if="link.linkType === 'html'">
                   mdi-web
                 </v-icon>
-                <v-icon v-if="!link.defaultLink && !link.html" class="ml-1">
+                <v-icon v-if="link.linkType === 'link'" class="ml-1">
                   mdi-link
                 </v-icon>
               </v-col>
@@ -158,22 +159,22 @@ export default {
       updateLinkEnabled: false,
       links: [
         {
-          title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [], enabled: false, defaultLink: true, html: true,
+          title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [], enabled: false, linkType: 'default',
         },
         {
-          title: 'Dashboard', icon: 'mdi-account', link: '/dashboard', enabled: true, defaultLink: true,
+          title: 'Dashboard', icon: 'mdi-account', link: '/dashboard', enabled: true, linkType: 'default',
           // title: 'Dashboard', icon: 'mdi-account', link: '/home', tabs: [{ title: 'Edit', icon:
           // 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon:
           // 'mdi-home-edit-outline', link: '/dashboard' }],
         },
         {
-          title: 'Shop', icon: 'mdi-sack', link: '/shop', tabs: [], enabled: true, defaultLink: true, html: false,
+          title: 'Shop', icon: 'mdi-sack', link: '/shop', tabs: [], enabled: true, linkType: 'default',
         },
         {
-          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', reqProp: 'ban_show', enabled: true, defaultLink: true, html: false,
+          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', reqProp: 'ban_show', enabled: true, linkType: 'default',
         },
         {
-          title: 'Settings', icon: 'mdi-cog-outline', link: '/settings', tabs: [], enabled: true, defaultLink: true, html: false,
+          title: 'Settings', icon: 'mdi-cog-outline', link: '/settings', tabs: [], enabled: true, linkType: 'default',
         },
       ],
       linksRight: [
@@ -197,13 +198,14 @@ export default {
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
     openNavEditDialog(item) {
-      if (item.defaultLink) {
+      if (item.linkType === 'default') {
         this.navlinkAddSchema = NavlinkAddForm.returnForm(true);
         this.defaultLink = true;
       } else {
         this.navlinkAddSchema = NavlinkAddForm.returnForm();
         this.defaultLink = false;
       }
+      this.linkInput = item.link;
       this.$refs.navEditDialog.show(item);
       this.$refs.navEditDialog.setData(item);
     },
@@ -220,7 +222,15 @@ export default {
     },
     addLink() {
       const data = this.$refs.navAddDialog.getData();
-      data.defaultLink = false;
+      // check if Title already used
+      if (this.links.find((l) => l.title === data.title)) {
+        this.$refs.navAddDialog.setErrorMessage('Title already used');
+        return;
+      }
+      // set link for html content
+      if (data.linkType === 'html') {
+        data.link = `/cms/${data.title.toLowerCase()}`;
+      }
       this.links.push(data);
       api.design.setNavItems(this.links).then(() => {
         this.$refs.navAddDialog.closeAndReset();
@@ -239,6 +249,32 @@ export default {
       }).catch((err) => {
         console.log(`Could not query nav ${err}`);
       });
+    },
+    editNavItem(nav) {
+      const linkUpdated = this.$refs.navEditDialog.getData();
+      // Do not Update Link!
+      if (nav.linkType === 'default') {
+        linkUpdated.link = nav.link;
+      }
+      // Update html Link to new Title (replace title after last backslash /)
+      if (nav.linkType === 'html') {
+        linkUpdated.link = nav.link.substr(0, nav.link.lastIndexOf('/') + 1) + linkUpdated.title.toLowerCase();
+      }
+      // Update External Link when needed
+      if (nav.linkType === 'link') {
+        linkUpdated.link = this.linkInput;
+      }
+      // find correct object in array and replace it with newly updated
+      const index = this.links.findIndex((l) => l.title === nav.title);
+      if (index > -1) {
+        this.links.splice(index, 1, linkUpdated);
+      } else {
+        this.$refs.navEditDialog.setErrorMessage('Couldnt find index of object');
+        return;
+      }
+      // send updated link to server
+      this.updateLinkOrder();
+      this.$refs.navEditDialog.closeAndReset();
     },
   },
 };
