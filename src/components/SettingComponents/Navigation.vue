@@ -20,7 +20,7 @@
             <v-expansion-panels flat>
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  {{ $t('Editor') }}
+                  {{ $t('settings.editor') }}
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <vue-editor v-model="htmlInput" />
@@ -28,7 +28,7 @@
               </v-expansion-panel>
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  {{ $t('Raw HTML') }}
+                  {{ $t('settings.rawHtml') }}
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-textarea :placeholder="$t('settings.rawHtml')" v-model="rawHtmlInput"/>
@@ -42,7 +42,8 @@
     <!-- real Component -->
     <v-list>
       <draggable
-        :list="links">
+        :list="links"
+        @change="updateLinkEnabled = true">
         <div
           v-for="link in links"
           :key="link.title">
@@ -63,7 +64,7 @@
                 <v-icon v-if="link.html">
                   mdi-web
                 </v-icon>
-                <v-icon v-if="!link.defaultLink" class="ml-1">
+                <v-icon v-if="!link.defaultLink && !link.html" class="ml-1">
                   mdi-link
                 </v-icon>
               </v-col>
@@ -80,10 +81,34 @@
     <v-divider class="mb-3"/>
     <v-row>
       <v-col>
-        <v-btn text color="primary" @click="openNavAddDialog">
+        <v-btn outlined color="success" @click="openNavAddDialog">
           <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t('__addLink') }}</span>
+          <span>{{ $t('settings.addLink') }}</span>
         </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs}">
+            <v-btn outlined color="primary" class="ml-5" v-on="on" v-bind="attrs"
+                   style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+                   @click="updateLinkOrder" :disabled="!updateLinkEnabled">
+              <v-icon>mdi-sync</v-icon>
+            </v-btn>
+          </template>
+          <span>
+            {{ $t('settings.navUpdate') }}
+          </span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs}">
+            <v-btn outlined color="primary" v-on="on" v-bind="attrs" :disabled="!updateLinkEnabled"
+                   style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                   @click="getNavItems">
+              <v-icon>mdi-keyboard-return</v-icon>
+            </v-btn>
+          </template>
+          <span>
+            {{ $t('settings.navReset') }}
+          </span>
+        </v-tooltip>
       </v-col>
       <v-col>
         <v-row class="text--disabled">
@@ -91,13 +116,13 @@
             <v-icon disabled>
               mdi-web
             </v-icon>
-            __html content
+            {{ $t('settings.htmlContent') }}
           </v-col>
           <v-col>
             <v-icon disabled>
               mdi-link
             </v-icon>
-            __external link
+            {{ $t('settings.externalLink') }}
           </v-col>
         </v-row>
       </v-col>
@@ -130,6 +155,7 @@ export default {
       htmlInput: null,
       rawHtmlInput: null,
       defaultLink: null,
+      updateLinkEnabled: false,
       links: [
         {
           title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [], enabled: false, defaultLink: true, html: true,
@@ -166,6 +192,7 @@ export default {
   methods: {
     getNavItems() {
       api.design.getNavItems().then((rsp) => {
+        this.updateLinkEnabled = false;
         this.links = rsp.data;
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
@@ -195,7 +222,6 @@ export default {
       const data = this.$refs.navAddDialog.getData();
       data.defaultLink = false;
       this.links.push(data);
-      console.log(this.links);
       api.design.setNavItems(this.links).then(() => {
         this.$refs.navAddDialog.closeAndReset();
         this.getNavItems();
@@ -203,6 +229,15 @@ export default {
       }).catch((err) => {
         this.$refs.navAddDialog.setErrorMessage(err.response.data.detail);
         this.links.pop();
+      });
+    },
+    updateLinkOrder() {
+      api.design.setNavItems(this.links).then(() => {
+        this.updateLinkEnabled = false;
+        this.getNavItems();
+        EventBus.emit('navUpdated');
+      }).catch((err) => {
+        console.log(`Could not query nav ${err}`);
       });
     },
   },
