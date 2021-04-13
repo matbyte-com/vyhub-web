@@ -76,7 +76,10 @@ export default {
           name: 'serverbundles', icon: 'mdi-server', component: 'Server', reqProp: 'server_show',
         },
         {
-          name: 'packets', icon: 'mdi-gift-open', component: 'Packets', reqProp: 'packets_show',
+          name: 'packets', icon: 'mdi-gift-open', component: 'Packets', reqProp: 'packet_show',
+        },
+        {
+          name: 'Rewards', icon: 'mdi-star-shooting', component: 'Rewards', reqProp: 'reward_show',
         },
       ],
       activeComponent: 'General',
