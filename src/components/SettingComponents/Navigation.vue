@@ -15,7 +15,10 @@
         <v-carousel-transition v-if="!defaultLink">
           <v-text-field v-if="externalLink" hide-details="auto"
                         :label="$t('url')"
-                        v-model="linkInput" />
+                        v-model="linkInput"
+                        :rules="[rules.http]"
+                        :placeholder="$i18n.t('settings.httpPlaceholder')"
+                        />
           <div v-else>
             <v-divider />
             <v-expansion-panels flat>
@@ -139,6 +142,7 @@ import { VueEditor } from 'vue2-editor';
 import api from '@/api/api';
 import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
+import i18n from '@/plugins/i18n';
 
 export default {
   name: 'Navigation',
@@ -157,6 +161,12 @@ export default {
       rawHtmlInput: null,
       defaultLink: null,
       updateLinkEnabled: false,
+      rules: {
+        http: (value) => {
+          const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+          return pattern.test(value) || i18n.t('htmlNoMatch');
+        },
+      },
       links: [
         {
           title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [], enabled: false, linkType: 'default',

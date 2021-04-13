@@ -258,5 +258,6 @@
   "unexpectedErrorOccurred": "An unexpected error occurred.",
   "theme": "Theme",
   "url": "URL",
-  "enabled": "Enabled"
+  "enabled": "Enabled",
+  "htmlNoMatch": "This is not a valid url"
 }
