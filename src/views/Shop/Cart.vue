@@ -107,7 +107,7 @@
                   <v-icon class="mr-1">mdi-plus</v-icon>
                   {{ $t('add') }}
                 </v-btn>
-                <v-btn text color="primary" @click="selectAddressDialog = true">
+                <v-btn text color="primary" @click="$refs.selectAddressDialog.show()">
                   <v-icon class="mr-1">mdi-format-list-text</v-icon>
                   {{ $t('select') }}
                 </v-btn>
@@ -152,44 +152,35 @@
 
     <!-- Address Add Form -->
     <DialogForm :form-schema="addressFormSchema" ref="addressAddDialog"
-                :title="$t('_address.labels.add')" :submit-text="$t('create')"
+                :title="$t('_address.labels.add')" :submit-text="$t('add')"
                 title-icon="mdi-map-marker"
                 @submit="addAddress">
     </DialogForm>
 
     <!-- Address select dialog -->
-    <v-dialog
-      v-model="selectAddressDialog"
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-      max-width="500">
-      <v-card>
-        <v-card-title class="grey lighten-3">
-          <v-icon class="mr-1">mdi-map-marker</v-icon>
-          <span>{{ $t('_address.labels.selectAddress') }}</span>
-          <v-spacer />
-          <v-icon @click="selectAddressDialog = false">mdi-close</v-icon>
-        </v-card-title>
-        <v-card-text>
-          <div class="mt-2">
-            <div v-if="addresses != null && addresses.length > 0">
-              <v-row>
-                <v-col lg="6" md="12" v-for="address in addresses" v-bind:key="address.id"
-                       class="d-flex">
-                  <v-card @click="selectAddress(address)" class="flex-grow-1">
-                    <v-card-text>
-                      <Address :address="address"></Address>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </div>
-            <div v-else>
-              {{ $t('_address.messages.noAddressesYet') }}
-            </div>
+    <Dialog icon="mdi-map-marker" :title="$t('_address.labels.selectAddress')"
+            ref="selectAddressDialog">
+      <template>
+        <div class="mt-2">
+          <div v-if="addresses != null && addresses.length > 0">
+            <v-row>
+              <v-col lg="6" md="12" v-for="address in addresses" v-bind:key="address.id"
+                     class="d-flex">
+                <v-card @click="selectAddress(address)" class="flex-grow-1">
+                  <v-card-text>
+                    <Address :address="address"></Address>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
           </div>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+          <div v-else>
+            {{ $t('_address.messages.noAddressesYet') }}
+          </div>
+        </div>
+      </template>
+    </Dialog>
+
     <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>
   </div>
 </template>
@@ -205,9 +196,11 @@ import Address from '@/components/Address.vue';
 import CartPacket from '@/components/ShopComponents/CartPacket.vue';
 import CheckoutDialog from '@/components/ShopComponents/CheckoutDialog.vue';
 import CartTotal from '@/components/ShopComponents/CartTotal.vue';
+import Dialog from '@/components/Dialog.vue';
 
 export default {
   components: {
+    Dialog,
     CartTotal,
     CheckoutDialog,
     CartPacket,
@@ -222,7 +215,6 @@ export default {
       cartCorrect: false,
       addressFormSchema: AddressForm,
       addresses: null,
-      selectAddressDialog: null,
       openPurchase: null,
       couponCode: null,
       couponError: null,
@@ -311,7 +303,7 @@ export default {
         title: this.$t('_address.messages.selectedSuccess'),
         type: 'success',
       });
-      this.selectAddressDialog = false;
+      this.$refs.selectAddressDialog.close();
     },
     startCheckout() {
       api.shop.startCheckout(this.currentAddress.id).then((rsp) => {

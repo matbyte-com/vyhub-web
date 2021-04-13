@@ -1,42 +1,32 @@
 <template>
   <div>
-    <v-row justify="center">
-      <v-dialog v-model="dialog" max-width="400px">
-        <v-card>
-          <v-card-title class="grey lighten-3">
-            <v-icon left>mdi-account-plus</v-icon>
-            <span>{{ $t("link_account") }}</span>
-            <v-spacer />
-            <v-icon @click="dialog = false">mdi-close</v-icon>
-          </v-card-title>
-          <v-card-text>
-            <v-list tile>
-              <v-list-item v-for="backend in backends" :key="backend.id"
-                           @click="startAuth(backend.id)">
-                <v-list-item-icon>
-                  <v-icon> {{ backend.icon }} </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>{{ backend.name }}</v-list-item-title>
-                  <div class="grey--text" v-if="backend.info != null">
-                    {{ backend.info }}
-                  </div>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </v-row>
+    <Dialog v-model="dialog" max-width="400px" icon="mdi-account-plus" :title="$t('link_account')">
+      <v-list tile>
+        <v-list-item v-for="backend in backends" :key="backend.id"
+                     @click="startAuth(backend.id)">
+          <v-list-item-icon>
+            <v-icon> {{ backend.icon }} </v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ backend.name }}</v-list-item-title>
+            <div class="grey--text" v-if="backend.info != null">
+              {{ backend.info }}
+            </div>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </Dialog>
   </div>
 </template>
 
 <script>
 import api from '@/api/api';
 import AuthService from '@/services/AuthService';
+import Dialog from '@/components/Dialog.vue';
 
 export default {
   name: 'Login.vue',
+  components: { Dialog },
   data() {
     return {
       dialog: null,

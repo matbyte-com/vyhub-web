@@ -33,7 +33,7 @@
         <span>{{ new Date(item.created_on).toLocaleString() }}</span>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn outlined small color="error"
+        <v-btn depressed small color="error"
                @click="showDetails(item)">
           <v-icon left>
             mdi-eye
@@ -47,20 +47,15 @@
                 title-icon="mdi-account-cancel"
                 @submit="addBan">
     </DialogForm>
-    <v-dialog
-      v-model="banDetailShown"
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-      v-if="currentBan != null"
-      max-width="700">
-      <v-card>
-        <v-card-title class="grey lighten-3">
-          <v-icon left>mdi-account-cancel</v-icon>
-          <span>{{ $t('ban.labels.details') }}</span>
-          <v-spacer />
-          <v-icon @click="banDetailShown = false">mdi-close</v-icon>
-        </v-card-title>
-        <v-card-text>
-          <h6 class="text-h6 mb-2">{{ $t('details') }}</h6>
+    <Dialog
+      ref="banDetailDialog"
+      icon="mdi-account-cancel"
+      :title="$t('ban.labels.details')"
+      :max-width="700"
+      v-model="banDetailShown">
+      <template>
+        <h6 class="text-h6 mb-2">{{ $t('details') }}</h6>
+        <div v-if="currentBan != null">
           <v-simple-table>
             <template v-slot:default>
               <tbody>
@@ -114,10 +109,11 @@
           <br/>
           <h6 class="text-h6 mb-2">{{ $t('log.labels.log') }}</h6>
           <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
-
           </LogTable>
-        </v-card-text>
-        <v-card-actions>
+        </div>
+      </template>
+      <template v-slot:actions>
+        <div v-if="currentBan != null">
           <v-btn text color="primary" @click="showEditDialog">
             <v-icon left>mdi-pencil</v-icon>
             {{ $t('edit') }}
@@ -134,9 +130,9 @@
             <v-icon left>mdi-delete</v-icon>
             {{ $t('delete') }}
           </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+        </div>
+      </template>
+    </Dialog>
     <DialogForm :form-schema="banEditFormSchema" ref="banEditDialog"
                 :title="$t('ban.labels.edit')" :submit-text="$t('edit')"
                 title-icon="mdi-account-cancel"
@@ -159,10 +155,12 @@ import banEditFormSchema from '@/forms/BanEditForm';
 import apiService from '@/api/api';
 import utilService from '@/services/UtilService';
 import DataTable from '@/components/DataTable.vue';
+import Dialog from '../components/Dialog.vue';
 
 export default {
   name: 'Ban.vue',
   components: {
+    Dialog,
     DataTable,
     LogTable,
     PageTitle,
@@ -202,10 +200,10 @@ export default {
     banDetailShown: {
       get() {
         return this.$route.params.banId != null && (!this.$refs.banEditDialog
-          || !this.$refs.banEditDialog.dialog);
+          || !this.$refs.banEditDialog.open);
       },
       set(newValue) {
-        if (!newValue && !this.$refs.banEditDialog.dialog) {
+        if (!newValue && !this.$refs.banEditDialog.open) {
           this.$router.push({ name: 'Bans' });
         }
       },

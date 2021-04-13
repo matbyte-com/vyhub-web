@@ -75,12 +75,12 @@ export default {
   },
   methods: {
     show(item) {
-      this.$refs.dialog.open = true;
+      this.$refs.dialog.show();
       this.item = item;
     },
     closeAndReset() {
       this.loading = false;
-      this.$refs.dialog.open = false;
+      this.$refs.dialog.close();
       return this.$refs.form.cancelForm();
     },
     getData() {
@@ -114,6 +114,11 @@ export default {
         this.loading = true;
         this.$refs.form.validateAndRun();
       }
+    },
+  },
+  computed: {
+    open() {
+      return this.$refs.dialog.open;
     },
   },
 };

@@ -1,33 +1,33 @@
 <template>
-  <v-dialog v-model="dialog" max-width="300">
-    <v-card>
-      <v-card-title>{{ $t('areYouSure') }}</v-card-title>
-      <v-card-text>
-        <v-alert v-if="errorMessage != null" type="error">
-          {{ errorMessage }}
-        </v-alert>
-        <v-row>
-          <v-col cols="12">
-            <v-btn class="mr-4"
-                   depressed
-                   color="primary"
-                   type="submit"
-                   @click="submit">
-              {{ $t('delete') }}
-            </v-btn>
-            <v-btn color="lighten-5" depressed @click="cancel">
-              {{ $t('cancel') }}
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+  <Dialog v-model="dialog" max-width="300" :title="$t('areYouSure')" icon="mdi-help-circle">
+    <template v-if="errorMessage != null">
+      <v-alert type="error">
+        {{ errorMessage }}
+      </v-alert>
+    </template>
+    <template v-slot:actions>
+      <v-btn class="mr-1"
+             text
+             color="error"
+             type="submit"
+             @click="submit">
+        <v-icon left>mdi-delete</v-icon>
+        {{ $t('delete') }}
+      </v-btn>
+      <v-btn text @click="cancel">
+        <v-icon left>mdi-close</v-icon>
+        {{ $t('cancel') }}
+      </v-btn>
+    </template>
+  </Dialog>
 </template>
 
 <script>
+import Dialog from './Dialog.vue';
+
 export default {
   name: 'DeleteConfirmationDialog',
+  components: { Dialog },
   data() {
     return {
       dialog: null,

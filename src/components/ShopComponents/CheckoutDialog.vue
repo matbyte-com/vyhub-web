@@ -1,19 +1,11 @@
 <template>
-  <v-dialog
-    v-model="checkoutDialog"
-    :fullscreen="$vuetify.breakpoint.xsOnly"
-    max-width="1000">
-    <v-card>
-      <v-card-title class="grey lighten-3">
-        <v-icon class="mr-1">mdi-cart-arrow-right</v-icon>
-        <span>{{ $t('_shop.labels.orderOverview') }}</span>
-        <v-spacer />
-        <v-icon @click="checkoutDialog = false">mdi-close</v-icon>
-      </v-card-title>
-      <v-card-text v-if="purchase == null">
+  <Dialog :max-width="1000" icon="mdi-cart-arrow-right" :title="$t('_shop.labels.orderOverview')"
+          ref="checkoutDialog">
+    <template>
+      <div v-if="purchase == null">
         {{ $t('_shop.messages.noOngoingPurchase') }}
-      </v-card-text>
-      <v-card-text v-else>
+      </div>
+      <div v-else>
         <v-row class="mt-2">
           <v-col lg="7" md="12">
             <v-row v-for="cartPacket in purchase.cart_packets" v-bind:key="cartPacket.id" >
@@ -105,19 +97,23 @@
             </v-col>
           </v-row>
         </div>
-      </v-card-text>
-      <v-card-actions class="justify-center" v-if="!loading">
-        <v-btn text @click="cancel">
-          <v-icon class="mr-1">mdi-close</v-icon>
-          {{ $t('cancel') }}
-        </v-btn>
-        <v-btn text color="primary" @click="showPaymentGateways" v-if="!confirmed">
-          <v-icon class="mr-1">mdi-check</v-icon>
-          {{ $t('_shop.labels.purchaseNow') }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+      </div>
+    </template>
+    <template v-slot:actions v-if="!loading">
+      <v-row class="text-center">
+        <v-col>
+          <v-btn text @click="cancel">
+            <v-icon left>mdi-close</v-icon>
+            {{ $t('cancel') }}
+          </v-btn>
+          <v-btn text color="primary" @click="showPaymentGateways" v-if="!confirmed">
+            <v-icon left>mdi-check</v-icon>
+            {{ $t('_shop.labels.purchaseNow') }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </template>
+  </Dialog>
 </template>
 
 <script>
@@ -127,17 +123,18 @@ import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import api from '@/api/api';
 import UtilService from '@/services/UtilService';
 import ShopService from '@/services/ShopService';
+import Dialog from '../Dialog.vue';
 
 export default {
   name: 'CheckoutDialog',
   components: {
+    Dialog,
     CartTotal,
     CartPacket,
     Address,
   },
   data() {
     return {
-      checkoutDialog: null,
       purchase: null,
       checkboxes: [
         {
@@ -164,7 +161,7 @@ export default {
     },
     show(purchase) {
       this.purchase = purchase;
-      this.checkoutDialog = true;
+      this.$refs.checkoutDialog.show();
       this.confirmed = false;
       this.loading = false;
 
@@ -193,7 +190,7 @@ export default {
     },
     close() {
       this.loading = false;
-      this.checkoutDialog = false;
+      this.$refs.checkoutDialog.close();
     },
     cancel() {
       this.$emit('cancel');
