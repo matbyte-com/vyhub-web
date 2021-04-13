@@ -145,6 +145,12 @@ export default {
     getHtml(uuid: string) {
       return throttledHttp.get(`/design/html/${uuid}`);
     },
+    createHtmlContent(content: string) {
+      return http.post('/design/html', { content });
+    },
+    updateHtmlContent(uuid: string, content: string) {
+      return http.put(`/design/html/${uuid}`, { content });
+    },
   },
   group: {
     getGroups() {

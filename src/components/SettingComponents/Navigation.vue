@@ -24,7 +24,11 @@
             <v-expansion-panels flat>
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  {{ $t('settings.editor') }}
+                  <v-row>
+                    <v-badge :value="htmlInput" inline dot class="float-left">
+                      {{ $t('settings.editor') }}
+                    </v-badge>
+                  </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <vue-editor v-model="htmlInput" />
@@ -32,7 +36,11 @@
               </v-expansion-panel>
               <v-expansion-panel>
                 <v-expansion-panel-header>
-                  {{ $t('settings.rawHtml') }}
+                  <v-row>
+                    <v-badge :value="rawHtmlInput" inline dot class="float-left">
+                      {{ $t('settings.rawHtml') }}
+                    </v-badge>
+                  </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-textarea :placeholder="$t('settings.rawHtml')" v-model="rawHtmlInput"/>
@@ -141,8 +149,8 @@ import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import { VueEditor } from 'vue2-editor';
 import api from '@/api/api';
 import EventBus from '@/services/EventBus';
-import SettingTitle from './SettingTitle.vue';
 import i18n from '@/plugins/i18n';
+import SettingTitle from './SettingTitle.vue';
 
 export default {
   name: 'Navigation',
@@ -208,6 +216,9 @@ export default {
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
     openNavEditDialog(item) {
+      this.rawHtmlInput = null;
+      this.htmlInput = null;
+      this.linkInput = null;
       if (item.linkType === 'default') {
         this.navlinkAddSchema = NavlinkAddForm.returnForm(true);
         this.defaultLink = true;
@@ -216,6 +227,9 @@ export default {
         this.defaultLink = false;
       }
       this.linkInput = item.link;
+      if (item.linkType === 'html' && item.html) {
+        api.design.getHtml(item.html).then((rsp) => { this.rawHtmlInput = rsp.data.content; });
+      }
       this.$refs.navEditDialog.show(item);
       this.$refs.navEditDialog.setData(item);
     },
@@ -260,18 +274,39 @@ export default {
         console.log(`Could not query nav ${err}`);
       });
     },
-    editNavItem(nav) {
+    async editNavItem(nav) {
+      // check for html content and return if both are not null
+      if (this.htmlInput && this.rawHtmlInput) {
+        this.$refs.navEditDialog.setErrorMessage('Do not use both HTML inputs');
+        return;
+      }
       const linkUpdated = this.$refs.navEditDialog.getData();
-      // Do not Update Link!
-      if (nav.linkType === 'default') {
+      // Do not Update Link if default type!
+      if (linkUpdated.linkType === 'default') {
         linkUpdated.link = nav.link;
       }
       // Update html Link to new Title (replace title after last backslash /)
-      if (nav.linkType === 'html') {
-        linkUpdated.link = nav.link.substr(0, nav.link.lastIndexOf('/') + 1) + linkUpdated.title.toLowerCase();
+      if (linkUpdated.linkType === 'html') {
+        linkUpdated.link = `/cms/${linkUpdated.title.toLowerCase()}`;
+        // find html input to update
+        let inputToUpdate = this.rawHtmlInput;
+        if (this.rawHtmlInput == null) {
+          inputToUpdate = this.htmlInput;
+        }
+        // html content
+        if (nav.html) {
+          // update existing HTML Page Entry
+          await api.design.updateHtmlContent(nav.html, inputToUpdate);
+          linkUpdated.html = nav.html;
+        } else {
+          // create new HTML Page Entry and save UUID
+          await api.design.createHtmlContent(inputToUpdate)
+            .then((rsp) => { linkUpdated.html = rsp.data.id; })
+            .catch((err) => { throw err; });
+        }
       }
       // Update External Link when needed
-      if (nav.linkType === 'link') {
+      if (linkUpdated.linkType === 'link') {
         linkUpdated.link = this.linkInput;
       }
       // find correct object in array and replace it with newly updated
@@ -279,7 +314,7 @@ export default {
       if (index > -1) {
         this.links.splice(index, 1, linkUpdated);
       } else {
-        this.$refs.navEditDialog.setErrorMessage('Couldnt find index of object');
+        this.$refs.navEditDialog.setErrorMessage('Couldnt find index of nav object to update');
         return;
       }
       // send updated link to server

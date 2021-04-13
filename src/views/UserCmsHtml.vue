@@ -1,5 +1,5 @@
 <template>
-  <span v-html="html"></span>
+  <span v-if="html" v-html="html"></span>
 </template>
 
 <script>
@@ -9,16 +9,19 @@ export default {
   name: 'UserRenderedHTML',
   data() {
     return {
-      links: null,
+      links: [],
       html: null,
     };
   },
   watch: {
+    $route() {
+      this.getHtml();
+    },
     links() {
       this.getHtml();
     },
   },
-  created() {
+  beforeMount() {
     this.getLinks();
   },
   mounted() {
@@ -30,7 +33,9 @@ export default {
         .catch((err) => console.log(err.data));
     },
     getHtml() {
-      const htmlId = this.links.find((l) => l.title === this.$route.params.title).html;
+      console.log(this.links);
+      const htmlId = this.links
+        .find((l) => l.title.toLowerCase() === this.$route.params.title).html;
       api.design.getHtml(htmlId).then((rsp) => { this.html = rsp.data.content; })
         .catch((err) => {
           this.html = `Error while fetching HTML ${err}`;
