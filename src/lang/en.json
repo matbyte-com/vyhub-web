@@ -54,6 +54,7 @@
     "rawHtml": "Raw HTML",
     "editNavLink": "Edit Navigation Link",
     "editor": "Editor",
+    "httpPlaceholder": "https://google.de",
     "labels": {
       "title": "Settings",
       "groupSettings":  "Groupsettings",

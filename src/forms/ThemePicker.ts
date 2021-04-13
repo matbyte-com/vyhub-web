@@ -16,9 +16,10 @@ export default {
     image: {
       type: 'string',
       title: i18n.t('settings.labels.backgroundUrl'),
+      pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
-        placeholder: i18n.t('settings.imageUrl'),
+        placeholder: i18n.t('settings.httpPlaceholder'),
       },
     },
     background: common.colorPicker('settings.labels.backgroundColor', 'settings.backgroundColorDescription'),
