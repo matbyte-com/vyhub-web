@@ -117,7 +117,8 @@ export default {
   },
   computed: {
     allowedLinks() {
-      return this.links.filter((l) => !l.reqProp || this.$checkProp(l.reqProp) === true);
+      return this.links
+        .filter((l) => l.enabled && (!l.reqProp || this.$checkProp(l.reqProp) === true));
     },
   },
   beforeMount() {
