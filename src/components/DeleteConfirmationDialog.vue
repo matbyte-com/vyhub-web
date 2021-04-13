@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model="dialog" max-width="300" :title="$t('areYouSure')" icon="mdi-help-circle">
+  <Dialog v-model="dialog" :max-width="300" :title="$t('areYouSure')" icon="mdi-help-circle">
     <template v-if="errorMessage != null">
       <v-alert type="error">
         {{ errorMessage }}
