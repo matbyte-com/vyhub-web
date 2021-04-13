@@ -1,58 +1,47 @@
 <template>
-  <v-dialog
-    scrollable
-    v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.xsOnly"
-    :max-width="maxWidth">
-    <v-card>
-      <v-card-title class="grey lighten-3">
-        <v-icon :if="titleIcon != null" left>{{ titleIcon }}</v-icon>
-        <span>{{ title }}</span>
-        <v-spacer />
-        <v-icon @click="$refs.form.cancelForm()">mdi-close</v-icon>
-      </v-card-title>
-      <v-card-text v-if="formSchema"
-                   style="overflow-x: hidden"
-                   :class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'">
-        <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
-                 :error-message="errorMessage" :hide-buttons="true"
-                 :cancel-text="cancelText" :submit-text="submitText" :options-extra="optionsExtra"
-                 @cancel="dialog = false"
-                 ref="form"
-                 @mounted="genFormMounted"
-                 @updated="$emit('updated')"
-                 @notValid="loading=false"
-                 >
-          <template v-for="(index, name) in $slots" v-slot:[name]>
-            <slot :name="name"/>
-          </template>
-        </GenForm>
-      </v-card-text>
-      <v-card-actions v-if="submitText != null || cancelText != null">
-            <v-btn v-if="submitText != null"
-                   text color="primary" @click="submit">
-              <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
-              <v-icon v-if="!loading" left>mdi-check</v-icon>
-              <div v-if="!loading">
-                {{ submitText }}
-              </div>
-            </v-btn>
-            <v-btn v-if="cancelText != null" color="lighten-5"
-                   text @click="cancelForm">
-              <v-icon left>mdi-close</v-icon>
-              {{ cancelText }}
-            </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <Dialog :max-width="maxWidth" ref="dialog" :title="title" :icon="titleIcon"
+          :text-class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'" @cancel="cancelForm">
+    <template v-if="formSchema" style="overflow-x: hidden">
+      <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
+               :error-message="errorMessage" :hide-buttons="true"
+               :cancel-text="cancelText" :submit-text="submitText" :options-extra="optionsExtra"
+               @cancel="$refs.dialog.open = false"
+               ref="form"
+               @mounted="genFormMounted"
+               @updated="$emit('updated')"
+               @notValid="loading=false"
+      >
+        <template v-for="(index, name) in $slots" v-slot:[name]>
+          <slot :name="name"/>
+        </template>
+      </GenForm>
+    </template>
+    <template v-slot:actions v-if="submitText != null || cancelText != null">
+      <v-btn v-if="submitText != null"
+             text color="primary" @click="submit">
+        <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
+        <v-icon v-if="!loading" left>mdi-check</v-icon>
+        <div v-if="!loading">
+          {{ submitText }}
+        </div>
+      </v-btn>
+      <v-btn v-if="cancelText != null" color="lighten-5"
+             text @click="cancelForm">
+        <v-icon left>mdi-close</v-icon>
+        {{ cancelText }}
+      </v-btn>
+    </template>
+  </Dialog>
 </template>
 
 <script>
 import GenForm from '@/components/GenForm.vue';
+import Dialog from './Dialog.vue';
 
 export default {
   name: 'DialogForm',
   components: {
+    Dialog,
     GenForm,
   },
   props: {
@@ -77,7 +66,6 @@ export default {
   data() {
     return {
       dataBeforeMount: null,
-      dialog: false,
       item: null,
       loading: false,
       optionsExtra: {
@@ -87,12 +75,12 @@ export default {
   },
   methods: {
     show(item) {
-      this.dialog = true;
+      this.$refs.dialog.open = true;
       this.item = item;
     },
     closeAndReset() {
       this.loading = false;
-      this.dialog = false;
+      this.$refs.dialog.open = false;
       return this.$refs.form.cancelForm();
     },
     getData() {
