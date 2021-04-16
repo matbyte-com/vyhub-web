@@ -3,7 +3,7 @@
     <PageTitle :title="$t('settings.labels.title')" />
     <v-row
     no-gutters>
-      <v-col cols="2">
+      <v-col sm="3" md="3" class="hidden-md-and-down">
         <v-card flat class="fill-height">
           <v-card-text>
             <v-tabs vertical v-model="tabModel">
@@ -74,6 +74,9 @@ export default {
         },
         {
           name: 'serverbundles', icon: 'mdi-server', component: 'Server', reqProp: 'server_show',
+        },
+        {
+          name: 'shop', icon: 'mdi-cart', component: 'Shop', reqProp: 'shop_show',
         },
         {
           name: 'packets', icon: 'mdi-gift-open', component: 'Packets', reqProp: 'packet_show',

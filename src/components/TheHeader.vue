@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app color="primary" dark>
     <!-- burger menu on the left-->
-    <div class="hidden-sm-and-up">
+    <div class="hidden-md-and-up">
       <BurgerMenu
         :nav-links="links"
         :menu-links="linksRight"
@@ -17,7 +17,7 @@
 
     <!-- navigation links-->
     <NavigationLink
-      class="hidden-xs-only"
+      class="hidden-sm-and-down"
       :link="link"
       v-for="(link, index) in allowedLinks"
       :key="index">

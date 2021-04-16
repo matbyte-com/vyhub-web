@@ -100,7 +100,7 @@
     </v-list>
     <v-divider class="mb-3"/>
     <v-row>
-      <v-col>
+      <v-col cols="12" md="6">
         <v-btn outlined color="success" @click="openNavAddDialog">
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t('settings.addLink') }}</span>
@@ -130,21 +130,19 @@
           </span>
         </v-tooltip>
       </v-col>
-      <v-col>
-        <v-row class="text--disabled">
-          <v-col>
-            <v-icon disabled>
-              mdi-web
-            </v-icon>
-            {{ $t('settings.htmlContent') }}
-          </v-col>
-          <v-col>
-            <v-icon disabled>
-              mdi-link
-            </v-icon>
-            {{ $t('settings.externalLink') }}
-          </v-col>
-        </v-row>
+      <v-col class="text--disabled" :class="$vuetify.breakpoint.mdAndDown ? '' : 'text-right'">
+        <span class="mr-3">
+          <v-icon disabled>
+          mdi-web
+        </v-icon>
+        {{ $t('settings.htmlContent') }}
+        </span>
+        <span>
+          <v-icon disabled>
+          mdi-link
+        </v-icon>
+        {{ $t('settings.externalLink') }}
+        </span>
       </v-col>
     </v-row>
   </div>
