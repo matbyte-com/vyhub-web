@@ -35,12 +35,17 @@
                 </v-chip>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="openEditBundleDialog(item)">
-                  mdi-pencil
-                </v-icon>
-                <v-icon small @click="openDeleteBundleDialog(item)">
-                  mdi-delete
-                </v-icon>
+                <v-btn outlined color="primary" small
+                       @click="openEditBundleDialog(item)" class="mr-1">
+                  <v-icon>
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+                <v-btn outlined color="error" small @click="openDeleteBundleDialog(item)">
+                  <v-icon>
+                    mdi-delete
+                  </v-icon>
+                </v-btn>
               </template>
             </v-data-table>
           </v-card-text>
@@ -68,12 +73,16 @@
                 {{ getBundle(item) }}
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon small class="mr-2" @click="editBundle(item)">
-                  mdi-pencil
-                </v-icon>
-                <v-icon small @click="openDeleteServerDialog(item)">
-                  mdi-delete
-                </v-icon>
+                <v-btn outlined color="primary" small class="mr-1">
+                  <v-icon>
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+                <v-btn outlined color="error" small @click="openDeleteServerDialog(item)">
+                  <v-icon>
+                    mdi-delete
+                  </v-icon>
+                </v-btn>
               </template>
             </v-data-table>
           </v-card-text>
@@ -113,7 +122,9 @@ export default {
         { text: this.$t('type'), value: 'server_type' },
         { text: this.$t('settings.multigroup'), value: 'multigroup' },
         { text: this.$t('settings.defaultGroup'), value: 'default_group.name' },
-        { text: this.$t('actions'), value: 'actions', sortable: false },
+        {
+          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
+        },
       ],
       gameserverHeaders: [
         { text: this.$t('name'), value: 'name' },
@@ -121,7 +132,9 @@ export default {
         { text: this.$t('ipAddress'), value: 'address' },
         { text: this.$t('port'), value: 'port' },
         { text: this.$t('bundle'), value: 'serverbundle_id' },
-        { text: this.$t('actions'), value: 'actions', sortable: false },
+        {
+          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+        },
       ],
       addBundleSchema: BundleAddForm.returnForm(),
       editBundleSchema: null,

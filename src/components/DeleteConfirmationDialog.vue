@@ -6,18 +6,21 @@
       </v-alert>
     </template>
     <template v-slot:actions>
-      <v-btn class="mr-1"
-             text
-             color="error"
-             type="submit"
-             @click="submit">
-        <v-icon left>mdi-delete</v-icon>
-        {{ $t('delete') }}
-      </v-btn>
-      <v-btn text @click="cancel">
-        <v-icon left>mdi-close</v-icon>
-        {{ $t('cancel') }}
-      </v-btn>
+        <v-col>
+          <v-btn text
+                 color="error"
+                 type="submit"
+                 @click="submit">
+            <v-icon left>mdi-delete</v-icon>
+            {{ $t('delete') }}
+          </v-btn>
+        </v-col>
+        <v-col>
+          <v-btn text @click="cancel">
+            <v-icon left>mdi-close</v-icon>
+            {{ $t('cancel') }}
+          </v-btn>
+        </v-col>
     </template>
   </Dialog>
 </template>
