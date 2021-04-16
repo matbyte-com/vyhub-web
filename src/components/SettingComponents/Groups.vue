@@ -55,12 +55,19 @@
               </v-chip>
             </template>
             <template v-slot:item.actions="{ item }">
-              <v-icon small class="mr-2" @click="openEditGroupDialog(item)">
-                mdi-pencil
-              </v-icon>
-              <v-icon small @click="openDeleteGroupDialog(item)">
-                mdi-delete
-              </v-icon>
+              <div class="text-right">
+                <v-btn outlined color="primary" small
+                       @click="openEditGroupDialog(item)" class="mr-1">
+                  <v-icon>
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+                <v-btn outlined color="error" small @click="openDeleteGroupDialog(item)">
+                  <v-icon>
+                    mdi-delete
+                  </v-icon>
+                </v-btn>
+              </div>
             </template>
             <template v-slot:footer-right>
               <v-btn color="success" @click="$refs.addGroupDialog.show()" outlined>
@@ -98,12 +105,12 @@ export default {
       bundles: [],
       tab: null,
       headers: [
-        { text: this.$t('name'), value: 'name', width: '100px' },
-        { text: this.$t('settings.permissionLevel'), value: 'permission_level', width: '150px' },
-        { text: this.$t('settings.membercount'), value: '', width: '100px' },
+        { text: this.$t('name'), value: 'name' },
+        { text: this.$t('settings.permissionLevel'), value: 'permission_level' },
+        { text: this.$t('settings.membercount'), value: '' },
         { text: this.$t('properties'), value: 'properties' },
         {
-          text: this.$t('actions'), value: 'actions', width: '10px', sortable: false,
+          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
         },
       ],
       addGroupSchema: AddGroupForm,

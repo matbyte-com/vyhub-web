@@ -4,6 +4,7 @@
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
                  :title="$t('settings.addNavlink')"
                  @submit="addLink"/>
+    <delete-confirmation-dialog ref="deleteConfirmationDialog" @submit="deleteNav"/>
     <!-- Edit NavLink Dialog -->
     <dialog-form ref="navEditDialog" :form-schema="navlinkAddSchema"
               :title="$t('settings.editNavLink')"
@@ -73,17 +74,24 @@
                 {{ link.link }}
               </v-col>
               <v-col class="text-right">
-                <v-icon v-if="link.linkType === 'html'">
-                  mdi-web
-                </v-icon>
-                <v-icon v-if="link.linkType === 'link'" class="ml-1">
-                  mdi-link
-                </v-icon>
-              </v-col>
-              <v-col cols="1" class="text-right">
-                <v-icon small class="mr-2" @click="openNavEditDialog(link)">
-                  mdi-pencil
-                </v-icon>
+                  <v-icon v-if="link.linkType === 'html'" class="mr-1">
+                    mdi-web
+                  </v-icon>
+                  <v-icon v-if="link.linkType === 'link'" class="mr-1">
+                    mdi-link
+                  </v-icon>
+                  <v-btn outlined color="primary" small
+                         @click="openNavEditDialog(link)" class="mr-1">
+                    <v-icon>
+                      mdi-pencil
+                    </v-icon>
+                  </v-btn>
+                  <v-btn :disabled="link.linkType==='default'"
+                         outlined color="error" small @click="openDeleteConfirmationDialog(link)">
+                    <v-icon>
+                      mdi-delete
+                    </v-icon>
+                  </v-btn>
               </v-col>
             </v-row>
           </v-list-item>
@@ -102,7 +110,7 @@
             <v-btn outlined color="primary" class="ml-5" v-on="on" v-bind="attrs"
                    style="border-top-right-radius: 0; border-bottom-right-radius: 0"
                    @click="updateLinkOrder" :disabled="!updateLinkEnabled">
-              <v-icon>mdi-sync</v-icon>
+              <v-icon>mdi-check</v-icon>
             </v-btn>
           </template>
           <span>
@@ -114,7 +122,7 @@
             <v-btn outlined color="primary" v-on="on" v-bind="attrs" :disabled="!updateLinkEnabled"
                    style="border-bottom-left-radius: 0; border-top-left-radius: 0"
                    @click="getNavItems">
-              <v-icon>mdi-keyboard-return</v-icon>
+              <v-icon>mdi-backspace-outline</v-icon>
             </v-btn>
           </template>
           <span>
@@ -150,11 +158,13 @@ import { VueEditor } from 'vue2-editor';
 import api from '@/api/api';
 import EventBus from '@/services/EventBus';
 import i18n from '@/plugins/i18n';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import SettingTitle from './SettingTitle.vue';
 
 export default {
   name: 'Navigation',
   components: {
+    DeleteConfirmationDialog,
     SettingTitle,
     DialogForm,
     draggable,
@@ -215,6 +225,9 @@ export default {
         this.links = rsp.data;
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
+    openDeleteConfirmationDialog(link) {
+      this.$refs.deleteConfirmationDialog.show(link);
+    },
     openNavEditDialog(item) {
       this.rawHtmlInput = null;
       this.htmlInput = null;
@@ -273,6 +286,20 @@ export default {
       }).catch((err) => {
         console.log(`Could not query nav ${err}`);
       });
+    },
+    deleteNav(nav) {
+      if (nav.linkType === 'default') {
+        this.$refs.deleteConfirmationDialog.setErrorMessage('Can not delete default links');
+      }
+      const index = this.links.findIndex((l) => l.title === nav.title);
+      if (index > -1) {
+        this.links.splice(index, 1);
+      } else {
+        this.$refs.deleteConfirmationDialog.setErrorMessage('Couldnt find index of nav object to update');
+        return;
+      }
+      this.updateLinkOrder();
+      this.$refs.deleteConfirmationDialog.closeAndReset();
     },
     async editNavItem(nav) {
       // check for html content and return if both are not null
