@@ -266,6 +266,11 @@ export default {
       return http.get(`/shop/purchase/${purchaseId}/gateways`);
     },
   },
+  news: {
+    getNews(page = 0) {
+      return http.get(`/news/?page=${page}&size=1`);
+    },
+  },
   http,
   throttledHttp,
 };
