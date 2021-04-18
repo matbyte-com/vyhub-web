@@ -192,6 +192,16 @@
       "editSuccess": "Packet successfully edited."
     }
   },
+  "home": {
+    "newsOfTheDay": "News of the day",
+    "news": "News",
+    "newsExhausted": "That's it. You have seen everything",
+    "addNews": "New Message",
+    "messageType": "Type",
+    "messageTypeNews": "Message",
+    "messageTypePinned": "Message Of The Day",
+    "messageSubject": "Subject"
+  },
   "type": "Type",
   "general": "General",
   "language": "Language",
