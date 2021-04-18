@@ -268,7 +268,10 @@ export default {
   },
   news: {
     getNews(page = 0) {
-      return http.get(`/news/?page=${page}&size=1`);
+      return http.get(`/news/?page=${page}&size=15`);
+    },
+    addNews(model: never) {
+      return http.post('/news/', model);
     },
   },
   http,
