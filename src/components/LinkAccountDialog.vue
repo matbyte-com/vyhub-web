@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Dialog v-model="dialog" max-width="400px" icon="mdi-account-plus" :title="$t('link_account')">
+    <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="$t('link_account')">
       <v-list tile>
         <v-list-item v-for="backend in backends" :key="backend.id"
                      @click="startAuth(backend.id)">
