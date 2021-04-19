@@ -26,15 +26,17 @@
                 {{ bundle.name }}
               </td>
               <td>
-            <span v-for="group in getGroupsByBundle(bundle.id)" :key="group.id">
                 <v-chip
                   @mouseover="setActiveProps(group)"
                   @mouseleave="resetActives"
-                  class="ml-1 mb-1 a secondary"
+                  :color="group.color ? group.color : '#000000'"
+                  :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                  outlined
+                  class="ml-1 mb-1 a"
                   :class="checkGroups(group)"
+                  v-for="group in getActiveGroupsByBundle(bundle.id)" :key="group.id"
                 >{{ group.name }}
                 </v-chip>
-              </span>
               </td>
             </tr>
             </tbody>
@@ -46,7 +48,9 @@
         <v-col>
           <v-expansion-panels flat accordion>
             <v-expansion-panel>
-              <v-expansion-panel-header>{{ $t("allGroups") }}</v-expansion-panel-header>
+              <v-expansion-panel-header>
+                {{ $t("_dashboard.labels.groupMemberships") }}
+              </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-data-table
                   :headers="groupTableHeaders"
@@ -59,13 +63,15 @@
               </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel>
-              <v-expansion-panel-header>{{ $t("allProperties") }}</v-expansion-panel-header>
+              <v-expansion-panel-header>
+                {{ $t("_dashboard.labels.activeProperties") }}
+              </v-expansion-panel-header>
               <v-expansion-panel-content>
           <span v-for="prop in getProps" :key="prop.id">
               <v-chip
                 @mouseover="setActiveGroups(prop)"
                 @mouseleave="resetActives"
-                class="ml-1 mb-1 a secondary"
+                class="ml-1 mb-1 a success"
                 :class="checkProps(prop)"
                 small
               >{{ prop.name }}
@@ -90,6 +96,7 @@ export default {
       dataFetched: 0,
       activeProps: [],
       activeGroups: [],
+      userActiveGroups: [],
       groups: [],
       memberships: [],
       bundleGroups: [],
@@ -128,20 +135,33 @@ export default {
       this.activeProps.push(prop.name);
     },
     checkGroups(group) {
+      const classes = [];
+
       if (this.activeGroups.includes(group.id)) {
-        return 'accent';
+        classes.push('font-weight-bold');
+        classes.push('text-decoration-underline');
       }
-      return '';
+      return classes.join(' ');
     },
     checkProps(prop) {
+      const classes = [];
+
       if (this.activeProps.includes(prop.name)) {
-        return 'accent';
+        classes.push('darken-3');
       }
-      return '';
+
+      if (!prop.granted) {
+        classes.push('error');
+      }
+
+      return classes.join(' ');
     },
     // -----
     getGroupsByBundle(bundleId) {
       return this.getGroups.filter((g) => g.serverbundle_id === bundleId);
+    },
+    getActiveGroupsByBundle(bundleId) {
+      return this.userActiveGroups.filter((g) => g.serverbundle_id === bundleId);
     },
     getPropsByBundle(bundleId) {
       if (!this.dataFetched) { return []; }
@@ -158,14 +178,17 @@ export default {
       return this.serverBundles.find((b) => b.id === bundleId);
     },
     queryData() {
-      const username = this.$route.params.id;
+      const userId = this.$route.params.id;
       api.group.getGroups().then((response) => {
         this.groups = response.data;
         this.dataFetched += 1;
       });
-      api.user.getMemberships(username).then((response) => {
+      api.user.getMemberships(userId).then((response) => {
         this.memberships = response.data;
         this.dataFetched += 1;
+      });
+      api.user.getGroups(userId).then((response) => {
+        this.userActiveGroups = response.data;
       });
     },
   },
@@ -200,8 +223,8 @@ export default {
         const object = {};
         object.name = this.getGroupById(m.group_id).name;
         object.bundle = this.getBundleById(this.getGroupById(m.group_id).serverbundle_id).name;
-        object.startDate = this.$d(new Date(m.begin), 'short', this.$i18n.locale);
-        object.endDate = this.$d(new Date(m.end), 'short', this.$i18n.locale);
+        object.startDate = (m.begin != null ? this.$d(new Date(m.begin), 'short', this.$i18n.locale) : '-∞');
+        object.endDate = (m.end != null ? this.$d(new Date(m.end), 'short', this.$i18n.locale) : '∞');
         memberships.push(object);
       });
       return memberships;

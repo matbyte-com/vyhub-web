@@ -21,7 +21,9 @@
     "labels": {
       "title": "Profile: {usr}",
       "linkedAccounts": "Linked Accounts",
-      "linkNewAccount": "link new Account"
+      "linkNewAccount": "link new Account",
+      "activeProperties": "Active Permissions",
+      "groupMemberships":  "Group Memberships"
     }
   },
   "ban":{

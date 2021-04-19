@@ -25,7 +25,7 @@ export default {
     Packets,
   },
   props: {
-    serverBundles: Object,
+    serverBundles: Array,
     user: Object,
   },
 };

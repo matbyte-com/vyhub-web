@@ -123,6 +123,9 @@ export default {
     getPackets(userId: string) {
       return http.get(`/user/${userId}/packets`);
     },
+    getGroups(userId: string) {
+      return http.get(`/user/${userId}/groups`);
+    },
   },
   design: {
     getTheme() {

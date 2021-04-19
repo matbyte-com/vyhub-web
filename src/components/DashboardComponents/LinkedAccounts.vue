@@ -42,6 +42,14 @@
                     <v-col>
                       <v-list
                         dense>
+                        <v-list-item>
+                          <v-list-item-content>{{ $t('id') }}</v-list-item-content>
+                          <v-list-item-content>{{ $t(item.identifier) }}</v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                          <v-list-item-content>{{ $t('username') }}</v-list-item-content>
+                          <v-list-item-content>{{ $t(item.username) }}</v-list-item-content>
+                        </v-list-item>
                         <v-list-item
                           v-for="(value, key) in item.attributes"
                           :key="key">
