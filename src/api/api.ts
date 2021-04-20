@@ -152,7 +152,7 @@ export default {
       return http.post('/design/html', { content });
     },
     updateHtmlContent(uuid: string, content: string) {
-      return http.put(`/design/html/${uuid}`, { content });
+      return http.patch(`/design/html/${uuid}`, { content });
     },
   },
   group: {
