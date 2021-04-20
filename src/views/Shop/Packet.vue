@@ -1,18 +1,8 @@
 <template>
     <div>
       <div v-if="packet != null">
-        <v-row>
-          <v-col>
-            <v-card>
-              <v-card-title class="pb-0">
-                {{ packet.title }}
-              </v-card-title>
-              <v-card-text v-if="packet.subtitle">
-                <div class="subtitle-1">{{ packet.subtitle }}</div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+        <PageTitle>{{ packet.title }}</PageTitle>
+        <div class="subtitle-1">{{ packet.subtitle }}</div>
         <v-row>
           <v-col md="8" lg="9">
             <v-row>
@@ -79,8 +69,10 @@
 import utilService from '../../services/UtilService';
 import api from '../../api/api';
 import ShopService from '../../services/ShopService';
+import PageTitle from '../../components/PageTitle.vue';
 
 export default {
+  components: { PageTitle },
   data() {
     return {
       packet: null,

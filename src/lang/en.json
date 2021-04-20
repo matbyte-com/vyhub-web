@@ -172,7 +172,7 @@
       "limitedPayments": "Limited Payments",
       "abstractDetail": "Short bullet points that describe the key features of the packet.",
       "recurring": "Recurring",
-      "recurringDetail": "An subscription is created, with the given interval above.",
+      "recurringDetail": "An subscription is created, with the interval given in the 'Active for' field.",
       "buyableActive": "Buyable if the user has this packet in an active state.",
       "buyableInactive": "Buyable if the user has this packet in an inactive state.",
       "activeForInDays": "Active for (in days)",
