@@ -56,12 +56,12 @@
 <script>
 /* eslint-disable @typescript-eslint/camelcase */
 
-import api from '@/api/api';
 import UtilService from '@/services/UtilService';
 import DialogForm from '@/components/DialogForm.vue';
 import PacketForm from '@/forms/PacketForm';
 import DataTable from '@/components/DataTable.vue';
 import SettingTitle from './SettingTitle.vue';
+import openapi from '../../api/openapi';
 
 export default {
   name: 'Packets',
@@ -84,8 +84,10 @@ export default {
     this.queryData();
   },
   methods: {
-    queryData() {
-      api.packet.getPackets().then((rsp) => {
+    async queryData() {
+      const api = await openapi;
+
+      api.packet_getPackets().then((rsp) => {
         this.packets = rsp.data;
 
         this.packets.forEach((packet) => {
@@ -117,8 +119,9 @@ export default {
         UtilService.notifyUnexpectedError(err.response.data);
       });
     },
-    addPacket() {
+    async addPacket() {
       /* eslint-disable @typescript-eslint/camelcase */
+      const api = await openapi;
 
       let packet = this.$refs.addPacketDialog.getData();
 
@@ -127,7 +130,7 @@ export default {
 
       packet = this.prepareDataForSending(packet);
 
-      api.packet.addPacket(packet).then(() => {
+      api.packet_addPacket(null, packet).then(() => {
         this.queryData();
         this.$refs.addPacketDialog.closeAndReset();
         this.$notify({
@@ -151,10 +154,12 @@ export default {
       this.$refs.editPacketDialog.setData(data);
       this.$refs.editPacketDialog.show(data);
     },
-    editPacket(packetOld) {
+    async editPacket(packetOld) {
+      const api = await openapi;
+
       const data = this.prepareDataForSending(this.$refs.editPacketDialog.getData());
 
-      api.packet.editPacket(packetOld.id, data).then(() => {
+      api.packet_editPacket({ uuid: packetOld.id }, data).then(() => {
         this.queryData();
         this.$refs.editPacketDialog.closeAndReset();
         this.$notify({
