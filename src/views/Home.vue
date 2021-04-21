@@ -40,14 +40,16 @@
         <vue-editor v-model="message" />
       </template>
     </dialog-form>
+    <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
     <!-- News of the Day -->
     <v-row>
-      <v-col>
+      <v-col v-if="getNewsOfTheDay.length !== 0">
         <v-card flat>
           <h2 class="text-h4">{{ $t('home.newsOfTheDay') }}</h2>
         </v-card>
       </v-col>
-      <v-col class="text-right">
+      <!-- News Add Button -->
+      <v-col v-if="$checkProp('news_edit')" class="text-right">
         <v-btn outlined color="success" @click="showAddMessageDialog">
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t('home.addNews') }}</span>
@@ -74,6 +76,17 @@
     <v-card flat outlined v-for="(message, index) in getNews" :key="index" class="mt-3">
       <v-card-title class="grey lighten-2">
         {{ message.subject }}
+        <v-btn outlined color="primary" small
+               @click="openNavEditDialog(link)" class="mr-1">
+          <v-icon>
+            mdi-pencil
+          </v-icon>
+        </v-btn>
+        <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+          <v-icon>
+            mdi-delete
+          </v-icon>
+        </v-btn>
       </v-card-title>
       <v-card-text v-html="message.content">
         {{ message.content }}
@@ -98,13 +111,17 @@
 <script>
 
 import api from '@/api/api';
+import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
 import NewsAddForm from '@/forms/NewsAddForm';
 import { VueEditor } from 'vue2-editor';
 import DialogForm from '@/components/DialogForm.vue';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
-  components: { UserLink, VueEditor, DialogForm },
+  components: {
+    DeleteConfirmationDialog, UserLink, VueEditor, DialogForm,
+  },
   data() {
     return {
       news: [],
@@ -153,10 +170,17 @@ export default {
         this.fetchNews();
       }).catch((err) => this.$refs.messageAddDialog.setErrorMessage(err.response.data.detail));
     },
+    openDeleteMessageDialog(message) {
+      this.$refs.deleteMessageDialog.show(message);
+    },
+    async deleteMessage(message) {
+      await openapi;
+      openapi.news_deleteMessage({ uuid: message.id });
+    },
   },
   computed: {
     getNews() {
-      return this.news.filter((n) => n.type === 'NEWS');
+      return this.news.filter((n) => n.type === 'DEFAULT');
     },
     getNewsOfTheDay() {
       return this.news.filter((n) => n.type === 'PINNED');

@@ -15,10 +15,10 @@ export default {
     type: {
       type: 'string',
       title: i18n.t('home.messageType'),
-      default: 'NEWS',
+      default: 'DEFAULT',
       oneOf: [
         {
-          const: 'NEWS',
+          const: 'DEFAULT',
           title: i18n.t('home.messageTypeNews'),
         },
         {
