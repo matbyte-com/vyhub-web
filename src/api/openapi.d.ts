@@ -674,6 +674,20 @@ declare namespace Components {
       creator?: Model_User_User_UserModelShort;
     }
     /**
+     * NewsModelPatch
+     */
+    export interface NewsModelPatch {
+      /**
+       * Subject
+       */
+      subject?: string;
+      /**
+       * Content
+       */
+      content?: string;
+      type?: NewsType;
+    }
+    /**
      * NewsModelPost
      */
     export interface NewsModelPost {
@@ -691,7 +705,7 @@ declare namespace Components {
      * NewsType
      * An enumeration.
      */
-    export type NewsType = "PINNED" | "NEWS";
+    export type NewsType = "PINNED" | "DEFAULT";
     /**
      * PacketCategoryModel
      */
@@ -1215,61 +1229,6 @@ declare namespace Components {
      * An enumeration.
      */
     export type RequirementType = "GROUP_MEMBER" | "PERMISSION_LEVEL" | "PERMISSION_LEVEL_SB" | "PROPERTY" | "PROPERTY_SB" | "USER_ATTRIBUTE" | "PACKET" | "DATE" | "USER_SELF";
-    /**
-     * RewardEvent
-     * An enumeration.
-     */
-    export type RewardEvent = "CONNECT" | "SPAWN" | "DEATH" | "DISCONNECT";
-    /**
-     * RewardModel
-     */
-    export interface RewardModel {
-      /**
-       * Type
-       */
-      type: string;
-      /**
-       * Value
-       */
-      value: string;
-      /**
-       * Bounds
-       */
-      bounds: string;
-      /**
-       * Begin
-       */
-      begin: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-      /**
-       * Active
-       */
-      active: boolean;
-      /**
-       * Order
-       */
-      order: number;
-      /**
-       * Once
-       */
-      once: boolean;
-      /**
-       * Once From All
-       */
-      once_from_all: boolean;
-      on_event?: RewardEvent;
-      /**
-       * Packet Id
-       */
-      packet_id: string; // uuid
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id: string; // uuid
-    }
     /**
      * ServerBundleModelPatch
      */
@@ -1993,13 +1952,61 @@ declare namespace Paths {
   namespace NewsAddMessage {
     export type RequestBody = Components.Schemas.NewsModelPost;
     namespace Responses {
+      export type $200 = Components.Schemas.NewsModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace NewsDeleteMessage {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace NewsEditMessage {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.NewsModelPatch;
+    namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace NewsGetMessages {
+    namespace Parameters {
+      /**
+       * Page
+       */
+      export type Page = number;
+      /**
+       * Size
+       */
+      export type Size = number;
+    }
+    export interface QueryParameters {
+      page?: Parameters.Page;
+      size?: Parameters.Size;
+    }
     namespace Responses {
       export type $200 = Components.Schemas.PageNewsModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace PacketAddPacket {
@@ -2056,14 +2063,6 @@ declare namespace Paths {
        * Response Get Packets Packet  Get
        */
       export type $200 = Components.Schemas.PacketModel[];
-    }
-  }
-  namespace PacketGetRewards {
-    namespace Responses {
-      /**
-       * Response Get Rewards Packet Reward Get
-       */
-      export type $200 = Components.Schemas.RewardModel[];
     }
   }
   namespace ServerAddBundle {
@@ -3126,14 +3125,6 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>
   /**
-   * packet_getRewards - Get Rewards
-   */
-  'packet_getRewards'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetRewards.Responses.$200>
-  /**
    * gateway_getGateways - Get Gateways
    */
   'gateway_getGateways'(
@@ -3145,10 +3136,10 @@ export interface OperationMethods {
    * news_getMessages - Get Messages
    */
   'news_getMessages'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.NewsGetMessages.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsGetMessages.Responses.$200>
+  ): OperationResponse<Paths.NewsGetMessages.Responses.$200 | Paths.NewsGetMessages.Responses.$422>
   /**
    * news_addMessage - Add Message
    */
@@ -3157,6 +3148,22 @@ export interface OperationMethods {
     data?: Paths.NewsAddMessage.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>
+  /**
+   * news_editMessage - Edit Message
+   */
+  'news_editMessage'(
+    parameters?: Parameters<Paths.NewsEditMessage.PathParameters> | null,
+    data?: Paths.NewsEditMessage.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
+  /**
+   * news_deleteMessage - Delete Message
+   */
+  'news_deleteMessage'(
+    parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
 }
 
 export interface PathsDictionary {
@@ -3200,7 +3207,7 @@ export interface PathsDictionary {
     /**
      * design_updateCmsHtml - Update Cms Html
      */
-    'put'(
+    'patch'(
       parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters> | null,
       data?: Paths.DesignUpdateCmsHtml.RequestBody,
       config?: AxiosRequestConfig  
@@ -3800,16 +3807,6 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>
   }
-  ['/packet/reward']: {
-    /**
-     * packet_getRewards - Get Rewards
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetRewards.Responses.$200>
-  }
   ['/payment-gateway/']: {
     /**
      * gateway_getGateways - Get Gateways
@@ -3825,10 +3822,10 @@ export interface PathsDictionary {
      * news_getMessages - Get Messages
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.NewsGetMessages.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsGetMessages.Responses.$200>
+    ): OperationResponse<Paths.NewsGetMessages.Responses.$200 | Paths.NewsGetMessages.Responses.$422>
     /**
      * news_addMessage - Add Message
      */
@@ -3837,6 +3834,24 @@ export interface PathsDictionary {
       data?: Paths.NewsAddMessage.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>
+  }
+  ['/news/{uuid}']: {
+    /**
+     * news_deleteMessage - Delete Message
+     */
+    'delete'(
+      parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
+    /**
+     * news_editMessage - Edit Message
+     */
+    'patch'(
+      parameters?: Parameters<Paths.NewsEditMessage.PathParameters> | null,
+      data?: Paths.NewsEditMessage.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
   }
 }
 

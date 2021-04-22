@@ -40,6 +40,14 @@
         <vue-editor v-model="message" />
       </template>
     </dialog-form>
+    <dialog-form ref="messageEditDialog" :form-schema="messageAddSchema"
+                 :title="$t('home.editNews')"
+                 :max-width="1000"
+                 @submit="editMessage">
+      <template slot="type-after">
+        <vue-editor v-model="message" />
+      </template>
+    </dialog-form>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
     <!-- News of the Day -->
     <v-row>
@@ -57,51 +65,80 @@
       </v-col>
     </v-row>
     <v-divider />
-    <v-card v-for="(message, index) in getNewsOfTheDay" :key="index" class="mt-3">
-      <v-card-title class="grey lighten-2">
-        {{ message.subject }}
-      </v-card-title>
-      <v-card-text v-html="message.content">
-      </v-card-text>
-      <v-card-actions class="text--disabled">
-        <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
-        <user-link v-if="message.creator" :user="message.creator"/>
-      </v-card-actions>
-    </v-card>
+    <transition-group  enter-active-class="animate__animated animate__fadeIn"
+                       leave-active-class="animate__animated animate__fadeOut">
+      <v-card v-for="message in getNewsOfTheDay" :key="message.id" class="ma-10">
+        <v-card-title class="grey lighten-2">
+          <v-row>
+            <v-col>
+              {{ message.subject }}
+            </v-col>
+            <v-col v-if="$checkProp('news_edit')" class="text-right">
+              <v-btn outlined color="primary" small
+                     @click="openEditMessageDialog(message)" class="mr-1">
+                <v-icon>
+                  mdi-pencil
+                </v-icon>
+              </v-btn>
+              <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+                <v-icon>
+                  mdi-delete
+                </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-title>
+        <v-card-text v-html="message.content" class="mt-3 pb-0">
+        </v-card-text>
+        <v-card-actions class="text--disabled pt-0">
+          <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
+          <user-link v-if="message.creator" :user="message.creator"/>
+        </v-card-actions>
+      </v-card>
+    </transition-group>
     <!-- Display News -->
-    <v-card flat>
+    <v-card flat class="mt-10">
       <h2 class="text-h4">{{ $t('home.news') }}</h2>
     </v-card>
     <v-divider />
-    <v-card flat outlined v-for="(message, index) in getNews" :key="index" class="mt-3">
-      <v-card-title class="grey lighten-2">
-        {{ message.subject }}
-        <v-btn outlined color="primary" small
-               @click="openNavEditDialog(link)" class="mr-1">
-          <v-icon>
-            mdi-pencil
-          </v-icon>
-        </v-btn>
-        <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
-          <v-icon>
-            mdi-delete
-          </v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-card-text v-html="message.content">
-        {{ message.content }}
-      </v-card-text>
-      <v-card-actions class="text--disabled">
-        <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
-        <user-link v-if="message.creator" :user="message.creator"/>
-      </v-card-actions>
-    </v-card>
+    <transition-group enter-active-class="animate__animated animate__fadeIn"
+                      leave-active-class="animate__animated animate__fadeOut">
+      <v-card flat outlined class="mt-3" v-for="message in getNews" :key="message.id">
+        <v-card-title class="grey lighten-2">
+          <v-row>
+            <v-col>
+              {{ message.subject }}
+            </v-col>
+            <v-col v-if="$checkProp('news_edit')" class="text-right">
+              <v-btn outlined color="primary" small
+                     @click="openEditMessageDialog(message)" class="mr-1">
+                <v-icon>
+                  mdi-pencil
+                </v-icon>
+              </v-btn>
+              <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+                <v-icon>
+                  mdi-delete
+                </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-title>
+        <v-card-text v-html="message.content" class="mt-3 pb-0">
+          {{ message.content }}
+        </v-card-text>
+        <v-card-actions class="text--disabled pt-0">
+          <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
+          <user-link v-if="message.creator" :user="message.creator"/>
+        </v-card-actions>
+      </v-card>
+    </transition-group>
     <!-- Skeleton Loader -->
-    <div v-if="!exhausted && fetching">
+    <div v-if="!exhausted && fetching" class="animate__animated animate__bounce">
       <v-skeleton-loader type="article" v-if="fetching" />
     </div>
     <v-card flat v-if="exhausted">
-      <v-card-text class="text-center">
+      <v-card-text class="text-center animate__animated animate__fadeIn">
         {{ $t('home.newsExhausted') }}
       </v-card-text>
     </v-card>
@@ -167,15 +204,38 @@ export default {
       api.news.addNews(data).then((rsp) => {
         this.$refs.messageAddDialog.closeAndReset();
         this.message = null;
-        this.fetchNews();
+        console.log(rsp.data);
+        this.news.unshift(rsp.data);
       }).catch((err) => this.$refs.messageAddDialog.setErrorMessage(err.response.data.detail));
     },
     openDeleteMessageDialog(message) {
       this.$refs.deleteMessageDialog.show(message);
     },
     async deleteMessage(message) {
-      await openapi;
-      openapi.news_deleteMessage({ uuid: message.id });
+      (await openapi).news_deleteMessage(message.id)
+        .then(this.$refs.deleteMessageDialog.closeAndReset)
+        .catch((err) => this.$refs.deleteMessageDialog.setErrorMessage(err.response.data.detail));
+      const index = this.news.findIndex((n) => n.id === message.id);
+      if (index > -1) {
+        this.news.splice(index, 1);
+      }
+    },
+    openEditMessageDialog(message) {
+      this.$refs.messageEditDialog.show(message);
+      this.message = message.content;
+      this.$refs.messageEditDialog.setData(message);
+    },
+    async editMessage(message) {
+      const data = this.$refs.messageEditDialog.getData();
+      data.content = this.message;
+      (await openapi).news_editMessage(message.id, data)
+        .then((rsp) => {
+          const index = this.news.findIndex((n) => n.id === rsp.data.id);
+          if (index > -1) {
+            this.news.splice(index, 1, rsp.data);
+          }
+          this.$refs.messageEditDialog.closeAndReset();
+        }).catch((err) => this.$refs.messageEditDialog.setErrorMessage(err.response.data.detail));
     },
   },
   computed: {

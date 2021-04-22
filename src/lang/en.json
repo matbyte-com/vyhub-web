@@ -203,7 +203,8 @@
     "messageType": "Type",
     "messageTypeNews": "Message",
     "messageTypePinned": "Message Of The Day",
-    "messageSubject": "Subject"
+    "messageSubject": "Subject",
+    "editNews": "Edit Message"
   },
   "type": "Type",
   "general": "General",
