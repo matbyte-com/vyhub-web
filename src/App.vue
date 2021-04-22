@@ -45,7 +45,11 @@
           min-height="70vh"
         >
           <v-card-text>
-            <router-view></router-view>
+            <transition mode="out-in"
+                        enter-active-class="animate__animated animate__fadeIn animate__faster"
+                        >
+              <router-view></router-view>
+            </transition>
             {{ this.$route.query.refresh_token }}
           </v-card-text>
         </v-card>

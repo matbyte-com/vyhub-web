@@ -188,7 +188,7 @@ export default {
       window.onscroll = () => {
         const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 10
           >= document.documentElement.offsetHeight;
-        if (bottomOfWindow && !this.fetching) {
+        if (bottomOfWindow && !this.fetching && !this.exhausted) {
           this.page += 1;
           this.fetchNews(this.page);
         }
