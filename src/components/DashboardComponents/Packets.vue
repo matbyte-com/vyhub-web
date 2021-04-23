@@ -5,7 +5,7 @@
       {{ $t('packets') }}
     </v-card-title>
     <v-card-text>
-      <v-list dense>
+      <v-list dense class="mt-3">
         <v-list-item v-for="userPacket in userPackets" v-bind:key="userPacket.id">
           {{ userPacket.packet.title }}
         </v-list-item>

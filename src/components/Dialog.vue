@@ -12,7 +12,7 @@
         <v-spacer />
         <v-icon color="white" @click="cancel">mdi-close</v-icon>
       </v-card-title>
-      <v-card-text :class="textClass">
+      <v-card-text :class="textClass" style="background-color: rgb(33,33,33)">
         <slot></slot>
       </v-card-text>
       <v-card-actions>

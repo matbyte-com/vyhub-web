@@ -7,7 +7,7 @@
 
     <!-- rendered components-->
     <v-card-text v-if="dataFetched >= 2">
-      <v-row class="mb-1">
+      <v-row class="mb-1 mt-1">
         <v-col>
           <v-simple-table>
             <thead>

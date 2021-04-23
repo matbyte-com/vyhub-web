@@ -3,7 +3,7 @@
     <PageTitle :title="$t('settings.labels.title')" />
     <v-row
     no-gutters>
-      <v-col sm="3" md="3" class="hidden-md-and-down">
+      <v-col sm="3" md="3" class="hidden-md-and-down mr-2">
         <v-card flat class="fill-height">
           <v-card-text>
             <v-tabs vertical v-model="tabModel">

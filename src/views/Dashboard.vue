@@ -6,16 +6,20 @@
     </div>
     <div v-if="user">
       <PageTitle :title="$t('_dashboard.labels.title', { usr: user.username })"/>
-      <v-tabs @change="switchTab">
-        <v-tab>
-          <v-icon left>mdi-gamepad</v-icon>
-          General
-        </v-tab>
-        <v-tab v-for="tab in tabs" :key="tab.id" :style="'color:' + tab.color">
-          <v-icon v-if="tab.icon" left :color="tab.color">{{ tab.icon }}</v-icon>
-          <span>{{ tab.name }}</span>
-        </v-tab>
-      </v-tabs>
+      <v-card>
+        <v-card-text>
+          <v-tabs @change="switchTab">
+            <v-tab>
+              <v-icon left>mdi-gamepad</v-icon>
+              General
+            </v-tab>
+            <v-tab v-for="tab in tabs" :key="tab.id" :style="'color:' + tab.color">
+              <v-icon v-if="tab.icon" left :color="tab.color">{{ tab.icon }}</v-icon>
+              <span>{{ tab.name }}</span>
+            </v-tab>
+          </v-tabs>
+        </v-card-text>
+      </v-card>
       <div class="mt-2">
         <keep-alive>
           <component :is="componentInstance" :bundle-id="bundleId"

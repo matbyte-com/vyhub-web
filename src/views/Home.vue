@@ -50,25 +50,27 @@
     </dialog-form>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
     <!-- News of the Day -->
-    <v-row>
-      <v-col v-if="getNewsOfTheDay.length !== 0">
-        <v-card flat>
-          <h2 class="text-h4">{{ $t('home.newsOfTheDay') }}</h2>
-        </v-card>
-      </v-col>
-      <!-- News Add Button -->
-      <v-col v-if="$checkProp('news_edit')" class="text-right">
-        <v-btn outlined color="success" @click="showAddMessageDialog">
-          <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t('home.addNews') }}</span>
-        </v-btn>
-      </v-col>
-    </v-row>
+    <v-card flat>
+      <v-card-text>
+        <v-row>
+          <v-col v-if="getNewsOfTheDay.length !== 0">
+            <h2 class="text-h4">{{ $t('home.newsOfTheDay') }}</h2>
+          </v-col>
+          <!-- News Add Button -->
+          <v-col v-if="$checkProp('news_edit')" class="text-right">
+            <v-btn outlined color="success" @click="showAddMessageDialog">
+              <v-icon left>mdi-plus</v-icon>
+              <span>{{ $t('home.addNews') }}</span>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
     <v-divider />
     <transition-group  enter-active-class="animate__animated animate__fadeIn"
                        leave-active-class="animate__animated animate__fadeOut">
       <v-card v-for="message in getNewsOfTheDay" :key="message.id" class="ma-10">
-        <v-card-title class="grey lighten-2">
+        <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
           <v-row>
             <v-col>
               {{ message.subject }}
@@ -98,13 +100,15 @@
     </transition-group>
     <!-- Display News -->
     <v-card flat class="mt-10">
-      <h2 class="text-h4">{{ $t('home.news') }}</h2>
+      <v-card-text>
+        <h2 class="text-h4">{{ $t('home.news') }}</h2>
+      </v-card-text>
     </v-card>
     <v-divider />
     <transition-group enter-active-class="animate__animated animate__fadeIn"
                       leave-active-class="animate__animated animate__fadeOut">
       <v-card flat outlined class="mt-3" v-for="message in getNews" :key="message.id">
-        <v-card-title class="grey lighten-2">
+        <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
           <v-row>
             <v-col>
               {{ message.subject }}
@@ -137,7 +141,7 @@
     <div v-if="!exhausted && fetching" class="animate__animated animate__bounce">
       <v-skeleton-loader type="article" v-if="fetching" />
     </div>
-    <v-card flat v-if="exhausted">
+    <v-card flat v-if="exhausted" class="mt-3">
       <v-card-text class="text-center animate__animated animate__fadeIn">
         {{ $t('home.newsExhausted') }}
       </v-card-text>

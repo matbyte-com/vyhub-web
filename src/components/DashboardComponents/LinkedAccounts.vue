@@ -15,7 +15,7 @@
               v-for="item in items"
               :key="item.id"
               sm="6">
-              <v-card>
+              <v-card class="mt-3">
                 <v-card-title>
                   <v-row>
                     <v-col>

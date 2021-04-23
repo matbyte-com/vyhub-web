@@ -41,7 +41,7 @@
 
     <v-main :style="backgroundColor">
       <v-container>
-        <v-card
+        <v-card class="transparent" flat
           min-height="70vh"
         >
           <v-card-text>
@@ -171,3 +171,26 @@ export default Vue.extend({
   },
 });
 </script>
+
+<style lang="sass">
+.v-card
+  background-color: rgba(33,33,33, 0.85) !important
+.v-card__title
+  background-color: rgba(33,33,33, 0.80) !important
+.v-slide-group
+  background-color: rgba(33,33,33, 0) !important
+.v-data-table
+  background-color: rgba(33,33,33, 0) !important
+.v-expansion-panel
+  background-color: rgba(33,33,33, 0) !important
+.v-list
+  background-color: rgba(33,33,33, 0) !important
+.v-tabs-items
+  background-color: rgba(33,33,33, 0) !important
+.v-card.transparent
+  background-color: rgba(0,0,0,0) !important
+  .v-card__title
+    background-color: rgba(0,0,0,0) !important
+.v-card__title.grey-title
+    background-color: rgb(200,200,200) !important
+</style>

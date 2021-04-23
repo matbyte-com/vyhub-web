@@ -16,7 +16,7 @@
                 :title="$t('__editBundle')"/>
     <v-row>
       <v-col>
-        <v-card outlined flat class="fill-height">
+        <v-card outlined flat class="fill-height transparent">
           <v-card-title>
             {{ $t('serverbundle') }}
           </v-card-title>
@@ -50,7 +50,7 @@
             </v-data-table>
           </v-card-text>
           <v-card-actions>
-            <v-btn text color="primary" @click="$refs.addBundleDialog.dialog = true">
+            <v-btn text color="primary" @click="$refs.addBundleDialog.show()">
               <v-icon left>mdi-plus</v-icon>
               <span>{{ $t('settings.labels.addBundle') }}</span>
             </v-btn>
@@ -58,7 +58,7 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-card outlined flat class="fill-height">
+        <v-card outlined flat class="fill-height transparent">
           <v-card-title>
             {{ $t('settings.gameserver') }}
           </v-card-title>

@@ -1,47 +1,55 @@
 <template>
   <div>
-    <PageTitle>{{ $t('ban.labels.title') }}</PageTitle>
-    <DataTable
-      :headers="headers"
-      :items="getBans"
-      :search="true"
-      :sort-by="['created_on']"
-      :sort-desc="[true]"
-      :item-class="banRowFormatter"
-      @click:row="showDetails">
-      <template v-slot:footer-right>
-        <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
-          <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t("ban.labels.add") }}</span>
-        </v-btn>
-      </template>
-      <template v-slot:item.user="{ item }">
-        <UserLink :user="item.user"></UserLink>
-      </template>
-      <template v-slot:item.length="{ item }">
+    <v-card>
+      <v-card-text>
+        <PageTitle>{{ $t('ban.labels.title') }}</PageTitle>
+      </v-card-text>
+    </v-card>
+    <v-card class="mt-3">
+      <v-card-text>
+        <DataTable
+          :headers="headers"
+          :items="getBans"
+          :search="true"
+          :sort-by="['created_on']"
+          :sort-desc="[true]"
+          :item-class="banRowFormatter"
+          @click:row="showDetails">
+          <template v-slot:footer-right>
+            <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
+              <v-icon left>mdi-plus</v-icon>
+              <span>{{ $t("ban.labels.add") }}</span>
+            </v-btn>
+          </template>
+          <template v-slot:item.user="{ item }">
+            <UserLink :user="item.user"></UserLink>
+          </template>
+          <template v-slot:item.length="{ item }">
         <span>
           {{ formatLength(item['length']) }}
         </span>
-      </template>
-      <template v-slot:item.ends_on="{ item }">
-        <span>{{(item.ends_on == null ? '-' : new Date(item.ends_on).toLocaleString()) }}</span>
-      </template>
-      <template v-slot:item.creator="{ item }">
-        <UserLink :user="item.creator"></UserLink>
-      </template>
-      <template v-slot:item.created_on="{ item }">
-        <span>{{ new Date(item.created_on).toLocaleString() }}</span>
-      </template>
-      <template v-slot:item.actions="{ item }">
-        <v-btn depressed small color="error"
-               @click="showDetails(item)">
-          <v-icon left>
-            mdi-eye
-          </v-icon>
-          {{ $t('details') }}
-        </v-btn>
-      </template>
-    </DataTable>
+          </template>
+          <template v-slot:item.ends_on="{ item }">
+            <span>{{(item.ends_on == null ? '-' : new Date(item.ends_on).toLocaleString()) }}</span>
+          </template>
+          <template v-slot:item.creator="{ item }">
+            <UserLink :user="item.creator"></UserLink>
+          </template>
+          <template v-slot:item.created_on="{ item }">
+            <span>{{ new Date(item.created_on).toLocaleString() }}</span>
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-btn depressed small color="error"
+                   @click="showDetails(item)">
+              <v-icon left>
+                mdi-eye
+              </v-icon>
+              {{ $t('details') }}
+            </v-btn>
+          </template>
+        </DataTable>
+      </v-card-text>
+    </v-card>
     <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
                 :title="$t('ban.labels.add')" :submit-text="$t('create')"
                 title-icon="mdi-account-cancel"
