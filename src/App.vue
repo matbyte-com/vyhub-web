@@ -48,7 +48,8 @@
             <transition mode="out-in"
                         enter-active-class="animate__animated animate__fadeIn animate__faster"
                         >
-              <router-view></router-view>
+              <router-view :class="{ 'dark-theme' : $vuetify.theme.dark }">
+              </router-view>
             </transition>
             {{ this.$route.query.refresh_token }}
           </v-card-text>
@@ -172,7 +173,8 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="sass">
+<!--<style v-if="$vuetify.theme.dark" lang="sass">@import "assets/css/dark.sass"</style>-->
+<!--<style lang="sass">
 .v-card
   background-color: rgba(33,33,33, 0.85) !important
 .v-card__title
@@ -193,4 +195,9 @@ export default Vue.extend({
     background-color: rgba(0,0,0,0) !important
 .v-card__title.grey-title
     background-color: rgb(200,200,200) !important
+</style>-->
+
+<style lang="sass">
+.dark-theme
+  @import "assets/css/dark.sass"
 </style>
