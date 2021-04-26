@@ -1,5 +1,6 @@
 <template>
   <Dialog v-model="dialog" :max-width="300" :title="$t('areYouSure')" icon="mdi-help-circle">
+    {{ text }}
     <template v-if="errorMessage != null">
       <v-alert type="error">
         {{ errorMessage }}
@@ -37,6 +38,9 @@ export default {
       errorMessage: null,
       item: null,
     };
+  },
+  props: {
+    text: String,
   },
   methods: {
     cancel() {
