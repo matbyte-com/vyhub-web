@@ -573,6 +573,23 @@ declare namespace Components {
       user_id: string; // uuid
     }
     /**
+     * MembershipModelUserAdd
+     */
+    export interface MembershipModelUserAdd {
+      /**
+       * Begin
+       */
+      begin: string; // date-time
+      /**
+       * End
+       */
+      end?: string; // date-time
+      /**
+       * Group Id
+       */
+      group_id: string; // uuid
+    }
+    /**
      * UserModelShort
      */
     export interface Model_User_UserModelShort {
@@ -665,7 +682,7 @@ declare namespace Components {
       /**
        * Content
        */
-      content: string;
+      content?: string;
       type: NewsType;
       /**
        * Created
@@ -698,7 +715,7 @@ declare namespace Components {
       /**
        * Content
        */
-      content: string;
+      content?: string;
       type: NewsType;
     }
     /**
@@ -808,6 +825,10 @@ declare namespace Components {
        * Payment Gateways
        */
       payment_gateways: PaymentGatewayModel[];
+      /**
+       * Deletable
+       */
+      deletable: boolean;
     }
     /**
      * PacketModelAdd
@@ -1229,6 +1250,119 @@ declare namespace Components {
      * An enumeration.
      */
     export type RequirementType = "GROUP_MEMBER" | "PERMISSION_LEVEL" | "PERMISSION_LEVEL_SB" | "PROPERTY" | "PROPERTY_SB" | "USER_ATTRIBUTE" | "PACKET" | "DATE" | "USER_SELF";
+    /**
+     * RewardEvent
+     * An enumeration.
+     */
+    export type RewardEvent = "DIRECT" | "CONNECT" | "SPAWN" | "DEATH" | "DISCONNECT";
+    /**
+     * RewardModel
+     */
+    export interface RewardModel {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Type
+       */
+      type: string;
+      /**
+       * Value
+       */
+      value: string;
+      /**
+       * Order
+       */
+      order: number;
+      /**
+       * Once
+       */
+      once: boolean;
+      /**
+       * Once From All
+       */
+      once_from_all: boolean;
+      on_event?: RewardEvent;
+      serverbundle: ServerbundleModelShort;
+      requirement_set?: RequirementSetModel;
+    }
+    /**
+     * RewardModelAdd
+     */
+    export interface RewardModelAdd {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Type
+       */
+      type: string;
+      /**
+       * Value
+       */
+      value: string;
+      /**
+       * Order
+       */
+      order: number;
+      /**
+       * Once
+       */
+      once: boolean;
+      /**
+       * Once From All
+       */
+      once_from_all: boolean;
+      on_event?: RewardEvent;
+      /**
+       * Serverbundle Id
+       */
+      serverbundle_id: string; // uuid
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id?: string; // uuid
+    }
+    /**
+     * RewardModelPatch
+     */
+    export interface RewardModelPatch {
+      /**
+       * Name
+       */
+      name?: string;
+      /**
+       * Type
+       */
+      type?: string;
+      /**
+       * Value
+       */
+      value?: string;
+      /**
+       * Order
+       */
+      order?: number;
+      /**
+       * Once
+       */
+      once?: boolean;
+      /**
+       * Once From All
+       */
+      once_from_all?: boolean;
+      on_event?: RewardEvent;
+      /**
+       * Serverbundle Id
+       */
+      serverbundle_id?: string; // uuid
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id?: string; // uuid
+    }
     /**
      * ServerBundleModelPatch
      */
@@ -1776,7 +1910,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Logs Ban  Uuid  Logs Get
+       * Response Get Logs Ban  Uuid  Log Get
        */
       export type $200 = Components.Schemas.LogEntryModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -1936,10 +2070,15 @@ declare namespace Paths {
   }
   namespace GroupGetGroups {
     namespace Parameters {
+      /**
+       * Serverbundle Id
+       */
+      export type ServerbundleId = string; // uuid
       export type Type = Components.Schemas.ServerType;
     }
     export interface QueryParameters {
-      _type?: Parameters.Type;
+      type?: Parameters.Type;
+      serverbundle_id?: Parameters.ServerbundleId; // uuid
     }
     namespace Responses {
       /**
@@ -1985,7 +2124,7 @@ declare namespace Paths {
     }
     export type RequestBody = Components.Schemas.NewsModelPatch;
     namespace Responses {
-      export type $200 = any;
+      export type $200 = Components.Schemas.NewsModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -2016,7 +2155,30 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace PacketAddReward {
+    export type RequestBody = Components.Schemas.RewardModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.RewardModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace PacketDeletePacket {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.SuccessModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace PacketDeleteReward {
     namespace Parameters {
       /**
        * Uuid
@@ -2049,6 +2211,23 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace PacketEditReward {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.RewardModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.RewardModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace PacketGetCategories {
     namespace Responses {
       /**
@@ -2063,6 +2242,14 @@ declare namespace Paths {
        * Response Get Packets Packet  Get
        */
       export type $200 = Components.Schemas.PacketModel[];
+    }
+  }
+  namespace PacketGetRewards {
+    namespace Responses {
+      /**
+       * Response Get Rewards Packet Reward Get
+       */
+      export type $200 = Components.Schemas.RewardModel[];
     }
   }
   namespace ServerAddBundle {
@@ -2133,7 +2320,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Groups Server Bundle  Uuid  Groups Get
+       * Response Get Groups Server Bundle  Uuid  Group Get
        */
       export type $200 = Components.Schemas.GroupModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2274,7 +2461,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Gateways For Purchase Shop Purchase  Uuid  Gateways Get
+       * Response Get Gateways For Purchase Shop Purchase  Uuid  Gateway Get
        */
       export type $200 = Components.Schemas.PaymentGatewayModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2371,6 +2558,23 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace UserAddMembership {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID or username of the referenced user.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.MembershipModelUserAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.MembershipModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace UserGetActiveGroups {
     namespace Parameters {
       /**
@@ -2384,7 +2588,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Active Groups User  Uuid  Groups Get
+       * Response Get Active Groups User  Uuid  Group Get
        */
       export type $200 = Components.Schemas.GroupModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2419,7 +2623,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Addresses User  Uuid  Addresses Get
+       * Response Get Addresses User  Uuid  Address Get
        */
       export type $200 = Components.Schemas.AddressModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2428,7 +2632,7 @@ declare namespace Paths {
   namespace UserGetAttributeDefinitions {
     namespace Responses {
       /**
-       * Response Get Attribute Definitions User Attribute Definitions Get
+       * Response Get Attribute Definitions User Attribute Definition Get
        */
       export type $200 = Components.Schemas.UserAttributeDefinitionModel[];
     }
@@ -2475,7 +2679,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Current Properties User  Uuid  Properties Get
+       * Response Get Current Properties User  Uuid  Property Get
        */
       export type $200 = Components.Schemas.UserPropertyModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2510,7 +2714,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Memberships User  Uuid  Memberships Get
+       * Response Get Memberships User  Uuid  Membership Get
        */
       export type $200 = Components.Schemas.MembershipModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2529,7 +2733,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Packets User  Uuid  Packets Get
+       * Response Get Packets User  Uuid  Packet Get
        */
       export type $200 = Components.Schemas.AppliedPacketModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2548,7 +2752,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Purchases User  Uuid  Purchases Get
+       * Response Get Purchases User  Uuid  Purchase Get
        */
       export type $200 = Components.Schemas.PurchaseModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2728,6 +2932,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetMemberships.Responses.$200 | Paths.UserGetMemberships.Responses.$422>
+  /**
+   * user_addMembership - Add Membership
+   */
+  'user_addMembership'(
+    parameters?: Parameters<Paths.UserAddMembership.PathParameters> | null,
+    data?: Paths.UserAddMembership.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
   /**
    * user_getActiveGroups - Get Active Groups
    * 
@@ -3125,6 +3337,38 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>
   /**
+   * packet_getRewards - Get Rewards
+   */
+  'packet_getRewards'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketGetRewards.Responses.$200>
+  /**
+   * packet_addReward - Add Reward
+   */
+  'packet_addReward'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.PacketAddReward.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
+  /**
+   * packet_editReward - Edit Reward
+   */
+  'packet_editReward'(
+    parameters?: Parameters<Paths.PacketEditReward.PathParameters> | null,
+    data?: Paths.PacketEditReward.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
+  /**
+   * packet_deleteReward - Delete Reward
+   */
+  'packet_deleteReward'(
+    parameters?: Parameters<Paths.PacketDeleteReward.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
+  /**
    * gateway_getGateways - Get Gateways
    */
   'gateway_getGateways'(
@@ -3319,7 +3563,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>
   }
-  ['/user/attribute/definitions']: {
+  ['/user/attribute/definition']: {
     /**
      * user_getAttributeDefinitions - Get Attribute Definitions
      */
@@ -3329,7 +3573,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>
   }
-  ['/user/{uuid}/memberships']: {
+  ['/user/{uuid}/membership']: {
     /**
      * user_getMemberships - Get Memberships
      * 
@@ -3340,8 +3584,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetMemberships.Responses.$200 | Paths.UserGetMemberships.Responses.$422>
+    /**
+     * user_addMembership - Add Membership
+     */
+    'post'(
+      parameters?: Parameters<Paths.UserAddMembership.PathParameters> | null,
+      data?: Paths.UserAddMembership.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
   }
-  ['/user/{uuid}/groups']: {
+  ['/user/{uuid}/group']: {
     /**
      * user_getActiveGroups - Get Active Groups
      * 
@@ -3353,7 +3605,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>
   }
-  ['/user/{uuid}/packets']: {
+  ['/user/{uuid}/packet']: {
     /**
      * user_getPackets - Get Packets
      * 
@@ -3375,7 +3627,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetUsers.Responses.$200 | Paths.UserGetUsers.Responses.$422>
   }
-  ['/user/{uuid}/properties']: {
+  ['/user/{uuid}/property']: {
     /**
      * user_getCurrentProperties - Get Current Properties
      * 
@@ -3387,7 +3639,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>
   }
-  ['/user/{uuid}/purchases']: {
+  ['/user/{uuid}/purchase']: {
     /**
      * user_getPurchases - Get Purchases
      */
@@ -3417,7 +3669,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>
   }
-  ['/user/{uuid}/addresses']: {
+  ['/user/{uuid}/address']: {
     /**
      * user_getAddresses - Get Addresses
      */
@@ -3445,7 +3697,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>
   }
-  ['/server/bundle/{uuid}/groups']: {
+  ['/server/bundle/{uuid}/group']: {
     /**
      * server_getGroups - Get Groups
      */
@@ -3593,7 +3845,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>
   }
-  ['/ban/{uuid}/logs']: {
+  ['/ban/{uuid}/log']: {
     /**
      * ban_getLogs - Get Logs
      */
@@ -3643,7 +3895,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>
   }
-  ['/shop/cart/packets']: {
+  ['/shop/cart/packet']: {
     /**
      * shop_getCart - Get Cart
      */
@@ -3751,7 +4003,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
   }
-  ['/shop/purchase/{uuid}/gateways']: {
+  ['/shop/purchase/{uuid}/gateway']: {
     /**
      * shop_getGatewaysForPurchase - Get Gateways For Purchase
      */
@@ -3806,6 +4058,42 @@ export interface PathsDictionary {
       data?: Paths.PacketEditPacket.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>
+  }
+  ['/packet/reward']: {
+    /**
+     * packet_getRewards - Get Rewards
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketGetRewards.Responses.$200>
+    /**
+     * packet_addReward - Add Reward
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.PacketAddReward.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
+  }
+  ['/packet/reward/{uuid}']: {
+    /**
+     * packet_deleteReward - Delete Reward
+     */
+    'delete'(
+      parameters?: Parameters<Paths.PacketDeleteReward.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
+    /**
+     * packet_editReward - Edit Reward
+     */
+    'patch'(
+      parameters?: Parameters<Paths.PacketEditReward.PathParameters> | null,
+      data?: Paths.PacketEditReward.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
   }
   ['/payment-gateway/']: {
     /**

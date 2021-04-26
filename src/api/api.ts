@@ -50,7 +50,7 @@ export default {
       return http.delete(`/ban/${banId}`);
     },
     getLog(banId: string) {
-      return http.get(`/ban/${banId}/logs`);
+      return http.get(`/ban/${banId}/log`);
     },
   },
   server: {
@@ -91,13 +91,13 @@ export default {
   },
   user: {
     getMemberships(uuid: string) {
-      return http.get(`/user/${uuid}/memberships`);
+      return http.get(`/user/${uuid}/membership`);
     },
     getUser(uuid: string) {
       return http.get(`/user/${uuid}`);
     },
     getAttributeDefinitions() {
-      return throttledHttp.get('/user/attribute/definitions');
+      return throttledHttp.get('/user/attribute/definition');
     },
     prepareSocialAuth() {
       return http.get('/auth/social/prepare/', { withCredentials: true });
@@ -106,25 +106,25 @@ export default {
       return http.get('/user/', { params: { query, max } });
     },
     getLog(userId: string) {
-      return http.get(`/user/${userId}/logs`);
+      return http.get(`/user/${userId}/log`);
     },
     getProperties(userId: string) {
-      return throttledHttp.get(`/user/${userId}/properties`);
+      return throttledHttp.get(`/user/${userId}/property`);
     },
     getAddresses(userId: string) {
-      return http.get(`/user/${userId}/addresses`);
+      return http.get(`/user/${userId}/address`);
     },
     addAddress(address: object) {
       return http.post('/user/address', address);
     },
     getPurchases(userId: string) {
-      return http.get(`/user/${userId}/purchases`);
+      return http.get(`/user/${userId}/purchase`);
     },
     getPackets(userId: string) {
-      return http.get(`/user/${userId}/packets`);
+      return http.get(`/user/${userId}/packet`);
     },
     getGroups(userId: string) {
-      return http.get(`/user/${userId}/groups`);
+      return http.get(`/user/${userId}/group`);
     },
   },
   design: {
@@ -216,7 +216,7 @@ export default {
       return http.get('/shop/cart', { params: { country_code } });
     },
     getCartPackets() {
-      return http.get('/shop/cart/packets');
+      return http.get('/shop/cart/packet');
     },
     addToCart(packetId: string) {
       return http.post('/shop/cart', {
@@ -266,12 +266,12 @@ export default {
       return http.patch(`/shop/purchase/${purchaseId}`);
     },
     getPaymentGateways(purchaseId: string) {
-      return http.get(`/shop/purchase/${purchaseId}/gateways`);
+      return http.get(`/shop/purchase/${purchaseId}/gateway`);
     },
   },
   news: {
     getNews(page = 0) {
-      return http.get(`/news/?page=${page}&size=15`);
+      return http.get('/news/', { params: { page, size: 15 } });
     },
     addNews(model: never) {
       return http.post('/news/', model);
