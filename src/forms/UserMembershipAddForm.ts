@@ -32,7 +32,7 @@ export default {
         group: {
           type: 'object',
           title: i18n.t('group'),
-          'x-fromUrl': `${API_URL}/group/?_bundle={serverbundle.id}`,
+          'x-fromUrl': `${API_URL}/group/?serverbundle_id={serverbundle.id}`,
           'x-itemKey': 'id',
           'x-itemTitle': 'name',
         },
