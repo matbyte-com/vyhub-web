@@ -82,7 +82,7 @@ export default {
           name: 'packets', icon: 'mdi-gift-open', component: 'Packets', reqProp: 'packet_show',
         },
         {
-          name: 'Rewards', icon: 'mdi-star-shooting', component: 'Rewards', reqProp: 'reward_show',
+          name: 'rewards', icon: 'mdi-star-shooting', component: 'Rewards', reqProp: 'reward_show',
         },
       ],
       activeComponent: 'General',

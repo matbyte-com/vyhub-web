@@ -193,7 +193,29 @@
     },
     "messages": {
       "addSuccess": "Packet successfully created.",
-      "editSuccess": "Packet successfully edited."
+      "editSuccess": "Packet successfully edited.",
+      "deleteSuccess": "Packet successfully deleted."
+    }
+  },
+  "_reward": {
+    "labels": {
+      "create": "Create reward",
+      "once": "Only execute once (per packet)",
+      "onEvent": "Execute on event",
+      "edit": "Edit reward",
+      "onceFromAll": "Only execute on one server",
+      "_events": {
+        "direct": "Execute directly",
+        "connect": "Execute on connect",
+        "disconnect": "Execute on disconnect",
+        "spawn": "Execute on spawn",
+        "death": "Execute on death"
+      }
+    },
+    "messages": {
+      "createSuccess": "Reward successfully created.",
+      "editSuccess": "Reward successfully edited.",
+      "deleteSuccess": "Reward successfully deleted."
     }
   },
   "home": {
@@ -211,12 +233,14 @@
   "general": "General",
   "language": "Language",
   "payment": "Payment",
+  "oneTime": "One-Time",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
   "startdate": "Begin",
   "enddate": "Ending",
   "imageURL": "Image URL",
   "groups": "Groups",
+  "value": "Value",
   "description": "Description",
   "country": "Country",
   "allGroups": "All Groups",
@@ -224,6 +248,7 @@
   "username": "Username",
   "navigation": "Navigation",
   "email": "E-Mail",
+  "rewards": "Rewards",
   "packets": "Packets",
   "dark_mode": "Dark Mode",
   "length": "Length",
