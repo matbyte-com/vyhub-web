@@ -28,7 +28,7 @@
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn outlined color="error" small @click="deletePacket(item)">
+          <v-btn outlined color="error" small @click="$refs.deletePacketDialog.show(item)">
             <v-icon>
               mdi-delete
             </v-icon>
@@ -50,6 +50,9 @@
       :submitText="$t('edit')"
       @submit="editPacket"
       :title="$t('_packet.labels.edit')"/>
+    <DeleteConfirmationDialog
+      ref="deletePacketDialog"
+      @submit="deletePacket"/>
   </div>
 </template>
 
@@ -62,10 +65,13 @@ import PacketForm from '@/forms/PacketForm';
 import DataTable from '@/components/DataTable.vue';
 import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
+import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 
 export default {
   name: 'Packets',
-  components: { SettingTitle, DataTable, DialogForm },
+  components: {
+    DeleteConfirmationDialog, SettingTitle, DataTable, DialogForm,
+  },
   data() {
     return {
       headers: [
@@ -193,8 +199,20 @@ export default {
 
       return new_data;
     },
-    deletePacket(packet) {
-      //
+    async deletePacket(packet) {
+      const api = await openapi;
+
+      api.packet_deletePacket({ uuid: packet.id }).then(() => {
+        this.queryData();
+        this.$refs.deletePacketDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_packet.messages.deleteSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        console.log(err);
+        this.$refs.deletePacketDialog.setErrorMessage(err.response.data);
+      });
     },
     editRewards(packet) {
       //
