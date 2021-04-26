@@ -24,7 +24,8 @@
       "linkNewAccount": "link new Account",
       "activeProperties": "Active Permissions",
       "groupMemberships":  "Group Memberships"
-    }
+    },
+    "membershipEndDescription": "Leave empty for unlimited duration"
   },
   "ban":{
     "labels": {
@@ -273,5 +274,8 @@
   "theme": "Theme",
   "url": "URL",
   "enabled": "Enabled",
-  "htmlNoMatch": "This is not a valid url"
+  "htmlNoMatch": "This is not a valid url",
+  "begin": "Begin",
+  "end": "End",
+  "group": "Group"
 }

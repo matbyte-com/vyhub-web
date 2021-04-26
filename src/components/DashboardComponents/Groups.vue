@@ -1,8 +1,16 @@
 <template>
   <v-card class="flex-grow-1">
+    <dialog-form :form-schema="userMembershipAddForm"
+                 ref="addMembershipDialog"
+                 @submit="addUserMembership"/>
     <v-card-title>
       <v-icon class="mr-2">mdi-account-group</v-icon>
       {{ $t('groups') }}
+      <v-spacer />
+      <v-btn color="success" @click="$refs.addMembershipDialog.show()" outlined>
+        <v-icon left>mdi-plus</v-icon>
+        <span>{{ $t('add') }}</span>
+      </v-btn>
     </v-card-title>
 
     <!-- rendered components-->
@@ -87,10 +95,15 @@
 </template>
 
 <script>
+/* eslint-disable @typescript-eslint/camelcase */
 import api from '@/api/api';
+import DialogForm from '@/components/DialogForm.vue';
+import UserMembershipAddForm from '@/forms/UserMembershipAddForm';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'Groups',
+  components: { DialogForm },
   data() {
     return {
       dataFetched: 0,
@@ -106,6 +119,7 @@ export default {
         { text: this.$t('startdate'), value: 'startDate' },
         { text: this.$t('enddate'), value: 'endDate' },
       ],
+      userMembershipAddForm: UserMembershipAddForm,
     };
   },
   watch: {
@@ -189,6 +203,21 @@ export default {
       });
       api.user.getGroups(userId).then((response) => {
         this.userActiveGroups = response.data;
+      });
+    },
+    async addUserMembership() {
+      const data = this.$refs.addMembershipDialog.getData();
+      data.group_id = data.group.id;
+      const userId = this.$route.params.id;
+
+      if (new Date(data.begin) > new Date(data.end)) {
+        this.$refs.addMembershipDialog.setErrorMessage('Begin date after end date');
+      }
+      (await openapi).user_addMembership(userId, data).then(() => {
+        this.queryData();
+        this.$refs.addMembershipDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.addMembershipDialog.setErrorMessage(err.response.data.detail);
       });
     },
   },
