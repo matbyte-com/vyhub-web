@@ -42,7 +42,7 @@
                   outlined
                   class="ml-1 mb-1 a"
                   :class="checkGroups(group)"
-                  v-for="group in getActiveGroupsByBundle(bundle.id)" :key="group.id"
+                  v-for="group in getUserActiveGroupsByBundle(bundle.id)" :key="group.id"
                 >{{ group.name }}
                 </v-chip>
               </td>
@@ -95,11 +95,10 @@
 </template>
 
 <script>
-/* eslint-disable @typescript-eslint/camelcase */
-import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
 import UserMembershipAddForm from '@/forms/UserMembershipAddForm';
 import openapi from '@/api/openapi';
+import openapiCached from '@/api/openapiCached';
 
 export default {
   name: 'Groups',
@@ -127,7 +126,7 @@ export default {
       this.queryData();
     },
   },
-  props: ['serverBundles'],
+  props: ['serverBundles', 'user'],
   async beforeMount() {
     this.queryData();
   },
@@ -172,9 +171,9 @@ export default {
     },
     // -----
     getGroupsByBundle(bundleId) {
-      return this.getGroups.filter((g) => g.serverbundle_id === bundleId);
+      return this.groups.filter((g) => g.serverbundle_id === bundleId);
     },
-    getActiveGroupsByBundle(bundleId) {
+    getUserActiveGroupsByBundle(bundleId) {
       return this.userActiveGroups.filter((g) => g.serverbundle_id === bundleId);
     },
     getPropsByBundle(bundleId) {
@@ -191,18 +190,18 @@ export default {
     getBundleById(bundleId) {
       return this.serverBundles.find((b) => b.id === bundleId);
     },
-    queryData() {
-      const userId = this.$route.params.id;
-      api.group.getGroups().then((response) => {
-        this.groups = response.data;
-        this.dataFetched += 1;
-      });
-      api.user.getMemberships(userId).then((response) => {
+    async queryData() {
+      (await openapi).user_getMemberships(this.user.id).then((response) => {
         this.memberships = response.data;
         this.dataFetched += 1;
       });
-      api.user.getGroups(userId).then((response) => {
+      (await openapiCached).group_getGroups().then((response) => {
+        this.groups = response.data;
+        this.dataFetched += 1;
+      });
+      (await openapi).user_getActiveGroups(this.user.id).then((response) => {
         this.userActiveGroups = response.data;
+        this.dataFetched += 1;
       });
     },
     async addUserMembership() {
@@ -223,25 +222,12 @@ export default {
   },
   computed: {
     /**
-     * get active Groups of Current User
-     * @returns {[Groups]} Array of active UserGroups
-     */
-    getGroups() {
-      const groups = [];
-      this.memberships.forEach((membership) => {
-        if (membership.active === true) {
-          groups.push(this.groups.find((g) => g.id === membership.group_id));
-        }
-      });
-      return groups;
-    },
-    /**
-     * @link {getGroups()} get all props belonging to active Group
+     * @link {} get all props belonging to active Group
      * @returns {[]} Array of props
      */
     getProps() {
       const props = [];
-      this.getGroups.forEach((group) => {
+      this.userActiveGroups.forEach((group) => {
         Object.values(group.properties).forEach((prop) => props.push(prop));
       });
       return props;
