@@ -1,5 +1,6 @@
 <template>
-  <v-app>
+  <!-- ql-editor to display the quill editor edited html correctly -->
+  <v-app class="ql-editor">
     <notifications position="bottom left" :duration="8000" :width="400"
                    classes="vue-notification vuetify-notification">
       <template slot="body" slot-scope="{ item }">
@@ -200,4 +201,8 @@ export default Vue.extend({
 <style lang="sass">
 .dark-theme
   @import "assets/css/dark.sass"
+
+// quill for displaying the quill editor html correctly
+@import '../node_modules/quill/dist/quill.snow.css'
+
 </style>
