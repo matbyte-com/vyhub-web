@@ -138,7 +138,7 @@
       </v-card>
     </transition-group>
     <!-- Skeleton Loader -->
-    <div v-if="!exhausted && fetching" class="animate__animated animate__bounce">
+    <div v-if="!exhausted && fetching" class="animate__animated animate__fade mt-3">
       <v-skeleton-loader type="article" v-if="fetching" />
     </div>
     <v-card flat v-if="exhausted" class="mt-3">
@@ -150,8 +150,6 @@
 </template>
 
 <script>
-
-import api from '@/api/api';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
 import NewsAddForm from '@/forms/NewsAddForm';
@@ -178,9 +176,9 @@ export default {
     this.scroll();
   },
   methods: {
-    fetchNews(page) {
+    async fetchNews(page) {
       this.fetching = true;
-      api.news.getNews(page).then((rsp) => {
+      (await openapi).news_getMessages({ page, size: 15 }).then((rsp) => {
         rsp.data.items.forEach((item) => this.news.push(item));
         if (rsp.data.items.length === 0) {
           this.exhausted = true;
@@ -202,13 +200,12 @@ export default {
       this.message = null;
       this.$refs.messageAddDialog.show();
     },
-    addMessage() {
+    async addMessage() {
       const data = this.$refs.messageAddDialog.getData();
       data.content = this.message;
-      api.news.addNews(data).then((rsp) => {
+      (await openapi).news_addMessage({}, data).then((rsp) => {
         this.$refs.messageAddDialog.closeAndReset();
         this.message = null;
-        console.log(rsp.data);
         this.news.unshift(rsp.data);
       }).catch((err) => this.$refs.messageAddDialog.setErrorMessage(err.response.data.detail));
     },
