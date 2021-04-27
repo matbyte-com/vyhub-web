@@ -33,7 +33,8 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
-import apiService from '@/api/api';
+import openapiCached from '@/api/openapiCached';
+import openapi from '@/api/openapi';
 
 export default {
   components: {
@@ -58,10 +59,10 @@ export default {
         this.bundleType = this.tabs[payload - 1].server_type;
       }
     },
-    loadUser() {
+    async loadUser() {
       const userId = this.$route.params.id;
       // check if there is a user with the given id
-      apiService.user.getUser(userId).then((rsp) => {
+      (await openapi).user_getData(userId).then((rsp) => {
         this.user = rsp.data;
         if (this.user.type === 'CENTRAL') {
           this.$router.replace({ name: 'UserDashboard', params: { id: this.user.username } });
@@ -70,12 +71,15 @@ export default {
         this.error = error;
       });
     },
+    async getBundles() {
+      (await openapiCached).server_getAllBundles().then((rsp) => { (this.tabs = rsp.data); });
+    },
   },
   beforeMount() {
     this.loadUser();
   },
   mounted() {
-    apiService.server.getBundles().then((rsp) => { (this.tabs = rsp.data); });
+    this.getBundles();
   },
   computed: {
     componentInstance() {
