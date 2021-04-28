@@ -1,11 +1,7 @@
 <template>
   <div>
+    <PageTitle>{{ $t('ban.labels.title') }}</PageTitle>
     <v-card>
-      <v-card-text>
-        <PageTitle>{{ $t('ban.labels.title') }}</PageTitle>
-      </v-card-text>
-    </v-card>
-    <v-card class="mt-3">
       <v-card-text>
         <DataTable
           :headers="headers"

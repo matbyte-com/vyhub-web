@@ -1,7 +1,14 @@
 <template>
-  <div class="mb-1">
-    <h4 class="text-h4 mb-2">{{ title }}<slot></slot></h4>
-    <v-divider></v-divider>
+  <div class="mb-3">
+    <v-row justify="center">
+      <v-col lg="3" md="4" sm="6">
+        <v-card>
+          <v-card-text class="text-center">
+            <h4 class="text-h4">{{ title }}<slot></slot></h4>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

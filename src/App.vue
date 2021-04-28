@@ -48,7 +48,7 @@
             <transition mode="out-in"
                         enter-active-class="animate__animated animate__fadeIn animate__faster"
                         >
-              <router-view :class="{ 'dark-theme' : $vuetify.theme.dark }">
+              <router-view>
               </router-view>
             </transition>
             {{ this.$route.query.refresh_token }}
@@ -173,35 +173,9 @@ export default Vue.extend({
 });
 </script>
 
-<!--<style v-if="$vuetify.theme.dark" lang="sass">@import "assets/css/dark.sass"</style>-->
-<!--<style lang="sass">
-.v-card
-  background-color: rgba(33,33,33, 0.85) !important
-.v-card__title
-  background-color: rgba(33,33,33, 0.80) !important
-.v-slide-group
-  background-color: rgba(33,33,33, 0) !important
-.v-data-table
-  background-color: rgba(33,33,33, 0) !important
-.v-expansion-panel
-  background-color: rgba(33,33,33, 0) !important
-.v-list
-  background-color: rgba(33,33,33, 0) !important
-.v-tabs-items
-  background-color: rgba(33,33,33, 0) !important
-.v-card.transparent
-  background-color: rgba(0,0,0,0) !important
-  .v-card__title
-    background-color: rgba(0,0,0,0) !important
-.v-card__title.grey-title
-    background-color: rgb(200,200,200) !important
-</style>-->
-
 <style lang="sass">
-.dark-theme
+@import "assets/css/light.sass"
+
+.theme--dark
   @import "assets/css/dark.sass"
-
-// quill for displaying the quill editor html correctly
-@import '../node_modules/quill/dist/quill.snow.css'
-
 </style>
