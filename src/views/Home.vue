@@ -90,7 +90,7 @@
             </v-col>
           </v-row>
         </v-card-title>
-        <v-card-text v-html="message.content" class="mt-3 pb-0">
+        <v-card-text v-html="message.content" class="mt-3 ql-editor">
         </v-card-text>
         <v-card-actions class="text--disabled pt-0">
           <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
@@ -128,8 +128,7 @@
             </v-col>
           </v-row>
         </v-card-title>
-        <v-card-text v-html="message.content" class="mt-3 pb-0">
-          {{ message.content }}
+        <v-card-text v-html="message.content" class="mt-3 ql-editor">
         </v-card-text>
         <v-card-actions class="text--disabled pt-0">
           <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>

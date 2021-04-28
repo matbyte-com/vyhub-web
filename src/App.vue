@@ -175,6 +175,7 @@ export default Vue.extend({
 
 <style lang="sass">
 @import "assets/css/light.sass"
+@import '../node_modules/quill/dist/quill.snow.css'
 
 .theme--dark
   @import "assets/css/dark.sass"
