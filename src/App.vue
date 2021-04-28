@@ -1,6 +1,5 @@
 <template>
-  <!-- ql-editor to display the quill editor edited html correctly -->
-  <v-app class="ql-editor">
+  <v-app>
     <notifications position="bottom left" :duration="8000" :width="400"
                    classes="vue-notification vuetify-notification">
       <template slot="body" slot-scope="{ item }">

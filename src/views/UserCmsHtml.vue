@@ -1,5 +1,5 @@
 <template>
-  <span v-if="html" v-html="html"></span>
+  <span class="ql-editor" v-if="html" v-html="html"></span>
 </template>
 
 <script>
