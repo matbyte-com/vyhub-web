@@ -9,6 +9,30 @@
     <v-row v-if="cartPackets != null">
       <!-- Cart packets -->
       <v-col lg="9" md="8">
+        <v-row v-if="openPurchase != null">
+          <v-col>
+            <v-card>
+              <v-card-title>
+                <v-icon left>mdi-cart-arrow-right</v-icon>
+                {{ $t('_shop.labels.unfinishedPurchase') }}
+              </v-card-title>
+              <v-card-text class="body-1">
+                {{ $t('_shop.messages.unfinishedPurchase') }}
+              </v-card-text>
+              <v-card-actions>
+                <v-btn text color="success" @click="$refs.checkoutDialog.show(openPurchase)">
+                  <v-icon left>mdi-arrow-right</v-icon>
+                  {{ $t('continue') }}
+                </v-btn>
+                <v-btn text color="error" @click="cancelPurchase(openPurchase)">
+                  <v-icon left>mdi-close</v-icon>
+                  {{ $t('cancel') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+
         <v-row v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id">
           <v-col>
             <CartPacket :cart-packet="cartPacket" show-outline show-remove
@@ -17,70 +41,37 @@
             </CartPacket>
           </v-col>
         </v-row>
-        <div v-if="cartPackets.length === 0">{{ $t('_shop.messages.cartEmpty') }}</div>
+        <div v-if="cartPackets.length === 0">
+          <v-row>
+            <v-col>
+              <v-card>
+                <v-card-text>
+                  {{ $t('_shop.messages.cartEmpty') }}
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </div>
         <div v-else>
           <v-row>
-            <v-col lg="3" md="4" sm="12">
-              <v-text-field dense outlined :label="$t('_shop.labels.couponCode')"
-                            @keydown.enter="applyDiscount" v-model="couponCode"
-                            :style="couponStyle"
-                            :error-messages="couponError">
-                <template slot="prepend-inner">
-                  <v-icon>
-                    mdi-ticket-percent
-                  </v-icon>
-                </template>
-                <template slot="append">
-                  <v-icon>
-                    mdi-subdirectory-arrow-left
-                  </v-icon>
-                </template>
-              </v-text-field>
-            </v-col>
             <v-col class="text-right">
-              <v-btn color="error" @click="clearCart" outlined>
+              <v-btn color="error" @click="clearCart" depressed>
                 <v-icon left>mdi-delete</v-icon>
                 {{ $t('_shop.labels.removeAllPackets') }}
               </v-btn>
             </v-col>
           </v-row>
         </div>
-
       </v-col>
 
       <!-- Cart total, address and checkout -->
       <v-col>
-
         <!-- Cart total -->
-        <v-row v-if="openPurchase != null">
-          <v-col>
-            <v-card>
-              <v-card-title>
-                <v-icon class="mr-1">mdi-cart-arrow-right</v-icon>
-                {{ $t('_shop.labels.unfinishedPurchase') }}
-              </v-card-title>
-              <v-card-text class="body-1">
-                {{ $t('_shop.messages.unfinishedPurchase') }}
-              </v-card-text>
-              <v-card-actions>
-                <v-btn text color="success" @click="$refs.checkoutDialog.show(openPurchase)">
-                  <v-icon class="mr-1">mdi-arrow-right</v-icon>
-                  {{ $t('continue') }}
-                </v-btn>
-                <v-btn text color="error" @click="cancelPurchase(openPurchase)">
-                  <v-icon class="mr-1">mdi-close</v-icon>
-                  {{ $t('cancel') }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-
         <v-row>
           <v-col>
             <v-card>
               <v-card-title>
-                <v-icon class="mr-1">mdi-cart</v-icon>
+                <v-icon left>mdi-cart</v-icon>
                 {{ $t('_shop.labels.cartTotal') }}
               </v-card-title>
               <v-card-text v-if="cartPrice != null" class="body-1">
@@ -95,7 +86,7 @@
           <v-col>
             <v-card>
               <v-card-title>
-                <v-icon class="mr-1">mdi-map-marker</v-icon>
+                <v-icon left>mdi-map-marker</v-icon>
                 {{ $t('_shop.labels.billingAddress') }}
               </v-card-title>
               <v-card-text class="body-1">
@@ -104,11 +95,11 @@
               </v-card-text>
               <v-card-actions>
                 <v-btn text color="success" @click="$refs.addressAddDialog.show()">
-                  <v-icon class="mr-1">mdi-plus</v-icon>
+                  <v-icon left>mdi-plus</v-icon>
                   {{ $t('add') }}
                 </v-btn>
                 <v-btn text color="primary" @click="$refs.selectAddressDialog.show()">
-                  <v-icon class="mr-1">mdi-format-list-text</v-icon>
+                  <v-icon left>mdi-format-list-text</v-icon>
                   {{ $t('select') }}
                 </v-btn>
               </v-card-actions>
@@ -120,12 +111,29 @@
         <v-row>
           <v-col>
             <v-card>
+              <v-card-text>
+                <v-text-field dense outlined :label="$t('_shop.labels.couponCode')"
+                              @keydown.enter="applyDiscount" v-model="couponCode"
+                              :style="couponStyle"
+                              :error-messages="couponError">
+                  <template slot="prepend-inner">
+                    <v-icon>
+                      mdi-ticket-percent
+                    </v-icon>
+                  </template>
+                  <template slot="append">
+                    <v-icon>
+                      mdi-subdirectory-arrow-left
+                    </v-icon>
+                  </template>
+                </v-text-field>
+              </v-card-text>
               <v-card-actions>
                 <v-btn color="primary" block
                        :disabled="cartPackets.length == 0 || currentAddress == null ||
                        openPurchase != null"
                        @click="startCheckout">
-                  <v-icon class="mr-1">mdi-cart-arrow-right</v-icon>
+                  <v-icon left>mdi-cart-arrow-right</v-icon>
                   {{ $t('_shop.labels.checkout') }}
                 </v-btn>
               </v-card-actions>

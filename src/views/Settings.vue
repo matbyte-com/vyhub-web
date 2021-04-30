@@ -43,10 +43,8 @@ export default {
   watch: {
     /**
      * get active component from url and set tab accordingly
-     * @param to
-     * @param from
      */
-    $route(to) {
+    $route() {
       if (this.$route.params.component) {
         const tab = this.allowedTabs.find((t) => t.name === this.$route.params.component);
         this.tabModel = this.allowedTabs.indexOf(tab);

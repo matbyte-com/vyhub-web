@@ -53,7 +53,7 @@
                 <v-btn block color="success" @click="addToCart">
                   <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
                   <div v-else>
-                    <v-icon class="mr-1">mdi-cart-arrow-down</v-icon>
+                    <v-icon left>mdi-cart-arrow-down</v-icon>
                     {{ $t('_shop.labels.addToCart') }}
                   </div>
                 </v-btn>

@@ -218,9 +218,6 @@ export default {
         this.$refs.deletePacketDialog.setErrorMessage(err.response.data);
       });
     },
-    editRewards(packet) {
-      //
-    },
   },
 };
 </script>

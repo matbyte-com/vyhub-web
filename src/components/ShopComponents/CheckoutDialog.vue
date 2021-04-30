@@ -19,7 +19,7 @@
               <v-col>
                 <v-card>
                   <v-card-title>
-                    <v-icon class="mr-1">mdi-currency-usd</v-icon>
+                    <v-icon left>mdi-currency-usd</v-icon>
                     {{ $t('_shop.labels.total') }}
                   </v-card-title>
                   <v-card-text class="body-1">
@@ -32,7 +32,7 @@
               <v-col>
                 <v-card>
                   <v-card-title>
-                    <v-icon class="mr-1">mdi-map-marker</v-icon>
+                    <v-icon left>mdi-map-marker</v-icon>
                     {{ $t('_shop.labels.billingAddress') }}
                   </v-card-title>
                   <v-card-text class="body-1">
