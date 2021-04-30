@@ -15,10 +15,21 @@ export default {
     type: {
       type: 'string',
       title: i18n.t('type'),
+      oneOf: [
+        {
+          const: 'COMMAND',
+          title: i18n.t('_reward.labels._types.command'),
+        },
+        {
+          const: 'SCRIPT',
+          title: i18n.t('_reward.labels._types.script'),
+        },
+      ],
     },
     value: {
       type: 'string',
       title: i18n.t('value'),
+      'x-display': 'textarea',
     },
     on_event: {
       type: 'string',

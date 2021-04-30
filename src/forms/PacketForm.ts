@@ -51,8 +51,11 @@ export default {
         },
         active_for: {
           type: 'number',
-          title: i18n.t('_packet.labels.activeForInDays'),
-          description: i18n.t('_packet.labels.activeForInDaysDetail'),
+          title: i18n.t('_packet.labels.activeFor'),
+          description: i18n.t('_packet.labels.activeForDetail'),
+          'x-slots': {
+            'append-outer': i18n.t('days'),
+          },
         },
         buyable_active: {
           type: 'boolean',
@@ -152,6 +155,13 @@ export default {
             },
           },
         },
+      },
+    },
+    {
+      title: i18n.t('rewards'),
+      type: 'object',
+      properties: {
+        rewards: Common.rewardsSelectField,
       },
     },
   ],

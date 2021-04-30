@@ -42,6 +42,7 @@
       titleIcon="mdi-gift-open"
       :submitText="$t('add')"
       @submit="addPacket"
+      :max-width="600"
       :title="$t('_packet.labels.add')"/>
     <DialogForm
       ref="editPacketDialog"
@@ -49,6 +50,7 @@
       titleIcon="mdi-gift-open"
       :submitText="$t('edit')"
       @submit="editPacket"
+      :max-width="600"
       :title="$t('_packet.labels.edit')"/>
     <DeleteConfirmationDialog
       ref="deletePacketDialog"
@@ -182,8 +184,10 @@ export default {
 
       new_data.category_id = data.category.id;
       new_data.payment_gateway_ids = data.payment_gateways.map((gw) => gw.id);
+      new_data.reward_ids = data.rewards.map((reward) => reward.id);
       delete new_data.category;
       delete new_data.payment_gateways;
+      delete new_data.rewards;
 
       new_data.relations = data.relations.map((rel) => {
         const newRel = rel;

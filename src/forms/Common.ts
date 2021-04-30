@@ -59,6 +59,16 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
+  rewardsSelectField: {
+    type: 'array',
+    title: i18n.t('rewards'),
+    items: {
+      type: 'object',
+    },
+    'x-fromUrl': `${API_URL}/packet/reward?query={q}`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'name',
+  },
   iconPicker: {
     title: i18n.t('icon'),
     type: 'string',

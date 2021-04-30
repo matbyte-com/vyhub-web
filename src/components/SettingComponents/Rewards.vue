@@ -48,8 +48,6 @@
 </template>
 
 <script>
-/* eslint-disable @typescript-eslint/camelcase */
-
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';

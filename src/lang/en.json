@@ -177,8 +177,8 @@
       "recurringDetail": "An subscription is created, with the interval given in the 'Active for' field.",
       "buyableActive": "Buyable if the user has this packet in an active state.",
       "buyableInactive": "Buyable if the user has this packet in an inactive state.",
-      "activeForInDays": "Active for (in days)",
-      "activeForInDaysDetail": "How long the packet should be active after activation. Let this field empty for packets that should not be disabled after time. If the recurring option is enabled, this value is used as the subscription interval.",
+      "activeFor": "Active for",
+      "activeForDetail": "How long the packet should be active after activation. Let this field empty for packets that should not be disabled after time. If the recurring option is enabled, this value is used as the subscription interval.",
       "paymentMethods": "Payment Methods",
       "limitPaymentMethods": "Limit payment methods",
       "limitPaymentMethodsDetail": "If no payment methods are specified, all can be used. If not, only the selected can be used.",
@@ -210,6 +210,10 @@
         "disconnect": "Execute on disconnect",
         "spawn": "Execute on spawn",
         "death": "Execute on death"
+      },
+      "_types": {
+        "command": "Execute a command on the server(s)",
+        "script": "Execute a script on the server(s)"
       }
     },
     "messages": {
@@ -233,6 +237,7 @@
   "general": "General",
   "language": "Language",
   "payment": "Payment",
+  "days": "Days",
   "oneTime": "One-Time",
   "serverbundle": "Serverbundle",
   "groupname": "Name",
