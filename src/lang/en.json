@@ -222,6 +222,13 @@
       "deleteSuccess": "Reward successfully deleted."
     }
   },
+  "_purchases": {
+    "labels": {
+      "myPurchases": "My Purchases",
+      "allPurchases": "All Purchases",
+      "userPackets": "User Packets"
+    }
+  },
   "home": {
     "newsOfTheDay": "News of the day",
     "news": "News",
@@ -235,8 +242,10 @@
   },
   "type": "Type",
   "general": "General",
+  "purchases": "Purchases",
   "language": "Language",
   "payment": "Payment",
+  "statistics": "Statistics",
   "days": "Days",
   "oneTime": "One-Time",
   "serverbundle": "Serverbundle",

@@ -77,6 +77,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
+    path: '/shop/purchases/:component?',
+    name: 'ShopPurchases',
+    component: () => import('@/views/Shop/Purchases.vue'),
+    meta: { requiresAuth: true, title: 'Purchases' },
+  },
+  {
     path: '/cms/:title',
     name: 'Cms',
     component: () => import('../views/UserCmsHtml.vue'),
