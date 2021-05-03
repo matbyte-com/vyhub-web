@@ -341,6 +341,10 @@ declare namespace Components {
        * Invoice Number
        */
       invoice_number: string;
+      /**
+       * Transaction Url
+       */
+      transaction_url: string;
       purchase: PurchaseModelShort;
     }
     /**
@@ -373,6 +377,10 @@ declare namespace Components {
        * Invoice Number
        */
       invoice_number: string;
+      /**
+       * Transaction Url
+       */
+      transaction_url: string;
     }
     /**
      * DebitStatus
@@ -1213,6 +1221,10 @@ declare namespace Components {
        */
       cart_packets: CartPacketModel[];
       address: AddressModel;
+      /**
+       * Credits Used
+       */
+      credits_used: boolean;
     }
     /**
      * PurchaseModelShort
@@ -2843,7 +2855,7 @@ declare namespace Paths {
   namespace UserGetUnauthProperties {
     namespace Responses {
       /**
-       * Response Get Unauth Properties User Property Get
+       * Response Get Unauth Properties User Property  Get
        */
       export type $200 = Components.Schemas.PropertyModel[];
     }
@@ -3747,7 +3759,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>
   }
-  ['/user/property']: {
+  ['/user/property/']: {
     /**
      * user_getUnauthProperties - Get Unauth Properties
      * 

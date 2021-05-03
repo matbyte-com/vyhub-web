@@ -5,21 +5,21 @@
         <div>
           {{ $t('_shop.labels.subtotal') }}
           <div class="float-right">
-            {{ price.net.toFixed(2).toLocaleString() }}
+            {{ price.net.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
             {{ price.currency.symbol }}
           </div>
         </div>
         <div>
           {{ $t('_shop.labels.tax') }} ({{ price.tax_rate }}%)
           <div class="float-right">
-            {{ price.tax_amount.toFixed(2).toLocaleString() }}
+            {{ price.tax_amount.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
             {{ price.currency.symbol }}
           </div>
         </div>
         <div class="font-weight-bold">
           {{ $t('_shop.labels.total') }}
           <div class="float-right">
-            {{ price.total.toFixed(2).toLocaleString() }}
+            {{ price.total.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
             {{ price.currency.symbol }}
           </div>
         </div>

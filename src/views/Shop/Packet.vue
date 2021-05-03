@@ -41,7 +41,8 @@
               <v-card-title>{{ $t('price') }}</v-card-title>
               <v-card-text class="text-center">
                 <div class="text-h2">
-                  {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
+                  {{ packet.price_with_discount.total
+                  .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                   {{ packet.currency.symbol }}
                 </div>
                 <div class="subtitle-2 font-italic">

@@ -58,7 +58,7 @@
       :max-width="700"
       v-model="banDetailShown">
       <template>
-        <h6 class="text-h6 mb-2">{{ $t('details') }}</h6>
+        <h6 class="text-h6 mb-2  mt-3">{{ $t('details') }}</h6>
         <div v-if="currentBan != null">
           <v-simple-table>
             <template v-slot:default>

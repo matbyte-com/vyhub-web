@@ -226,7 +226,10 @@
     "labels": {
       "myPurchases": "My Purchases",
       "allPurchases": "All Purchases",
-      "userPackets": "User Packets"
+      "userPackets": "User Packets",
+      "amountNet": "Net Amount",
+      "amountTotal": "Total Amount",
+      "details": "Purchase Details"
     }
   },
   "home": {
@@ -247,6 +250,7 @@
   "payment": "Payment",
   "payments": "Payments",
   "gateway": "Gateway",
+  "search": "Search",
   "amount": "Amount",
   "invoice": "Invoice",
   "statistics": "Statistics",

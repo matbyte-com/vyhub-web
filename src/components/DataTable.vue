@@ -12,10 +12,10 @@
           </slot>
         </v-col>
         <v-spacer/>
-        <v-col lg="2" md="4" sm="12" v-if="search" align-self="center">
+        <v-col lg="3" md="6" sm="12" v-if="search" align-self="center">
           <v-text-field
             v-model="searchModel"
-            label="Search"
+            :label="$t('search')"
             hide-details
             outlined
             dense

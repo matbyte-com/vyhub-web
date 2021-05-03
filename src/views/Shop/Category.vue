@@ -47,7 +47,8 @@
                         color="green lighten-2"
                         text-color="white"
                       >
-                        {{ packet.price_without_discount.total.toFixed(2).toLocaleString() }}
+                        {{ packet.price_without_discount.total
+                        .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                         {{ packet.currency.symbol }}
                       </v-chip>
                       <v-chip
@@ -55,7 +56,8 @@
                         color="orange"
                         text-color="white"
                       >
-                        {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
+                        {{ packet.price_with_discount.total
+                        .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                         {{ packet.currency.symbol }}
                         <div v-if="packet.recurring" class="pl-1">
                           / {{ formatLength(packet.active_for) }}
@@ -67,7 +69,8 @@
                       text-color="white"
                       v-else-if="packet.price_with_discount != null"
                     >
-                      {{ packet.price_with_discount.total.toFixed(2).toLocaleString() }}
+                      {{ packet.price_with_discount.total
+                      .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                       {{ packet.currency.symbol }}
                       <div v-if="packet.recurring" class="pl-1">
                         / {{ formatLength(packet.active_for) }}

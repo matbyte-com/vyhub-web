@@ -28,7 +28,7 @@
           <v-row dense>
             <v-col :class="(cartPacket.discount ? 'green--text' : '')">
               <div class="text-h6">
-                {{ cartPacket.price.total.toFixed(2).toLocaleString() }}
+                {{ cartPacket.price.total.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                 {{ cartPacket.currency.symbol }}
               </div>
               <div v-if="cartPacket.discount">

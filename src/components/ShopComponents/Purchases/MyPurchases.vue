@@ -14,9 +14,19 @@
           <template v-slot:header>
             <v-row justify="end">
               <v-col lg="3" md="6" sm="12" >
-                <v-text-field v-model="search" clearable flat solo-inverted hide-details
-                              prepend-inner-icon="mdi-magnify" label="Search"
-                ></v-text-field>
+                <v-text-field
+                  v-model="search"
+                  :label="$t('search')"
+                  hide-details
+                  outlined
+                  dense
+                >
+                  <template v-slot:prepend-inner>
+                    <v-icon>
+                      mdi-magnify
+                    </v-icon>
+                  </template>
+                </v-text-field>
               </v-col>
             </v-row>
           </template>
@@ -113,7 +123,8 @@
                               <td>{{ new Date(debit.date).toLocaleString() }}</td>
                               <td>{{ debit.payment_gateway.name }}</td>
                               <td v-if="debit.amount > 0">
-                                {{ debit.amount.toFixed(2).toLocaleString() }}
+                                {{ debit.amount
+                                .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                 {{ purchase.currency.symbol }}
                               </td>
                               <td v-else>
