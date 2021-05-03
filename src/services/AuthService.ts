@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios';
 import qs from 'qs';
 import store from '@/store';
 import api from '@/api/api';
+import openapi from '@/api/openapi';
 
 export default {
   login(refreshToken: string, callback: Function, errorCallback: Function) {
@@ -63,14 +64,23 @@ export default {
   getSocialAuthUrl(backend: string) {
     return `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/auth/social/${backend}/start`;
   },
-  setProperties() {
+  async setProperties() {
+    const api_client = await openapi;
+
     let properties = null;
 
-    const user_id = (store.getters.isLoggedIn ? store.getters.user.id : null);
-
-    api.user.getProperties(user_id).then((rsp) => {
-      properties = rsp.data;
-      store.dispatch('setProperties', { properties });
-    }).catch((e) => console.log(`Could not query properties: ${e}`));
+    if (store.getters.isLoggedIn) {
+      api_client.user_getCurrentProperties(
+        { uuid: store.getters.user.id },
+      ).then((rsp) => {
+        properties = rsp.data;
+        store.dispatch('setProperties', { properties });
+      }).catch((e) => console.log(`Could not query current properties: ${e}`));
+    } else {
+      api_client.user_getUnauthProperties().then((rsp) => {
+        properties = rsp.data;
+        store.dispatch('setProperties', { properties });
+      }).catch((e) => console.log(`Could not query unauth properties: ${e}`));
+    }
   },
 };
