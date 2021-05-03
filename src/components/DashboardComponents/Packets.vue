@@ -13,7 +13,7 @@
     </v-card-text>
     <v-card-actions>
       <v-btn text color="success" @click="$router.push({ name: 'ShopPurchases' })">
-        <v-icon left>mdi-arrow-right</v-icon>
+        <v-icon left>mdi-history</v-icon>
         <span>{{ $t("_purchases.labels.myPurchases") }}</span>
       </v-btn>
     </v-card-actions>

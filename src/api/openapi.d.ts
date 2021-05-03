@@ -337,6 +337,10 @@ declare namespace Components {
        */
       credits?: number;
       status: DebitStatus;
+      /**
+       * Invoice Number
+       */
+      invoice_number: string;
       purchase: PurchaseModelShort;
     }
     /**
@@ -365,6 +369,10 @@ declare namespace Components {
        */
       credits?: number;
       status: DebitStatus;
+      /**
+       * Invoice Number
+       */
+      invoice_number: string;
     }
     /**
      * DebitStatus
@@ -749,38 +757,6 @@ declare namespace Components {
      */
     export interface PacketModel {
       /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Abstract
-       */
-      abstract?: string[];
-      /**
-       * Price
-       */
-      price: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      currency: CurrencyModel;
-      discount?: DiscountModel;
-      price_with_discount?: TotalPriceModel;
-      price_without_discount?: TotalPriceModel;
-      /**
        * Description
        */
       description?: string;
@@ -812,6 +788,38 @@ declare namespace Components {
        * Recurring
        */
       recurring: boolean;
+      /**
+       * Title
+       */
+      title: string;
+      /**
+       * Subtitle
+       */
+      subtitle?: string;
+      /**
+       * Image Url
+       */
+      image_url?: string; // uri
+      /**
+       * Abstract
+       */
+      abstract?: string[];
+      /**
+       * Price
+       */
+      price: number;
+      /**
+       * Credits
+       */
+      credits?: number;
+      discount?: DiscountModel;
+      price_with_discount?: TotalPriceModel;
+      price_without_discount?: TotalPriceModel;
+      /**
+       * Id
+       */
+      id: string; // uuid
+      currency: CurrencyModel;
       category: PacketCategoryModel;
       /**
        * Requirement Set Id
@@ -826,6 +834,10 @@ declare namespace Components {
        */
       payment_gateways: PaymentGatewayModel[];
       /**
+       * Rewards
+       */
+      rewards: RewardModel[];
+      /**
        * Deletable
        */
       deletable: boolean;
@@ -834,34 +846,6 @@ declare namespace Components {
      * PacketModelAdd
      */
     export interface PacketModelAdd {
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Abstract
-       */
-      abstract?: string[];
-      /**
-       * Price
-       */
-      price: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      /**
-       * Currency Code
-       */
-      currency_code: string; // ^[A-Z]{3}$
       /**
        * Description
        */
@@ -895,30 +879,9 @@ declare namespace Components {
        */
       recurring: boolean;
       /**
-       * Category Id
-       */
-      category_id: string; // uuid
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-      /**
-       * Relations
-       */
-      relations: PacketRelationModelAdd[];
-      /**
-       * Payment Gateway Ids
-       */
-      payment_gateway_ids?: string /* uuid */ [];
-    }
-    /**
-     * PacketModelPatch
-     */
-    export interface PacketModelPatch {
-      /**
        * Title
        */
-      title?: string;
+      title: string;
       /**
        * Subtitle
        */
@@ -934,15 +897,43 @@ declare namespace Components {
       /**
        * Price
        */
-      price?: number;
+      price: number;
       /**
        * Credits
        */
       credits?: number;
+      discount?: DiscountModel;
+      price_with_discount?: TotalPriceModel;
+      price_without_discount?: TotalPriceModel;
       /**
        * Currency Code
        */
-      currency_code?: string; // ^[A-Z]{3}$
+      currency_code: string; // ^[A-Z]{3}$
+      /**
+       * Category Id
+       */
+      category_id: string; // uuid
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id?: string; // uuid
+      /**
+       * Relations
+       */
+      relations: PacketRelationModelAdd[];
+      /**
+       * Reward Ids
+       */
+      reward_ids?: string /* uuid */ [];
+      /**
+       * Payment Gateway Ids
+       */
+      payment_gateway_ids?: string /* uuid */ [];
+    }
+    /**
+     * PacketModelPatch
+     */
+    export interface PacketModelPatch {
       /**
        * Description
        */
@@ -976,6 +967,37 @@ declare namespace Components {
        */
       recurring?: boolean;
       /**
+       * Title
+       */
+      title?: string;
+      /**
+       * Subtitle
+       */
+      subtitle?: string;
+      /**
+       * Image Url
+       */
+      image_url?: string; // uri
+      /**
+       * Abstract
+       */
+      abstract?: string[];
+      /**
+       * Price
+       */
+      price?: number;
+      /**
+       * Credits
+       */
+      credits?: number;
+      discount?: DiscountModel;
+      price_with_discount?: TotalPriceModel;
+      price_without_discount?: TotalPriceModel;
+      /**
+       * Currency Code
+       */
+      currency_code?: string; // ^[A-Z]{3}$
+      /**
        * Category Id
        */
       category_id?: string; // uuid
@@ -988,6 +1010,10 @@ declare namespace Components {
        */
       relations?: PacketRelationModelAdd[];
       /**
+       * Reward Ids
+       */
+      reward_ids?: string /* uuid */ [];
+      /**
        * Payment Gateway Ids
        */
       payment_gateway_ids?: string /* uuid */ [];
@@ -996,10 +1022,6 @@ declare namespace Components {
      * PacketModelShort
      */
     export interface PacketModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
       /**
        * Title
        */
@@ -1024,10 +1046,14 @@ declare namespace Components {
        * Credits
        */
       credits?: number;
-      currency: CurrencyModel;
       discount?: DiscountModel;
       price_with_discount?: TotalPriceModel;
       price_without_discount?: TotalPriceModel;
+      /**
+       * Id
+       */
+      id: string; // uuid
+      currency: CurrencyModel;
     }
     /**
      * PacketRelationModel
@@ -1110,6 +1136,27 @@ declare namespace Components {
      * An enumeration.
      */
     export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD";
+    /**
+     * PropertyModel
+     */
+    export interface PropertyModel {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Granted
+       */
+      granted: boolean;
+      /**
+       * Group Id
+       */
+      group_id: string; // uuid
+      /**
+       * Value
+       */
+      value?: string;
+    }
     /**
      * PurchaseModel
      */
@@ -1263,10 +1310,7 @@ declare namespace Components {
        * Name
        */
       name: string;
-      /**
-       * Type
-       */
-      type: string;
+      type: RewardType;
       /**
        * Value
        */
@@ -1283,7 +1327,11 @@ declare namespace Components {
        * Once From All
        */
       once_from_all: boolean;
-      on_event?: RewardEvent;
+      on_event: RewardEvent;
+      /**
+       * Id
+       */
+      id: string; // uuid
       serverbundle: ServerbundleModelShort;
       requirement_set?: RequirementSetModel;
     }
@@ -1295,10 +1343,7 @@ declare namespace Components {
        * Name
        */
       name: string;
-      /**
-       * Type
-       */
-      type: string;
+      type: RewardType;
       /**
        * Value
        */
@@ -1315,7 +1360,7 @@ declare namespace Components {
        * Once From All
        */
       once_from_all: boolean;
-      on_event?: RewardEvent;
+      on_event: RewardEvent;
       /**
        * Serverbundle Id
        */
@@ -1333,10 +1378,7 @@ declare namespace Components {
        * Name
        */
       name?: string;
-      /**
-       * Type
-       */
-      type?: string;
+      type?: RewardType;
       /**
        * Value
        */
@@ -1363,6 +1405,11 @@ declare namespace Components {
        */
       requirement_set_id?: string; // uuid
     }
+    /**
+     * RewardType
+     * An enumeration.
+     */
+    export type RewardType = "COMMAND" | "SCRIPT";
     /**
      * ServerBundleModelPatch
      */
@@ -2245,11 +2292,22 @@ declare namespace Paths {
     }
   }
   namespace PacketGetRewards {
+    namespace Parameters {
+      /**
+       * Query
+       * Filter by rewards by name
+       */
+      export type Query = string;
+    }
+    export interface QueryParameters {
+      query?: Parameters.Query;
+    }
     namespace Responses {
       /**
        * Response Get Rewards Packet Reward Get
        */
       export type $200 = Components.Schemas.RewardModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ServerAddBundle {
@@ -2432,6 +2490,22 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ShopGetDebitInvoice {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ShopGetDiscount {
     namespace Parameters {
       /**
@@ -2445,25 +2519,6 @@ declare namespace Paths {
     }
     namespace Responses {
       export type $200 = Components.Schemas.DiscountModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetGatewaysForPurchase {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      /**
-       * Response Get Gateways For Purchase Shop Purchase  Uuid  Gateway Get
-       */
-      export type $200 = Components.Schemas.PaymentGatewayModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -2489,6 +2544,25 @@ declare namespace Paths {
        * Response Get Packets Shop Packet Get
        */
       export type $200 = Components.Schemas.PacketModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopGetPurchaseGateways {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      /**
+       * Response Get Purchase Gateways Shop Purchase  Uuid  Gateway Get
+       */
+      export type $200 = Components.Schemas.PaymentGatewayModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -2742,6 +2816,11 @@ declare namespace Paths {
   namespace UserGetPurchases {
     namespace Parameters {
       /**
+       * Cancelled
+       * Include cancelled purchases.
+       */
+      export type Cancelled = boolean;
+      /**
        * Uuid
        * The UUID or username of the referenced user.
        */
@@ -2750,12 +2829,23 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      cancelled?: Parameters.Cancelled;
+    }
     namespace Responses {
       /**
        * Response Get Purchases User  Uuid  Purchase Get
        */
       export type $200 = Components.Schemas.PurchaseModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace UserGetUnauthProperties {
+    namespace Responses {
+      /**
+       * Response Get Unauth Properties User Property Get
+       */
+      export type $200 = Components.Schemas.PropertyModel[];
     }
   }
   namespace UserGetUsers {
@@ -2979,10 +3069,20 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>
   /**
+   * user_getUnauthProperties - Get Unauth Properties
+   * 
+   * Returns all properties that are available without authentification.
+   */
+  'user_getUnauthProperties'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserGetUnauthProperties.Responses.$200>
+  /**
    * user_getPurchases - Get Purchases
    */
   'user_getPurchases'(
-    parameters?: Parameters<Paths.UserGetPurchases.PathParameters> | null,
+    parameters?: Parameters<Paths.UserGetPurchases.PathParameters & Paths.UserGetPurchases.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetPurchases.Responses.$200 | Paths.UserGetPurchases.Responses.$422>
@@ -3289,13 +3389,21 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
   /**
-   * shop_getGatewaysForPurchase - Get Gateways For Purchase
+   * shop_getPurchaseGateways - Get Purchase Gateways
    */
-  'shop_getGatewaysForPurchase'(
-    parameters?: Parameters<Paths.ShopGetGatewaysForPurchase.PathParameters> | null,
+  'shop_getPurchaseGateways'(
+    parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetGatewaysForPurchase.Responses.$200 | Paths.ShopGetGatewaysForPurchase.Responses.$422>
+  ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
+  /**
+   * shop_getDebitInvoice - Get Debit Invoice
+   */
+  'shop_getDebitInvoice'(
+    parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
   /**
    * packet_getCategories - Get Categories
    */
@@ -3340,10 +3448,10 @@ export interface OperationMethods {
    * packet_getRewards - Get Rewards
    */
   'packet_getRewards'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetRewards.Responses.$200>
+  ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
   /**
    * packet_addReward - Add Reward
    */
@@ -3639,12 +3747,24 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>
   }
+  ['/user/property']: {
+    /**
+     * user_getUnauthProperties - Get Unauth Properties
+     * 
+     * Returns all properties that are available without authentification.
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserGetUnauthProperties.Responses.$200>
+  }
   ['/user/{uuid}/purchase']: {
     /**
      * user_getPurchases - Get Purchases
      */
     'get'(
-      parameters?: Parameters<Paths.UserGetPurchases.PathParameters> | null,
+      parameters?: Parameters<Paths.UserGetPurchases.PathParameters & Paths.UserGetPurchases.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetPurchases.Responses.$200 | Paths.UserGetPurchases.Responses.$422>
@@ -3659,7 +3779,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>
   }
-  ['/user/address']: {
+  ['/user/address/']: {
     /**
      * user_addAddress - Add Address
      */
@@ -4005,13 +4125,23 @@ export interface PathsDictionary {
   }
   ['/shop/purchase/{uuid}/gateway']: {
     /**
-     * shop_getGatewaysForPurchase - Get Gateways For Purchase
+     * shop_getPurchaseGateways - Get Purchase Gateways
      */
     'get'(
-      parameters?: Parameters<Paths.ShopGetGatewaysForPurchase.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetGatewaysForPurchase.Responses.$200 | Paths.ShopGetGatewaysForPurchase.Responses.$422>
+    ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
+  }
+  ['/shop/debit/{uuid}/invoice']: {
+    /**
+     * shop_getDebitInvoice - Get Debit Invoice
+     */
+    'get'(
+      parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
   }
   ['/packet/category']: {
     /**
@@ -4064,10 +4194,10 @@ export interface PathsDictionary {
      * packet_getRewards - Get Rewards
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetRewards.Responses.$200>
+    ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
     /**
      * packet_addReward - Add Reward
      */

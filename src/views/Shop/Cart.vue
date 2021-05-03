@@ -366,7 +366,7 @@ export default {
       });
     },
     removeDiscount(id) {
-      api.shop.removeDiscount(id).then((rsp) => {
+      api.shop.removeDiscount(id).then(() => {
         this.queryData();
         this.$notify({
           title: this.$t('_shop.messages.couponRemoveSuccess'),
