@@ -13,7 +13,8 @@ enum Properties {
   packetsShow = 'packets_show',
   groupEdit = 'group_edit',
   navEdit = 'nav_edit',
-  newsEdit = 'news_edit'
+  newsEdit = 'news_edit',
+  requirementEdit = 'requirement_edit',
 }
 
 export default Properties;

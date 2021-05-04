@@ -8,17 +8,25 @@
                  :form-schema="requirementAddFormConditional" :hide-buttons="true"/>
      </template>
    </DialogForm>
+   <DialogForm :form-schema="requirementSetAddForm" ref="requirementSetAddDialog"
+               @submit="addRequirementSet"/>
    <v-btn @click="$refs.requirementAddDialog.show()">
      Add
    </v-btn>
+   <v-btn @click="$refs.requirementSetAddDialog.show()">
+     Add Set
+   </v-btn>
+   {{ requirementSets }}
  </div>
 </template>
 
 <script>
 import RequirementAddForm from '@/forms/RequirementAddForm';
 import RequirementAddFormConditional from '@/forms/RequirementAddFormConditional';
+import RequirementSetAddForm from '@/forms/RequirementSetAddForm';
 import DialogForm from '@/components/DialogForm.vue';
 import GenForm from '@/components/GenForm.vue';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'Requirements',
@@ -27,15 +35,17 @@ export default {
     return {
       requirementAddForm: RequirementAddForm.returnForm(),
       requirementAddFormConditional: null,
+      requirementSetAddForm: RequirementSetAddForm,
+      requirementSets: null
     };
   },
   beforeMount() {
-    // this.returnForm();
+    this.fetchData();
   },
   methods: {
-    returnForm() {
-      RequirementAddForm.returnForm().then((form) => {
-        this.requirementAddForm = form;
+    async fetchData() {
+      (await openapi).requirements_getRequirementSets().then((rsp) => {
+        this.requirementSets = rsp.data;
       });
     },
     updateConditionalForm() {
@@ -47,6 +57,16 @@ export default {
             .setData({ operator: RequirementAddForm.types[type][1][0] });
         }
       }
+    },
+    async addRequirementSet() {
+      const data = this.$refs.requirementSetAddDialog.getData();
+      (await openapi).requirements_createRequirementSet(null, data)
+        .then(() => {
+          this.fetchData();
+          this.$refs.requirementSetAddDialog.closeAndReset();
+        }).catch((err) => {
+          this.$refs.requirementSetAddDialog.setErrorMessage(err.response.data.detail);
+        });
     },
   },
 };

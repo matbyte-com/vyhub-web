@@ -52,7 +52,7 @@ function returnInput(type: string) {
         title: '',
       };
       prop.const = key;
-      prop.title = `${key}: ${i18n.t(`_properties.${key}`)}`;
+      prop.title = `${key}: ${i18n.t(`_properties.${value}`)}`;
       oneOf.push(prop);
     });
     return {
@@ -113,7 +113,7 @@ function returnForm(type: string) {
     properties: {
       operator: {
         type: 'string',
-        title: i18n.t('_requirement.requirement_operator'),
+        title: i18n.t('_requirement.requirementOperator'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         default: 'ACTIVE',

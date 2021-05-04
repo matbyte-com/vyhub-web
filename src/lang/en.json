@@ -141,7 +141,8 @@
     "ban_edit_reason": "Changed reason to {reason}.",
     "ban_edit_bundle": "Changed bundle to {bundleName}.",
     "ban_edit_status": "Changed status to {status}.",
-    "ban_edit_length": "Changed end-date to {endDate}."
+    "ban_edit_length": "Changed end-date to {endDate}.",
+    "requirement_set_added": "Added requirement set {requirementSetId}"
   },
   "forms": {
     "iconDescription": "available Icons"
@@ -244,8 +245,9 @@
     "editNews": "Edit Message"
   },
   "_requirement": {
-    "requirement_type": "Type",
-    "requirement_operator": "Operator",
+    "requirementType": "Type",
+    "requirementOperator": "Operator",
+    "permissionLevel": "Permission Level",
     "types": {
       "GROUP_MEMBER": "Groupmember",
       "PERMISSION_LVL": "Permission Level",

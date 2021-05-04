@@ -56,7 +56,7 @@ function returnForm() {
     properties: {
       type: {
         type: 'string',
-        title: i18n.t('_requirement.requirement_type'),
+        title: i18n.t('_requirement.requirementType'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         default: 'GROUP_MEMBER',
