@@ -88,6 +88,7 @@ export default {
       this.errorMessage = null;
       this.$refs.form.reset();
       this.$emit('cancel');
+      this.forceRerender();
     },
     getData() {
       return { ...this.formModel };
