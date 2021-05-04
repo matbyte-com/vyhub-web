@@ -74,6 +74,9 @@ export default {
           name: 'serverbundles', icon: 'mdi-server', component: 'Server', reqProp: 'server_show',
         },
         {
+          name: 'requirements', icon: 'mdi-greater-than-or-equal', component: 'Requirements', reqProp: 'requirements_show',
+        },
+        {
           name: 'shop', icon: 'mdi-cart', component: 'Shop', reqProp: 'shop_show',
         },
         {
