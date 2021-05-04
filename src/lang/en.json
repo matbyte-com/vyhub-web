@@ -72,7 +72,7 @@
       "backgroundUrl": "Background Image"
     }
   },
-  "properties": {
+  "_properties": {
     "ban_show": "Enables user to display bans in specified bundle",
     "ban_edit": "Enables user to edit bans in specified bundle",
     "bundle_edit": "Add and Edit Serverbundles"
@@ -242,6 +242,32 @@
     "messageTypePinned": "Message Of The Day",
     "messageSubject": "Subject",
     "editNews": "Edit Message"
+  },
+  "_requirement": {
+    "requirement_type": "Type",
+    "requirement_operator": "Operator",
+    "types": {
+      "GROUP_MEMBER": "Groupmember",
+      "PERMISSION_LVL": "Permission Level",
+      "PERMISSION_LVL_SB": "Permission Level SB",
+      "PROPERTY": "Property",
+      "PROPERTY_SB": "Property SB",
+      "USER_ATTRIBUTE": "User Attribute",
+      "PACKET": "Packet",
+      "DATE": "Date",
+      "USER_SELF": "User Self"
+    },
+    "operators": {
+      "EQ": "Equal",
+      "LEQ": "Less Equal Than",
+      "GEQ": "Greater Equal Than",
+      "LT": "Less Than",
+      "GT": "Greater Than",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "NEVER_ACTIVE": "Never Active",
+      "HAVE": "Have"
+    }
   },
   "type": "Type",
   "general": "General",
