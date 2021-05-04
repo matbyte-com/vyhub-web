@@ -21,7 +21,7 @@ function returnInput(type: string) {
   // TODO type.USER_ATTRIBUTE, type.USER_SELF missing
   if (type === 'PERMISSION_LEVEL' || type === 'PERMISSION_LEVEL_SB') {
     return {
-      input: {
+      value: {
         type: 'number',
         title: i18n.t('_requirement.permissionLevel'),
         minimum: 0,
@@ -32,15 +32,13 @@ function returnInput(type: string) {
   // TODO Make use of proper serverbundle group picker
   if (type === 'GROUP_MEMBER') {
     return {
-      input: {
-        type: 'object',
+      value: {
+        type: 'string',
         title: i18n.t('group'),
         // 'x-fromUrl': `${API_URL}/group/?serverbundle_id={serverbundle.id}`,
         'x-fromUrl': `${API_URL}/group/`,
         'x-itemKey': 'id',
         'x-itemTitle': 'name',
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
       },
     };
   }
@@ -56,7 +54,7 @@ function returnInput(type: string) {
       oneOf.push(prop);
     });
     return {
-      input: {
+      value: {
         type: 'string',
         title: i18n.t('property'),
         oneOf,
@@ -81,7 +79,7 @@ function returnInput(type: string) {
   }
   if (type === 'PACKET') {
     return {
-      input: Common.packetSelectField,
+      value: Common.packetSelectField,
     };
   }
   return null;
@@ -120,6 +118,13 @@ function returnForm(type: string) {
         oneOf,
       },
       ...returnInput(type),
+      requirement_set_id: {
+        type: 'string',
+        title: i18n.t('_requirement.requirementSet'),
+        'x-fromUrl': `${API_URL}/requirement/set/`,
+        'x-itemKey': 'id',
+        'x-itemTitle': 'name',
+      },
     },
   };
   return form;

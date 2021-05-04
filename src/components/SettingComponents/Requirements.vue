@@ -1,7 +1,7 @@
 <template>
  <div>
    <DialogForm :form-schema="requirementAddForm" ref="requirementAddDialog"
-               @updated="updateConditionalForm">
+               @updated="updateConditionalForm" @submit="addRequirement">
      <template slot="type-after">
        <gen-form v-if="requirementAddFormConditional"
                  ref="requirementAddDialogConditional"
@@ -17,6 +17,7 @@
      Add Set
    </v-btn>
    {{ requirementSets }}
+   {{ requirements }}
  </div>
 </template>
 
@@ -36,7 +37,8 @@ export default {
       requirementAddForm: RequirementAddForm.returnForm(),
       requirementAddFormConditional: null,
       requirementSetAddForm: RequirementSetAddForm,
-      requirementSets: null
+      requirementSets: null,
+      requirements: null,
     };
   },
   beforeMount() {
@@ -47,8 +49,12 @@ export default {
       (await openapi).requirements_getRequirementSets().then((rsp) => {
         this.requirementSets = rsp.data;
       });
+      (await openapi).requirements_getRequirements().then((rsp) => {
+        this.requirements = rsp.data;
+      });
     },
-    updateConditionalForm() {
+    updateConditionalForm(test) {
+      console.log(test);
       if (this.$refs.requirementAddDialog.getData().type) {
         const { type } = this.$refs.requirementAddDialog.getData();
         this.requirementAddFormConditional = RequirementAddFormConditional.returnForm(type);
@@ -66,6 +72,23 @@ export default {
           this.$refs.requirementSetAddDialog.closeAndReset();
         }).catch((err) => {
           this.$refs.requirementSetAddDialog.setErrorMessage(err.response.data.detail);
+        });
+    },
+    async addRequirement() {
+      const data = {
+        ...this.$refs.requirementAddDialog.getData(),
+        ...this.$refs.requirementAddDialogConditional.getData(),
+      };
+      if (data.type === 'DATE') {
+        data.value = [data.begin, data.end];
+      }
+      (await openapi).requirements_createRequirement(null, data)
+        .then(() => {
+          this.fetchData();
+          this.$refs.requirementAddDialog.closeAndReset();
+          this.$refs.requirementAddDialogConditional.cancelForm();
+        }).catch((err) => {
+          this.$refs.requirementAddDialog.setErrorMessage(err.response.data.detail);
         });
     },
   },

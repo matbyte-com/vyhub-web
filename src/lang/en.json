@@ -142,7 +142,8 @@
     "ban_edit_bundle": "Changed bundle to {bundleName}.",
     "ban_edit_status": "Changed status to {status}.",
     "ban_edit_length": "Changed end-date to {endDate}.",
-    "requirement_set_added": "Added requirement set {requirementSetId}"
+    "requirement_set_added": "Added requirement set {requirementSetId}",
+    "requirement_added": "Added requirement {requirementId}"
   },
   "forms": {
     "iconDescription": "available Icons"
@@ -248,6 +249,7 @@
     "requirementType": "Type",
     "requirementOperator": "Operator",
     "permissionLevel": "Permission Level",
+    "requirementSet": "Requirement Set",
     "types": {
       "GROUP_MEMBER": "Groupmember",
       "PERMISSION_LVL": "Permission Level",

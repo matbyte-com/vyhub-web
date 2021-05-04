@@ -2,21 +2,6 @@ import i18n from '@/plugins/i18n';
 import openapiCached from '@/api/openapiCached';
 import VueI18n from 'vue-i18n';
 
-// const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-enum RequirementOperator {
-  EQ = 'EQ',
-  LEQ = 'LEQ',
-  GEQ = 'GEQ',
-  LT = 'LT',
-  GT = 'GT',
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-  NEVER_ACTIVE = 'NEVER_ACTIVE',
-  HAVE = 'HAVE',
-}
-
 const typeMapping = {
   ACTIVE: ['ACTIVE', 'INACTIVE', 'NEVER_ACTIVE'],
   NUMBER: ['EQ', 'LEQ', 'GEQ', 'LT', 'GT'],
@@ -52,6 +37,7 @@ function returnForm() {
     type: 'object',
     required: [
       'type',
+      'requirement_set_id',
     ],
     properties: {
       type: {
