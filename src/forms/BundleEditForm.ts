@@ -9,7 +9,7 @@ function returnForm(serverType: string) {
   section1Properties.defaultGroup = {
     type: 'string',
     title: i18n.t('settings.defaultGroup'),
-    'x-fromUrl': `${API_URL}/group/?_type=${serverType}`,
+    'x-fromUrl': `${API_URL}/group/?type=${serverType}`,
     'x-itemTitle': 'name',
     'x-itemKey': 'id',
   };
@@ -36,7 +36,7 @@ function returnForm(serverType: string) {
               type: 'string',
             },
             title: 'Server',
-            'x-fromUrl': `${API_URL}/server/?_type=${serverType}`,
+            'x-fromUrl': `${API_URL}/server/?type=${serverType}`,
             'x-itemTitle': 'name',
             'x-itemKey': 'id',
             'x-display': 'checkbox',

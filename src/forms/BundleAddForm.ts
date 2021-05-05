@@ -37,7 +37,7 @@ function returnForm(disableServerTypeSelectField = false) {
           defaultgroup: {
             type: 'string',
             title: i18n.t('settings.defaultGroup'),
-            'x-fromUrl': `${API_URL}/group/?_type={serverType}`,
+            'x-fromUrl': `${API_URL}/group/?type={serverType}`,
             'x-itemTitle': 'name',
             'x-itemKey': 'id',
           },
