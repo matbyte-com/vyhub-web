@@ -205,6 +205,7 @@ import CartPacket from '@/components/ShopComponents/CartPacket.vue';
 import CheckoutDialog from '@/components/ShopComponents/CheckoutDialog.vue';
 import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import Dialog from '@/components/Dialog.vue';
+import openapi from '../../api/openapi';
 
 export default {
   components: {
@@ -324,8 +325,11 @@ export default {
         this.queryData();
       });
     },
-    cancelPurchase(purchase) {
-      api.shop.cancelPurchase(purchase.id).then(() => {
+    async cancelPurchase(purchase) {
+      (await openapi).shop_editPurchase(
+        { uuid: purchase.id },
+        { status: 'CANCELLED' },
+      ).then(() => {
         this.queryData();
         this.$notify({
           title: this.$t('_shop.messages.purchaseCancelledSuccess'),

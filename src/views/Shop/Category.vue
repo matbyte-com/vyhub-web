@@ -12,7 +12,7 @@
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               height="200px"
             >
-              <div v-if="packet.abstract != null">
+              <div v-if="packet.abstract != null && packet.abstract.length > 0">
                 <v-expand-transition>
                   <div v-if="hover"
                        class="d-flex transition-fast-in-fast-out v-card--reveal

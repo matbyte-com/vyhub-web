@@ -68,7 +68,7 @@
                               {{ $t('status') }}
                             </v-list-item-content>
                             <v-list-item-content>
-                              {{ purchase.status }}
+                              <PurchaseStatusChip :status="purchase.status"></PurchaseStatusChip>
                             </v-list-item-content>
                           </v-list-item>
                         </v-list>
@@ -122,7 +122,7 @@
                             >
                               <td>{{ new Date(debit.date).toLocaleString() }}</td>
                               <td>{{ debit.payment_gateway.name }}</td>
-                              <td v-if="debit.amount > 0">
+                              <td v-if="debit.amount != 0">
                                 {{ debit.amount
                                 .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                 {{ purchase.currency.symbol }}
@@ -202,16 +202,18 @@
 <script>
 import openapi from '../../../api/openapi';
 import UtilService from '../../../services/UtilService';
+import PurchaseStatusChip from '../PurchaseStatusChip.vue';
 
 export default {
   name: 'MyPurchases',
+  components: { PurchaseStatusChip },
   data() {
     return {
       itemsPerPageArray: [6, 12, 18, 24],
       search: '',
       filter: {},
       page: 1,
-      itemsPerPage: 4,
+      itemsPerPage: 6,
       purchases: [],
     };
   },

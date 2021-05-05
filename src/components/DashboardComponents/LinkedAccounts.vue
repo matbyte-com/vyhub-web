@@ -3,6 +3,11 @@
     <v-card-title>
       <v-icon class="mr-2">mdi-link</v-icon>
       {{ $t('_dashboard.labels.linkedAccounts') }}
+      <v-spacer />
+      <v-btn color="success" @click="$refs.linkAccountDialog.show()" outlined>
+        <v-icon left>mdi-account-plus</v-icon>
+        <span>{{ $t("_dashboard.labels.linkNewAccount") }}</span>
+      </v-btn>
     </v-card-title>
     <v-card-text>
       <v-data-iterator
@@ -66,13 +71,7 @@
         </template>
       </v-data-iterator>
     </v-card-text>
-    <v-card-actions>
-      <v-btn text color="success" @click="$refs.linkAccountDialog.show()">
-        <v-icon left>mdi-account-plus</v-icon>
-        <span>{{ $t("_dashboard.labels.linkNewAccount") }}</span>
-      </v-btn>
-      <LinkAccountDialog ref="linkAccountDialog" />
-    </v-card-actions>
+    <LinkAccountDialog ref="linkAccountDialog" />
   </v-card>
 </template>
 

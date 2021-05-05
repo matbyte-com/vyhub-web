@@ -1,65 +1,33 @@
 <template>
-  <Dialog v-model="dialog" :max-width="300" :title="$t('areYouSure')" icon="mdi-help-circle">
-    {{ text }}
-    <template v-if="errorMessage != null">
-      <v-alert type="error">
-        {{ errorMessage }}
-      </v-alert>
-    </template>
-    <template v-slot:actions>
-        <v-col>
-          <v-btn text
-                 color="error"
-                 type="submit"
-                 @click="submit">
-            <v-icon left>mdi-delete</v-icon>
-            {{ $t('delete') }}
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-btn text @click="cancel">
-            <v-icon left>mdi-close</v-icon>
-            {{ $t('cancel') }}
-          </v-btn>
-        </v-col>
-    </template>
-  </Dialog>
+  <ConfirmationDialog btn-icon="mdi-delete" :btn-text="$t('delete')" :text="text" @submit="submit"
+    ref="deleteConfirmationDialog"
+  ></ConfirmationDialog>
 </template>
 
 <script>
-import Dialog from './Dialog.vue';
+import ConfirmationDialog from './ConfirmationDialog.vue';
 
 export default {
   name: 'DeleteConfirmationDialog',
-  components: { Dialog },
-  data() {
-    return {
-      dialog: null,
-      errorMessage: null,
-      item: null,
-    };
-  },
+  components: { ConfirmationDialog },
   props: {
     text: String,
   },
   methods: {
     cancel() {
-      this.dialog = false;
-      this.errorMessage = null;
+      this.$refs.deleteConfirmationDialog.cancel();
     },
     closeAndReset() {
-      this.dialog = false;
-      this.errorMessage = null;
+      this.$refs.deleteConfirmationDialog.closeAndReset();
     },
-    submit() {
-      this.$emit('submit', this.item);
+    submit(item) {
+      this.$emit('submit', item);
     },
     show(item) {
-      this.item = item;
-      this.dialog = true;
+      this.$refs.deleteConfirmationDialog.show(item);
     },
     setErrorMessage(text) {
-      this.errorMessage = text;
+      this.$refs.deleteConfirmationDialog.setErrorMessage(text);
     },
   },
 };

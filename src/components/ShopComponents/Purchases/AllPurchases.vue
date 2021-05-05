@@ -82,7 +82,7 @@
                       {{ $t('status') }}
                     </v-list-item-content>
                     <v-list-item-content>
-                      {{ currentPurchase.status }}
+                      <PurchaseStatusChip :status="currentPurchase.status"></PurchaseStatusChip>
                     </v-list-item-content>
                   </v-list-item>
                   <v-list-item v-if="currentPurchase.credits_used">
@@ -192,7 +192,7 @@
                         {{ debit.payment_gateway.name }}
                         </a>
                       </td>
-                      <td v-if="debit.amount > 0">
+                      <td v-if="debit.amount != 0">
                         {{ debit.amount
                         .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                         {{ currentPurchase.currency.symbol }}
@@ -217,7 +217,38 @@
             </v-row>
           </div>
         </template>
+        <template v-slot:actions>
+          <div v-if="currentPurchase != null">
+            <v-btn text color="green" @click="checkPurchase(currentPurchase)">
+              <v-icon left>mdi-credit-card-refresh</v-icon>
+              {{ $t('refresh') }}
+            </v-btn>
+            <v-btn text color="warning" @click="revokePurchase(currentPurchase)"
+                   v-if="currentPurchase.status === 'FINISHED'">
+              <v-icon left>mdi-cancel</v-icon>
+              {{ $t('_purchases.labels.revoke') }}
+            </v-btn>
+            <v-btn text color="warning" @click="unrevokePurchase(currentPurchase)"
+                   v-if="currentPurchase.status === 'REVOKED'">
+              <v-icon left>mdi-check</v-icon>
+              {{ $t('_purchases.labels.unrevoke') }}
+            </v-btn>
+            <v-btn text color="error" @click="$refs.confirmRefundDialog.show(currentPurchase)"
+                   v-if="currentPurchase.refundable">
+              <v-icon left>mdi-cash-refund</v-icon>
+              {{ $t('_purchases.labels.refund') }}
+            </v-btn>
+          </div>
+        </template>
       </Dialog>
+      <ConfirmationDialog
+        :text="$t('_purchases.messages.refundConfirm')"
+        btn-icon="mdi-cash-refund"
+        :btn-text="$t('_purchases.labels.refund')"
+        @submit="refundPurchase"
+        ref="confirmRefundDialog"
+      >
+      </ConfirmationDialog>
     </div>
 </template>
 
@@ -227,10 +258,18 @@ import openapi from '../../../api/openapi';
 import UtilService from '../../../services/UtilService';
 import UserLink from '../../UserLink.vue';
 import Dialog from '../../Dialog.vue';
+import PurchaseStatusChip from '../PurchaseStatusChip.vue';
+import ConfirmationDialog from '../../ConfirmationDialog.vue';
 
 export default {
   name: 'AllPurchases',
-  components: { Dialog, UserLink, DataTable },
+  components: {
+    ConfirmationDialog,
+    PurchaseStatusChip,
+    Dialog,
+    UserLink,
+    DataTable,
+  },
   data() {
     return {
       headers: [
@@ -274,6 +313,70 @@ export default {
       }).catch((err) => {
         console.log(err);
         UtilService.notifyUnexpectedError(err.response.data);
+      });
+    },
+    async revokePurchase(purchase) {
+      const api = await openapi;
+
+      api.shop_editPurchase({ uuid: purchase.id }, { status: 'REVOKED' })
+        .then(() => {
+          this.$notify({
+            title: this.$t('_purchases.messages.revokeSuccess'),
+            type: 'success',
+          });
+          this.queryData();
+        }).catch((err) => {
+          console.log(err);
+          UtilService.notifyUnexpectedError(err.response.data);
+        });
+    },
+    async unrevokePurchase(purchase) {
+      const api = await openapi;
+
+      api.shop_editPurchase({ uuid: purchase.id }, { status: 'FINISHED' })
+        .then(() => {
+          this.$notify({
+            title: this.$t('_purchases.messages.unrevokeSuccess'),
+            type: 'success',
+          });
+          this.queryData();
+        }).catch((err) => {
+          console.log(err);
+          UtilService.notifyUnexpectedError(err.response.data);
+        });
+    },
+    async refundPurchase(purchase) {
+      const api = await openapi;
+
+      api.shop_editPurchase({ uuid: purchase.id }, { status: 'REFUNDED' })
+        .then(() => {
+          this.$notify({
+            title: this.$t('_purchases.messages.refundInitSuccess'),
+            type: 'success',
+          });
+          this.queryData();
+          this.$refs.confirmRefundDialog.closeAndReset();
+        }).catch((err) => {
+          console.log(err);
+          this.$refs.confirmRefundDialog.setErrorMessage(err.response.data);
+        });
+    },
+    async checkPurchase(purchase) {
+      const api = await openapi;
+
+      purchase.debits.forEach((debit) => {
+        if (debit.status === 'STARTED' || debit.status === 'APPROVED') {
+          api.shop_checkPayment({ uuid: debit.id }).then(() => {
+            this.$notify({
+              title: this.$t('_purchases.messages.refreshSuccess'),
+              type: 'success',
+            });
+            this.queryData();
+          }).catch((err) => {
+            console.log(err);
+            UtilService.notifyUnexpectedError(err.response.data);
+          });
+        }
       });
     },
   },

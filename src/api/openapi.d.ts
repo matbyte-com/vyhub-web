@@ -1225,6 +1225,34 @@ declare namespace Components {
        * Credits Used
        */
       credits_used: boolean;
+      /**
+       * Refundable
+       */
+      refundable: boolean;
+    }
+    /**
+     * PurchaseModelPatch
+     */
+    export interface PurchaseModelPatch {
+      /**
+       * Id
+       */
+      id?: string; // uuid
+      /**
+       * Date
+       */
+      date?: string; // date-time
+      user?: Model_User_User_UserModelShort;
+      /**
+       * Amount Total
+       */
+      amount_total?: number;
+      currency?: CurrencyModel;
+      status?: PurchaseStatus;
+      /**
+       * Credits
+       */
+      credits?: number;
     }
     /**
      * PurchaseModelShort
@@ -1254,7 +1282,7 @@ declare namespace Components {
      * PurchaseStatus
      * An enumeration.
      */
-    export type PurchaseStatus = "OPEN" | "CANCELLED" | "FINISHED" | "REFUNDED" | "RECURRING";
+    export type PurchaseStatus = "OPEN" | "CANCELLED" | "FINISHED" | "REFUNDED" | "REVOKED" | "RECURRING";
     /**
      * RequirementModel
      */
@@ -2454,22 +2482,6 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace ShopCancelPurchase {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PurchaseModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
   namespace ShopCheckPayment {
     namespace Parameters {
       /**
@@ -2483,6 +2495,47 @@ declare namespace Paths {
     }
     namespace Responses {
       export type $200 = Components.Schemas.DebitModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopEditPurchase {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    /**
+     * PurchaseModelPatch
+     * Only status can be changed.
+     */
+    export interface RequestBody {
+      /**
+       * Id
+       */
+      id?: string; // uuid
+      /**
+       * Date
+       */
+      date?: string; // date-time
+      user?: Components.Schemas.Model_User_User_UserModelShort;
+      /**
+       * Amount Total
+       */
+      amount_total?: number;
+      currency?: Components.Schemas.CurrencyModel;
+      status?: Components.Schemas.PurchaseStatus;
+      /**
+       * Credits
+       */
+      credits?: number;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.PurchaseModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3375,14 +3428,6 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>
   /**
-   * shop_cancelPurchase - Cancel Purchase
-   */
-  'shop_cancelPurchase'(
-    parameters?: Parameters<Paths.ShopCancelPurchase.PathParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCancelPurchase.Responses.$200 | Paths.ShopCancelPurchase.Responses.$422>
-  /**
    * shop_getPurchases - Get Purchases
    */
   'shop_getPurchases'(
@@ -3408,6 +3453,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
+  /**
+   * shop_editPurchase - Edit Purchase
+   */
+  'shop_editPurchase'(
+    parameters?: Parameters<Paths.ShopEditPurchase.PathParameters> | null,
+    data?: Paths.ShopEditPurchase.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>
   /**
    * shop_getDebitInvoice - Get Debit Invoice
    */
@@ -4103,16 +4156,6 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>
   }
-  ['/shop/purchase/{uuid}']: {
-    /**
-     * shop_cancelPurchase - Cancel Purchase
-     */
-    'patch'(
-      parameters?: Parameters<Paths.ShopCancelPurchase.PathParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCancelPurchase.Responses.$200 | Paths.ShopCancelPurchase.Responses.$422>
-  }
   ['/shop/purchase']: {
     /**
      * shop_getPurchases - Get Purchases
@@ -4144,6 +4187,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
+  }
+  ['/shop/purchase/{uuid}']: {
+    /**
+     * shop_editPurchase - Edit Purchase
+     */
+    'patch'(
+      parameters?: Parameters<Paths.ShopEditPurchase.PathParameters> | null,
+      data?: Paths.ShopEditPurchase.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>
   }
   ['/shop/debit/{uuid}/invoice']: {
     /**

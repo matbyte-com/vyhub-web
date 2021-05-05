@@ -229,9 +229,21 @@
       "myPurchases": "My Purchases",
       "allPurchases": "All Purchases",
       "userPackets": "User Packets",
+      "revoke": "Revoke",
+      "revoked": "Revoked",
+      "unrevoke": "Unrevoke",
+      "refund": "Refund",
+      "refunded": "Refunded",
       "amountNet": "Net Amount",
       "amountTotal": "Total Amount",
       "details": "Purchase Details"
+    },
+    "messages": {
+      "refundInitSuccess": "Refund successfully initiated.",
+      "revokeSuccess": "Purchase successfully revoked.",
+      "refreshSuccess": "Payment data successfully refreshed.",
+      "unrevokeSuccess": "Purchase successfully unrevoked.",
+      "refundConfirm": "Are you sure that you want to refund this purchase?"
     }
   },
   "home": {
@@ -273,13 +285,18 @@
       "HAVE": "Have"
     }
   },
+  "recurring": "Recurring",
   "type": "Type",
   "general": "General",
   "purchases": "Purchases",
   "language": "Language",
   "payment": "Payment",
+  "refresh": "Refresh",
   "payments": "Payments",
   "gateway": "Gateway",
+  "open": "Open",
+  "cancelled": "Cancelled",
+  "finished": "Finished",
   "search": "Search",
   "amount": "Amount",
   "invoice": "Invoice",
