@@ -56,11 +56,11 @@ export default {
           title: this.$t('_purchases.labels.allPurchases'),
         },
         {
-          name: 'user-packets',
+          name: 'applied-packets',
           icon: 'mdi-gift-open',
-          component: 'UserPackets',
+          component: 'AppliedPackets',
           reqProp: 'purchase_show',
-          title: this.$t('_purchases.labels.userPackets'),
+          title: this.$t('_purchases.labels.appliedPackets'),
         },
         {
           name: 'statistics',

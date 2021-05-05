@@ -225,6 +225,11 @@ export default {
   beforeMount() {
     this.queryData();
   },
+  watch: {
+    $route() {
+      this.queryData();
+    },
+  },
   methods: {
     async queryData() {
       const api = await openapi;

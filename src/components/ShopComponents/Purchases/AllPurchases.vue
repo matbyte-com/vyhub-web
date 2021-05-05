@@ -29,6 +29,11 @@
             {{ item.credits }}
           </span>
         </template>
+        <template v-slot:item.status="{ item }">
+          <span>
+            <PurchaseStatusChip :status="item.status"></PurchaseStatusChip>
+          </span>
+        </template>
         <template v-slot:item.actions="{ item }">
           <v-btn depressed small color="error"
                  @click="showDetails(item)">
@@ -274,6 +279,7 @@ export default {
     return {
       headers: [
         { text: this.$t('id'), value: 'id' },
+        { text: this.$t('status'), value: 'status' },
         { text: this.$t('date'), value: 'date' },
         { text: this.$t('user'), value: 'user' },
         { text: this.$t('_purchases.labels.amountNet'), value: 'amount_net' },

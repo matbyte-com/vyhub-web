@@ -326,7 +326,7 @@ declare namespace Components {
       /**
        * Transaction Id
        */
-      transaction_id: string;
+      transaction_id?: string;
       payment_gateway: PaymentGatewayModel;
       /**
        * Amount
@@ -344,7 +344,7 @@ declare namespace Components {
       /**
        * Transaction Url
        */
-      transaction_url: string;
+      transaction_url?: string;
       purchase: PurchaseModelShort;
     }
     /**
@@ -362,7 +362,7 @@ declare namespace Components {
       /**
        * Transaction Id
        */
-      transaction_id: string;
+      transaction_id?: string;
       payment_gateway: PaymentGatewayModel;
       /**
        * Amount
@@ -380,7 +380,7 @@ declare namespace Components {
       /**
        * Transaction Url
        */
-      transaction_url: string;
+      transaction_url?: string;
     }
     /**
      * DebitStatus
@@ -1301,6 +1301,29 @@ declare namespace Components {
        * Value
        */
       value: string;
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id: string; // uuid
+    }
+    /**
+     * RequirementModelAdd
+     */
+    export interface RequirementModelAdd {
+      type: RequirementType;
+      operator: RequirementOperator;
+      /**
+       * Key
+       */
+      key?: string;
+      /**
+       * Value
+       */
+      value: string;
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id: string; // uuid
     }
     /**
      * RequirementOperator
@@ -1322,7 +1345,7 @@ declare namespace Components {
       /**
        * Formula
        */
-      formula: any[];
+      formula?: any[];
       /**
        * Requirements
        */
@@ -1331,6 +1354,15 @@ declare namespace Components {
        * Fulfilled
        */
       fulfilled?: boolean;
+    }
+    /**
+     * RequirementSetModelAdd
+     */
+    export interface RequirementSetModelAdd {
+      /**
+       * Name
+       */
+      name: string;
     }
     /**
      * RequirementType
@@ -2315,6 +2347,14 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace PacketGetAppliedPackets {
+    namespace Responses {
+      /**
+       * Response Get Applied Packets Packet Applied Get
+       */
+      export type $200 = Components.Schemas.AppliedPacketModel[];
+    }
+  }
   namespace PacketGetCategories {
     namespace Responses {
       /**
@@ -2348,6 +2388,41 @@ declare namespace Paths {
        */
       export type $200 = Components.Schemas.RewardModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace RequirementsCreateRequirement {
+    export type RequestBody = Components.Schemas.RequirementModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.RequirementModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace RequirementsCreateRequirementSet {
+    export type RequestBody = Components.Schemas.RequirementSetModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.RequirementSetModelAdd;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace RequirementsGetRequirementSets {
+    namespace Responses {
+      /**
+       * Response Get Requirement Sets Requirement Set Get
+       */
+      export type $200 = Components.Schemas.RequirementSetModel[];
+    }
+  }
+  namespace RequirementsGetRequirementTypes {
+    namespace Responses {
+      export type $200 = any;
+    }
+  }
+  namespace RequirementsGetRequirements {
+    namespace Responses {
+      /**
+       * Response Get Requirements Requirement  Get
+       */
+      export type $200 = Components.Schemas.RequirementModel[];
     }
   }
   namespace ServerAddBundle {
@@ -2390,19 +2465,12 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace ServerGetAll {
-    namespace Parameters {
-      export type Type = Components.Schemas.ServerType;
-    }
-    export interface QueryParameters {
-      _type?: Parameters.Type;
-    }
+  namespace ServerGetAllBundles {
     namespace Responses {
       /**
-       * Response Get All Server Bundle  Get
+       * Response Get All Bundles Server Bundle  Get
        */
       export type $200 = Components.Schemas.ServerbundleModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ServerGetGroups {
@@ -2440,6 +2508,26 @@ declare namespace Paths {
        * Response Get Server Server Bundle  Uuid  Server Get
        */
       export type $200 = Components.Schemas.ServerModelShort[];
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ServerGetServerTypes {
+    namespace Responses {
+      export type $200 = any;
+    }
+  }
+  namespace ServerGetServers {
+    namespace Parameters {
+      export type Type = Components.Schemas.ServerType;
+    }
+    export interface QueryParameters {
+      type?: Parameters.Type;
+    }
+    namespace Responses {
+      /**
+       * Response Get Servers Server  Get
+       */
+      export type $200 = Components.Schemas.ServerModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3176,13 +3264,13 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>
   /**
-   * server_getAll - Get All
+   * server_getAllBundles - Get All Bundles
    */
-  'server_getAll'(
-    parameters?: Parameters<Paths.ServerGetAll.QueryParameters> | null,
+  'server_getAllBundles'(
+    parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetAll.Responses.$200 | Paths.ServerGetAll.Responses.$422>
+  ): OperationResponse<Paths.ServerGetAllBundles.Responses.$200>
   /**
    * server_addBundle - Add Bundle
    */
@@ -3224,21 +3312,21 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
   /**
-   * server_getAll - Get All
+   * server_getServerTypes - Get Server Types
    */
-  'server_getAll'(
-    parameters?: Parameters<Paths.ServerGetAll.QueryParameters> | null,
+  'server_getServerTypes'(
+    parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetAll.Responses.$200 | Paths.ServerGetAll.Responses.$422>
+  ): OperationResponse<Paths.ServerGetServerTypes.Responses.$200>
   /**
-   * server_getAll - Get All
+   * server_getServers - Get Servers
    */
-  'server_getAll'(
-    parameters?: Parameters<Paths.ServerGetAll.QueryParameters> | null,
+  'server_getServers'(
+    parameters?: Parameters<Paths.ServerGetServers.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetAll.Responses.$200 | Paths.ServerGetAll.Responses.$422>
+  ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
   /**
    * server_deleteBundle - Delete Bundle
    */
@@ -3542,6 +3630,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
   /**
+   * packet_getAppliedPackets - Get Applied Packets
+   */
+  'packet_getAppliedPackets'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
+  /**
    * gateway_getGateways - Get Gateways
    */
   'gateway_getGateways'(
@@ -3581,6 +3677,46 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
+  /**
+   * requirements_getRequirementTypes - Get Requirement Types
+   */
+  'requirements_getRequirementTypes'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsGetRequirementTypes.Responses.$200>
+  /**
+   * requirements_getRequirementSets - Get Requirement Sets
+   */
+  'requirements_getRequirementSets'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsGetRequirementSets.Responses.$200>
+  /**
+   * requirements_createRequirementSet - Create Requirement Set
+   */
+  'requirements_createRequirementSet'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.RequirementsCreateRequirementSet.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>
+  /**
+   * requirements_getRequirements - Get Requirements
+   */
+  'requirements_getRequirements'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsGetRequirements.Responses.$200>
+  /**
+   * requirements_createRequirement - Create Requirement
+   */
+  'requirements_createRequirement'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.RequirementsCreateRequirement.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
 }
 
 export interface PathsDictionary {
@@ -3844,7 +3980,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>
   }
-  ['/user/address/']: {
+  ['/user/address']: {
     /**
      * user_addAddress - Add Address
      */
@@ -3866,13 +4002,13 @@ export interface PathsDictionary {
   }
   ['/server/bundle/']: {
     /**
-     * server_getAll - Get All
+     * server_getAllBundles - Get All Bundles
      */
     'get'(
-      parameters?: Parameters<Paths.ServerGetAll.QueryParameters> | null,
+      parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetAll.Responses.$200 | Paths.ServerGetAll.Responses.$422>
+    ): OperationResponse<Paths.ServerGetAllBundles.Responses.$200>
     /**
      * server_addBundle - Add Bundle
      */
@@ -3922,23 +4058,23 @@ export interface PathsDictionary {
   }
   ['/server/type']: {
     /**
-     * server_getAll - Get All
+     * server_getServerTypes - Get Server Types
      */
     'get'(
-      parameters?: Parameters<Paths.ServerGetAll.QueryParameters> | null,
+      parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetAll.Responses.$200 | Paths.ServerGetAll.Responses.$422>
+    ): OperationResponse<Paths.ServerGetServerTypes.Responses.$200>
   }
   ['/server/']: {
     /**
-     * server_getAll - Get All
+     * server_getServers - Get Servers
      */
     'get'(
-      parameters?: Parameters<Paths.ServerGetAll.QueryParameters> | null,
+      parameters?: Parameters<Paths.ServerGetServers.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetAll.Responses.$200 | Paths.ServerGetAll.Responses.$422>
+    ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
   }
   ['/server/{uuid}']: {
     /**
@@ -4290,6 +4426,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
   }
+  ['/packet/applied']: {
+    /**
+     * packet_getAppliedPackets - Get Applied Packets
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
+  }
   ['/payment-gateway/']: {
     /**
      * gateway_getGateways - Get Gateways
@@ -4335,6 +4481,52 @@ export interface PathsDictionary {
       data?: Paths.NewsEditMessage.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
+  }
+  ['/requirement/type']: {
+    /**
+     * requirements_getRequirementTypes - Get Requirement Types
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsGetRequirementTypes.Responses.$200>
+  }
+  ['/requirement/set']: {
+    /**
+     * requirements_getRequirementSets - Get Requirement Sets
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsGetRequirementSets.Responses.$200>
+    /**
+     * requirements_createRequirementSet - Create Requirement Set
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.RequirementsCreateRequirementSet.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>
+  }
+  ['/requirement/']: {
+    /**
+     * requirements_getRequirements - Get Requirements
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsGetRequirements.Responses.$200>
+    /**
+     * requirements_createRequirement - Create Requirement
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.RequirementsCreateRequirement.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
   }
 }
 
