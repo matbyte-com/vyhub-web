@@ -236,13 +236,16 @@
       "refunded": "Refunded",
       "amountNet": "Net Amount",
       "amountTotal": "Total Amount",
-      "details": "Purchase Details"
+      "details": "Purchase Details",
+      "editAppliedPacket": "Edit Applied Packet"
     },
     "messages": {
       "refundInitSuccess": "Refund successfully initiated.",
       "revokeSuccess": "Purchase successfully revoked.",
       "refreshSuccess": "Payment data successfully refreshed.",
       "unrevokeSuccess": "Purchase successfully unrevoked.",
+      "editAppliedPacketSuccess": "Applied packet successfully edited.",
+      "deleteAppliedPacketSuccess": "Applied packet successfully deleted.",
       "refundConfirm": "Are you sure that you want to refund this purchase?"
     }
   },

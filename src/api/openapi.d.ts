@@ -105,16 +105,23 @@ declare namespace Components {
        * Active
        */
       active: boolean;
+      user: Model_User_User_UserModelShort;
+    }
+    /**
+     * AppliedPacketModelPatch
+     */
+    export interface AppliedPacketModelPatch {
+      status?: AppliedPacketStatus;
       /**
-       * User Id
+       * End
        */
-      user_id: string; // uuid
+      end?: string; // date-time
     }
     /**
      * AppliedPacketStatus
      * An enumeration.
      */
-    export type AppliedPacketStatus = "ACTIVE" | "DISABLED_PERM" | "DISABLED_TEMP";
+    export type AppliedPacketStatus = "ENABLED" | "DISABLED";
     /**
      * BanModel
      */
@@ -1234,25 +1241,7 @@ declare namespace Components {
      * PurchaseModelPatch
      */
     export interface PurchaseModelPatch {
-      /**
-       * Id
-       */
-      id?: string; // uuid
-      /**
-       * Date
-       */
-      date?: string; // date-time
-      user?: Model_User_User_UserModelShort;
-      /**
-       * Amount Total
-       */
-      amount_total?: number;
-      currency?: CurrencyModel;
       status?: PurchaseStatus;
-      /**
-       * Credits
-       */
-      credits?: number;
     }
     /**
      * PurchaseModelShort
@@ -1373,7 +1362,7 @@ declare namespace Components {
      * RewardEvent
      * An enumeration.
      */
-    export type RewardEvent = "DIRECT" | "CONNECT" | "SPAWN" | "DEATH" | "DISCONNECT";
+    export type RewardEvent = "DIRECT" | "CONNECT" | "SPAWN" | "DEATH" | "DISCONNECT" | "DISABLE";
     /**
      * RewardModel
      */
@@ -2281,6 +2270,22 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace PacketDeleteAppliedPacket {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.SuccessModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace PacketDeletePacket {
     namespace Parameters {
       /**
@@ -2597,31 +2602,7 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
-    /**
-     * PurchaseModelPatch
-     * Only status can be changed.
-     */
-    export interface RequestBody {
-      /**
-       * Id
-       */
-      id?: string; // uuid
-      /**
-       * Date
-       */
-      date?: string; // date-time
-      user?: Components.Schemas.Model_User_User_UserModelShort;
-      /**
-       * Amount Total
-       */
-      amount_total?: number;
-      currency?: Components.Schemas.CurrencyModel;
-      status?: Components.Schemas.PurchaseStatus;
-      /**
-       * Credits
-       */
-      credits?: number;
-    }
+    export type RequestBody = Components.Schemas.PurchaseModelPatch;
     namespace Responses {
       export type $200 = Components.Schemas.PurchaseModel;
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -3638,6 +3619,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
   /**
+   * packet_deleteAppliedPacket - Delete Applied Packet
+   */
+  'packet_deleteAppliedPacket'(
+    parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
+  /**
    * gateway_getGateways - Get Gateways
    */
   'gateway_getGateways'(
@@ -4435,6 +4424,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
+  }
+  ['/packet/applied/{uuid}']: {
+    /**
+     * packet_deleteAppliedPacket - Delete Applied Packet
+     */
+    'patch'(
+      parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
   }
   ['/payment-gateway/']: {
     /**
