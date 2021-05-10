@@ -122,8 +122,8 @@
                             >
                               <td>{{ new Date(debit.date).toLocaleString() }}</td>
                               <td>{{ debit.payment_gateway.name }}</td>
-                              <td v-if="debit.amount != 0">
-                                {{ debit.amount
+                              <td v-if="debit.amount_total != 0">
+                                {{ debit.amount_total
                                 .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                 {{ purchase.currency.symbol }}
                               </td>

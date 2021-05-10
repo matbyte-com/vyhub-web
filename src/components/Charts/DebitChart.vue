@@ -1,0 +1,84 @@
+<template>
+  <div>
+    <div v-if="series != null">
+      <apexchart type="area" :options="options" :series="series"></apexchart>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'DebitChart',
+  props: {
+    data: Array,
+    currency: String,
+  },
+  data() {
+    return {
+      options: {
+        chart: {
+          id: 'debit-chart',
+          type: 'area',
+          zoom: {
+            autoScaleYaxis: true,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        markers: {
+          size: 0,
+          style: 'hollow',
+        },
+        xaxis: {
+          type: 'datetime',
+          tickAmount: 6,
+        },
+        yaxis: {
+          title: {
+            text: this.$t('sales'),
+          },
+          labels: {
+            formatter: (y) => `${y.toLocaleString(undefined, { minimumFractionDigits: 2 })} ${this.currency}`,
+          },
+        },
+        tooltip: {
+          x: {
+            format: 'yyyy-MM-dd',
+          },
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 100],
+          },
+        },
+      },
+    };
+  },
+  computed: {
+    series() {
+      if (this.data == null) {
+        return null;
+      }
+
+      const data = this.data.map((stat) => ({
+        x: new Date(stat.date).getTime(),
+        y: stat.amount_total,
+      }));
+
+      return [{
+        name: this.$t('amount'),
+        data,
+      }];
+    },
+  },
+};
+</script>
+
+<style scoped>
+
+</style>

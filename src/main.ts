@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Axios from 'axios';
 import Notifications from 'vue-notification';
+import VueApexCharts from 'vue-apexcharts';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -18,6 +19,9 @@ Axios.defaults.headers.common['Content-Type'] = 'application/json';
 Axios.defaults.headers.common.Accept = 'application/json';
 
 Vue.use(Notifications);
+Vue.use(VueApexCharts);
+
+Vue.component('apexchart', VueApexCharts);
 
 new Vue({
   router,

@@ -237,6 +237,10 @@
       "amountNet": "Net Amount",
       "amountTotal": "Total Amount",
       "details": "Purchase Details",
+      "salesCount": "Sales Count",
+      "totalRevenue": "Total Revenue",
+      "monthlyRevenue": "Monthly Revenue",
+      "creditsSpent": "Credits Spent",
       "editAppliedPacket": "Edit Applied Packet"
     },
     "messages": {
@@ -289,6 +293,11 @@
     }
   },
   "recurring": "Recurring",
+  "revenue": "Revenue",
+  "sales": "Sales",
+  "perDay": "Per Day",
+  "perMonth": "Per Month",
+  "perYear": "Per Year",
   "type": "Type",
   "general": "General",
   "purchases": "Purchases",
@@ -314,6 +323,7 @@
   "groups": "Groups",
   "value": "Value",
   "description": "Description",
+  "totals": "Totals",
   "country": "Country",
   "allGroups": "All Groups",
   "allProperties": "All Properties",

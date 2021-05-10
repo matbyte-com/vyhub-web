@@ -197,8 +197,8 @@
                         {{ debit.payment_gateway.name }}
                         </a>
                       </td>
-                      <td v-if="debit.amount != 0">
-                        {{ debit.amount
+                      <td v-if="debit.amount_total !== 0">
+                        {{ debit.amount_total
                         .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                         {{ currentPurchase.currency.symbol }}
                       </td>
@@ -388,6 +388,11 @@ export default {
   },
   beforeMount() {
     this.queryData();
+  },
+  watch: {
+    $route() {
+      this.queryData();
+    },
   },
   computed: {
     purchaseDetailShown: {

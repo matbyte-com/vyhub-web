@@ -259,7 +259,7 @@ declare namespace Components {
       /**
        * Recurring
        */
-      recurring: boolean;
+      recurring?: number; // time-delta
       discount?: DiscountModel;
       /**
        * Editable
@@ -336,9 +336,21 @@ declare namespace Components {
       transaction_id?: string;
       payment_gateway: PaymentGatewayModel;
       /**
-       * Amount
+       * Amount Total
        */
-      amount?: number;
+      amount_total?: number;
+      /**
+       * Amount Net
+       */
+      amount_net?: number;
+      /**
+       * Tax Rate
+       */
+      tax_rate?: number;
+      /**
+       * Amount Tax
+       */
+      amount_tax?: number;
       /**
        * Credits
        */
@@ -372,9 +384,21 @@ declare namespace Components {
       transaction_id?: string;
       payment_gateway: PaymentGatewayModel;
       /**
-       * Amount
+       * Amount Total
        */
-      amount?: number;
+      amount_total?: number;
+      /**
+       * Amount Net
+       */
+      amount_net?: number;
+      /**
+       * Tax Rate
+       */
+      tax_rate?: number;
+      /**
+       * Amount Tax
+       */
+      amount_tax?: number;
       /**
        * Credits
        */
@@ -388,6 +412,31 @@ declare namespace Components {
        * Transaction Url
        */
       transaction_url?: string;
+    }
+    /**
+     * DebitModelStatistic
+     */
+    export interface DebitModelStatistic {
+      /**
+       * Date
+       */
+      date: string; // date-time
+      /**
+       * Amount Net
+       */
+      amount_net?: number;
+      /**
+       * Amount Total
+       */
+      amount_total?: number;
+      /**
+       * Amount Tax
+       */
+      amount_tax?: number;
+      /**
+       * Credits
+       */
+      credits?: number;
     }
     /**
      * DebitStatus
@@ -1204,9 +1253,9 @@ declare namespace Components {
        */
       tax_rate: number;
       /**
-       * Tax Amount
+       * Amount Tax
        */
-      tax_amount: number;
+      amount_tax: number;
       /**
        * Tax Info
        */
@@ -1218,7 +1267,7 @@ declare namespace Components {
       /**
        * Recurring
        */
-      recurring: boolean;
+      recurring?: number; // time-delta
       /**
        * Debits
        */
@@ -1266,6 +1315,52 @@ declare namespace Components {
        * Credits
        */
       credits?: number;
+    }
+    /**
+     * PurchaseStatistic
+     */
+    export interface PurchaseStatistic {
+      /**
+       * Status
+       */
+      status: {
+        [name: string]: PurchaseStatisticEntry;
+      };
+      /**
+       * Country
+       */
+      country: {
+        [name: string]: PurchaseStatisticEntry;
+      };
+      /**
+       * Monthly Revenue
+       */
+      monthly_revenue: number;
+    }
+    /**
+     * PurchaseStatisticEntry
+     */
+    export interface PurchaseStatisticEntry {
+      /**
+       * Count
+       */
+      count: number;
+      /**
+       * Amount Total
+       */
+      amount_total: number;
+      /**
+       * Amount Net
+       */
+      amount_net: number;
+      /**
+       * Amount Tax
+       */
+      amount_tax: number;
+      /**
+       * Credits
+       */
+      credits: number;
     }
     /**
      * PurchaseStatus
@@ -1626,6 +1721,11 @@ declare namespace Components {
       action?: PaymentAction;
     }
     /**
+     * StatisticInterval
+     * An enumeration.
+     */
+    export type StatisticInterval = "DAY" | "MONTH" | "YEAR";
+    /**
      * SuccessModel
      */
     export interface SuccessModel {
@@ -1672,9 +1772,9 @@ declare namespace Components {
        */
       tax_rate: number;
       /**
-       * Tax Amount
+       * Amount Tax
        */
-      tax_amount: number;
+      amount_tax: number;
       currency: CurrencyModel;
       /**
        * Tax Info
@@ -2318,6 +2418,23 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace PacketEditAppliedPacket {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.AppliedPacketModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.AppliedPacketModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace PacketEditPacket {
     namespace Parameters {
       /**
@@ -2624,6 +2741,14 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ShopGetCurrencies {
+    namespace Responses {
+      /**
+       * Response Get Currencies Shop Currency Get
+       */
+      export type $200 = Components.Schemas.CurrencyModel[];
+    }
+  }
   namespace ShopGetDebitInvoice {
     namespace Parameters {
       /**
@@ -2637,6 +2762,30 @@ declare namespace Paths {
     }
     namespace Responses {
       export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopGetDebitStatistic {
+    namespace Parameters {
+      /**
+       * Currency Code
+       */
+      export type CurrencyCode = string;
+      /**
+       * StatisticInterval
+       * An enumeration.
+       */
+      export type Interval = "DAY" | "MONTH" | "YEAR";
+    }
+    export interface QueryParameters {
+      interval?: Parameters.Interval;
+      currency_code: Parameters.CurrencyCode;
+    }
+    namespace Responses {
+      /**
+       * Response Get Debit Statistic Shop Debit Statistic Get
+       */
+      export type $200 = Components.Schemas.DebitModelStatistic[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -2697,6 +2846,21 @@ declare namespace Paths {
        * Response Get Purchase Gateways Shop Purchase  Uuid  Gateway Get
        */
       export type $200 = Components.Schemas.PaymentGatewayModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopGetPurchaseStatistic {
+    namespace Parameters {
+      /**
+       * Currency Code
+       */
+      export type CurrencyCode = string;
+    }
+    export interface QueryParameters {
+      currency_code: Parameters.CurrencyCode;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.PurchaseStatistic;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3539,6 +3703,32 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
   /**
+   * shop_getCurrencies - Get Currencies
+   * 
+   * Get all currencies that were used in purchases.
+   */
+  'shop_getCurrencies'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>
+  /**
+   * shop_getDebitStatistic - Get Debit Statistic
+   */
+  'shop_getDebitStatistic'(
+    parameters?: Parameters<Paths.ShopGetDebitStatistic.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200 | Paths.ShopGetDebitStatistic.Responses.$422>
+  /**
+   * shop_getPurchaseStatistic - Get Purchase Statistic
+   */
+  'shop_getPurchaseStatistic'(
+    parameters?: Parameters<Paths.ShopGetPurchaseStatistic.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200 | Paths.ShopGetPurchaseStatistic.Responses.$422>
+  /**
    * packet_getCategories - Get Categories
    */
   'packet_getCategories'(
@@ -3618,6 +3808,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
+  /**
+   * packet_editAppliedPacket - Edit Applied Packet
+   */
+  'packet_editAppliedPacket'(
+    parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters> | null,
+    data?: Paths.PacketEditAppliedPacket.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
   /**
    * packet_deleteAppliedPacket - Delete Applied Packet
    */
@@ -4333,6 +4531,38 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
   }
+  ['/shop/currency']: {
+    /**
+     * shop_getCurrencies - Get Currencies
+     * 
+     * Get all currencies that were used in purchases.
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>
+  }
+  ['/shop/debit/statistic']: {
+    /**
+     * shop_getDebitStatistic - Get Debit Statistic
+     */
+    'get'(
+      parameters?: Parameters<Paths.ShopGetDebitStatistic.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200 | Paths.ShopGetDebitStatistic.Responses.$422>
+  }
+  ['/shop/purchase/statistic']: {
+    /**
+     * shop_getPurchaseStatistic - Get Purchase Statistic
+     */
+    'get'(
+      parameters?: Parameters<Paths.ShopGetPurchaseStatistic.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200 | Paths.ShopGetPurchaseStatistic.Responses.$422>
+  }
   ['/packet/category']: {
     /**
      * packet_getCategories - Get Categories
@@ -4429,11 +4659,19 @@ export interface PathsDictionary {
     /**
      * packet_deleteAppliedPacket - Delete Applied Packet
      */
-    'patch'(
+    'delete'(
       parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
+    /**
+     * packet_editAppliedPacket - Edit Applied Packet
+     */
+    'patch'(
+      parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters> | null,
+      data?: Paths.PacketEditAppliedPacket.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
   }
   ['/payment-gateway/']: {
     /**
