@@ -11,7 +11,7 @@ export default {
   name: 'DebitChart',
   props: {
     data: Array,
-    currency: String,
+    currency: Object,
   },
   data() {
     return {
@@ -39,7 +39,7 @@ export default {
             text: this.$t('sales'),
           },
           labels: {
-            formatter: (y) => `${y.toLocaleString(undefined, { minimumFractionDigits: 2 })} ${this.currency}`,
+            formatter: (y) => `${y.toLocaleString(undefined, { minimumFractionDigits: 2 })} ${this.currency.symbol}`,
           },
         },
         tooltip: {

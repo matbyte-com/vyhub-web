@@ -23,11 +23,11 @@
                           :items="intervalItems" item-text="name" item-value="value"></v-select>
               </v-card-title>
               <v-card-text>
-                <DebitChart :data="debitStats" :currency="currentCurrency.symbol"></DebitChart>
+                <DebitChart :data="debitStats" :currency="currentCurrency"></DebitChart>
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col>
+          <v-col lg="4">
             <v-row>
               <v-col xl="6" md="4" sm="6">
                 <v-card v-if="purchaseStats != null">
@@ -85,6 +85,19 @@
                   </v-card-text>
                 </v-card>
               </v-col>
+              <v-col xl="12" md="8" sm="12">
+                <v-card v-if="purchaseStats != null">
+                  <v-card-title>
+                    <v-icon left>mdi-earth</v-icon>
+                    {{ $t('_purchases.labels.revenueByCountry') }}
+                  </v-card-title>
+                  <v-card-text>
+                    <PurchaseCountryChart :currency="currentCurrency" :data="purchaseStats.country">
+
+                    </PurchaseCountryChart>
+                  </v-card-text>
+                </v-card>
+              </v-col>
             </v-row>
           </v-col>
         </v-row>
@@ -98,10 +111,11 @@ import DebitChart from '../../Charts/DebitChart.vue';
 import openapi from '../../../api/openapi';
 import UtilService from '../../../services/UtilService';
 import openapiCached from '../../../api/openapiCached';
+import PurchaseCountryChart from '../../Charts/PurchaseCountryChart.vue';
 
 export default {
   name: 'Statistics',
-  components: { DebitChart },
+  components: { PurchaseCountryChart, DebitChart },
   data() {
     return {
       debitStats: null,

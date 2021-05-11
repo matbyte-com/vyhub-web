@@ -241,6 +241,7 @@
       "totalRevenue": "Total Revenue",
       "monthlyRevenue": "Monthly Revenue",
       "creditsSpent": "Credits Spent",
+      "revenueByCountry": "Revenue by Country",
       "editAppliedPacket": "Edit Applied Packet"
     },
     "messages": {
