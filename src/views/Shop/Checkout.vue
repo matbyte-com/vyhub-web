@@ -72,8 +72,8 @@
 </template>
 
 <script>
-import api from '@/api/api';
 import UtilService from '@/services/UtilService';
+import openapi from '../../api/openapi';
 
 export default {
   name: 'Checkout',
@@ -91,12 +91,14 @@ export default {
     this.checkPayment();
   },
   methods: {
-    checkPayment() {
-      api.shop.checkPayment(this.debitId).then((rsp) => {
+    async checkPayment() {
+      const api = await openapi;
+
+      api.shop_checkPayment({ uuid: this.debitId }).then((rsp) => {
         this.debit = rsp.data;
 
         if (this.action === 'cancel' && ['STARTED', 'APPROVED'].includes(this.debit.status)) {
-          api.shop.cancelPayment(this.debit.id).then((rsp2) => {
+          api.shop_cancelPayment({ uuid: this.debit.id }).then((rsp2) => {
             this.debit = rsp2.data;
             this.loading = false;
           }).catch((err) => {

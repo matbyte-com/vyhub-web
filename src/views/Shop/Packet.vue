@@ -68,9 +68,10 @@
 
 <script>
 import utilService from '../../services/UtilService';
-import api from '../../api/api';
 import ShopService from '../../services/ShopService';
 import PageTitle from '../../components/PageTitle.vue';
+import openapi from '../../api/openapi';
+import openapiCached from '../../api/openapiCached';
 
 export default {
   components: { PageTitle },
@@ -87,21 +88,25 @@ export default {
     this.queryData();
   },
   methods: {
-    queryData() {
+    async queryData() {
+      const apiCached = await openapiCached;
+
       const countryCode = (this.$store.getters.address != null
         ? this.$store.getters.address.country.code : null);
 
-      api.shop.getPackets(this.$route.params.categoryId, countryCode)
+      apiCached.shop_getPackets({ category_id: this.$route.params.categoryId }, countryCode)
         .then((rsp) => {
           this.packet = rsp.data.find((p) => p.id === this.$route.params.packetId);
         });
     },
-    addToCart() {
+    async addToCart() {
+      const api = await openapi;
+
       this.loading = true;
       this.addFail = false;
       this.addSuccess = false;
 
-      api.shop.addToCart(this.packet.id).then(() => {
+      api.shop_addPacketToCart(undefined, { packet_id: this.packet.id }).then(() => {
         this.loading = false;
         this.addSuccess = true;
 

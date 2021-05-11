@@ -208,11 +208,35 @@ declare namespace Components {
      */
     export type BanStatus = "ACTIVE" | "UNBANNED";
     /**
+     * Body_add_packet_to_cart_shop_cart_post
+     */
+    export interface BodyAddPacketToCartShopCartPost {
+      /**
+       * Packet Id
+       */
+      packet_id: string; // uuid
+    }
+    /**
+     * Body_start_checkout_shop_cart_checkout_post
+     */
+    export interface BodyStartCheckoutShopCartCheckoutPost {
+      /**
+       * Address Id
+       */
+      address_id: string; // uuid
+    }
+    /**
      * Body_start_payment_shop_checkout_post
      */
     export interface BodyStartPaymentShopCheckoutPost {
-      purchase: UUIDModel;
-      payment_gateway: UUIDModel;
+      /**
+       * Purchase Id
+       */
+      purchase_id: string; // uuid
+      /**
+       * Payment Gateway Id
+       */
+      payment_gateway_id: string; // uuid
     }
     /**
      * CartModel
@@ -1786,15 +1810,6 @@ declare namespace Components {
       credits?: number;
     }
     /**
-     * UUIDModel
-     */
-    export interface UUIDModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-    }
-    /**
      * UserAttributeDefinitionModel
      */
     export interface UserAttributeDefinitionModel {
@@ -2210,14 +2225,6 @@ declare namespace Paths {
     namespace Responses {
       export type $200 = Components.Schemas.ThemeModel;
       export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace GatewayGetGateways {
-    namespace Responses {
-      /**
-       * Response Get Gateways Payment Gateway  Get
-       */
-      export type $200 = Components.Schemas.PaymentGatewayModel[];
     }
   }
   namespace GroupAddGroup {
@@ -2654,7 +2661,7 @@ declare namespace Paths {
     }
   }
   namespace ShopAddPacketToCart {
-    export type RequestBody = Components.Schemas.UUIDModel;
+    export type RequestBody = Components.Schemas.BodyAddPacketToCartShopCartPost;
     namespace Responses {
       export type $200 = Components.Schemas.CartPacketModel;
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -2741,6 +2748,14 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ShopGetCartPackets {
+    namespace Responses {
+      /**
+       * Response Get Cart Packets Shop Cart Packet Get
+       */
+      export type $200 = Components.Schemas.CartPacketModel[];
+    }
+  }
   namespace ShopGetCurrencies {
     namespace Responses {
       /**
@@ -2803,6 +2818,14 @@ declare namespace Paths {
     namespace Responses {
       export type $200 = Components.Schemas.DiscountModel;
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopGetGateways {
+    namespace Responses {
+      /**
+       * Response Get Gateways Shop Payment Gateway  Get
+       */
+      export type $200 = Components.Schemas.PaymentGatewayModel[];
     }
   }
   namespace ShopGetPackets {
@@ -2910,7 +2933,7 @@ declare namespace Paths {
     }
   }
   namespace ShopStartCheckout {
-    export type RequestBody = Components.Schemas.UUIDModel;
+    export type RequestBody = Components.Schemas.BodyStartCheckoutShopCartCheckoutPost;
     namespace Responses {
       export type $200 = Components.Schemas.PurchaseModel;
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -3561,6 +3584,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
   /**
+   * shop_getGateways - Get Gateways
+   */
+  'shop_getGateways'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
+  /**
    * shop_getPackets - Get Packets
    * 
    * Returns all packets (in the given category) and does price calculation.
@@ -3597,13 +3628,13 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>
   /**
-   * shop_getCart - Get Cart
+   * shop_getCartPackets - Get Cart Packets
    */
-  'shop_getCart'(
-    parameters?: Parameters<Paths.ShopGetCart.QueryParameters> | null,
+  'shop_getCartPackets'(
+    parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCart.Responses.$200 | Paths.ShopGetCart.Responses.$422>
+  ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>
   /**
    * shop_removePacketFromCart - Remove Packet From Cart
    */
@@ -3824,14 +3855,6 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
-  /**
-   * gateway_getGateways - Get Gateways
-   */
-  'gateway_getGateways'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GatewayGetGateways.Responses.$200>
   /**
    * news_getMessages - Get Messages
    */
@@ -4363,6 +4386,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
   }
+  ['/shop/payment-gateway/']: {
+    /**
+     * shop_getGateways - Get Gateways
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
+  }
   ['/shop/packet']: {
     /**
      * shop_getPackets - Get Packets
@@ -4405,13 +4438,13 @@ export interface PathsDictionary {
   }
   ['/shop/cart/packet']: {
     /**
-     * shop_getCart - Get Cart
+     * shop_getCartPackets - Get Cart Packets
      */
     'get'(
-      parameters?: Parameters<Paths.ShopGetCart.QueryParameters> | null,
+      parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCart.Responses.$200 | Paths.ShopGetCart.Responses.$422>
+    ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>
   }
   ['/shop/cart/{uuid}']: {
     /**
@@ -4672,16 +4705,6 @@ export interface PathsDictionary {
       data?: Paths.PacketEditAppliedPacket.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
-  }
-  ['/payment-gateway/']: {
-    /**
-     * gateway_getGateways - Get Gateways
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GatewayGetGateways.Responses.$200>
   }
   ['/news/']: {
     /**

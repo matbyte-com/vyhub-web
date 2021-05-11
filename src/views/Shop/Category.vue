@@ -99,9 +99,9 @@
 </template>
 
 <script>
-import api from '../../api/api';
 import PageTitle from '../../components/PageTitle.vue';
 import utilService from '../../services/UtilService';
+import openapi from '../../api/openapi';
 
 export default {
   components: { PageTitle },
@@ -116,16 +116,21 @@ export default {
     this.queryData();
   },
   methods: {
-    queryData() {
+    async queryData() {
+      const api = await openapi;
+
       const countryCode = (this.$store.getters.address != null
         ? this.$store.getters.address.country.code : null);
 
-      api.shop.getPackets(this.$route.params.categoryId, countryCode)
+      api.shop_getPackets({
+        category_id: this.$route.params.categoryId,
+        country_code: countryCode,
+      })
         .then((rsp) => {
           this.packets = rsp.data;
         });
 
-      api.packet.getCategories()
+      api.packet_getCategories()
         .then((rsp) => {
           this.category = rsp.data.find((cat) => cat.id === this.$route.params.categoryId);
         });

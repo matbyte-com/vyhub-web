@@ -196,7 +196,6 @@
 <script>
 import PageTitle from '@/components/PageTitle.vue';
 import utilService from '@/services/UtilService';
-import api from '@/api/api';
 import AddressForm from '@/forms/AddressForm';
 import DialogForm from '@/components/DialogForm.vue';
 import ShopService from '@/services/ShopService';
@@ -235,12 +234,15 @@ export default {
     this.queryAddresses();
   },
   methods: {
-    queryData() {
+    async queryData() {
+      const api = await openapi;
+
       const countryCode = (this.$store.getters.address != null
         ? this.$store.getters.address.country.code : null);
 
-      api.shop.getCart(countryCode)
+      api.shop_getCart({ country_code: countryCode })
         .then((rsp) => {
+          console.log(rsp.data);
           this.cartPackets = rsp.data.packets;
           this.cartPrice = rsp.data.price;
           this.cartCorrect = rsp.data.correct;
@@ -253,12 +255,14 @@ export default {
           utilService.notifyUnexpectedError(err.response.data);
         });
 
-      api.user.getPurchases(this.$store.getters.user.id).then((rsp) => {
+      api.user_getPurchases({ uuid: this.$store.getters.user.id }).then((rsp) => {
         this.openPurchase = rsp.data.find((p) => p.status === 'OPEN');
       });
     },
-    queryAddresses() {
-      api.user.getAddresses(this.$store.getters.user.id).then((rsp) => {
+    async queryAddresses() {
+      const api = await openapi;
+
+      api.user_getAddresses({ uuid: this.$store.getters.user.id }).then((rsp) => {
         this.addresses = rsp.data;
 
         if (this.$store.getters.address == null && this.addresses.length > 0) {
@@ -266,8 +270,10 @@ export default {
         }
       });
     },
-    removeCartPacket(cartPacketId) {
-      api.shop.removeFromCart(cartPacketId).then(() => {
+    async removeCartPacket(cartPacketId) {
+      const api = await openapi;
+
+      api.shop_removePacketFromCart({ uuid: cartPacketId }).then(() => {
         this.queryData();
         this.$notify({
           title: this.$t('_shop.messages.removeFromCartSuccess'),
@@ -278,8 +284,10 @@ export default {
         utilService.notifyUnexpectedError(err.response.data);
       });
     },
-    clearCart() {
-      api.shop.clearCart().then(() => {
+    async clearCart() {
+      const api = await openapi;
+
+      api.shop_removePacketsFromCart().then(() => {
         this.queryData();
         this.$notify({
           title: this.$t('_shop.messages.clearCartSuccess'),
@@ -290,10 +298,12 @@ export default {
         utilService.notifyUnexpectedError(err.response.data);
       });
     },
-    addAddress() {
+    async addAddress() {
+      const api = await openapi;
+
       const address = this.$refs.addressAddDialog.getData();
 
-      api.user.addAddress(address).then((rsp) => {
+      api.user_addAddress(undefined, address).then((rsp) => {
         ShopService.selectAddress(rsp.data);
         this.$notify({
           title: this.$t('_address.messages.addSuccess'),
@@ -314,8 +324,10 @@ export default {
       });
       this.$refs.selectAddressDialog.close();
     },
-    startCheckout() {
-      api.shop.startCheckout(this.currentAddress.id).then((rsp) => {
+    async startCheckout() {
+      const api = await openapi;
+
+      api.shop_startCheckout(undefined, { address_id: this.currentAddress.id }).then((rsp) => {
         const purchase = rsp.data;
         this.$refs.checkoutDialog.show(purchase);
         this.queryData();
@@ -341,7 +353,9 @@ export default {
         this.queryData();
       });
     },
-    applyDiscount() {
+    async applyDiscount() {
+      const api = await openapi;
+
       this.couponError = null;
       this.couponStyle = null;
       const code = this.couponCode;
@@ -350,7 +364,7 @@ export default {
         return;
       }
 
-      api.shop.applyDiscount(code).then((rsp) => {
+      api.shop_applyDiscount({ code_or_uuid: code }).then((rsp) => {
         this.couponCode = null;
         this.queryData();
 
@@ -369,8 +383,10 @@ export default {
           err.response.data.detail.detail);
       });
     },
-    removeDiscount(id) {
-      api.shop.removeDiscount(id).then(() => {
+    async removeDiscount(id) {
+      const api = await openapi;
+
+      api.shop_removeDiscount({ code_or_uuid: id }).then(() => {
         this.queryData();
         this.$notify({
           title: this.$t('_shop.messages.couponRemoveSuccess'),

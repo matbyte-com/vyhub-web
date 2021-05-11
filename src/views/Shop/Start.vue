@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import api from '../../api/api';
 import PageTitle from '../../components/PageTitle.vue';
+import openapi from '../../api/openapi';
 
 export default {
   components: { PageTitle },
@@ -33,8 +33,10 @@ export default {
     this.queryData();
   },
   methods: {
-    queryData() {
-      api.packet.getCategories()
+    async queryData() {
+      const api = await openapi;
+
+      api.packet_getCategories()
         .then((rsp) => {
           this.categories = rsp.data;
         });

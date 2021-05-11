@@ -120,10 +120,10 @@
 import CartPacket from '@/components/ShopComponents/CartPacket.vue';
 import Address from '@/components/Address.vue';
 import CartTotal from '@/components/ShopComponents/CartTotal.vue';
-import api from '@/api/api';
 import UtilService from '@/services/UtilService';
 import ShopService from '@/services/ShopService';
 import Dialog from '../Dialog.vue';
+import openapi from '../../api/openapi';
 
 export default {
   name: 'CheckoutDialog',
@@ -151,8 +151,9 @@ export default {
     };
   },
   methods: {
-    queryData() {
-      api.shop.getPaymentGateways(this.purchase.id).then((rsp) => {
+    async queryData() {
+      const api = await openapi;
+      api.shop_getPurchaseGateways({ uuid: this.purchase.id }).then((rsp) => {
         this.gateways = rsp.data;
       }).catch((err) => {
         console.log(err);
@@ -176,10 +177,15 @@ export default {
         this.confirmed = true;
       }
     },
-    startPayment(gateway) {
+    async startPayment(gateway) {
+      const api = await openapi;
+
       this.loading = true;
 
-      api.shop.startPayment(this.purchase.id, gateway.id).then((rsp) => {
+      api.shop_startPayment(undefined, {
+        purchase_id: this.purchase.id,
+        payment_gateway_id: gateway.id,
+      }).then((rsp) => {
         const { action, debit } = rsp.data;
         console.log(action, debit);
         ShopService.executeAction(debit, action);
