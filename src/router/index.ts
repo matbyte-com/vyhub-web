@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueRouter, { RouteConfig } from 'vue-router';
+import VueRouter, { RouteConfig, RawLocation, Route } from 'vue-router';
 import store from '@/store/index';
 
 Vue.use(VueRouter);
@@ -95,6 +95,26 @@ const routes: Array<RouteConfig> = [
     },
   },
 ];
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location: RawLocation): Promise<Route> {
+  return new Promise((resolve, reject) => {
+    originalPush.call(this, location, () => {
+      // on complete
+
+      resolve(this.currentRoute);
+    }, (error) => {
+      // on abort
+
+      // only ignore NavigationDuplicated error
+      if (error.name === 'NavigationDuplicated') {
+        resolve(this.currentRoute);
+      } else {
+        reject(error);
+      }
+    });
+  });
+};
 
 const router = new VueRouter({
   mode: 'history',
