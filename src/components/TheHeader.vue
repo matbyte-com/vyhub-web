@@ -11,8 +11,9 @@
 
     <!-- Logo -->
     <div class="d-flex align-center pr-5" @click="$router.push('/')">
-      <v-img alt="Vuetify Logo" class="shrink mr-2" contain src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png" transition="scale-transition" width="40"/>
-      <v-toolbar-title>VyHub</v-toolbar-title>
+      <v-img alt="VyHub Logo" class="shrink" contain src="@/assets/img/vyhub_logo_v1.png"
+             transition="scale-transition" width="150"/>
+      <!--<v-toolbar-title>VyHub</v-toolbar-title>-->
     </div>
 
     <!-- navigation links-->
