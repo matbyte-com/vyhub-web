@@ -12,7 +12,7 @@
         <div>
           {{ $t('_shop.labels.tax') }} ({{ price.tax_rate }}%)
           <div class="float-right">
-            {{ price.tax_amount.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+            {{ price.amount_tax.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
             {{ price.currency.symbol }}
           </div>
         </div>

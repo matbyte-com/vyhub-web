@@ -211,7 +211,7 @@ export default {
         total: this.purchase.amount_total,
         currency: this.purchase.currency,
         tax_rate: this.purchase.tax_rate,
-        tax_amount: this.purchase.tax_amount,
+        amount_tax: this.purchase.amount_tax,
         tax_info: this.purchase.tax_info,
         credits: this.purchase.credits,
       };

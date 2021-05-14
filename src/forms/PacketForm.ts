@@ -106,7 +106,7 @@ export default {
           items: {
             type: 'object',
           },
-          'x-fromUrl': `${API_URL}/payment-gateway/`,
+          'x-fromUrl': `${API_URL}/shop/gateway/`,
           'x-itemKey': 'id',
           'x-itemTitle': 'name',
         },

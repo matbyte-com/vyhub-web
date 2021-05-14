@@ -119,13 +119,20 @@ export default {
     async queryData() {
       const api = await openapi;
 
-      const countryCode = (this.$store.getters.address != null
-        ? this.$store.getters.address.country.code : null);
+      let packetsData = null;
 
-      api.shop_getPackets({
-        category_id: this.$route.params.categoryId,
-        country_code: countryCode,
-      })
+      if (this.$store.getters.address != null) {
+        packetsData = {
+          category_id: this.$route.params.categoryId,
+          country_code: this.$store.getters.address.country.code,
+        };
+      } else {
+        packetsData = {
+          category_id: this.$route.params.categoryId,
+        };
+      }
+
+      api.shop_getPackets(packetsData)
         .then((rsp) => {
           this.packets = rsp.data;
         });

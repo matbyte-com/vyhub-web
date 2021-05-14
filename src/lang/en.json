@@ -183,7 +183,7 @@
       "activeForDetail": "How long the packet should be active after activation. Let this field empty for packets that should not be disabled after time. If the recurring option is enabled, this value is used as the subscription interval.",
       "paymentMethods": "Payment Methods",
       "limitPaymentMethods": "Limit payment methods",
-      "limitPaymentMethodsDetail": "If no payment methods are specified, all can be used. If not, only the selected can be used.",
+      "limitPaymentMethodsDetail": "If payment methods are selected, only these can be used. If not, all methods can be used.",
       "customPriceDetail": "Let the user decide the price. The entered price above is used as the minimal price.",
       "packetRelations": "Packet Relations",
       "editRewards": "Edit Rewards",

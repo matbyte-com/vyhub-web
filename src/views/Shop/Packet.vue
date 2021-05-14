@@ -91,10 +91,20 @@ export default {
     async queryData() {
       const apiCached = await openapiCached;
 
-      const countryCode = (this.$store.getters.address != null
-        ? this.$store.getters.address.country.code : null);
+      let packetsData = null;
 
-      apiCached.shop_getPackets({ category_id: this.$route.params.categoryId }, countryCode)
+      if (this.$store.getters.address != null) {
+        packetsData = {
+          category_id: this.$route.params.categoryId,
+          country_code: this.$store.getters.address.country.code,
+        };
+      } else {
+        packetsData = {
+          category_id: this.$route.params.categoryId,
+        };
+      }
+
+      apiCached.shop_getPackets(packetsData)
         .then((rsp) => {
           this.packet = rsp.data.find((p) => p.id === this.$route.params.packetId);
         });

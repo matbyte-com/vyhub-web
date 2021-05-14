@@ -1218,6 +1218,41 @@ declare namespace Components {
        * Support Recurring
        */
       support_recurring: boolean;
+      /**
+       * Deletable
+       */
+      deletable: boolean;
+    }
+    /**
+     * PaymentGatewayModelAdd
+     */
+    export interface PaymentGatewayModelAdd {
+      /**
+       * Name
+       */
+      name: string;
+      type: PaymentGatewayType;
+      /**
+       * Attributes
+       */
+      attributes?: {
+        [name: string]: string;
+      };
+    }
+    /**
+     * PaymentGatewayModelPatch
+     */
+    export interface PaymentGatewayModelPatch {
+      /**
+       * Name
+       */
+      name?: string;
+      /**
+       * Attributes
+       */
+      attributes?: {
+        [name: string]: string;
+      };
     }
     /**
      * PaymentGatewayType
@@ -2715,6 +2750,46 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ShopCreateGateway {
+    export type RequestBody = Components.Schemas.PaymentGatewayModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.PaymentGatewayModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopDeleteGateway {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.SuccessModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopEditGateway {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.PaymentGatewayModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.PaymentGatewayModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ShopEditPurchase {
     namespace Parameters {
       /**
@@ -2823,7 +2898,7 @@ declare namespace Paths {
   namespace ShopGetGateways {
     namespace Responses {
       /**
-       * Response Get Gateways Shop Payment Gateway  Get
+       * Response Get Gateways Shop Gateway  Get
        */
       export type $200 = Components.Schemas.PaymentGatewayModel[];
     }
@@ -3591,6 +3666,30 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
+  /**
+   * shop_createGateway - Create Gateway
+   */
+  'shop_createGateway'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.ShopCreateGateway.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>
+  /**
+   * shop_editGateway - Edit Gateway
+   */
+  'shop_editGateway'(
+    parameters?: Parameters<Paths.ShopEditGateway.PathParameters> | null,
+    data?: Paths.ShopEditGateway.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
+  /**
+   * shop_deleteGateway - Delete Gateway
+   */
+  'shop_deleteGateway'(
+    parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
   /**
    * shop_getPackets - Get Packets
    * 
@@ -4386,7 +4485,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
   }
-  ['/shop/payment-gateway/']: {
+  ['/shop/gateway/']: {
     /**
      * shop_getGateways - Get Gateways
      */
@@ -4395,6 +4494,32 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
+    /**
+     * shop_createGateway - Create Gateway
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.ShopCreateGateway.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>
+  }
+  ['/shop/gateway/{uuid}']: {
+    /**
+     * shop_deleteGateway - Delete Gateway
+     */
+    'delete'(
+      parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
+    /**
+     * shop_editGateway - Edit Gateway
+     */
+    'patch'(
+      parameters?: Parameters<Paths.ShopEditGateway.PathParameters> | null,
+      data?: Paths.ShopEditGateway.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
   }
   ['/shop/packet']: {
     /**

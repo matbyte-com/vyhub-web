@@ -240,7 +240,17 @@ export default {
       const countryCode = (this.$store.getters.address != null
         ? this.$store.getters.address.country.code : null);
 
-      api.shop_getCart({ country_code: countryCode })
+      let cartData = null;
+
+      if (this.$store.getters.address != null) {
+        cartData = {
+          country_code: this.$store.getters.address.country.code,
+        };
+      } else {
+        cartData = { };
+      }
+
+      api.shop_getCart(cartData)
         .then((rsp) => {
           console.log(rsp.data);
           this.cartPackets = rsp.data.packets;
