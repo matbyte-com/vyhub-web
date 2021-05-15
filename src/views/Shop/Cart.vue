@@ -237,9 +237,6 @@ export default {
     async queryData() {
       const api = await openapi;
 
-      const countryCode = (this.$store.getters.address != null
-        ? this.$store.getters.address.country.code : null);
-
       let cartData = null;
 
       if (this.$store.getters.address != null) {
