@@ -122,11 +122,13 @@
             <v-icon left>mdi-pencil</v-icon>
             {{ $t('edit') }}
           </v-btn>
-          <v-btn text color="warning" @click="unbanBan" v-if="currentBan.status === 'ACTIVE'">
+          <v-btn text color="warning darken-2" @click="unbanBan"
+                 v-if="currentBan.status === 'ACTIVE'">
             <v-icon left>mdi-lock-open</v-icon>
             {{ $t('ban.labels.unban') }}
           </v-btn>
-          <v-btn text color="warning" @click="rebanBan" v-if="currentBan.status === 'UNBANNED'">
+          <v-btn text color="warning" @click="rebanBan"
+                 v-if="currentBan.status === 'UNBANNED'">
             <v-icon left>mdi-lock</v-icon>
             {{ $t('ban.labels.reban') }}
           </v-btn>
@@ -234,18 +236,20 @@ export default {
       apiService.server.getBundles().then((rsp) => { this.bundles = rsp.data; });
     },
     banRowFormatter(item) {
+      const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
+
       if (item.is_active) {
         if (item.serverbundle == null) {
-          return 'blue lighten-4';
+          return `blue ${add}`;
         }
-        return 'green lighten-4';
+        return `green ${add}`;
       }
 
       if (item.status === 'UNBANNED') {
-        return 'orange lighten-4';
+        return `orange ${add}`;
       }
 
-      return 'red lighten-4';
+      return `red ${add}`;
     },
     addBan() {
       const data = this.$refs.banAddDialog.getData();
