@@ -19,7 +19,7 @@
   },
   "_dashboard": {
     "labels": {
-      "title": "Profile: {usr}",
+      "title": "{usr}",
       "linkedAccounts": "Linked Accounts",
       "linkNewAccount": "link new Account",
       "activeProperties": "Active Permissions",
