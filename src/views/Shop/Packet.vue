@@ -1,8 +1,11 @@
 <template>
     <div>
       <div v-if="packet != null">
-        <PageTitle>{{ packet.title }}</PageTitle>
-        <div class="subtitle-1">{{ packet.subtitle }}</div>
+        <PageTitle>
+          {{ packet.title }}
+          <div class="subtitle-1">{{ packet.subtitle }}</div>
+        </PageTitle>
+
         <v-row>
           <v-col md="8" lg="9">
             <v-row>
