@@ -3,7 +3,7 @@
     <PageTitle :title="$t('settings.labels.title')" />
     <v-row
     no-gutters>
-      <v-col sm="3" md="3" class="hidden-md-and-down mr-2">
+      <v-col xs="12" sm="12" md="12" lg="3" class="mb-2 mb-lg-0 mr-xl-2 mr-lg-2">
         <v-card flat class="fill-height">
           <v-card-text>
             <v-list shaped>
@@ -21,7 +21,8 @@
 
                     <v-list-item-title>{{ tab.title }}</v-list-item-title>
                   </v-list-item>
-                  <v-list-group no-action :prepend-icon="tab.icon" v-else :value="true">
+                  <v-list-group no-action :prepend-icon="tab.icon" v-else
+                                :value="$vuetify.breakpoint.lgAndUp">
                     <template v-slot:activator>
                       <v-list-item-content>
                         <v-list-item-title>{{ tab.title }}</v-list-item-title>
