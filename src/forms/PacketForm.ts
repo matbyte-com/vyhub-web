@@ -17,7 +17,7 @@ export default {
       title: i18n.t('general'),
       type: 'object',
       required: [
-        'title', 'category', 'abstract',
+        'title', 'category', 'abstract', 'enabled', 'buyable', 'buyable_active', 'buyable_inactive',
       ],
       properties: {
         title: {
@@ -29,6 +29,12 @@ export default {
           title: i18n.t('subtitle'),
         },
         category: Common.packetCategorySelectField,
+        enabled: {
+          type: 'boolean',
+          title: i18n.t('enabled'),
+          description: i18n.t('_packet.labels.enabledDetail'),
+          default: true,
+        },
         abstract: {
           type: 'array',
           title: i18n.t('_packet.labels.abstract'),
@@ -54,6 +60,12 @@ export default {
           'x-slots': {
             'append-outer': i18n.t('days'),
           },
+        },
+        buyable: {
+          type: 'boolean',
+          title: i18n.t('_packet.labels.buyable'),
+          description: i18n.t('_packet.labels.buyableDetail'),
+          default: true,
         },
         buyable_active: {
           type: 'boolean',

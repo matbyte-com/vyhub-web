@@ -27,6 +27,9 @@
           </v-list>
         </v-menu>
       </template>
+      <template v-slot:item.enabled="{ item }">
+        <BoolIcon :value="item.enabled"></BoolIcon>
+      </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
           <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
@@ -34,7 +37,8 @@
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn outlined color="error" small @click="$refs.deleteGatewayDialog.show(item)">
+          <v-btn outlined color="error" small @click="$refs.deleteGatewayDialog.show(item)"
+                 v-if="item.deletable">
             <v-icon>
               mdi-delete
             </v-icon>
@@ -56,7 +60,7 @@
       :submitText="$t('edit')"
       @submit="editGateway"
       :title="$t('_gateway.labels.edit')">
-      <template slot="type-after">
+      <template slot="enabled-after">
         <div class="text-center font-weight-bold">
           {{ $t('_gateway.messages.formAttributeChangeExplanation') }}
         </div>
@@ -76,17 +80,23 @@ import UtilService from '../../services/UtilService';
 import DialogForm from '../DialogForm.vue';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import GatewayForm from '../../forms/PaymentGatewayForm';
+import BoolIcon from '../BoolIcon.vue';
 
 export default {
   name: 'ShopGateways',
   components: {
-    DeleteConfirmationDialog, DialogForm, DataTable, SettingTitle,
+    BoolIcon,
+    DeleteConfirmationDialog,
+    DialogForm,
+    DataTable,
+    SettingTitle,
   },
   data() {
     return {
       headers: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'type' },
+        { text: this.$t('enabled'), value: 'enabled' },
         {
           text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
         },
@@ -99,7 +109,7 @@ export default {
           icon: 'mdi-credit-card-outline',
         },
       },
-      noAttributeKeys: ['name', 'type'],
+      noAttributeKeys: ['name', 'type', 'enabled'],
     };
   },
   beforeMount() {

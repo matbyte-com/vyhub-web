@@ -472,9 +472,55 @@ declare namespace Components {
      */
     export interface DiscountModel {
       /**
+       * Name
+       */
+      name?: string;
+      /**
+       * Bounds
+       */
+      bounds: string;
+      /**
+       * Begin
+       */
+      begin: string; // date-time
+      /**
+       * End
+       */
+      end?: string; // date-time
+      /**
+       * Percentage
+       */
+      percentage: number;
+      /**
+       * Enabled
+       */
+      enabled: boolean;
+      /**
+       * Active
+       */
+      active: boolean;
+      /**
+       * Max Usages
+       */
+      max_usages?: number;
+      /**
        * Id
        */
       id: string; // uuid
+      /**
+       * Deletable
+       */
+      deletable: boolean;
+      requirement_set?: RequirementSetModel;
+      /**
+       * Packets
+       */
+      packets: PacketModelShort[];
+    }
+    /**
+     * DiscountModelAdd
+     */
+    export interface DiscountModelAdd {
       /**
        * Name
        */
@@ -507,7 +553,59 @@ declare namespace Components {
        * Max Usages
        */
       max_usages?: number;
-      requirement_set?: RequirementSetModel;
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id?: string; // uuid
+      /**
+       * Packet Ids
+       */
+      packet_ids?: string /* uuid */ [];
+    }
+    /**
+     * DiscountModelPatch
+     */
+    export interface DiscountModelPatch {
+      /**
+       * Name
+       */
+      name?: string;
+      /**
+       * Bounds
+       */
+      bounds?: string;
+      /**
+       * Begin
+       */
+      begin?: string; // date-time
+      /**
+       * End
+       */
+      end?: string; // date-time
+      /**
+       * Percentage
+       */
+      percentage?: number;
+      /**
+       * Enabled
+       */
+      enabled?: boolean;
+      /**
+       * Active
+       */
+      active?: boolean;
+      /**
+       * Max Usages
+       */
+      max_usages?: number;
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id?: string; // uuid
+      /**
+       * Packet Ids
+       */
+      packet_ids?: string /* uuid */ [];
     }
     /**
      * GroupModel
@@ -1256,6 +1354,10 @@ declare namespace Components {
        * Deletable
        */
       deletable: boolean;
+      /**
+       * Enabled
+       */
+      enabled: boolean;
     }
     /**
      * PaymentGatewayModelAdd
@@ -1272,6 +1374,10 @@ declare namespace Components {
       attributes?: {
         [name: string]: string;
       };
+      /**
+       * Enabled
+       */
+      enabled: boolean;
     }
     /**
      * PaymentGatewayModelPatch
@@ -1287,6 +1393,10 @@ declare namespace Components {
       attributes?: {
         [name: string]: string;
       };
+      /**
+       * Enabled
+       */
+      enabled: boolean;
     }
     /**
      * PaymentGatewayType
@@ -2859,6 +2969,13 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ShopCreateDiscount {
+    export type RequestBody = Components.Schemas.DiscountModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.DiscountModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ShopCreateGateway {
     export type RequestBody = Components.Schemas.PaymentGatewayModelAdd;
     namespace Responses {
@@ -2870,6 +2987,22 @@ declare namespace Paths {
     export type RequestBody = Components.Schemas.TaxModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.TaxModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopDeleteDiscount {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.SuccessModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -2902,6 +3035,23 @@ declare namespace Paths {
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopEditDiscount {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.DiscountModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.DiscountModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3025,6 +3175,14 @@ declare namespace Paths {
     namespace Responses {
       export type $200 = Components.Schemas.DiscountModel;
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopGetDiscounts {
+    namespace Responses {
+      /**
+       * Response Get Discounts Shop Discount  Get
+       */
+      export type $200 = Components.Schemas.DiscountModel[];
     }
   }
   namespace ShopGetGateways {
@@ -3831,6 +3989,48 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
   /**
+   * shop_getDiscounts - Get Discounts
+   */
+  'shop_getDiscounts'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>
+  /**
+   * shop_createDiscount - Create Discount
+   */
+  'shop_createDiscount'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.ShopCreateDiscount.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>
+  /**
+   * shop_getDiscount - Get Discount
+   * 
+   * Get discount by UUID or code.
+   */
+  'shop_getDiscount'(
+    parameters?: Parameters<Paths.ShopGetDiscount.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
+  /**
+   * shop_editDiscount - Edit Discount
+   */
+  'shop_editDiscount'(
+    parameters?: Parameters<Paths.ShopEditDiscount.PathParameters> | null,
+    data?: Paths.ShopEditDiscount.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>
+  /**
+   * shop_deleteDiscount - Delete Discount
+   */
+  'shop_deleteDiscount'(
+    parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>
+  /**
    * shop_getPackets - Get Packets
    * 
    * Returns all packets (in the given category) and does price calculation.
@@ -3938,16 +4138,6 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetPurchases.Responses.$200>
-  /**
-   * shop_getDiscount - Get Discount
-   * 
-   * Get discount by UUID or code.
-   */
-  'shop_getDiscount'(
-    parameters?: Parameters<Paths.ShopGetDiscount.PathParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
   /**
    * shop_getPurchaseGateways - Get Purchase Gateways
    */
@@ -4709,6 +4899,54 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
   }
+  ['/shop/discount/']: {
+    /**
+     * shop_getDiscounts - Get Discounts
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>
+    /**
+     * shop_createDiscount - Create Discount
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.ShopCreateDiscount.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>
+  }
+  ['/shop/discount/{code_or_uuid}']: {
+    /**
+     * shop_getDiscount - Get Discount
+     * 
+     * Get discount by UUID or code.
+     */
+    'get'(
+      parameters?: Parameters<Paths.ShopGetDiscount.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
+  }
+  ['/shop/discount/{uuid}']: {
+    /**
+     * shop_deleteDiscount - Delete Discount
+     */
+    'delete'(
+      parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>
+    /**
+     * shop_editDiscount - Edit Discount
+     */
+    'patch'(
+      parameters?: Parameters<Paths.ShopEditDiscount.PathParameters> | null,
+      data?: Paths.ShopEditDiscount.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>
+  }
   ['/shop/packet']: {
     /**
      * shop_getPackets - Get Packets
@@ -4834,18 +5072,6 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetPurchases.Responses.$200>
-  }
-  ['/shop/discount/{code_or_uuid}']: {
-    /**
-     * shop_getDiscount - Get Discount
-     * 
-     * Get discount by UUID or code.
-     */
-    'get'(
-      parameters?: Parameters<Paths.ShopGetDiscount.PathParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
   }
   ['/shop/purchase/{uuid}/gateway']: {
     /**

@@ -49,6 +49,11 @@ function form(gatewayType: string) {
         default: gatewayType,
         readOnly: true,
       },
+      enabled: {
+        type: 'boolean',
+        title: i18n.t('enabled'),
+        default: false,
+      },
       ...gatewayFields(gatewayType),
     },
   };

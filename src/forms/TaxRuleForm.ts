@@ -12,11 +12,13 @@ export default {
     percentage: {
       type: 'number',
       title: i18n.t('percentage'),
+      minimum: 0,
     },
     info: {
       type: ['string', 'null'],
       title: i18n.t('info'),
       'x-display': 'textarea',
+      description: i18n.t('_taxRule.messages.infoDetail'),
     },
   },
 };

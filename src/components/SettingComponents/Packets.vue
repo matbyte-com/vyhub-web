@@ -29,7 +29,8 @@
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn outlined color="error" small @click="$refs.deletePacketDialog.show(item)">
+          <v-btn outlined color="error" small @click="$refs.deletePacketDialog.show(item)"
+                 v-if="item.deletable">
             <v-icon>
               mdi-delete
             </v-icon>

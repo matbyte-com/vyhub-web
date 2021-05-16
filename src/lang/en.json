@@ -172,6 +172,9 @@
       "add": "Add Packet",
       "edit": "Edit Packet",
       "customPrice": "Custom Price",
+      "buyable": "Buyable",
+      "buyableDetail": "Can be purchased in the shop",
+      "enabledDetail": "If disabled, the packet cannot be purchased and all assigned packets become inactive.",
       "notBuyable": "Not Buyable",
       "currency": "Currency",
       "abstract": "Abstract",
@@ -331,7 +334,8 @@
     "messages": {
       "createSuccess": "Tax rule successfully created.",
       "deleteSuccess": "Tax rule successfully deleted.",
-      "allCountriesDetail": "Leave blank to target all countries."
+      "allCountriesDetail": "Leave blank to target all countries.",
+      "infoDetail": "Will be shown during checkout and on the invoice."
     }
   },
   "recurring": "Recurring",

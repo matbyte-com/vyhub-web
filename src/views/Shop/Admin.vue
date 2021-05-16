@@ -43,9 +43,9 @@ export default {
     return {
       tabs: [
         {
-          name: 'all-purchases',
+          name: 'purchases',
           icon: 'mdi-clipboard-list',
-          component: 'AllPurchases',
+          component: 'Purchases',
           reqProp: 'purchase_show',
           title: this.$t('_purchases.labels.allPurchases'),
         },
@@ -90,7 +90,7 @@ export default {
   computed: {
     componentInstance() {
       const type = this.activeComponent;
-      return () => import(`@/components/ShopComponents/Purchases/${type}`);
+      return () => import(`@/components/ShopComponents/Admin/${type}`);
     },
     allowedTabs() {
       return this.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);

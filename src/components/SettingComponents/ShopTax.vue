@@ -102,7 +102,7 @@ export default {
       api.shop_createTaxRule(null, data).then(() => {
         this.queryData();
         this.$notify({
-          title: this.$t('_tax.messages.createSuccess'),
+          title: this.$t('_taxRule.messages.createSuccess'),
           type: 'success',
         });
         this.$refs.createTaxRuleDialog.closeAndReset();
