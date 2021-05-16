@@ -15,8 +15,10 @@
       </template>
       <template v-slot:item.country="{ item }">
         <div v-if="item.country != null">
-          {{ countryUnicodeFlags(item.country.code) }}
-          {{ item.country.name }}
+          <v-chip>
+            {{ countryUnicodeFlags(item.country.code) }}
+            {{ item.country.name }}
+          </v-chip>
         </div>
         <div v-else>
           <v-chip color="primary">

@@ -44,9 +44,7 @@ export default {
           'x-display': 'textarea',
         },
         image_url: {
-          type: 'string',
-          title: i18n.t('imageURL'),
-          pattern: '^https://.+$',
+          ...Common.imageURLField,
           description: i18n.t('_packet.labels.imageDetail'),
         },
         active_for: {

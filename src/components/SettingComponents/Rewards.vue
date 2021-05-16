@@ -12,6 +12,9 @@
           <span>{{ $t('_reward.labels.create') }}</span>
         </v-btn>
       </template>
+      <template v-slot:item.once="{ item }">
+        <BoolIcon :value="item.once"></BoolIcon>
+      </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
           <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
@@ -55,11 +58,16 @@ import UtilService from '../../services/UtilService';
 import DialogForm from '../DialogForm.vue';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import RewardForm from '../../forms/RewardForm';
+import BoolIcon from '../BoolIcon.vue';
 
 export default {
   name: 'Rewards',
   components: {
-    DeleteConfirmationDialog, DialogForm, DataTable, SettingTitle,
+    BoolIcon,
+    DeleteConfirmationDialog,
+    DialogForm,
+    DataTable,
+    SettingTitle,
   },
   data() {
     return {

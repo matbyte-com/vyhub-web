@@ -824,9 +824,26 @@ declare namespace Components {
      */
     export interface PacketCategoryModel {
       /**
+       * Name
+       */
+      name: string;
+      /**
+       * Image Url
+       */
+      image_url?: string; // uri
+      /**
+       * Enabled
+       */
+      enabled: boolean;
+      /**
        * Id
        */
       id: string; // uuid
+    }
+    /**
+     * PacketCategoryModelAdd
+     */
+    export interface PacketCategoryModelAdd {
       /**
        * Name
        */
@@ -839,6 +856,23 @@ declare namespace Components {
        * Enabled
        */
       enabled: boolean;
+    }
+    /**
+     * PacketCategoryModelPatch
+     */
+    export interface PacketCategoryModelPatch {
+      /**
+       * Name
+       */
+      name?: string;
+      /**
+       * Image Url
+       */
+      image_url?: string; // uri
+      /**
+       * Enabled
+       */
+      enabled?: boolean;
     }
     /**
      * PacketModel
@@ -1801,7 +1835,7 @@ declare namespace Components {
        * Id
        */
       id: string; // uuid
-      country: CountryModel;
+      country?: CountryModel;
       /**
        * Percentage
        */
@@ -1815,7 +1849,10 @@ declare namespace Components {
      * TaxModelAdd
      */
     export interface TaxModelAdd {
-      country_code: CountryModel;
+      /**
+       * Country Code
+       */
+      country_code?: string; // ^[A-Z]{2}$
       /**
        * Percentage
        */
@@ -2444,7 +2481,30 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace PacketCreateCategory {
+    export type RequestBody = Components.Schemas.PacketCategoryModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.PacketCategoryModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace PacketDeleteAppliedPacket {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.SuccessModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace PacketDeleteCategory {
     namespace Parameters {
       /**
        * Uuid
@@ -2506,6 +2566,23 @@ declare namespace Paths {
     export type RequestBody = Components.Schemas.AppliedPacketModelPatch;
     namespace Responses {
       export type $200 = Components.Schemas.AppliedPacketModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace PacketEditCategory {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.PacketCategoryModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.PacketCategoryModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3954,6 +4031,30 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketGetCategories.Responses.$200>
   /**
+   * packet_createCategory - Create Category
+   */
+  'packet_createCategory'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.PacketCreateCategory.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>
+  /**
+   * packet_editCategory - Edit Category
+   */
+  'packet_editCategory'(
+    parameters?: Parameters<Paths.PacketEditCategory.PathParameters> | null,
+    data?: Paths.PacketEditCategory.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>
+  /**
+   * packet_deleteCategory - Delete Category
+   */
+  'packet_deleteCategory'(
+    parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>
+  /**
    * packet_getPackets - Get Packets
    */
   'packet_getPackets'(
@@ -4845,6 +4946,32 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketGetCategories.Responses.$200>
+    /**
+     * packet_createCategory - Create Category
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.PacketCreateCategory.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>
+  }
+  ['/packet/category/{uuid}']: {
+    /**
+     * packet_deleteCategory - Delete Category
+     */
+    'delete'(
+      parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>
+    /**
+     * packet_editCategory - Edit Category
+     */
+    'patch'(
+      parameters?: Parameters<Paths.PacketEditCategory.PathParameters> | null,
+      data?: Paths.PacketEditCategory.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>
   }
   ['/packet/']: {
     /**

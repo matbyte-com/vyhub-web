@@ -129,16 +129,22 @@ export default {
               title: this.$t('general'),
             },
             {
-              name: 'tax',
+              name: 'shop-tax',
               icon: 'mdi-credit-card-plus',
               component: 'ShopTax',
               title: this.$t('tax'),
             },
             {
-              name: 'gateways',
+              name: 'shop-gateways',
               icon: 'mdi-currency-usd',
               component: 'ShopGateways',
               title: this.$t('paymentGateways'),
+            },
+            {
+              name: 'packet-categories',
+              icon: 'mdi-star',
+              component: 'PacketCategories',
+              title: this.$t('categories'),
             },
             {
               name: 'packets',

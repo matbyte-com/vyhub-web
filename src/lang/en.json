@@ -201,6 +201,19 @@
       "deleteSuccess": "Packet successfully deleted."
     }
   },
+  "_packetCategory": {
+    "labels": {
+      "create": "Create Packet Category",
+      "edit": "Edit Packet Category",
+      "delete": "Delete Packet Category",
+      "imageDetail": "An HTTPS URL to the category image."
+    },
+    "messages": {
+      "createSuccess": "Packet category successfully created.",
+      "editSuccess": "Packet category successfully edited.",
+      "deleteSuccess": "Packet category successfully deleted."
+    }
+  },
   "_reward": {
     "labels": {
       "create": "Create reward",
@@ -328,6 +341,7 @@
   "perMonth": "Per Month",
   "perYear": "Per Year",
   "type": "Type",
+  "categories": "Categories",
   "tax": "Tax",
   "all": "All",
   "requirements": "Requirements",

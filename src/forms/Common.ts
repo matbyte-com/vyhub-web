@@ -92,4 +92,9 @@ export default {
     title: i18n.t('country'),
     oneOf: countryOptions,
   },
+  imageURLField: {
+    type: 'string',
+    title: i18n.t('imageURL'),
+    pattern: '^https://.+$',
+  },
 };

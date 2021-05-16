@@ -5,6 +5,7 @@
     <DataTable
       :headers="headers"
       :items="packets"
+      :sort-by="['category.name', 'title']"
       :search="true">
       <template v-slot:footer-right>
         <v-btn outlined color="success" @click="$refs.addPacketDialog.show()">
