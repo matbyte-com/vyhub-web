@@ -123,6 +123,24 @@ export default {
           title: this.$t('shop'),
           tabs: [
             {
+              name: 'shop-general',
+              icon: 'mdi-cog',
+              component: 'Shop',
+              title: this.$t('general'),
+            },
+            {
+              name: 'tax',
+              icon: 'mdi-credit-card-plus',
+              component: 'ShopTax',
+              title: this.$t('tax'),
+            },
+            {
+              name: 'gateways',
+              icon: 'mdi-currency-usd',
+              component: 'ShopGateways',
+              title: this.$t('paymentGateways'),
+            },
+            {
               name: 'packets',
               icon: 'mdi-gift-open',
               component: 'Packets',

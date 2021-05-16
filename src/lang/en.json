@@ -294,15 +294,32 @@
       "HAVE": "Have"
     }
   },
+  "_gateway": {
+    "labels": {
+      "paypal": "PayPal",
+      "stripe": "Stripe",
+      "create": "Create Payment Gateway",
+      "edit": "Edit Payment Gateway"
+    },
+    "messages": {
+      "createSuccess": "Payment gateway successfully created.",
+      "deleteSuccess": "Payment gateway successfully deleted.",
+      "editSuccess": "Payment gateway successfully edited.",
+      "formAttributeChangeExplanation": "The attributes below will not be edited if no value is given."
+    }
+  },
   "recurring": "Recurring",
   "revenue": "Revenue",
   "sales": "Sales",
+  "environment": "Environment",
   "perDay": "Per Day",
   "perMonth": "Per Month",
   "perYear": "Per Year",
   "type": "Type",
+  "tax": "Tax",
   "requirements": "Requirements",
   "servers": "Servers",
+  "paymentGateways": "Payment Gateways",
   "general": "General",
   "purchases": "Purchases",
   "language": "Language",
