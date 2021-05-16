@@ -6,6 +6,15 @@
         {{ $t('_shop.messages.noOngoingPurchase') }}
       </div>
       <div v-else>
+        <v-row v-if="errorMessage != null">
+          <v-col cols="12" class="mt-4">
+            <v-alert
+              type="error"
+            >
+              {{ errorMessage }}
+            </v-alert>
+          </v-col>
+        </v-row>
         <v-row class="mt-2">
           <v-col lg="7" md="12">
             <v-row v-for="cartPacket in purchase.cart_packets" v-bind:key="cartPacket.id" >
@@ -148,6 +157,7 @@ export default {
       confirmed: false,
       gateways: null,
       loading: false,
+      errorMessage: null,
     };
   },
   methods: {
@@ -181,6 +191,7 @@ export default {
       const api = await openapi;
 
       this.loading = true;
+      this.errorMessage = null;
 
       api.shop_startPayment(undefined, {
         purchase_id: this.purchase.id,
@@ -190,6 +201,8 @@ export default {
         console.log(action, debit);
         ShopService.executeAction(debit, action);
       }).catch((err) => {
+        this.loading = false;
+        this.errorMessage = this.$t('_shop.messages.startingPaymentFailed');
         console.log(err);
         UtilService.notifyUnexpectedError(err.response.data);
       });
