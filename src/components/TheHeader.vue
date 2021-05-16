@@ -54,8 +54,8 @@ import Search from '@/components/HeaderComponents/Search.vue';
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import AuthService from '@/services/AuthService';
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
-import api from '@/api/api';
 import EventBus from '@/services/EventBus';
+import openapiCached from '@/api/openapiCached';
 
 export default {
   components: {
@@ -69,33 +69,10 @@ export default {
   data() {
     return {
       links: [],
-      'links-depracated': [
-        {
-          title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [],
-        },
-        {
-          title: 'Dashboard', icon: 'mdi-account', link: '/dashboard',
-          // title: 'Dashboard', icon: 'mdi-account', link: '/home', tabs: [{ title: 'Edit', icon:
-          // 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon:
-          // 'mdi-home-edit-outline', link: '/dashboard' }],
-        },
-        {
-          title: 'Shop', icon: 'mdi-sack', link: '/shop', tabs: [],
-        },
-        {
-          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', reqProp: 'ban_show', tabs: [],
-        },
-        {
-          title: 'Settings', icon: 'mdi-cog-outline', link: '/settings', tabs: [],
-        },
-      ],
       linksRight: [
-        {
-          title: 'Profil', icon: 'mdi-account-circle', link: '/',
-        },
-        {
+        /* {
           title: 'Settings', icon: 'mdi-cog', link: '/settings',
-        },
+        }, */
       ],
     };
   },
@@ -104,8 +81,10 @@ export default {
       AuthService.logout();
       this.$router.push('/');
     },
-    getNavItems() {
-      api.design.getNavItems().then((rsp) => {
+    async getNavItems() {
+      const api = await openapiCached;
+
+      api.design_getNavItems().then((rsp) => {
         this.links = rsp.data;
         localStorage.setItem('navItems', JSON.stringify(rsp.data));
       }).catch((err) => console.log(`Could not query nav ${err}`));

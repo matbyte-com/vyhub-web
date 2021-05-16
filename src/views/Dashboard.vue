@@ -8,22 +8,27 @@
       <PageTitle :title="$t('_dashboard.labels.title', { usr: user.username })"/>
       <v-card>
         <v-card-text>
-          <v-tabs @change="switchTab">
-            <v-tab>
+          <v-tabs>
+            <v-tab @click="switchTab('General')">
               <v-icon left>mdi-gamepad</v-icon>
               General
             </v-tab>
-            <v-tab v-for="tab in tabs" :key="tab.id" :style="'color:' + tab.color">
-              <v-icon v-if="tab.icon" left :color="tab.color">{{ tab.icon }}</v-icon>
-              <span>{{ tab.name }}</span>
+            <v-tab v-for="bundle in bundles" :key="bundle.id" :style="'color:' + bundle.color"
+                   @click="switchTab('Bundle', bundle)">
+              <v-icon v-if="bundle.icon" left :color="bundle.color">{{ bundle.icon }}</v-icon>
+              <span>{{ bundle.name }}</span>
+            </v-tab>
+            <v-tab @click="switchTab('Purchases')">
+              <v-icon left>mdi-cart-check</v-icon>
+              <span>{{ $t('purchases') }}</span>
             </v-tab>
           </v-tabs>
         </v-card-text>
       </v-card>
       <div class="mt-2">
         <keep-alive>
-          <component :is="componentInstance" :bundle-id="bundleId"
-                     :server-bundles="tabs" :user="user">
+          <component :is="componentInstance" :bundle="activeBundle"
+                     :server-bundles="bundles" :user="user">
           </component>
         </keep-alive>
       </div>
@@ -44,20 +49,15 @@ export default {
     return {
       error: null,
       user: null,
-      bundleId: 0,
-      bundleType: 'General',
-      tabs: [],
+      activeBundle: null,
+      activeTab: 'General',
+      bundles: [],
     };
   },
   methods: {
-    switchTab(payload) {
-      if (payload === 0) {
-        this.bundleId = '';
-        this.bundleType = 'General';
-      } else {
-        this.bundleId = this.tabs[payload - 1].id;
-        this.bundleType = this.tabs[payload - 1].server_type;
-      }
+    switchTab(name, bundle = null) {
+      this.activeBundle = bundle;
+      this.activeTab = name;
     },
     async loadUser() {
       const userId = this.$route.params.id;
@@ -72,7 +72,7 @@ export default {
       });
     },
     async getBundles() {
-      (await openapiCached).server_getAllBundles().then((rsp) => { (this.tabs = rsp.data); });
+      (await openapiCached).server_getAllBundles().then((rsp) => { (this.bundles = rsp.data); });
     },
   },
   beforeMount() {
@@ -83,8 +83,10 @@ export default {
   },
   computed: {
     componentInstance() {
-      const type = this.bundleType.charAt(0) + this.bundleType.slice(1).toLowerCase();
-      return () => import(`@/components/DashboardComponents/Dashboards/${type}`);
+      if (this.activeTab === 'Bundle') {
+        return () => import(`@/components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}`);
+      }
+      return () => import(`@/components/DashboardComponents/Dashboards/${this.activeTab}`);
     },
   },
   watch: {

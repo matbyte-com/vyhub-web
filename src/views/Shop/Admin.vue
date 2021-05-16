@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle>{{ $t('purchases') }}</PageTitle>
+    <PageTitle>{{ $t('_shop.labels.admin') }}</PageTitle>
     <v-row>
       <v-col>
         <v-card flat class="fill-height">
@@ -9,7 +9,7 @@
               <v-tab v-for="tab in allowedTabs"
                      :key="tab.id"
                      class="justify-start"
-                     @click="$router.push({ name: 'ShopPurchases',
+                     @click="$router.push({ name: 'ShopAdmin',
                                         params: { component: tab.name} })">
                 <v-icon left>{{ tab.icon }}</v-icon>
                 <span>{{ tab.title }}</span>
@@ -42,12 +42,6 @@ export default {
   data() {
     return {
       tabs: [
-        {
-          name: 'my-purchases',
-          icon: 'mdi-history',
-          component: 'MyPurchases',
-          title: this.$t('_purchases.labels.myPurchases'),
-        },
         {
           name: 'all-purchases',
           icon: 'mdi-clipboard-list',

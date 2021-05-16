@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!-- Menu when Tabs are existend -->
+    <!-- Menu when Tabs are existent -->
     <v-menu
-      v-if="(link.tabs || []).length > 0 && $vuetify.breakpoint.mdAndDown"
+      v-if="(link.tabs || []).length > 0"
       open-on-hover
       offset-y>
       <template v-slot:activator="{ on, attrs }">

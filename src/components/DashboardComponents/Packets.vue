@@ -4,9 +4,10 @@
       <v-icon class="mr-2">mdi-gift-open</v-icon>
       {{ $t('packets') }}
       <v-spacer></v-spacer>
-      <v-btn outlined color="success" @click="$router.push({ name: 'ShopPurchases' })">
+      <v-btn outlined color="success" @click="$router.push({ name: 'UserPurchases',
+      params: { id: user.id} })">
         <v-icon left>mdi-history</v-icon>
-        <span>{{ $t("_purchases.labels.myPurchases") }}</span>
+        <span>{{ $t("purchases") }}</span>
       </v-btn>
     </v-card-title>
     <v-card-text>

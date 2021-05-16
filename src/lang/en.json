@@ -80,6 +80,7 @@
   "_shop": {
     "labels": {
       "cart": "Cart",
+      "admin": "Shop Administration",
       "applyCoupon": "Apply Coupon",
       "couponCode": "Coupon Code",
       "tax": "Tax",

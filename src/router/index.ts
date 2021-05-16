@@ -17,13 +17,13 @@ const routes: Array<RouteConfig> = [
     meta: { title: 'Dashboard' },
     redirect() {
       if (store.getters.isLoggedIn) {
-        return `/dashboard/${store.getters.user.id}`;
+        return `/user/${store.getters.user.id}`;
       }
       return { path: '/', query: { login: 'true' } };
     },
   },
   {
-    path: '/dashboard/:id',
+    path: '/user/:id',
     name: 'UserDashboard',
     component: () => import('../views/Dashboard.vue'),
     meta: { requiresAuth: true },
@@ -41,7 +41,7 @@ const routes: Array<RouteConfig> = [
     meta: { requiresAuth: true, title: 'Settings' },
   },
   {
-    path: '/ban/:banId?',
+    path: '/bans/:banId?',
     name: 'Bans',
     component: () => import('@/views/Ban.vue'),
     meta: { title: 'Bans' },
@@ -77,10 +77,10 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
-    path: '/shop/purchases/:component?',
-    name: 'ShopPurchases',
-    component: () => import('@/views/Shop/Purchases.vue'),
-    meta: { requiresAuth: true, title: 'Purchases' },
+    path: '/shop/admin/:component?',
+    name: 'ShopAdmin',
+    component: () => import('@/views/Shop/Admin.vue'),
+    meta: { requiresAuth: true, title: 'Shop Administration' },
   },
   {
     path: '/cms/:title',
