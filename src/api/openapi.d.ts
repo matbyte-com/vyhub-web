@@ -2789,7 +2789,7 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace ShopCreateTaxRules {
+  namespace ShopCreateTaxRule {
     export type RequestBody = Components.Schemas.TaxModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.TaxModel;
@@ -2812,7 +2812,7 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace ShopDeleteTaxRules {
+  namespace ShopDeleteTaxRule {
     namespace Parameters {
       /**
        * Uuid
@@ -3930,21 +3930,21 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>
   /**
-   * shop_createTaxRules - Create Tax Rules
+   * shop_createTaxRule - Create Tax Rule
    */
-  'shop_createTaxRules'(
+  'shop_createTaxRule'(
     parameters?: Parameters<UnknownParamsObject> | null,
-    data?: Paths.ShopCreateTaxRules.RequestBody,
+    data?: Paths.ShopCreateTaxRule.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCreateTaxRules.Responses.$200 | Paths.ShopCreateTaxRules.Responses.$422>
+  ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>
   /**
-   * shop_deleteTaxRules - Delete Tax Rules
+   * shop_deleteTaxRule - Delete Tax Rule
    */
-  'shop_deleteTaxRules'(
-    parameters?: Parameters<Paths.ShopDeleteTaxRules.PathParameters> | null,
+  'shop_deleteTaxRule'(
+    parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopDeleteTaxRules.Responses.$200 | Paths.ShopDeleteTaxRules.Responses.$422>
+  ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
   /**
    * packet_getCategories - Get Categories
    */
@@ -4818,23 +4818,23 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>
     /**
-     * shop_createTaxRules - Create Tax Rules
+     * shop_createTaxRule - Create Tax Rule
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
-      data?: Paths.ShopCreateTaxRules.RequestBody,
+      data?: Paths.ShopCreateTaxRule.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCreateTaxRules.Responses.$200 | Paths.ShopCreateTaxRules.Responses.$422>
+    ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>
   }
   ['/shop/tax/{uuid}']: {
     /**
-     * shop_deleteTaxRules - Delete Tax Rules
+     * shop_deleteTaxRule - Delete Tax Rule
      */
     'delete'(
-      parameters?: Parameters<Paths.ShopDeleteTaxRules.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopDeleteTaxRules.Responses.$200 | Paths.ShopDeleteTaxRules.Responses.$422>
+    ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
   }
   ['/packet/category']: {
     /**

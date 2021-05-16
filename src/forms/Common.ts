@@ -1,6 +1,15 @@
 import i18n from '@/plugins/i18n';
 
+import countries from 'country-list';
+import countryUnicodeFlags from 'country-flag-icons/unicode';
+
 const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
+
+const countryOptions = Object.entries(countries.getCodeList())
+  .map((c) => ({
+    const: c[0].toUpperCase(),
+    title: `${countryUnicodeFlags(c[0])} ${c[1]}`,
+  }));
 
 export default {
   userSelectField: {
@@ -77,5 +86,10 @@ export default {
     },
     'x-display': 'icon',
     'x-fromUrl': `${API_URL}/design/icons?query={q}`,
+  },
+  countryCodeField: {
+    type: 'string',
+    title: i18n.t('country'),
+    oneOf: countryOptions,
   },
 };

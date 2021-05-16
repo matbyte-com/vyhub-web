@@ -83,6 +83,7 @@
       "applyCoupon": "Apply Coupon",
       "couponCode": "Coupon Code",
       "tax": "Tax",
+      "taxRules": "Tax Rules",
       "subtotal": "Subtotal",
       "checkout": "Checkout",
       "payment": "Payment",
@@ -308,6 +309,17 @@
       "formAttributeChangeExplanation": "The attributes below will not be edited if no value is given."
     }
   },
+  "_taxRule": {
+    "labels": {
+      "edit": "Edit Tax Rule",
+      "create": "Create Tax Rule"
+    },
+    "messages": {
+      "createSuccess": "Tax rule successfully created.",
+      "deleteSuccess": "Tax rule successfully deleted.",
+      "allCountriesDetail": "Leave blank to target all countries."
+    }
+  },
   "recurring": "Recurring",
   "revenue": "Revenue",
   "sales": "Sales",
@@ -317,6 +329,7 @@
   "perYear": "Per Year",
   "type": "Type",
   "tax": "Tax",
+  "all": "All",
   "requirements": "Requirements",
   "servers": "Servers",
   "paymentGateways": "Payment Gateways",
@@ -362,6 +375,8 @@
   "select": "Select",
   "add": "Add",
   "name": "Name",
+  "percentage": "Percentage",
+  "info": "Info",
   "dashboard": "Dashboard",
   "message": "Message",
   "date": "Date",

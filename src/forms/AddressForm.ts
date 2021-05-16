@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import i18n from '@/plugins/i18n';
-import countries from 'country-list';
-import countryUnicodeFlags from 'country-flag-icons/unicode';
-
-const countryOptions = Object.entries(countries.getCodeList())
-  .map((c) => ({
-    const: c[0].toUpperCase(),
-    title: `${countryUnicodeFlags(c[0])} ${c[1]}`,
-  }));
+import Common from '@/forms/Common';
 
 export default {
   type: 'object',
@@ -42,10 +35,6 @@ export default {
       type: 'string',
       title: i18n.t('_address.labels.state'),
     },
-    country_code: {
-      type: 'string',
-      title: i18n.t('country'),
-      oneOf: countryOptions,
-    },
+    country_code: Common.countryCodeField,
   },
 };

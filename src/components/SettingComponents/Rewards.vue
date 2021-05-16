@@ -111,8 +111,6 @@ export default {
       });
     },
     async editReward(reward) {
-      console.log(reward);
-
       const data = this.$refs.editRewardDialog.getData();
 
       data.order = 0;
