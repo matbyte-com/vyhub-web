@@ -15,7 +15,7 @@
       <v-list dense class="text-uppercase">
         <v-list-item v-for="(tab, index) in allowedTabs || []"
                      :key="index"
-                     @click="$router.push(tab.link)">
+                     :to="tab.link">
           <v-list-item-title>
             <v-icon left>{{ tab.icon}}</v-icon>
             <span>{{ tab.title }}</span>
@@ -28,7 +28,9 @@
       v-else
       text
       dark
-      @click="pushLink">
+      :href="(link.linkType === 'link' ? link.link : null)"
+      :to="(link.linkType !== 'link' ? link.link : null)"
+    >
       <v-icon left>{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
     </v-btn>
@@ -47,13 +49,6 @@ export default {
     },
   },
   methods: {
-    pushLink() {
-      if (this.link.linkType === 'link') {
-        window.open(this.link.link);
-      } else {
-        this.$router.push(this.link.link);
-      }
-    },
   },
 };
 </script>

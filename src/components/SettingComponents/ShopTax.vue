@@ -27,6 +27,9 @@
           </v-chip>
         </div>
       </template>
+      <template v-slot:item.percentage="{ item }">
+        {{ item.percentage }}%
+      </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
           <v-btn outlined color="error" small @click="$refs.deleteTaxRuleDialog.show(item)">

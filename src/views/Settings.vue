@@ -13,8 +13,7 @@
                                link
                                :class="tab.name === activeTab.name
                                ? 'active v-list-item--active' : ''"
-                               @click="$router.push({ name: 'Settings',
-                                                    params: { component: tab.name} })">
+                               :to="{ name: 'Settings',  params: { component: tab.name} }">
                     <v-list-item-icon>
                       <v-icon>{{ tab.icon }}</v-icon>
                     </v-list-item-icon>
@@ -33,8 +32,7 @@
                                  link
                                  :class="subtab.name === activeTab.name
                                  ? 'active v-list-item--active' : ''"
-                                 @click="$router.push({ name: 'Settings',
-                                                        params: { component: subtab.name} })">
+                                 :to="{ name: 'Settings', params: { component: subtab.name} }">
                       <v-list-item-icon>
                         <v-icon>{{ subtab.icon }}</v-icon>
                       </v-list-item-icon>
