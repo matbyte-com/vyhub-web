@@ -478,7 +478,7 @@ declare namespace Components {
       /**
        * Bounds
        */
-      bounds: string;
+      bounds?: string;
       /**
        * Begin
        */
@@ -496,10 +496,6 @@ declare namespace Components {
        */
       enabled: boolean;
       /**
-       * Active
-       */
-      active: boolean;
-      /**
        * Max Usages
        */
       max_usages?: number;
@@ -511,6 +507,10 @@ declare namespace Components {
        * Deletable
        */
       deletable: boolean;
+      /**
+       * Active
+       */
+      active: boolean;
       requirement_set?: RequirementSetModel;
       /**
        * Packets
@@ -528,7 +528,7 @@ declare namespace Components {
       /**
        * Bounds
        */
-      bounds: string;
+      bounds?: string;
       /**
        * Begin
        */
@@ -545,10 +545,6 @@ declare namespace Components {
        * Enabled
        */
       enabled: boolean;
-      /**
-       * Active
-       */
-      active: boolean;
       /**
        * Max Usages
        */
@@ -590,10 +586,6 @@ declare namespace Components {
        * Enabled
        */
       enabled?: boolean;
-      /**
-       * Active
-       */
-      active?: boolean;
       /**
        * Max Usages
        */

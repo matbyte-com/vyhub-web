@@ -68,6 +68,16 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
+  packetsSelectField: {
+    type: 'array',
+    title: i18n.t('packets'),
+    'x-fromUrl': `${API_URL}/packet/`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'title',
+    items: {
+      type: 'object',
+    },
+  },
   rewardsSelectField: {
     type: 'array',
     title: i18n.t('rewards'),

@@ -57,6 +57,13 @@ export default {
           title: this.$t('_purchases.labels.appliedPackets'),
         },
         {
+          name: 'discounts',
+          icon: 'mdi-ticket-percent',
+          component: 'Discounts',
+          reqProp: 'discount_edit',
+          title: this.$t('discounts'),
+        },
+        {
           name: 'statistics',
           icon: 'mdi-chart-areaspline',
           component: 'Statistics',

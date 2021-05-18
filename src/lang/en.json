@@ -338,9 +338,22 @@
       "infoDetail": "Will be shown during checkout and on the invoice."
     }
   },
+  "_discount": {
+    "labels": {
+      "create": "Create Discount",
+      "edit": "Edit Discount",
+      "allPackets": "Usable for all packets",
+      "delete": "Delete Discount"
+    }
+  },
   "recurring": "Recurring",
   "revenue": "Revenue",
   "sales": "Sales",
+  "code": "Code",
+  "none": "None",
+  "automatic": "Automatic",
+  "discounts": "Discounts",
+  "maxUsages": "Maximum Usages",
   "environment": "Environment",
   "perDay": "Per Day",
   "perMonth": "Per Month",
