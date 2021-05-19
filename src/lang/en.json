@@ -136,7 +136,9 @@
     "labels": {
       "log": "Log"
     },
-    "group_deleted": "Deleted group {groupId}.",
+    "group_add": "Added group {groupName} {groupId}.",
+    "group_edit": "Edited group {groupName} {groupId}.",
+    "group_deleted": "Deleted group {groupName} {groupId}.",
     "news_deleted": "Deleted news message {newsId}",
     "ban_deleted": "Deleted ban {banId}.",
     "ban_new": "Added ban in bundle {bundleName} until {endDate}. Reason: {reason}.",
