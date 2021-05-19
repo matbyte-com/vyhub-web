@@ -13,7 +13,7 @@ export default {
       type: 'string',
       title: i18n.t('name'),
     },
-    permissionLevel: {
+    permission_level: {
       type: 'integer',
       title: i18n.t('settings.permissionLevel'),
       minimum: 0,

@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import api from '@/api/api';
+import openapi from '@/api/openapi';
 import DialogForm from '@/components/DialogForm.vue';
 import AddGroupForm from '@/forms/GroupAddForm';
 import EditGroupForm from '@/forms/GroupEditForm';
@@ -117,23 +117,30 @@ export default {
     };
   },
   beforeMount() {
-    api.group.getGroups().then((response) => { this.groups = response.data; });
-    api.server.getBundles().then((response) => { this.bundles = response.data; });
+    this.fetchData();
+    // api.group.getGroups().then((response) => { this.groups = response.data; });
+    // api.server.getBundles().then((response) => { this.bundles = response.data; });
   },
   methods: {
+    async fetchData() {
+      (await openapi).group_getGroups().then((rsp) => {
+        this.groups = rsp.data;
+      });
+      (await openapi).server_getBundles().then((rsp) => {
+        this.bundles = rsp.data;
+      });
+    },
     getGroupsByBundle(bundleId) {
       return this.groups.filter((g) => g.serverbundle_id === bundleId);
     },
-    addGroup() {
+    async addGroup() {
       const data = this.$refs.addGroupDialog.getData();
+      data.serverbundle_id = data.serverbundle.id;
 
-      api.group.addGroup(
-        data.name,
-        data.permissionLevel,
-        data.serverbundle.id,
-        data.color,
+      (await openapi).group_addGroup(
+        null, data,
       ).then(() => {
-        api.group.getGroups().then((response) => { this.groups = response.data; });
+        this.fetchData();
         this.$refs.addGroupDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.addGroupDialog.setErrorMessage(err.response.data.detail);
@@ -142,36 +149,29 @@ export default {
     openEditGroupDialog(item) {
       const obj = {};
       obj.name = item.name;
-      obj.permissionLevel = item.permission_level;
+      obj.permission_level = item.permission_level;
       obj.color = item.color;
       obj.serverbundle = item.serverbundle_id;
-      obj.groupProperties = Object.keys(item.properties);
+      obj.properties = Object.keys(item.properties);
       this.$refs.editGroupDialog.show(item);
       this.$refs.editGroupDialog.setData(obj);
     },
     openDeleteGroupDialog(item) {
       this.$refs.deleteGroupDialog.show(item);
     },
-    deleteGroup(item) {
-      api.group.deleteGroup(item.id).then(() => {
+    async deleteGroup(group) {
+      (await openapi).group_deleteGroup(group.id).then(() => {
         this.$refs.deleteGroupDialog.cancel();
-        api.group.getGroups().then((response) => { this.groups = response.data; });
+        this.fetchData();
       }).catch((err) => {
         this.$refs.deleteGroupDialog.setErrorMessage(err.response.data.detail);
       });
     },
-    editGroup(group) {
+    async editGroup(group) {
       const data = this.$refs.editGroupDialog.getData();
-      api.group.editGroup(
-        group.id,
-        data.name,
-        data.permissionLevel,
-        data.serverbundle.id,
-        data.color,
-        data.groupProperties,
-      )
+      (await openapi).group_editGroup(group.id, data)
         .then(() => {
-          api.group.getGroups().then((response) => { this.groups = response.data; });
+          this.fetchData();
           this.$refs.editGroupDialog.closeAndReset();
         }).catch((err) => {
           this.$refs.editGroupDialog.setErrorMessage(err.response.data.detail);

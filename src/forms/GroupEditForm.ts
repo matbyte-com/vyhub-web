@@ -18,7 +18,7 @@ export default {
       title: i18n.t('properties'),
       type: 'object',
       properties: {
-        groupProperties: {
+        properties: {
           type: 'array',
           title: i18n.t('properties'),
           'x-display': 'checkbox',
