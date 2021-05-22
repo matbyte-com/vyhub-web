@@ -1,11 +1,11 @@
-import api from '@/api/api';
 import utilService from '@/services/UtilService';
 import store from '@/store';
 import router from '@/router';
+import openapi from '@/api/openapi';
 
 export default {
-  refreshCartPacketCount() {
-    api.shop.getCartPackets().then((rsp) => {
+  async refreshCartPacketCount() {
+    (await openapi).shop_getCartPackets().then((rsp) => {
       store.dispatch('setCartPacketCount', {
         cartPacketCount: rsp.data.length,
       });
@@ -17,6 +17,7 @@ export default {
   selectAddress(address: object) {
     store.dispatch('setAddress', { address });
   },
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   executeAction(debit: any, action: any) {
     console.log('executeAction', debit, action);
 
