@@ -72,7 +72,7 @@ export default {
       });
     },
     async getBundles() {
-      (await openapiCached).server_getAllBundles().then((rsp) => { (this.bundles = rsp.data); });
+      (await openapiCached).server_getBundles().then((rsp) => { (this.bundles = rsp.data); });
     },
   },
   beforeMount() {

@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import AuthService from '@/services/AuthService';
+
 export default {
   name: 'ProfileMenu.vue',
   props: {
@@ -38,7 +40,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('logout');
+      AuthService.logout();
     },
     emitLogout() {
       this.$emit('logout');

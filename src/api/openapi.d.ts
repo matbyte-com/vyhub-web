@@ -476,6 +476,10 @@ declare namespace Components {
        */
       name?: string;
       /**
+       * Code
+       */
+      code?: string;
+      /**
        * Bounds
        */
       bounds?: string;
@@ -495,6 +499,10 @@ declare namespace Components {
        * Enabled
        */
       enabled: boolean;
+      /**
+       * All Packets
+       */
+      all_packets: boolean;
       /**
        * Max Usages
        */
@@ -526,6 +534,10 @@ declare namespace Components {
        */
       name?: string;
       /**
+       * Code
+       */
+      code?: string;
+      /**
        * Bounds
        */
       bounds?: string;
@@ -545,6 +557,10 @@ declare namespace Components {
        * Enabled
        */
       enabled: boolean;
+      /**
+       * All Packets
+       */
+      all_packets: boolean;
       /**
        * Max Usages
        */
@@ -567,6 +583,10 @@ declare namespace Components {
        */
       name?: string;
       /**
+       * Code
+       */
+      code?: string;
+      /**
        * Bounds
        */
       bounds?: string;
@@ -586,6 +606,10 @@ declare namespace Components {
        * Enabled
        */
       enabled?: boolean;
+      /**
+       * All Packets
+       */
+      all_packets?: boolean;
       /**
        * Max Usages
        */
@@ -2263,6 +2287,11 @@ declare namespace Paths {
       export type $200 = any;
     }
   }
+  namespace AuthRevokeToken {
+    namespace Responses {
+      export type $200 = any;
+    }
+  }
   namespace AuthStart {
     namespace Parameters {
       /**
@@ -2840,10 +2869,10 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace ServerGetAllBundles {
+  namespace ServerGetBundles {
     namespace Responses {
       /**
-       * Response Get All Bundles Server Bundle  Get
+       * Response Get Bundles Server Bundle  Get
        */
       export type $200 = Components.Schemas.ServerbundleModel[];
     }
@@ -3421,11 +3450,6 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace UserGetCurrentData {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
   namespace UserGetCurrentProperties {
     namespace Parameters {
       /**
@@ -3443,6 +3467,11 @@ declare namespace Paths {
        */
       export type $200 = Components.Schemas.UserPropertyModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace UserGetCurrentUser {
+    namespace Responses {
+      export type $200 = any;
     }
   }
   namespace UserGetData {
@@ -3635,6 +3664,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthGetToken.Responses.$200>
   /**
+   * auth_revokeToken - Revoke Token
+   */
+  'auth_revokeToken'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
+  /**
    * auth_prepare - Prepare
    */
   'auth_prepare'(
@@ -3667,13 +3704,13 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
   /**
-   * user_getCurrentData - Get Current Data
+   * user_getCurrentUser - Get Current User
    */
-  'user_getCurrentData'(
+  'user_getCurrentUser'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetCurrentData.Responses.$200>
+  ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>
   /**
    * user_getData - Get Data
    */
@@ -3797,13 +3834,13 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>
   /**
-   * server_getAllBundles - Get All Bundles
+   * server_getBundles - Get Bundles
    */
-  'server_getAllBundles'(
+  'server_getBundles'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetAllBundles.Responses.$200>
+  ): OperationResponse<Paths.ServerGetBundles.Responses.$200>
   /**
    * server_addBundle - Add Bundle
    */
@@ -4483,6 +4520,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.AuthGetToken.Responses.$200>
   }
+  ['/auth/revoke']: {
+    /**
+     * auth_revokeToken - Revoke Token
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
+  }
   ['/auth/social/prepare']: {
     /**
      * auth_prepare - Prepare
@@ -4523,13 +4570,13 @@ export interface PathsDictionary {
   }
   ['/user/current']: {
     /**
-     * user_getCurrentData - Get Current Data
+     * user_getCurrentUser - Get Current User
      */
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetCurrentData.Responses.$200>
+    ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>
   }
   ['/user/{uuid}']: {
     /**
@@ -4681,13 +4728,13 @@ export interface PathsDictionary {
   }
   ['/server/bundle/']: {
     /**
-     * server_getAllBundles - Get All Bundles
+     * server_getBundles - Get Bundles
      */
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetAllBundles.Responses.$200>
+    ): OperationResponse<Paths.ServerGetBundles.Responses.$200>
     /**
      * server_addBundle - Add Bundle
      */

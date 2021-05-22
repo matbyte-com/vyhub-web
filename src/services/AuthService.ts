@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import axios, { AxiosError } from 'axios';
-import qs from 'qs';
 import store from '@/store';
 import api from '@/api/api';
 import openapi from '@/api/openapi';
+import openapiCached from '@/api/openapiCached';
 
 export default {
   login(refreshToken: string, callback: Function, errorCallback: Function) {
@@ -39,26 +39,33 @@ export default {
     };
 
     // Query customer API
-    axios.post('/auth/token', qs.stringify(sndQuery)).then((rsp) => {
+    api.auth.getToken(sndQuery).then((rsp) => {
       callback(rsp.data.access_token, rsp.data.refresh_token);
     }, (error) => errorCallback(error));
   },
-  fetchUserData(callback: Function, errorCallback: Function) {
-    axios.get('/user/current').then((rsp) => {
+  async fetchUserData(callback: Function, errorCallback: Function) {
+    (await openapi).user_getCurrentUser().then((rsp) => {
       callback(rsp.data);
-    }, (error) => errorCallback(error));
+    }).catch((error) => errorCallback(error));
   },
-  logout() {
-    store.dispatch('logout');
+  async logout() {
+    api.auth.revokeToken(store.getters.accessToken, 'access_token').then();
+
+    store.dispatch('logout').then();
     delete api.http.defaults.headers.common.Authorization;
+    delete (await openapi).defaults.headers.Authorization;
+    delete (await openapiCached).defaults.headers.Authorization;
     delete api.throttledHttp.defaults.headers.common.Authorization;
     delete axios.defaults.headers.common.Authorization;
   },
-  setAuthTokens() {
+  async setAuthTokens() {
     if (store.getters.accessToken) {
-      axios.defaults.headers.common.Authorization = `Bearer ${store.getters.accessToken}`;
-      api.http.defaults.headers.common.Authorization = `Bearer ${store.getters.accessToken}`;
-      api.throttledHttp.defaults.headers.common.Authorization = `Bearer ${store.getters.accessToken}`;
+      const header = `Bearer ${store.getters.accessToken}`;
+      axios.defaults.headers.common.Authorization = header;
+      (await openapi).defaults.headers.Authorization = header;
+      (await openapiCached).defaults.headers.Authorization = header;
+      api.http.defaults.headers.common.Authorization = header;
+      api.throttledHttp.defaults.headers.common.Authorization = header;
     }
   },
   getSocialAuthUrl(backend: string) {
