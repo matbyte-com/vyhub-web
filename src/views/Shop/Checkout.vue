@@ -8,6 +8,13 @@
               {{ $t('_shop.labels.payment') }}
             </v-card-title>
             <v-card-text>
+              <div v-if="errorMessage != null">
+                <v-alert
+                  type="error"
+                >
+                  {{ errorMessage }}
+                </v-alert>
+              </div>
               <div v-if="loading">
                 <v-col class="text-center">
                   <v-progress-circular
@@ -19,13 +26,31 @@
               </div>
               <div v-if="debit != null && !loading" class="text-center mb-3">
                 <div v-if="debit.status === 'STARTED'">
-                  <div>
-                    <v-icon color="info" size="80" v-if="debit.status === 'STARTED'">
-                      mdi-dots-horizontal-circle-outline
-                    </v-icon>
+                  <div v-if="debit.payment_gateway.type === 'CREDITS'">
+                    <div class="body-1">
+                      {{ $t('_shop.messages.confirmCreditsPayment',
+                      { credits: debit.credits }) }}
+                    </div>
+                    <div class="mt-5">
+                      <v-btn color="success" @click="confirmCreditPayment">
+                        <v-icon left>mdi-check</v-icon>
+                        {{ $t('confirm') }}
+                      </v-btn>
+                      <v-btn class="ml-1" @click="cancelPayment">
+                        <v-icon left>mdi-close</v-icon>
+                        {{ $t('cancel') }}
+                      </v-btn>
+                    </div>
                   </div>
-                  <div class="body-1">
-                    {{ $t('_shop.messages.paymentPending') }}
+                  <div v-else>
+                    <div>
+                      <v-icon color="info" size="80" v-if="debit.status === 'STARTED'">
+                        mdi-dots-horizontal-circle-outline
+                      </v-icon>
+                    </div>
+                    <div class="body-1">
+                      {{ $t('_shop.messages.paymentPending') }}
+                    </div>
                   </div>
                 </div>
                 <div v-if="debit.status === 'FINISHED'">
@@ -74,6 +99,7 @@
 <script>
 import UtilService from '@/services/UtilService';
 import openapi from '../../api/openapi';
+import ShopService from '../../services/ShopService';
 
 export default {
   name: 'Checkout',
@@ -83,6 +109,7 @@ export default {
       action: null,
       debit: null,
       loading: true,
+      errorMessage: null,
     };
   },
   beforeMount() {
@@ -111,6 +138,43 @@ export default {
       }).catch((err) => {
         console.log(err);
         UtilService.notifyUnexpectedError(err.response.data);
+      });
+    },
+    async confirmCreditPayment() {
+      const api = await openapi;
+
+      this.loading = true;
+      this.errorMessage = null;
+
+      api.shop_finishPayment({ uuid: this.debit.id }).then((rsp) => {
+        ShopService.refreshCreditAccount();
+        this.checkPayment();
+      }).catch((err) => {
+        console.log(err);
+        this.loading = false;
+
+        if (err.response.data.detail.code === 'not_enough_credits') {
+          this.errorMessage = this.$t('_shop.messages.notEnoughCredits');
+        } else {
+          this.errorMessage = err.response.data.detail.msg;
+        }
+      });
+    },
+    async cancelPayment() {
+      const api = await openapi;
+
+      this.loading = true;
+      this.errorMessage = null;
+
+      api.shop_cancelPayment({ uuid: this.debit.id }).then((rsp) => {
+        this.loading = false;
+
+        this.debit = rsp.data;
+      }).catch((err) => {
+        console.log(err);
+        this.loading = false;
+
+        this.errorMessage = err.response.data.detail.msg;
       });
     },
   },

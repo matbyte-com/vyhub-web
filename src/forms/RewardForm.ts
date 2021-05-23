@@ -24,6 +24,10 @@ export default {
           const: 'SCRIPT',
           title: i18n.t('_reward.labels._types.script'),
         },
+        {
+          const: 'CREDITS',
+          title: i18n.t('_reward.labels._types.credits'),
+        },
       ],
     },
     value: {

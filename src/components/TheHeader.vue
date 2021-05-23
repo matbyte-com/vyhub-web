@@ -29,6 +29,7 @@
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
       <div v-if="$store.getters.isLoggedIn">
+        <Credits></Credits>
         <ShoppingCart></ShoppingCart>
         <ProfileMenu
           :menu-links="linksRight"
@@ -56,6 +57,7 @@ import AuthService from '@/services/AuthService';
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 import EventBus from '@/services/EventBus';
 import openapiCached from '@/api/openapiCached';
+import Credits from '@/components/HeaderComponents/Credits.vue';
 
 export default {
   components: {
@@ -64,6 +66,7 @@ export default {
     BurgerMenu,
     NavigationLink,
     Search,
+    Credits,
     LinkAccountDialog,
   },
   data() {

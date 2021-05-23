@@ -18,7 +18,7 @@
               <v-icon v-if="bundle.icon" left :color="bundle.color">{{ bundle.icon }}</v-icon>
               <span>{{ bundle.name }}</span>
             </v-tab>
-            <v-tab @click="switchTab('Admin')">
+            <v-tab @click="switchTab('Purchases')">
               <v-icon left>mdi-cart-check</v-icon>
               <span>{{ $t('purchases') }}</span>
             </v-tab>

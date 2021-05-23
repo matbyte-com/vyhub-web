@@ -100,6 +100,8 @@
       "removeAllPackets": "Remove all packets"
     },
     "messages": {
+      "confirmCreditsPayment": "Please confirm the payment of {credits} credits.",
+      "notEnoughCredits": "You do not have enough credits to pay this purchase. Please choose a different payment method or buy more credits.",
       "addToCartError": "An error occurred while adding the packet to your cart.",
       "addToCartSuccess": "Packet successfully added to cart.",
       "cartEmpty": "Your cart is empty.",
@@ -222,10 +224,10 @@
   },
   "_reward": {
     "labels": {
-      "create": "Create reward",
+      "create": "Create Reward",
       "once": "Only execute once (per packet)",
       "onEvent": "Execute on event",
-      "edit": "Edit reward",
+      "edit": "Edit Reward",
       "onceFromAll": "Only execute on one server",
       "_events": {
         "direct": "Execute directly",
@@ -236,7 +238,8 @@
       },
       "_types": {
         "command": "Execute a command on the server(s)",
-        "script": "Execute a script on the server(s)"
+        "script": "Execute a script on the server(s)",
+        "credits": "Add credits to the buyers account"
       }
     },
     "messages": {

@@ -108,6 +108,10 @@ export default {
           label: this.$t('_gateway.labels.paypal'),
           icon: 'mdi-credit-card-outline',
         },
+        CREDITS: {
+          label: this.$t('_shop.labels.credits'),
+          icon: 'mdi-circle-multiple',
+        },
       },
       noAttributeKeys: ['name', 'type', 'enabled'],
     };

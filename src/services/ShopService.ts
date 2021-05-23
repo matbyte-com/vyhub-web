@@ -1,7 +1,7 @@
-import utilService from '@/services/UtilService';
 import store from '@/store';
 import router from '@/router';
 import openapi from '@/api/openapi';
+import UtilService from '@/services/UtilService';
 
 export default {
   async refreshCartPacketCount() {
@@ -10,9 +10,22 @@ export default {
         cartPacketCount: rsp.data.length,
       });
     }).catch((err) => {
-      utilService.notifyUnexpectedError(err.response.data);
+      UtilService.notifyUnexpectedError(err.response.data);
       console.log(err);
     });
+  },
+  async refreshCreditAccount() {
+    const api = await openapi;
+
+    api.finance_getAccount({ uuid: store.getters.user.credit_account_id })
+      .then((rsp) => {
+        store.dispatch('setCreditAccount', {
+          creditAccount: rsp.data,
+        });
+      }).catch((err) => {
+        console.log(err);
+        UtilService.notifyUnexpectedError(err.response.data);
+      });
   },
   selectAddress(address: object) {
     store.dispatch('setAddress', { address });

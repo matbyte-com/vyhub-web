@@ -11,6 +11,7 @@ const getDefaultState = () => ({
   properties: null,
   address: null,
   cartPacketCount: 0,
+  creditAccount: null,
 });
 
 export default new Vuex.Store({
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     properties: (state) => state.properties,
     address: (state) => state.address,
     cartPacketCount: (state) => state.cartPacketCount,
+    creditAccount: (state) => state.creditAccount,
   },
   mutations: {
     RESET: (state) => {
@@ -46,6 +48,9 @@ export default new Vuex.Store({
     SET_CART_PACKET_COUNT: (state, cartPacketCount) => {
       state.cartPacketCount = cartPacketCount;
     },
+    SET_CREDIT_ACCOUNT: (state, credits) => {
+      state.creditAccount = credits;
+    },
   },
   actions: {
     login: ({ commit }, { accessToken, refreshToken }) => {
@@ -65,6 +70,9 @@ export default new Vuex.Store({
     },
     setCartPacketCount: ({ commit }, { cartPacketCount }) => {
       commit('SET_CART_PACKET_COUNT', cartPacketCount);
+    },
+    setCreditAccount: ({ commit }, { creditAccount }) => {
+      commit('SET_CREDIT_ACCOUNT', creditAccount);
     },
   },
   modules: {

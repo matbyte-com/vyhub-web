@@ -9,6 +9,28 @@ import {
 declare namespace Components {
   namespace Schemas {
     /**
+     * AccountModel
+     */
+    export interface AccountModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Name
+       */
+      name?: string;
+      currency?: CurrencyModel;
+      /**
+       * Balance
+       */
+      balance?: number;
+      /**
+       * Transactions
+       */
+      transactions: TransactionModel[];
+    }
+    /**
      * AddressModel
      */
     export interface AddressModel {
@@ -355,9 +377,13 @@ declare namespace Components {
        */
       date: string; // date-time
       /**
+       * Ext Transaction Id
+       */
+      ext_transaction_id?: string;
+      /**
        * Transaction Id
        */
-      transaction_id?: string;
+      transaction_id?: string; // uuid
       payment_gateway: PaymentGatewayModel;
       /**
        * Amount Total
@@ -383,11 +409,15 @@ declare namespace Components {
       /**
        * Invoice Number
        */
-      invoice_number: string;
+      invoice_number?: string;
       /**
        * Transaction Url
        */
       transaction_url?: string;
+      /**
+       * Invoice Available
+       */
+      invoice_available: boolean;
       purchase: PurchaseModelShort;
     }
     /**
@@ -403,9 +433,13 @@ declare namespace Components {
        */
       date: string; // date-time
       /**
+       * Ext Transaction Id
+       */
+      ext_transaction_id?: string;
+      /**
        * Transaction Id
        */
-      transaction_id?: string;
+      transaction_id?: string; // uuid
       payment_gateway: PaymentGatewayModel;
       /**
        * Amount Total
@@ -431,11 +465,15 @@ declare namespace Components {
       /**
        * Invoice Number
        */
-      invoice_number: string;
+      invoice_number?: string;
       /**
        * Transaction Url
        */
       transaction_url?: string;
+      /**
+       * Invoice Available
+       */
+      invoice_available: boolean;
     }
     /**
      * DebitModelStatistic
@@ -1167,6 +1205,84 @@ declare namespace Components {
       payment_gateway_ids?: string /* uuid */ [];
     }
     /**
+     * PacketModelLight
+     */
+    export interface PacketModelLight {
+      /**
+       * Description
+       */
+      description?: string;
+      /**
+       * Active For
+       */
+      active_for?: number; // time-delta
+      /**
+       * Custom Price
+       */
+      custom_price: boolean;
+      /**
+       * Enabled
+       */
+      enabled: boolean;
+      /**
+       * Buyable
+       */
+      buyable: boolean;
+      /**
+       * Buyable Active
+       */
+      buyable_active: boolean;
+      /**
+       * Buyable Inactive
+       */
+      buyable_inactive: boolean;
+      /**
+       * Recurring
+       */
+      recurring: boolean;
+      /**
+       * Title
+       */
+      title: string;
+      /**
+       * Subtitle
+       */
+      subtitle?: string;
+      /**
+       * Image Url
+       */
+      image_url?: string; // uri
+      /**
+       * Abstract
+       */
+      abstract?: string[];
+      /**
+       * Price
+       */
+      price: number;
+      /**
+       * Credits
+       */
+      credits?: number;
+      discount?: DiscountModel;
+      price_with_discount?: TotalPriceModel;
+      price_without_discount?: TotalPriceModel;
+      /**
+       * Id
+       */
+      id: string; // uuid
+      currency: CurrencyModel;
+      category: PacketCategoryModel;
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id?: string; // uuid
+      /**
+       * Relations
+       */
+      relations: PacketRelationModel[];
+    }
+    /**
      * PacketModelPatch
      */
     export interface PacketModelPatch {
@@ -1418,7 +1534,7 @@ declare namespace Components {
      * PaymentGatewayType
      * An enumeration.
      */
-    export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD";
+    export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "CREDITS";
     /**
      * PropertyModel
      */
@@ -1452,7 +1568,7 @@ declare namespace Components {
        * Date
        */
       date: string; // date-time
-      user: Model_User_User_UserModelShort;
+      user: UserModelNoLinkedShort;
       /**
        * Amount Total
        */
@@ -1523,7 +1639,7 @@ declare namespace Components {
        * Date
        */
       date: string; // date-time
-      user: Model_User_User_UserModelShort;
+      user: UserModelNoLinkedShort;
       /**
        * Amount Total
        */
@@ -1784,7 +1900,7 @@ declare namespace Components {
      * RewardType
      * An enumeration.
      */
-    export type RewardType = "COMMAND" | "SCRIPT";
+    export type RewardType = "COMMAND" | "SCRIPT" | "CREDITS";
     /**
      * ServerBundleModelPatch
      */
@@ -1936,7 +2052,7 @@ declare namespace Components {
      * StartPaymentModel
      */
     export interface StartPaymentModel {
-      debit: DebitModel;
+      debit: DebitModelNoPurchase;
       action?: PaymentAction;
     }
     /**
@@ -2038,6 +2154,28 @@ declare namespace Components {
        * Credits
        */
       credits?: number;
+    }
+    /**
+     * TransactionModel
+     */
+    export interface TransactionModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Description
+       */
+      description: string;
+      /**
+       * Date
+       */
+      date: string; // date-time
+      author?: Model_User_User_UserModelShort;
+      /**
+       * Amount
+       */
+      amount: number;
     }
     /**
      * UserAttributeDefinitionModel
@@ -2142,6 +2280,10 @@ declare namespace Components {
        */
       admin: boolean;
       /**
+       * Credit Account Id
+       */
+      credit_account_id: string; // uuid
+      /**
        * Attributes
        */
       attributes: {
@@ -2188,6 +2330,10 @@ declare namespace Components {
        * Admin
        */
       admin: boolean;
+      /**
+       * Credit Account Id
+       */
+      credit_account_id: string; // uuid
       /**
        * Attributes
        */
@@ -2459,6 +2605,22 @@ declare namespace Paths {
     export type RequestBody = Components.Schemas.ThemeModel;
     namespace Responses {
       export type $200 = Components.Schemas.ThemeModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace FinanceGetAccount {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.AccountModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3110,6 +3272,22 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ShopFinishPayment {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.DebitModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ShopGetCart {
     namespace Parameters {
       /**
@@ -3235,7 +3413,7 @@ declare namespace Paths {
       /**
        * Response Get Packets Shop Packet Get
        */
-      export type $200 = Components.Schemas.PacketModel[];
+      export type $200 = Components.Schemas.PacketModelLight[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -4152,6 +4330,16 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>
   /**
+   * shop_finishPayment - Finish Payment
+   * 
+   * Meant for payments than can be finished "in house". For example credits.
+   */
+  'shop_finishPayment'(
+    parameters?: Parameters<Paths.ShopFinishPayment.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>
+  /**
    * shop_cancelPayment - Cancel Payment
    */
   'shop_cancelPayment'(
@@ -4433,6 +4621,14 @@ export interface OperationMethods {
     data?: Paths.RequirementsCreateRequirement.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
+  /**
+   * finance_getAccount - Get Account
+   */
+  'finance_getAccount'(
+    parameters?: Parameters<Paths.FinanceGetAccount.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
 }
 
 export interface PathsDictionary {
@@ -5094,6 +5290,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>
     /**
+     * shop_finishPayment - Finish Payment
+     * 
+     * Meant for payments than can be finished "in house". For example credits.
+     */
+    'post'(
+      parameters?: Parameters<Paths.ShopFinishPayment.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>
+    /**
      * shop_cancelPayment - Cancel Payment
      */
     'patch'(
@@ -5419,6 +5625,16 @@ export interface PathsDictionary {
       data?: Paths.RequirementsCreateRequirement.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
+  }
+  ['/finance/account/{uuid}']: {
+    /**
+     * finance_getAccount - Get Account
+     */
+    'get'(
+      parameters?: Parameters<Paths.FinanceGetAccount.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
   }
 }
 

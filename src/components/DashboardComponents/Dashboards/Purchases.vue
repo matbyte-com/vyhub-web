@@ -124,7 +124,7 @@
                                 >
                                   <td>{{ new Date(debit.date).toLocaleString() }}</td>
                                   <td>{{ debit.payment_gateway.name }}</td>
-                                  <td v-if="debit.amount_total != 0">
+                                  <td v-if="debit.amount_total != null">
                                     {{ debit.amount_total
                                     .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                     {{ purchase.currency.symbol }}
@@ -135,6 +135,7 @@
                                   </td>
                                   <td>
                                     <v-btn color="primary" outlined small
+                                           :disabled="!debit.invoice_available"
                                            @click="downloadInvoice(debit)">
                                       <v-icon>
                                         mdi-file-download
