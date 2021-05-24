@@ -153,7 +153,7 @@ import draggable from 'vuedraggable';
 import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import { VueEditor } from 'vue2-editor';
-import api from '@/api/api';
+import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import i18n from '@/plugins/i18n';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
@@ -217,8 +217,8 @@ export default {
     this.getNavItems();
   },
   methods: {
-    getNavItems() {
-      api.design.getNavItems().then((rsp) => {
+    async getNavItems() {
+      (await openapi).design_getNavItems().then((rsp) => {
         this.updateLinkEnabled = false;
         this.links = rsp.data;
       }).catch((err) => console.log(`Could not query nav ${err}`));
@@ -226,7 +226,7 @@ export default {
     openDeleteConfirmationDialog(link) {
       this.$refs.deleteConfirmationDialog.show(link);
     },
-    openNavEditDialog(item) {
+    async openNavEditDialog(item) {
       this.rawHtmlInput = null;
       this.htmlInput = null;
       this.linkInput = null;
@@ -239,7 +239,8 @@ export default {
       }
       this.linkInput = item.link;
       if (item.linkType === 'html' && item.html) {
-        api.design.getHtml(item.html).then((rsp) => { this.rawHtmlInput = rsp.data.content; });
+        (await openapi).design_getCmsHtml(item.html)
+          .then((rsp) => { this.rawHtmlInput = rsp.data.content; });
       }
       this.$refs.navEditDialog.show(item);
       this.$refs.navEditDialog.setData(item);
@@ -255,7 +256,7 @@ export default {
       this.navlinkAddSchema = NavlinkAddForm.returnForm();
       this.$refs.navAddDialog.show();
     },
-    addLink() {
+    async addLink() {
       const data = this.$refs.navAddDialog.getData();
       // check if Title already used
       if (this.links.find((l) => l.title === data.title)) {
@@ -267,7 +268,7 @@ export default {
         data.link = `/cms/${data.title.toLowerCase()}`;
       }
       this.links.push(data);
-      api.design.setNavItems(this.links).then(() => {
+      (await openapi).design_updateNavItems(null, this.links).then(() => {
         this.$refs.navAddDialog.closeAndReset();
         this.getNavItems();
         EventBus.emit('navUpdated');
@@ -276,18 +277,19 @@ export default {
         this.links.pop();
       });
     },
-    updateLinkOrder() {
-      api.design.setNavItems(this.links).then(() => {
+    async updateLinkOrder() {
+      (await openapi).design_updateNavItems(null, this.links).then(() => {
         this.updateLinkEnabled = false;
         this.getNavItems();
-        EventBus.emit('navUpdated');
+        EventBus.emit('navUpdated'); // Event caught in Header to Update Navlinks
       }).catch((err) => {
         console.log(`Could not query nav ${err}`);
       });
     },
-    deleteNav(nav) {
+    async deleteNav(nav) {
       if (nav.linkType === 'default') {
         this.$refs.deleteConfirmationDialog.setErrorMessage('Can not delete default links');
+        return;
       }
       const index = this.links.findIndex((l) => l.title === nav.title);
       if (index > -1) {
@@ -296,6 +298,7 @@ export default {
         this.$refs.deleteConfirmationDialog.setErrorMessage('Couldnt find index of nav object to update');
         return;
       }
+      (await openapi).design_deleteCmsHtml(nav.html);
       this.updateLinkOrder();
       this.$refs.deleteConfirmationDialog.closeAndReset();
     },
@@ -310,6 +313,10 @@ export default {
       if (linkUpdated.linkType === 'default') {
         linkUpdated.link = nav.link;
       }
+      // Copy link tabs to new link
+      linkUpdated.tabs = nav.tabs;
+      // Copy html cms Id to updated link
+      linkUpdated.html = nav.html;
       // Update html Link to new Title (replace title after last backslash /)
       if (linkUpdated.linkType === 'html') {
         linkUpdated.link = `/cms/${linkUpdated.title.toLowerCase()}`;
@@ -321,13 +328,16 @@ export default {
         // html content
         if (nav.html) {
           // update existing HTML Page Entry
-          await api.design.updateHtmlContent(nav.html, inputToUpdate);
+          await (await openapi).design_updateCmsHtml(nav.html, { content: inputToUpdate });
           linkUpdated.html = nav.html;
         } else {
           // create new HTML Page Entry and save UUID
-          await api.design.createHtmlContent(inputToUpdate)
+          await (await openapi).design_createCmsHtml(null, { content: inputToUpdate })
             .then((rsp) => { linkUpdated.html = rsp.data.id; })
-            .catch((err) => { throw err; });
+            .catch((err) => {
+              this.$refs.navEditDialog.setErrorMessage(err);
+              throw (err);
+            });
         }
       }
       // Update External Link when needed
@@ -343,7 +353,7 @@ export default {
         return;
       }
       // send updated link to server
-      this.updateLinkOrder();
+      await this.updateLinkOrder();
       this.$refs.navEditDialog.closeAndReset();
     },
   },

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import api from '@/api/api';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'UserRenderedHTML',
@@ -28,15 +28,16 @@ export default {
     document.title = this.$route.params.title;
   },
   methods: {
-    getLinks() {
-      api.design.getNavItems().then((rsp) => { this.links = rsp.data; })
+    async getLinks() {
+      (await openapi).design_getNavItems().then((rsp) => {
+        this.links = rsp.data;
+      })
         .catch((err) => console.log(err.data));
     },
-    getHtml() {
-      console.log(this.links);
+    async getHtml() {
       const htmlId = this.links
         .find((l) => l.title.toLowerCase() === this.$route.params.title).html;
-      api.design.getHtml(htmlId).then((rsp) => { this.html = rsp.data.content; })
+      (await openapi).design_getCmsHtml(htmlId).then((rsp) => { this.html = rsp.data.content; })
         .catch((err) => {
           this.html = `Error while fetching HTML ${err}`;
           console.log(err.data);

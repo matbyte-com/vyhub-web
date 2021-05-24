@@ -56,8 +56,8 @@ import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import AuthService from '@/services/AuthService';
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 import EventBus from '@/services/EventBus';
-import openapiCached from '@/api/openapiCached';
 import Credits from '@/components/HeaderComponents/Credits.vue';
+import openapi from '@/api/openapi';
 
 export default {
   components: {
@@ -85,7 +85,7 @@ export default {
       this.$router.push('/');
     },
     async getNavItems() {
-      const api = await openapiCached;
+      const api = await openapi;
 
       api.design_getNavItems().then((rsp) => {
         this.links = rsp.data;
