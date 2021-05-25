@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { throttleAdapterEnhancer } from 'axios-extensions';
 import qs from 'qs';
+import { authGetTokenResponse } from './api.d';
 
 if (axios.defaults.adapter === undefined) {
   throw new ReferenceError();
@@ -25,7 +26,7 @@ const throttledHttp = axios.create({
 export default {
   auth: {
     getToken(query: object) {
-      return http.post('/auth/token', qs.stringify(query));
+      return http.post<authGetTokenResponse>('/auth/token', qs.stringify(query));
     },
     revokeToken(token: string, token_type: string) {
       return http.post('/auth/revoke', qs.stringify({ token, token_type }));

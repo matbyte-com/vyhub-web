@@ -5,53 +5,46 @@ import store from '@/store';
 import api from '@/api/api';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
+import { authGetTokenResponse } from '@/api/api.d';
 
 export default {
-  login(refreshToken: string, callback: Function, errorCallback: Function) {
-    this.getToken(refreshToken, (accessToken: string, newRefreshToken: string) => {
-      store.dispatch('login', {
-        accessToken,
-        refreshToken: newRefreshToken,
-      });
+  async login(_refreshToken: string) {
+    const { access_token, refresh_token, expires_in } = await this.getToken(_refreshToken);
+    let refreshAfter = null;
 
-      this.setAuthTokens();
+    if (expires_in != null) {
+      refreshAfter = new Date();
+      refreshAfter.setSeconds(refreshAfter.getSeconds() + expires_in / 2);
+    }
 
-      this.fetchUserData((user: object) => {
-        // console.log(data);
-        store.dispatch('setUserData', { user });
-        callback(user);
-      }, (err: object) => {
-        console.log(`Error in phase user_data: ${err}`);
-        errorCallback(2, err);
-      });
-    }, (err: AxiosError) => {
-      if (err !== undefined && err.response !== undefined) {
-        console.log(`Error in phase login: ${err.response.data.msg}`);
-      }
-      errorCallback(1, err);
+    await store.dispatch('login', {
+      accessToken: access_token,
+      refreshToken: refresh_token,
+      refreshAfter,
     });
+
+    await this.setAuthTokens();
+
+    await this.refreshUser();
   },
-  getToken(refreshToken: string, callback: Function, errorCallback: Function) {
-    // create QueryObjectForCustomerAPI
+  async getToken(refreshToken: string): Promise<authGetTokenResponse> {
     const sndQuery = {
       refresh_token: refreshToken,
       grant_type: 'refresh_token',
     };
 
     // Query customer API
-    api.auth.getToken(sndQuery).then((rsp) => {
-      callback(rsp.data.access_token, rsp.data.refresh_token);
-    }, (error) => errorCallback(error));
+    return (await api.auth.getToken(sndQuery)).data;
   },
-  async fetchUserData(callback: Function, errorCallback: Function) {
-    (await openapi).user_getCurrentUser().then((rsp) => {
-      callback(rsp.data);
-    }).catch((error) => errorCallback(error));
+  async fetchUserData() {
+    const rsp = await (await openapi).user_getCurrentUser();
+
+    return rsp.data;
   },
   async logout() {
     api.auth.revokeToken(store.getters.accessToken, 'access_token').then();
 
-    store.dispatch('logout').then();
+    await store.dispatch('logout');
     delete api.http.defaults.headers.common.Authorization;
     delete (await openapi).defaults.headers.Authorization;
     delete (await openapiCached).defaults.headers.Authorization;
@@ -89,5 +82,37 @@ export default {
         store.dispatch('setProperties', { properties });
       }).catch((e) => console.log(`Could not query unauth properties: ${e}`));
     }
+  },
+  async refreshUser(tryRefresh = false) {
+    this.fetchUserData().then((user: object) => {
+      store.dispatch('setUserData', { user });
+
+      if (tryRefresh && store.getters.refreshAfter != null
+        && new Date() > new Date(store.getters.refreshAfter)) {
+        console.log('Trying to use refresh token to renew session in time.');
+        this.login(store.getters.refreshToken).then(() => {
+          this.refreshUser();
+        });
+      }
+
+      return user;
+    }).catch((err) => {
+      console.log(`Error in phase user_data: ${err}`);
+
+      if (err.response.status === 401) {
+        if (tryRefresh && store.getters.refreshToken != null) {
+          console.log('Trying to use refresh token to recover session.');
+          this.login(store.getters.refreshToken).then(() => {
+            this.refreshUser();
+          }).catch(() => {
+            this.logout();
+          });
+        } else {
+          this.logout();
+        }
+      }
+
+      throw err;
+    });
   },
 };

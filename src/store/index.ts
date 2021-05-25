@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const getDefaultState = () => ({
   accessToken: null,
   refreshToken: null,
+  refreshAfter: null,
   user: null,
   properties: null,
   address: null,
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     user: (state) => state.user,
     accessToken: (state) => state.accessToken,
     refreshToken: (state) => state.refreshToken,
+    refreshAfter: (state) => state.refreshAfter,
     properties: (state) => state.properties,
     address: (state) => state.address,
     cartPacketCount: (state) => state.cartPacketCount,
@@ -32,9 +34,10 @@ export default new Vuex.Store({
     RESET: (state) => {
       Object.assign(state, getDefaultState());
     },
-    SET_TOKEN: (state, { accessToken, refreshToken }) => {
+    SET_TOKEN: (state, { accessToken, refreshToken, refreshAfter }) => {
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
+      state.refreshAfter = refreshAfter;
     },
     SET_USER: (state, user) => {
       state.user = user;
@@ -53,8 +56,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    login: ({ commit }, { accessToken, refreshToken }) => {
-      commit('SET_TOKEN', { accessToken, refreshToken });
+    login: ({ commit }, { accessToken, refreshToken, refreshAfter }) => {
+      commit('SET_TOKEN', { accessToken, refreshToken, refreshAfter });
     },
     logout: ({ commit }) => {
       commit('RESET', '');

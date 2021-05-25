@@ -38,6 +38,9 @@ export default {
     return {
     };
   },
+  beforeMount() {
+    AuthService.refreshUser(true);
+  },
   methods: {
     logout() {
       AuthService.logout();
