@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       openValue: false,
+      item: null,
     };
   },
   methods: {
@@ -48,8 +49,12 @@ export default {
       this.close();
       this.$emit('cancel');
     },
-    show() {
+    show(item) {
       this.open = true;
+      this.item = item;
+    },
+    getItem() {
+      return this.item;
     },
     close() {
       this.open = false;

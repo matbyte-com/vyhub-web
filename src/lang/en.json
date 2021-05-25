@@ -58,6 +58,17 @@
     "editNavLink": "Edit Navigation Link",
     "editor": "Editor",
     "httpPlaceholder": "https://google.de",
+    "addRequirementSet": "Add Requirement Set",
+    "editRequirementSet": "Edit Requirement Set",
+    "addRequirement": "Add Requirement",
+    "logicFormula": "Logical Formula",
+    "formulaTypeError": "Check if all used Id's are present",
+    "formulaError": "Formula not valid - check console for additional info",
+    "editFormula": "Edit Formula",
+    "formula": "Formula",
+    "formulaSymbolOr": "This Symbol | for OR",
+    "formulaSymbolAnd": "This Symbol & for AND",
+    "formulaBeta": "This function is in beta phase. Please use with caution.",
     "labels": {
       "title": "Settings",
       "groupSettings":  "Groupsettings",
@@ -153,8 +164,9 @@
     "ban_edit_bundle": "Changed bundle to {bundleName}.",
     "ban_edit_status": "Changed status to {status}.",
     "ban_edit_length": "Changed end-date to {endDate}.",
-    "requirement_set_added": "Added requirement set {requirementSetId}",
-    "requirement_added": "Added requirement {requirementId}"
+    "requirement_set_add": "Added requirement set {requirementSetName} {requirementSetId}",
+    "requirement_set_edit": "Edited requirement set {requirementSetName} {requirementSetId}",
+    "requirement_add": "Added requirement {requirementId}"
   },
   "forms": {
     "iconDescription": "available Icons"
@@ -394,6 +406,7 @@
   "groupname": "Name",
   "startdate": "Begin",
   "enddate": "Ending",
+  "example": "Example",
   "imageURL": "Image URL",
   "groups": "Groups",
   "value": "Value",

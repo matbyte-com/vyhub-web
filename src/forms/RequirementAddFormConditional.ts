@@ -124,6 +124,7 @@ function returnForm(type: string) {
         'x-fromUrl': `${API_URL}/requirement/set/`,
         'x-itemKey': 'id',
         'x-itemTitle': 'name',
+        readOnly: true,
       },
     },
   };
