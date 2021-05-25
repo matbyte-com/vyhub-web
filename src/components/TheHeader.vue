@@ -25,6 +25,7 @@
     </NavigationLink>
 
     <v-spacer></v-spacer>
+    <Notification />
     <Search />
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
@@ -53,6 +54,7 @@ import BurgerMenu from '@/components/HeaderComponents/BurgerMenu.vue';
 import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
 import Search from '@/components/HeaderComponents/Search.vue';
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
+import Notification from '@/components/HeaderComponents/Notification.vue';
 import AuthService from '@/services/AuthService';
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 import EventBus from '@/services/EventBus';
@@ -68,6 +70,7 @@ export default {
     Search,
     Credits,
     LinkAccountDialog,
+    Notification,
   },
   data() {
     return {

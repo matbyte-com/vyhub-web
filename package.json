@@ -22,6 +22,7 @@
     "country-flag-icons": "^1.2.9",
     "country-list": "^2.2.0",
     "currency-codes": "^2.1.0",
+    "eventsource": "^1.1.0",
     "humanize-duration-ts": "^2.1.1",
     "minify-css-string": "^1.0.0",
     "mitt": "^2.1.0",
