@@ -107,7 +107,6 @@
           </v-col>
         </v-row>
 
-        <!-- Checkout button -->
         <v-row>
           <v-col>
             <v-card>
@@ -115,6 +114,7 @@
                 <v-text-field dense outlined :label="$t('_shop.labels.couponCode')"
                               @keydown.enter="applyDiscount" v-model="couponCode"
                               :style="couponStyle"
+                              :hide-details="couponError == null"
                               :error-messages="couponError">
                   <template slot="prepend-inner">
                     <v-icon>
@@ -122,12 +122,20 @@
                     </v-icon>
                   </template>
                   <template slot="append">
-                    <v-icon>
-                      mdi-subdirectory-arrow-left
+                    <v-icon @click="applyDiscount" color="primary">
+                      mdi-check
                     </v-icon>
                   </template>
                 </v-text-field>
               </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <!-- Checkout button -->
+        <v-row>
+          <v-col>
+            <v-card>
               <v-card-actions>
                 <v-btn color="primary" block
                        :disabled="cartPackets.length == 0 || currentAddress == null ||
