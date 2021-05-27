@@ -25,7 +25,7 @@
           </span>
         </template>
         <template v-slot:item.credits="{ item }">
-          <span v-if="!item.credits_used">
+          <span v-if="item.credits_used">
             {{ item.credits }}
           </span>
         </template>
@@ -197,7 +197,7 @@
                         {{ debit.payment_gateway.name }}
                         </a>
                       </td>
-                      <td v-if="debit.amount_total !== 0">
+                      <td v-if="debit.amount_total != null">
                         {{ debit.amount_total
                         .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                         {{ currentPurchase.currency.symbol }}
@@ -207,7 +207,7 @@
                         {{ $t('_shop.labels.credits') }}
                       </td>
                       <td>
-                        <v-btn color="primary" outlined small
+                        <v-btn color="primary" outlined small :disabled="!debit.invoice_available"
                                @click="downloadInvoice(debit)">
                           <v-icon>
                             mdi-file-download
