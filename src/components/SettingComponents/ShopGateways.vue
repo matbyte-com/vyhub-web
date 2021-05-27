@@ -38,7 +38,7 @@
             </v-icon>
           </v-btn>
           <v-btn outlined color="error" small @click="$refs.deleteGatewayDialog.show(item)"
-                 v-if="item.deletable">
+                 :disabled="!item.deletable">
             <v-icon>
               mdi-delete
             </v-icon>
