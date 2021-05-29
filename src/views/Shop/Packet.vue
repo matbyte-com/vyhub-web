@@ -41,14 +41,22 @@
           </v-col>
           <v-col class="d-flex">
             <v-card class="flex-grow-1">
-              <v-card-title>{{ $t('price') }}</v-card-title>
+              <v-card-title>
+                <v-icon left>mdi-currency-usd</v-icon>
+                {{ $t('price') }}
+              </v-card-title>
               <v-card-text class="text-center">
                 <div class="text-h2">
                   {{ packet.price_with_discount.total
                   .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                   {{ packet.currency.symbol }}
                 </div>
-                <div class="subtitle-2 font-italic">
+                <div v-if="packet.recurring" class="text-h6 mt-1">
+                  <v-icon>mdi-calendar-sync</v-icon>
+                  {{ $t('every') }}
+                  {{ formatLength(packet.active_for) }}
+                </div>
+                <div class="subtitle-2 font-italic mt-2">
                   {{ $t('_shop.messages.includesVAT',
                   { tax_rate: packet.price_with_discount.tax_rate }) }}
                 </div>
