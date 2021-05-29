@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-row>
-      <v-col>
-        <page-title>{{ $t('_shop.labels.cart') }}</page-title>
-      </v-col>
-    </v-row>
+    <page-title icon="mdi-cart-variant">{{ $t('_shop.labels.cart') }}</page-title>
 
     <v-row v-if="cartPackets != null">
       <!-- Cart packets -->

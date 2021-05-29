@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle>{{ $t('ban.labels.title') }}</PageTitle>
+    <PageTitle icon="mdi-account-cancel">{{ $t('ban.labels.title') }}</PageTitle>
     <v-card>
       <v-card-text>
         <DataTable

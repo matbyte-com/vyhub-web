@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle>{{ $t('_shop.labels.admin') }}</PageTitle>
+    <PageTitle icon="mdi-sack">{{ $t('_shop.labels.admin') }}</PageTitle>
     <v-row>
       <v-col>
         <v-card flat class="fill-height">

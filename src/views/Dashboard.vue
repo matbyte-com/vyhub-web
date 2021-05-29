@@ -5,7 +5,7 @@
       {{ error }}
     </div>
     <div v-if="user">
-      <PageTitle :title="$t('_dashboard.labels.title', { usr: user.username })"/>
+      <PageTitle icon="mdi-account" :title="$t('_dashboard.labels.title', { usr: user.username })"/>
       <v-card>
         <v-card-text>
           <v-tabs>

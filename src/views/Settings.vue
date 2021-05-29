@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle :title="$t('settings.labels.title')" />
+    <PageTitle icon="mdi-cog" :title="$t('settings.labels.title')" />
     <v-row
     no-gutters>
       <v-col xs="12" sm="12" md="12" lg="3" class="mb-2 mb-lg-0 mr-xl-2 mr-lg-2">

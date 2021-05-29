@@ -1,7 +1,7 @@
 <template>
     <div>
       <div v-if="packet != null">
-        <PageTitle>
+        <PageTitle icon="mdi-gift-open">
           {{ packet.title }}
           <div class="subtitle-1">{{ packet.subtitle }}</div>
         </PageTitle>

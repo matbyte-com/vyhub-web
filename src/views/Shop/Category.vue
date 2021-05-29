@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle v-if="category != null" :title="category.name"></PageTitle>
+    <PageTitle icon="mdi-star" v-if="category != null" :title="category.name"></PageTitle>
     <v-row>
       <v-col lg="3" md="6" sm="12" v-for="packet in packets" :key="packet.id" class="d-flex">
         <v-hover v-slot:default="{ hover }">
