@@ -5,10 +5,12 @@
         <v-card class="">
           <v-card-text class="text-left text-h4 d-flex align-center pa-3">
             <v-icon color="primary" x-large v-if="icon != null" class="mr-1">{{ icon }}</v-icon>
-            <v-sheet vertical color="primary" width="5" height="45" class="">
+            <v-sheet vertical color="primary" width="5" :height="dividerHeight" class="">
             </v-sheet>
             <span class="ml-4 mr-1">
-              {{ title }}<slot></slot>
+              {{ title }}
+              <slot></slot>
+              <div class="subtitle-1" v-if="subtitle != null">{{ subtitle }}</div>
             </span>
           </v-card-text>
         </v-card>
@@ -23,6 +25,16 @@ export default {
   props: {
     title: String,
     icon: String,
+    subtitle: String,
+  },
+  computed: {
+    dividerHeight() {
+      if (this.subtitle == null) {
+        return 45;
+      }
+
+      return 58;
+    },
   },
 };
 </script>

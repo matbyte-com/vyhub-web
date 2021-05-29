@@ -1,9 +1,8 @@
 <template>
     <div>
       <div v-if="packet != null">
-        <PageTitle icon="mdi-gift-open">
+        <PageTitle icon="mdi-gift-open" :subtitle="packet.subtitle">
           {{ packet.title }}
-          <div class="subtitle-1">{{ packet.subtitle }}</div>
         </PageTitle>
 
         <v-row>
