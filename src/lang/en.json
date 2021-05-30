@@ -222,6 +222,7 @@
       "imageDetail": "An HTTPS URL to the packet image."
     },
     "messages": {
+      "sortOnlyWithCategory": "Packets can only be sorted if a category is selected.",
       "addSuccess": "Packet successfully created.",
       "editSuccess": "Packet successfully edited.",
       "deleteSuccess": "Packet successfully deleted."

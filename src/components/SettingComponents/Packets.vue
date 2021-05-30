@@ -5,13 +5,22 @@
     <DataTable
       :headers="headers"
       :items="packets"
-      :sort-by="['category.name', 'title']"
+      :disable-sort="currentCategory != null"
+      :disable-pagination="currentCategory != null"
+      :hide-default-footer="currentCategory != null"
+      id="packets-table"
       :search="true">
-      <template v-slot:footer-right>
-        <v-btn outlined color="success" @click="$refs.addPacketDialog.show()">
-          <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t('_packet.labels.add') }}</span>
-        </v-btn>
+      <template slot="header">
+        <v-col xl="9" md="12">
+          <v-select outlined hide-details dense
+                    return-object
+                    :label="$t('category')"
+                    clearable
+                    v-model="currentCategory"
+                    :items="categories" item-value="id" item-text="name">
+
+          </v-select>
+        </v-col>
       </template>
       <template v-slot:item.flags="{ item }">
         <div v-if="item.flags.length === 0">
@@ -38,6 +47,13 @@
         </div>
       </template>
     </DataTable>
+    <v-divider class="mb-3"/>
+    <div>
+      <v-btn outlined color="success" @click="$refs.addPacketDialog.show()">
+        <v-icon left>mdi-plus</v-icon>
+        <span>{{ $t('_packet.labels.add') }}</span>
+      </v-btn>
+    </div>
     <DialogForm
       ref="addPacketDialog"
       :form-schema="packetSchema"
@@ -61,12 +77,11 @@
 </template>
 
 <script>
-/* eslint-disable @typescript-eslint/camelcase */
-
 import UtilService from '@/services/UtilService';
 import DialogForm from '@/components/DialogForm.vue';
 import PacketForm from '@/forms/PacketForm';
 import DataTable from '@/components/DataTable.vue';
+import Sortable from 'sortablejs';
 import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
@@ -86,18 +101,22 @@ export default {
           text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
         },
       ],
-      packets: [],
+      packets: null,
       packetSchema: PacketForm,
+      categories: [],
+      currentCategory: null,
     };
   },
   beforeMount() {
     this.queryData();
   },
   methods: {
-    async queryData() {
+    async queryPackets() {
       const api = await openapi;
+      const params = (this.currentCategory != null
+        ? { category_id: this.currentCategory.id } : null);
 
-      api.packet_getPackets().then((rsp) => {
+      api.packet_getPackets(params).then((rsp) => {
         this.packets = rsp.data;
 
         this.packets.forEach((packet) => {
@@ -124,6 +143,17 @@ export default {
             pckt.flags.push({ text: this.$t('_packet.labels.limitedPayments'), color: null });
           }
         });
+      }).catch((err) => {
+        console.log(err);
+        UtilService.notifyUnexpectedError(err.response.data);
+      });
+    },
+    async queryData() {
+      const api = await openapi;
+
+      api.packet_getCategories().then((rsp) => {
+        this.categories = rsp.data;
+        this.queryPackets();
       }).catch((err) => {
         console.log(err);
         UtilService.notifyUnexpectedError(err.response.data);
@@ -221,9 +251,44 @@ export default {
       });
     },
   },
+  mounted() {
+    const table = document.querySelector('#packets-table tbody');
+    Sortable.create(table, {
+      onEnd: ({ newIndex, oldIndex }) => {
+        if (this.currentCategory == null) {
+          this.$notify({
+            type: 'warning',
+            title: this.$t('_packet.messages.sortOnlyWithCategory'),
+          });
+          return;
+        }
+
+        const rowSelected = this.packets.splice(oldIndex, 1)[0];
+        this.packets.splice(newIndex, 0, rowSelected);
+
+        openapi.then((api) => {
+          for (let i = newIndex; i < this.packets.length; i += 1) {
+            const packet = this.packets[i];
+            api.packet_editPacket({ uuid: packet.id }, { sort_id: i })
+              .catch((err) => {
+                console.log(err);
+                UtilService.notifyUnexpectedError(err.response.data);
+              });
+          }
+        });
+      },
+    });
+  },
+  watch: {
+    currentCategory() {
+      this.queryPackets();
+    },
+  },
 };
 </script>
 
-<style scoped>
-
+<style>
+  #packets-table tr {
+    cursor: move  !important;
+  }
 </style>

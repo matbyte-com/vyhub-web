@@ -332,7 +332,7 @@ declare namespace Components {
       /**
        * Content
        */
-      content: string;
+      content?: string;
     }
     /**
      * CountryModel
@@ -1784,6 +1784,19 @@ declare namespace Components {
       name: string;
     }
     /**
+     * RequirementSetModelPatch
+     */
+    export interface RequirementSetModelPatch {
+      /**
+       * Name
+       */
+      name?: string;
+      /**
+       * Formula
+       */
+      formula?: any[];
+    }
+    /**
      * RequirementType
      * An enumeration.
      */
@@ -2375,10 +2388,6 @@ declare namespace Components {
        */
       value?: string;
       /**
-       * Serverbundle Id
-       */
-      serverbundle_id: string; // uuid
-      /**
        * User Id
        */
       user_id: string; // uuid
@@ -2524,6 +2533,22 @@ declare namespace Paths {
     export type RequestBody = Components.Schemas.CmsPageModelPost;
     namespace Responses {
       export type $200 = Components.Schemas.CmsPageModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace DesignDeleteCmsHtml {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -2760,6 +2785,11 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace NotificationGetEvents {
+    namespace Responses {
+      export type $200 = any;
+    }
+  }
   namespace PacketAddPacket {
     export type RequestBody = Components.Schemas.PacketModelAdd;
     namespace Responses {
@@ -2930,11 +2960,22 @@ declare namespace Paths {
     }
   }
   namespace PacketGetPackets {
+    namespace Parameters {
+      /**
+       * Category Id
+       * Filter by category
+       */
+      export type CategoryId = string; // uuid
+    }
+    export interface QueryParameters {
+      category_id?: Parameters.CategoryId; // uuid
+    }
     namespace Responses {
       /**
        * Response Get Packets Packet  Get
        */
       export type $200 = Components.Schemas.PacketModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace PacketGetRewards {
@@ -2967,6 +3008,23 @@ declare namespace Paths {
     export type RequestBody = Components.Schemas.RequirementSetModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.RequirementSetModelAdd;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace RequirementsEditRequirementSet {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.RequirementSetModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.RequirementSetModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3810,6 +3868,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>
   /**
+   * design_deleteCmsHtml - Delete Cms Html
+   */
+  'design_deleteCmsHtml'(
+    parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>
+  /**
    * design_getTheme - Get Theme
    */
   'design_getTheme'(
@@ -4465,10 +4531,10 @@ export interface OperationMethods {
    * packet_getPackets - Get Packets
    */
   'packet_getPackets'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.PacketGetPackets.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetPackets.Responses.$200>
+  ): OperationResponse<Paths.PacketGetPackets.Responses.$200 | Paths.PacketGetPackets.Responses.$422>
   /**
    * packet_addPacket - Add Packet
    */
@@ -4622,6 +4688,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
   /**
+   * requirements_editRequirementSet - Edit Requirement Set
+   */
+  'requirements_editRequirementSet'(
+    parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters> | null,
+    data?: Paths.RequirementsEditRequirementSet.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
+  /**
    * finance_getAccount - Get Account
    */
   'finance_getAccount'(
@@ -4629,6 +4703,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
+  /**
+   * notification_getEvents - Get Events
+   */
+  'notification_getEvents'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.NotificationGetEvents.Responses.$200>
 }
 
 export interface PathsDictionary {
@@ -4669,6 +4751,14 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200 | Paths.DesignGetCmsHtml.Responses.$422>
+    /**
+     * design_deleteCmsHtml - Delete Cms Html
+     */
+    'delete'(
+      parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>
     /**
      * design_updateCmsHtml - Update Cms Html
      */
@@ -5449,10 +5539,10 @@ export interface PathsDictionary {
      * packet_getPackets - Get Packets
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.PacketGetPackets.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetPackets.Responses.$200>
+    ): OperationResponse<Paths.PacketGetPackets.Responses.$200 | Paths.PacketGetPackets.Responses.$422>
     /**
      * packet_addPacket - Add Packet
      */
@@ -5626,6 +5716,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
   }
+  ['/requirement/set/{uuid}']: {
+    /**
+     * requirements_editRequirementSet - Edit Requirement Set
+     */
+    'patch'(
+      parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters> | null,
+      data?: Paths.RequirementsEditRequirementSet.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
+  }
   ['/finance/account/{uuid}']: {
     /**
      * finance_getAccount - Get Account
@@ -5635,6 +5735,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
+  }
+  ['/notification/stream']: {
+    /**
+     * notification_getEvents - Get Events
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.NotificationGetEvents.Responses.$200>
   }
 }
 
