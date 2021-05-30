@@ -58,7 +58,6 @@ import countryUnicodeFlags from 'country-flag-icons/unicode';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
-import UtilService from '../../services/UtilService';
 import DialogForm from '../DialogForm.vue';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import TaxRuleForm from '../../forms/TaxRuleForm';
@@ -94,7 +93,7 @@ export default {
         this.taxRules = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async createTaxRule() {

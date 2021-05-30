@@ -199,7 +199,6 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
-import utilService from '@/services/UtilService';
 import AddressForm from '@/forms/AddressForm';
 import DialogForm from '@/components/DialogForm.vue';
 import ShopService from '@/services/ShopService';
@@ -263,7 +262,7 @@ export default {
           });
         }).catch((err) => {
           console.log(err);
-          utilService.notifyUnexpectedError(err.response.data);
+          this.utils.notifyUnexpectedError(err.response.data);
         });
 
       api.user_getPurchases({ uuid: this.$store.getters.user.id }).then((rsp) => {
@@ -292,7 +291,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        utilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async clearCart() {
@@ -306,7 +305,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        utilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async addAddress() {
@@ -344,7 +343,7 @@ export default {
         this.queryData();
       }).catch((err) => {
         console.log(err);
-        utilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
         this.queryData();
       });
     },
@@ -360,7 +359,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        utilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
         this.queryData();
       });
     },
@@ -405,7 +404,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        utilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
         this.queryData();
       });
     },

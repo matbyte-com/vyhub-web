@@ -206,7 +206,6 @@
 
 <script>
 import openapi from '@/api/openapi';
-import UtilService from '@/services/UtilService';
 import PurchaseStatusChip from '@/components/ShopComponents/PurchaseStatusChip.vue';
 
 export default {
@@ -246,7 +245,7 @@ export default {
         this.purchases = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     nextPage() {
@@ -264,10 +263,10 @@ export default {
         null,
         { responseType: 'blob' },
       ).then((rsp) => {
-        UtilService.showFile(rsp.data, `${debit.invoice_number}.pdf`);
+        this.utils.showFile(rsp.data, `${debit.invoice_number}.pdf`);
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     filterFinishedDebits(debits) {

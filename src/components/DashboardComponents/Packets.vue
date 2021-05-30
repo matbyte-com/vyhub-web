@@ -22,7 +22,6 @@
 
 <script>
 import api from '@/api/api';
-import UtilService from '@/services/UtilService';
 
 export default {
   name: 'Packets.vue',
@@ -43,7 +42,7 @@ export default {
         this.userPackets = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
   },

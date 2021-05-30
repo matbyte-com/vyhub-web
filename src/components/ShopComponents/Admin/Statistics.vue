@@ -109,7 +109,6 @@
 <script>
 import DebitChart from '../../Charts/DebitChart.vue';
 import openapi from '../../../api/openapi';
-import UtilService from '../../../services/UtilService';
 import openapiCached from '../../../api/openapiCached';
 import PurchaseCountryChart from '../../Charts/PurchaseCountryChart.vue';
 
@@ -169,7 +168,7 @@ export default {
         }
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async queryStatistics() {
@@ -182,7 +181,7 @@ export default {
         this.debitStats = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
 
       api.shop_getPurchaseStatistic({
@@ -191,7 +190,7 @@ export default {
         this.purchaseStats = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
   },

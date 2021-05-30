@@ -53,7 +53,7 @@
                 <div v-if="packet.recurring" class="text-h6 mt-1">
                   <v-icon>mdi-calendar-sync</v-icon>
                   {{ $t('every') }}
-                  {{ formatLength(packet.active_for) }}
+                  {{ utils.formatLength(packet.active_for) }}
                 </div>
                 <div class="subtitle-2 font-italic mt-2">
                   {{ $t('_shop.messages.includesVAT',
@@ -77,7 +77,6 @@
 </template>
 
 <script>
-import utilService from '../../services/UtilService';
 import ShopService from '../../services/ShopService';
 import PageTitle from '../../components/PageTitle.vue';
 import openapi from '../../api/openapi';
@@ -88,7 +87,6 @@ export default {
   data() {
     return {
       packet: null,
-      formatLength: utilService.formatLength,
       loading: false,
       addSuccess: false,
       addFail: false,

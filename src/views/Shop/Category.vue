@@ -27,7 +27,7 @@
               <v-chip
                 v-if="packet.active_for != null && (!hover || packet.abstract == null)"
                 class="ma-4" style="float: right;">
-                {{ formatLength(packet.active_for) }}
+                {{ utils.formatLength(packet.active_for) }}
                 <div v-if="packet.recurring" class="pl-1">
                   <v-icon>mdi-calendar-sync</v-icon>
                 </div>
@@ -60,7 +60,7 @@
                         .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                         {{ packet.currency.symbol }}
                         <div v-if="packet.recurring" class="pl-1">
-                          / {{ formatLength(packet.active_for) }}
+                          / {{ utils.formatLength(packet.active_for) }}
                         </div>
                       </v-chip>
                     </div>
@@ -73,7 +73,7 @@
                       .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                       {{ packet.currency.symbol }}
                       <div v-if="packet.recurring" class="pl-1">
-                        / {{ formatLength(packet.active_for) }}
+                        / {{ utils.formatLength(packet.active_for) }}
                       </div>
                     </v-chip>
                     <v-chip
@@ -100,7 +100,6 @@
 
 <script>
 import PageTitle from '../../components/PageTitle.vue';
-import utilService from '../../services/UtilService';
 import openapi from '../../api/openapi';
 
 export default {
@@ -109,7 +108,6 @@ export default {
     return {
       packets: [],
       category: null,
-      formatLength: utilService.formatLength,
     };
   },
   beforeMount() {

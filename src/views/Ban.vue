@@ -22,7 +22,7 @@
           </template>
           <template v-slot:item.length="{ item }">
         <span>
-          {{ formatLength(item['length']) }}
+          {{ utils.formatLength(item['length']) }}
         </span>
           </template>
           <template v-slot:item.creator="{ item }">
@@ -71,7 +71,7 @@
                 <tr>
                   <td>{{ $t('length') }}</td>
                   <td>
-                    {{ formatLength(currentBan['length']) }}
+                    {{ utils.formatLength(currentBan['length']) }}
 
                     ({{ (currentBan.ends_on == null ? '-' : new
                     Date(currentBan.ends_on).toLocaleString()) }})
@@ -156,7 +156,6 @@ import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue'
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
 import apiService from '@/api/api';
-import utilService from '@/services/UtilService';
 import DataTable from '@/components/DataTable.vue';
 import Dialog from '../components/Dialog.vue';
 
@@ -189,7 +188,6 @@ export default {
       bundles: [],
       banAddFormSchema,
       banEditFormSchema,
-      formatLength: utilService.formatLength,
     };
   },
   beforeMount() {

@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import UtilService from '@/services/UtilService';
 import DialogForm from '@/components/DialogForm.vue';
 import PacketForm from '@/forms/PacketForm';
 import DataTable from '@/components/DataTable.vue';
@@ -146,7 +145,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async queryData() {
@@ -157,7 +156,7 @@ export default {
         this.queryPackets();
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async addPacket() {
@@ -273,7 +272,7 @@ export default {
             api.packet_editPacket({ uuid: packet.id }, { sort_id: i })
               .catch((err) => {
                 console.log(err);
-                UtilService.notifyUnexpectedError(err.response.data);
+                this.utils.notifyUnexpectedError(err.response.data);
               });
           }
         });

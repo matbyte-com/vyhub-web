@@ -54,7 +54,6 @@
 import DataTable from '../../DataTable.vue';
 import UserLink from '../../UserLink.vue';
 import openapi from '../../../api/openapi';
-import UtilService from '../../../services/UtilService';
 import BoolIcon from '../../BoolIcon.vue';
 import AppliedPacketEditForm from '../../../forms/AppliedPacketEditForm';
 import DialogForm from '../../DialogForm.vue';
@@ -93,7 +92,7 @@ export default {
         this.appliedPackets = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async editAppliedPacket(aPacket) {

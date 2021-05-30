@@ -59,7 +59,6 @@ import Sortable from 'sortablejs';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
-import UtilService from '../../services/UtilService';
 import DialogForm from '../DialogForm.vue';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import CategoryForm from '../../forms/PacketCategoryForm';
@@ -98,7 +97,7 @@ export default {
         this.categories = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async createCategory() {
@@ -170,7 +169,7 @@ export default {
             api.packet_editCategory({ uuid: cat.id }, { sort_id: i })
               .catch((err) => {
                 console.log(err);
-                UtilService.notifyUnexpectedError(err.response.data);
+                this.utils.notifyUnexpectedError(err.response.data);
               });
           }
         });

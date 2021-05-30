@@ -78,7 +78,6 @@ import DataTable from '@/components/DataTable.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import BoolIcon from '@/components/BoolIcon.vue';
-import UtilService from '@//services/UtilService';
 import DiscountForm from '@//forms/DiscountForm';
 import openapi from '../../../api/openapi';
 
@@ -120,7 +119,7 @@ export default {
         this.discounts = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async createDiscount() {

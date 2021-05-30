@@ -76,7 +76,6 @@
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
-import UtilService from '../../services/UtilService';
 import DialogForm from '../DialogForm.vue';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import GatewayForm from '../../forms/PaymentGatewayForm';
@@ -127,7 +126,7 @@ export default {
         this.gateways = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async createGateway() {

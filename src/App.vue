@@ -68,10 +68,12 @@ import Vue from 'vue';
 import apiService from '@/api/api';
 import AuthService from '@/services/AuthService';
 import AccessControlService from '@/services/AccessControlService';
+import UtilService from '@/services/UtilService';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
 Vue.mixin(AccessControlService);
+Vue.mixin(UtilService);
 
 export default Vue.extend({
   name: 'App',

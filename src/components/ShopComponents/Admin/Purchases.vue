@@ -260,7 +260,6 @@
 <script>
 import DataTable from '../../DataTable.vue';
 import openapi from '../../../api/openapi';
-import UtilService from '../../../services/UtilService';
 import UserLink from '../../UserLink.vue';
 import Dialog from '../../Dialog.vue';
 import PurchaseStatusChip from '../PurchaseStatusChip.vue';
@@ -300,7 +299,7 @@ export default {
         this.purchases = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     showDetails(purchase) {
@@ -315,10 +314,10 @@ export default {
         null,
         { responseType: 'blob' },
       ).then((rsp) => {
-        UtilService.showFile(rsp.data, `${debit.invoice_number}.pdf`);
+        this.utils.showFile(rsp.data, `${debit.invoice_number}.pdf`);
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async revokePurchase(purchase) {
@@ -333,7 +332,7 @@ export default {
           this.queryData();
         }).catch((err) => {
           console.log(err);
-          UtilService.notifyUnexpectedError(err.response.data);
+          this.utils.notifyUnexpectedError(err.response.data);
         });
     },
     async unrevokePurchase(purchase) {
@@ -348,7 +347,7 @@ export default {
           this.queryData();
         }).catch((err) => {
           console.log(err);
-          UtilService.notifyUnexpectedError(err.response.data);
+          this.utils.notifyUnexpectedError(err.response.data);
         });
     },
     async refundPurchase(purchase) {
@@ -380,7 +379,7 @@ export default {
             this.queryData();
           }).catch((err) => {
             console.log(err);
-            UtilService.notifyUnexpectedError(err.response.data);
+            this.utils.notifyUnexpectedError(err.response.data);
           });
         }
       });

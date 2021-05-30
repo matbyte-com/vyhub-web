@@ -129,7 +129,6 @@
 import CartPacket from '@/components/ShopComponents/CartPacket.vue';
 import Address from '@/components/Address.vue';
 import CartTotal from '@/components/ShopComponents/CartTotal.vue';
-import UtilService from '@/services/UtilService';
 import ShopService from '@/services/ShopService';
 import Dialog from '../Dialog.vue';
 import openapi from '../../api/openapi';
@@ -167,7 +166,7 @@ export default {
         this.gateways = rsp.data;
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     show(purchase) {
@@ -204,7 +203,7 @@ export default {
         this.loading = false;
         this.errorMessage = this.$t('_shop.messages.startingPaymentFailed');
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     close() {

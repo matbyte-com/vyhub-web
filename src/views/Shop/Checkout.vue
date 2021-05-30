@@ -97,7 +97,6 @@
 </template>
 
 <script>
-import UtilService from '@/services/UtilService';
 import openapi from '../../api/openapi';
 import ShopService from '../../services/ShopService';
 
@@ -130,14 +129,14 @@ export default {
             this.loading = false;
           }).catch((err) => {
             console.log(err);
-            UtilService.notifyUnexpectedError(err.response.data);
+            this.utils.notifyUnexpectedError(err.response.data);
           });
         } else {
           this.loading = false;
         }
       }).catch((err) => {
         console.log(err);
-        UtilService.notifyUnexpectedError(err.response.data);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async confirmCreditPayment() {
