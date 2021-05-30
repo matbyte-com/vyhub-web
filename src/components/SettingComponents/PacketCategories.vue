@@ -5,13 +5,10 @@
     <DataTable
       :headers="headers"
       :items="categories"
+      id="categories-table"
+      disable-sort
+      hide-default-footer
       :search="true">
-      <template v-slot:footer-right>
-        <v-btn outlined color="success" @click="$refs.createCategoryDialog.show()">
-          <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t('_packetCategory.labels.create') }}</span>
-        </v-btn>
-      </template>
       <template v-slot:item.enabled="{ item }">
         <BoolIcon :value="item.enabled"></BoolIcon>
       </template>
@@ -30,6 +27,13 @@
         </div>
       </template>
     </DataTable>
+    <v-divider class="mb-3"/>
+    <div>
+      <v-btn outlined color="success" @click="$refs.createCategoryDialog.show()">
+        <v-icon left>mdi-plus</v-icon>
+        <span>{{ $t('_packetCategory.labels.create') }}</span>
+      </v-btn>
+    </div>
     <DialogForm
       ref="createCategoryDialog"
       :form-schema="categorySchema"
@@ -51,6 +55,7 @@
 </template>
 
 <script>
+import Sortable from 'sortablejs';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
@@ -152,9 +157,31 @@ export default {
       this.$refs.editCategoryDialog.show(category);
     },
   },
+  mounted() {
+    const table = document.querySelector('#categories-table tbody');
+    Sortable.create(table, {
+      onEnd: ({ newIndex, oldIndex }) => {
+        const rowSelected = this.categories.splice(oldIndex, 1)[0];
+        this.categories.splice(newIndex, 0, rowSelected);
+
+        openapi.then((api) => {
+          for (let i = newIndex; i < this.categories.length; i += 1) {
+            const cat = this.categories[i];
+            api.packet_editCategory({ uuid: cat.id }, { sort_id: i })
+              .catch((err) => {
+                console.log(err);
+                UtilService.notifyUnexpectedError(err.response.data);
+              });
+          }
+        });
+      },
+    });
+  },
 };
 </script>
 
-<style scoped>
-
+<style>
+  #categories-table tr {
+    cursor: move  !important;
+  }
 </style>
