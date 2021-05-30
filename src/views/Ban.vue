@@ -25,9 +25,6 @@
           {{ formatLength(item['length']) }}
         </span>
           </template>
-          <template v-slot:item.ends_on="{ item }">
-            <span>{{(item.ends_on == null ? '-' : new Date(item.ends_on).toLocaleString()) }}</span>
-          </template>
           <template v-slot:item.creator="{ item }">
             <UserLink :user="item.creator"></UserLink>
           </template>
@@ -182,7 +179,6 @@ export default {
         { text: this.$t('reason'), value: 'reason' },
         { text: this.$t('bundle'), value: 'serverbundle.name' },
         { text: this.$t('length'), value: 'length' },
-        { text: this.$t('endsOn'), value: 'ends_on' },
         { text: this.$t('creator'), value: 'creator' },
         { text: this.$t('createdOn'), value: 'created_on' },
         {
