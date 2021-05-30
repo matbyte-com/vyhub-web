@@ -8,6 +8,7 @@
       :disable-sort="currentCategory != null"
       :disable-pagination="currentCategory != null"
       :hide-default-footer="currentCategory != null"
+      :sort-by="(currentCategory != null ? null : ['category.name'])"
       id="packets-table"
       :search="true">
       <template slot="header">
