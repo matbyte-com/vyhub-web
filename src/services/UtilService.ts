@@ -55,6 +55,9 @@ export default {
             window.URL.revokeObjectURL(data);
           }, 100);
         },
+        formatDecimal(decimal: number) {
+          return decimal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+        },
       },
     };
   },

@@ -45,20 +45,41 @@
                 {{ $t('price') }}
               </v-card-title>
               <v-card-text class="text-center">
-                <div class="text-h2">
-                  {{ packet.price_with_discount.total
-                  .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                  {{ packet.currency.symbol }}
-                </div>
-                <div v-if="packet.recurring" class="text-h6 mt-1">
-                  <v-icon>mdi-calendar-sync</v-icon>
-                  {{ $t('every') }}
-                  {{ utils.formatLength(packet.active_for) }}
-                </div>
-                <div class="subtitle-2 font-italic mt-2">
-                  {{ $t('_shop.messages.includesVAT',
-                  { tax_rate: packet.price_with_discount.tax_rate }) }}
-                </div>
+                <v-row>
+                  <v-col>
+                    <div class="text-h2 d-flex align-center justify-center">
+                      <span class="text-h5 strikethrough-diagonal mr-2 text--disabled"
+                            v-if="packet.discount != null">
+                        {{ utils.formatDecimal(packet.price_without_discount.total) }}
+                        {{ packet.currency.symbol }}
+                      </span>
+                      {{ utils.formatDecimal(packet.price_with_discount.total) }}
+                      {{ packet.currency.symbol }}
+                    </div>
+                    <div v-if="packet.recurring" class="text-h6 mt-2">
+                      <v-icon>mdi-calendar-sync</v-icon>
+                      {{ $t('every') }}
+                      {{ utils.formatLength(packet.active_for) }}
+                    </div>
+                    <div class="subtitle-2 font-italic mt-2">
+                      {{ $t('_shop.messages.includesVAT',
+                      { tax_rate: packet.price_with_discount.tax_rate }) }}
+                    </div>
+                  </v-col>
+                </v-row>
+                <v-row align="center" v-if="packet.price_with_discount.credits != null">
+                  <v-divider></v-divider>
+                  <span class="mr-3 ml-3">{{ $t('or') }}</span>
+                  <v-divider></v-divider>
+                </v-row>
+                <v-row v-if="packet.price_with_discount.credits != null">
+                  <v-col>
+                    <div class="text-h5">
+                      {{ packet.price_with_discount.credits }}
+                      {{ $t('_shop.labels.credits') }}
+                    </div>
+                  </v-col>
+                </v-row>
               </v-card-text>
               <v-card-actions>
                 <v-btn block color="success" @click="addToCart">
@@ -134,15 +155,25 @@ export default {
         });
         ShopService.refreshCartPacketCount();
       }).catch((err) => {
+        console.log(err);
+
         this.loading = false;
         this.addFail = true;
 
+        let errDet = (err.response.data.detail.code != null ? err.response.data.detail : null);
+
+        if (err.response.status === 401) {
+          errDet = {
+            code: 'unauthorized',
+            detail: { },
+          };
+        }
+
         this.$notify({
           title: this.$t('_shop.messages.addToCartError'),
-          text: this.$t(`_shop.errors.${err.response.data.detail.code}`, err.response.data.detail.detail),
+          text: this.$t(`_shop.errors.${errDet.code}`, errDet.detail),
           type: 'error',
         });
-        console.log(err);
       });
     },
   },

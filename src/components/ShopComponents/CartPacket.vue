@@ -30,6 +30,10 @@
               <div class="text-h6">
                 {{ cartPacket.price.total.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                 {{ cartPacket.currency.symbol }}
+                <div v-if="cartPacket.recurring != null">
+                  {{ $t('every') }}
+                  {{ utils.formatLength(cartPacket.recurring) }}
+                </div>
               </div>
               <div v-if="cartPacket.discount">
                 <span class="caption">
@@ -69,7 +73,7 @@ export default {
     showRemove: Boolean,
     priceCols: {
       type: Number,
-      default: 2,
+      default: 3,
     },
   },
   methods: {

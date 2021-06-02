@@ -19,7 +19,7 @@
           <v-col lg="7" md="12">
             <v-row v-for="cartPacket in purchase.cart_packets" v-bind:key="cartPacket.id" >
               <v-col>
-                <CartPacket :cart-packet="cartPacket" :priceCols="3" />
+                <CartPacket :cart-packet="cartPacket" :priceCols="4" />
               </v-col>
             </v-row>
           </v-col>

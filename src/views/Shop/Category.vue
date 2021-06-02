@@ -25,7 +25,8 @@
                 </v-expand-transition>
               </div>
               <v-chip
-                v-if="packet.active_for != null && (!hover || packet.abstract == null)"
+                v-if="packet.active_for != null && (!hover || packet.abstract == null ||
+                packet.abstract.length === 0)"
                 class="ma-4" style="float: right;">
                 {{ utils.formatLength(packet.active_for) }}
                 <div v-if="packet.recurring" class="pl-1">
@@ -36,38 +37,43 @@
             <v-card-title>
               <v-row>
                 <v-col>
-                  {{ packet.title }}
-                </v-col>
-                <v-col lg="3" class="text-right">
                   <div>
-                    <div v-if="packet.price_with_discount != null
-                && packet.price_with_discount.total !== packet.price_without_discount.total">
-                      <v-chip
-                        class="text-decoration-line-through"
-                        color="green lighten-2"
-                        text-color="white"
-                      >
-                        {{ packet.price_without_discount.total
-                        .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                        {{ packet.currency.symbol }}
-                      </v-chip>
-                      <v-chip
-                        class="ml-2"
-                        color="orange"
-                        text-color="white"
-                      >
-                        {{ packet.price_with_discount.total
-                        .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                        {{ packet.currency.symbol }}
-                        <div v-if="packet.recurring" class="pl-1">
-                          / {{ utils.formatLength(packet.active_for) }}
-                        </div>
-                      </v-chip>
+                    {{ packet.title }}
+                  </div>
+                </v-col>
+              </v-row>
+            </v-card-title>
+            <v-card-subtitle v-if="packet.subtitle != null" class="pb-1">
+              <div>
+                {{ packet.subtitle }}
+              </div>
+            </v-card-subtitle>
+            <v-card-text>
+              <div class="d-flex justify-space-between">
+                <div>
+                  <v-chip v-if="packet.credits != null">
+                    <div class="d-flex align-center">
+                      <v-icon left>mdi-circle-multiple</v-icon>
+                      {{ packet.credits }}
                     </div>
+                  </v-chip>
+                </div>
+                <div>
+                  <div v-if="packet.price_with_discount != null
+                && packet.price_with_discount.total !== packet.price_without_discount.total">
                     <v-chip
-                      color="green"
+                      color="green lighten-2"
                       text-color="white"
-                      v-else-if="packet.price_with_discount != null"
+                    >
+                      <span class="strikethrough-diagonal">
+                        {{ utils.formatDecimal(packet.price_without_discount.total) }}
+                        {{ packet.currency.symbol }}
+                      </span>
+                    </v-chip>
+                    <v-chip
+                      class="ml-2"
+                      color="orange"
+                      text-color="white"
                     >
                       {{ packet.price_with_discount.total
                       .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
@@ -76,21 +82,30 @@
                         / {{ utils.formatLength(packet.active_for) }}
                       </div>
                     </v-chip>
-                    <v-chip
-                      class="l-2"
-                      color="red"
-                      text-color="white"
-                      v-else
-                    >
-                      {{ $t('not_available') }}
-                    </v-chip>
                   </div>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-subtitle v-if="packet.subtitle != null">
-              {{ packet.subtitle }}
-            </v-card-subtitle>
+                  <v-chip
+                    color="green"
+                    text-color="white"
+                    v-else-if="packet.price_with_discount != null"
+                  >
+                    {{ packet.price_with_discount.total
+                    .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                    {{ packet.currency.symbol }}
+                    <div v-if="packet.recurring" class="pl-1">
+                      / {{ utils.formatLength(packet.active_for) }}
+                    </div>
+                  </v-chip>
+                  <v-chip
+                    class="l-2"
+                    color="red"
+                    text-color="white"
+                    v-else
+                  >
+                    {{ $t('not_available') }}
+                  </v-chip>
+                </div>
+              </div>
+            </v-card-text>
           </v-card>
         </v-hover>
       </v-col>
