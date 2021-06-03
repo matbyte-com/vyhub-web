@@ -373,7 +373,8 @@
   },
   "notification": {
     "noNotification": "No notifications",
-    "viewAll": "view all"
+    "viewAll": "view all",
+    "notifications": "Notifications"
   },
   "recurring": "Recurring",
   "revenue": "Revenue",

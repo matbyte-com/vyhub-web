@@ -88,6 +88,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/UserCmsHtml.vue'),
   },
   {
+    path: '/notification',
+    name: 'Notification',
+    component: () => import('../views/Notification.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {
