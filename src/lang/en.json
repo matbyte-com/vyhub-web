@@ -374,7 +374,13 @@
   "notification": {
     "noNotification": "No notifications",
     "viewAll": "view all",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "newNotifications": "New Notifications",
+    "timeAgo": "{time} ago",
+    "type": {
+      "general": "General"
+    },
+    "new_news": "News Created {newsSubject}"
   },
   "recurring": "Recurring",
   "revenue": "Revenue",

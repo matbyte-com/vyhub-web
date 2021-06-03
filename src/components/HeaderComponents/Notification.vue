@@ -1,22 +1,30 @@
 <template>
   <div class="text-center">
     <v-menu
+      @input="newMessages = false"
       open-on-hover
       offset-y
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn icon
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-icon>
-            mdi-bell-outline
-          </v-icon>
-        </v-btn>
+        <v-badge color="warning"
+                 :value="newMessages"
+                 dot
+                 transition="fade-transition"
+                 offset-x="20px"
+                 offset-y="20px">
+          <v-btn icon
+                 dark
+                 v-bind="attrs"
+                 v-on="on"
+          >
+            <v-icon>
+              mdi-bell-outline
+            </v-icon>
+          </v-btn>
+        </v-badge>
       </template>
       <v-card>
-        <v-list dense height="300px" class="overflow-y-auto">
+        <v-list dense max-height="300px" class="overflow-y-auto">
           <v-list-item v-if="notifications.length===0">
             <v-list-item-title>
               {{ $t('notification.noNotification') }}
@@ -30,8 +38,10 @@
             <v-list-item-icon v-if="notification.icon">
               <v-icon>{{ notification.icon }}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>{{ notification.category }} {{ notification.message }}
-              {{ notification.read }} {{ notification.created_on }}</v-list-item-title>
+            <v-list-item-content :class="{ 'font-weight-medium': !notification.read }">
+              {{ $t(`notification.${notification.message.name}`,
+              { ...notification.message.kwargs }) }}
+            </v-list-item-content>
           </v-list-item>
         </v-list>
         <v-divider />
@@ -49,6 +59,7 @@
 import store from '@/store';
 import openapi from '@/api/openapi';
 import Eventsource from 'eventsource';
+import EventBus from '@/services/EventBus';
 
 export default {
   name: 'Notification.vue',
@@ -59,6 +70,7 @@ export default {
   data() {
     return {
       notifications: [],
+      newMessages: null,
     };
   },
   methods: {
@@ -80,6 +92,8 @@ export default {
           // Logic to handle status updates
           this.notifications.unshift(...JSON.parse(event.data));
           this.notifications.splice(20);
+          this.newMessages = true;
+          EventBus.emit('notification');
         });
         evtSource.addEventListener('end', () => {
           evtSource.close();
