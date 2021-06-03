@@ -371,6 +371,10 @@
       "delete": "Delete Discount"
     }
   },
+  "notification": {
+    "noNotification": "No notifications",
+    "viewAll": "view all"
+  },
   "recurring": "Recurring",
   "revenue": "Revenue",
   "sales": "Sales",
