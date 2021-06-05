@@ -4,7 +4,7 @@
                       @submit="markAllAsRead" ref="markAsReadDialog"/>
   <PageTitle icon="mdi-bell-outline">{{ $t('notification.notifications') }}</PageTitle>
   <v-card>
-    <v-card-text>
+    <v-card-text class="mt-0 pt-0">
       <v-fade-transition>
         <v-btn depressed color="primary" v-if="newMessages" @click="fetchData(1)">
           <v-icon left>
@@ -24,50 +24,59 @@
         :footer-props="{
           'disable-items-per-page': true,
         }"
-        :search="true"
         >
-        <template v-slot:header class="d-flex">
+        <template v-slot:header>
           <v-row>
-            <v-btn
-              class="ml-3"
-              outlined
-              color="primary"
-              dark
-              @click="$refs.markAsReadDialog.show"
-            >
-              <v-icon left>
-                mdi-playlist-check
-              </v-icon>
-              {{ $t('notification.markAllAsRead') }}
-            </v-btn>
-            <v-spacer />
-            <v-menu offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  outlined
-                  color="primary"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon left>
-                    mdi-filter
-                  </v-icon>
-                  {{ $t('type') }}
-                </v-btn>
-              </template>
+            <v-col class="d-flex align-center">
+              <v-btn
+                outlined
+                color="primary"
+                dark
+                @click="$refs.markAsReadDialog.show"
+              >
+                <v-icon left>
+                  mdi-playlist-check
+                </v-icon>
+                {{ $t('notification.markAllAsRead') }}
+              </v-btn>
+            </v-col>
+            <v-col class="d-flex align-center">
+              <v-spacer />
               <v-checkbox
-                class="ml-2, mr-2"
+                align-center
                 dense
-                v-for="(category, index) in categories"
-                :key="index"
-                v-model="selectedCat"
-                :label="$t(`notification.type.${category.toLowerCase()}`)"
-                :value="category"
-                @change="newCat"
-              ></v-checkbox>
-              <a class="ma-1" @click="selectedCat = []">{{ $t('reset') }}</a>
-            </v-menu>
+                :label="$t('notification.hideReadNotifications')"
+                @change="showReadNotifications"
+                class="mr-3">
+              </v-checkbox>
+              <v-menu offset-y :close-on-content-click="false">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    outlined
+                    color="primary"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon left>
+                      mdi-filter
+                    </v-icon>
+                    {{ $t('type') }}
+                  </v-btn>
+                </template>
+                <v-checkbox
+                  class="ml-2, mr-2"
+                  dense
+                  v-for="(category, index) in categories"
+                  :key="index"
+                  v-model="selectedCat"
+                  :label="$t(`notification.type.${category.toLowerCase()}`)"
+                  :value="category"
+                  @change="newCat"
+                ></v-checkbox>
+                <a class="ma-1" @click="selectedCat = []">{{ $t('reset') }}</a>
+              </v-menu>
+            </v-col>
           </v-row>
         </template>
         <template v-slot:item.icon="{ item }">
@@ -110,7 +119,6 @@ export default {
   components: { PageTitle, DataTable, ConfirmationDialog },
   data() {
     return {
-      searchModel: null,
       selectedCat: [],
       itemsPerPage: 50,
       newMessages: null,
@@ -129,6 +137,7 @@ export default {
         page: 1,
         sortByCat: null,
         desc: false,
+        read: false,
       },
     };
   },
@@ -143,17 +152,17 @@ export default {
         this.categories = rsp.data;
       });
     },
-    async fetchData(page = null, sortByCat = null, desc = null) {
+    async fetchData(page = null, sortByCat = null) {
       this.newMessages = false;
       this.notifications = null;
       if (page) this.state.page = page;
       if (sortByCat) this.state.sortByCat = sortByCat;
-      if (desc) this.state.desc = desc;
       (await openapi).notification_getNotifications({
         size: this.itemsPerPage,
         page: this.state.page - 1,
         descending: this.state.desc,
-        categories: sortByCat,
+        categories: this.state.sortByCat,
+        hide_read: this.state.read,
       })
         .then((rsp) => {
           this.loading = false;
@@ -172,25 +181,26 @@ export default {
       this.fetchData(page);
     },
     newDesc(ev) {
-      let desc = false;
-      if (ev[0] === true) desc = true;
-      if (this.state.desc === desc) return;
-      this.fetchData(1, null, desc);
-      console.log(desc);
+      console.log(ev);
+      if (ev[0] === undefined || ev[0] === false) this.state.desc = false;
+      else this.state.desc = true;
+      if (ev[0] !== false) this.fetchData(1);
     },
     newCat(cat) {
       this.fetchData(1, cat);
-      console.log(cat);
     },
     resetCatFilter() {
       this.selectedCat = [];
+      this.fetchData(1);
+    },
+    showReadNotifications(bool) {
+      this.state.read = bool;
       this.fetchData(1);
     },
     async markAllAsRead() {
       (await openapi).notification_markAsRead(null, { all: true }).then(() => {
         this.$refs.markAsReadDialog.closeAndReset();
       });
-      console.log('read');
     },
   },
 };
