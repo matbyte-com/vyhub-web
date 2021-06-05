@@ -71,6 +71,7 @@ export default {
     return {
       notifications: [],
       newMessages: null,
+      evtSource: null,
     };
   },
   methods: {
@@ -83,23 +84,29 @@ export default {
       if (store.getters.isLoggedIn && store.getters.accessToken) {
         const header = `Bearer ${store.getters.accessToken}`;
         const baseURL = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/notification/stream`;
-        const evtSource = new Eventsource(baseURL, {
+        this.evtSource = new Eventsource(baseURL, {
           headers: {
             Authorization: header,
           },
         });
-        evtSource.addEventListener('update', (event) => {
+        this.evtSource.addEventListener('update', (event) => {
           // Logic to handle status updates
           this.notifications.unshift(...JSON.parse(event.data));
           this.notifications.splice(20);
           this.newMessages = true;
           EventBus.emit('notification');
         });
-        evtSource.addEventListener('end', () => {
-          evtSource.close();
+        this.evtSource.addEventListener('end', () => {
+          this.evtSource.close();
+        });
+        this.evtSource.onerror((err) => {
+          this.utils.notifyUnexpectedError(err.response.data);
         });
       }
     },
+  },
+  beforeDestroy() {
+    this.evtSource.close();
   },
 };
 </script>
