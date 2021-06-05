@@ -1,28 +1,96 @@
 <template>
 <div>
+  <ConfirmationDialog :btn-text="$t('notification.markAllAsRead')"
+                      @submit="markAllAsRead" ref="markAsReadDialog"/>
   <PageTitle icon="mdi-bell-outline">{{ $t('notification.notifications') }}</PageTitle>
   <v-card>
     <v-card-text>
-      <v-btn outlined color="primary" v-if="newMessages">
-        <v-icon left>
-          mdi-sync
-        </v-icon>
-        {{ $t('notification.newNotifications') }}
-      </v-btn>
+      <v-fade-transition>
+        <v-btn depressed color="primary" v-if="newMessages" @click="fetchData(1)">
+          <v-icon left>
+            mdi-sync
+          </v-icon>
+          {{ $t('notification.newNotifications') }}
+        </v-btn>
+      </v-fade-transition>
       <DataTable
         class="mt-4"
         :headers="headers"
-        :items="notifications">
+        :items="notifications"
+        :server-items-length="totalItems"
+        :items-per-page.sync="itemsPerPage"
+        @update:page="newPage"
+        @update:sort-desc="newDesc"
+        :footer-props="{
+          'disable-items-per-page': true,
+        }"
+        :search="true"
+        >
+        <template v-slot:header class="d-flex">
+          <v-row>
+            <v-btn
+              class="ml-3"
+              outlined
+              color="primary"
+              dark
+              @click="$refs.markAsReadDialog.show"
+            >
+              <v-icon left>
+                mdi-playlist-check
+              </v-icon>
+              {{ $t('notification.markAllAsRead') }}
+            </v-btn>
+            <v-spacer />
+            <v-menu offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  outlined
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon left>
+                    mdi-filter
+                  </v-icon>
+                  {{ $t('type') }}
+                </v-btn>
+              </template>
+              <v-checkbox
+                class="ml-2, mr-2"
+                dense
+                v-for="(category, index) in categories"
+                :key="index"
+                v-model="selectedCat"
+                :label="$t(`notification.type.${category.toLowerCase()}`)"
+                :value="category"
+                @change="newCat"
+              ></v-checkbox>
+              <a class="ma-1" @click="selectedCat = []">{{ $t('reset') }}</a>
+            </v-menu>
+          </v-row>
+        </template>
+        <template v-slot:item.icon="{ item }">
+          <v-icon>
+            {{ item.icon }}
+          </v-icon>
+        </template>
         <template v-slot:item.message="{ item }">
-          {{ $t(`notification.${item.message.name}`, { ...item.message.kwargs }) }}
+          <span :class="{ 'font-weight-medium': !item.read }">
+            {{ $t(`notification.${item.message.name}`, { ...item.message.kwargs }) }}
+          </span>
         </template>
         <template v-slot:item.category="{ item }">
-          {{ $t(`notification.type.${item.category.toLowerCase()}`) }}
+          <span :class="{ 'font-weight-medium': !item.read }">
+             {{ $t(`notification.type.${item.category.toLowerCase()}`) }}
+          </span>
         </template>
         <template v-slot:item.time="{ item }" >
-          {{ $t('notification.timeAgo', {
+          <span :class="{ 'font-weight-medium': !item.read }">
+            {{ $t('notification.timeAgo', {
             time: utils.formatLength((new Date() - new Date(item.created_on)) / 1000)
           }) }}
+          </span>
         </template>
       </DataTable>
     </v-card-text>
@@ -32,33 +100,66 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import EventBus from '@/services/EventBus';
 import DataTable from '@/components/DataTable.vue';
 import openapi from '@/api/openapi';
 
 export default {
   name: 'Notification.vue',
-  components: { DataTable, PageTitle },
+  components: { PageTitle, DataTable, ConfirmationDialog },
   data() {
     return {
+      searchModel: null,
+      selectedCat: [],
+      itemsPerPage: 50,
       newMessages: null,
       notifications: [],
+      totalItems: null,
+      categories: [],
       headers: [
-        { text: this.$t('message'), value: 'message' },
-        { text: this.$t('type'), value: 'category' },
+        {
+          text: this.$t('icon'), value: 'icon', sortable: false, focus: true,
+        },
+        { text: this.$t('message'), value: 'message', sortable: false },
+        { text: this.$t('type'), value: 'category', sortable: false },
         { text: this.$t('createdOn'), value: 'time' },
       ],
+      state: {
+        page: 1,
+        sortByCat: null,
+        desc: false,
+      },
     };
   },
   mounted() {
     EventBus.on('notification', this.newNotification);
     this.fetchData();
+    this.fetchCategories();
   },
   methods: {
-    async fetchData() {
-      (await openapi).notification_getNotifications().then((rsp) => {
-        this.notifications = rsp.data;
+    async fetchCategories() {
+      (await openapi).notification_getCategories().then((rsp) => {
+        this.categories = rsp.data;
       });
+    },
+    async fetchData(page = null, sortByCat = null, desc = null) {
+      this.newMessages = false;
+      this.notifications = null;
+      if (page) this.state.page = page;
+      if (sortByCat) this.state.sortByCat = sortByCat;
+      if (desc) this.state.desc = desc;
+      (await openapi).notification_getNotifications({
+        size: this.itemsPerPage,
+        page: this.state.page - 1,
+        descending: this.state.desc,
+        categories: sortByCat,
+      })
+        .then((rsp) => {
+          this.loading = false;
+          this.notifications = rsp.data.items;
+          this.totalItems = rsp.data.total;
+        });
     },
     newNotification() {
       this.newMessages = true;
@@ -66,6 +167,30 @@ export default {
     getTime(time) {
       const time_obj = new Date(time);
       return `${time_obj.getHours()}:${time_obj.getMinutes()}`;
+    },
+    newPage(page) {
+      this.fetchData(page);
+    },
+    newDesc(ev) {
+      let desc = false;
+      if (ev[0] === true) desc = true;
+      if (this.state.desc === desc) return;
+      this.fetchData(1, null, desc);
+      console.log(desc);
+    },
+    newCat(cat) {
+      this.fetchData(1, cat);
+      console.log(cat);
+    },
+    resetCatFilter() {
+      this.selectedCat = [];
+      this.fetchData(1);
+    },
+    async markAllAsRead() {
+      (await openapi).notification_markAsRead(null, { all: true }).then(() => {
+        this.$refs.markAsReadDialog.closeAndReset();
+      });
+      console.log('read');
     },
   },
 };

@@ -99,9 +99,9 @@ export default {
         this.evtSource.addEventListener('end', () => {
           this.evtSource.close();
         });
-        this.evtSource.onerror((err) => {
-          this.utils.notifyUnexpectedError(err.response.data);
-        });
+        this.evtSource.onerror = (err) => {
+          this.utils.notifyUnexpectedError(err);
+        };
       }
     },
   },

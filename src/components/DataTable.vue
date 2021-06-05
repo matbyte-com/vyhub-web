@@ -11,7 +11,7 @@
           <slot name="header">
           </slot>
         </v-col>
-        <v-spacer/>
+        <v-spacer v-if="!$slots.header"/>
         <v-col lg="3" md="6" sm="12" v-if="search" align-self="center">
           <v-text-field
             v-model="searchModel"

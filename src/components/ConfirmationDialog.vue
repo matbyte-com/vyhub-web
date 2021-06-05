@@ -46,7 +46,10 @@ export default {
   },
   props: {
     text: String,
-    btnIcon: String,
+    btnIcon: {
+      type: String,
+      default: 'mdi-check',
+    },
     btnText: String,
   },
   methods: {

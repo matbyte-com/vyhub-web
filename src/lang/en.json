@@ -379,9 +379,12 @@
     "newNotifications": "New Notifications",
     "timeAgo": "{time} ago",
     "type": {
-      "general": "General"
+      "general": "General",
+      "ban": "Ban",
+      "news": "News"
     },
-    "new_news": "News Created {newsSubject}"
+    "new_news": "News Created {newsSubject}",
+    "markAllAsRead": "Mark all as read"
   },
   "recurring": "Recurring",
   "revenue": "Revenue",
@@ -491,5 +494,6 @@
   "htmlNoMatch": "This is not a valid url",
   "begin": "Begin",
   "end": "End",
-  "group": "Group"
+  "group": "Group",
+  "reset": "Reset"
 }
