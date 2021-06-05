@@ -118,6 +118,7 @@
       "cartEmpty": "Your cart is empty.",
       "mustAgree": "You must agree to continue!",
       "startingPaymentFailed": "There was an error while initiating the payment. Please try again or use an other payment method!",
+      "paymentActionFailed": "There was an error while redirecting you to the payment page. Please try again or use an other payment method! Error message: {message}",
       "selectGateway": "Please select your payment method.",
       "noOngoingPurchase": "There is currently no ongoing purchase. Please start the checkout in the cart.",
       "noAddressSpecified": "Address not specified yet.",

@@ -31,6 +31,25 @@ function gatewayFields(gatewayType: string) {
     };
   }
 
+  if (gatewayType === 'STRIPE') {
+    return {
+      public_key: {
+        type: [
+          'string',
+          'null',
+        ],
+        title: 'Public Key',
+      },
+      secret_key: {
+        type: [
+          'string',
+          'null',
+        ],
+        title: 'Secret Key',
+      },
+    };
+  }
+
   return {};
 }
 

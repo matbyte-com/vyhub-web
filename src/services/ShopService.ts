@@ -2,6 +2,7 @@ import store from '@/store';
 import router from '@/router';
 import openapi from '@/api/openapi';
 import UtilService from '@/services/UtilService';
+import { loadStripe } from '@stripe/stripe-js/pure';
 
 export default {
   async refreshCartPacketCount() {
@@ -31,15 +32,35 @@ export default {
     store.dispatch('setAddress', { address });
   },
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  executeAction(debit: any, action: any) {
+  async executeAction(debit: any, action: any) {
     console.log('executeAction', debit, action);
 
     if (action == null) {
-      // Do something
+      //
     } else if (action.type === 'redirect') {
       window.location.href = action.data.redirect_url;
+      return true;
     } else if (action.type === 'finish') {
       router.push({ name: 'ShopCheckout', params: { action: 'finish', debitId: debit.id } });
+      return true;
+    } else if (action.type === 'stripe_redirect_to_checkout') {
+      const stripe = await loadStripe(action.data.public_key);
+
+      if (stripe == null) {
+        throw new Error('Stripe object is null.');
+      }
+
+      const result = await stripe.redirectToCheckout({
+        sessionId: action.data.session_id,
+      });
+
+      if (result.error) {
+        throw new Error(result.error.message);
+      }
+
+      return true;
     }
+
+    throw new Error('Payment action failed.');
   },
 };

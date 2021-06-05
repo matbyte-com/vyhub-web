@@ -107,6 +107,10 @@ export default {
           label: this.$t('_gateway.labels.paypal'),
           icon: 'mdi-credit-card-outline',
         },
+        STRIPE: {
+          label: this.$t('_gateway.labels.stripe'),
+          icon: 'mdi-credit-card-outline',
+        },
         CREDITS: {
           label: this.$t('_shop.labels.credits'),
           icon: 'mdi-circle-multiple',
@@ -197,10 +201,10 @@ export default {
     },
     processData(data) {
       const noAttributes = Object.fromEntries(Object.entries(data)
-        .filter(([key, value]) => this.noAttributeKeys.includes(key)));
+        .filter(([key]) => this.noAttributeKeys.includes(key)));
 
       const attributes = Object.fromEntries(Object.entries(data)
-        .filter(([key, value]) => !this.noAttributeKeys.includes(key) && data[key] != null));
+        .filter(([key]) => !this.noAttributeKeys.includes(key) && data[key] != null));
 
       return { noAttributes, attributes };
     },

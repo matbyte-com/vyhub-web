@@ -198,7 +198,11 @@ export default {
       }).then((rsp) => {
         const { action, debit } = rsp.data;
         console.log(action, debit);
-        ShopService.executeAction(debit, action);
+
+        ShopService.executeAction(debit, action).catch((err) => {
+          this.loading = false;
+          this.errorMessage = this.$t('_shop.messages.paymentActionFailed', { message: err });
+        });
       }).catch((err) => {
         this.loading = false;
         this.errorMessage = this.$t('_shop.messages.startingPaymentFailed');
