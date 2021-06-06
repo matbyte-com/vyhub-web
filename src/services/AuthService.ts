@@ -6,6 +6,7 @@ import api from '@/api/api';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
 import { authGetTokenResponse } from '@/api/api.d';
+import EventBus from '@/services/EventBus';
 
 export default {
   async login(_refreshToken: string) {
@@ -26,6 +27,8 @@ export default {
     await this.setAuthTokens();
 
     await this.refreshUser();
+
+    EventBus.emit('login');
   },
   async getToken(refreshToken: string): Promise<authGetTokenResponse> {
     const sndQuery = {
@@ -50,6 +53,8 @@ export default {
     delete (await openapiCached).defaults.headers.Authorization;
     delete api.throttledHttp.defaults.headers.common.Authorization;
     delete axios.defaults.headers.common.Authorization;
+
+    EventBus.emit('logout');
   },
   async setAuthTokens() {
     if (store.getters.accessToken) {

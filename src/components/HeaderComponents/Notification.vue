@@ -23,7 +23,7 @@
           </v-btn>
         </v-badge>
       </template>
-      <v-card>
+      <v-card min-width="150px">
         <v-list dense max-height="300px" class="overflow-y-auto">
           <v-list-item v-if="notifications.length===0">
             <v-list-item-title>
@@ -35,7 +35,7 @@
             v-for="notification in notifications"
             :key="notification.id"
           >
-            <v-list-item-icon v-if="notification.icon">
+            <v-list-item-icon>
               <v-icon>{{ notification.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content :class="{ 'font-weight-medium': !notification.read }">
@@ -56,17 +56,13 @@
 </template>
 
 <script>
-import store from '@/store';
+import store from '@/store/index';
 import openapi from '@/api/openapi';
 import Eventsource from 'eventsource';
 import EventBus from '@/services/EventBus';
 
 export default {
   name: 'Notification.vue',
-  mounted() {
-    // this.fetchData();
-    this.registerSse();
-  },
   data() {
     return {
       notifications: [],
@@ -104,9 +100,23 @@ export default {
         };
       }
     },
+    afterLogin() {
+      this.notifications = [];
+      setTimeout(() => { this.registerSse(); }, 1000);
+    },
+    afterLogout() {
+      this.notifications = [];
+      this.evtSource.close();
+    },
   },
   beforeDestroy() {
-    this.evtSource.close();
+    if (this.evtSource) this.evtSource.close();
+  },
+  beforeMount() {
+    this.registerSse();
+    // Emitted in AuthService.ts
+    EventBus.on('login', this.afterLogin);
+    EventBus.on('logout', this.afterLogout);
   },
 };
 </script>

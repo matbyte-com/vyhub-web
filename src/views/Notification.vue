@@ -6,7 +6,7 @@
   <v-card>
     <v-card-text class="mt-0 pt-0">
       <v-fade-transition>
-        <v-btn depressed color="primary" v-if="newMessages" @click="fetchData(1)">
+        <v-btn depressed color="primary" v-if="newMessages" @click="fetchData(1)" class="mt-3">
           <v-icon left>
             mdi-sync
           </v-icon>
@@ -17,7 +17,7 @@
         class="mt-4"
         :headers="headers"
         :items="notifications"
-        :server-items-length="totalItems"
+        :server-items-length.sync="totalItems"
         :items-per-page.sync="itemsPerPage"
         @update:page="newPage"
         @update:sort-desc="newDesc"
@@ -28,6 +28,7 @@
         <template v-slot:header>
           <v-row>
             <v-col class="d-flex align-center">
+              <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
               <v-btn
                 outlined
                 color="primary"
@@ -120,7 +121,7 @@ export default {
   data() {
     return {
       selectedCat: [],
-      itemsPerPage: 50,
+      itemsPerPage: 7,
       newMessages: null,
       notifications: [],
       totalItems: null,
