@@ -1,7 +1,7 @@
 <template>
   <div>
     <SettingTitle>{{ $t('general') }}</SettingTitle>
-    <GenForm :form-schema="formSchema" :error-message="errorMessage" :cancel-text="$t('cancel')"
+    <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
              :submit-text="$t('submit')" ref="form" @submit="saveData"/>
   </div>
 </template>
@@ -9,6 +9,7 @@
 <script>
 import GenForm from '@/components/GenForm.vue';
 import SettingsGeneralFormSchema from '@/forms/SettingsGeneralForm';
+import openapi from '@/api/openapi';
 import SettingTitle from './SettingTitle.vue';
 
 export default {
@@ -17,18 +18,22 @@ export default {
   data() {
     return {
       formSchema: SettingsGeneralFormSchema,
-      errorMessage: null,
     };
   },
   mounted() {
     this.fetchData();
   },
   methods: {
-    fetchData() {
-      console.log('12');
+    async fetchData() {
+      (await openapi).design_getServerName().then((rsp) => {
+        this.$refs.form.setData({ server_name: rsp.data });
+      });
     },
-    saveData() {
+    async saveData() {
       const data = this.$refs.form.getData();
+      (await openapi).design_editGeneralSettings(null, data).then().catch((err) => {
+        this.$refs.form.setErrorMessage(err.response.data.detail);
+      });
     },
   },
 };

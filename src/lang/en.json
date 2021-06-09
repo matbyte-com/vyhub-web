@@ -170,7 +170,8 @@
     "requirement_add": "Added requirement {requirementId}",
     "news_add": "Added news {newsSubject} {newsId}",
     "news_edit": "Edited news {newsSubject} {newsId}",
-    "news_deleted": "Deleted news message {newsSubject} {newsId}"
+    "news_deleted": "Deleted news message {newsSubject} {newsId}",
+    "general_settings_edit": "Edited general settings"
   },
   "forms": {
     "iconDescription": "available Icons"
