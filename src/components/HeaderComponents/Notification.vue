@@ -34,9 +34,10 @@
             v-else
             v-for="notification in notifications"
             :key="notification.id"
+            @click="rowClick(notification)"
           >
             <v-list-item-icon>
-              <v-icon>{{ notification.icon }}</v-icon>
+              <v-icon>{{ notification.message.kwargs.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content :class="{ 'font-weight-medium': !notification.read }">
               {{ $t(`notification.${notification.message.name}`,
@@ -46,9 +47,12 @@
         </v-list>
         <v-divider />
         <v-card-actions>
-          <router-link to="/notification">
+          <v-btn color="primary" small outlined to="/notification" class="mr-5">
             {{ $t('notification.viewAll') }}
-          </router-link>
+          </v-btn>
+          <v-btn x-small outlined @click="requestPermission" v-if="reqNotificationButton">
+            {{ $t('notification.browserNotifications') }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -91,6 +95,7 @@ export default {
           this.notifications.splice(20);
           this.newMessages = true;
           EventBus.emit('notification');
+          this.notifyBrowser(JSON.parse(event.data)[0].message);
         });
         this.evtSource.addEventListener('end', () => {
           this.evtSource.close();
@@ -108,6 +113,23 @@ export default {
       this.notifications = [];
       this.evtSource.close();
     },
+    rowClick(item) {
+      if (item.link) this.$router.push({ name: item.link.name, params: { ...item.link.kwargs } });
+    },
+    notifyBrowser(data) {
+      if (!('Notification' in window)) {
+        console.log('This browser does not support desktop notification');
+      } else if (Notification.permission === 'granted') {
+        this.$notification.show('VyHub Net', {
+          body: this.$t(`notification.${data.name}`,
+            { ...data.kwargs }),
+        }, {});
+      }
+    },
+    requestPermission() {
+      this.$notification.requestPermission()
+        .then(console.log);
+    },
   },
   beforeDestroy() {
     if (this.evtSource) this.evtSource.close();
@@ -117,6 +139,11 @@ export default {
     // Emitted in AuthService.ts
     EventBus.on('login', this.afterLogin);
     EventBus.on('logout', this.afterLogout);
+  },
+  computed: {
+    reqNotificationButton() {
+      return Notification.permission !== 'granted';
+    },
   },
 };
 </script>

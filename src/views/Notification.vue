@@ -21,6 +21,7 @@
         :items-per-page.sync="itemsPerPage"
         @update:page="newPage"
         @update:sort-desc="newDesc"
+        @click:row="rowClick"
         :footer-props="{
           'disable-items-per-page': true,
         }"
@@ -82,7 +83,7 @@
         </template>
         <template v-slot:item.icon="{ item }">
           <v-icon>
-            {{ item.icon }}
+            {{ item.message.kwargs.icon }}
           </v-icon>
         </template>
         <template v-slot:item.message="{ item }">
@@ -101,6 +102,33 @@
             time: utils.formatLength((new Date() - new Date(item.created_on)) / 1000)
           }) }}
           </span>
+        </template>
+        <template v-slot:item.action="{ item }" >
+          <div class="text-right">
+            <v-tooltip left v-if="item.link">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs"
+                        v-on="on" class="mr-1">
+                  mdi-open-in-new
+                </v-icon>
+              </template>
+              <span>{{ $t('notification.isLink') }}</span>
+            </v-tooltip>
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn text v-bind="attrs" v-on="on" @click.stop="toggleReadStatus(item)">
+                  <v-icon v-if="item.read">
+                    mdi-email-outline
+                  </v-icon>
+                  <v-icon v-else>
+                    mdi-email-open-outline
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span v-if="item.read">{{ $t('notification.markUnRead') }}</span>
+              <span v-else>{{ $t('notification.markRead') }}</span>
+            </v-tooltip>
+          </div>
         </template>
       </DataTable>
     </v-card-text>
@@ -133,6 +161,9 @@ export default {
         { text: this.$t('message'), value: 'message', sortable: false },
         { text: this.$t('type'), value: 'category', sortable: false },
         { text: this.$t('createdOn'), value: 'time' },
+        {
+          value: 'action', sortable: false, align: 'right',
+        },
       ],
       state: {
         page: 1,
@@ -166,7 +197,6 @@ export default {
         hide_read: this.state.read,
       })
         .then((rsp) => {
-          this.loading = false;
           this.notifications = rsp.data.items;
           this.totalItems = rsp.data.total;
         });
@@ -182,7 +212,6 @@ export default {
       this.fetchData(page);
     },
     newDesc(ev) {
-      console.log(ev);
       if (ev[0] === undefined || ev[0] === false) this.state.desc = false;
       else this.state.desc = true;
       if (ev[0] !== false) this.fetchData(1);
@@ -201,7 +230,16 @@ export default {
     async markAllAsRead() {
       (await openapi).notification_markAsRead(null, { all: true }).then(() => {
         this.$refs.markAsReadDialog.closeAndReset();
+        this.fetchData();
       });
+    },
+    rowClick(item) {
+      if (item.link) this.$router.push({ name: item.link.name, params: { ...item.link.kwargs } });
+    },
+    async toggleReadStatus(item) {
+      (await openapi).notification_markAsRead(null, { id: [item.id] });
+      // eslint-disable-next-line no-param-reassign
+      item.read = !item.read;
     },
   },
 };

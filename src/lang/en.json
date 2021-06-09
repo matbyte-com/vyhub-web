@@ -380,6 +380,10 @@
     "timeAgo": "{time} ago",
     "markAllAsRead": "Mark all as read",
     "hideReadNotifications": "Hide Read Notifications",
+    "isLink": "Link",
+    "markRead": "mark as read",
+    "markUnRead": "mark as unread ",
+    "browserNotifications": "Browser Notifications",
     "type": {
       "general": "General",
       "ban": "Ban",
@@ -496,5 +500,7 @@
   "begin": "Begin",
   "end": "End",
   "group": "Group",
-  "reset": "Reset"
+  "reset": "Reset",
+  "serverName": "Server Name",
+  "submit": "Submit"
 }
