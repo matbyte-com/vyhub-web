@@ -62,6 +62,7 @@
 <script>
 import store from '@/store/index';
 import openapi from '@/api/openapi';
+import openapiCached from '@/api/openapiCached';
 import Eventsource from 'eventsource';
 import EventBus from '@/services/EventBus';
 
@@ -72,6 +73,7 @@ export default {
       notifications: [],
       newMessages: null,
       evtSource: null,
+      serverName: 'VyHub Server',
     };
   },
   methods: {
@@ -120,7 +122,7 @@ export default {
       if (!('Notification' in window)) {
         console.log('This browser does not support desktop notification');
       } else if (Notification.permission === 'granted') {
-        this.$notification.show('VyHub Net', {
+        this.$notification.show(this.serverName, {
           body: this.$t(`notification.${data.name}`,
             { ...data.kwargs }),
         }, {});
@@ -130,6 +132,13 @@ export default {
       this.$notification.requestPermission()
         .then(console.log);
     },
+    async getServerName() {
+      if (localStorage.getItem('serverName')) this.serverName = localStorage.getItem('serverName');
+      (await openapiCached).design_getServerName().then((rsp) => {
+        this.serverName = rsp.data;
+        localStorage.setItem('serverName', this.serverName);
+      });
+    },
   },
   beforeDestroy() {
     if (this.evtSource) this.evtSource.close();
@@ -137,6 +146,7 @@ export default {
   beforeMount() {
     this.registerSse();
     // Emitted in AuthService.ts
+    this.getServerName();
     EventBus.on('login', this.afterLogin);
     EventBus.on('logout', this.afterLogout);
   },
