@@ -19,102 +19,123 @@
       </template>
     </dialog-form>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
-    <!-- News of the Day -->
-    <v-card flat>
-      <v-card-text>
+    <v-row>
+      <!-- News -->
+      <v-col cols="12" md="8">
+        <!-- News of the Day -->
         <v-row>
-          <v-col v-if="getNewsOfTheDay.length !== 0">
-            <h2 class="text-h4">{{ $t('home.newsOfTheDay') }}</h2>
+          <v-col cols="8" class="d-flex" v-if="getNewsOfTheDay.length !== 0">
+            <v-card flat class="d-flex">
+              <v-card-title class="align-center">
+                <v-icon color="primary" class="mr-1">mdi-newspaper</v-icon>
+                <v-sheet vertical color="primary" width="2" height="25" class="" />
+                <h2 class="text-h4 ml-2">{{ $t('home.newsOfTheDay') }}</h2>
+              </v-card-title>
+            </v-card>
           </v-col>
-          <!-- News Add Button -->
-          <v-col v-if="$checkProp('news_edit')" class="text-right">
-            <v-btn outlined color="success" @click="showAddMessageDialog">
-              <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('home.addNews') }}</span>
-            </v-btn>
+          <!-- Add News Button -->
+          <v-col v-if="$checkProp('news_edit')" class="d-flex">
+            <v-spacer v-if="$vuetify.breakpoint.smAndUp"/>
+            <v-card flat class="d-flex align-center pr-2 pl-2"
+                    :class="$vuetify.breakpoint.smAndDown ? '' : 'mr-10'"
+                    min-height="50px" height="70%">
+              <v-btn outlined color="success" height="80%" @click="showAddMessageDialog">
+                <v-icon left>mdi-plus</v-icon>
+                <span>{{ $t('home.addNews') }}</span>
+              </v-btn>
+            </v-card>
           </v-col>
         </v-row>
-      </v-card-text>
-    </v-card>
-    <v-divider />
-    <transition-group  enter-active-class="animate__animated animate__fadeIn"
-                       leave-active-class="animate__animated animate__fadeOut">
-      <v-card v-for="message in getNewsOfTheDay" :key="message.id" class="ma-10">
-        <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
-          <v-row>
-            <v-col>
-              {{ message.subject }}
-            </v-col>
-            <v-col v-if="$checkProp('news_edit')" class="text-right">
-              <v-btn outlined color="primary" small
-                     @click="openEditMessageDialog(message)" class="mr-1">
-                <v-icon>
-                  mdi-pencil
-                </v-icon>
-              </v-btn>
-              <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
-                <v-icon>
-                  mdi-delete
-                </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-card-title>
-        <v-card-text v-html="message.content" class="mt-3 ql-editor">
-        </v-card-text>
-        <v-card-actions class="text--disabled pt-0">
-          <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
-          <user-link v-if="message.creator" :user="message.creator"/>
-        </v-card-actions>
-      </v-card>
-    </transition-group>
-    <!-- Display News -->
-    <v-card flat class="mt-10">
-      <v-card-text>
-        <h2 class="text-h4">{{ $t('home.news') }}</h2>
-      </v-card-text>
-    </v-card>
-    <v-divider />
-    <transition-group enter-active-class="animate__animated animate__fadeIn"
-                      leave-active-class="animate__animated animate__fadeOut">
-      <v-card flat outlined class="mt-3" v-for="message in getNews" :key="message.id">
-        <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
-          <v-row>
-            <v-col>
-              {{ message.subject }}
-            </v-col>
-            <v-col v-if="$checkProp('news_edit')" class="text-right">
-              <v-btn outlined color="primary" small
-                     @click="openEditMessageDialog(message)" class="mr-1">
-                <v-icon>
-                  mdi-pencil
-                </v-icon>
-              </v-btn>
-              <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
-                <v-icon>
-                  mdi-delete
-                </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-card-title>
-        <v-card-text v-html="message.content" class="mt-3 ql-editor">
-        </v-card-text>
-        <v-card-actions class="text--disabled pt-0">
-          <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
-          <user-link v-if="message.creator" :user="message.creator"/>
-        </v-card-actions>
-      </v-card>
-    </transition-group>
-    <!-- Skeleton Loader -->
-    <div v-if="!exhausted && fetching" class="animate__animated animate__fade mt-3">
-      <v-skeleton-loader type="article" v-if="fetching" />
-    </div>
-    <v-card flat v-if="exhausted" class="mt-3">
-      <v-card-text class="text-center animate__animated animate__fadeIn">
-        {{ $t('home.newsExhausted') }}
-      </v-card-text>
-    </v-card>
+        <transition-group  enter-active-class="animate__animated animate__fadeIn"
+                           leave-active-class="animate__animated animate__fadeOut">
+          <v-card v-for="message in getNewsOfTheDay" :key="message.id" class="ma-10">
+            <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
+              <v-row>
+                <v-col>
+                  {{ message.subject }}
+                </v-col>
+                <v-col v-if="$checkProp('news_edit')" class="text-right">
+                  <v-btn outlined color="primary" small
+                         @click="openEditMessageDialog(message)" class="mr-1">
+                    <v-icon>
+                      mdi-pencil
+                    </v-icon>
+                  </v-btn>
+                  <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+                    <v-icon>
+                      mdi-delete
+                    </v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-title>
+            <v-card-text v-html="message.content" class="mt-3 ql-editor">
+            </v-card-text>
+            <v-card-actions class="text--disabled pt-0">
+              <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
+              <user-link v-if="message.creator" :user="message.creator"/>
+            </v-card-actions>
+          </v-card>
+        </transition-group>
+        <!-- Display News -->
+        <v-row v-if="getNews.length !== 0">
+          <v-col class="d-flex">
+            <v-card flat class="d-flex">
+              <v-card-title class="align-center">
+                <v-icon color="primary" class="mr-1">mdi-newspaper-variant-multiple</v-icon>
+                <v-sheet vertical color="primary" width="2" height="25" class="" />
+                <h2 class="text-h4 ml-2">{{ $t('home.news') }}</h2>
+              </v-card-title>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-divider />
+        <transition-group enter-active-class="animate__animated animate__fadeIn"
+                          leave-active-class="animate__animated animate__fadeOut">
+          <v-card flat outlined class="mt-3" v-for="message in getNews" :key="message.id">
+            <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
+              <v-row>
+                <v-col>
+                  {{ message.subject }}
+                </v-col>
+                <v-col v-if="$checkProp('news_edit')" class="text-right">
+                  <v-btn outlined color="primary" small
+                         @click="openEditMessageDialog(message)" class="mr-1">
+                    <v-icon>
+                      mdi-pencil
+                    </v-icon>
+                  </v-btn>
+                  <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+                    <v-icon>
+                      mdi-delete
+                    </v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-title>
+            <v-card-text v-html="message.content" class="mt-3 ql-editor">
+            </v-card-text>
+            <v-card-actions class="text--disabled pt-0">
+              <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
+              <user-link v-if="message.creator" :user="message.creator"/>
+            </v-card-actions>
+          </v-card>
+        </transition-group>
+        <!-- Skeleton Loader -->
+        <div v-if="!exhausted && fetching" class="animate__animated animate__fade mt-3">
+          <v-skeleton-loader type="article" v-if="fetching" />
+        </div>
+        <v-card flat v-if="exhausted" class="mt-3">
+          <v-card-text class="text-center animate__animated animate__fadeIn">
+            {{ $t('home.newsExhausted') }}
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <!-- Server Status -->
+      <v-col ref="StatusCol">
+        <ServerStatus :style="{position: 'fixed', width: `${statusColumnWidth}px`}"/>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -125,10 +146,15 @@ import NewsAddForm from '@/forms/NewsAddForm';
 import { VueEditor } from 'vue2-editor';
 import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
+import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
 
 export default {
   components: {
-    DeleteConfirmationDialog, UserLink, VueEditor, DialogForm,
+    ServerStatus,
+    DeleteConfirmationDialog,
+    UserLink,
+    VueEditor,
+    DialogForm,
   },
   data() {
     return {
@@ -138,11 +164,13 @@ export default {
       fetching: false,
       messageAddSchema: NewsAddForm,
       message: null,
+      statusColumnWidth: 250,
     };
   },
   mounted() {
     this.fetchNews();
     this.scroll();
+    this.setWidth();
   },
   methods: {
     async fetchNews(page) {
@@ -207,6 +235,9 @@ export default {
           this.$refs.messageEditDialog.closeAndReset();
         }).catch((err) => this.$refs.messageEditDialog.setErrorMessage(err.response.data.detail));
     },
+    setWidth() {
+      this.statusColumnWidth = this.$refs.StatusCol.clientWidth;
+    },
   },
   computed: {
     getNews() {
@@ -215,6 +246,12 @@ export default {
     getNewsOfTheDay() {
       return this.news.filter((n) => n.type === 'PINNED');
     },
+  },
+  created() {
+    window.addEventListener('resize', this.setWidth);
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.setWidth);
   },
 };
 </script>
