@@ -1,6 +1,6 @@
 <template>
   <v-chip @click="$router.push({ name: 'UserDashboard', params: {id: user.id}})"
-          outlined color="primary">
+          :outlined="outline" color="primary">
     <v-icon small>mdi-account</v-icon>
     {{ user.username }}
   </v-chip>
@@ -11,6 +11,10 @@ export default {
   name: 'UserLink',
   props: {
     user: Object,
+    outline: {
+      type: Boolean,
+      default: true,
+    },
   },
 };
 </script>
