@@ -6,7 +6,7 @@
         :nav-links="links"
         :menu-links="linksRight"
         @logout="logout"
-        @login="$refs.linkAccountDialog.show()"/>
+        @login="showLoginDialog()"/>
     </div>
 
     <!-- Logo -->
@@ -38,7 +38,7 @@
       </div>
       <div v-else>
         <v-btn outlined class="mr-1 lighten-1 white--text"
-               @click="$refs.linkAccountDialog.show()">
+               @click="showLoginDialog">
           {{ $t("header.labels.login") }}
         </v-btn>
       </div>
@@ -99,6 +99,9 @@ export default {
       if (localStorage.getItem('navItems')) {
         this.links = JSON.parse(localStorage.getItem('navItems'));
       }
+    },
+    showLoginDialog() {
+      this.$router.push({ path: this.$route.path, query: { login: 'true', pathToReturn: this.$route.path } });
     },
   },
   computed: {

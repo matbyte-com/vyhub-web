@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig, RawLocation, Route } from 'vue-router';
 import store from '@/store/index';
+import i18n from '@/plugins/i18n';
 
 Vue.use(VueRouter);
 
@@ -9,17 +10,18 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'Home',
     component: () => import('../views/Home.vue'),
-    meta: { title: 'VyHub' },
+    // storage.serverName queried e.G. in Header / Notify
+    meta: { title: localStorage.getItem('serverName') },
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    meta: { title: 'Dashboard' },
+    meta: { title: i18n.t('pageTitle.dashboard') },
     redirect() {
       if (store.getters.isLoggedIn) {
         return `/user/${store.getters.user.id}`;
       }
-      return { path: '/', query: { login: 'true' } };
+      return { path: '/', query: { login: 'true', pathToReturn: '/dashboard' } };
     },
   },
   {
@@ -31,56 +33,56 @@ const routes: Array<RouteConfig> = [
   {
     path: '/about',
     name: 'About',
-    meta: { title: 'About' },
+    meta: { title: i18n.t('pageTitle.about') },
     component: () => import('@/views/About.vue'),
   },
   {
     path: '/settings/:component?',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
-    meta: { requiresAuth: true, title: 'Settings' },
+    meta: { requiresAuth: true, title: i18n.t('pageTitle.settings') },
   },
   {
     path: '/bans/:banId?',
     name: 'Bans',
+    meta: { title: i18n.t('pageTitle.bans'), requiresAuth: true },
     component: () => import('@/views/Ban.vue'),
-    meta: { title: 'Bans' },
   },
   {
     path: '/shop',
     name: 'Shop',
     component: () => import('@/views/Shop/Start.vue'),
-    meta: { title: 'Shop' },
+    meta: { title: i18n.t('pageTitle.shop') },
   },
   {
     path: '/shop/category/:categoryId',
     name: 'ShopCategory',
     component: () => import('@/views/Shop/Category.vue'),
-    meta: { title: 'Shop - Category' },
+    meta: { title: i18n.t('pageTitle.shopCategory') },
   },
   {
     path: '/shop/packet/:packetId',
     name: 'ShopPacket',
     component: () => import('@/views/Shop/Packet.vue'),
-    meta: { title: 'Shop - Packet' },
+    meta: { title: i18n.t('pageTitle.shopPacket') },
   },
   {
     path: '/shop/cart',
     name: 'ShopCart',
-    meta: { title: 'Cart', requiresAuth: true },
+    meta: { title: i18n.t('pageTitle.shopCart'), requiresAuth: true },
     component: () => import('../views/Shop/Cart.vue'),
   },
   {
     path: '/shop/checkout/:debitId/:action',
     name: 'ShopCheckout',
-    meta: { title: 'Checkout', requiresAuth: true },
+    meta: { title: i18n.t('pageTitle.shopCheckout'), requiresAuth: true },
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
     path: '/shop/admin/:component?',
     name: 'ShopAdmin',
     component: () => import('@/views/Shop/Admin.vue'),
-    meta: { requiresAuth: true, title: 'Shop Administration' },
+    meta: { requiresAuth: true, title: i18n.t('pageTitle.shopAdministration') },
   },
   {
     path: '/cms/:title',
@@ -90,6 +92,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/notification',
     name: 'Notification',
+    meta: { title: i18n.t('pageTitle.notifications'), requiresAuth: true },
     component: () => import('../views/Notification.vue'),
   },
   {
@@ -101,10 +104,31 @@ const routes: Array<RouteConfig> = [
   },
 ];
 
+// Restrict Error Message for Duplicated Navigation on Router.to and Router.replace methods
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location: RawLocation): Promise<Route> {
   return new Promise((resolve, reject) => {
     originalPush.call(this, location, () => {
+      // on complete
+
+      resolve(this.currentRoute);
+    }, (error) => {
+      // on abort
+
+      // only ignore NavigationDuplicated error
+      if (error.name === 'NavigationDuplicated') {
+        resolve(this.currentRoute);
+      } else {
+        reject(error);
+      }
+    });
+  });
+};
+
+const originalReplace = VueRouter.prototype.replace;
+VueRouter.prototype.replace = function replace(location: RawLocation): Promise<Route> {
+  return new Promise((resolve, reject) => {
+    originalReplace.call(this, location, () => {
       // on complete
 
       resolve(this.currentRoute);
@@ -133,13 +157,14 @@ const router = new VueRouter({
   routes,
 });
 
+// Handle Route requires Login
 router.beforeEach((to, from, next) => {
   if ((to.query.login !== 'true') && (to.matched.some((record) => record.meta.requiresAuth))) {
     // this route requires auth
     if (!store.getters.isLoggedIn) {
-      next({
-        path: to.fullPath,
-        query: { login: 'true' },
+      router.push({
+        path: from.path,
+        query: { login: 'true', pathToReturn: to.path },
       });
     } else {
       next();

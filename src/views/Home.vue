@@ -37,7 +37,6 @@
           <v-col v-if="$checkProp('news_edit')" class="d-flex">
             <v-spacer v-if="$vuetify.breakpoint.smAndUp"/>
             <v-card flat class="d-flex align-center pr-2 pl-2"
-                    :class="$vuetify.breakpoint.smAndDown ? '' : 'mr-10'"
                     min-height="50px" height="70%">
               <v-btn outlined color="success" height="80%" @click="showAddMessageDialog">
                 <v-icon left>mdi-plus</v-icon>

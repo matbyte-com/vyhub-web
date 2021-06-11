@@ -104,6 +104,8 @@ export default {
         });
         this.evtSource.onerror = (err) => {
           this.utils.notifyUnexpectedError(err);
+          this.evtSource.close();
+          throw (err);
         };
       }
     },

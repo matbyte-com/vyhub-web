@@ -45,6 +45,21 @@ export default {
       ], // TODO: Fetch backends from API
     };
   },
+  watch: {
+    $route(to, from) {
+      if (to.query.login === 'true') {
+        this.dialog = true;
+      }
+      if (!to.query.login) {
+        this.dialog = false;
+      }
+    },
+    dialog() {
+      if (this.dialog === false) {
+        this.$router.replace(this.$route.path);
+      }
+    },
+  },
   methods: {
     show() {
       this.dialog = true;

@@ -40,6 +40,7 @@
 import PageTitle from '@/components/PageTitle.vue';
 import openapiCached from '@/api/openapiCached';
 import openapi from '@/api/openapi';
+import i18n from '@/plugins/i18n';
 
 export default {
   components: {
@@ -64,6 +65,7 @@ export default {
       // check if there is a user with the given id
       (await openapi).user_getData(userId).then((rsp) => {
         this.user = rsp.data;
+        document.title = `${i18n.t('pageTitle.dashboard')} ${this.user.username}`;
         if (this.user.type === 'CENTRAL') {
           this.$router.replace({ name: 'UserDashboard', params: { id: this.user.username } });
         }

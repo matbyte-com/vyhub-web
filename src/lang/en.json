@@ -392,6 +392,19 @@
     },
     "new_news": "News Created {newsSubject}"
   },
+  "pageTitle": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "bans": "Bans",
+    "notifications": "Notifications",
+    "about": "About",
+    "shop": "Shop",
+    "shopPacket": "Shop - Packet",
+    "shopCategory": "Shop - Category",
+    "shopCart": "Cart",
+    "shopCheckout": "Checkout",
+    "shopAdministration": "Shop - Administration"
+  },
   "recurring": "Recurring",
   "revenue": "Revenue",
   "sales": "Sales",
