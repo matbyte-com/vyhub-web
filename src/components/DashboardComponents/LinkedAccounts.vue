@@ -76,9 +76,10 @@
 </template>
 
 <script>
-import api from '@/api/api';
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import userService from '@/services/UserService';
+import openapiCached from '@/api/openapiCached';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'LinkedAccounts',
@@ -105,9 +106,10 @@ export default {
     },
   },
   methods: {
-    queryData() {
-      api.user.getAttributeDefinitions().then((rsp) => { this.attributeDefinitions = rsp.data; });
-      api.user.getUser(this.user.id).then((rsp) => {
+    async queryData() {
+      (await openapiCached).user_getAttributeDefinitions()
+        .then((rsp) => { this.attributeDefinitions = rsp.data; });
+      (await openapi).user_getData(this.user.id).then((rsp) => {
         this.userAccounts = rsp.data;
         this.componentLoaded = true;
       });
