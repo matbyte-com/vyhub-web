@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueRouter, { RouteConfig, RawLocation, Route } from 'vue-router';
 import store from '@/store/index';
 import i18n from '@/plugins/i18n';
+import UtilService from '@/services/UtilService';
+import AuthService from '@/services/AuthService';
 
 Vue.use(VueRouter);
 
@@ -21,7 +23,13 @@ const routes: Array<RouteConfig> = [
       if (store.getters.isLoggedIn) {
         return `/user/${store.getters.user.id}`;
       }
-      return { path: '/', query: { login: 'true', pathToReturn: '/dashboard' } };
+      return {
+        path: '/',
+        query: {
+          login: 'true',
+          return_url: UtilService.data().utils.getFullUrl('/dashboard'),
+        },
+      };
     },
   },
   {
@@ -157,15 +165,32 @@ const router = new VueRouter({
   routes,
 });
 
+function showLoginDialog(to: Route, from: Route) {
+  router.push({
+    path: from.path,
+    query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(to.fullPath) },
+  });
+}
+
 // Handle Route requires Login
 router.beforeEach((to, from, next) => {
   if ((to.query.login !== 'true') && (to.matched.some((record) => record.meta.requiresAuth))) {
     // this route requires auth
     if (!store.getters.isLoggedIn) {
-      router.push({
-        path: from.path,
-        query: { login: 'true', pathToReturn: to.path },
-      });
+      const refreshToken = to.query.refresh_token;
+
+      if (refreshToken != null && typeof refreshToken === 'string') {
+        AuthService.login(refreshToken).then(() => {
+          console.log('Successful login!');
+          next();
+        }).catch((e) => {
+          console.log(e);
+          showLoginDialog(to, from);
+        });
+      } else {
+        console.log('Showing login dialog.');
+        showLoginDialog(to, from);
+      }
     } else {
       next();
     }

@@ -46,17 +46,12 @@ export default {
     };
   },
   watch: {
-    $route(to, from) {
-      if (to.query.login === 'true') {
-        this.dialog = true;
-      }
-      if (!to.query.login) {
-        this.dialog = false;
-      }
+    $route(to) {
+      this.dialog = to.query.login === 'true';
     },
     dialog() {
       if (this.dialog === false) {
-        this.$router.replace(this.$route.path);
+        // this.$router.replace(this.$route.path);
       }
     },
   },
@@ -65,7 +60,7 @@ export default {
       this.dialog = true;
     },
     redirectToSocial(backend) {
-      window.location.href = AuthService.getSocialAuthUrl(backend);
+      window.location.href = AuthService.getSocialAuthUrl(backend, this.$route.query.return_url);
     },
     startAuth(backend) {
       if (this.$store.getters.isLoggedIn) {

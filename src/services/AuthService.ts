@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import store from '@/store';
 import api from '@/api/api';
 import openapi from '@/api/openapi';
@@ -66,8 +66,15 @@ export default {
       api.throttledHttp.defaults.headers.common.Authorization = header;
     }
   },
-  getSocialAuthUrl(backend: string) {
-    return `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/auth/social/${backend}/start`;
+  getSocialAuthUrl(backend: string, returnUrl: string) {
+    let redirectUrl = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/auth/social/${backend}/start`;
+
+    if (returnUrl != null) {
+      const returnUrlEnc = encodeURIComponent(returnUrl);
+      redirectUrl = redirectUrl.concat(`?return_url=${returnUrlEnc}`);
+    }
+
+    return redirectUrl;
   },
   async setProperties() {
     const api_client = await openapi;

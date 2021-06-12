@@ -58,6 +58,9 @@ export default {
         formatDecimal(decimal: number) {
           return decimal.toLocaleString(undefined, { minimumFractionDigits: 2 });
         },
+        getFullUrl(path: string) {
+          return window.location.origin + path;
+        },
       },
     };
   },

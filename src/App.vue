@@ -51,7 +51,6 @@
               <router-view>
               </router-view>
             </transition>
-            {{ this.$route.query.refresh_token }}
           </v-card-text>
         </v-card>
       </v-container>
@@ -98,11 +97,6 @@ export default Vue.extend({
     // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
     emitter.on('themeUpdated', this.setTheme);
   },
-  watch: {
-    $route() {
-      this.checkLogin();
-    },
-  },
   methods: {
     setTheme() {
       apiService.design.getTheme().then((rsp) => {
@@ -146,21 +140,6 @@ export default Vue.extend({
           this.$vuetify.theme.dark = false;
         }
         this.$vuetify.theme.currentTheme.primary = obj.primary;
-      }
-    },
-    checkLogin() {
-      const refreshToken = this.$route.query.refresh_token;
-
-      if (refreshToken != null) {
-        this.$router.push({ query: {} });
-
-        if (!this.$store.getters.isLoggedIn) {
-          AuthService.login(refreshToken, () => {
-            //
-          }, () => {
-            //
-          });
-        }
       }
     },
   },

@@ -60,6 +60,7 @@ import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 import EventBus from '@/services/EventBus';
 import Credits from '@/components/HeaderComponents/Credits.vue';
 import openapi from '@/api/openapi';
+import UtilService from '@/services/UtilService';
 
 export default {
   components: {
@@ -101,7 +102,10 @@ export default {
       }
     },
     showLoginDialog() {
-      this.$router.push({ path: this.$route.path, query: { login: 'true', pathToReturn: this.$route.path } });
+      this.$router.push({
+        path: this.$route.path,
+        query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path) },
+      });
     },
   },
   computed: {
