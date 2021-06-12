@@ -1,4 +1,3 @@
-import common from '@/forms/Common';
 import i18n from '@/plugins/i18n';
 
 export default {

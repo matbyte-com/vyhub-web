@@ -145,7 +145,7 @@ export default {
       this.loading = true;
       this.errorMessage = null;
 
-      api.shop_finishPayment({ uuid: this.debit.id }).then((rsp) => {
+      api.shop_finishPayment({ uuid: this.debit.id }).then(() => {
         ShopService.refreshCreditAccount();
         this.checkPayment();
       }).catch((err) => {

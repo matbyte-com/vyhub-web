@@ -1,6 +1,4 @@
 import i18n from '@/plugins/i18n';
-import openapiCached from '@/api/openapiCached';
-import VueI18n from 'vue-i18n';
 
 const typeMapping = {
   ACTIVE: ['ACTIVE', 'INACTIVE', 'NEVER_ACTIVE'],
