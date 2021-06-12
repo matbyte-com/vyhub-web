@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import common from '@/forms/Common';
+import Common from '@/forms/Common';
 import i18n from '@/plugins/i18n';
 
-const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
+const API_URL = Common.apiURL;
 
 export default {
   type: 'object',
@@ -24,7 +24,7 @@ export default {
       format: 'date-time',
       description: i18n.t('_dashboard.membershipEndDescription'),
     },
-    serverbundle: common.serverbundleSelectField,
+    serverbundle: Common.serverbundleSelectField,
   },
   dependencies: {
     serverbundle: {

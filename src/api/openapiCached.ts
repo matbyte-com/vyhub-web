@@ -3,8 +3,7 @@ import { Client } from '@/api/openapi.d';
 import { throttleAdapterEnhancer } from 'axios-extensions';
 import axios from 'axios';
 import store from '@/store';
-
-const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
+import config from '@/config';
 
 let headers = {};
 
@@ -18,7 +17,7 @@ async function api() {
   }
 
   return new OpenAPIClientAxios({
-    definition: `${API_URL}/openapi.json`,
+    definition: `${config.backend_url}/openapi.json`,
     withServer: 'main',
     axiosConfigDefaults: {
       adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 300 * 1000 }),

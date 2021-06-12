@@ -2,8 +2,9 @@ import i18n from '@/plugins/i18n';
 
 import countries from 'country-list';
 import countryUnicodeFlags from 'country-flag-icons/unicode';
+import config from '@/config';
 
-const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
+const API_URL = config.backend_url;
 
 const countryOptions = Object.entries(countries.getCodeList())
   .map((c) => ({
@@ -107,4 +108,5 @@ export default {
     title: i18n.t('imageURL'),
     pattern: '^https://.+$',
   },
+  apiURL: API_URL,
 };

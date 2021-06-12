@@ -1,7 +1,8 @@
 import BundleAddForm from '@/forms/BundleAddForm';
 import i18n from '@/plugins/i18n';
+import config from '@/config';
 
-const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
+const API_URL = config.backend_url;
 
 const section1Properties: {[k: string]: any} = { ...BundleAddForm.returnForm(true).properties };
 
@@ -14,7 +15,7 @@ function returnForm(serverType: string) {
     'x-itemKey': 'id',
   };
 
-  const config = {
+  return {
     type: 'object',
     'x-display': 'tabs',
     'x-props': {
@@ -45,7 +46,6 @@ function returnForm(serverType: string) {
       },
     ],
   };
-  return config;
 }
 
 export default {

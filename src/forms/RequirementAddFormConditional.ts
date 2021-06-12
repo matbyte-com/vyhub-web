@@ -3,7 +3,7 @@ import RequirementAddForm from './RequirementAddForm';
 import Common from './Common';
 import Properties from '../services/PropertyService';
 
-const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
+const API_URL = Common.apiURL;
 
 const operatorMapping = {
   EQ: 'mdi-equal',

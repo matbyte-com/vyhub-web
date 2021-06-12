@@ -3,6 +3,7 @@ import Axios from 'axios';
 import Notifications from 'vue-notification';
 import VueApexCharts from 'vue-apexcharts';
 import VueNativeNotification from 'vue-native-notification';
+import config from '@/config';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -11,11 +12,9 @@ import i18n from './plugins/i18n';
 import '@/assets/css/main.scss';
 import 'animate.css';
 
-const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
-
 Vue.config.productionTip = false;
 
-Axios.defaults.baseURL = API_URL;
+Axios.defaults.baseURL = config.backend_url;
 Axios.defaults.headers.common['Content-Type'] = 'application/json';
 Axios.defaults.headers.common.Accept = 'application/json';
 

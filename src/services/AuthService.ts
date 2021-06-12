@@ -7,6 +7,7 @@ import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
 import { authGetTokenResponse } from '@/api/api.d';
 import EventBus from '@/services/EventBus';
+import config from '@/config';
 
 export default {
   async login(_refreshToken: string) {
@@ -67,7 +68,7 @@ export default {
     }
   },
   getSocialAuthUrl(backend: string, returnUrl: string) {
-    let redirectUrl = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/auth/social/${backend}/start`;
+    let redirectUrl = `${config.backend_url}/auth/social/${backend}/start`;
 
     if (returnUrl != null) {
       const returnUrlEnc = encodeURIComponent(returnUrl);

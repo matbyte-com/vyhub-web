@@ -65,6 +65,7 @@ import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
 import Eventsource from 'eventsource';
 import EventBus from '@/services/EventBus';
+import config from '@/config';
 
 export default {
   name: 'Notification.vue',
@@ -85,7 +86,7 @@ export default {
     registerSse() {
       if (store.getters.isLoggedIn && store.getters.accessToken) {
         const header = `Bearer ${store.getters.accessToken}`;
-        const baseURL = `${process.env.VUE_APP_BACKEND_CUSTOMER_URL}/notification/stream`;
+        const baseURL = `${config.backend_url}/notification/stream`;
         this.evtSource = new Eventsource(baseURL, {
           headers: {
             Authorization: header,

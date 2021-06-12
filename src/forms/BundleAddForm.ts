@@ -1,7 +1,7 @@
 import Common from '@/forms/Common';
 import i18n from '@/plugins/i18n';
 
-const API_URL = process.env.VUE_APP_BACKEND_CUSTOMER_URL;
+const API_URL = Common.apiURL;
 
 function returnForm(disableServerTypeSelectField = false) {
   const form = {

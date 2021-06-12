@@ -4,6 +4,7 @@ import store from '@/store/index';
 import i18n from '@/plugins/i18n';
 import UtilService from '@/services/UtilService';
 import AuthService from '@/services/AuthService';
+import config from '@/config';
 
 Vue.use(VueRouter);
 
@@ -199,10 +200,9 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-const DEFAULT_TITLE = process.env.VUE_APP_DEFAULT_TITLE;
 router.afterEach((to) => {
   Vue.nextTick(() => {
-    document.title = to.meta.title || DEFAULT_TITLE;
+    document.title = to.meta.title || config.default_title;
   });
 });
 
