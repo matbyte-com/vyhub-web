@@ -234,6 +234,7 @@ export default {
       });
     },
     rowClick(item) {
+      this.toggleReadStatus(item);
       if (item.link) this.$router.push({ name: item.link.name, params: { ...item.link.kwargs } });
     },
     async toggleReadStatus(item) {

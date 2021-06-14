@@ -119,6 +119,7 @@ export default {
       this.evtSource.close();
     },
     rowClick(item) {
+      this.toggleReadStatus(item);
       if (item.link) this.$router.push({ name: item.link.name, params: { ...item.link.kwargs } });
     },
     notifyBrowser(data) {
@@ -141,6 +142,11 @@ export default {
         this.serverName = rsp.data;
         localStorage.setItem('serverName', this.serverName);
       });
+    },
+    async toggleReadStatus(item) {
+      (await openapi).notification_markAsRead(null, { id: [item.id] });
+      // eslint-disable-next-line no-param-reassign
+      item.read = !item.read;
     },
   },
   beforeDestroy() {
