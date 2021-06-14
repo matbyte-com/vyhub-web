@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Add Message Dialo -->
+    <!-- Add Message Dialog -->
     <dialog-form ref="messageAddDialog" :form-schema="messageAddSchema"
                  :title="$t('home.addNews')"
                  :max-width="1000"
@@ -20,6 +20,17 @@
     </dialog-form>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
     <v-row>
+      <!-- ServerStatus on Smartphones -->
+      <v-expansion-panels v-if="$vuetify.breakpoint.smAndDown">
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            Test
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <ServerStatus />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
       <!-- News -->
       <v-col cols="12" md="8">
         <!-- News of the Day -->
@@ -129,7 +140,12 @@
       </v-col>
       <!-- Server Status -->
       <v-col ref="StatusCol">
-        <ServerStatus :style="{position: 'fixed', width: `${statusColumnWidth}px`}"/>
+        <div style="position: fixed" :style="{width: `${statusColumnWidth}px`}">
+          <ServerStatus v-if="$vuetify.breakpoint.mdAndUp" ref="ServerStatus"
+                        />
+          <DonationGoal v-if="$vuetify.breakpoint.mdAndUp" class="mt-3"
+                        />
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -143,9 +159,11 @@ import { VueEditor } from 'vue2-editor';
 import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
+import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
 
 export default {
   components: {
+    DonationGoal,
     ServerStatus,
     DeleteConfirmationDialog,
     UserLink,

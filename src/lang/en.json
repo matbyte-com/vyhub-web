@@ -108,7 +108,9 @@
       "cartTotal": "Cart Total",
       "unfinishedPurchase": "Unfinished Purchase",
       "billingAddress": "Billing Address",
-      "removeAllPackets": "Remove all packets"
+      "removeAllPackets": "Remove all packets",
+      "donationGoal": "Donation Goal",
+      "perMonth": "per Month"
     },
     "messages": {
       "confirmCreditsPayment": "Please confirm the payment of {credits} credits.",
