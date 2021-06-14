@@ -36,18 +36,15 @@
           <!-- Add News Button -->
           <v-col v-if="$checkProp('news_edit')" class="d-flex">
             <v-spacer v-if="$vuetify.breakpoint.smAndUp"/>
-            <v-card flat class="d-flex align-center pr-2 pl-2"
-                    min-height="50px" height="70%">
-              <v-btn outlined color="success" height="80%" @click="showAddMessageDialog">
+              <v-btn color="success" @click="showAddMessageDialog">
                 <v-icon left>mdi-plus</v-icon>
                 <span>{{ $t('home.addNews') }}</span>
               </v-btn>
-            </v-card>
           </v-col>
         </v-row>
         <transition-group  enter-active-class="animate__animated animate__fadeIn"
                            leave-active-class="animate__animated animate__fadeOut">
-          <v-card v-for="message in getNewsOfTheDay" :key="message.id" class="ma-10">
+          <v-card v-for="message in getNewsOfTheDay" :key="message.id" class="mt-3 news-of-day">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
@@ -68,7 +65,7 @@
                 </v-col>
               </v-row>
             </v-card-title>
-            <v-card-text v-html="message.content" class="mt-3 ql-editor">
+            <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
             </v-card-text>
             <v-card-actions class="text--disabled pt-0">
               <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
@@ -77,7 +74,7 @@
           </v-card>
         </transition-group>
         <!-- Display News -->
-        <v-row v-if="getNews.length !== 0">
+        <v-row v-if="getNews.length !== 0" class="mt-5">
           <v-col class="d-flex">
             <v-card flat class="d-flex">
               <v-card-title class="align-center">
@@ -112,7 +109,7 @@
                 </v-col>
               </v-row>
             </v-card-title>
-            <v-card-text v-html="message.content" class="mt-3 ql-editor">
+            <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
             </v-card-text>
             <v-card-actions class="text--disabled pt-0">
               <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
@@ -254,3 +251,11 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="sass">
+.news-of-day
+  border-style: solid
+  border-width: 3px
+  border-color: var(--v-primary-base)
+
+</style>
