@@ -518,5 +518,7 @@
   "group": "Group",
   "reset": "Reset",
   "serverName": "Server Name",
-  "submit": "Submit"
+  "submit": "Submit",
+  "serverStatus": "Server Status",
+  "connect": "Connect"
 }

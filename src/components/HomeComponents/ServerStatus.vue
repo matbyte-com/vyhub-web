@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" flat>
     <v-card-title class="pb-0">
       <v-row>
         <v-col cols="12" class="d-flex">
@@ -19,16 +19,30 @@
         <v-divider class="mb-2"/>
         <v-simple-table dense>
           <tbody>
-          <tr v-for="server in getServer(bundle.id)" :key="server.id">
-            <td>
-              <v-icon color="green" left>
+          <tr v-for="server in getServer(bundle.id)" :key="server.id" >
+            <td colspan="10%" style="padding: 0; margin: 0">
+              <v-icon :color="getStatusColor(server)" left>
                 mdi-flash
               </v-icon>
               <span>
-                <a>42 / 69</a>
+                <a>{{ server.status.player_count }} / {{ server.status.player_max }}</a>
               </span>
             </td>
-            <td>{{ server.name }}</td>
+            <td style="">{{ server.name }}</td>
+            <td style="padding: 0; margin: 0" class="text-right">
+              <v-tooltip left :disabled="$vuetify.breakpoint.lgAndUp">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn small color="success" depressed v-bind="attrs" v-on="on"
+                         :href="server.link">
+                    <v-icon :left="$vuetify.breakpoint.lgAndUp">
+                      mdi-connection
+                    </v-icon>
+                    <span v-if="$vuetify.breakpoint.lgAndUp">Connect</span>
+                  </v-btn>
+                </template>
+                <span>{{ $t('connect') }}</span>
+              </v-tooltip>
+            </td>
             <!--
             <td>{{ server.address }}:{{ server.port }}</td>
             -->
@@ -66,6 +80,13 @@ export default {
     },
     getServer(bundleId) {
       return this.servers.filter((s) => s.serverbundle_id === bundleId);
+    },
+    getStatusColor(server) {
+      // show as read when last__updated >= 15 minutes
+      if (new Date() - new Date(server.status.last_update) >= 900000) {
+        return 'error';
+      }
+      return 'success';
     },
   },
 };

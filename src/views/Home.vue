@@ -20,17 +20,28 @@
     </dialog-form>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
     <v-row>
-      <!-- ServerStatus on Smartphones -->
-      <v-expansion-panels v-if="$vuetify.breakpoint.smAndDown">
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            Test
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <ServerStatus />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <!-- Smartphones Serverstatus + Donation Goal -->
+      <v-card width="100%" v-if="$vuetify.breakpoint.smAndDown">
+        <v-expansion-panels multiple flat >
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              {{ $t('serverStatus') }}
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <ServerStatus />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              {{ $t('_shop.labels.donationGoal') }}
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <DonationGoal />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-card>
       <!-- News -->
       <v-col cols="12" md="8">
         <!-- News of the Day -->
@@ -140,11 +151,10 @@
       </v-col>
       <!-- Server Status -->
       <v-col ref="StatusCol">
-        <div style="position: fixed" :style="{width: `${statusColumnWidth}px`}">
-          <ServerStatus v-if="$vuetify.breakpoint.mdAndUp" ref="ServerStatus"
-                        />
-          <DonationGoal v-if="$vuetify.breakpoint.mdAndUp" class="mt-3"
-                        />
+        <div style="position: fixed" :style="{width: `${statusColumnWidth}px`}"
+             v-if="$vuetify.breakpoint.mdAndUp">
+          <ServerStatus  ref="ServerStatus"/>
+          <DonationGoal class="mt-3"/>
         </div>
       </v-col>
     </v-row>
