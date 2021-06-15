@@ -150,8 +150,17 @@
     }
   },
   "log": {
-    "labels": {
-      "log": "Log"
+    "log": "Log",
+    "type": {
+      "system": "System",
+      "user": "User",
+      "ban": "Ban",
+      "shop": "Shop",
+      "packet": "Packet",
+      "group": "Group",
+      "news": "News",
+      "requirement": "Requirement",
+      "design": "Design"
     },
     "group_add": "Added group {groupName} {groupId}.",
     "group_edit": "Edited group {groupName} {groupId}.",
@@ -405,7 +414,8 @@
     "shopCategory": "Shop - Category",
     "shopCart": "Cart",
     "shopCheckout": "Checkout",
-    "shopAdministration": "Shop - Administration"
+    "shopAdministration": "Shop - Administration",
+    "log": "Log"
   },
   "recurring": "Recurring",
   "revenue": "Revenue",

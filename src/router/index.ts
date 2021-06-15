@@ -105,6 +105,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Notification.vue'),
   },
   {
+    path: '/log',
+    name: 'Log',
+    meta: { title: i18n.t('pageTitle.log'), requiresAuth: true },
+    component: () => import('../views/Log.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {

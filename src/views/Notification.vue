@@ -33,7 +33,6 @@
               <v-btn
                 outlined
                 color="primary"
-                dark
                 @click="$refs.markAsReadDialog.show"
               >
                 <v-icon left>
@@ -56,7 +55,6 @@
                   <v-btn
                     outlined
                     color="primary"
-                    dark
                     v-bind="attrs"
                     v-on="on"
                   >
@@ -149,10 +147,10 @@ export default {
   data() {
     return {
       selectedCat: [],
-      itemsPerPage: 7,
+      itemsPerPage: 50,
       newMessages: null,
       notifications: [],
-      totalItems: null,
+      totalItems: 20,
       categories: [],
       headers: [
         {
