@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" flat>
     <v-card-title class="pb-0">
       <v-row>
         <v-col cols="12" class="d-flex align-center">
@@ -10,7 +10,9 @@
             {{ $t('_shop.labels.donationGoal') }}
           </span>
           <v-spacer />
-          <v-btn :to="{name: 'Shop'}" outlined color="success" small>
+          <v-btn :to="{name: 'Shop'}" outlined color="success"
+                 :x-small="$vuetify.breakpoint.mdAndDown"
+                 :small="$vuetify.breakpoint.lgAndUp">
             <v-icon left>
               mdi-sack
             </v-icon>
@@ -24,22 +26,39 @@
         <strong>{{ getProgress }}%</strong>
       </v-progress-linear>
       <div class="d-flex">
-        <span>33€ / 69€ {{ $t('_shop.labels.perMonth') }}</span>
+        <span v-if="donationGoal.currency">
+          {{ donationGoal.current }}{{donationGoal.currency.symbol}}
+          / {{ donationGoal.goal }}{{donationGoal.currency.symbol}}
+          {{ $t('_shop.labels.perMonth') }}</span>
       </div>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import openapi from '@/api/openapi';
+
 export default {
   name: 'DonationGoal.vue',
   data() {
     return {
+      donationGoal: {},
     };
+  },
+  mounted() {
+    this.fetchData();
   },
   computed: {
     getProgress() {
-      return 17;
+      if (!this.donationGoal.current) return NaN;
+      return Math.floor((this.donationGoal.current / this.donationGoal.goal) * 100);
+    },
+  },
+  methods: {
+    async fetchData() {
+      (await openapi).design_getDonationGoal().then((rsp) => {
+        this.donationGoal = rsp.data;
+      });
     },
   },
 };
