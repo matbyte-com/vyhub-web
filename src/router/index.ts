@@ -181,23 +181,22 @@ function showLoginDialog(to: Route, from: Route) {
 
 // Handle Route requires Login
 router.beforeEach((to, from, next) => {
-  if ((to.query.login !== 'true') && (to.matched.some((record) => record.meta.requiresAuth))) {
+  const refreshToken = to.query.refresh_token;
+
+  if (refreshToken != null && typeof refreshToken === 'string') {
+    AuthService.login(refreshToken).then(() => {
+      console.log('Successful login!');
+      next();
+    }).catch((e) => {
+      console.log(e);
+      showLoginDialog(to, from);
+    });
+  } else if ((to.query.login !== 'true')
+    && (to.matched.some((record) => record.meta.requiresAuth))) {
     // this route requires auth
     if (!store.getters.isLoggedIn) {
-      const refreshToken = to.query.refresh_token;
-
-      if (refreshToken != null && typeof refreshToken === 'string') {
-        AuthService.login(refreshToken).then(() => {
-          console.log('Successful login!');
-          next();
-        }).catch((e) => {
-          console.log(e);
-          showLoginDialog(to, from);
-        });
-      } else {
-        console.log('Showing login dialog.');
-        showLoginDialog(to, from);
-      }
+      console.log('Showing login dialog.');
+      showLoginDialog(to, from);
     } else {
       next();
     }
