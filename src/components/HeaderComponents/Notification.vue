@@ -105,18 +105,18 @@ export default {
         });
         this.evtSource.onerror = (err) => {
           this.utils.notifyUnexpectedError(err);
-          this.evtSource.close();
+          // this.evtSource.close();
           throw (err);
         };
       }
     },
     afterLogin() {
       this.notifications = [];
-      setTimeout(() => { this.registerSse(); }, 1000);
+      this.registerSse();
     },
     afterLogout() {
-      this.notifications = [];
       this.evtSource.close();
+      this.notifications = [];
     },
     rowClick(item) {
       this.toggleReadStatus(item);
@@ -152,12 +152,17 @@ export default {
   beforeDestroy() {
     if (this.evtSource) this.evtSource.close();
   },
-  beforeMount() {
-    this.registerSse();
-    // Emitted in AuthService.ts
+  mounted() {
     this.getServerName();
+    // Emitted in AuthService.ts
     EventBus.on('login', this.afterLogin);
     EventBus.on('logout', this.afterLogout);
+    setTimeout(() => { this.registerSse(); }, 700);
+  },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      if (this.evtSource) this.evtSource.close();
+    }, false);
   },
   computed: {
     reqNotificationButton() {
