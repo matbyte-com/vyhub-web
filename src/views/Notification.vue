@@ -67,6 +67,7 @@
                 <v-checkbox
                   class="ml-2, mr-2"
                   dense
+                  hide-details
                   v-for="(category, index) in categories"
                   :key="index"
                   v-model="selectedCat"
