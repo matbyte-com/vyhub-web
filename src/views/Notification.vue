@@ -74,7 +74,7 @@
                   :value="category"
                   @change="newCat"
                 ></v-checkbox>
-                <a class="ma-1" @click="selectedCat = []">{{ $t('reset') }}</a>
+                <a class="ma-1" @click="selectedCat = []; fetchData()">{{ $t('reset') }}</a>
               </v-menu>
             </v-col>
           </v-row>
@@ -165,7 +165,6 @@ export default {
       ],
       state: {
         page: 1,
-        sortByCat: null,
         desc: false,
         read: false,
       },
@@ -186,12 +185,12 @@ export default {
       this.newMessages = false;
       this.notifications = null;
       if (page) this.state.page = page;
-      if (sortByCat) this.state.sortByCat = sortByCat;
+      if (sortByCat) this.selectedCat = sortByCat;
       (await openapi).notification_getNotifications({
         size: this.itemsPerPage,
         page: this.state.page - 1,
         descending: this.state.desc,
-        categories: this.state.sortByCat,
+        categories: this.selectedCat,
         hide_read: this.state.read,
       })
         .then((rsp) => {

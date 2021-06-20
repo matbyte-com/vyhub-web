@@ -17,6 +17,18 @@
         <template v-slot:header>
           <v-row>
             <v-col class="d-flex align-center">
+              <v-btn
+                color="primary"
+                depressed
+                :loading="updateBtnLoading"
+                @click="updateLog"
+              >
+                <v-icon left>
+                  mdi-sync
+                </v-icon>
+                {{ $t('update') }}
+              </v-btn>
+              <v-spacer />
               <v-menu offset-y :close-on-content-click="false">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -41,7 +53,7 @@
                   :value="category"
                   @change="newCat"
                 ></v-checkbox>
-                <a class="ma-1" @click="selectedCat = []">{{ $t('reset') }}</a>
+                <a class="ma-1" @click="selectedCat = []; fetchData()">{{ $t('reset') }}</a>
               </v-menu>
             </v-col>
           </v-row>
@@ -54,11 +66,14 @@
         <template v-slot:item.author="{ item }">
           <UserLink :user="item.author"/>
         </template>
+        <template v-slot:item.category="{ item }">
+          {{ $t(`log.type.${item.category.toLowerCase()}`) }}
+        </template>
         <template v-slot:item.time="{ item }" >
           <span>
             {{ $t('notification.timeAgo', {
             time: utils.formatLength((new Date() - new Date(item.created_on)) / 1000)
-          }) }}
+           }) }}
           </span>
         </template>
       </DataTable>
@@ -78,6 +93,7 @@ export default {
   components: { UserLink, PageTitle, DataTable },
   data() {
     return {
+      updateBtnLoading: false,
       selectedCat: [],
       itemsPerPage: 50,
       newMessages: null,
@@ -92,7 +108,6 @@ export default {
       ],
       state: {
         page: 1,
-        sortByCat: null,
       },
     };
   },
@@ -102,7 +117,7 @@ export default {
   },
   methods: {
     async fetchCategories() {
-      (await openapi).log_getCategories.then((rsp) => {
+      (await openapi).log_getCategories().then((rsp) => {
         this.categories = rsp.data;
       });
     },
@@ -110,20 +125,17 @@ export default {
       this.newMessages = false;
       this.logs = null;
       if (page) this.state.page = page;
-      if (sortByCat) this.state.sortByCat = sortByCat;
+      if (sortByCat) this.selectedCat = sortByCat;
       (await openapi).log_getLog({
         size: this.itemsPerPage,
         page: this.state.page - 1,
-        categories: this.state.sortByCat,
+        categories: this.selectedCat,
       })
         .then((rsp) => {
           this.logs = rsp.data.items;
           this.totalItems = rsp.data.total;
+          setTimeout(() => { this.updateBtnLoading = false; }, 500);
         });
-    },
-    getTime(time) {
-      const time_obj = new Date(time);
-      return `${time_obj.getHours()}:${time_obj.getMinutes()}`;
     },
     newPage(page) {
       this.fetchData(page);
@@ -134,6 +146,10 @@ export default {
     resetCatFilter() {
       this.selectedCat = [];
       this.fetchData(1);
+    },
+    updateLog() {
+      this.updateBtnLoading = true;
+      this.fetchData();
     },
   },
 };
