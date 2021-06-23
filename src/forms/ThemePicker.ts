@@ -8,6 +8,9 @@ export default {
   ],
   properties: {
     primary: common.colorPicker('settings.labels.primaryColor'),
+    success: common.colorPicker('settings.labels.successColor'),
+    warning: common.colorPicker('settings.labels.warningColor'),
+    error: common.colorPicker('settings.labels.errorColor'),
     dark: {
       type: 'boolean',
       title: i18n.t('settings.labels.darkmode'),
@@ -23,5 +26,21 @@ export default {
       },
     },
     background: common.colorPicker('settings.labels.backgroundColor', 'settings.backgroundColorDescription'),
+    logo: {
+      type: 'string',
+      title: i18n.t('settings.labels.logoUrl'),
+      pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
+      'x-props': {
+        clearable: true,
+        placeholder: i18n.t('settings.httpPlaceholder'),
+      },
+    },
+    show_community_name: {
+      type: 'boolean',
+      title: i18n.t('settings.labels.showCommunityName'),
+      default: false,
+      'x-display': 'switch',
+      description: i18n.t('settings.labels.communityNameDescription'),
+    },
   },
 };

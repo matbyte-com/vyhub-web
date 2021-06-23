@@ -64,10 +64,10 @@
 <script>
 import emitter from '@/services/EventBus';
 import Vue from 'vue';
-import apiService from '@/api/api';
 import AuthService from '@/services/AuthService';
 import AccessControlService from '@/services/AccessControlService';
 import UtilService from '@/services/UtilService';
+import openapi from '@/api/openapi';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
@@ -98,8 +98,8 @@ export default Vue.extend({
     emitter.on('themeUpdated', this.setTheme);
   },
   methods: {
-    setTheme() {
-      apiService.design.getTheme().then((rsp) => {
+    async setTheme() {
+      (await openapi).design_getTheme().then((rsp) => {
         const cachedTheme = {};
         try {
           const theme = rsp.data;
@@ -120,11 +120,24 @@ export default Vue.extend({
             this.$vuetify.theme.dark = false;
             cachedTheme.dark = false;
           }
+          // set colors, logo and more
           this.$vuetify.theme.currentTheme.primary = theme.primary;
+          this.$vuetify.theme.currentTheme.success = theme.success;
+          this.$vuetify.theme.currentTheme.warning = theme.warning;
+          this.$vuetify.theme.currentTheme.error = theme.error;
           cachedTheme.primary = theme.primary;
+          cachedTheme.success = theme.success;
+          cachedTheme.warning = theme.warning;
+          cachedTheme.error = theme.error;
+          cachedTheme.logo = theme.logo;
+          cachedTheme.show_community_name = theme.show_community_name;
+          cachedTheme.community_name = theme.community_name;
+          // save theme to localStorage
           localStorage.setItem('theme', JSON.stringify(cachedTheme));
+          emitter.emit('themeUpdatedAfter');
         } catch (e) {
           this.$vuetify.theme.currentTheme.primary = '#3f51b5';
+          console.log('Error While Setting Theme');
           throw e;
         }
       });
@@ -140,6 +153,9 @@ export default Vue.extend({
           this.$vuetify.theme.dark = false;
         }
         this.$vuetify.theme.currentTheme.primary = obj.primary;
+        this.$vuetify.theme.currentTheme.success = obj.success;
+        this.$vuetify.theme.currentTheme.warning = obj.warning;
+        this.$vuetify.theme.currentTheme.error = obj.error;
       }
     },
   },

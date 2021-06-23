@@ -74,7 +74,7 @@ export default {
       notifications: [],
       newMessages: null,
       evtSource: null,
-      serverName: 'VyHub Server',
+      serverName: 'VyHub',
     };
   },
   methods: {
@@ -105,7 +105,8 @@ export default {
         });
         this.evtSource.onerror = (err) => {
           this.utils.notifyUnexpectedError(err);
-          // this.evtSource.close();
+          console.log('Notification Stream Closed');
+          this.evtSource.close();
           throw (err);
         };
       }
@@ -137,10 +138,13 @@ export default {
         .then(console.log);
     },
     async getServerName() {
-      if (localStorage.getItem('serverName')) this.serverName = localStorage.getItem('serverName');
-      (await openapiCached).design_getServerName().then((rsp) => {
-        this.serverName = rsp.data;
-        localStorage.setItem('serverName', this.serverName);
+      if (localStorage.getItem('generalSettings')) {
+        const obj = JSON.parse(localStorage.getItem('generalSettings'));
+        this.serverName = obj.community_name;
+      }
+      (await openapiCached).design_getGeneralSettings().then((rsp) => {
+        this.serverName = rsp.data.community_name;
+        localStorage.setItem('serverName', JSON.stringify(rsp.data));
       });
     },
     async toggleReadStatus(item) {

@@ -78,9 +78,15 @@
       "editBundle": "Edit Serverbundle",
       "addServer": "Add Server",
       "primaryColor": "Primary Color",
+      "successColor": "Success Color",
+      "errorColor": "Error Color",
+      "warningColor": "Warning Color",
       "backgroundColor": "Background Color",
       "darkmode": "Darkmode",
-      "backgroundUrl": "Background Image"
+      "backgroundUrl": "Background Image",
+      "logoUrl": "Logo Image",
+      "showCommunityName": "Show Community Name",
+      "communityNameDescription": "Displays community name in header"
     }
   },
   "_properties": {

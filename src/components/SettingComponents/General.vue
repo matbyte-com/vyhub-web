@@ -25,8 +25,8 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).design_getServerName().then((rsp) => {
-        this.$refs.form.setData({ server_name: rsp.data });
+      (await openapi).design_getGeneralSettings().then((rsp) => {
+        this.$refs.form.setData(rsp.data);
       });
     },
     async saveData() {

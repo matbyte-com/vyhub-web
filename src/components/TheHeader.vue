@@ -11,9 +11,9 @@
 
     <!-- Logo -->
     <div class="d-flex align-center pr-5" @click="$router.push('/')">
-      <v-img alt="VyHub Logo" class="shrink" contain src="@/assets/img/vyhub_logo_v1.png"
-             transition="scale-transition" width="150"/>
-      <!--<v-toolbar-title>VyHub</v-toolbar-title>-->
+      <v-img alt="Community Logo" class="shrink" contain :src="imgSrc"
+             transition="scale-transition" min-width="50" max-width="150" max-height="50"/>
+      <v-toolbar-title v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
 
     <!-- navigation links-->
@@ -76,6 +76,8 @@ export default {
   data() {
     return {
       links: [],
+      imgSrc: null,
+      communityName: null,
       linksRight: [
         /* {
           title: 'Settings', icon: 'mdi-cog', link: '/settings',
@@ -107,6 +109,17 @@ export default {
         query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path) },
       });
     },
+    getLogo() {
+      if (localStorage.theme) {
+        const obj = JSON.parse(localStorage.getItem('theme'));
+        this.imgSrc = obj.logo;
+        if (obj.show_community_name) {
+          this.communityName = obj.community_name;
+        } else {
+          this.communityName = null;
+        }
+      }
+    },
   },
   computed: {
     allowedLinks() {
@@ -116,8 +129,11 @@ export default {
   },
   beforeMount() {
     this.getNavItems();
+    this.getLogo();
     // Event Emitted in Components/Settings/Navigation.vue
     EventBus.on('navUpdated', this.getNavItems);
+    // Event Emitted in App.vue after Theme was updated
+    EventBus.on('themeUpdatedAfter', this.getLogo);
   },
   created() {
     this.getNavItemsFromCache();
