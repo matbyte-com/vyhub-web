@@ -93,11 +93,20 @@ export default Vue.extend({
     AuthService.setAuthTokens();
     AuthService.setProperties();
     this.setTheme();
+    this.getGeneralSettings();
     this.background = this.$vuetify.theme.currentTheme.background;
     // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
     emitter.on('themeUpdated', this.setTheme);
   },
   methods: {
+    async getGeneralSettings() {
+      (await openapi).design_getGeneralSettings().then((rsp) => {
+        localStorage.setItem('generalSettings', JSON.stringify(rsp.data));
+      }).catch((err) => {
+        console.log('Could not get General Settings');
+        throw err;
+      });
+    },
     async setTheme() {
       (await openapi).design_getTheme().then((rsp) => {
         const cachedTheme = {};

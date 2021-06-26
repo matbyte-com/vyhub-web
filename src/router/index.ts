@@ -13,8 +13,6 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'Home',
     component: () => import('../views/Home.vue'),
-    // storage.serverName queried e.G. in Header / Notify
-    meta: { title: localStorage.getItem('serverName') },
   },
   {
     path: '/dashboard',

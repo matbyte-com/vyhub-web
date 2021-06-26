@@ -195,8 +195,20 @@ export default {
     this.fetchNews();
     this.scroll();
     this.setWidth();
+    this.setTitle();
   },
   methods: {
+    // General Settings queried in App
+    async setTitle() {
+      if (localStorage.generalSettings) {
+        const obj = JSON.parse(localStorage.getItem('generalSettings'));
+        document.title = obj.community_name;
+      } else {
+        (await openapi).design_getGeneralSettings().then((rsp) => {
+          document.title = rsp.data.community_name;
+        });
+      }
+    },
     async fetchNews(page) {
       this.fetching = true;
       (await openapi).news_getMessages({ page, size: 15 }).then((rsp) => {
