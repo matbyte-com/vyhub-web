@@ -12,8 +12,8 @@
     <!-- Logo -->
     <div class="d-flex align-center pr-5" @click="$router.push('/')">
       <v-img alt="Community Logo" class="shrink" contain :src="imgSrc"
-             transition="scale-transition" min-width="50" max-width="200" max-height="50"/>
-      <v-toolbar-title v-if="communityName">{{ communityName }}</v-toolbar-title>
+             transition="scale-transition" min-width="50" max-width="200" height="50"/>
+      <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
 
     <!-- navigation links-->
