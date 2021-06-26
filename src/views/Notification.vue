@@ -98,7 +98,7 @@
         <template v-slot:item.time="{ item }" >
           <span :class="{ 'font-weight-medium': !item.read }">
             {{ $t('notification.timeAgo', {
-            time: utils.formatLength((new Date() - new Date(item.created_on)) / 1000)
+            time: utils.formatElapsedTime((new Date() - new Date(item.created_on)) / 1000)
           }) }}
           </span>
         </template>
