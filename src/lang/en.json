@@ -86,7 +86,8 @@
       "backgroundUrl": "Background Image",
       "logoUrl": "Logo Image",
       "showCommunityName": "Show Community Name",
-      "communityNameDescription": "Displays community name in header"
+      "communityNameDescription": "Displays community name in header",
+      "logoDescription": "Reload Page if logo is not displayed correctly"
     }
   },
   "_properties": {

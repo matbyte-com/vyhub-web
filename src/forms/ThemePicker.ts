@@ -34,6 +34,7 @@ export default {
         clearable: true,
         placeholder: i18n.t('settings.httpPlaceholder'),
       },
+      description: i18n.t('settings.labels.logoDescription'),
     },
     show_community_name: {
       type: 'boolean',
