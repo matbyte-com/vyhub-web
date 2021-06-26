@@ -12,7 +12,7 @@
     <!-- Logo -->
     <div class="d-flex align-center pr-5" @click="$router.push('/')">
       <v-img alt="Community Logo" class="shrink" contain :src="imgSrc"
-             transition="scale-transition" min-width="50" max-width="150" max-height="50"/>
+             transition="scale-transition" min-width="50" max-width="200" max-height="50"/>
       <v-toolbar-title v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
 
