@@ -10,6 +10,7 @@
 import GenForm from '@/components/GenForm.vue';
 import SettingsGeneralFormSchema from '@/forms/SettingsGeneralForm';
 import openapi from '@/api/openapi';
+import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
 
 export default {
@@ -31,7 +32,10 @@ export default {
     },
     async saveData() {
       const data = this.$refs.form.getData();
-      (await openapi).design_editGeneralSettings(null, data).then().catch((err) => {
+      (await openapi).design_editGeneralSettings(null, data).then(() => {
+        // caught in App.vue to Update Theme + Header
+        EventBus.emit('themeUpdated');
+      }).catch((err) => {
         this.$refs.form.setErrorMessage(err.response.data.detail);
       });
     },
