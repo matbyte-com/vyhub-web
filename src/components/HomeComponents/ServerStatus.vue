@@ -33,7 +33,7 @@
               <v-tooltip left :disabled="$vuetify.breakpoint.lgAndUp">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn small color="success" depressed v-bind="attrs" v-on="on"
-                         :href="server.link">
+                         :href="getConnectionLink(server)">
                     <v-icon :left="$vuetify.breakpoint.lgAndUp">
                       mdi-connection
                     </v-icon>
@@ -87,6 +87,16 @@ export default {
         return 'error';
       }
       return 'success';
+    },
+    getConnectionLink(server) {
+      // TODO Add New Servers here for proper functioning of the connection link
+      switch (server.type) {
+        case 'GMOD':
+          return `steam://${server.address}:${server.port}`;
+        default:
+          console.log('Could not find server type to calculate server-connection-address');
+          return '';
+      }
     },
   },
 };
