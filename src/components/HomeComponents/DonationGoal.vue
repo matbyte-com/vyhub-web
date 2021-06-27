@@ -43,11 +43,11 @@ export default {
   name: 'DonationGoal.vue',
   data() {
     return {
-      donationGoal: {},
     };
   },
+  props: ['donationGoal'],
   mounted() {
-    this.fetchData();
+    // this.fetchData();
   },
   computed: {
     getProgress() {

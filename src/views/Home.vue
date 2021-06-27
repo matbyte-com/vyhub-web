@@ -32,12 +32,12 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
 
-          <v-expansion-panel>
+          <v-expansion-panel v-if="donationGoal.enabled">
             <v-expansion-panel-header>
               {{ $t('_shop.labels.donationGoal') }}
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <DonationGoal />
+              <DonationGoal :donationGoal="donationGoal" />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -154,7 +154,7 @@
         <div style="position: fixed" :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
           <ServerStatus  ref="ServerStatus"/>
-          <DonationGoal class="mt-3"/>
+          <DonationGoal v-if="donationGoal.enabled" :donationGoal="donationGoal" class="mt-3"/>
         </div>
       </v-col>
     </v-row>
@@ -189,6 +189,7 @@ export default {
       messageAddSchema: NewsAddForm,
       message: null,
       statusColumnWidth: 250,
+      donationGoal: {},
     };
   },
   mounted() {
@@ -196,6 +197,7 @@ export default {
     this.scroll();
     this.setWidth();
     this.setTitle();
+    this.getDonationGoalStatus();
   },
   methods: {
     // General Settings queried in App
@@ -273,6 +275,11 @@ export default {
     },
     setWidth() {
       this.statusColumnWidth = this.$refs.StatusCol.clientWidth;
+    },
+    async getDonationGoalStatus() {
+      (await openapi).design_getDonationGoal().then((rsp) => {
+        this.donationGoal = rsp.data;
+      });
     },
   },
   computed: {
