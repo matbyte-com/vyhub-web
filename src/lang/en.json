@@ -88,6 +88,11 @@
       "showCommunityName": "Show Community Name",
       "communityNameDescription": "Displays community name in header",
       "logoDescription": "Reload Page if logo is not displayed correctly"
+    },
+    "shop": {
+      "enableDonationGoal": "Enable Donation Goal",
+      "enableDonationGoalDescription": "Donation goal component displayed on startpage (News)",
+      "donationGoal": "Donation Goal"
     }
   },
   "_properties": {
