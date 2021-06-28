@@ -11,28 +11,28 @@
     </v-card-title>
     <v-card-text>
       <v-data-iterator
-        :items="getAccountData"
+        :items="linkedUsers"
         item-key="id"
         hide-default-footer>
         <template v-slot:default="{ items }">
           <v-row>
             <v-col
-              v-for="item in items"
-              :key="item.id"
+              v-for="acc in items"
+              :key="acc.id"
               sm="6">
               <v-card class="mt-3">
                 <v-card-title>
                   <v-row>
                     <v-col>
                       <v-icon class="mr-2">
-                        {{ userTypeIcons[item.type] }}
+                        {{ userTypeIcons[acc.type] }}
                       </v-icon>
-                      {{ item.type }}
+                      {{ acc.type }}
                     </v-col>
                     <v-col cols="3">
                       <v-avatar
                         size="35">
-                        <img :src="item.avatar"
+                        <img :src="acc.avatar"
                              size="5"
                              alt="avatar">
                       </v-avatar>
@@ -49,18 +49,24 @@
                         dense>
                         <v-list-item>
                           <v-list-item-content>{{ $t('id') }}</v-list-item-content>
-                          <v-list-item-content>{{ item.identifier }}</v-list-item-content>
+                          <v-list-item-content>{{ acc.identifier }}</v-list-item-content>
                         </v-list-item>
                         <v-list-item>
                           <v-list-item-content>{{ $t('username') }}</v-list-item-content>
-                          <v-list-item-content>{{ item.username }}</v-list-item-content>
+                          <v-list-item-content>{{ acc.username }}</v-list-item-content>
                         </v-list-item>
-                        <v-list-item
-                          v-for="(value, key) in item.attributes"
-                          :key="key">
-                          <v-list-item-content>{{ $t(key) }}</v-list-item-content>
-                          <v-list-item-content>{{ value }}</v-list-item-content>
-                        </v-list-item>
+                        <div v-if="attributeDefinitions != null">
+                          <v-list-item
+                            v-for="(attrVal, attrName) in acc.attributes"
+                            :key="attrName">
+                            <v-list-item-content>
+                              {{ attributeDefinitionsDict[attrName].title }}
+                            </v-list-item-content>
+                            <v-list-item-content>
+                              {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
+                            </v-list-item-content>
+                          </v-list-item>
+                        </div>
                       </v-list>
                     </v-col>
                   </v-row>
@@ -91,8 +97,8 @@ export default {
   },
   data() {
     return {
-      userAccounts: {},
-      attributeDefinitions: [],
+      userAccounts: null,
+      attributeDefinitions: null,
       componentLoaded: false,
       userTypeIcons: userService.userTypeIcons,
     };
@@ -107,47 +113,30 @@ export default {
   },
   methods: {
     async queryData() {
-      (await openapiCached).user_getAttributeDefinitions()
-        .then((rsp) => { this.attributeDefinitions = rsp.data; });
-      (await openapi).user_getData(this.user.id).then((rsp) => {
-        this.userAccounts = rsp.data;
-        this.componentLoaded = true;
+      (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
+        this.attributeDefinitions = rsp.data;
       });
     },
   },
   computed: {
-    getAccounts() {
-      const accs = [];
-      const object = {};
-      object.type = this.userAccounts.type;
-      object.username = this.userAccounts.attributes.username;
-      accs.push(object);
-      this.userAccounts.linked_users.forEach((u) => {
-        const obj = {};
-        obj.type = u.type;
-        obj.username = u.attributes.username;
-        accs.push(obj);
-      });
-      return accs;
+    linkedUsers() {
+      return [this.user, ...this.user.linked_users];
     },
-    /**
-     * get onley unspecific Accountdata
-     * @returns {[]} accounts with manipulated attributes
-     */
-    getAccountData() {
-      if (!this.componentLoaded) { return []; }
-      const accs = [];
-      accs.push(this.userAccounts);
-      this.userAccounts.linked_users.forEach((u) => {
-        accs.push(u);
+    attributeDefinitionsDict() {
+      if (this.attributeDefinitions == null) {
+        return null;
+      }
+
+      const defDict = {};
+
+      this.attributeDefinitions.forEach((def) => {
+        defDict[def.name] = def;
       });
-      // delete bundle specific user_attributes
-      this.attributeDefinitions.forEach((attr) => {
-        if (attr.unspecific === false) {
-          delete accs.find((a) => a.type === attr.user_type).attributes[attr.name];
-        }
-      });
-      return accs;
+
+      return defDict;
+    },
+    unspecificAttributes() {
+      return null;
     },
   },
 };

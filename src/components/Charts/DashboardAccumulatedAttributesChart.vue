@@ -1,7 +1,9 @@
 <template>
   <div>
     <div v-if="series != null">
-      <apexchart type="line" :options="options" :series="series"></apexchart>
+      <apexchart height="300" type="area" :options="options" :series="series">
+
+      </apexchart>
     </div>
   </div>
 </template>
@@ -11,17 +13,42 @@ export default {
   name: 'DashboardAccumulatedAttributesChart',
   props: {
     data: Array,
+    definition: Object,
   },
   data() {
     return {
-      options: {
+
+    };
+  },
+  computed: {
+    series() {
+      if (this.data == null) {
+        return null;
+      }
+
+      const data = this.data.map((stat) => ({
+        x: new Date(stat.date).getTime(),
+        y: stat.value,
+      }));
+
+      return [{
+        name: this.definition.title,
+        data,
+      }];
+    },
+    options() {
+      if (this.definition == null) {
+        return null;
+      }
+
+      return {
         chart: {
-          id: 'accumulatedAttributeChart',
-          type: 'line',
+          id: 'accumulated-attribute-chart',
           zoom: {
             autoScaleYaxis: true,
           },
         },
+        colors: [this.$vuetify.theme.currentTheme.primary],
         stroke: {
           curve: 'smooth',
         },
@@ -38,36 +65,19 @@ export default {
         },
         yaxis: {
           title: {
-            text: this.$t('value'),
+            text: this.definition.title,
           },
           labels: {
             /* eslint-disable-next-line max-len */
-            // formatter: (y) => `${y.toLocaleString(undefined, { minimumFractionDigits: 2 })} ${this.currency.symbol}`,
+            formatter: (y) => `${this.utils.formatDecimal(y)} ${this.definition.unit}`,
           },
         },
         tooltip: {
           x: {
-            format: 'yyyy-MM-dd',
+            format: 'yyyy-MM-dd HH:mm:ss',
           },
         },
-      },
-    };
-  },
-  computed: {
-    series() {
-      if (this.data == null) {
-        return null;
-      }
-
-      const data = this.data.map((stat) => ({
-        x: new Date(stat.date).getTime(),
-        y: stat.value,
-      }));
-
-      return [{
-        name: this.data.definition_id,
-        data,
-      }];
+      };
     },
   },
 };

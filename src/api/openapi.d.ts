@@ -662,6 +662,33 @@ declare namespace Components {
       packet_ids?: string /* uuid */ [];
     }
     /**
+     * DonationGoalModel
+     */
+    export interface DonationGoalModel {
+      /**
+       * Enabled
+       */
+      enabled: boolean;
+      /**
+       * Goal
+       */
+      goal: number;
+      currency: CurrencyModel;
+      /**
+       * Current
+       */
+      current: number;
+    }
+    /**
+     * GeneralSettingModel
+     */
+    export interface GeneralSettingModel {
+      /**
+       * Community Name
+       */
+      community_name: string;
+    }
+    /**
      * GroupModel
      */
     export interface GroupModel {
@@ -972,6 +999,50 @@ declare namespace Components {
      */
     export type NewsType = "PINNED" | "DEFAULT";
     /**
+     * NotificationEntryModel
+     */
+    export interface NotificationEntryModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Link
+       */
+      link?: {
+      };
+      /**
+       * Message
+       */
+      message: {
+      };
+      /**
+       * Created On
+       */
+      created_on: string; // date-time
+      /**
+       * Category
+       */
+      category: string;
+      /**
+       * Read
+       */
+      read: boolean;
+    }
+    /**
+     * NotificationRead
+     */
+    export interface NotificationRead {
+      /**
+       * All
+       */
+      all?: boolean;
+      /**
+       * Id
+       */
+      id?: string /* uuid */ [];
+    }
+    /**
      * PacketCategoryModel
      */
     export interface PacketCategoryModel {
@@ -987,6 +1058,10 @@ declare namespace Components {
        * Enabled
        */
       enabled: boolean;
+      /**
+       * Sort Id
+       */
+      sort_id: number;
       /**
        * Id
        */
@@ -1008,6 +1083,10 @@ declare namespace Components {
        * Enabled
        */
       enabled: boolean;
+      /**
+       * Sort Id
+       */
+      sort_id: number;
     }
     /**
      * PacketCategoryModelPatch
@@ -1025,6 +1104,10 @@ declare namespace Components {
        * Enabled
        */
       enabled?: boolean;
+      /**
+       * Sort Id
+       */
+      sort_id?: number;
     }
     /**
      * PacketModel
@@ -1062,6 +1145,10 @@ declare namespace Components {
        * Recurring
        */
       recurring: boolean;
+      /**
+       * Sort Id
+       */
+      sort_id: number;
       /**
        * Title
        */
@@ -1153,6 +1240,10 @@ declare namespace Components {
        */
       recurring: boolean;
       /**
+       * Sort Id
+       */
+      sort_id: number;
+      /**
        * Title
        */
       title: string;
@@ -1241,6 +1332,10 @@ declare namespace Components {
        */
       recurring: boolean;
       /**
+       * Sort Id
+       */
+      sort_id: number;
+      /**
        * Title
        */
       title: string;
@@ -1318,6 +1413,10 @@ declare namespace Components {
        * Recurring
        */
       recurring?: boolean;
+      /**
+       * Sort Id
+       */
+      sort_id?: number;
       /**
        * Title
        */
@@ -1431,6 +1530,27 @@ declare namespace Components {
      */
     export type PacketRelationType = "DISABLES" | "REQUIRES" | "UPGRADES" | "NOT_COMPATIBLE";
     /**
+     * Page[LogEntryModel]
+     */
+    export interface PageLogEntryModel {
+      /**
+       * Items
+       */
+      items: LogEntryModel[];
+      /**
+       * Total
+       */
+      total: number;
+      /**
+       * Page
+       */
+      page: number;
+      /**
+       * Size
+       */
+      size: number;
+    }
+    /**
      * Page[NewsModel]
      */
     export interface PageNewsModel {
@@ -1438,6 +1558,27 @@ declare namespace Components {
        * Items
        */
       items: NewsModel[];
+      /**
+       * Total
+       */
+      total: number;
+      /**
+       * Page
+       */
+      page: number;
+      /**
+       * Size
+       */
+      size: number;
+    }
+    /**
+     * Page[NotificationEntryModel]
+     */
+    export interface PageNotificationEntryModel {
+      /**
+       * Items
+       */
+      items: NotificationEntryModel[];
       /**
        * Total
        */
@@ -1957,6 +2098,15 @@ declare namespace Components {
       id: string; // uuid
       type: ServerType;
       /**
+       * Link
+       */
+      link?: string;
+      /**
+       * Status
+       */
+      status?: {
+      };
+      /**
        * Address
        */
       address: string;
@@ -2132,11 +2282,35 @@ declare namespace Components {
       /**
        * Primary
        */
-      primary: string;
+      primary: string; // color
+      /**
+       * Success
+       */
+      success: string; // color
+      /**
+       * Warning
+       */
+      warning: string; // color
+      /**
+       * Error
+       */
+      error: string; // color
       /**
        * Background
        */
       background: string;
+      /**
+       * Logo
+       */
+      logo?: string;
+      /**
+       * Show Community Name
+       */
+      show_community_name: boolean;
+      /**
+       * Community Name
+       */
+      community_name?: string;
     }
     /**
      * TotalPriceModel
@@ -2206,7 +2380,11 @@ declare namespace Components {
       /**
        * Title
        */
-      title?: string;
+      title: string;
+      /**
+       * Unit
+       */
+      unit: string;
       type: UserAttributeType;
       /**
        * Statistics Interval
@@ -2226,13 +2404,9 @@ declare namespace Components {
       requirement_set_id?: string; // uuid
     }
     /**
-     * UserAttributeModel
+     * UserAttributeHistoryModel
      */
-    export interface UserAttributeModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
+    export interface UserAttributeHistoryModel {
       /**
        * Date
        */
@@ -2241,10 +2415,6 @@ declare namespace Components {
        * Value
        */
       value: string;
-      /**
-       * Definition Id
-       */
-      definition_id: string; // uuid
       /**
        * Server Id
        */
@@ -2423,9 +2593,17 @@ declare namespace Paths {
        * Backend
        */
       export type Backend = string;
+      /**
+       * Return Url
+       * URL to redirect.
+       */
+      export type ReturnUrl = string;
     }
     export interface PathParameters {
       backend: Parameters.Backend;
+    }
+    export interface QueryParameters {
+      return_url?: Parameters.ReturnUrl;
     }
     namespace Responses {
       export type $200 = any;
@@ -2453,9 +2631,17 @@ declare namespace Paths {
        * Backend
        */
       export type Backend = string;
+      /**
+       * Return Url
+       * URL to redirect after login.
+       */
+      export type ReturnUrl = string;
     }
     export interface PathParameters {
       backend: Parameters.Backend;
+    }
+    export interface QueryParameters {
+      return_url?: Parameters.ReturnUrl;
     }
     namespace Responses {
       export type $200 = any;
@@ -2552,6 +2738,13 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace DesignEditGeneralSettings {
+    export type RequestBody = Components.Schemas.GeneralSettingModel;
+    namespace Responses {
+      export type $200 = Components.Schemas.GeneralSettingModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace DesignGetCmsHtml {
     namespace Parameters {
       /**
@@ -2566,6 +2759,16 @@ declare namespace Paths {
     namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace DesignGetDonationGoal {
+    namespace Responses {
+      export type $200 = Components.Schemas.DonationGoalModel;
+    }
+  }
+  namespace DesignGetGeneralSettings {
+    namespace Responses {
+      export type $200 = any;
     }
   }
   namespace DesignGetIcons {
@@ -2725,6 +2928,36 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace LogGetCategories {
+    namespace Responses {
+      export type $200 = any;
+    }
+  }
+  namespace LogGetLog {
+    namespace Parameters {
+      /**
+       * Categories
+       */
+      export type Categories = string[];
+      /**
+       * Page
+       */
+      export type Page = number;
+      /**
+       * Size
+       */
+      export type Size = number;
+    }
+    export interface QueryParameters {
+      categories?: Parameters.Categories;
+      page?: Parameters.Page;
+      size?: Parameters.Size;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.PageLogEntryModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace NewsAddMessage {
     export type RequestBody = Components.Schemas.NewsModelPost;
     namespace Responses {
@@ -2785,9 +3018,56 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace NotificationGetEvents {
+  namespace NotificationGetCategories {
     namespace Responses {
       export type $200 = any;
+    }
+  }
+  namespace NotificationGetNotifications {
+    namespace Parameters {
+      /**
+       * Categories
+       */
+      export type Categories = string[];
+      /**
+       * Descending
+       */
+      export type Descending = boolean;
+      /**
+       * Hide Read
+       */
+      export type HideRead = boolean;
+      /**
+       * Page
+       */
+      export type Page = number;
+      /**
+       * Size
+       */
+      export type Size = number;
+    }
+    export interface QueryParameters {
+      descending?: Parameters.Descending;
+      hide_read?: Parameters.HideRead;
+      categories?: Parameters.Categories;
+      page?: Parameters.Page;
+      size?: Parameters.Size;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.PageNotificationEntryModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace NotificationGetStream {
+    namespace Responses {
+      export type $200 = any;
+    }
+  }
+  namespace NotificationMarkAsRead {
+    export type RequestBody = Components.Schemas.NotificationRead;
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace PacketAddPacket {
@@ -3669,6 +3949,21 @@ declare namespace Paths {
        */
       export type AttributeName = string;
       /**
+       * Definition Id
+       * ID of the attribute definition.
+       */
+      export type DefinitionId = string; // uuid
+      /**
+       * Linked Users
+       * Include attributes from linked users.
+       */
+      export type LinkedUsers = boolean;
+      /**
+       * Split Servers
+       * Split history by server.
+       */
+      export type SplitServers = boolean;
+      /**
        * Uuid
        * The UUID or username of the referenced user.
        */
@@ -3676,13 +3971,18 @@ declare namespace Paths {
     }
     export interface PathParameters {
       attribute_name: Parameters.AttributeName;
+      definition_id: Parameters.DefinitionId; // uuid
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      split_servers?: Parameters.SplitServers;
+      linked_users?: Parameters.LinkedUsers;
     }
     namespace Responses {
       /**
-       * Response Get Attribute History User  Uuid  Attribute  Attribute Name  Get
+       * Response Get Attribute History User  Uuid  Attribute  Definition Id  Get
        */
-      export type $200 = Components.Schemas.UserAttributeModel[];
+      export type $200 = Components.Schemas.UserAttributeHistoryModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3900,6 +4200,30 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignGetIcons.Responses.$200 | Paths.DesignGetIcons.Responses.$422>
   /**
+   * design_getGeneralSettings - Get General Settings
+   */
+  'design_getGeneralSettings'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignGetGeneralSettings.Responses.$200>
+  /**
+   * design_editGeneralSettings - Edit General Settings
+   */
+  'design_editGeneralSettings'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.DesignEditGeneralSettings.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
+  /**
+   * design_getDonationGoal - Get Donation Goal
+   */
+  'design_getDonationGoal'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignGetDonationGoal.Responses.$200>
+  /**
    * auth_getToken - Get Token
    */
   'auth_getToken'(
@@ -3927,7 +4251,7 @@ export interface OperationMethods {
    * auth_start - Start
    */
   'auth_start'(
-    parameters?: Parameters<Paths.AuthStart.PathParameters> | null,
+    parameters?: Parameters<Paths.AuthStart.PathParameters & Paths.AuthStart.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthStart.Responses.$200 | Paths.AuthStart.Responses.$422>
@@ -3935,7 +4259,7 @@ export interface OperationMethods {
    * auth_finish - Finish
    */
   'auth_finish'(
-    parameters?: Parameters<Paths.AuthFinish.PathParameters> | null,
+    parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
@@ -3943,7 +4267,7 @@ export interface OperationMethods {
    * auth_finish - Finish
    */
   'auth_finish'(
-    parameters?: Parameters<Paths.AuthFinish.PathParameters> | null,
+    parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
@@ -3967,7 +4291,7 @@ export interface OperationMethods {
    * user_getAttributeHistory - Get Attribute History
    */
   'user_getAttributeHistory'(
-    parameters?: Parameters<Paths.UserGetAttributeHistory.PathParameters> | null,
+    parameters?: Parameters<Paths.UserGetAttributeHistory.PathParameters & Paths.UserGetAttributeHistory.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>
@@ -4704,13 +5028,53 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
   /**
-   * notification_getEvents - Get Events
+   * notification_getStream - Get Stream
    */
-  'notification_getEvents'(
+  'notification_getStream'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationGetEvents.Responses.$200>
+  ): OperationResponse<Paths.NotificationGetStream.Responses.$200>
+  /**
+   * notification_getNotifications - Get Notifications
+   */
+  'notification_getNotifications'(
+    parameters?: Parameters<Paths.NotificationGetNotifications.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200 | Paths.NotificationGetNotifications.Responses.$422>
+  /**
+   * notification_markAsRead - Mark As Read
+   */
+  'notification_markAsRead'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.NotificationMarkAsRead.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>
+  /**
+   * notification_getCategories - Get Categories
+   */
+  'notification_getCategories'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.NotificationGetCategories.Responses.$200>
+  /**
+   * log_getLog - Get Log
+   */
+  'log_getLog'(
+    parameters?: Parameters<Paths.LogGetLog.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.LogGetLog.Responses.$200 | Paths.LogGetLog.Responses.$422>
+  /**
+   * log_getCategories - Get Categories
+   */
+  'log_getCategories'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.LogGetCategories.Responses.$200>
 }
 
 export interface PathsDictionary {
@@ -4796,6 +5160,34 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignGetIcons.Responses.$200 | Paths.DesignGetIcons.Responses.$422>
   }
+  ['/design/general-settings']: {
+    /**
+     * design_getGeneralSettings - Get General Settings
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignGetGeneralSettings.Responses.$200>
+    /**
+     * design_editGeneralSettings - Edit General Settings
+     */
+    'patch'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.DesignEditGeneralSettings.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
+  }
+  ['/design/donation-goal']: {
+    /**
+     * design_getDonationGoal - Get Donation Goal
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignGetDonationGoal.Responses.$200>
+  }
   ['/auth/token']: {
     /**
      * auth_getToken - Get Token
@@ -4831,7 +5223,7 @@ export interface PathsDictionary {
      * auth_start - Start
      */
     'get'(
-      parameters?: Parameters<Paths.AuthStart.PathParameters> | null,
+      parameters?: Parameters<Paths.AuthStart.PathParameters & Paths.AuthStart.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.AuthStart.Responses.$200 | Paths.AuthStart.Responses.$422>
@@ -4841,7 +5233,7 @@ export interface PathsDictionary {
      * auth_finish - Finish
      */
     'get'(
-      parameters?: Parameters<Paths.AuthFinish.PathParameters> | null,
+      parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
@@ -4849,7 +5241,7 @@ export interface PathsDictionary {
      * auth_finish - Finish
      */
     'post'(
-      parameters?: Parameters<Paths.AuthFinish.PathParameters> | null,
+      parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
@@ -4874,12 +5266,12 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetData.Responses.$200 | Paths.UserGetData.Responses.$422>
   }
-  ['/user/{uuid}/attribute/{attribute_name}']: {
+  ['/user/{uuid}/attribute/{definition_id}']: {
     /**
      * user_getAttributeHistory - Get Attribute History
      */
     'get'(
-      parameters?: Parameters<Paths.UserGetAttributeHistory.PathParameters> | null,
+      parameters?: Parameters<Paths.UserGetAttributeHistory.PathParameters & Paths.UserGetAttributeHistory.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>
@@ -5738,13 +6130,61 @@ export interface PathsDictionary {
   }
   ['/notification/stream']: {
     /**
-     * notification_getEvents - Get Events
+     * notification_getStream - Get Stream
      */
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationGetEvents.Responses.$200>
+    ): OperationResponse<Paths.NotificationGetStream.Responses.$200>
+  }
+  ['/notification/']: {
+    /**
+     * notification_getNotifications - Get Notifications
+     */
+    'get'(
+      parameters?: Parameters<Paths.NotificationGetNotifications.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200 | Paths.NotificationGetNotifications.Responses.$422>
+    /**
+     * notification_markAsRead - Mark As Read
+     */
+    'patch'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.NotificationMarkAsRead.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>
+  }
+  ['/notification/type']: {
+    /**
+     * notification_getCategories - Get Categories
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.NotificationGetCategories.Responses.$200>
+  }
+  ['/log/']: {
+    /**
+     * log_getLog - Get Log
+     */
+    'get'(
+      parameters?: Parameters<Paths.LogGetLog.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.LogGetLog.Responses.$200 | Paths.LogGetLog.Responses.$422>
+  }
+  ['/log/type']: {
+    /**
+     * log_getCategories - Get Categories
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.LogGetCategories.Responses.$200>
   }
 }
 
