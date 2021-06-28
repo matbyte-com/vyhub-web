@@ -36,7 +36,7 @@ export default {
           id: 'nyx_central',
           name: 'Central',
           icon: 'mdi-image-filter-center-focus-strong',
-          info: 'Link multiple accounts, make purchases and more.',
+          info: 'Link multiple accounts, get a personal dashboard url and more.',
         },
         {
           id: 'steam',
