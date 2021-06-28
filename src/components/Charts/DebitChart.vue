@@ -18,11 +18,11 @@ export default {
       options: {
         chart: {
           id: 'debit-chart',
-          type: 'area',
           zoom: {
             autoScaleYaxis: true,
           },
         },
+        colors: [this.$vuetify.theme.currentTheme.primary],
         dataLabels: {
           enabled: false,
         },
@@ -39,7 +39,7 @@ export default {
             text: this.$t('sales'),
           },
           labels: {
-            formatter: (y) => `${y.toLocaleString(undefined, { minimumFractionDigits: 2 })} ${this.currency.symbol}`,
+            formatter: (y) => `${this.utils.formatDecimal(y)} ${this.currency.symbol}`,
           },
         },
         tooltip: {
@@ -47,6 +47,7 @@ export default {
             format: 'yyyy-MM-dd',
           },
         },
+        /*
         fill: {
           type: 'gradient',
           gradient: {
@@ -55,7 +56,7 @@ export default {
             opacityTo: 0.9,
             stops: [0, 100],
           },
-        },
+        }, */
       },
     };
   },
