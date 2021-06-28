@@ -28,25 +28,26 @@
               </th>
             </tr>
             </thead>
-            <tbody>
-            <tr v-for="bundle in serverBundles" :key="bundle.id">
-              <td>
-                {{ bundle.name }}
-              </td>
-              <td>
-                <v-chip
-                  @mouseover="setActiveProps(group)"
-                  @mouseleave="resetActives"
-                  :color="group.color ? group.color : '#000000'"
-                  :text-color="$vuetify.theme.dark ? 'white' : 'black'"
-                  outlined
-                  class="ml-1 mb-1 a"
-                  :class="checkGroups(group)"
-                  v-for="group in getUserActiveGroupsByBundle(bundle.id)" :key="group.id"
-                >{{ group.name }}
-                </v-chip>
-              </td>
-            </tr>
+            <tbody v-if="serverBundles != null">
+              <tr v-for="bundle in serverBundles" :key="bundle.id">
+                <td>
+                  {{ bundle.name }}
+                </td>
+                <td>
+                  <v-chip
+                    @mouseover="setActiveProps(group)"
+                    @mouseleave="resetActives"
+                    :color="group.color ? group.color : '#000000'"
+                    :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                    outlined
+                    class="ml-1 mb-1 a"
+                    :class="checkGroups(group)"
+                    v-for="group in getUserActiveGroupsByBundle(bundle)" :key="group.id"
+                  >
+                    {{ group.name }}
+                  </v-chip>
+                </td>
+              </tr>
             </tbody>
           </v-simple-table>
         </v-col>
@@ -62,11 +63,30 @@
               <v-expansion-panel-content>
                 <v-data-table
                   :headers="groupTableHeaders"
-                  :items="getMembershipTable"
+                  :items="memberships"
                   :items-per-page="5"
-                  dense
                   :hide-default-footer="true"
                 >
+                  <template v-slot:item.group.name="{ item }">
+                    <v-chip
+                      :color="item.group.color ? item.group.color : '#000000'"
+                      :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                      outlined
+                      class="ml-1 mb-1 a"
+                    >
+                      {{ item.group.name }}
+                    </v-chip>
+                  </template>
+                  <template v-slot:item.begin="{ item }">
+                    {{ (item.begin != null
+                    ? $d(new Date(item.begin), 'short', $i18n.locale)
+                    : '-∞') }}
+                  </template>
+                  <template v-slot:item.end="{ item }">
+                    {{ (item.end != null
+                    ? $d(new Date(item.end), 'short', $i18n.locale)
+                    : '∞') }}
+                  </template>
                 </v-data-table>
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -75,16 +95,16 @@
                 {{ $t("_dashboard.labels.activeProperties") }}
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-          <span v-for="prop in getProps" :key="prop.id">
-              <v-chip
-                @mouseover="setActiveGroups(prop)"
-                @mouseleave="resetActives"
-                class="ml-1 mb-1 a success"
-                :class="checkProps(prop)"
-                small
-              >{{ prop.name }}
-              </v-chip>
-            </span>
+                <span v-for="prop in props" :key="prop.id">
+                    <v-chip
+                      @mouseover="setActiveGroups(prop)"
+                      @mouseleave="resetActives"
+                      class="ml-1 mb-1 a success"
+                      :class="checkProps(prop)"
+                      small
+                    >{{ prop.name }}
+                    </v-chip>
+                  </span>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -112,11 +132,12 @@ export default {
       groups: [],
       memberships: [],
       bundleGroups: [],
+      serverBundles: null,
       groupTableHeaders: [
-        { text: this.$t('groupname'), align: 'start', value: 'name' },
-        { text: this.$t('serverbundle'), value: 'bundle' },
-        { text: this.$t('startdate'), value: 'startDate' },
-        { text: this.$t('enddate'), value: 'endDate' },
+        { text: this.$t('groupname'), align: 'start', value: 'group.name' },
+        { text: this.$t('bundle'), value: 'group.serverbundle.name' },
+        { text: this.$t('begin'), value: 'begin' },
+        { text: this.$t('end'), value: 'end' },
       ],
       userMembershipAddForm: UserMembershipAddForm,
     };
@@ -126,8 +147,10 @@ export default {
       this.queryData();
     },
   },
-  props: ['serverBundles', 'user'],
-  async beforeMount() {
+  props: {
+    user: Object,
+  },
+  beforeMount() {
     this.queryData();
   },
   methods: {
@@ -173,8 +196,8 @@ export default {
     getGroupsByBundle(bundleId) {
       return this.groups.filter((g) => g.serverbundle_id === bundleId);
     },
-    getUserActiveGroupsByBundle(bundleId) {
-      return this.userActiveGroups.filter((g) => g.serverbundle_id === bundleId);
+    getUserActiveGroupsByBundle(bundle) {
+      return this.userActiveGroups.filter((g) => g.serverbundle.id === bundle.id);
     },
     getPropsByBundle(bundleId) {
       if (!this.dataFetched) { return []; }
@@ -183,12 +206,6 @@ export default {
         Object.values(group.properties).forEach((prop) => props.push(prop));
       });
       return props;
-    },
-    getGroupById(groupId) {
-      return this.groups.find((g) => g.id === groupId);
-    },
-    getBundleById(bundleId) {
-      return this.serverBundles.find((b) => b.id === bundleId);
     },
     async queryData() {
       (await openapi).user_getMemberships(this.user.id).then((response) => {
@@ -203,6 +220,7 @@ export default {
         this.userActiveGroups = response.data;
         this.dataFetched += 1;
       });
+      (await openapiCached).server_getBundles().then((rsp) => { (this.serverBundles = rsp.data); });
     },
     async addUserMembership() {
       const data = this.$refs.addMembershipDialog.getData();
@@ -225,24 +243,12 @@ export default {
      * @link {} get all props belonging to active Group
      * @returns {[]} Array of props
      */
-    getProps() {
+    props() {
       const props = [];
       this.userActiveGroups.forEach((group) => {
         Object.values(group.properties).forEach((prop) => props.push(prop));
       });
       return props;
-    },
-    getMembershipTable() {
-      const memberships = [];
-      this.memberships.forEach((m) => {
-        const object = {};
-        object.name = this.getGroupById(m.group_id).name;
-        object.bundle = this.getBundleById(this.getGroupById(m.group_id).serverbundle_id).name;
-        object.startDate = (m.begin != null ? this.$d(new Date(m.begin), 'short', this.$i18n.locale) : '-∞');
-        object.endDate = (m.end != null ? this.$d(new Date(m.end), 'short', this.$i18n.locale) : '∞');
-        memberships.push(object);
-      });
-      return memberships;
     },
   },
 };

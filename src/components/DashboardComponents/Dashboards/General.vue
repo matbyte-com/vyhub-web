@@ -1,22 +1,32 @@
 <template>
   <div>
     <v-row>
-      <v-col md="4" cols="12"  class="d-flex">
-        <Groups :user="user"  :server-bundles="serverBundles" />
+      <v-col lg="10" md="9">
+        <v-row>
+          <v-col md="6" xl="4" class="d-flex">
+            <Packets :user="user" class="flex-md-grow-1" />
+          </v-col>
+          <v-col md="12" xl="8" class="d-flex">
+            <AttributeGraph :user="user" class="flex-md-grow-1" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col md="5" cols="12" class="d-flex">
+            <Groups :user="user" />
+          </v-col>
+        </v-row>
       </v-col>
-      <v-col md="3" cols="12" class="d-flex">
-        <Packets :user="user"  />
-      </v-col>
-      <v-col class="d-flex">
-        <LinkedAccounts :user="user" />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="4">
-        <ProfilePicture :user="user"/>
-      </v-col>
-      <v-col cols="8">
-        <AttributeGraph :user="user"/>
+      <v-col>
+        <v-row>
+          <v-col>
+            <ProfilePicture :user="user"/>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <LinkedAccounts :user="user" />
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </div>
@@ -39,7 +49,6 @@ export default {
     Packets,
   },
   props: {
-    serverBundles: Array,
     user: Object,
   },
 };

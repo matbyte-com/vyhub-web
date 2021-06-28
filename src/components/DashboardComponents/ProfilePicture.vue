@@ -1,25 +1,27 @@
 <template>
-  <v-card ref="Card" height="200px" width="200px" class="text-center d-flex align-center">
-    <v-row justify="center" class="">
-      <v-hover>
-        <template v-slot:default="{ hover }">
-          <v-fade-transition mode="out-in">
-            <v-avatar height="150px" width="150px" :key="avatarNum">
-              <v-img :src="getAvatars[avatarNum]"/>
-              <v-fade-transition>
-                <v-overlay
-                  v-if="hover"
-                  absolute
-                >
-                  <p>{{ returnUserData.type }} </p>
-                  <UserLink :outline="false" :user="returnUserData"/>
-                </v-overlay>
-              </v-fade-transition>
-            </v-avatar>
-          </v-fade-transition>
-        </template>
-      </v-hover>
-    </v-row>
+  <v-card class="text-center">
+    <v-card-text>
+      <v-row justify="center">
+        <v-hover>
+          <template v-slot:default="{ hover }">
+            <v-fade-transition mode="out-in">
+              <v-avatar  class="ma-1" height="200px" width="200px" :key="avatarNum">
+                <v-img :src="getAvatars[avatarNum]"/>
+                <v-fade-transition>
+                  <v-overlay
+                    v-if="hover"
+                    absolute
+                  >
+                    <p>{{ returnUserData.type }} </p>
+                    <UserLink :outline="false" :user="returnUserData"/>
+                  </v-overlay>
+                </v-fade-transition>
+              </v-avatar>
+            </v-fade-transition>
+          </template>
+        </v-hover>
+      </v-row>
+    </v-card-text>
   </v-card>
 </template>
 

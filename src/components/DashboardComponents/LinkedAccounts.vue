@@ -1,91 +1,81 @@
 <template>
-  <v-card class="flex-grow-1">
-    <v-card-title>
-      <v-icon class="mr-2">mdi-link</v-icon>
-      {{ $t('_dashboard.labels.linkedAccounts') }}
-      <v-spacer />
-      <v-btn color="success" @click="$refs.linkAccountDialog.show()" outlined>
-        <v-icon left>mdi-account-plus</v-icon>
-        <span>{{ $t("_dashboard.labels.linkNewAccount") }}</span>
-      </v-btn>
-    </v-card-title>
-    <v-card-text>
-      <v-data-iterator
-        :items="linkedUsers"
-        item-key="id"
-        hide-default-footer>
-        <template v-slot:default="{ items }">
-          <v-row>
-            <v-col
-              v-for="acc in items"
-              :key="acc.id"
-              sm="6">
-              <v-card class="mt-3">
-                <v-card-title>
-                  <v-row>
-                    <v-col>
-                      <v-icon class="mr-2">
-                        {{ userTypeIcons[acc.type] }}
-                      </v-icon>
-                      {{ acc.type }}
-                    </v-col>
-                    <v-col cols="3">
-                      <v-avatar
-                        size="35">
-                        <img :src="acc.avatar"
-                             size="5"
-                             alt="avatar">
-                      </v-avatar>
-                    </v-col>
-                  </v-row>
-                </v-card-title>
-                <v-divider />
-
-                <v-divider />
-                <v-card-text>
-                  <v-row>
-                    <v-col>
-                      <v-list
-                        dense>
-                        <v-list-item>
-                          <v-list-item-content>{{ $t('id') }}</v-list-item-content>
-                          <v-list-item-content>{{ acc.identifier }}</v-list-item-content>
-                        </v-list-item>
-                        <v-list-item>
-                          <v-list-item-content>{{ $t('username') }}</v-list-item-content>
-                          <v-list-item-content>{{ acc.username }}</v-list-item-content>
-                        </v-list-item>
-                        <div v-if="attributeDefinitions != null">
-                          <v-list-item
-                            v-for="(attrVal, attrName) in acc.attributes"
-                            :key="attrName">
-                            <v-list-item-content>
-                              {{ attributeDefinitionsDict[attrName].title }}
-                            </v-list-item-content>
-                            <v-list-item-content>
-                              {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
-                            </v-list-item-content>
-                          </v-list-item>
-                        </div>
-                      </v-list>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
-        </template>
-      </v-data-iterator>
-    </v-card-text>
+  <div>
+    <v-row v-if="userSelf">
+      <v-col>
+        <v-btn color="success" @click="$refs.linkAccountDialog.show()" block>
+          <v-icon left>mdi-account-plus</v-icon>
+          <span>{{ $t("_dashboard.labels.linkNewAccount") }}</span>
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-data-iterator
+          :items="linkedUsers"
+          item-key="id"
+          hide-default-footer>
+          <template v-slot:default="{ items }">
+            <v-card class="mb-2" v-for="acc in items"
+                    :key="acc.id">
+              <v-card-title>
+                <v-row>
+                  <v-col>
+                    <v-icon class="mr-2">
+                      {{ userTypeIcons[acc.type] }}
+                    </v-icon>
+                    {{ acc.username }}
+                  </v-col>
+                  <v-col cols="3">
+                    <v-avatar
+                      size="35">
+                      <img :src="acc.avatar"
+                           size="5"
+                           alt="avatar">
+                    </v-avatar>
+                  </v-col>
+                </v-row>
+              </v-card-title>
+              <v-card-subtitle>
+                {{ acc.type }}
+                <div class="text--disabled caption">
+                  {{ acc.identifier }}
+                </div>
+              </v-card-subtitle>
+              <v-divider />
+              <v-card-text v-if="Object.keys(acc.attributes).length > 0">
+                <v-row>
+                  <v-col>
+                    <v-simple-table
+                      dense v-if="attributeDefinitions != null">
+                      <tbody>
+                        <tr
+                          v-for="(attrVal, attrName) in unspecificAttributes"
+                          :key="attrName">
+                          <td>
+                            {{ attributeDefinitionsDict[attrName].title }}
+                          </td>
+                          <td>
+                            {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </v-simple-table>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </template>
+        </v-data-iterator>
+      </v-col>
+    </v-row>
     <LinkAccountDialog ref="linkAccountDialog" />
-  </v-card>
+  </div>
 </template>
 
 <script>
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import userService from '@/services/UserService';
 import openapiCached from '@/api/openapiCached';
-import openapi from '@/api/openapi';
 
 export default {
   name: 'LinkedAccounts',
@@ -136,7 +126,34 @@ export default {
       return defDict;
     },
     unspecificAttributes() {
-      return null;
+      if (this.attributeDefinitionsDict == null) {
+        return {};
+      }
+
+      const unspecificAttributes = {};
+
+      Object.entries(this.user.attributes).forEach(([key, value]) => {
+        if (this.attributeDefinitionsDict[key].unspecific) {
+          unspecificAttributes[key] = value;
+        }
+      });
+
+      return unspecificAttributes;
+    },
+    userSelf() {
+      if (!this.$store.getters.isLoggedIn) {
+        return false;
+      }
+
+      if (this.user.id === this.$store.getters.user.id) {
+        return true;
+      }
+
+      if (this.user.id in this.$store.getters.user.linked_users.map((lu) => lu.id)) {
+        return true;
+      }
+
+      return false;
     },
   },
 };

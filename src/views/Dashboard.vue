@@ -27,8 +27,7 @@
       </v-card>
       <div class="mt-2">
         <keep-alive>
-          <component :is="componentInstance" :bundle="activeBundle"
-                     :server-bundles="bundles" :user="user">
+          <component :is="componentInstance" :bundle="activeBundle" :user="user">
           </component>
         </keep-alive>
       </div>
@@ -60,7 +59,7 @@ export default {
       this.activeBundle = bundle;
       this.activeTab = name;
     },
-    async loadUser() {
+    async queryData() {
       const userId = this.$route.params.id;
       // check if there is a user with the given id
       (await openapi).user_getData(userId).then((rsp) => {
@@ -72,16 +71,12 @@ export default {
       }).catch((error) => {
         this.error = error;
       });
-    },
-    async getBundles() {
+
       (await openapiCached).server_getBundles().then((rsp) => { (this.bundles = rsp.data); });
     },
   },
   beforeMount() {
-    this.loadUser();
-  },
-  mounted() {
-    this.getBundles();
+    this.queryData();
   },
   computed: {
     componentInstance() {
@@ -93,7 +88,7 @@ export default {
   },
   watch: {
     $route() {
-      this.loadUser();
+      this.queryData();
     },
   },
 };

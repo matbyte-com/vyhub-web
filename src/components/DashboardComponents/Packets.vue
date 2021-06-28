@@ -1,30 +1,42 @@
 <template>
-  <v-card class="flex-grow-1">
+  <v-card>
     <v-card-title>
       <v-icon class="mr-2">mdi-gift-open</v-icon>
       {{ $t('packets') }}
       <v-spacer></v-spacer>
-      <v-btn outlined color="success" @click="$router.push({ name: 'UserPurchases',
-      params: { id: user.id} })">
-        <v-icon left>mdi-history</v-icon>
-        <span>{{ $t("purchases") }}</span>
-      </v-btn>
     </v-card-title>
     <v-card-text>
-      <v-list dense class="mt-3">
-        <v-list-item v-for="userPacket in userPackets" v-bind:key="userPacket.id">
-          {{ userPacket.packet.title }}
-        </v-list-item>
-      </v-list>
+      <DataIterator :items="userPackets" :showPageSelector="false">
+        <template v-slot:default="props">
+          <v-row>
+            <v-col
+              v-for="userPacket in props.items"
+              :key="userPacket.id"
+              cols="12"
+              lg="6"
+            >
+              <v-card>
+                <v-img height="90" :src="userPacket.packet.image_url">
+                </v-img>
+                <v-card-subtitle class="pa-2 text-center">
+                  {{ userPacket.packet.title }}
+                </v-card-subtitle>
+              </v-card>
+            </v-col>
+          </v-row>
+        </template>
+      </DataIterator>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import api from '@/api/api';
+import DataIterator from '../DataIterator.vue';
 
 export default {
   name: 'Packets.vue',
+  components: { DataIterator },
   data() {
     return {
       userPackets: [],

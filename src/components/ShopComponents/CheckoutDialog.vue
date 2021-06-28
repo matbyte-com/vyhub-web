@@ -147,7 +147,6 @@ export default {
       checkboxes: [
         {
           id: 1,
-          model: null,
           text: 'I agree to sell my soul.',
           link: 'https://google.de',
         },
