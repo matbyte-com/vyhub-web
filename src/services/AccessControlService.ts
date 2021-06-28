@@ -10,16 +10,8 @@ import Properties from '@/services/PropertyService';
 export default {
   methods: {
     $checkProp(prop: Properties, bundleId?: string): boolean {
-      /**
-       * return True if user is admin
-       */
-
-      // TODO: Replace with default group properties (in backend)
-      if (!store.getters.isLoggedIn) {
-        return true;
-      }
-
-      if (store.getters.user.admin === true) {
+      // return True if user is admin
+      if (store.getters.isLoggedIn && store.getters.user.admin === true) {
         return true;
       }
 
@@ -29,9 +21,7 @@ export default {
         return false;
       }
 
-      /**
-       * return bool depending if Optional[bundleId] is set
-       */
+      // return bool depending if Optional[bundleId] is set
       if (bundleId) {
         return properties
           .some((el: any) => el.name === prop && el.serverbundle_id === bundleId);
