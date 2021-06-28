@@ -17,16 +17,19 @@ const routes: Array<RouteConfig> = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    meta: { title: i18n.t('pageTitle.dashboard') },
-    redirect() {
+    meta: { title: i18n.t('pageTitle.dashboard'), requiresAuth: true },
+    redirect(to) {
       if (store.getters.isLoggedIn) {
-        return `/user/${store.getters.user.id}`;
+        return {
+          path: `/user/${store.getters.user.id}`,
+        };
       }
       return {
         path: '/',
         query: {
           login: 'true',
           return_url: UtilService.data().utils.getFullUrl('/dashboard'),
+          ...to.query,
         },
       };
     },
