@@ -194,7 +194,8 @@
     "news_add": "Added news {newsSubject} {newsId}",
     "news_edit": "Edited news {newsSubject} {newsId}",
     "news_deleted": "Deleted news message {newsSubject} {newsId}",
-    "general_settings_edit": "Edited general settings"
+    "general_settings_edit": "Edited general settings",
+    "general_shop_settings_edit": "Edited shop general settings"
   },
   "forms": {
     "iconDescription": "available Icons"

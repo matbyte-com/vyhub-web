@@ -45,7 +45,7 @@
       <!-- News -->
       <v-col cols="12" md="8">
         <!-- News of the Day -->
-        <v-row>
+        <v-row class="pa-0">
           <v-col cols="8" class="d-flex" v-if="getNewsOfTheDay.length !== 0">
             <v-card flat class="d-flex">
               <v-card-title class="align-center">
@@ -107,7 +107,6 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-divider />
         <transition-group enter-active-class="animate__animated animate__fadeIn"
                           leave-active-class="animate__animated animate__fadeOut">
           <v-card flat outlined class="mt-3" v-for="message in getNews" :key="message.id">
