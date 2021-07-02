@@ -16,6 +16,26 @@
     <DeleteConfirmationDialog
       ref="deleteGroupDialog"
       @submit="deleteGroup"/>
+    <Dialog ref="showMemberDialog" :title="memberGroup.name">
+      <p class="mt-3">
+        {{ $t('settings.totalUsers') }}{{ groupMembersData.total }}
+      </p>
+      <DataTable :items="groupMembersData.items" :headers="groupMemberHeaders">
+        <template v-slot:item.user="{ item }">
+          {{ item.user_id }}
+        </template>
+        <template v-slot:item.begin="{ item }">
+          {{ (item.begin != null
+          ? $d(new Date(item.begin), 'short', $i18n.locale)
+          : '∞') }}
+        </template>
+        <template v-slot:item.end="{ item }">
+          {{ (item.end != null
+          ? $d(new Date(item.end), 'short', $i18n.locale)
+          : '∞') }}
+        </template>
+      </DataTable>
+    </Dialog>
     <v-tabs v-model="tab">
       <v-tab v-for="tab in bundles" :key="tab.id" :style="'color:' + tab.color">
         <v-icon v-if="tab.icon" left :color="tab.color">{{ tab.icon }}</v-icon>
@@ -56,6 +76,12 @@
             </template>
             <template v-slot:item.actions="{ item }">
               <div class="text-right">
+                <v-btn outlined color="success" small
+                       @click="openShowMemberDialog(item)" class="mr-1">
+                  <v-icon>
+                    mdi-account-group
+                  </v-icon>
+                </v-btn>
                 <v-btn outlined color="primary" small
                        @click="openEditGroupDialog(item)" class="mr-1">
                   <v-icon>
@@ -89,11 +115,13 @@ import AddGroupForm from '@/forms/GroupAddForm';
 import EditGroupForm from '@/forms/GroupEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DataTable from '@/components/DataTable.vue';
+import Dialog from '@/components/Dialog.vue';
 import SettingTitle from './SettingTitle.vue';
 
 export default {
   name: 'Groups',
   components: {
+    Dialog,
     SettingTitle,
     DataTable,
     DeleteConfirmationDialog,
@@ -112,8 +140,17 @@ export default {
           text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
         },
       ],
+      groupMemberHeaders: [
+        { text: this.$t('user'), value: 'user', sortable: false },
+        { text: this.$t('begin'), value: 'begin', sortable: false },
+        {
+          text: this.$t('end'), value: 'end', sortable: false,
+        },
+      ],
       addGroupSchema: AddGroupForm,
       editGroupSchema: EditGroupForm,
+      memberGroup: {},
+      groupMembersData: [],
     };
   },
   beforeMount() {
@@ -174,6 +211,14 @@ export default {
         }).catch((err) => {
           this.$refs.editGroupDialog.setErrorMessage(err.response.data.detail);
         });
+    },
+    async openShowMemberDialog(item) {
+      this.memberGroup = item;
+      this.groupMembers = [];
+      this.$refs.showMemberDialog.show();
+      (await openapi).group_getGroupMembers(item.id).then((rsp) => {
+        this.groupMembersData = rsp.data;
+      });
     },
   },
 };

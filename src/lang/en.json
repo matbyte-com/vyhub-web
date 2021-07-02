@@ -45,6 +45,7 @@
     "gameserver": "Gameserver",
     "defaultGroup": "Default Group",
     "multigroup": "Multiple Groups",
+    "totalUsers": "Total Users: ",
     "multigroupDescription": "Able to assign multiple groups to bundle",
     "backgroundColorDescription": "Background image overwrites the background color",
     "externalLink": "External Link",
