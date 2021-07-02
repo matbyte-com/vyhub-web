@@ -118,8 +118,6 @@ export default {
   },
   beforeMount() {
     this.fetchData();
-    // api.group.getGroups().then((response) => { this.groups = response.data; });
-    // api.server.getBundles().then((response) => { this.bundles = response.data; });
   },
   methods: {
     async fetchData() {
@@ -131,7 +129,7 @@ export default {
       });
     },
     getGroupsByBundle(bundleId) {
-      return this.groups.filter((g) => g.serverbundle_id === bundleId);
+      return this.groups.filter((g) => g.serverbundle.id === bundleId);
     },
     async addGroup() {
       const data = this.$refs.addGroupDialog.getData();
