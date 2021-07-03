@@ -16,11 +16,18 @@
     <DeleteConfirmationDialog
       ref="deleteGroupDialog"
       @submit="deleteGroup"/>
+    <DeleteConfirmationDialog
+      ref="deleteMembershipDialog"
+      @submit="deleteMembership"/>
     <Dialog ref="showMemberDialog" :title="memberGroup.name">
-      <p class="mt-3">
-        {{ $t('settings.totalUsers') }}{{ groupMembersData.total }}
-      </p>
-      <DataTable :items="groupMembersData.items" :headers="groupMemberHeaders">
+      <DataTable :items="groupMembersData.items" :headers="groupMemberHeaders"
+                 :footer-props="{
+                  'disable-items-per-page': true,
+                  }"
+                 @update:page="newMembershipPage"
+                 :external-search="true"
+                 @search="newSearch"
+                 class="mt-3">
         <template v-slot:item.user="{ item }">
           {{ item.user_id }}
         </template>
@@ -33,6 +40,13 @@
           {{ (item.end != null
           ? $d(new Date(item.end), 'short', $i18n.locale)
           : '∞') }}
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-btn outlined color="error" small @click="openDeleteMembershipDialog(item)">
+            <v-icon>
+              mdi-delete
+            </v-icon>
+          </v-btn>
         </template>
       </DataTable>
     </Dialog>
@@ -47,7 +61,7 @@
         <v-tab-item v-for="tab in bundles" :key="tab.id">
           <DataTable
             :headers="headers"
-            :items="getGroupsByBundle(tab.id)">
+            :items="getGroupsByBundle(tab.id)" :items-per-page="50">
             <template v-slot:item.name="{ item }">
               <v-chip :color="item.color ? item.color : '#000000'"
                       :text-color="$vuetify.theme.dark ? 'white' : 'black'"
@@ -146,6 +160,9 @@ export default {
         {
           text: this.$t('end'), value: 'end', sortable: false,
         },
+        {
+          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+        },
       ],
       addGroupSchema: AddGroupForm,
       editGroupSchema: EditGroupForm,
@@ -212,13 +229,39 @@ export default {
           this.$refs.editGroupDialog.setErrorMessage(err.response.data.detail);
         });
     },
-    async openShowMemberDialog(item) {
+    openShowMemberDialog(item) {
       this.memberGroup = item;
       this.groupMembers = [];
       this.$refs.showMemberDialog.show();
-      (await openapi).group_getGroupMembers(item.id).then((rsp) => {
-        this.groupMembersData = rsp.data;
+      this.fetchGroupMembers();
+    },
+    async fetchGroupMembers(page = 1, searchStr = null) {
+      (await openapi).group_getGroupMembers({
+        uuid: this.memberGroup.id,
+        page: page - 1,
+        search: searchStr,
+      })
+        .then((rsp) => {
+          this.groupMembersData = rsp.data;
+        });
+    },
+    openDeleteMembershipDialog(item) {
+      this.$refs.deleteMembershipDialog.show(item);
+    },
+    async deleteMembership(membership) {
+      (await openapi).user_deleteMembership(membership.id).then(() => {
+        const index = this.groupMembersData.items.findIndex((m) => m.id === membership.id);
+        this.groupMembersData.items.splice(index, 1);
+        this.$refs.deleteMembershipDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.deleteMembershipDialog.setErrorMessage(err.response.data.detail);
       });
+    },
+    newMembershipPage(page) {
+      this.fetchGroupMembers(page);
+    },
+    newSearch(str) {
+      this.fetchGroupMembers(1, str);
     },
   },
 };

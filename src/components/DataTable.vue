@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :items="realItems"
-    :search="searchModel"
+    :search="externalSearch ? null : searchModel"
     :loading="loading"
     :item-key="itemKey"
     v-bind="$attrs" v-on="$listeners">
@@ -12,7 +12,7 @@
           </slot>
         </v-col>
         <v-spacer v-if="!$slots.header"/>
-        <v-col lg="3" md="6" sm="12" v-if="search" align-self="center">
+        <v-col lg="3" md="6" sm="12" v-if="search || externalSearch" align-self="center">
           <v-text-field
             v-model="searchModel"
             :label="$t('search')"
@@ -53,6 +53,10 @@ export default {
     };
   },
   props: {
+    externalSearch: {
+      type: Boolean,
+      default: false,
+    },
     items: Array,
     search: {
       type: Boolean,

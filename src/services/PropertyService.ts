@@ -15,6 +15,7 @@ enum Properties {
   navEdit = 'nav_edit',
   newsEdit = 'news_edit',
   requirementEdit = 'requirement_edit',
+  userEdit = 'user_edit'
 }
 
 export default Properties;

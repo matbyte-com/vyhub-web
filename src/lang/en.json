@@ -196,7 +196,9 @@
     "news_edit": "Edited news {newsSubject} {newsId}",
     "news_deleted": "Deleted news message {newsSubject} {newsId}",
     "general_settings_edit": "Edited general settings",
-    "general_shop_settings_edit": "Edited shop general settings"
+    "general_shop_settings_edit": "Edited shop general settings",
+    "membership_add": "Membership Added Group: {groupName}, User: {username}",
+    "membership_deleted": "Deleted Membership: Group: {groupName}, User: {username}"
   },
   "forms": {
     "iconDescription": "available Icons"
