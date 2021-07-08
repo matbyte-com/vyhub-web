@@ -57,6 +57,42 @@
     </v-main>
 
     <TheFooter/>
+    <!-- floating button to show help-->
+    <v-fade-transition>
+      <v-menu top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn fab dark x-large style="background-color: rgba(255,255,255,0.7)"
+                 fixed right bottom v-bind="attrs" v-on="on">
+            <v-btn fab large class="red darken-2">
+              <v-icon dark>mdi-help</v-icon>
+            </v-btn>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title class="red lighten-1">
+            Question, Bugs, Feature Requests?
+          </v-card-title>
+          <v-card-text class="mt-4">
+            Please open a Github issue or contact us!
+          </v-card-text>
+          <v-card-actions>
+            <v-btn class="red lighten-2" href="https://github.com/matbyte-com/vyhub-documentation/issues">
+              <v-icon left>
+                mdi-github
+              </v-icon>
+              <span>GitHub</span>
+            </v-btn>
+            <v-btn class="red lighten-2"
+                   :href="`mailto:info@vyhub.net?subject=Feedback Demo Route: ${$route.path}`">
+              <v-icon left>
+                mdi-email
+              </v-icon>
+              <span>Contact</span>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
+    </v-fade-transition>
 
   </v-app>
 </template>
