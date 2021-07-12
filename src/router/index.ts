@@ -208,7 +208,11 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
   Vue.nextTick(() => {
-    document.title = to.meta.title || config.default_title;
+    if (to != null && to.meta != null && to.meta.title != null) {
+      document.title = to.meta.title;
+    } else {
+      document.title = config.default_title;
+    }
   });
 });
 
