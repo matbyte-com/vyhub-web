@@ -160,7 +160,7 @@ declare namespace Components {
        * Reason
        */
       reason?: string;
-      serverbundle?: ServerbundleModelShort;
+      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
       creator: Model_User_User_UserModelShort;
       user: Model_User_User_UserModelShort;
       /**
@@ -672,12 +672,12 @@ declare namespace Components {
       /**
        * Goal
        */
-      goal: number;
+      goal?: number;
       currency: CurrencyModel;
       /**
        * Current
        */
-      current: number;
+      current?: number;
     }
     /**
      * GeneralSettingModel
@@ -687,6 +687,19 @@ declare namespace Components {
        * Community Name
        */
       community_name: string;
+    }
+    /**
+     * GeneralSettingsModel
+     */
+    export interface GeneralSettingsModel {
+      /**
+       * Donation Goal Enabled
+       */
+      donation_goal_enabled: boolean;
+      /**
+       * Donation Goal
+       */
+      donation_goal: number;
     }
     /**
      * GroupModel
@@ -708,10 +721,7 @@ declare namespace Components {
        * Color
        */
       color: string;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id: string; // uuid
+      serverbundle: Model_Pydantic_ServerbundleModelShort;
       /**
        * Properties
        */
@@ -834,14 +844,32 @@ declare namespace Components {
        * End
        */
       end?: string; // date-time
-      /**
-       * Group Id
-       */
-      group_id: string; // uuid
+      group: GroupModel;
       /**
        * Active
        */
       active: boolean;
+      /**
+       * User Id
+       */
+      user_id: string; // uuid
+    }
+    /**
+     * MembershipModelMemberList
+     */
+    export interface MembershipModelMemberList {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Begin
+       */
+      begin: string; // date-time
+      /**
+       * End
+       */
+      end?: string; // date-time
       /**
        * User Id
        */
@@ -863,6 +891,48 @@ declare namespace Components {
        * Group Id
        */
       group_id: string; // uuid
+    }
+    /**
+     * ServerbundleModelShort
+     */
+    export interface Model_Pydantic_ServerbundleModelShort {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Color
+       */
+      color: string; // color
+      /**
+       * Icon
+       */
+      icon?: string;
+    }
+    /**
+     * ServerbundleModelShort
+     */
+    export interface Model_Server_Serverbundle_ServerbundleModelShort {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Color
+       */
+      color: string; // color
+      /**
+       * Icon
+       */
+      icon?: string;
     }
     /**
      * UserModelShort
@@ -1551,6 +1621,27 @@ declare namespace Components {
       size: number;
     }
     /**
+     * Page[MembershipModelMemberList]
+     */
+    export interface PageMembershipModelMemberList {
+      /**
+       * Items
+       */
+      items: MembershipModelMemberList[];
+      /**
+       * Total
+       */
+      total: number;
+      /**
+       * Page
+       */
+      page: number;
+      /**
+       * Size
+       */
+      size: number;
+    }
+    /**
      * Page[NewsModel]
      */
     export interface PageNewsModel {
@@ -1977,7 +2068,7 @@ declare namespace Components {
        * Id
        */
       id: string; // uuid
-      serverbundle: ServerbundleModelShort;
+      serverbundle: Model_Server_Serverbundle_ServerbundleModelShort;
       requirement_set?: RequirementSetModel;
     }
     /**
@@ -2098,10 +2189,6 @@ declare namespace Components {
       id: string; // uuid
       type: ServerType;
       /**
-       * Link
-       */
-      link?: string;
-      /**
        * Status
        */
       status?: {
@@ -2197,19 +2284,6 @@ declare namespace Components {
        * Multigroup
        */
       multigroup?: boolean;
-    }
-    /**
-     * ServerbundleModelShort
-     */
-    export interface ServerbundleModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
     }
     /**
      * StartPaymentModel
@@ -2908,6 +2982,34 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace GroupGetGroupMembers {
+    namespace Parameters {
+      /**
+       * Page
+       */
+      export type Page = number;
+      /**
+       * Size
+       */
+      export type Size = number;
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      page?: Parameters.Page;
+      size?: Parameters.Size;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.PageMembershipModelMemberList;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace GroupGetGroups {
     namespace Parameters {
       /**
@@ -3593,6 +3695,13 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ShopEditGeneralShopConfig {
+    export type RequestBody = Components.Schemas.GeneralSettingsModel;
+    namespace Responses {
+      export type $200 = Components.Schemas.GeneralSettingsModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ShopEditPurchase {
     namespace Parameters {
       /**
@@ -3728,6 +3837,11 @@ declare namespace Paths {
        * Response Get Gateways Shop Gateway  Get
        */
       export type $200 = Components.Schemas.PaymentGatewayModel[];
+    }
+  }
+  namespace ShopGetGeneralShopConfig {
+    namespace Responses {
+      export type $200 = Components.Schemas.GeneralSettingsModel;
     }
   }
   namespace ShopGetPackets {
@@ -3880,6 +3994,22 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace UserDeleteMembership {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace UserGetActiveGroups {
     namespace Parameters {
       /**
@@ -3945,10 +4075,6 @@ declare namespace Paths {
   namespace UserGetAttributeHistory {
     namespace Parameters {
       /**
-       * Attribute Name
-       */
-      export type AttributeName = string;
-      /**
        * Definition Id
        * ID of the attribute definition.
        */
@@ -3970,7 +4096,6 @@ declare namespace Paths {
       export type Uuid = any;
     }
     export interface PathParameters {
-      attribute_name: Parameters.AttributeName;
       definition_id: Parameters.DefinitionId; // uuid
       uuid: Parameters.Uuid;
     }
@@ -4322,6 +4447,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
   /**
+   * user_deleteMembership - Delete Membership
+   */
+  'user_deleteMembership'(
+    parameters?: Parameters<Paths.UserDeleteMembership.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserDeleteMembership.Responses.$200 | Paths.UserDeleteMembership.Responses.$422>
+  /**
    * user_getActiveGroups - Get Active Groups
    * 
    * Returns all active groups.
@@ -4489,6 +4622,14 @@ export interface OperationMethods {
     data?: Paths.GroupAddGroup.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>
+  /**
+   * group_getGroupMembers - Get Group Members
+   */
+  'group_getGroupMembers'(
+    parameters?: Parameters<Paths.GroupGetGroupMembers.PathParameters & Paths.GroupGetGroupMembers.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200 | Paths.GroupGetGroupMembers.Responses.$422>
   /**
    * group_getGroup - Get Group
    */
@@ -4819,6 +4960,22 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
+  /**
+   * shop_getGeneralShopConfig - Get General Shop Config
+   */
+  'shop_getGeneralShopConfig'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetGeneralShopConfig.Responses.$200>
+  /**
+   * shop_editGeneralShopConfig - Edit General Shop Config
+   */
+  'shop_editGeneralShopConfig'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.ShopEditGeneralShopConfig.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopEditGeneralShopConfig.Responses.$200 | Paths.ShopEditGeneralShopConfig.Responses.$422>
   /**
    * packet_getCategories - Get Categories
    */
@@ -5306,6 +5463,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
   }
+  ['/user/membership/{uuid}']: {
+    /**
+     * user_deleteMembership - Delete Membership
+     */
+    'delete'(
+      parameters?: Parameters<Paths.UserDeleteMembership.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserDeleteMembership.Responses.$200 | Paths.UserDeleteMembership.Responses.$422>
+  }
   ['/user/{uuid}/group']: {
     /**
      * user_getActiveGroups - Get Active Groups
@@ -5507,6 +5674,16 @@ export interface PathsDictionary {
       data?: Paths.GroupAddGroup.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>
+  }
+  ['/group/{uuid}/members']: {
+    /**
+     * group_getGroupMembers - Get Group Members
+     */
+    'get'(
+      parameters?: Parameters<Paths.GroupGetGroupMembers.PathParameters & Paths.GroupGetGroupMembers.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200 | Paths.GroupGetGroupMembers.Responses.$422>
   }
   ['/group/{uuid}']: {
     /**
@@ -5889,6 +6066,24 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
+  }
+  ['/shop/general-settings']: {
+    /**
+     * shop_getGeneralShopConfig - Get General Shop Config
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetGeneralShopConfig.Responses.$200>
+    /**
+     * shop_editGeneralShopConfig - Edit General Shop Config
+     */
+    'patch'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.ShopEditGeneralShopConfig.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopEditGeneralShopConfig.Responses.$200 | Paths.ShopEditGeneralShopConfig.Responses.$422>
   }
   ['/packet/category']: {
     /**

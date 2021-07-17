@@ -76,7 +76,7 @@
             Please open a Github issue or contact us!
           </v-card-text>
           <v-card-actions>
-            <v-btn class="red lighten-2" href="https://github.com/matbyte-com/vyhub-documentation/issues">
+            <v-btn class="red lighten-2" href="https://github.com/matbyte-com/vyhub-documentation/issues/new/choose" target="_blank">
               <v-icon left>
                 mdi-github
               </v-icon>

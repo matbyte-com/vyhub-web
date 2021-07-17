@@ -106,8 +106,10 @@ export default {
         this.evtSource.onerror = (err) => {
           this.utils.notifyUnexpectedError(err);
           console.log('Notification Stream Closed');
-          this.evtSource.close();
-          throw (err);
+          if (this.evtSource != null) {
+            this.evtSource.close();
+            throw (err);
+          }
         };
       }
     },
@@ -116,7 +118,9 @@ export default {
       this.registerSse();
     },
     afterLogout() {
-      this.evtSource.close();
+      if (this.evtSource != null) {
+        this.evtSource.close();
+      }
       this.notifications = [];
     },
     rowClick(item) {
