@@ -89,11 +89,6 @@
       "showCommunityName": "Show Community Name",
       "communityNameDescription": "Displays community name in header",
       "logoDescription": "Reload Page if logo is not displayed correctly"
-    },
-    "shop": {
-      "enableDonationGoal": "Enable Donation Goal",
-      "enableDonationGoalDescription": "Donation goal component displayed on startpage (News)",
-      "donationGoal": "Donation Goal"
     }
   },
   "_properties": {
@@ -123,7 +118,10 @@
       "billingAddress": "Billing Address",
       "removeAllPackets": "Remove all packets",
       "donationGoal": "Donation Goal",
-      "perMonth": "per Month"
+      "perMonth": "per Month",
+      "checkoutCheckboxes": "Checkout Checkboxes",
+      "enableDonationGoal": "Enable Donation Goal",
+      "enableDonationGoalDescription": "Donation goal component displayed on startpage (News)"
     },
     "messages": {
       "confirmCreditsPayment": "Please confirm the payment of {credits} credits.",
@@ -315,16 +313,19 @@
       "monthlyRevenue": "Monthly Revenue",
       "creditsSpent": "Credits Spent",
       "revenueByCountry": "Revenue by Country",
-      "editAppliedPacket": "Edit Applied Packet"
+      "editAppliedPacket": "Edit Applied Packet",
+      "cancelSubscription": "Cancel Subscription"
     },
     "messages": {
+      "cancelSubscriptionSuccess": "Subscription successfully cancelled.",
       "refundInitSuccess": "Refund successfully initiated.",
       "revokeSuccess": "Purchase successfully revoked.",
       "refreshSuccess": "Payment data successfully refreshed.",
       "unrevokeSuccess": "Purchase successfully unrevoked.",
       "editAppliedPacketSuccess": "Applied packet successfully edited.",
       "deleteAppliedPacketSuccess": "Applied packet successfully deleted.",
-      "refundConfirm": "Are you sure that you want to refund this purchase?"
+      "refundConfirm": "Are you sure that you want to refund this purchase?",
+      "cancelSubscriptionConfirm": "Are you sure that you want to cancel this subscription?"
     }
   },
   "home": {
@@ -480,6 +481,7 @@
   "value": "Value",
   "description": "Description",
   "totals": "Totals",
+  "text": "Text",
   "country": "Country",
   "allGroups": "All Groups",
   "allProperties": "All Properties",
@@ -529,6 +531,7 @@
   "packet": "Packet",
   "price": "Price",
   "address": "Address",
+  "settingsSaveSuccess": "Settings successfully saved.",
   "port": "Port",
   "flags": "Flags",
   "disabled": "Disabled",

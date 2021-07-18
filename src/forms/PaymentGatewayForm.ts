@@ -47,6 +47,13 @@ function gatewayFields(gatewayType: string) {
         ],
         title: 'Secret Key',
       },
+      wh_secret: {
+        type: [
+          'string',
+          'null',
+        ],
+        title: 'Webhook Secret',
+      },
     };
   }
 

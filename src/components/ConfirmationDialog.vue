@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model="dialog" :max-width="400" :title="$t('areYouSure')" icon="mdi-help-circle">
+  <Dialog v-model="dialog" :max-width="width" :title="$t('areYouSure')" icon="mdi-help-circle">
     <template v-if="errorMessage != null || text != null">
       <v-alert type="error" v-if="errorMessage != null" class="mt-2">
         {{ errorMessage }}
@@ -51,6 +51,10 @@ export default {
       default: 'mdi-check',
     },
     btnText: String,
+    width: {
+      type: Number,
+      default: 400,
+    },
   },
   methods: {
     cancel() {

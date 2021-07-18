@@ -228,6 +228,11 @@
               <v-icon left>mdi-credit-card-refresh</v-icon>
               {{ $t('refresh') }}
             </v-btn>
+            <v-btn text color="error" @click="$refs.confirmSubCancelDialog.show(currentPurchase)"
+                   v-if="currentPurchase.status === 'RECURRING'">
+              <v-icon left>mdi-cancel</v-icon>
+              {{ $t('_purchases.labels.cancelSubscription') }}
+            </v-btn>
             <v-btn text color="warning" @click="revokePurchase(currentPurchase)"
                    v-if="currentPurchase.status === 'FINISHED'">
               <v-icon left>mdi-cancel</v-icon>
@@ -252,6 +257,15 @@
         :btn-text="$t('_purchases.labels.refund')"
         @submit="refundPurchase"
         ref="confirmRefundDialog"
+      >
+      </ConfirmationDialog>
+      <ConfirmationDialog
+        :text="$t('_purchases.messages.cancelSubscriptionConfirm')"
+        btn-icon="mdi-cancel"
+        :btn-text="$t('_purchases.labels.cancelSubscription')"
+        @submit="cancelSubscription"
+        ref="confirmSubCancelDialog"
+        :width="500"
       >
       </ConfirmationDialog>
     </div>
@@ -383,6 +397,22 @@ export default {
           });
         }
       });
+    },
+    async cancelSubscription(purchase) {
+      const api = await openapi;
+
+      api.shop_editPurchase({ uuid: purchase.id }, { status: 'FINISHED' })
+        .then(() => {
+          this.$notify({
+            title: this.$t('_purchases.messages.cancelSubscriptionSuccess'),
+            type: 'success',
+          });
+          this.queryData();
+          this.$refs.confirmSubCancelDialog.closeAndReset();
+        }).catch((err) => {
+          console.log(err);
+          this.$refs.confirmSubCancelDialog.setErrorMessage(err.response.data);
+        });
     },
   },
   beforeMount() {
