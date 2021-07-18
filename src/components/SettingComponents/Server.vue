@@ -34,6 +34,9 @@
                   {{ item.name }}
                 </v-chip>
               </template>
+              <template v-slot:item.multigroup="{ item }">
+                <BoolIcon :value="item.multigroup" />
+              </template>
               <template v-slot:item.actions="{ item }">
                 <v-btn outlined color="primary" small
                        @click="openEditBundleDialog(item)" class="mr-1">
@@ -104,10 +107,12 @@ import DialogForm from '@/components/DialogForm.vue';
 import BundleAddForm from '@/forms/BundleAddForm';
 import EditBundleForm from '@/forms/BundleEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
+import BoolIcon from '../BoolIcon';
 
 export default {
   name: 'Server',
   components: {
+    BoolIcon,
     DeleteConfirmationDialog,
     DialogForm,
   },
@@ -123,7 +128,7 @@ export default {
         { text: this.$t('settings.multigroup'), value: 'multigroup' },
         { text: this.$t('settings.defaultGroup'), value: 'default_group.name' },
         {
-          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
+          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false, width: 150,
         },
       ],
       gameserverHeaders: [
@@ -133,7 +138,7 @@ export default {
         { text: this.$t('port'), value: 'port' },
         { text: this.$t('bundle'), value: 'serverbundle_id' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right', width: 150,
         },
       ],
       addBundleSchema: BundleAddForm.returnForm(),
