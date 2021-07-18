@@ -65,7 +65,12 @@
           </span>
         </template>
         <template v-slot:item.author="{ item }">
-          <UserLink :user="item.author"/>
+          <div v-if="item.author != null">
+            <UserLink :user="item.author"/>
+          </div>
+          <div v-else>
+            -
+          </div>
         </template>
         <template v-slot:item.category="{ item }">
           {{ $t(`log.type.${item.category.toLowerCase()}`) }}
