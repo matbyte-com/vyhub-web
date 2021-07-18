@@ -313,6 +313,19 @@ declare namespace Components {
       editable: boolean;
     }
     /**
+     * CheckoutCheckboxModel
+     */
+    export interface CheckoutCheckboxModel {
+      /**
+       * Text
+       */
+      text: string;
+      /**
+       * Url
+       */
+      url: string; // uri
+    }
+    /**
      * CmsPageModel
      */
     export interface CmsPageModel {
@@ -695,11 +708,15 @@ declare namespace Components {
       /**
        * Donation Goal Enabled
        */
-      donation_goal_enabled: boolean;
+      donation_goal_enabled?: boolean;
       /**
        * Donation Goal
        */
-      donation_goal: number;
+      donation_goal?: number;
+      /**
+       * Checkout Checkboxes
+       */
+      checkout_checkboxes?: CheckoutCheckboxModel[];
     }
     /**
      * GroupModel
@@ -1852,6 +1869,14 @@ declare namespace Components {
        * Refundable
        */
       refundable: boolean;
+      /**
+       * Ext Subscription Id
+       */
+      ext_subscription_id?: string;
+      /**
+       * Payment Gateway Id
+       */
+      payment_gateway_id?: string; // uuid
     }
     /**
      * PurchaseModelPatch
@@ -2989,6 +3014,10 @@ declare namespace Paths {
        */
       export type Page = number;
       /**
+       * Search
+       */
+      export type Search = any;
+      /**
        * Size
        */
       export type Size = number;
@@ -3002,6 +3031,7 @@ declare namespace Paths {
       uuid: Parameters.Uuid;
     }
     export interface QueryParameters {
+      search?: Parameters.Search;
       page?: Parameters.Page;
       size?: Parameters.Size;
     }
@@ -3695,7 +3725,7 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace ShopEditGeneralShopConfig {
+  namespace ShopEditGeneralConfig {
     export type RequestBody = Components.Schemas.GeneralSettingsModel;
     namespace Responses {
       export type $200 = Components.Schemas.GeneralSettingsModel;
@@ -3839,7 +3869,7 @@ declare namespace Paths {
       export type $200 = Components.Schemas.PaymentGatewayModel[];
     }
   }
-  namespace ShopGetGeneralShopConfig {
+  namespace ShopGetGeneralConfig {
     namespace Responses {
       export type $200 = Components.Schemas.GeneralSettingsModel;
     }
@@ -4246,6 +4276,22 @@ declare namespace Paths {
        * Response Get Users User  Get
        */
       export type $200 = Components.Schemas.Model_User_User_UserModelShort[];
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace WebhookStripeEvent {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -4961,21 +5007,21 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
   /**
-   * shop_getGeneralShopConfig - Get General Shop Config
+   * shop_getGeneralConfig - Get General Config
    */
-  'shop_getGeneralShopConfig'(
+  'shop_getGeneralConfig'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetGeneralShopConfig.Responses.$200>
+  ): OperationResponse<Paths.ShopGetGeneralConfig.Responses.$200>
   /**
-   * shop_editGeneralShopConfig - Edit General Shop Config
+   * shop_editGeneralConfig - Edit General Config
    */
-  'shop_editGeneralShopConfig'(
+  'shop_editGeneralConfig'(
     parameters?: Parameters<UnknownParamsObject> | null,
-    data?: Paths.ShopEditGeneralShopConfig.RequestBody,
+    data?: Paths.ShopEditGeneralConfig.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditGeneralShopConfig.Responses.$200 | Paths.ShopEditGeneralShopConfig.Responses.$422>
+  ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
   /**
    * packet_getCategories - Get Categories
    */
@@ -5232,6 +5278,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.LogGetCategories.Responses.$200>
+  /**
+   * webhook_stripeEvent - Stripe Event
+   */
+  'webhook_stripeEvent'(
+    parameters?: Parameters<Paths.WebhookStripeEvent.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>
 }
 
 export interface PathsDictionary {
@@ -6069,21 +6123,21 @@ export interface PathsDictionary {
   }
   ['/shop/general-settings']: {
     /**
-     * shop_getGeneralShopConfig - Get General Shop Config
+     * shop_getGeneralConfig - Get General Config
      */
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetGeneralShopConfig.Responses.$200>
+    ): OperationResponse<Paths.ShopGetGeneralConfig.Responses.$200>
     /**
-     * shop_editGeneralShopConfig - Edit General Shop Config
+     * shop_editGeneralConfig - Edit General Config
      */
     'patch'(
       parameters?: Parameters<UnknownParamsObject> | null,
-      data?: Paths.ShopEditGeneralShopConfig.RequestBody,
+      data?: Paths.ShopEditGeneralConfig.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditGeneralShopConfig.Responses.$200 | Paths.ShopEditGeneralShopConfig.Responses.$422>
+    ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
   }
   ['/packet/category']: {
     /**
@@ -6380,6 +6434,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.LogGetCategories.Responses.$200>
+  }
+  ['/webhook/stripe/{uuid}']: {
+    /**
+     * webhook_stripeEvent - Stripe Event
+     */
+    'post'(
+      parameters?: Parameters<Paths.WebhookStripeEvent.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>
   }
 }
 

@@ -58,20 +58,28 @@
           </v-col>
         </v-row>
         <div v-if="!confirmed">
-          <v-row>
+          <v-row v-if="checkboxes != null">
             <v-col>
               <v-form v-model="allChecked" ref="checkboxesForm" lazy-validation>
                 <v-checkbox required v-for="checkbox in checkboxes" v-bind:key="checkbox.id"
                             :rules="[v => !!v || $t('_shop.messages.mustAgree')]">
                   <template v-slot:label>
                     <div>
-                      <a :href="checkbox.link" target="_blank" @click.stop>
+                      <a :href="checkbox.url" target="_blank" @click.stop>
                         {{ checkbox.text }}
                       </a>
                     </div>
                   </template>
                 </v-checkbox>
               </v-form>
+            </v-col>
+          </v-row>
+          <v-row v-else>
+            <v-col class="text-center">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+              ></v-progress-circular>
             </v-col>
           </v-row>
           <v-row>
@@ -132,6 +140,7 @@ import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import ShopService from '@/services/ShopService';
 import Dialog from '../Dialog.vue';
 import openapi from '../../api/openapi';
+import openapiCached from '../../api/openapiCached';
 
 export default {
   name: 'CheckoutDialog',
@@ -144,18 +153,12 @@ export default {
   data() {
     return {
       purchase: null,
-      checkboxes: [
-        {
-          id: 1,
-          text: 'I agree to sell my soul.',
-          link: 'https://google.de',
-        },
-      ],
       allChecked: false,
       confirmed: false,
       gateways: null,
       loading: false,
       errorMessage: null,
+      generalConfig: null,
     };
   },
   methods: {
@@ -163,6 +166,19 @@ export default {
       const api = await openapi;
       api.shop_getPurchaseGateways({ uuid: this.purchase.id }).then((rsp) => {
         this.gateways = rsp.data;
+      }).catch((err) => {
+        console.log(err);
+        this.utils.notifyUnexpectedError(err.response.data);
+      });
+
+      const apiCached = await openapiCached;
+
+      apiCached.shop_getGeneralConfig().then((rsp) => {
+        this.generalConfig = rsp.data;
+
+        if (this.checkboxes != null && this.checkboxes.length === 0) {
+          this.confirmed = true;
+        }
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
@@ -181,7 +197,7 @@ export default {
       }
     },
     showPaymentGateways() {
-      if (this.$refs.checkboxesForm.validate()) {
+      if (this.checkboxes != null && this.$refs.checkboxesForm.validate()) {
         this.confirmed = true;
       }
     },
@@ -230,6 +246,28 @@ export default {
         tax_info: this.purchase.tax_info,
         credits: this.purchase.credits,
       };
+    },
+    checkboxes() {
+      if (this.generalConfig == null) {
+        return null;
+      }
+
+      if (this.generalConfig.checkout_checkboxes == null) {
+        return [];
+      }
+
+      let id = 1;
+      return this.generalConfig.checkout_checkboxes.map((cb) => {
+        const cbo = {
+          text: cb.text,
+          url: cb.url,
+          id,
+        };
+
+        id += 1;
+
+        return cbo;
+      });
     },
   },
 };
