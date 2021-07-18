@@ -107,7 +107,7 @@ import DialogForm from '@/components/DialogForm.vue';
 import BundleAddForm from '@/forms/BundleAddForm';
 import EditBundleForm from '@/forms/BundleEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import BoolIcon from '../BoolIcon';
+import BoolIcon from '../BoolIcon.vue';
 
 export default {
   name: 'Server',

@@ -6,7 +6,7 @@ export default {
   properties: {
     community_name: {
       type: 'string',
-      title: i18n.t('serverName'),
+      title: i18n.t('communityName'),
     },
   },
 };

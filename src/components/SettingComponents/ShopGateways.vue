@@ -197,6 +197,10 @@ export default {
     showCreateDialog(gatewayType) {
       this.gatewayType = gatewayType;
 
+      this.$refs.createGatewayDialog.setData({
+        type: gatewayType,
+      });
+
       this.$refs.createGatewayDialog.show();
     },
     processData(data) {

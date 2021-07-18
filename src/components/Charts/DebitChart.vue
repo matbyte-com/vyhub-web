@@ -16,6 +16,9 @@ export default {
   data() {
     return {
       options: {
+        theme: {
+          mode: (this.$vuetify.theme.dark ? 'dark' : 'light'),
+        },
         chart: {
           id: 'debit-chart',
           zoom: {

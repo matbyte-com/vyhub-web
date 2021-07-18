@@ -9,9 +9,9 @@
             <v-icon> {{ backend.icon }} </v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>{{ backend.name }}</v-list-item-title>
-            <div class="grey--text" v-if="backend.info != null">
-              {{ backend.info }}
+            <v-list-item-title>{{ $t(`_user.type.${backend.name}.name`) }}</v-list-item-title>
+            <div class="grey--text">
+              {{ $t(`_user.type.${backend.name}.info`) }}
             </div>
           </v-list-item-content>
         </v-list-item>
@@ -33,14 +33,13 @@ export default {
       dialog: null,
       backends: [
         {
-          id: 'nyx_central',
-          name: 'Central',
+          id: 'vyhub_central',
+          name: 'CENTRAL',
           icon: 'mdi-image-filter-center-focus-strong',
-          info: 'Link multiple accounts, get a personal dashboard url and more.',
         },
         {
           id: 'steam',
-          name: 'Steam',
+          name: 'STEAM',
           icon: 'mdi-steam',
         },
       ], // TODO: Fetch backends from API

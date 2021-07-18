@@ -36,7 +36,7 @@
                 </v-row>
               </v-card-title>
               <v-card-subtitle>
-                {{ acc.type }}
+                {{ $t(`_user.type.${acc.type}.name`).toUpperCase() }}
                 <div class="text--disabled caption">
                   {{ acc.identifier }}
                 </div>

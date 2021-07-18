@@ -36,5 +36,6 @@ export default {
       title: i18n.t('_address.labels.state'),
     },
     country_code: Common.countryCodeField,
+    vat_number: {},
   },
 };

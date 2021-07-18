@@ -1,6 +1,8 @@
 <template>
   <v-card class="flex-grow-1">
     <dialog-form :form-schema="userMembershipAddForm"
+                 title-icon="mdi-account-group"
+                 :title="$t('_membership.labels.add')"
                  ref="addMembershipDialog"
                  @submit="addUserMembership"/>
     <v-card-title>

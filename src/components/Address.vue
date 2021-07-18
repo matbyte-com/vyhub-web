@@ -5,6 +5,7 @@
       <div>{{ address.addition }}</div>
       <div>{{ address.zip_code }} {{ address.city }}, {{ address.state }}</div>
       <div>{{ address.country.name }}</div>
+      <div v-if="address.vat_number != null">{{ address.vat_number }}</div>
     </div>
 </template>
 

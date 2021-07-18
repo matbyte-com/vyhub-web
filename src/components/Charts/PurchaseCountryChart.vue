@@ -44,6 +44,9 @@ export default {
       }
 
       return {
+        theme: {
+          mode: (this.$vuetify.theme.dark ? 'dark' : 'light'),
+        },
         chart: {
           id: 'purchase-country-chart',
         },

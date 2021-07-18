@@ -17,6 +17,11 @@
       "language": "language"
     }
   },
+  "_membership": {
+    "labels": {
+      "add": "Add Group Membership"
+    }
+  },
   "_dashboard": {
     "labels": {
       "title": "{usr}",
@@ -110,6 +115,7 @@
       "paymentId": "Payment ID",
       "addToCart": "Add to cart",
       "total": "Total",
+      "businessAddress": "Business Address",
       "credits": "Credits",
       "purchaseNow": "Purchase Now",
       "orderOverview": "Order Overview",
@@ -160,6 +166,18 @@
       }
     }
   },
+  "_user": {
+    "type": {
+      "CENTRAL": {
+        "name": "VyHub Central",
+        "info": "Link multiple accounts, get a personal dashboard url and more."
+      },
+      "STEAM": {
+        "name": "Steam",
+        "info": "The famous gaming platform."
+      }
+    }
+  },
   "log": {
     "log": "Log",
     "type": {
@@ -204,14 +222,17 @@
   "_address": {
     "labels": {
       "add": "Add Address",
+      "change": "Change Address",
       "streetAndNumber": "Street and Number",
       "addition": "Addition",
       "city": "City",
       "state": "State",
       "zip_code": "Zip Code",
+      "vat_number": "VAT Number",
       "selectAddress": "Select address"
     },
     "messages": {
+      "changeSuccess": "Business address changed successfully.",
       "addSuccess": "New address added successfully.",
       "selectedSuccess": "Address successfully selected.",
       "noAddressesYet": "You do not have any addresses yet."
@@ -439,6 +460,7 @@
   "recurring": "Recurring",
   "revenue": "Revenue",
   "sales": "Sales",
+  "change": "Change",
   "code": "Code",
   "none": "None",
   "automatic": "Automatic",
@@ -548,7 +570,7 @@
   "end": "End",
   "group": "Group",
   "reset": "Reset",
-  "serverName": "Server Name",
+  "communityName": "Community Name",
   "submit": "Submit",
   "serverStatus": "Server Status",
   "connect": "Connect"

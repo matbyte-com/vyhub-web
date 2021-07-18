@@ -10,13 +10,11 @@ export default {
       title: i18n.t('_shop.labels.enableDonationGoal'),
       description: i18n.t('_shop.labels.enableDonationGoalDescription'),
       default: 'true',
-      'x-cols': 6,
     },
     donation_goal: {
       type: 'integer',
       title: i18n.t('_shop.labels.donationGoal'),
       minimum: '0',
-      'x-cols': 6,
     },
     checkout_checkboxes: {
       type: 'array',

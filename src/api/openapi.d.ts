@@ -826,7 +826,7 @@ declare namespace Components {
      * LogEntryModel
      */
     export interface LogEntryModel {
-      author: Model_User_UserModelShort;
+      author?: Model_User_UserModelShort;
       /**
        * Message
        */
@@ -3606,6 +3606,13 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ShopChangeBusinessAddress {
+    export type RequestBody = Components.Schemas.AddressModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.AddressModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ShopCheckPayment {
     namespace Parameters {
       /**
@@ -3763,6 +3770,11 @@ declare namespace Paths {
     namespace Responses {
       export type $200 = Components.Schemas.DebitModel;
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ShopGetBusinessAddress {
+    namespace Responses {
+      export type $200 = Components.Schemas.AddressModel;
     }
   }
   namespace ShopGetCart {
@@ -5023,6 +5035,22 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
   /**
+   * shop_getBusinessAddress - Get Business Address
+   */
+  'shop_getBusinessAddress'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>
+  /**
+   * shop_changeBusinessAddress - Change Business Address
+   */
+  'shop_changeBusinessAddress'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.ShopChangeBusinessAddress.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>
+  /**
    * packet_getCategories - Get Categories
    */
   'packet_getCategories'(
@@ -6138,6 +6166,24 @@ export interface PathsDictionary {
       data?: Paths.ShopEditGeneralConfig.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
+  }
+  ['/shop/business-address']: {
+    /**
+     * shop_getBusinessAddress - Get Business Address
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>
+    /**
+     * shop_changeBusinessAddress - Change Business Address
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.ShopChangeBusinessAddress.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>
   }
   ['/packet/category']: {
     /**
