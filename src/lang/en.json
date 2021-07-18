@@ -243,6 +243,7 @@
       "customPriceDetail": "Let the user decide the price. The entered price above is used as the minimal price.",
       "packetRelations": "Packet Relations",
       "editRewards": "Edit Rewards",
+      "details": "Packet Details",
       "relationDisables": "Disables the selected packet on purchase",
       "relationRequires": "Requires the selected packet for a purchase",
       "relationNotCompatible": "Not compatible with the selected packet.",

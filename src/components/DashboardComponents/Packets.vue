@@ -15,8 +15,16 @@
               cols="12"
               lg="6"
             >
-              <v-card>
-                <v-img height="90" :src="userPacket.packet.image_url">
+              <v-card @click="showUserPacketDetails(userPacket)">
+                <v-img height="90" :src="userPacket.packet.image_url"
+                       :style="(userPacket.active ? '' : 'filter: grayscale(100%)')">
+                  <v-chip
+                    small
+                    v-if="!userPacket.active"
+                    color="error"
+                    class="ma-2" style="float: left; filter: none;">
+                    <v-icon small>mdi-close</v-icon>
+                  </v-chip>
                 </v-img>
                 <v-card-subtitle class="pa-2 text-center">
                   {{ userPacket.packet.title }}
@@ -27,19 +35,31 @@
         </template>
       </DataIterator>
     </v-card-text>
+    <Dialog :title="$t('_packet.labels.details')" icon="mdi-gift-open" v-model="packetDetailShown">
+      <v-simple-table v-if="currentUserPacket != null">
+        <tbody>
+        <tr>
+          <td>{{ $t('title') }}</td>
+          <td>{{ currentUserPacket.packet.title }}</td>
+        </tr>
+        </tbody>
+      </v-simple-table>
+    </Dialog>
   </v-card>
 </template>
 
 <script>
 import api from '@/api/api';
 import DataIterator from '../DataIterator.vue';
+import Dialog from '../Dialog.vue';
 
 export default {
   name: 'Packets.vue',
-  components: { DataIterator },
+  components: { DataIterator, Dialog },
   data() {
     return {
       userPackets: [],
+      currentUserPacket: null,
     };
   },
   props: {
@@ -56,6 +76,21 @@ export default {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
       });
+    },
+    showUserPacketDetails(userPacket) {
+      this.currentUserPacket = userPacket;
+    },
+  },
+  computed: {
+    packetDetailShown: {
+      get() {
+        return this.currentUserPacket != null;
+      },
+      set(newValue) {
+        if (!newValue) {
+          this.currentUserPacket = null;
+        }
+      },
     },
   },
   watch: {
