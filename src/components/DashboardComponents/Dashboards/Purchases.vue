@@ -124,8 +124,15 @@
                             </v-simple-table>
                           </v-col>
                         </v-row>
-
                       </v-card-text>
+                      <v-card-actions v-if="purchase.status === 'RECURRING'">
+                        <v-btn text color="error"
+                               @click="$refs.confirmSubCancelDialog.show(purchase)"
+                               v-if="purchase.status === 'RECURRING'">
+                          <v-icon left>mdi-cancel</v-icon>
+                          {{ $t('_purchases.labels.cancelSubscription') }}
+                        </v-btn>
+                      </v-card-actions>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -135,6 +142,15 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <ConfirmationDialog
+      :text="$t('_purchases.messages.cancelSubscriptionConfirm')"
+      btn-icon="mdi-cancel"
+      :btn-text="$t('_purchases.labels.cancelSubscription')"
+      @submit="cancelSubscription"
+      :width="500"
+      ref="confirmSubCancelDialog"
+    >
+    </ConfirmationDialog>
   </div>
 </template>
 
@@ -142,10 +158,11 @@
 import openapi from '@/api/openapi';
 import PurchaseStatusChip from '@/components/ShopComponents/PurchaseStatusChip.vue';
 import DataIterator from '../../DataIterator.vue';
+import ConfirmationDialog from '../../ConfirmationDialog.vue';
 
 export default {
   name: 'UserPurchases',
-  components: { DataIterator, PurchaseStatusChip },
+  components: { ConfirmationDialog, DataIterator, PurchaseStatusChip },
   data() {
     return {
       purchases: [],
@@ -187,6 +204,22 @@ export default {
     },
     filterFinishedDebits(debits) {
       return debits.filter((debit) => debit.status === 'FINISHED');
+    },
+    async cancelSubscription(purchase) {
+      const api = await openapi;
+
+      api.shop_editPurchase({ uuid: purchase.id }, { status: 'FINISHED' })
+        .then(() => {
+          this.$notify({
+            title: this.$t('_purchases.messages.cancelSubscriptionSuccess'),
+            type: 'success',
+          });
+          this.queryData();
+          this.$refs.confirmSubCancelDialog.closeAndReset();
+        }).catch((err) => {
+          console.log(err);
+          this.$refs.confirmSubCancelDialog.setErrorMessage(err.response.data);
+        });
     },
   },
 };
