@@ -4,12 +4,7 @@
     <v-card-title class="pb-0">
       <v-row>
         <v-col cols="12" class="d-flex align-center">
-          <v-icon color="primary" class="mr-1">mdi-flag-checkered</v-icon>
-          <v-sheet vertical color="primary" width="2" height="25" class="">
-          </v-sheet>
-          <span class="ml-2 mr-1">
-            {{ $t('_shop.labels.donationGoal') }}
-          </span>
+          <HeadlineSidebar :title="$t('_shop.labels.donationGoal')" icon="mdi-flag-checkered"/>
           <v-spacer />
           <v-btn :to="{name: 'Shop'}" outlined color="success"
                  :x-small="$vuetify.breakpoint.mdAndDown"
@@ -38,9 +33,11 @@
 
 <script>
 import openapi from '@/api/openapi';
+import HeadlineSidebar from '@/components/HomeComponents/HeadlineSidebar.vue';
 
 export default {
   name: 'DonationGoal.vue',
+  components: { HeadlineSidebar },
   data() {
     return {
     };

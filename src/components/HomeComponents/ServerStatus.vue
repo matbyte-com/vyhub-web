@@ -3,12 +3,7 @@
     <v-card-title class="pb-0">
       <v-row>
         <v-col cols="12" class="d-flex">
-          <v-icon color="primary" class="mr-1">mdi-server</v-icon>
-          <v-sheet vertical color="primary" width="2" height="25" class="mt-1">
-          </v-sheet>
-          <span class="ml-2 mr-1">
-            {{ $t('server') }}
-          </span>
+          <HeadlineSidebar icon="mdi-server" :title="$t('server')"/>
         </v-col>
       </v-row>
     </v-card-title>
@@ -56,10 +51,11 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
+import HeadlineSidebar from '@/components/HomeComponents/HeadlineSidebar.vue';
 
 export default {
   name: 'ServerStatus',
-  components: { },
+  components: { HeadlineSidebar },
   data() {
     return {
       servers: [],

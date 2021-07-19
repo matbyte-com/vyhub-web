@@ -139,14 +139,18 @@
           </v-card>
         </transition-group>
         <!-- Skeleton Loader -->
-        <div v-if="!exhausted && fetching" class="animate__animated animate__fade mt-3">
-          <v-skeleton-loader type="article" v-if="fetching" />
-        </div>
-        <v-card flat v-if="exhausted" class="mt-3">
-          <v-card-text class="text-center animate__animated animate__fadeIn">
-            {{ $t('home.newsExhausted') }}
-          </v-card-text>
-        </v-card>
+        <v-row class="pa-0">
+          <v-col>
+            <div v-if="!exhausted && fetching" class="animate__animated animate__fade mt-3">
+              <v-skeleton-loader type="article" v-if="fetching" />
+            </div>
+            <v-card flat v-if="exhausted" class="mt-3">
+              <v-card-text class="text-center animate__animated animate__fadeIn">
+                {{ $t('home.newsExhausted') }}
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
       <!-- Server Status -->
       <v-col ref="StatusCol">
