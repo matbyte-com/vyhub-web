@@ -15,17 +15,18 @@
                 @submit="editBundle"
                 :title="$t('__editBundle')"/>
     <v-row>
-      <v-col>
+      <v-col cols="12">
         <v-card outlined flat class="fill-height transparent">
-          <v-card-title>
-            {{ $t('serverbundle') }}
-          </v-card-title>
           <v-card-text>
-            <v-data-table
+            <DataTable
               :headers="bundleHeaders"
               :items="bundles"
-              :hide-default-footer="true"
-              :disable-pagination="true">
+              :search="true">
+              <template v-slot:header>
+                <SettingTitle :divider="false">
+                  {{ $t('serverbundle') }}
+                </SettingTitle>
+              </template>
               <template v-slot:item.name="{ item }">
                 <v-chip :color="item.color ? item.color : '#000000'"
                         :text-color="$vuetify.theme.dark ? 'white' : 'black'"
@@ -50,28 +51,29 @@
                   </v-icon>
                 </v-btn>
               </template>
-            </v-data-table>
+              <template v-slot:footer-right>
+                <v-btn color="success" @click="$refs.addBundleDialog.show()" outlined>
+                  <v-icon left>mdi-plus</v-icon>
+                  <span>{{ $t('settings.labels.addBundle') }}</span>
+                </v-btn>
+              </template>
+            </DataTable>
           </v-card-text>
-          <v-card-actions>
-            <v-btn text color="primary" @click="$refs.addBundleDialog.show()">
-              <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('settings.labels.addBundle') }}</span>
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
       <v-col>
         <v-card outlined flat class="fill-height transparent">
-          <v-card-title>
-            {{ $t('settings.gameserver') }}
-          </v-card-title>
           <v-card-text>
-            <v-data-table
+            <DataTable
               :headers="gameserverHeaders"
               :items="server"
-              :hide-default-footer="true"
-              :disable-pagination="true"
+              :search="true"
             >
+              <template v-slot:header>
+                <SettingTitle :divider="false">
+                  {{ $t('settings.gameserver') }}
+                </SettingTitle>
+              </template>
               <template v-slot:item.serverbundle_id="{ item }">
                 {{ getBundle(item) }}
               </template>
@@ -87,14 +89,14 @@
                   </v-icon>
                 </v-btn>
               </template>
-            </v-data-table>
+              <template v-slot:footer-right>
+                <v-btn color="success" outlined>
+                  <v-icon left>mdi-plus</v-icon>
+                  <span>{{ $t('settings.labels.addServer') }}</span>
+                </v-btn>
+              </template>
+            </DataTable>
           </v-card-text>
-          <v-card-actions>
-            <v-btn text color="primary">
-              <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('settings.labels.addServer') }}</span>
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -107,14 +109,18 @@ import DialogForm from '@/components/DialogForm.vue';
 import BundleAddForm from '@/forms/BundleAddForm';
 import EditBundleForm from '@/forms/BundleEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
+import DataTable from '@/components/DataTable.vue';
+import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
 import BoolIcon from '../BoolIcon.vue';
 
 export default {
   name: 'Server',
   components: {
+    SettingTitle,
     BoolIcon,
     DeleteConfirmationDialog,
     DialogForm,
+    DataTable,
   },
   data() {
     return {

@@ -7,7 +7,7 @@
         <h6 class="text-h6">{{ $t('general') }}</h6>
         <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
                  :optionsExtra="{editMode: 'inline'}"
-                 :submit-text="$t('submit')" ref="form" @submit="saveData"/>
+                 :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true"/>
       </v-col>
       <v-col>
         <h6 class="text-h6">{{ $t('_shop.labels.businessAddress') }}</h6>

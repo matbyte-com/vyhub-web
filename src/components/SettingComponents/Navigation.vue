@@ -282,6 +282,10 @@ export default {
         this.updateLinkEnabled = false;
         this.getNavItems();
         EventBus.emit('navUpdated'); // Event caught in Header to Update Navlinks
+        this.$notify({
+          title: this.$t('settingsSaveSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         console.log(`Could not query nav ${err}`);
       });

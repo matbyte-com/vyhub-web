@@ -2,7 +2,7 @@
   <div>
     <SettingTitle>{{ $t('general') }}</SettingTitle>
     <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
-             :submit-text="$t('submit')" ref="form" @submit="saveData"/>
+             :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true"/>
   </div>
 </template>
 
@@ -35,6 +35,10 @@ export default {
       (await openapi).design_editGeneralSettings(null, data).then(() => {
         // caught in App.vue to Update Theme + Header
         EventBus.emit('themeUpdated');
+        this.$notify({
+          title: this.$t('settingsSaveSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.form.setErrorMessage(err.response.data.detail);
       });

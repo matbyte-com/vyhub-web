@@ -573,5 +573,6 @@
   "communityName": "Community Name",
   "submit": "Submit",
   "serverStatus": "Server Status",
-  "connect": "Connect"
+  "connect": "Connect",
+  "save": "Save"
 }

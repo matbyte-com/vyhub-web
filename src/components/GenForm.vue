@@ -31,10 +31,12 @@
               <v-col cols="12">
                 <v-btn v-if="submitText != null" class="mr-4"
                        depressed color="primary" type="submit" :loading="loading">
-                  {{ submitText }}
+                  <span v-if="!settingsMode">{{ submitText }}</span>
+                  <span v-else>{{ $t('save') }}</span>
                 </v-btn>
 
-                <v-btn v-if="cancelText != null" color="lighten-5" depressed @click="cancelForm">
+                <v-btn v-if="cancelText != null && !settingsMode"
+                       color="lighten-5" depressed @click="cancelForm">
                   {{ cancelText }}
                 </v-btn>
               </v-col>
@@ -73,6 +75,10 @@ export default {
       default: false,
     },
     optionsExtra: Object,
+    settingsMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     validateAndRun() {

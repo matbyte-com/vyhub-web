@@ -4,7 +4,7 @@
 
     <GenForm :form-schema="formSchema" @submit="setTheme"
              :error-message="errorMessage" :cancel-text="$t('cancel')" :submit-text="$t('submit')"
-             ref="themePicker"
+             ref="themePicker" :settings-mode="true"
     />
   </div>
 </template>
@@ -39,6 +39,10 @@ export default {
         null, data,
       ).then(() => {
         emitter.emit('themeUpdated');
+        this.$notify({
+          title: this.$t('settingsSaveSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.themePicker.setErrorMessage(err.response.data.detail);
       });
