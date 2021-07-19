@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card width="100%">
     <v-tabs
       background-color="primary"
       center-active

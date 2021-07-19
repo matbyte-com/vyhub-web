@@ -13,7 +13,7 @@
                     absolute
                   >
                     <p>{{ returnUserData.type }} </p>
-                    <UserLink :outline="false" :user="returnUserData"/>
+                    <UserLink :disabled-link="true" :outline="false" :user="returnUserData"/>
                   </v-overlay>
                 </v-fade-transition>
               </v-avatar>

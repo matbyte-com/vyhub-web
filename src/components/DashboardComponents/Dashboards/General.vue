@@ -1,32 +1,20 @@
 <template>
   <div>
     <v-row>
-      <v-col lg="10" md="9">
-        <v-row>
-          <v-col md="6" xl="4" class="d-flex">
-            <Packets :user="user" class="flex-md-grow-1" />
-          </v-col>
-          <v-col md="12" xl="8" class="d-flex">
-            <AttributeGraph :user="user" class="flex-md-grow-1" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col md="5" cols="12" class="d-flex">
-            <Groups :user="user" />
-          </v-col>
-        </v-row>
+      <v-col cols="12" md="4" xl="4" class="d-flex">
+        <Packets :user="user" class="flex-md-grow-1" />
+      </v-col>
+      <v-col cols="12" md="8" xl="6" class="d-flex">
+        <AttributeGraph :user="user" class="flex-md-grow-1" />
+      </v-col>
+      <v-col md="5" cols="12" class="d-flex">
+        <Groups :user="user" />
+      </v-col>
+      <v-col cols="6" md="3">
+        <ProfilePicture :user="user"/>
       </v-col>
       <v-col>
-        <v-row>
-          <v-col>
-            <ProfilePicture :user="user"/>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <LinkedAccounts :user="user" />
-          </v-col>
-        </v-row>
+        <LinkedAccounts :user="user" />
       </v-col>
     </v-row>
   </div>
