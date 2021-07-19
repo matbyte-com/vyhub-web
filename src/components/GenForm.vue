@@ -13,19 +13,15 @@
       <v-row>
         <v-col cols="12">
           <v-form ref="form" @submit.prevent="validateAndRun">
-            <v-row>
-              <v-col cols="12">
-                <v-jsf v-model="formModel"
-                       :schema="formSchema"
-                       :options="options"
-                       @input="$emit('updated')"
-                       :key="componentKey">
-                  <template v-for="(index, name) in $slots" v-slot:[name]>
-                    <slot :name="name"/>
-                  </template>
-                </v-jsf>
-              </v-col>
-            </v-row>
+            <v-jsf v-model="formModel"
+                   :schema="formSchema"
+                   :options="options"
+                   @input="$emit('updated')"
+                   :key="componentKey">
+              <template v-for="(index, name) in $slots" v-slot:[name]>
+                <slot :name="name"/>
+              </template>
+            </v-jsf>
 
             <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
               <v-col cols="12">
