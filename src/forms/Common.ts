@@ -108,5 +108,16 @@ export default {
     title: i18n.t('imageURL'),
     pattern: '^https://.+$',
   },
+  propertiesSelector: {
+    type: 'array',
+    title: i18n.t('properties'),
+    items: {
+      type: 'string',
+    },
+    'x-fromUrl': `${API_URL}/group/property/`,
+    'x-itemKey': 'name',
+    'x-itemTitle': 'description', // TODO: Replace with translation based on property name,
+    'x-display': 'checkbox',
+  },
   apiURL: API_URL,
 };

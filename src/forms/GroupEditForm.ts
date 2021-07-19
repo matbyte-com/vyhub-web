@@ -1,6 +1,6 @@
 import GroupAddForm from '@/forms/GroupAddForm';
-import Property from '@/services/PropertyService';
 import i18n from '@/plugins/i18n';
+import Common from '@/forms/Common';
 
 export default {
   type: 'object',
@@ -18,15 +18,7 @@ export default {
       title: i18n.t('properties'),
       type: 'object',
       properties: {
-        properties: {
-          type: 'array',
-          title: i18n.t('properties'),
-          'x-display': 'checkbox',
-          items: {
-            type: 'string',
-            enum: Object.values(Property),
-          },
-        },
+        properties: Common.propertiesSelector,
       },
     },
   ],

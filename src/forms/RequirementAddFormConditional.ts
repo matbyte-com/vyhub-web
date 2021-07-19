@@ -44,7 +44,7 @@ function returnInput(type: string) {
   }
   if (type === 'PROPERTY' || type === 'PROPERTY_SB') {
     const oneOf: { const: string; title: string }[] = [];
-    Object.entries(Properties).forEach(([key, value]) => {
+    Object.entries(Properties).forEach(([key, value]) => { // TODO: Get property list from API
       const prop = {
         const: '',
         title: '',
