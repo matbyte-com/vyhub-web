@@ -43,21 +43,13 @@ function returnInput(type: string) {
     };
   }
   if (type === 'PROPERTY' || type === 'PROPERTY_SB') {
-    const oneOf: { const: string; title: string }[] = [];
-    Object.entries(Properties).forEach(([key, value]) => { // TODO: Get property list from API
-      const prop = {
-        const: '',
-        title: '',
-      };
-      prop.const = key;
-      prop.title = `${key}: ${i18n.t(`_properties.${value}`)}`;
-      oneOf.push(prop);
-    });
     return {
       value: {
         type: 'string',
         title: i18n.t('property'),
-        oneOf,
+        'x-fromUrl': `${API_URL}/group/property/`,
+        'x-itemKey': 'name',
+        'x-itemTitle': 'description',
       },
     };
   }

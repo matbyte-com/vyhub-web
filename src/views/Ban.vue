@@ -108,7 +108,7 @@
             </template>
           </v-simple-table>
           <br/>
-          <h6 class="text-h6 mb-2">{{ $t('log.labels.log') }}</h6>
+          <h6 class="text-h6 mb-2">{{ $t('log') }}</h6>
           <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
           </LogTable>
         </div>

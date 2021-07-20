@@ -1,6 +1,6 @@
 <template>
 <div>
-  <PageTitle icon="mdi-format-list-bulleted">{{ $t('log.log') }}</PageTitle>
+  <PageTitle icon="mdi-format-list-bulleted">{{ $t('log') }}</PageTitle>
   <v-card>
     <v-card-text class="mt-0 pt-0">
       <DataTable
@@ -50,7 +50,7 @@
                   v-for="(category, index) in categories"
                   :key="index"
                   v-model="selectedCat"
-                  :label="$t(`log.type.${category.toLowerCase()}`)"
+                  :label="$t(`_log.type.${category.toLowerCase()}`)"
                   :value="category"
                   @change="newCat"
                 ></v-checkbox>
@@ -61,7 +61,7 @@
         </template>
         <template v-slot:item.message="{ item }">
           <span>
-            {{ $t(`log.${item.message.name}`, { ...item.message.kwargs }) }}
+            {{ $t(`_log.${item.message.name}`, { ...item.message.kwargs }) }}
           </span>
         </template>
         <template v-slot:item.author="{ item }">
@@ -73,7 +73,7 @@
           </div>
         </template>
         <template v-slot:item.category="{ item }">
-          {{ $t(`log.type.${item.category.toLowerCase()}`) }}
+          {{ $t(`_log.type.${item.category.toLowerCase()}`) }}
         </template>
         <template v-slot:item.time="{ item }" >
           <span>

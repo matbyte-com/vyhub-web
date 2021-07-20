@@ -60,7 +60,7 @@ export default {
           name: 'discounts',
           icon: 'mdi-ticket-percent',
           component: 'Discounts',
-          reqProp: 'discount_edit',
+          reqProp: 'discount_show',
           title: this.$t('discounts'),
         },
         {

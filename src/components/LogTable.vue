@@ -21,7 +21,7 @@
       <UserLink :user="item.author"></UserLink>
     </template>
     <template v-slot:item.message="{ item }">
-      {{ $t(`log.${item.message.name}`, item.message.kwargs) }}
+      {{ $t(`_log.${item.message.name}`, item.message.kwargs) }}
     </template>
     <template v-slot:item.created_on="{ item }">
       <span>{{ new Date(item.created_on).toLocaleString() }}</span>

@@ -85,7 +85,7 @@ export default {
           name: 'navigation',
           icon: 'mdi-navigation-outline',
           component: 'Navigation',
-          reqProp: 'navigation_edit',
+          reqProp: 'nav_show',
           title: this.$t('navigation'),
         },
         {
@@ -113,7 +113,7 @@ export default {
           name: 'requirements',
           icon: 'mdi-greater-than-or-equal',
           component: 'Requirements',
-          reqProp: 'requirements_show',
+          reqProp: 'requirement_show',
           title: this.$t('requirements'),
         },
         {
@@ -156,7 +156,7 @@ export default {
               name: 'rewards',
               icon: 'mdi-star-shooting',
               component: 'Rewards',
-              reqProp: 'reward_show',
+              reqProp: 'packet_show',
               title: this.$t('rewards'),
             },
           ],

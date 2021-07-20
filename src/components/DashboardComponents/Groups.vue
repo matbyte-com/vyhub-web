@@ -101,8 +101,8 @@
                     <v-chip
                       @mouseover="setActiveGroups(prop)"
                       @mouseleave="resetActives"
-                      class="ml-1 mb-1 a success"
-                      :class="checkProps(prop)"
+                      :class="'ml-1 mb-1 a '
+                      + (prop.granted ? 'success' : 'error') + ' ' + checkProps(prop)"
                       small
                     >{{ prop.name }}
                     </v-chip>

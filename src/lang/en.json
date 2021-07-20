@@ -178,8 +178,7 @@
       }
     }
   },
-  "log": {
-    "log": "Log",
+  "_log": {
     "type": {
       "system": "System",
       "user": "User",
@@ -217,7 +216,7 @@
     "membership_deleted": "Deleted Membership: Group: {groupName}, User: {username}"
   },
   "forms": {
-    "iconDescription": "available Icons"
+    "iconDescription": "Available icons"
   },
   "_address": {
     "labels": {
@@ -486,6 +485,7 @@
   "payments": "Payments",
   "gateway": "Gateway",
   "open": "Open",
+  "log": "Log",
   "cancelled": "Cancelled",
   "finished": "Finished",
   "search": "Search",
