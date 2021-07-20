@@ -453,7 +453,16 @@
     "shopCart": "Cart",
     "shopCheckout": "Checkout",
     "shopAdministration": "Shop - Administration",
-    "log": "Log"
+    "log": "Log",
+    "warnings":  "Warnings"
+  },
+  "_warning": {
+    "title": "Warnings",
+    "ttl": "Length (in days)",
+    "ttlDescription": "Time until warning is marked as expired",
+    "countTillBan": "Number of warnings till automatic ban",
+    "countTillBanDesc": "0 for no automatic bans.",
+    "settingFormDesc": "Users are banned automatically when they reach the specified number of ACTIVE warnings."
   },
   "update": "Update",
   "recurring": "Recurring",
@@ -574,5 +583,6 @@
   "submit": "Submit",
   "serverStatus": "Server Status",
   "connect": "Connect",
-  "save": "Save"
+  "save": "Save",
+  "warnings": "Warnings"
 }

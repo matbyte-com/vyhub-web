@@ -130,8 +130,8 @@ import EditGroupForm from '@/forms/GroupEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DataTable from '@/components/DataTable.vue';
 import Dialog from '@/components/Dialog.vue';
+import UserLink from '@/components/UserLink.vue';
 import SettingTitle from './SettingTitle.vue';
-import UserLink from "@/components/UserLink";
 
 export default {
   name: 'Groups',

@@ -59,6 +59,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/Ban.vue'),
   },
   {
+    path: '/warnings/:warningId?',
+    name: 'Warnings',
+    meta: { title: i18n.t('pageTitle.warnings'), requiresAuth: true },
+    component: () => import('@/views/Warning.vue'),
+  },
+  {
     path: '/shop',
     name: 'Shop',
     component: () => import('@/views/Shop/Start.vue'),

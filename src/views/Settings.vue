@@ -103,6 +103,13 @@ export default {
           title: this.$t('groups'),
         },
         {
+          name: 'warnings',
+          icon: 'mdi-account-alert',
+          component: 'Warnings',
+          reqProp: 'warning_show',
+          title: this.$t('warnings'),
+        },
+        {
           name: 'serverbundles',
           icon: 'mdi-server',
           component: 'Server',

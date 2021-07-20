@@ -25,7 +25,7 @@
     </NavigationLink>
 
     <v-spacer></v-spacer>
-    <Notification />
+    <Notification v-if="$store.getters.isLoggedIn"/>
     <Search />
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">

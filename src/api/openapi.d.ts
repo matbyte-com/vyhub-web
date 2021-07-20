@@ -63,6 +63,10 @@ declare namespace Components {
        */
       id: string; // uuid
       country: CountryModel;
+      /**
+       * Vat Number
+       */
+      vat_number?: string;
     }
     /**
      * AddressModelAdd
@@ -259,6 +263,43 @@ declare namespace Components {
        * Payment Gateway Id
        */
       payment_gateway_id: string; // uuid
+    }
+    /**
+     * BusinessAddressModelAdd
+     */
+    export interface BusinessAddressModelAdd {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Street And Number
+       */
+      street_and_number: string;
+      /**
+       * Addition
+       */
+      addition?: string;
+      /**
+       * City
+       */
+      city: string;
+      /**
+       * State
+       */
+      state: string;
+      /**
+       * Zip Code
+       */
+      zip_code: string;
+      /**
+       * Country Code
+       */
+      country_code: string; // ^[A-Z]{2}$
+      /**
+       * Vat Number
+       */
+      vat_number?: string;
     }
     /**
      * CartModel
@@ -887,10 +928,7 @@ declare namespace Components {
        * End
        */
       end?: string; // date-time
-      /**
-       * User Id
-       */
-      user_id: string; // uuid
+      user: UserModelNoLinkedExtraShort;
     }
     /**
      * MembershipModelUserAdd
@@ -1806,6 +1844,19 @@ declare namespace Components {
       value?: string;
     }
     /**
+     * PropertyModelShortWithDescription
+     */
+    export interface PropertyModelShortWithDescription {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Description
+       */
+      description: string;
+    }
+    /**
      * PurchaseModel
      */
     export interface PurchaseModel {
@@ -2623,6 +2674,19 @@ declare namespace Components {
       };
     }
     /**
+     * UserModelNoLinkedExtraShort
+     */
+    export interface UserModelNoLinkedExtraShort {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Username
+       */
+      username: string;
+    }
+    /**
      * UserModelNoLinkedShort
      */
     export interface UserModelNoLinkedShort {
@@ -2683,6 +2747,31 @@ declare namespace Components {
        */
       type: string;
     }
+    /**
+     * WarningModel
+     */
+    export interface WarningModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Reason
+       */
+      reason?: string;
+      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
+      user: Model_User_User_UserModelShort;
+      /**
+       * Created On
+       */
+      created_on: string; // date-time
+      status: WarningStatus;
+    }
+    /**
+     * WarningStatus
+     * An enumeration.
+     */
+    export type WarningStatus = "ACTIVE" | "EXPIRED";
   }
 }
 declare namespace Paths {
@@ -2989,6 +3078,14 @@ declare namespace Paths {
     namespace Responses {
       export type $200 = Components.Schemas.GroupModel;
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace GroupGetAllProperties {
+    namespace Responses {
+      /**
+       * Response Get All Properties Group Property  Get
+       */
+      export type $200 = Components.Schemas.PropertyModelShortWithDescription[];
     }
   }
   namespace GroupGetGroup {
@@ -3607,7 +3704,7 @@ declare namespace Paths {
     }
   }
   namespace ShopChangeBusinessAddress {
-    export type RequestBody = Components.Schemas.AddressModelAdd;
+    export type RequestBody = Components.Schemas.BusinessAddressModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.AddressModel;
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -4291,6 +4388,14 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace WarningGetWarnings {
+    namespace Responses {
+      /**
+       * Response Get Warnings Warning  Get
+       */
+      export type $200 = Components.Schemas.WarningModel[];
+    }
+  }
   namespace WebhookStripeEvent {
     namespace Parameters {
       /**
@@ -4713,6 +4818,16 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>
   /**
+   * group_getAllProperties - Get All Properties
+   * 
+   * Returns all possible permission properties with a short description.
+   */
+  'group_getAllProperties'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.GroupGetAllProperties.Responses.$200>
+  /**
    * ban_getBans - Get Bans
    */
   'ban_getBans'(
@@ -4752,6 +4867,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
+  /**
+   * warning_getWarnings - Get Warnings
+   */
+  'warning_getWarnings'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
   /**
    * shop_getGateways - Get Gateways
    */
@@ -5793,6 +5916,18 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>
   }
+  ['/group/property/']: {
+    /**
+     * group_getAllProperties - Get All Properties
+     * 
+     * Returns all possible permission properties with a short description.
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.GroupGetAllProperties.Responses.$200>
+  }
   ['/ban/']: {
     /**
      * ban_getBans - Get Bans
@@ -5838,6 +5973,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
+  }
+  ['/warning/']: {
+    /**
+     * warning_getWarnings - Get Warnings
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
   }
   ['/shop/gateway/']: {
     /**
