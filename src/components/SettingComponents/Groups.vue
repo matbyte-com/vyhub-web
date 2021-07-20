@@ -29,7 +29,7 @@
                  @search="newSearch"
                  class="mt-3">
         <template v-slot:item.user="{ item }">
-          {{ item.user_id }}
+          <UserLink :user="item.user" />
         </template>
         <template v-slot:item.begin="{ item }">
           {{ (item.begin != null
@@ -131,10 +131,12 @@ import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue'
 import DataTable from '@/components/DataTable.vue';
 import Dialog from '@/components/Dialog.vue';
 import SettingTitle from './SettingTitle.vue';
+import UserLink from "@/components/UserLink";
 
 export default {
   name: 'Groups',
   components: {
+    UserLink,
     Dialog,
     SettingTitle,
     DataTable,
