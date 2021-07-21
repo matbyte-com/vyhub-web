@@ -25,12 +25,10 @@
                     </v-icon>
                     {{ acc.username }}
                   </v-col>
-                  <v-col cols="3">
-                    <v-avatar
-                      size="35">
-                      <img :src="acc.avatar"
-                           size="5"
-                           alt="avatar">
+                  <v-col cols="3" lg="4" xl="3" class="justify-center">
+                    <v-avatar>
+                      <v-img :src="acc.avatar" contain
+                             alt="avatar" />
                     </v-avatar>
                   </v-col>
                 </v-row>
