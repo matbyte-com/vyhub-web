@@ -2774,6 +2774,23 @@ declare namespace Components {
        */
       disabled: boolean;
     }
+    /**
+     * WarningModelAdd
+     */
+    export interface WarningModelAdd {
+      /**
+       * Reason
+       */
+      reason?: string;
+      /**
+       * Serverbundle Id
+       */
+      serverbundle_id: string; // uuid
+      /**
+       * User Id
+       */
+      user_id: string; // uuid
+    }
   }
 }
 declare namespace Paths {
@@ -4390,6 +4407,13 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace WarningAddWarning {
+    export type RequestBody = Components.Schemas.WarningModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.WarningModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace WarningDeleteWarning {
     namespace Parameters {
       /**
@@ -4909,6 +4933,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
+  /**
+   * warning_addWarning - Add Warning
+   */
+  'warning_addWarning'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.WarningAddWarning.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
   /**
    * warning_toggleWarningStatus - Toggle Warning Status
    */
@@ -6033,6 +6065,14 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
+    /**
+     * warning_addWarning - Add Warning
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.WarningAddWarning.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
   }
   ['/warning/{uuid}/toggle']: {
     /**

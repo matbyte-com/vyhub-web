@@ -215,7 +215,8 @@
     "membership_add": "Membership Added Group: {groupName}, User: {username}",
     "membership_deleted": "Deleted Membership: Group: {groupName}, User: {username}",
     "warning_toggle": "Toggle warning status to Disabled: {newStatus}, User: {username}",
-    "warning_delete": "Delete warning of user: {username}"
+    "warning_delete": "Delete warning of user: {username}",
+    "warning_add": "Added warning for user: {username}"
   },
   "forms": {
     "iconDescription": "Available icons"
@@ -587,5 +588,7 @@
   "serverStatus": "Server Status",
   "connect": "Connect",
   "save": "Save",
-  "warnings": "Warnings"
+  "warnings": "Warnings",
+  "enable": "Enable",
+  "disable": "Disable"
 }

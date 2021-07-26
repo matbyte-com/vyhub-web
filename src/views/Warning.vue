@@ -1,14 +1,16 @@
 <template>
   <div>
-    <DeleteConfirmationDialog ref="deleteWarningDialog" @submit="deleteWarning" />
+    <DeleteConfirmationDialog ref="deleteWarningDialog" @submit="deleteWarning"/>
+    <DialogForm ref="addWarningDialog" @submit="addWarning" :form-schema="WarningAddForm"
+                :title="$t('_warning.add')"/>
     <PageTitle icon="mdi-account-alert">{{ $t('_warning.title') }}</PageTitle>
     <v-card>
       <v-card-text>
         <DataTable :headers="headers"
                    :items="warnings"
                    :item-class="warningRowFormatter">
-          <template v-slot:footer-right>
-            <v-btn outlined color="success" @click="$refs.warningAddDialog.show()">
+          <template v-slot:footer-right v-if="$checkProp('warning_edit')">
+            <v-btn outlined color="success" @click="$refs.addWarningDialog.show()">
               <v-icon left>mdi-plus</v-icon>
               <span>{{ $t("_warning.add") }}</span>
             </v-btn>
@@ -57,11 +59,17 @@ import DataTable from '@/components/DataTable.vue';
 import UserLink from '@/components/UserLink.vue';
 import openapi from '@/api/openapi';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
+import DialogForm from '@/components/DialogForm.vue';
+import WarningAddForm from '@/forms/WarningAddForm';
 
 export default {
   name: 'Warning.vue',
   components: {
-    DeleteConfirmationDialog, DataTable, PageTitle, UserLink,
+    DialogForm,
+    DeleteConfirmationDialog,
+    DataTable,
+    PageTitle,
+    UserLink,
   },
   data() {
     return {
@@ -75,6 +83,7 @@ export default {
           text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
         },
       ],
+      WarningAddForm,
     };
   },
   beforeMount() {
@@ -113,6 +122,18 @@ export default {
         this.$refs.deleteWarningDialog.closeAndReset();
         this.fetchData();
       }).catch((err) => this.$refs.deleteWarningDialog.setErrorMessage(err.response.data.detail));
+    },
+    async addWarning() {
+      const form = this.$refs.addWarningDialog.getData();
+      const data = {};
+      data.serverbundle_id = form.serverbundle.id;
+      data.user_id = form.user.id;
+      (await openapi).warning_addWarning(null, data).then(() => {
+        this.fetchData();
+        this.$refs.addWarningDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.addWarningDialog.setErrorMessage(err.response.data.detail);
+      });
     },
   },
 };
