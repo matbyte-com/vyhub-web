@@ -2765,13 +2765,15 @@ declare namespace Components {
        * Created On
        */
       created_on: string; // date-time
-      status: WarningStatus;
+      /**
+       * Is Active
+       */
+      is_active: boolean;
+      /**
+       * Disabled
+       */
+      disabled: boolean;
     }
-    /**
-     * WarningStatus
-     * An enumeration.
-     */
-    export type WarningStatus = "ACTIVE" | "EXPIRED";
   }
 }
 declare namespace Paths {
@@ -4388,12 +4390,44 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace WarningDeleteWarning {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace WarningGetWarnings {
     namespace Responses {
       /**
        * Response Get Warnings Warning  Get
        */
       export type $200 = Components.Schemas.WarningModel[];
+    }
+  }
+  namespace WarningToggleWarningStatus {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace WebhookStripeEvent {
@@ -4875,6 +4909,22 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
+  /**
+   * warning_toggleWarningStatus - Toggle Warning Status
+   */
+  'warning_toggleWarningStatus'(
+    parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>
+  /**
+   * warning_deleteWarning - Delete Warning
+   */
+  'warning_deleteWarning'(
+    parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>
   /**
    * shop_getGateways - Get Gateways
    */
@@ -5983,6 +6033,26 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
+  }
+  ['/warning/{uuid}/toggle']: {
+    /**
+     * warning_toggleWarningStatus - Toggle Warning Status
+     */
+    'patch'(
+      parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>
+  }
+  ['/warning/{uuid}']: {
+    /**
+     * warning_deleteWarning - Delete Warning
+     */
+    'delete'(
+      parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>
   }
   ['/shop/gateway/']: {
     /**

@@ -213,7 +213,9 @@
     "general_settings_edit": "Edited general settings",
     "general_shop_settings_edit": "Edited shop general settings",
     "membership_add": "Membership Added Group: {groupName}, User: {username}",
-    "membership_deleted": "Deleted Membership: Group: {groupName}, User: {username}"
+    "membership_deleted": "Deleted Membership: Group: {groupName}, User: {username}",
+    "warning_toggle": "Toggle warning status to Disabled: {newStatus}, User: {username}",
+    "warning_delete": "Delete warning of user: {username}"
   },
   "forms": {
     "iconDescription": "Available icons"
@@ -462,7 +464,8 @@
     "ttlDescription": "Time until warning is marked as expired",
     "countTillBan": "Number of warnings till automatic ban",
     "countTillBanDesc": "0 for no automatic bans.",
-    "settingFormDesc": "Users are banned automatically when they reach the specified number of ACTIVE warnings."
+    "settingFormDesc": "Users are banned automatically when they reach the specified number of ACTIVE warnings.",
+    "add": "Add Warning"
   },
   "update": "Update",
   "recurring": "Recurring",
