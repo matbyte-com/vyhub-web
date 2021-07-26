@@ -389,6 +389,23 @@ declare namespace Components {
       content?: string;
     }
     /**
+     * ConfigModel
+     */
+    export interface ConfigModel {
+      /**
+       * Time To Live
+       */
+      time_to_live: number;
+      /**
+       * Count Till Ban
+       */
+      count_till_ban: number;
+      /**
+       * Ban Length
+       */
+      ban_length: number;
+    }
+    /**
      * CountryModel
      */
     export interface CountryModel {
@@ -4430,6 +4447,11 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace WarningGetWarningConfig {
+    namespace Responses {
+      export type $200 = Components.Schemas.ConfigModel;
+    }
+  }
   namespace WarningGetWarnings {
     namespace Responses {
       /**
@@ -4451,6 +4473,13 @@ declare namespace Paths {
     }
     namespace Responses {
       export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace WarningUpdateWarningConfig {
+    export type RequestBody = Components.Schemas.ConfigModel;
+    namespace Responses {
+      export type $200 = Components.Schemas.ConfigModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -4941,6 +4970,22 @@ export interface OperationMethods {
     data?: Paths.WarningAddWarning.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
+  /**
+   * warning_getWarningConfig - Get Warning Config
+   */
+  'warning_getWarningConfig'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>
+  /**
+   * warning_updateWarningConfig - Update Warning Config
+   */
+  'warning_updateWarningConfig'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.WarningUpdateWarningConfig.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>
   /**
    * warning_toggleWarningStatus - Toggle Warning Status
    */
@@ -6073,6 +6118,24 @@ export interface PathsDictionary {
       data?: Paths.WarningAddWarning.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
+  }
+  ['/warning/config']: {
+    /**
+     * warning_getWarningConfig - Get Warning Config
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>
+    /**
+     * warning_updateWarningConfig - Update Warning Config
+     */
+    'patch'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.WarningUpdateWarningConfig.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>
   }
   ['/warning/{uuid}/toggle']: {
     /**

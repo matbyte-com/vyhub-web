@@ -106,7 +106,7 @@ export default {
           name: 'warnings',
           icon: 'mdi-account-alert',
           component: 'Warnings',
-          reqProp: 'warning_show',
+          reqProp: 'warning_config_show',
           title: this.$t('warnings'),
         },
         {

@@ -13,6 +13,7 @@
 import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
 import GenForm from '@/components/GenForm.vue';
 import WarningSettingsForm from '@/forms/WarningSettingsForm';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'Warnings.vue',
@@ -25,9 +26,32 @@ export default {
       formSchema: WarningSettingsForm,
     };
   },
+  beforeMount() {
+    this.fetchData();
+  },
   methods: {
-    saveData() {
-      console.log('123');
+    async fetchData() {
+      (await openapi).warning_getWarningConfig().then((rsp) => {
+        const { data } = rsp;
+        data.ban_length = rsp.data.ban_length / 60;
+        data.time_to_live = 12;
+        this.$refs.form.setData(data);
+        // TODO why is the time to live value not updated and shown?
+        console.log(data);
+        console.log(this.$refs.form.getData());
+      });
+    },
+    async saveData() {
+      const data = this.$refs.form.getData();
+      data.ban_length *= 60;
+      (await openapi).warning_updateWarningConfig(null, data).then(() => {
+        this.$notify({
+          title: this.$t('settingsSaveSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.form.setErrorMessage(err.response.data.detail);
+      });
     },
   },
 };
