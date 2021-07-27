@@ -12,7 +12,7 @@
     <!-- Logo -->
     <div class="d-flex align-center pr-5" @click="$router.push('/')">
       <v-img alt="Community Logo" class="shrink" contain :src="imgSrc"
-             transition="scale-transition" min-width="50" max-width="200" height="50"/>
+             transition="scale-transition" :width="logo_width" height="50"/>
       <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
 
@@ -78,6 +78,7 @@ export default {
       links: [],
       imgSrc: null,
       communityName: null,
+      logo_width: 50,
       linksRight: [
         /* {
           title: 'Settings', icon: 'mdi-cog', link: '/settings',
@@ -111,8 +112,10 @@ export default {
     },
     getLogo() {
       if (localStorage.theme) {
+        // Theme queried in App.vue
         const obj = JSON.parse(localStorage.getItem('theme'));
         this.imgSrc = obj.logo;
+        if (obj.logo_width) this.logo_width = obj.logo_width;
         if (obj.show_community_name) {
           this.communityName = obj.community_name;
         } else {

@@ -177,6 +177,7 @@ export default Vue.extend({
           cachedTheme.logo = theme.logo;
           cachedTheme.show_community_name = theme.show_community_name;
           cachedTheme.community_name = theme.community_name;
+          cachedTheme.logo_width = theme.logo_width;
           // save theme to localStorage
           localStorage.setItem('theme', JSON.stringify(cachedTheme));
           emitter.emit('themeUpdatedAfter');

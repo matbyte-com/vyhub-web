@@ -93,7 +93,8 @@
       "logoUrl": "Logo Image",
       "showCommunityName": "Show Community Name",
       "communityNameDescription": "Displays community name in header",
-      "logoDescription": "Reload Page if logo is not displayed correctly"
+      "logoDescription": "Reload Page if logo is not displayed correctly",
+      "logoWidth": "Logo Width"
     }
   },
   "_properties": {

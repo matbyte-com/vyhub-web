@@ -36,6 +36,16 @@ export default {
       },
       description: i18n.t('settings.labels.logoDescription'),
     },
+    logo_width: {
+      type: 'integer',
+      minimum: 50,
+      maximum: 150,
+      title: i18n.t('settings.labels.logoWidth'),
+      'x-display': 'slider',
+      'x-props': {
+        'thumb-label': 'always',
+      },
+    },
     show_community_name: {
       type: 'boolean',
       title: i18n.t('settings.labels.showCommunityName'),
