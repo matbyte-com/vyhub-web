@@ -311,7 +311,8 @@
       "_types": {
         "command": "Execute a command on the server(s)",
         "script": "Execute a script on the server(s)",
-        "credits": "Add credits to the buyers account"
+        "credits": "Add credits to the buyers account",
+        "membership": "Add group membership"
       }
     },
     "messages": {
@@ -570,6 +571,8 @@
   "packet": "Packet",
   "price": "Price",
   "address": "Address",
+  "command": "Command",
+  "script": "Script",
   "settingsSaveSuccess": "Settings successfully saved.",
   "port": "Port",
   "flags": "Flags",
