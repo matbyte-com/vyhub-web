@@ -260,6 +260,8 @@
       "buyableActive": "Buyable if the user has this packet in an active state.",
       "buyableInactive": "Buyable if the user has this packet in an inactive state.",
       "activeFor": "Active for",
+      "activeSince": "Active since",
+      "activeUntil": "Active until",
       "activeForDetail": "How long the packet should be active after activation. Let this field empty for packets that should not be disabled after time. If the recurring option is enabled, this value is used as the subscription interval.",
       "paymentMethods": "Payment Methods",
       "limitPaymentMethods": "Limit payment methods",

@@ -38,10 +38,22 @@
     <Dialog :title="$t('_packet.labels.details')" icon="mdi-gift-open" v-model="packetDetailShown">
       <v-simple-table v-if="currentUserPacket != null">
         <tbody>
-        <tr>
-          <td>{{ $t('title') }}</td>
-          <td>{{ currentUserPacket.packet.title }}</td>
-        </tr>
+          <tr>
+            <td>{{ $t('title') }}</td>
+            <td>{{ currentUserPacket.packet.title }}</td>
+          </tr>
+          <tr>
+            <td>{{ $t('active') }}</td>
+            <td><BoolIcon :value="currentUserPacket.active" /></td>
+          </tr>
+          <tr>
+            <td>{{ $t('_packet.labels.activeSince') }}</td>
+            <td>{{ utils.formatDate(currentUserPacket.begin) }}</td>
+          </tr>
+          <tr>
+            <td>{{ $t('_packet.labels.activeUntil') }}</td>
+            <td>{{ utils.formatDate(currentUserPacket.end) }}</td>
+          </tr>
         </tbody>
       </v-simple-table>
     </Dialog>
@@ -52,10 +64,11 @@
 import api from '@/api/api';
 import DataIterator from '../DataIterator.vue';
 import Dialog from '../Dialog.vue';
+import BoolIcon from '../BoolIcon.vue';
 
 export default {
   name: 'Packets.vue',
-  components: { DataIterator, Dialog },
+  components: { BoolIcon, DataIterator, Dialog },
   data() {
     return {
       userPackets: [],

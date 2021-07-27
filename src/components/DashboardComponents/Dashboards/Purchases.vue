@@ -7,6 +7,7 @@
             <DataIterator
               :items="purchases"
               sort-by="date"
+              :items-per-page="6"
               :sort-desc="true"
             >
               <template v-slot:default="props">

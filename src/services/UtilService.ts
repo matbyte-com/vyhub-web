@@ -72,6 +72,9 @@ export default {
         getFullUrl(path: string) {
           return window.location.origin + path;
         },
+        formatDate(datetime: string) {
+          return (new Date(datetime)).toLocaleString();
+        },
       },
     };
   },

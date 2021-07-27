@@ -98,6 +98,8 @@
             <v-col lg="3" md="4" sm="6" xs="12" v-for="gateway in gateways" v-bind:key="gateway.id">
               <v-card @click="startPayment(gateway)">
                 <v-card-text class="text-center">
+                  <v-img contain class="mb-1" width="200" height="50"
+                         :src="getImgUrl(gateway.type)" />
                   {{ gateway.name }}
                 </v-card-text>
               </v-card>
@@ -162,6 +164,10 @@ export default {
     };
   },
   methods: {
+    getImgUrl(gateway) {
+      const images = require.context('@/assets/img/gateways/', false, /\.png$/);
+      return images(`./${gateway}.png`);
+    },
     async queryData() {
       const api = await openapi;
       api.shop_getPurchaseGateways({ uuid: this.purchase.id }).then((rsp) => {
