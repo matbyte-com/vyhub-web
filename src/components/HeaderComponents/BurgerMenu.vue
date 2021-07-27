@@ -8,8 +8,7 @@
       <div v-for="(navLink, index) in navLinks" :key="index">
         <!-- if tabs are existent -->
         <v-list-group
-          v-if="navLink.enabled === true && (navLink.tabs || []).length > 0 &&
-           $checkProp(navLink.reqProp)"
+          v-if="(navLink.tabs || []).length > 0"
           v-on:click.stop="">
           <template v-slot:activator>
               <v-icon left>{{ navLink.icon }}</v-icon>
@@ -26,8 +25,7 @@
           </div>
         </v-list-group>
         <!-- if no tabs are existent -->
-        <v-list-item v-if="navLink.enabled === true && (navLink.tabs || []).length === 0 &&
-         $checkProp(navLink.reqProp)"
+        <v-list-item v-if="(navLink.tabs || []).length === 0"
                      :to="navLink.link">
           <v-icon left>{{ navLink.icon }}</v-icon>
           <v-list-item-title>{{ navLink.title }}</v-list-item-title>

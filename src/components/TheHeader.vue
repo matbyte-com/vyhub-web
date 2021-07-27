@@ -3,7 +3,7 @@
     <!-- burger menu on the left-->
     <div class="hidden-md-and-up">
       <BurgerMenu
-        :nav-links="links"
+        :nav-links="allowedLinks"
         :menu-links="linksRight"
         @logout="logout"
         @login="showLoginDialog()"/>
@@ -15,7 +15,6 @@
              transition="scale-transition" :width="logo_width" height="50"/>
       <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
-
     <!-- navigation links-->
     <NavigationLink
       class="hidden-sm-and-down"
