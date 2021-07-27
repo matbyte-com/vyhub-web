@@ -69,6 +69,10 @@ function form(gatewayType: string) {
         type: 'string',
         title: i18n.t('name'),
       },
+      subtitle: {
+        type: 'string',
+        title: i18n.t('subtitle'),
+      },
       type: {
         type: 'string',
         title: i18n.t('type'),

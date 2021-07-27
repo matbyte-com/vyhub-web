@@ -95,12 +95,17 @@
             </v-col>
           </v-row>
           <v-row class="justify-center">
-            <v-col lg="3" md="4" sm="6" xs="12" v-for="gateway in gateways" v-bind:key="gateway.id">
+            <v-col lg="3" md="4" sm="6" xs="12" v-for="gateway in gateways" v-bind:key="gateway.id"
+                   class="d-flex">
               <v-card @click="startPayment(gateway)">
-                <v-card-text class="text-center">
-                  <v-img contain class="mb-1" width="200" height="50"
-                         :src="getImgUrl(gateway.type)" />
-                  {{ gateway.name }}
+                <v-card-text class="text-center flex-grow-1">
+                  <div class="d-flex justify-center">
+                    <v-img contain class="mb-1" width="200" height="50"
+                           :src="getImgUrl(gateway.type)" />
+                  </div>
+                  <div v-if="gateway.subtitle != null">
+                    {{ gateway.subtitle }}
+                  </div>
                 </v-card-text>
               </v-card>
             </v-col>

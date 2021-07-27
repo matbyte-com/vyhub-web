@@ -116,7 +116,7 @@ export default {
           icon: 'mdi-circle-multiple',
         },
       },
-      noAttributeKeys: ['name', 'type', 'enabled'],
+      noAttributeKeys: ['name', 'subtitle', 'type', 'enabled'],
     };
   },
   beforeMount() {
