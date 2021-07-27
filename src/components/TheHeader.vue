@@ -10,7 +10,7 @@
     </div>
 
     <!-- Logo -->
-    <div class="d-flex align-center pr-5" @click="$router.push('/')">
+    <div class="d-flex align-center pr-5" @click="$router.push('/')" v-if="imgSrc">
       <v-img alt="Community Logo" class="shrink" contain :src="imgSrc"
              transition="scale-transition" :width="logo_width" height="50"/>
       <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
@@ -29,9 +29,9 @@
     <Search />
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
-      <div v-if="$store.getters.isLoggedIn">
-        <Credits></Credits>
-        <ShoppingCart></ShoppingCart>
+      <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
+        <Credits />
+        <ShoppingCart />
         <ProfileMenu
           :menu-links="linksRight"
           @logout="logout"/>

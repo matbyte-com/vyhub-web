@@ -14,6 +14,10 @@ export default {
         return true;
       }
 
+      if (prop === null) {
+        return true;
+      }
+
       const { properties } = store.getters;
 
       if (properties == null) {

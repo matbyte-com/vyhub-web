@@ -8,32 +8,41 @@
       <div v-for="(navLink, index) in navLinks" :key="index">
         <!-- if tabs are existent -->
         <v-list-group
-          v-if="(navLink.tabs || []).length > 0" v-on:click.stop="">
+          v-if="navLink.enabled === true && (navLink.tabs || []).length > 0 &&
+           $checkProp(navLink.reqProp)"
+          v-on:click.stop="">
           <template v-slot:activator>
               <v-icon left>{{ navLink.icon }}</v-icon>
               <v-list-item-title>{{ navLink.title }}</v-list-item-title>
           </template>
-          <v-list-item
-            v-for="(tab, index) in navLink.tabs" :key="index"
-            @click="$router.push(tab.link)"
+          <div v-for="(tab, index) in navLink.tabs" :key="index">
+            <v-list-item class="ml-3"
+            v-if="tab.enabled === true && $checkProp(tab.reqProp)"
+            :to="tab.link"
             link>
-            <v-icon left>{{ tab.icon }}</v-icon>
-            <v-list-item-title>{{ tab.title }}</v-list-item-title>
-          </v-list-item>
+              <v-icon left>{{ tab.icon }}</v-icon>
+              <v-list-item-title>{{ tab.title }}</v-list-item-title>
+            </v-list-item>
+          </div>
         </v-list-group>
         <!-- if no tabs are existent -->
-        <v-list-item v-if="(navLink.tabs || []).length == 0" @click="$router.push(navLink.link)">
+        <v-list-item v-if="navLink.enabled === true && (navLink.tabs || []).length === 0 &&
+         $checkProp(navLink.reqProp)"
+                     :to="navLink.link">
           <v-icon left>{{ navLink.icon }}</v-icon>
           <v-list-item-title>{{ navLink.title }}</v-list-item-title>
         </v-list-item>
       </div>
       <v-divider />
+      <div v-if="$store.getters.isLoggedIn">
+        <ShoppingCart :list-item="true"/>
+        <Credits :list-item="true"/>
+      </div>
+      <v-divider />
       <!-- render menuTabs + Logout-->
       <div v-if="$store.getters.isLoggedIn">
         <v-list-item v-for="(menuLink, index) in menuLinks"
-                     :key="index"
-                     @click="$router.push(menuLink.link)"
-                      >
+                     :key="index" :to="menuLink.link">
           <v-icon left>{{ menuLink.icon }}</v-icon>
           <v-list-item-title>{{ menuLink.title }}</v-list-item-title>
         </v-list-item>
@@ -44,10 +53,10 @@
       </div>
       <div v-else>
         <v-list-item @click="emitLogin">
+          <v-icon left>
+            mdi-login
+          </v-icon>
           <v-list-item-title>{{ $t('header.labels.login') }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="emitRegister">
-          <v-list-item-title>{{ $t('header.labels.register') }}</v-list-item-title>
         </v-list-item>
       </div>
     </v-list>
@@ -55,8 +64,12 @@
 </template>
 
 <script>
+import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
+import Credits from '@/components/HeaderComponents/Credits.vue';
+
 export default {
   name: 'BurgerMenu.vue',
+  components: { Credits, ShoppingCart },
   props: {
     navLinks: Array,
     menuLinks: Array,

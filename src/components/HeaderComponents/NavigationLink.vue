@@ -2,7 +2,7 @@
   <div>
     <!-- Menu when Tabs are existent -->
     <v-menu
-      v-if="(link.tabs || []).length > 0"
+      v-if="link.enabled === true && (link.tabs || []).length > 0 && $checkProp(link.reqProp)"
       open-on-hover
       offset-y>
       <template v-slot:activator="{ on, attrs }">
@@ -25,9 +25,8 @@
     </v-menu>
     <!-- simple button when no tabs are existent -->
     <v-btn
-      v-else
-      text
-      dark
+      text dark
+      v-if="link.enabled === true && (link.tabs || []).length === 0 && $checkProp(link.reqProp)"
       :href="(link.linkType === 'link' ? link.link : null)"
       :to="(link.linkType !== 'link' ? link.link : null)"
     >

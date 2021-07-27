@@ -6,21 +6,20 @@
         <v-icon right>mdi-account-circle</v-icon>
       </v-btn>
     </template>
-    <v-list>
+    <v-list dense>
       <v-list-item
         v-for="(link, index) in menuLinks"
         :key="index"
-        @click="$router.push(link.link)">
-        <v-list-item-title>
+        @click="$router.push(link.link)"
+        >
           <v-icon left>{{ link.icon }}</v-icon>
-          <span>{{ link.title }}</span>
-        </v-list-item-title>
+          <v-list-item-title>
+            {{ link.title }}
+          </v-list-item-title>
       </v-list-item>
       <v-list-item @click="logout">
-        <v-list-item-title>
-          <v-icon left>mdi-logout-variant</v-icon>
-          <span>{{ $t('header.labels.logout') }}</span>
-        </v-list-item-title>
+        <v-icon left>mdi-logout-variant</v-icon>
+        <v-list-item-title>{{ $t('header.labels.logout') }}</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
