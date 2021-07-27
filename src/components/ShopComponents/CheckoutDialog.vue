@@ -97,11 +97,15 @@
           <v-row class="justify-center">
             <v-col lg="3" md="4" sm="6" xs="12" v-for="gateway in gateways" v-bind:key="gateway.id"
                    class="d-flex">
-              <v-card @click="startPayment(gateway)">
-                <v-card-text class="text-center flex-grow-1">
+              <v-card @click="startPayment(gateway)" class="flex-grow-1">
+                <v-card-text class="text-center">
                   <div class="d-flex justify-center">
                     <v-img contain class="mb-1" width="200" height="50"
-                           :src="getImgUrl(gateway.type)" />
+                           :src="getImgUrl(gateway.type)" :alt="gateway.type"
+                           v-if="getImgUrl(gateway.type) != null" />
+                    <div v-else>
+                      <h4 class="text-h4">{{ gateway.type }}</h4>
+                    </div>
                   </div>
                   <div v-if="gateway.subtitle != null">
                     {{ gateway.subtitle }}
@@ -171,7 +175,12 @@ export default {
   methods: {
     getImgUrl(gateway) {
       const images = require.context('@/assets/img/gateways/', false, /\.png$/);
-      return images(`./${gateway}.png`);
+
+      try {
+        return images(`./${gateway}.png`);
+      } catch (e) {
+        return null;
+      }
     },
     async queryData() {
       const api = await openapi;
