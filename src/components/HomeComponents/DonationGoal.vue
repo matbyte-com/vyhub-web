@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).design_getDonationGoal().then((rsp) => {
+      (await openapi).shop_getDonationGoal().then((rsp) => {
         this.donationGoal = rsp.data;
       });
     },

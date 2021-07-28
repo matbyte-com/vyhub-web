@@ -280,7 +280,7 @@ export default {
       this.statusColumnWidth = this.$refs.StatusCol.clientWidth;
     },
     async getDonationGoalStatus() {
-      (await openapi).design_getDonationGoal().then((rsp) => {
+      (await openapi).shop_getDonationGoal().then((rsp) => {
         this.donationGoal = rsp.data;
       });
     },
