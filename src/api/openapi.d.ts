@@ -4,7 +4,7 @@ import {
   UnknownParamsObject,
   OperationResponse,
   AxiosRequestConfig,
-} from 'openapi-client-axios'; 
+} from 'openapi-client-axios';
 
 declare namespace Components {
   namespace Schemas {
@@ -147,7 +147,7 @@ declare namespace Components {
      * AppliedPacketStatus
      * An enumeration.
      */
-    export type AppliedPacketStatus = "ENABLED" | "DISABLED";
+    export type AppliedPacketStatus = 'ENABLED' | 'DISABLED';
     /**
      * BanModel
      */
@@ -232,7 +232,7 @@ declare namespace Components {
      * BanStatus
      * An enumeration.
      */
-    export type BanStatus = "ACTIVE" | "UNBANNED";
+    export type BanStatus = 'ACTIVE' | 'UNBANNED';
     /**
      * Body_add_packet_to_cart_shop_cart_post
      */
@@ -575,7 +575,7 @@ declare namespace Components {
      * DebitStatus
      * An enumeration.
      */
-    export type DebitStatus = "STARTED" | "APPROVED" | "FINISHED" | "CANCELLED";
+    export type DebitStatus = 'STARTED' | 'APPROVED' | 'FINISHED' | 'CANCELLED';
     /**
      * DiscountModel
      */
@@ -879,7 +879,7 @@ declare namespace Components {
      * LinkType
      * An enumeration.
      */
-    export type LinkType = "default" | "link" | "html";
+    export type LinkType = 'default' | 'link' | 'html';
     /**
      * LogEntryModel
      */
@@ -1139,7 +1139,7 @@ declare namespace Components {
      * NewsType
      * An enumeration.
      */
-    export type NewsType = "PINNED" | "DEFAULT";
+    export type NewsType = 'PINNED' | 'DEFAULT';
     /**
      * NotificationEntryModel
      */
@@ -1670,7 +1670,7 @@ declare namespace Components {
      * PacketRelationType
      * An enumeration.
      */
-    export type PacketRelationType = "DISABLES" | "REQUIRES" | "UPGRADES" | "NOT_COMPATIBLE";
+    export type PacketRelationType = 'DISABLES' | 'REQUIRES' | 'UPGRADES' | 'NOT_COMPATIBLE';
     /**
      * Page[LogEntryModel]
      */
@@ -1850,7 +1850,7 @@ declare namespace Components {
      * PaymentGatewayType
      * An enumeration.
      */
-    export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "CREDITS";
+    export type PaymentGatewayType = 'PAYPAL' | 'STRIPE' | 'PAYSAFECARD' | 'CREDITS';
     /**
      * PropertyModel
      */
@@ -2038,7 +2038,7 @@ declare namespace Components {
      * PurchaseStatus
      * An enumeration.
      */
-    export type PurchaseStatus = "OPEN" | "CANCELLED" | "FINISHED" | "REFUNDED" | "REVOKED" | "RECURRING";
+    export type PurchaseStatus = 'OPEN' | 'CANCELLED' | 'FINISHED' | 'REFUNDED' | 'REVOKED' | 'RECURRING';
     /**
      * RequirementModel
      */
@@ -2085,7 +2085,7 @@ declare namespace Components {
      * RequirementOperator
      * An enumeration.
      */
-    export type RequirementOperator = "EQ" | "LEQ" | "GEQ" | "LT" | "GT" | "ACTIVE" | "INACTIVE" | "NEVER_ACTIVE" | "HAVE";
+    export type RequirementOperator = 'EQ' | 'LEQ' | 'GEQ' | 'LT' | 'GT' | 'ACTIVE' | 'INACTIVE' | 'NEVER_ACTIVE' | 'HAVE';
     /**
      * RequirementSetModel
      */
@@ -2137,12 +2137,12 @@ declare namespace Components {
      * RequirementType
      * An enumeration.
      */
-    export type RequirementType = "GROUP_MEMBER" | "PERMISSION_LEVEL" | "PERMISSION_LEVEL_SB" | "PROPERTY" | "PROPERTY_SB" | "USER_ATTRIBUTE" | "PACKET" | "DATE" | "USER_SELF";
+    export type RequirementType = 'GROUP_MEMBER' | 'PERMISSION_LEVEL' | 'PERMISSION_LEVEL_SB' | 'PROPERTY' | 'PROPERTY_SB' | 'USER_ATTRIBUTE' | 'PACKET' | 'DATE' | 'USER_SELF';
     /**
      * RewardEvent
      * An enumeration.
      */
-    export type RewardEvent = "DIRECT" | "CONNECT" | "SPAWN" | "DEATH" | "DISCONNECT" | "DISABLE";
+    export type RewardEvent = 'DIRECT' | 'CONNECT' | 'SPAWN' | 'DEATH' | 'DISCONNECT' | 'DISABLE';
     /**
      * RewardModel
      */
@@ -2253,7 +2253,7 @@ declare namespace Components {
      * RewardType
      * An enumeration.
      */
-    export type RewardType = "COMMAND" | "SCRIPT" | "CREDITS" | "MEMBERSHIP";
+    export type RewardType = 'COMMAND' | 'SCRIPT' | 'CREDITS' | 'MEMBERSHIP';
     /**
      * ServerBundleModelPatch
      */
@@ -2336,7 +2336,7 @@ declare namespace Components {
      * ServerType
      * An enumeration.
      */
-    export type ServerType = "GMOD" | "MINECRAFT" | "TEAMSPEAK3" | "DISCORD";
+    export type ServerType = 'GMOD' | 'MINECRAFT' | 'TEAMSPEAK3' | 'DISCORD';
     /**
      * ServerbundleModel
      */
@@ -2404,7 +2404,7 @@ declare namespace Components {
      * StatisticInterval
      * An enumeration.
      */
-    export type StatisticInterval = "DAY" | "MONTH" | "YEAR";
+    export type StatisticInterval = 'DAY' | 'MONTH' | 'YEAR';
     /**
      * SuccessModel
      */
@@ -2610,7 +2610,7 @@ declare namespace Components {
      * UserAttributeType
      * An enumeration.
      */
-    export type UserAttributeType = "NEWEST" | "ACCUMULATED";
+    export type UserAttributeType = 'NEWEST' | 'ACCUMULATED';
     /**
      * UserModel
      */
@@ -2765,7 +2765,7 @@ declare namespace Components {
      * UserType
      * An enumeration.
      */
-    export type UserType = "CENTRAL" | "STEAM";
+    export type UserType = 'CENTRAL' | 'STEAM';
     /**
      * ValidationError
      */
@@ -3982,7 +3982,7 @@ declare namespace Paths {
        * StatisticInterval
        * An enumeration.
        */
-      export type Interval = "DAY" | "MONTH" | "YEAR";
+      export type Interval = 'DAY' | 'MONTH' | 'YEAR';
     }
     export interface QueryParameters {
       interval?: Parameters.Interval;
@@ -4527,1062 +4527,1062 @@ export interface OperationMethods {
   'design_getNavItems'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetNavItems.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignGetNavItems.Responses.$200>;
   /**
    * design_updateNavItems - Update Nav Items
    */
   'design_updateNavItems'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.DesignUpdateNavItems.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200 | Paths.DesignUpdateNavItems.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200 | Paths.DesignUpdateNavItems.Responses.$422>;
   /**
    * design_createCmsHtml - Create Cms Html
    */
   'design_createCmsHtml'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.DesignCreateCmsHtml.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200 | Paths.DesignCreateCmsHtml.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200 | Paths.DesignCreateCmsHtml.Responses.$422>;
   /**
    * design_getCmsHtml - Get Cms Html
    */
   'design_getCmsHtml'(
     parameters?: Parameters<Paths.DesignGetCmsHtml.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200 | Paths.DesignGetCmsHtml.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200 | Paths.DesignGetCmsHtml.Responses.$422>;
   /**
    * design_updateCmsHtml - Update Cms Html
    */
   'design_updateCmsHtml'(
     parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters> | null,
     data?: Paths.DesignUpdateCmsHtml.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>;
   /**
    * design_deleteCmsHtml - Delete Cms Html
    */
   'design_deleteCmsHtml'(
     parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>;
   /**
    * design_getTheme - Get Theme
    */
   'design_getTheme'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetTheme.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignGetTheme.Responses.$200>;
   /**
    * design_updateTheme - Update Theme
    */
   'design_updateTheme'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.DesignUpdateTheme.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200 | Paths.DesignUpdateTheme.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200 | Paths.DesignUpdateTheme.Responses.$422>;
   /**
    * design_getIcons - Get Icons
    */
   'design_getIcons'(
     parameters?: Parameters<Paths.DesignGetIcons.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetIcons.Responses.$200 | Paths.DesignGetIcons.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignGetIcons.Responses.$200 | Paths.DesignGetIcons.Responses.$422>;
   /**
    * design_getGeneralSettings - Get General Settings
    */
   'design_getGeneralSettings'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetGeneralSettings.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignGetGeneralSettings.Responses.$200>;
   /**
    * design_editGeneralSettings - Edit General Settings
    */
   'design_editGeneralSettings'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.DesignEditGeneralSettings.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>;
   /**
    * auth_getToken - Get Token
    */
   'auth_getToken'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthGetToken.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.AuthGetToken.Responses.$200>;
   /**
    * auth_revokeToken - Revoke Token
    */
   'auth_revokeToken'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>;
   /**
    * auth_prepare - Prepare
    */
   'auth_prepare'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthPrepare.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.AuthPrepare.Responses.$200>;
   /**
    * auth_start - Start
    */
   'auth_start'(
     parameters?: Parameters<Paths.AuthStart.PathParameters & Paths.AuthStart.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthStart.Responses.$200 | Paths.AuthStart.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.AuthStart.Responses.$200 | Paths.AuthStart.Responses.$422>;
   /**
    * auth_finish - Finish
    */
   'auth_finish'(
     parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>;
   /**
    * auth_finish - Finish
    */
   'auth_finish'(
     parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>;
   /**
    * user_getCurrentUser - Get Current User
    */
   'user_getCurrentUser'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>;
   /**
    * user_getData - Get Data
    */
   'user_getData'(
     parameters?: Parameters<Paths.UserGetData.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetData.Responses.$200 | Paths.UserGetData.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetData.Responses.$200 | Paths.UserGetData.Responses.$422>;
   /**
    * user_getAttributeHistory - Get Attribute History
    */
   'user_getAttributeHistory'(
     parameters?: Parameters<Paths.UserGetAttributeHistory.PathParameters & Paths.UserGetAttributeHistory.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>;
   /**
    * user_getAttributeDefinitions - Get Attribute Definitions
    */
   'user_getAttributeDefinitions'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>;
   /**
    * user_getMemberships - Get Memberships
-   * 
+   *
    * Returns all memberships of the given and all linked users.
    */
   'user_getMemberships'(
     parameters?: Parameters<Paths.UserGetMemberships.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetMemberships.Responses.$200 | Paths.UserGetMemberships.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetMemberships.Responses.$200 | Paths.UserGetMemberships.Responses.$422>;
   /**
    * user_addMembership - Add Membership
    */
   'user_addMembership'(
     parameters?: Parameters<Paths.UserAddMembership.PathParameters> | null,
     data?: Paths.UserAddMembership.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>;
   /**
    * user_deleteMembership - Delete Membership
    */
   'user_deleteMembership'(
     parameters?: Parameters<Paths.UserDeleteMembership.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserDeleteMembership.Responses.$200 | Paths.UserDeleteMembership.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserDeleteMembership.Responses.$200 | Paths.UserDeleteMembership.Responses.$422>;
   /**
    * user_getActiveGroups - Get Active Groups
-   * 
+   *
    * Returns all active groups.
    */
   'user_getActiveGroups'(
     parameters?: Parameters<Paths.UserGetActiveGroups.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>;
   /**
    * user_getPackets - Get Packets
-   * 
+   *
    * Returns all user packets of the given and all linked users.
    */
   'user_getPackets'(
     parameters?: Parameters<Paths.UserGetPackets.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetPackets.Responses.$200 | Paths.UserGetPackets.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetPackets.Responses.$200 | Paths.UserGetPackets.Responses.$422>;
   /**
    * user_getUsers - Get Users
    */
   'user_getUsers'(
     parameters?: Parameters<Paths.UserGetUsers.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetUsers.Responses.$200 | Paths.UserGetUsers.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetUsers.Responses.$200 | Paths.UserGetUsers.Responses.$422>;
   /**
    * user_getCurrentProperties - Get Current Properties
-   * 
+   *
    * Returns all current properties of the given and all linked users.
    */
   'user_getCurrentProperties'(
     parameters?: Parameters<Paths.UserGetCurrentProperties.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>;
   /**
    * user_getUnauthProperties - Get Unauth Properties
-   * 
+   *
    * Returns all properties that are available without authentification.
    */
   'user_getUnauthProperties'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetUnauthProperties.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetUnauthProperties.Responses.$200>;
   /**
    * user_getPurchases - Get Purchases
    */
   'user_getPurchases'(
     parameters?: Parameters<Paths.UserGetPurchases.PathParameters & Paths.UserGetPurchases.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetPurchases.Responses.$200 | Paths.UserGetPurchases.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetPurchases.Responses.$200 | Paths.UserGetPurchases.Responses.$422>;
   /**
    * user_getAddress - Get Address
    */
   'user_getAddress'(
     parameters?: Parameters<Paths.UserGetAddress.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>;
   /**
    * user_addAddress - Add Address
    */
   'user_addAddress'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.UserAddAddress.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>;
   /**
    * user_getAddresses - Get Addresses
    */
   'user_getAddresses'(
     parameters?: Parameters<Paths.UserGetAddresses.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>;
   /**
    * server_getBundles - Get Bundles
    */
   'server_getBundles'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetBundles.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerGetBundles.Responses.$200>;
   /**
    * server_addBundle - Add Bundle
    */
   'server_addBundle'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ServerAddBundle.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>;
   /**
    * server_getGroups - Get Groups
    */
   'server_getGroups'(
     parameters?: Parameters<Paths.ServerGetGroups.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetGroups.Responses.$200 | Paths.ServerGetGroups.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerGetGroups.Responses.$200 | Paths.ServerGetGroups.Responses.$422>;
   /**
    * server_getServer - Get Server
    */
   'server_getServer'(
     parameters?: Parameters<Paths.ServerGetServer.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>;
   /**
    * server_editBundle - Edit Bundle
    */
   'server_editBundle'(
     parameters?: Parameters<Paths.ServerEditBundle.PathParameters> | null,
     data?: Paths.ServerEditBundle.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>;
   /**
    * server_deleteBundle - Delete Bundle
    */
   'server_deleteBundle'(
     parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>;
   /**
    * server_getServerTypes - Get Server Types
    */
   'server_getServerTypes'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetServerTypes.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerGetServerTypes.Responses.$200>;
   /**
    * server_getServers - Get Servers
    */
   'server_getServers'(
     parameters?: Parameters<Paths.ServerGetServers.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>;
   /**
    * server_deleteBundle - Delete Bundle
    */
   'server_deleteBundle'(
     parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>;
   /**
    * group_getGroups - Get Groups
    */
   'group_getGroups'(
     parameters?: Parameters<Paths.GroupGetGroups.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupGetGroups.Responses.$200 | Paths.GroupGetGroups.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.GroupGetGroups.Responses.$200 | Paths.GroupGetGroups.Responses.$422>;
   /**
    * group_addGroup - Add Group
    */
   'group_addGroup'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.GroupAddGroup.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>;
   /**
    * group_getGroupMembers - Get Group Members
    */
   'group_getGroupMembers'(
     parameters?: Parameters<Paths.GroupGetGroupMembers.PathParameters & Paths.GroupGetGroupMembers.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200 | Paths.GroupGetGroupMembers.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200 | Paths.GroupGetGroupMembers.Responses.$422>;
   /**
    * group_getGroup - Get Group
    */
   'group_getGroup'(
     parameters?: Parameters<Paths.GroupGetGroup.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupGetGroup.Responses.$200 | Paths.GroupGetGroup.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.GroupGetGroup.Responses.$200 | Paths.GroupGetGroup.Responses.$422>;
   /**
    * group_editGroup - Edit Group
    */
   'group_editGroup'(
     parameters?: Parameters<Paths.GroupEditGroup.PathParameters> | null,
     data?: Paths.GroupEditGroup.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>;
   /**
    * group_deleteGroup - Delete Group
    */
   'group_deleteGroup'(
     parameters?: Parameters<Paths.GroupDeleteGroup.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>;
   /**
    * group_getAllProperties - Get All Properties
-   * 
+   *
    * Returns all possible permission properties with a short description.
    */
   'group_getAllProperties'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupGetAllProperties.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.GroupGetAllProperties.Responses.$200>;
   /**
    * ban_getBans - Get Bans
    */
   'ban_getBans'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanGetBans.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.BanGetBans.Responses.$200>;
   /**
    * ban_addBan - Add Ban
    */
   'ban_addBan'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.BanAddBan.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanAddBan.Responses.$200 | Paths.BanAddBan.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.BanAddBan.Responses.$200 | Paths.BanAddBan.Responses.$422>;
   /**
    * ban_editBan - Edit Ban
    */
   'ban_editBan'(
     parameters?: Parameters<Paths.BanEditBan.PathParameters> | null,
     data?: Paths.BanEditBan.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>;
   /**
    * ban_deleteBan - Delete Ban
    */
   'ban_deleteBan'(
     parameters?: Parameters<Paths.BanDeleteBan.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanDeleteBan.Responses.$200 | Paths.BanDeleteBan.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.BanDeleteBan.Responses.$200 | Paths.BanDeleteBan.Responses.$422>;
   /**
    * ban_getLogs - Get Logs
    */
   'ban_getLogs'(
     parameters?: Parameters<Paths.BanGetLogs.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>;
   /**
    * warning_getWarnings - Get Warnings
    */
   'warning_getWarnings'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>;
   /**
    * warning_addWarning - Add Warning
    */
   'warning_addWarning'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.WarningAddWarning.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>;
   /**
    * warning_getWarningConfig - Get Warning Config
    */
   'warning_getWarningConfig'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>;
   /**
    * warning_updateWarningConfig - Update Warning Config
    */
   'warning_updateWarningConfig'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.WarningUpdateWarningConfig.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>;
   /**
    * warning_toggleWarningStatus - Toggle Warning Status
    */
   'warning_toggleWarningStatus'(
     parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>;
   /**
    * warning_deleteWarning - Delete Warning
    */
   'warning_deleteWarning'(
     parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>;
   /**
    * shop_getGateways - Get Gateways
    */
   'shop_getGateways'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetGateways.Responses.$200>;
   /**
    * shop_createGateway - Create Gateway
    */
   'shop_createGateway'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ShopCreateGateway.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>;
   /**
    * shop_editGateway - Edit Gateway
    */
   'shop_editGateway'(
     parameters?: Parameters<Paths.ShopEditGateway.PathParameters> | null,
     data?: Paths.ShopEditGateway.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>;
   /**
    * shop_deleteGateway - Delete Gateway
    */
   'shop_deleteGateway'(
     parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>;
   /**
    * shop_getDiscounts - Get Discounts
    */
   'shop_getDiscounts'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>;
   /**
    * shop_createDiscount - Create Discount
    */
   'shop_createDiscount'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ShopCreateDiscount.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>;
   /**
    * shop_getDiscount - Get Discount
-   * 
+   *
    * Get discount by UUID or code.
    */
   'shop_getDiscount'(
     parameters?: Parameters<Paths.ShopGetDiscount.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>;
   /**
    * shop_editDiscount - Edit Discount
    */
   'shop_editDiscount'(
     parameters?: Parameters<Paths.ShopEditDiscount.PathParameters> | null,
     data?: Paths.ShopEditDiscount.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>;
   /**
    * shop_deleteDiscount - Delete Discount
    */
   'shop_deleteDiscount'(
     parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>;
   /**
    * shop_getPackets - Get Packets
-   * 
+   *
    * Returns all packets (in the given category) and does price calculation.
    */
   'shop_getPackets'(
     parameters?: Parameters<Paths.ShopGetPackets.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetPackets.Responses.$200 | Paths.ShopGetPackets.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetPackets.Responses.$200 | Paths.ShopGetPackets.Responses.$422>;
   /**
    * shop_getCart - Get Cart
-   * 
+   *
    * Return cart items and price calculation.
    */
   'shop_getCart'(
     parameters?: Parameters<Paths.ShopGetCart.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCart.Responses.$200 | Paths.ShopGetCart.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetCart.Responses.$200 | Paths.ShopGetCart.Responses.$422>;
   /**
    * shop_addPacketToCart - Add Packet To Cart
    */
   'shop_addPacketToCart'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ShopAddPacketToCart.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200 | Paths.ShopAddPacketToCart.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200 | Paths.ShopAddPacketToCart.Responses.$422>;
   /**
    * shop_removePacketsFromCart - Remove Packets From Cart
    */
   'shop_removePacketsFromCart'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>;
   /**
    * shop_getCartPackets - Get Cart Packets
    */
   'shop_getCartPackets'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>;
   /**
    * shop_removePacketFromCart - Remove Packet From Cart
    */
   'shop_removePacketFromCart'(
     parameters?: Parameters<Paths.ShopRemovePacketFromCart.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200 | Paths.ShopRemovePacketFromCart.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200 | Paths.ShopRemovePacketFromCart.Responses.$422>;
   /**
    * shop_applyDiscount - Apply Discount
    */
   'shop_applyDiscount'(
     parameters?: Parameters<Paths.ShopApplyDiscount.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200 | Paths.ShopApplyDiscount.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200 | Paths.ShopApplyDiscount.Responses.$422>;
   /**
    * shop_removeDiscount - Remove Discount
    */
   'shop_removeDiscount'(
     parameters?: Parameters<Paths.ShopRemoveDiscount.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200 | Paths.ShopRemoveDiscount.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200 | Paths.ShopRemoveDiscount.Responses.$422>;
   /**
    * shop_startCheckout - Start Checkout
    */
   'shop_startCheckout'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ShopStartCheckout.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopStartCheckout.Responses.$200 | Paths.ShopStartCheckout.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopStartCheckout.Responses.$200 | Paths.ShopStartCheckout.Responses.$422>;
   /**
    * shop_startPayment - Start Payment
    */
   'shop_startPayment'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ShopStartPayment.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopStartPayment.Responses.$200 | Paths.ShopStartPayment.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopStartPayment.Responses.$200 | Paths.ShopStartPayment.Responses.$422>;
   /**
    * shop_checkPayment - Check Payment
    */
   'shop_checkPayment'(
     parameters?: Parameters<Paths.ShopCheckPayment.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>;
   /**
    * shop_finishPayment - Finish Payment
-   * 
+   *
    * Meant for payments than can be finished "in house". For example credits.
    */
   'shop_finishPayment'(
     parameters?: Parameters<Paths.ShopFinishPayment.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>;
   /**
    * shop_cancelPayment - Cancel Payment
    */
   'shop_cancelPayment'(
     parameters?: Parameters<Paths.ShopCancelPayment.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>;
   /**
    * shop_getPurchases - Get Purchases
    */
   'shop_getPurchases'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetPurchases.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetPurchases.Responses.$200>;
   /**
    * shop_getPurchaseGateways - Get Purchase Gateways
    */
   'shop_getPurchaseGateways'(
     parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>;
   /**
    * shop_editPurchase - Edit Purchase
    */
   'shop_editPurchase'(
     parameters?: Parameters<Paths.ShopEditPurchase.PathParameters> | null,
     data?: Paths.ShopEditPurchase.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>;
   /**
    * shop_getDebitInvoice - Get Debit Invoice
    */
   'shop_getDebitInvoice'(
     parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>;
   /**
    * shop_getCurrencies - Get Currencies
-   * 
+   *
    * Get all currencies that were used in purchases.
    */
   'shop_getCurrencies'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>;
   /**
    * shop_getDebitStatistic - Get Debit Statistic
    */
   'shop_getDebitStatistic'(
     parameters?: Parameters<Paths.ShopGetDebitStatistic.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200 | Paths.ShopGetDebitStatistic.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200 | Paths.ShopGetDebitStatistic.Responses.$422>;
   /**
    * shop_getPurchaseStatistic - Get Purchase Statistic
    */
   'shop_getPurchaseStatistic'(
     parameters?: Parameters<Paths.ShopGetPurchaseStatistic.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200 | Paths.ShopGetPurchaseStatistic.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200 | Paths.ShopGetPurchaseStatistic.Responses.$422>;
   /**
    * shop_getTaxRules - Get Tax Rules
    */
   'shop_getTaxRules'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>;
   /**
    * shop_createTaxRule - Create Tax Rule
    */
   'shop_createTaxRule'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ShopCreateTaxRule.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>;
   /**
    * shop_deleteTaxRule - Delete Tax Rule
    */
   'shop_deleteTaxRule'(
     parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>;
   /**
    * shop_getGeneralConfig - Get General Config
    */
   'shop_getGeneralConfig'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetGeneralConfig.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetGeneralConfig.Responses.$200>;
   /**
    * shop_editGeneralConfig - Edit General Config
    */
   'shop_editGeneralConfig'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ShopEditGeneralConfig.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>;
   /**
    * shop_getDonationGoal - Get Donation Goal
    */
   'shop_getDonationGoal'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDonationGoal.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetDonationGoal.Responses.$200>;
   /**
    * shop_getBusinessAddress - Get Business Address
    */
   'shop_getBusinessAddress'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>;
   /**
    * shop_changeBusinessAddress - Change Business Address
    */
   'shop_changeBusinessAddress'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.ShopChangeBusinessAddress.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>;
   /**
    * packet_getCategories - Get Categories
    */
   'packet_getCategories'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetCategories.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketGetCategories.Responses.$200>;
   /**
    * packet_createCategory - Create Category
    */
   'packet_createCategory'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.PacketCreateCategory.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>;
   /**
    * packet_editCategory - Edit Category
    */
   'packet_editCategory'(
     parameters?: Parameters<Paths.PacketEditCategory.PathParameters> | null,
     data?: Paths.PacketEditCategory.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>;
   /**
    * packet_deleteCategory - Delete Category
    */
   'packet_deleteCategory'(
     parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>;
   /**
    * packet_getPackets - Get Packets
    */
   'packet_getPackets'(
     parameters?: Parameters<Paths.PacketGetPackets.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetPackets.Responses.$200 | Paths.PacketGetPackets.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketGetPackets.Responses.$200 | Paths.PacketGetPackets.Responses.$422>;
   /**
    * packet_addPacket - Add Packet
    */
   'packet_addPacket'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.PacketAddPacket.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketAddPacket.Responses.$200 | Paths.PacketAddPacket.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketAddPacket.Responses.$200 | Paths.PacketAddPacket.Responses.$422>;
   /**
    * packet_editPacket - Edit Packet
    */
   'packet_editPacket'(
     parameters?: Parameters<Paths.PacketEditPacket.PathParameters> | null,
     data?: Paths.PacketEditPacket.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>;
   /**
    * packet_deletePacket - Delete Packet
    */
   'packet_deletePacket'(
     parameters?: Parameters<Paths.PacketDeletePacket.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>;
   /**
    * packet_getRewards - Get Rewards
    */
   'packet_getRewards'(
     parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>;
   /**
    * packet_addReward - Add Reward
    */
   'packet_addReward'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.PacketAddReward.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>;
   /**
    * packet_editReward - Edit Reward
    */
   'packet_editReward'(
     parameters?: Parameters<Paths.PacketEditReward.PathParameters> | null,
     data?: Paths.PacketEditReward.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>;
   /**
    * packet_deleteReward - Delete Reward
    */
   'packet_deleteReward'(
     parameters?: Parameters<Paths.PacketDeleteReward.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>;
   /**
    * packet_getAppliedPackets - Get Applied Packets
    */
   'packet_getAppliedPackets'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>;
   /**
    * packet_editAppliedPacket - Edit Applied Packet
    */
   'packet_editAppliedPacket'(
     parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters> | null,
     data?: Paths.PacketEditAppliedPacket.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>;
   /**
    * packet_deleteAppliedPacket - Delete Applied Packet
    */
   'packet_deleteAppliedPacket'(
     parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>;
   /**
    * news_getMessages - Get Messages
    */
   'news_getMessages'(
     parameters?: Parameters<Paths.NewsGetMessages.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsGetMessages.Responses.$200 | Paths.NewsGetMessages.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.NewsGetMessages.Responses.$200 | Paths.NewsGetMessages.Responses.$422>;
   /**
    * news_addMessage - Add Message
    */
   'news_addMessage'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.NewsAddMessage.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>;
   /**
    * news_editMessage - Edit Message
    */
   'news_editMessage'(
     parameters?: Parameters<Paths.NewsEditMessage.PathParameters> | null,
     data?: Paths.NewsEditMessage.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>;
   /**
    * news_deleteMessage - Delete Message
    */
   'news_deleteMessage'(
     parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>;
   /**
    * requirements_getRequirementTypes - Get Requirement Types
    */
   'requirements_getRequirementTypes'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsGetRequirementTypes.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.RequirementsGetRequirementTypes.Responses.$200>;
   /**
    * requirements_getRequirementSets - Get Requirement Sets
    */
   'requirements_getRequirementSets'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsGetRequirementSets.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.RequirementsGetRequirementSets.Responses.$200>;
   /**
    * requirements_createRequirementSet - Create Requirement Set
    */
   'requirements_createRequirementSet'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.RequirementsCreateRequirementSet.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>;
   /**
    * requirements_getRequirements - Get Requirements
    */
   'requirements_getRequirements'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsGetRequirements.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.RequirementsGetRequirements.Responses.$200>;
   /**
    * requirements_createRequirement - Create Requirement
    */
   'requirements_createRequirement'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.RequirementsCreateRequirement.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>;
   /**
    * requirements_editRequirementSet - Edit Requirement Set
    */
   'requirements_editRequirementSet'(
     parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters> | null,
     data?: Paths.RequirementsEditRequirementSet.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>;
   /**
    * finance_getAccount - Get Account
    */
   'finance_getAccount'(
     parameters?: Parameters<Paths.FinanceGetAccount.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>;
   /**
    * notification_getStream - Get Stream
    */
   'notification_getStream'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationGetStream.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.NotificationGetStream.Responses.$200>;
   /**
    * notification_getNotifications - Get Notifications
    */
   'notification_getNotifications'(
     parameters?: Parameters<Paths.NotificationGetNotifications.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200 | Paths.NotificationGetNotifications.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200 | Paths.NotificationGetNotifications.Responses.$422>;
   /**
    * notification_markAsRead - Mark As Read
    */
   'notification_markAsRead'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: Paths.NotificationMarkAsRead.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>;
   /**
    * notification_getCategories - Get Categories
    */
   'notification_getCategories'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationGetCategories.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.NotificationGetCategories.Responses.$200>;
   /**
    * log_getLog - Get Log
    */
   'log_getLog'(
     parameters?: Parameters<Paths.LogGetLog.QueryParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.LogGetLog.Responses.$200 | Paths.LogGetLog.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.LogGetLog.Responses.$200 | Paths.LogGetLog.Responses.$422>;
   /**
    * log_getCategories - Get Categories
    */
   'log_getCategories'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.LogGetCategories.Responses.$200>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.LogGetCategories.Responses.$200>;
   /**
    * webhook_stripeEvent - Stripe Event
    */
   'webhook_stripeEvent'(
     parameters?: Parameters<Paths.WebhookStripeEvent.PathParameters> | null,
     data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>
+    config?: AxiosRequestConfig
+  ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>;
 }
 
 export interface PathsDictionary {
@@ -5593,17 +5593,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetNavItems.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignGetNavItems.Responses.$200>;
     /**
      * design_updateNavItems - Update Nav Items
      */
     'put'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.DesignUpdateNavItems.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200 | Paths.DesignUpdateNavItems.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200 | Paths.DesignUpdateNavItems.Responses.$422>;
+  };
   ['/design/html']: {
     /**
      * design_createCmsHtml - Create Cms Html
@@ -5611,9 +5611,9 @@ export interface PathsDictionary {
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.DesignCreateCmsHtml.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200 | Paths.DesignCreateCmsHtml.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200 | Paths.DesignCreateCmsHtml.Responses.$422>;
+  };
   ['/design/html/{uuid}']: {
     /**
      * design_getCmsHtml - Get Cms Html
@@ -5621,25 +5621,25 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.DesignGetCmsHtml.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200 | Paths.DesignGetCmsHtml.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200 | Paths.DesignGetCmsHtml.Responses.$422>;
     /**
      * design_deleteCmsHtml - Delete Cms Html
      */
     'delete'(
       parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>;
     /**
      * design_updateCmsHtml - Update Cms Html
      */
     'patch'(
       parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters> | null,
       data?: Paths.DesignUpdateCmsHtml.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>;
+  };
   ['/design/theme']: {
     /**
      * design_getTheme - Get Theme
@@ -5647,17 +5647,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetTheme.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignGetTheme.Responses.$200>;
     /**
      * design_updateTheme - Update Theme
      */
     'put'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.DesignUpdateTheme.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200 | Paths.DesignUpdateTheme.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200 | Paths.DesignUpdateTheme.Responses.$422>;
+  };
   ['/design/icons']: {
     /**
      * design_getIcons - Get Icons
@@ -5665,9 +5665,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.DesignGetIcons.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetIcons.Responses.$200 | Paths.DesignGetIcons.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignGetIcons.Responses.$200 | Paths.DesignGetIcons.Responses.$422>;
+  };
   ['/design/general-settings']: {
     /**
      * design_getGeneralSettings - Get General Settings
@@ -5675,17 +5675,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetGeneralSettings.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignGetGeneralSettings.Responses.$200>;
     /**
      * design_editGeneralSettings - Edit General Settings
      */
     'patch'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.DesignEditGeneralSettings.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>;
+  };
   ['/auth/token']: {
     /**
      * auth_getToken - Get Token
@@ -5693,9 +5693,9 @@ export interface PathsDictionary {
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthGetToken.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.AuthGetToken.Responses.$200>;
+  };
   ['/auth/revoke']: {
     /**
      * auth_revokeToken - Revoke Token
@@ -5703,9 +5703,9 @@ export interface PathsDictionary {
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>;
+  };
   ['/auth/social/prepare']: {
     /**
      * auth_prepare - Prepare
@@ -5713,9 +5713,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthPrepare.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.AuthPrepare.Responses.$200>;
+  };
   ['/auth/social/{backend}/start']: {
     /**
      * auth_start - Start
@@ -5723,9 +5723,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.AuthStart.PathParameters & Paths.AuthStart.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthStart.Responses.$200 | Paths.AuthStart.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.AuthStart.Responses.$200 | Paths.AuthStart.Responses.$422>;
+  };
   ['/auth/social/{backend}/finish']: {
     /**
      * auth_finish - Finish
@@ -5733,17 +5733,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>;
     /**
      * auth_finish - Finish
      */
     'post'(
       parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>;
+  };
   ['/user/current']: {
     /**
      * user_getCurrentUser - Get Current User
@@ -5751,9 +5751,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>;
+  };
   ['/user/{uuid}']: {
     /**
      * user_getData - Get Data
@@ -5761,9 +5761,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.UserGetData.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetData.Responses.$200 | Paths.UserGetData.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetData.Responses.$200 | Paths.UserGetData.Responses.$422>;
+  };
   ['/user/{uuid}/attribute/{definition_id}']: {
     /**
      * user_getAttributeHistory - Get Attribute History
@@ -5771,9 +5771,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.UserGetAttributeHistory.PathParameters & Paths.UserGetAttributeHistory.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>;
+  };
   ['/user/attribute/definition']: {
     /**
      * user_getAttributeDefinitions - Get Attribute Definitions
@@ -5781,29 +5781,29 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>;
+  };
   ['/user/{uuid}/membership']: {
     /**
      * user_getMemberships - Get Memberships
-     * 
+     *
      * Returns all memberships of the given and all linked users.
      */
     'get'(
       parameters?: Parameters<Paths.UserGetMemberships.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetMemberships.Responses.$200 | Paths.UserGetMemberships.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetMemberships.Responses.$200 | Paths.UserGetMemberships.Responses.$422>;
     /**
      * user_addMembership - Add Membership
      */
     'post'(
       parameters?: Parameters<Paths.UserAddMembership.PathParameters> | null,
       data?: Paths.UserAddMembership.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>;
+  };
   ['/user/membership/{uuid}']: {
     /**
      * user_deleteMembership - Delete Membership
@@ -5811,33 +5811,33 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.UserDeleteMembership.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserDeleteMembership.Responses.$200 | Paths.UserDeleteMembership.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserDeleteMembership.Responses.$200 | Paths.UserDeleteMembership.Responses.$422>;
+  };
   ['/user/{uuid}/group']: {
     /**
      * user_getActiveGroups - Get Active Groups
-     * 
+     *
      * Returns all active groups.
      */
     'get'(
       parameters?: Parameters<Paths.UserGetActiveGroups.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>;
+  };
   ['/user/{uuid}/packet']: {
     /**
      * user_getPackets - Get Packets
-     * 
+     *
      * Returns all user packets of the given and all linked users.
      */
     'get'(
       parameters?: Parameters<Paths.UserGetPackets.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetPackets.Responses.$200 | Paths.UserGetPackets.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetPackets.Responses.$200 | Paths.UserGetPackets.Responses.$422>;
+  };
   ['/user/']: {
     /**
      * user_getUsers - Get Users
@@ -5845,33 +5845,33 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.UserGetUsers.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetUsers.Responses.$200 | Paths.UserGetUsers.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetUsers.Responses.$200 | Paths.UserGetUsers.Responses.$422>;
+  };
   ['/user/{uuid}/property']: {
     /**
      * user_getCurrentProperties - Get Current Properties
-     * 
+     *
      * Returns all current properties of the given and all linked users.
      */
     'get'(
       parameters?: Parameters<Paths.UserGetCurrentProperties.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>;
+  };
   ['/user/property/']: {
     /**
      * user_getUnauthProperties - Get Unauth Properties
-     * 
+     *
      * Returns all properties that are available without authentification.
      */
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetUnauthProperties.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetUnauthProperties.Responses.$200>;
+  };
   ['/user/{uuid}/purchase']: {
     /**
      * user_getPurchases - Get Purchases
@@ -5879,9 +5879,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.UserGetPurchases.PathParameters & Paths.UserGetPurchases.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetPurchases.Responses.$200 | Paths.UserGetPurchases.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetPurchases.Responses.$200 | Paths.UserGetPurchases.Responses.$422>;
+  };
   ['/user/address/{uuid}']: {
     /**
      * user_getAddress - Get Address
@@ -5889,9 +5889,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.UserGetAddress.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>;
+  };
   ['/user/address']: {
     /**
      * user_addAddress - Add Address
@@ -5899,9 +5899,9 @@ export interface PathsDictionary {
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.UserAddAddress.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>;
+  };
   ['/user/{uuid}/address']: {
     /**
      * user_getAddresses - Get Addresses
@@ -5909,9 +5909,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.UserGetAddresses.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>;
+  };
   ['/server/bundle/']: {
     /**
      * server_getBundles - Get Bundles
@@ -5919,17 +5919,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetBundles.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerGetBundles.Responses.$200>;
     /**
      * server_addBundle - Add Bundle
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ServerAddBundle.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>;
+  };
   ['/server/bundle/{uuid}/group']: {
     /**
      * server_getGroups - Get Groups
@@ -5937,9 +5937,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.ServerGetGroups.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetGroups.Responses.$200 | Paths.ServerGetGroups.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerGetGroups.Responses.$200 | Paths.ServerGetGroups.Responses.$422>;
+  };
   ['/server/bundle/{uuid}/server']: {
     /**
      * server_getServer - Get Server
@@ -5947,9 +5947,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.ServerGetServer.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>;
+  };
   ['/server/bundle/{uuid}']: {
     /**
      * server_deleteBundle - Delete Bundle
@@ -5957,17 +5957,17 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>;
     /**
      * server_editBundle - Edit Bundle
      */
     'patch'(
       parameters?: Parameters<Paths.ServerEditBundle.PathParameters> | null,
       data?: Paths.ServerEditBundle.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>;
+  };
   ['/server/type']: {
     /**
      * server_getServerTypes - Get Server Types
@@ -5975,9 +5975,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetServerTypes.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerGetServerTypes.Responses.$200>;
+  };
   ['/server/']: {
     /**
      * server_getServers - Get Servers
@@ -5985,9 +5985,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.ServerGetServers.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>;
+  };
   ['/server/{uuid}']: {
     /**
      * server_deleteBundle - Delete Bundle
@@ -5995,9 +5995,9 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>;
+  };
   ['/group/']: {
     /**
      * group_getGroups - Get Groups
@@ -6005,17 +6005,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.GroupGetGroups.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupGetGroups.Responses.$200 | Paths.GroupGetGroups.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.GroupGetGroups.Responses.$200 | Paths.GroupGetGroups.Responses.$422>;
     /**
      * group_addGroup - Add Group
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.GroupAddGroup.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>;
+  };
   ['/group/{uuid}/members']: {
     /**
      * group_getGroupMembers - Get Group Members
@@ -6023,9 +6023,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.GroupGetGroupMembers.PathParameters & Paths.GroupGetGroupMembers.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200 | Paths.GroupGetGroupMembers.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200 | Paths.GroupGetGroupMembers.Responses.$422>;
+  };
   ['/group/{uuid}']: {
     /**
      * group_getGroup - Get Group
@@ -6033,37 +6033,37 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.GroupGetGroup.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupGetGroup.Responses.$200 | Paths.GroupGetGroup.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.GroupGetGroup.Responses.$200 | Paths.GroupGetGroup.Responses.$422>;
     /**
      * group_deleteGroup - Delete Group
      */
     'delete'(
       parameters?: Parameters<Paths.GroupDeleteGroup.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>;
     /**
      * group_editGroup - Edit Group
      */
     'patch'(
       parameters?: Parameters<Paths.GroupEditGroup.PathParameters> | null,
       data?: Paths.GroupEditGroup.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>;
+  };
   ['/group/property/']: {
     /**
      * group_getAllProperties - Get All Properties
-     * 
+     *
      * Returns all possible permission properties with a short description.
      */
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupGetAllProperties.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.GroupGetAllProperties.Responses.$200>;
+  };
   ['/ban/']: {
     /**
      * ban_getBans - Get Bans
@@ -6071,17 +6071,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanGetBans.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.BanGetBans.Responses.$200>;
     /**
      * ban_addBan - Add Ban
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.BanAddBan.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanAddBan.Responses.$200 | Paths.BanAddBan.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.BanAddBan.Responses.$200 | Paths.BanAddBan.Responses.$422>;
+  };
   ['/ban/{uuid}']: {
     /**
      * ban_deleteBan - Delete Ban
@@ -6089,17 +6089,17 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.BanDeleteBan.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanDeleteBan.Responses.$200 | Paths.BanDeleteBan.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.BanDeleteBan.Responses.$200 | Paths.BanDeleteBan.Responses.$422>;
     /**
      * ban_editBan - Edit Ban
      */
     'patch'(
       parameters?: Parameters<Paths.BanEditBan.PathParameters> | null,
       data?: Paths.BanEditBan.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>;
+  };
   ['/ban/{uuid}/log']: {
     /**
      * ban_getLogs - Get Logs
@@ -6107,9 +6107,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.BanGetLogs.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>;
+  };
   ['/warning/']: {
     /**
      * warning_getWarnings - Get Warnings
@@ -6117,17 +6117,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>;
     /**
      * warning_addWarning - Add Warning
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.WarningAddWarning.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>;
+  };
   ['/warning/config']: {
     /**
      * warning_getWarningConfig - Get Warning Config
@@ -6135,17 +6135,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>;
     /**
      * warning_updateWarningConfig - Update Warning Config
      */
     'patch'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.WarningUpdateWarningConfig.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>;
+  };
   ['/warning/{uuid}/toggle']: {
     /**
      * warning_toggleWarningStatus - Toggle Warning Status
@@ -6153,9 +6153,9 @@ export interface PathsDictionary {
     'patch'(
       parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>;
+  };
   ['/warning/{uuid}']: {
     /**
      * warning_deleteWarning - Delete Warning
@@ -6163,9 +6163,9 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>;
+  };
   ['/shop/gateway/']: {
     /**
      * shop_getGateways - Get Gateways
@@ -6173,17 +6173,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetGateways.Responses.$200>;
     /**
      * shop_createGateway - Create Gateway
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ShopCreateGateway.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>;
+  };
   ['/shop/gateway/{uuid}']: {
     /**
      * shop_deleteGateway - Delete Gateway
@@ -6191,17 +6191,17 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>;
     /**
      * shop_editGateway - Edit Gateway
      */
     'patch'(
       parameters?: Parameters<Paths.ShopEditGateway.PathParameters> | null,
       data?: Paths.ShopEditGateway.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>;
+  };
   ['/shop/discount/']: {
     /**
      * shop_getDiscounts - Get Discounts
@@ -6209,29 +6209,29 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>;
     /**
      * shop_createDiscount - Create Discount
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ShopCreateDiscount.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>;
+  };
   ['/shop/discount/{code_or_uuid}']: {
     /**
      * shop_getDiscount - Get Discount
-     * 
+     *
      * Get discount by UUID or code.
      */
     'get'(
       parameters?: Parameters<Paths.ShopGetDiscount.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>;
+  };
   ['/shop/discount/{uuid}']: {
     /**
      * shop_deleteDiscount - Delete Discount
@@ -6239,57 +6239,57 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>;
     /**
      * shop_editDiscount - Edit Discount
      */
     'patch'(
       parameters?: Parameters<Paths.ShopEditDiscount.PathParameters> | null,
       data?: Paths.ShopEditDiscount.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>;
+  };
   ['/shop/packet']: {
     /**
      * shop_getPackets - Get Packets
-     * 
+     *
      * Returns all packets (in the given category) and does price calculation.
      */
     'get'(
       parameters?: Parameters<Paths.ShopGetPackets.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetPackets.Responses.$200 | Paths.ShopGetPackets.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetPackets.Responses.$200 | Paths.ShopGetPackets.Responses.$422>;
+  };
   ['/shop/cart']: {
     /**
      * shop_getCart - Get Cart
-     * 
+     *
      * Return cart items and price calculation.
      */
     'get'(
       parameters?: Parameters<Paths.ShopGetCart.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCart.Responses.$200 | Paths.ShopGetCart.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetCart.Responses.$200 | Paths.ShopGetCart.Responses.$422>;
     /**
      * shop_addPacketToCart - Add Packet To Cart
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ShopAddPacketToCart.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200 | Paths.ShopAddPacketToCart.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200 | Paths.ShopAddPacketToCart.Responses.$422>;
     /**
      * shop_removePacketsFromCart - Remove Packets From Cart
      */
     'delete'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>;
+  };
   ['/shop/cart/packet']: {
     /**
      * shop_getCartPackets - Get Cart Packets
@@ -6297,9 +6297,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>;
+  };
   ['/shop/cart/{uuid}']: {
     /**
      * shop_removePacketFromCart - Remove Packet From Cart
@@ -6307,9 +6307,9 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.ShopRemovePacketFromCart.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200 | Paths.ShopRemovePacketFromCart.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200 | Paths.ShopRemovePacketFromCart.Responses.$422>;
+  };
   ['/shop/cart/discount/{code_or_uuid}']: {
     /**
      * shop_applyDiscount - Apply Discount
@@ -6317,17 +6317,17 @@ export interface PathsDictionary {
     'post'(
       parameters?: Parameters<Paths.ShopApplyDiscount.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200 | Paths.ShopApplyDiscount.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200 | Paths.ShopApplyDiscount.Responses.$422>;
     /**
      * shop_removeDiscount - Remove Discount
      */
     'delete'(
       parameters?: Parameters<Paths.ShopRemoveDiscount.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200 | Paths.ShopRemoveDiscount.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200 | Paths.ShopRemoveDiscount.Responses.$422>;
+  };
   ['/shop/cart/checkout']: {
     /**
      * shop_startCheckout - Start Checkout
@@ -6335,9 +6335,9 @@ export interface PathsDictionary {
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ShopStartCheckout.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopStartCheckout.Responses.$200 | Paths.ShopStartCheckout.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopStartCheckout.Responses.$200 | Paths.ShopStartCheckout.Responses.$422>;
+  };
   ['/shop/checkout']: {
     /**
      * shop_startPayment - Start Payment
@@ -6345,9 +6345,9 @@ export interface PathsDictionary {
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ShopStartPayment.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopStartPayment.Responses.$200 | Paths.ShopStartPayment.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopStartPayment.Responses.$200 | Paths.ShopStartPayment.Responses.$422>;
+  };
   ['/shop/checkout/{uuid}']: {
     /**
      * shop_checkPayment - Check Payment
@@ -6355,27 +6355,27 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.ShopCheckPayment.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>;
     /**
      * shop_finishPayment - Finish Payment
-     * 
+     *
      * Meant for payments than can be finished "in house". For example credits.
      */
     'post'(
       parameters?: Parameters<Paths.ShopFinishPayment.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>;
     /**
      * shop_cancelPayment - Cancel Payment
      */
     'patch'(
       parameters?: Parameters<Paths.ShopCancelPayment.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>;
+  };
   ['/shop/purchase']: {
     /**
      * shop_getPurchases - Get Purchases
@@ -6383,9 +6383,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetPurchases.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetPurchases.Responses.$200>;
+  };
   ['/shop/purchase/{uuid}/gateway']: {
     /**
      * shop_getPurchaseGateways - Get Purchase Gateways
@@ -6393,9 +6393,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>;
+  };
   ['/shop/purchase/{uuid}']: {
     /**
      * shop_editPurchase - Edit Purchase
@@ -6403,9 +6403,9 @@ export interface PathsDictionary {
     'patch'(
       parameters?: Parameters<Paths.ShopEditPurchase.PathParameters> | null,
       data?: Paths.ShopEditPurchase.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>;
+  };
   ['/shop/debit/{uuid}/invoice']: {
     /**
      * shop_getDebitInvoice - Get Debit Invoice
@@ -6413,21 +6413,21 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>;
+  };
   ['/shop/currency']: {
     /**
      * shop_getCurrencies - Get Currencies
-     * 
+     *
      * Get all currencies that were used in purchases.
      */
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>;
+  };
   ['/shop/debit/statistic']: {
     /**
      * shop_getDebitStatistic - Get Debit Statistic
@@ -6435,9 +6435,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.ShopGetDebitStatistic.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200 | Paths.ShopGetDebitStatistic.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200 | Paths.ShopGetDebitStatistic.Responses.$422>;
+  };
   ['/shop/purchase/statistic']: {
     /**
      * shop_getPurchaseStatistic - Get Purchase Statistic
@@ -6445,9 +6445,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.ShopGetPurchaseStatistic.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200 | Paths.ShopGetPurchaseStatistic.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200 | Paths.ShopGetPurchaseStatistic.Responses.$422>;
+  };
   ['/shop/tax']: {
     /**
      * shop_getTaxRules - Get Tax Rules
@@ -6455,17 +6455,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>;
     /**
      * shop_createTaxRule - Create Tax Rule
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ShopCreateTaxRule.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>;
+  };
   ['/shop/tax/{uuid}']: {
     /**
      * shop_deleteTaxRule - Delete Tax Rule
@@ -6473,9 +6473,9 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>;
+  };
   ['/shop/general-settings']: {
     /**
      * shop_getGeneralConfig - Get General Config
@@ -6483,17 +6483,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetGeneralConfig.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetGeneralConfig.Responses.$200>;
     /**
      * shop_editGeneralConfig - Edit General Config
      */
     'patch'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ShopEditGeneralConfig.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>;
+  };
   ['/shop/donation-goal']: {
     /**
      * shop_getDonationGoal - Get Donation Goal
@@ -6501,9 +6501,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDonationGoal.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetDonationGoal.Responses.$200>;
+  };
   ['/shop/business-address']: {
     /**
      * shop_getBusinessAddress - Get Business Address
@@ -6511,17 +6511,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>;
     /**
      * shop_changeBusinessAddress - Change Business Address
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.ShopChangeBusinessAddress.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>;
+  };
   ['/packet/category']: {
     /**
      * packet_getCategories - Get Categories
@@ -6529,17 +6529,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetCategories.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketGetCategories.Responses.$200>;
     /**
      * packet_createCategory - Create Category
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.PacketCreateCategory.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>;
+  };
   ['/packet/category/{uuid}']: {
     /**
      * packet_deleteCategory - Delete Category
@@ -6547,17 +6547,17 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>;
     /**
      * packet_editCategory - Edit Category
      */
     'patch'(
       parameters?: Parameters<Paths.PacketEditCategory.PathParameters> | null,
       data?: Paths.PacketEditCategory.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>;
+  };
   ['/packet/']: {
     /**
      * packet_getPackets - Get Packets
@@ -6565,17 +6565,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.PacketGetPackets.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetPackets.Responses.$200 | Paths.PacketGetPackets.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketGetPackets.Responses.$200 | Paths.PacketGetPackets.Responses.$422>;
     /**
      * packet_addPacket - Add Packet
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.PacketAddPacket.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketAddPacket.Responses.$200 | Paths.PacketAddPacket.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketAddPacket.Responses.$200 | Paths.PacketAddPacket.Responses.$422>;
+  };
   ['/packet/{uuid}']: {
     /**
      * packet_deletePacket - Delete Packet
@@ -6583,17 +6583,17 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.PacketDeletePacket.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>;
     /**
      * packet_editPacket - Edit Packet
      */
     'patch'(
       parameters?: Parameters<Paths.PacketEditPacket.PathParameters> | null,
       data?: Paths.PacketEditPacket.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>;
+  };
   ['/packet/reward']: {
     /**
      * packet_getRewards - Get Rewards
@@ -6601,17 +6601,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>;
     /**
      * packet_addReward - Add Reward
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.PacketAddReward.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>;
+  };
   ['/packet/reward/{uuid}']: {
     /**
      * packet_deleteReward - Delete Reward
@@ -6619,17 +6619,17 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.PacketDeleteReward.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>;
     /**
      * packet_editReward - Edit Reward
      */
     'patch'(
       parameters?: Parameters<Paths.PacketEditReward.PathParameters> | null,
       data?: Paths.PacketEditReward.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>;
+  };
   ['/packet/applied']: {
     /**
      * packet_getAppliedPackets - Get Applied Packets
@@ -6637,9 +6637,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>;
+  };
   ['/packet/applied/{uuid}']: {
     /**
      * packet_deleteAppliedPacket - Delete Applied Packet
@@ -6647,17 +6647,17 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>;
     /**
      * packet_editAppliedPacket - Edit Applied Packet
      */
     'patch'(
       parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters> | null,
       data?: Paths.PacketEditAppliedPacket.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>;
+  };
   ['/news/']: {
     /**
      * news_getMessages - Get Messages
@@ -6665,17 +6665,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.NewsGetMessages.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsGetMessages.Responses.$200 | Paths.NewsGetMessages.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.NewsGetMessages.Responses.$200 | Paths.NewsGetMessages.Responses.$422>;
     /**
      * news_addMessage - Add Message
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.NewsAddMessage.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>;
+  };
   ['/news/{uuid}']: {
     /**
      * news_deleteMessage - Delete Message
@@ -6683,17 +6683,17 @@ export interface PathsDictionary {
     'delete'(
       parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>;
     /**
      * news_editMessage - Edit Message
      */
     'patch'(
       parameters?: Parameters<Paths.NewsEditMessage.PathParameters> | null,
       data?: Paths.NewsEditMessage.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>;
+  };
   ['/requirement/type']: {
     /**
      * requirements_getRequirementTypes - Get Requirement Types
@@ -6701,9 +6701,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsGetRequirementTypes.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.RequirementsGetRequirementTypes.Responses.$200>;
+  };
   ['/requirement/set']: {
     /**
      * requirements_getRequirementSets - Get Requirement Sets
@@ -6711,17 +6711,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsGetRequirementSets.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.RequirementsGetRequirementSets.Responses.$200>;
     /**
      * requirements_createRequirementSet - Create Requirement Set
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.RequirementsCreateRequirementSet.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>;
+  };
   ['/requirement/']: {
     /**
      * requirements_getRequirements - Get Requirements
@@ -6729,17 +6729,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsGetRequirements.Responses.$200>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.RequirementsGetRequirements.Responses.$200>;
     /**
      * requirements_createRequirement - Create Requirement
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.RequirementsCreateRequirement.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>;
+  };
   ['/requirement/set/{uuid}']: {
     /**
      * requirements_editRequirementSet - Edit Requirement Set
@@ -6747,9 +6747,9 @@ export interface PathsDictionary {
     'patch'(
       parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters> | null,
       data?: Paths.RequirementsEditRequirementSet.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>;
+  };
   ['/finance/account/{uuid}']: {
     /**
      * finance_getAccount - Get Account
@@ -6757,9 +6757,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.FinanceGetAccount.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>;
+  };
   ['/notification/stream']: {
     /**
      * notification_getStream - Get Stream
@@ -6767,9 +6767,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationGetStream.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.NotificationGetStream.Responses.$200>;
+  };
   ['/notification/']: {
     /**
      * notification_getNotifications - Get Notifications
@@ -6777,17 +6777,17 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.NotificationGetNotifications.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200 | Paths.NotificationGetNotifications.Responses.$422>
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200 | Paths.NotificationGetNotifications.Responses.$422>;
     /**
      * notification_markAsRead - Mark As Read
      */
     'patch'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: Paths.NotificationMarkAsRead.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>;
+  };
   ['/notification/type']: {
     /**
      * notification_getCategories - Get Categories
@@ -6795,9 +6795,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationGetCategories.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.NotificationGetCategories.Responses.$200>;
+  };
   ['/log/']: {
     /**
      * log_getLog - Get Log
@@ -6805,9 +6805,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<Paths.LogGetLog.QueryParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.LogGetLog.Responses.$200 | Paths.LogGetLog.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.LogGetLog.Responses.$200 | Paths.LogGetLog.Responses.$422>;
+  };
   ['/log/type']: {
     /**
      * log_getCategories - Get Categories
@@ -6815,9 +6815,9 @@ export interface PathsDictionary {
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.LogGetCategories.Responses.$200>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.LogGetCategories.Responses.$200>;
+  };
   ['/webhook/stripe/{uuid}']: {
     /**
      * webhook_stripeEvent - Stripe Event
@@ -6825,9 +6825,9 @@ export interface PathsDictionary {
     'post'(
       parameters?: Parameters<Paths.WebhookStripeEvent.PathParameters> | null,
       data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>
-  }
+      config?: AxiosRequestConfig
+    ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>;
+  };
 }
 
 export type Client = OpenAPIClient<OperationMethods, PathsDictionary>

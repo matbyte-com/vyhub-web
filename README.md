@@ -20,6 +20,16 @@ npm run build
 npm run test:unit
 ```
 
+### E2E Tests
+#### simple run in terminal
+```
+npx cypress run 
+```
+#### open the cypress tool
+```
+npx cypress open 
+```
+
 ### Lints and fixes files
 ```
 npm run lint
