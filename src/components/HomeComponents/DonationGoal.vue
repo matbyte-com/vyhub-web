@@ -18,11 +18,13 @@
       </v-row>
     </v-card-title>
     <v-card-text>
-      <v-progress-linear :value="getProgress" height="20" class="mt-3">
-        <strong>{{ getProgress }}%</strong>
+      <v-progress-linear striped :value="donationProgress" height="20" class="mt-3">
+        <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
+          {{ donationProgress }}%
+        </span>
       </v-progress-linear>
-      <div class="d-flex">
-        <span v-if="donationGoal.currency">
+      <div class="text-center mt-1">
+        <span v-if="donationGoal.currency" class="subtitle-1">
           {{ utils.formatDecimal(donationGoal.current) }}{{donationGoal.currency.symbol}}
           / {{ utils.formatDecimal(donationGoal.goal) }}{{donationGoal.currency.symbol}}
           {{ $t('_shop.labels.perMonth') }}</span>
@@ -47,7 +49,7 @@ export default {
     // this.fetchData();
   },
   computed: {
-    getProgress() {
+    donationProgress() {
       if (!this.donationGoal.current) return NaN;
       return Math.floor((this.donationGoal.current / this.donationGoal.goal) * 100);
     },
