@@ -23,8 +23,8 @@
       </v-progress-linear>
       <div class="d-flex">
         <span v-if="donationGoal.currency">
-          {{ donationGoal.current }}{{donationGoal.currency.symbol}}
-          / {{ donationGoal.goal }}{{donationGoal.currency.symbol}}
+          {{ utils.formatDecimal(donationGoal.current) }}{{donationGoal.currency.symbol}}
+          / {{ utils.formatDecimal(donationGoal.goal) }}{{donationGoal.currency.symbol}}
           {{ $t('_shop.labels.perMonth') }}</span>
       </div>
     </v-card-text>
