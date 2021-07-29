@@ -142,14 +142,7 @@ export default {
         .then(console.log);
     },
     async getServerName() {
-      if (localStorage.getItem('generalSettings')) {
-        const obj = JSON.parse(localStorage.getItem('generalSettings'));
-        this.serverName = obj.community_name;
-      }
-      (await openapiCached).design_getGeneralSettings().then((rsp) => {
-        this.serverName = rsp.data.community_name;
-        localStorage.setItem('serverName', JSON.stringify(rsp.data));
-      });
+      this.serverName = this.$store.getters.generalSettings.community_name;
     },
     async toggleReadStatus(item) {
       (await openapi).notification_markAsRead(null, { id: [item.id] });

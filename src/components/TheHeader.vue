@@ -94,14 +94,12 @@ export default {
       const api = await openapi;
 
       api.design_getNavItems().then((rsp) => {
+        this.$store.commit('SET_NAV_ITEMS', rsp.data);
         this.links = rsp.data;
-        localStorage.setItem('navItems', JSON.stringify(rsp.data));
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
     getNavItemsFromCache() {
-      if (localStorage.getItem('navItems')) {
-        this.links = JSON.parse(localStorage.getItem('navItems'));
-      }
+      if (this.$store.getters.navItems) this.links = this.$store.getters.navItems;
     },
     showLoginDialog() {
       this.$router.push({
@@ -110,9 +108,9 @@ export default {
       });
     },
     getLogo() {
-      if (localStorage.theme) {
+      if (this.$store.getters.theme) {
         // Theme queried in App.vue
-        const obj = JSON.parse(localStorage.getItem('theme'));
+        const obj = this.$store.getters.theme;
         this.imgSrc = obj.logo;
         if (obj.logo_width) this.logo_width = obj.logo_width;
         if (obj.show_community_name) {

@@ -137,7 +137,8 @@ export default Vue.extend({
   methods: {
     async getGeneralSettings() {
       (await openapi).design_getGeneralSettings().then((rsp) => {
-        localStorage.setItem('generalSettings', JSON.stringify(rsp.data));
+        this.$store.commit('SET_GENERAL_SETTINGS', rsp.data);
+        // localStorage.setItem('generalSettings', JSON.stringify(rsp.data));
       }).catch((err) => {
         console.log('Could not get General Settings');
         throw err;
@@ -178,8 +179,8 @@ export default Vue.extend({
           cachedTheme.show_community_name = theme.show_community_name;
           cachedTheme.community_name = theme.community_name;
           cachedTheme.logo_width = theme.logo_width;
-          // save theme to localStorage
-          localStorage.setItem('theme', JSON.stringify(cachedTheme));
+          // save theme to VueX
+          this.$store.commit('SET_THEME', cachedTheme);
           emitter.emit('themeUpdatedAfter');
         } catch (e) {
           this.$vuetify.theme.currentTheme.primary = '#3f51b5';
@@ -189,8 +190,8 @@ export default Vue.extend({
       });
     },
     setThemeFromCache() {
-      if (localStorage.theme) {
-        const obj = JSON.parse(localStorage.getItem('theme'));
+      if (this.$store.getters.theme) {
+        const obj = this.$store.getters.theme;
         this.backgroundImage = obj.image;
         this.background = obj.background;
         if (obj.dark === true) {

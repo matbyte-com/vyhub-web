@@ -462,7 +462,8 @@
     "shopCheckout": "Checkout",
     "shopAdministration": "Shop - Administration",
     "log": "Log",
-    "warnings":  "Warnings"
+    "warnings":  "Warnings",
+    "legal":  "Legal"
   },
   "_warning": {
     "title": "Warnings",
