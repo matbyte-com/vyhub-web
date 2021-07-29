@@ -138,7 +138,6 @@ export default Vue.extend({
     async getGeneralSettings() {
       (await openapi).design_getGeneralSettings().then((rsp) => {
         this.$store.commit('SET_GENERAL_SETTINGS', rsp.data);
-        // localStorage.setItem('generalSettings', JSON.stringify(rsp.data));
       }).catch((err) => {
         console.log('Could not get General Settings');
         throw err;

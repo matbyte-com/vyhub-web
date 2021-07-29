@@ -221,7 +221,11 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to) => {
   Vue.nextTick(() => {
     if (to != null && to.meta != null && to.meta.title != null) {
-      document.title = to.meta.title;
+      if (store.getters.generalSettings.community_name) {
+        document.title = `${store.getters.generalSettings.community_name} ${to.meta.title}`;
+      } else {
+        document.title = to.meta.title;
+      }
     } else {
       document.title = config.default_title;
     }
