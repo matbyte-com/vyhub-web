@@ -118,6 +118,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Log.vue'),
   },
   {
+    path: '/legal',
+    name: 'Legal',
+    meta: { title: i18n.t('pageTitle.legal') },
+    component: () => import('../views/Legal.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {
