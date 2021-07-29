@@ -55,13 +55,13 @@ const routes: Array<RouteConfig> = [
   {
     path: '/bans/:banId?',
     name: 'Bans',
-    meta: { title: i18n.t('pageTitle.bans'), requiresAuth: true },
+    meta: { title: i18n.t('pageTitle.bans') },
     component: () => import('@/views/Ban.vue'),
   },
   {
     path: '/warnings/:warningId?',
     name: 'Warnings',
-    meta: { title: i18n.t('pageTitle.warnings'), requiresAuth: true },
+    meta: { title: i18n.t('pageTitle.warnings') },
     component: () => import('@/views/Warning.vue'),
   },
   {
