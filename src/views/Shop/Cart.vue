@@ -16,7 +16,7 @@
                 {{ $t('_shop.messages.unfinishedPurchase') }}
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="success" @click="$refs.checkoutDialog.show(openPurchase)">
+                <v-btn color="success" @click="$refs.checkoutDialog.show(openPurchase)">
                   <v-icon left>mdi-arrow-right</v-icon>
                   {{ $t('continue') }}
                 </v-btn>
