@@ -25,3 +25,5 @@ pnpm-debug.log*
 package-lock.json
 /tests/e2e/screenshots/
 /tests/e2e/videos/
+
+public/config.js
