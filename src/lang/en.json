@@ -428,6 +428,11 @@
       "edit": "Edit Discount",
       "allPackets": "Usable for all packets",
       "delete": "Delete Discount"
+    },
+    "messages": {
+      "deleteSuccess": "Discount successful deleted.",
+      "editSuccess": "Discount successful edited.",
+      "createSuccess": "Discount successful created."
     }
   },
   "notification": {
