@@ -38,7 +38,7 @@ const routes: Array<RouteConfig> = [
     path: '/user/:id',
     name: 'UserDashboard',
     component: () => import('../views/Dashboard.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: false },
   },
   {
     path: '/about',
