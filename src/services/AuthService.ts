@@ -26,8 +26,8 @@ export default {
     });
 
     await this.setAuthTokens();
-
     await this.refreshUser();
+    await this.setProperties();
 
     EventBus.emit('login');
   },
@@ -97,35 +97,35 @@ export default {
     }
   },
   async refreshUser(tryRefresh = false) {
-    this.fetchUserData().then((user: object) => {
-      store.dispatch('setUserData', { user });
+    try {
+      const user: object = await this.fetchUserData();
+
+      await store.dispatch('setUserData', { user });
 
       if (tryRefresh && store.getters.refreshAfter != null
         && new Date() > new Date(store.getters.refreshAfter)) {
         console.log('Trying to use refresh token to renew session in time.');
-        this.login(store.getters.refreshToken).then(() => {
-          this.refreshUser();
-        });
+        await this.login(store.getters.refreshToken);
+        await this.refreshUser();
       }
-
-      return user;
-    }).catch((err) => {
+    } catch (err) {
       console.log(`Error in phase user_data: ${err}`);
 
       if (err.response.status === 401) {
         if (tryRefresh && store.getters.refreshToken != null) {
           console.log('Trying to use refresh token to recover session.');
-          this.login(store.getters.refreshToken).then(() => {
-            this.refreshUser();
-          }).catch(() => {
-            this.logout();
-          });
+
+          try {
+            await this.login(store.getters.refreshToken);
+          } catch (e) {
+            await this.logout();
+          }
         } else {
-          this.logout();
+          await this.logout();
         }
       }
 
       throw err;
-    });
+    }
   },
 };
