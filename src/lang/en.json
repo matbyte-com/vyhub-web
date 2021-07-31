@@ -168,6 +168,9 @@
     }
   },
   "_user": {
+    "labels": {
+      "newUsers": "New Users"
+    },
     "type": {
       "CENTRAL": {
         "name": "VyHub Central",

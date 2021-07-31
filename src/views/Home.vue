@@ -40,6 +40,15 @@
               <DonationGoal :donationGoal="donationGoal" />
             </v-expansion-panel-content>
           </v-expansion-panel>
+
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              {{ $t('_user.labels.newUsers') }}
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <NewUsers />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
         </v-expansion-panels>
       </v-card>
       <!-- News -->
@@ -156,8 +165,21 @@
       <v-col ref="StatusCol">
         <div style="position: fixed" :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
-          <ServerStatus  ref="ServerStatus"/>
-          <DonationGoal v-if="donationGoal.enabled" :donationGoal="donationGoal" class="mt-3"/>
+          <v-row>
+            <v-col>
+              <ServerStatus  ref="ServerStatus"/>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <DonationGoal v-if="donationGoal.enabled" :donationGoal="donationGoal" />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <NewUsers></NewUsers>
+            </v-col>
+          </v-row>
         </div>
       </v-col>
     </v-row>
@@ -173,9 +195,11 @@ import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
 import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
+import NewUsers from '../components/HomeComponents/NewUsers.vue';
 
 export default {
   components: {
+    NewUsers,
     DonationGoal,
     ServerStatus,
     DeleteConfirmationDialog,

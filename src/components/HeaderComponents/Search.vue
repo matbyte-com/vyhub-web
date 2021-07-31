@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import api from '@/api/api';
 import userService from '@/services/UserService';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'Search',
@@ -64,7 +64,9 @@ export default {
     };
   },
   watch: {
-    search(query) {
+    async search(query) {
+      const api = await openapi;
+
       // Items have already been requested
       if (this.isLoading) return;
       // search CLosed return
@@ -77,7 +79,7 @@ export default {
       this.isLoading = true;
 
       // Lazily load input items
-      api.user.search(query, 10).then((rsp) => {
+      api.user_getUsers({ query, limit: 10 }).then((rsp) => {
         this.items = rsp.data;
       }).catch((reason) => {
         console.log(reason);
