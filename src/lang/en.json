@@ -191,6 +191,9 @@
       "requirement": "Requirement",
       "design": "Design"
     },
+    "object_edit": "Edited {classname} with id {id}: {key} = {value}.",
+    "object_delete": "Deleted {classname} with id {id}.",
+    "object_create": "Created {classname} with id {id}: {params}",
     "group_add": "Added group {groupName} {groupId}.",
     "group_edit": "Edited group {groupName} {groupId}.",
     "group_deleted": "Deleted group {groupName} {groupId}.",
