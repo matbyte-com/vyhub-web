@@ -13,7 +13,7 @@
     <DialogForm ref="editBundleDialog"
                 :form-schema="editBundleSchema"
                 @submit="editBundle"
-                :title="$t('__editBundle')"/>
+                :title="$t('settings.labels.editBundle')"/>
     <v-row>
       <v-col cols="12">
         <v-card outlined flat class="fill-height transparent">
@@ -111,6 +111,7 @@ import EditBundleForm from '@/forms/BundleEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DataTable from '@/components/DataTable.vue';
 import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
+import openapi from '@/api/openapi';
 import BoolIcon from '../BoolIcon.vue';
 
 export default {
@@ -172,18 +173,11 @@ export default {
       server.forEach((s) => serverIds.push(s.id));
       return serverIds;
     },
-    addBundle() {
+    async addBundle() {
       const data = this.$refs.addBundleDialog.getData();
-
-      api.server.addBundle(
-        data.name,
-        data.serverType,
-        data.multigroup,
-        data.defaultgroup,
-        data.color,
-        data.icon,
-      ).then(() => {
-        api.server.getBundles().then((response) => { this.bundles = response.data; });
+      data.default_group_id = data.default_group.id;
+      (await openapi).server_addBundle(null, data).then(() => {
+        this.queryData();
         this.$refs.addBundleDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.addBundleDialog.setErrorMessage(err.response.data.detail);
@@ -222,17 +216,10 @@ export default {
       this.$refs.editBundleDialog.setData(obj);
       this.$refs.editBundleDialog.show(bundle);
     },
-    editBundle(bundle) {
+    async editBundle(bundle) {
       const data = this.$refs.editBundleDialog.getData();
-      api.server.editBundle(
-        bundle.id,
-        data.name,
-        data.multigroup,
-        data.defaultgroup,
-        data.color,
-        data.icon,
-        data.serverSelect,
-      ).then(() => {
+      data.default_group_id = data.default_group.id;
+      (await openapi).server_editBundle(bundle.id, data).then(() => {
         this.queryData();
         this.$refs.editBundleDialog.closeAndReset();
       }).catch((err) => {

@@ -55,19 +55,13 @@
       <v-col cols="12" md="8">
         <!-- News of the Day -->
         <v-row class="pa-0">
-          <v-col cols="8" class="d-flex" v-if="getNewsOfTheDay.length !== 0">
-            <v-card flat class="d-flex">
-              <v-card-title class="align-center">
-                <v-icon color="primary" class="mr-1">mdi-newspaper</v-icon>
-                <v-sheet vertical color="primary" width="2" height="25" class="" />
-                <h2 class="text-h4 ml-2">{{ $t('home.newsOfTheDay') }}</h2>
-              </v-card-title>
-            </v-card>
+          <v-col cols="8" v-if="getNewsOfTheDay.length !== 0">
+            <PageTitle icon="mdi-newspaper" :title="$t('home.newsOfTheDay')"/>
           </v-col>
           <!-- Add News Button -->
           <v-col v-if="$checkProp('news_edit')" class="d-flex">
             <v-spacer v-if="$vuetify.breakpoint.smAndUp"/>
-              <v-btn color="success" @click="showAddMessageDialog">
+              <v-btn color="success" @click="showAddMessageDialog" data-cy="new-message-button">
                 <v-icon left>mdi-plus</v-icon>
                 <span>{{ $t('home.addNews') }}</span>
               </v-btn>
@@ -106,14 +100,8 @@
         </transition-group>
         <!-- Display News -->
         <v-row v-if="getNews.length !== 0" class="mt-5">
-          <v-col class="d-flex">
-            <v-card flat class="d-flex">
-              <v-card-title class="align-center">
-                <v-icon color="primary" class="mr-1">mdi-newspaper-variant-multiple</v-icon>
-                <v-sheet vertical color="primary" width="2" height="25" class="" />
-                <h2 class="text-h4 ml-2">{{ $t('home.news') }}</h2>
-              </v-card-title>
-            </v-card>
+          <v-col cols="8">
+            <PageTitle icon="mdi-newspaper-variant-multiple" :title="$t('home.news')"/>
           </v-col>
         </v-row>
         <transition-group enter-active-class="animate__animated animate__fadeIn"
@@ -195,10 +183,12 @@ import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
 import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
+import PageTitle from '@/components/PageTitle.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';
 
 export default {
   components: {
+    PageTitle,
     NewUsers,
     DonationGoal,
     ServerStatus,

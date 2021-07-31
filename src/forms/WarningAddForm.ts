@@ -5,6 +5,10 @@ export default {
   type: 'object',
   required: ['serverbundle', 'user'],
   properties: {
+    reason: {
+      type: 'string',
+      title: i18n.t('_warning.reason'),
+    },
     serverbundle: Common.serverbundleSelectField,
     user: Common.userSelectField,
   },

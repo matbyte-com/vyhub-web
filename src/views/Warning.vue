@@ -128,6 +128,7 @@ export default {
       const data = {};
       data.serverbundle_id = form.serverbundle.id;
       data.user_id = form.user.id;
+      data.reason = form.reason;
       (await openapi).warning_addWarning(null, data).then(() => {
         this.fetchData();
         this.$refs.addWarningDialog.closeAndReset();

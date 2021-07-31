@@ -62,7 +62,6 @@
 <script>
 import store from '@/store/index';
 import openapi from '@/api/openapi';
-import openapiCached from '@/api/openapiCached';
 import Eventsource from 'eventsource';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
@@ -84,6 +83,9 @@ export default {
       });
     },
     registerSse() {
+      // TODO Fix and Enable for Production
+      return;
+      // eslint-disable-next-line no-unreachable
       if (store.getters.isLoggedIn && store.getters.accessToken) {
         const header = `Bearer ${store.getters.accessToken}`;
         const baseURL = `${config.backend_url}/notification/stream`;
@@ -100,9 +102,11 @@ export default {
           EventBus.emit('notification');
           this.notifyBrowser(JSON.parse(event.data)[0].message);
         });
+        // eslint-disable-next-line no-unreachable
         this.evtSource.addEventListener('end', () => {
           this.evtSource.close();
         });
+        // eslint-disable-next-line no-unreachable
         this.evtSource.onerror = (err) => {
           this.utils.notifyUnexpectedError(err);
           console.log('Notification Stream Closed');
@@ -142,7 +146,9 @@ export default {
         .then(console.log);
     },
     async getServerName() {
-      this.serverName = this.$store.getters.generalSettings.community_name;
+      if (this.$store.getters.generalSettings) {
+        this.serverName = this.$store.getters.generalSettings.community_name;
+      }
     },
     async toggleReadStatus(item) {
       (await openapi).notification_markAsRead(null, { id: [item.id] });

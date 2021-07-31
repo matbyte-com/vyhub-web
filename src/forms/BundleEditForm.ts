@@ -7,8 +7,8 @@ const API_URL = config.backend_url;
 const section1Properties: {[k: string]: any} = { ...BundleAddForm.returnForm(true).properties };
 
 function returnForm(serverType: string) {
-  section1Properties.defaultGroup = {
-    type: 'string',
+  section1Properties.default_group = {
+    type: 'object',
     title: i18n.t('settings.defaultGroup'),
     'x-fromUrl': `${API_URL}/group/?type=${serverType}`,
     'x-itemTitle': 'name',

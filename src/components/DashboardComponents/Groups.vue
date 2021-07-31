@@ -9,7 +9,8 @@
       <v-icon class="mr-2">mdi-account-group</v-icon>
       {{ $t('groups') }}
       <v-spacer />
-      <v-btn color="success" @click="$refs.addMembershipDialog.show()" outlined>
+      <v-btn v-if="$checkProp('user_edit')" color="success"
+             @click="$refs.addMembershipDialog.show()" outlined>
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t('add') }}</span>
       </v-btn>

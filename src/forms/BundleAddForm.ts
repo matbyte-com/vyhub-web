@@ -8,7 +8,7 @@ function returnForm(disableServerTypeSelectField = false) {
     type: 'object',
     required: [
       'name',
-      'serverType',
+      'server_type',
     ],
     properties: {
       name: {
@@ -21,23 +21,16 @@ function returnForm(disableServerTypeSelectField = false) {
         description: i18n.t('settings.multigroupDescription'),
       },
       color: Common.colorPicker(),
-      /* icon: {
-        type: 'string',
-        title: i18n.t('icon'),
-        'x-slots': {
-          'append-outer': `<a href="https://materialdesignicons.com/" style="white-space: nowrap" target="_blank">${i18n.t('forms.iconDescription')}</a>`,
-        },
-      }, */
       icon: Common.iconPicker,
-      serverType: Common.serverTypeSelectField(disableServerTypeSelectField),
+      server_type: Common.serverTypeSelectField(disableServerTypeSelectField),
     },
     dependencies: {
-      serverType: {
+      server_type: {
         properties: {
-          defaultgroup: {
-            type: 'string',
+          default_group: {
+            type: 'object',
             title: i18n.t('settings.defaultGroup'),
-            'x-fromUrl': `${API_URL}/group/?type={serverType}`,
+            'x-fromUrl': `${API_URL}/group/?type={server_type}`,
             'x-itemTitle': 'name',
             'x-itemKey': 'id',
           },

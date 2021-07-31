@@ -1,4 +1,5 @@
 {
   "pluginsFile": "tests/e2e/plugins/index.js",
-  "baseUrl": "http://nyx.devapp:8050"
+  "baseUrl": "http://nyx.devapp:8050",
+  "chromeWebSecurity": false
 }

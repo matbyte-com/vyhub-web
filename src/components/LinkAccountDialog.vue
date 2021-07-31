@@ -4,7 +4,7 @@
             >
       <v-list tile>
         <v-list-item v-for="backend in backends" :key="backend.id"
-                     @click="startAuth(backend.id)">
+                     @click="startAuth(backend.id)" :data-cy="backend.id">
           <v-list-item-icon>
             <v-icon> {{ backend.icon }} </v-icon>
           </v-list-item-icon>

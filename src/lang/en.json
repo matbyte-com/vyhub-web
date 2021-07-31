@@ -300,7 +300,8 @@
       "relationRequires": "Requires the selected packet for a purchase",
       "relationNotCompatible": "Not compatible with the selected packet.",
       "relationUpgrades": "Can be used to upgrade the selected packet.",
-      "imageDetail": "An HTTPS URL to the packet image."
+      "imageDetail": "An HTTPS URL to the packet image.",
+      "editBundle": "Edit Serverbundle"
     },
     "messages": {
       "sortOnlyWithCategory": "Packets can only be sorted if a category is selected.",
@@ -504,7 +505,8 @@
     "countTillBanDesc": "0 for NO automatic bans.",
     "settingFormDesc": "Users are banned automatically when they reach the specified number of ACTIVE warnings.",
     "add": "Add Warning",
-    "banLength": "Length of automatic ban (minutes)"
+    "banLength": "Length of automatic ban (minutes)",
+    "reason": "Reason"
   },
   "update": "Update",
   "recurring": "Recurring",
