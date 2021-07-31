@@ -55,7 +55,7 @@
       <v-col cols="12" md="8">
         <!-- News of the Day -->
         <v-row class="pa-0">
-          <v-col cols="8" v-if="getNewsOfTheDay.length !== 0">
+          <v-col v-if="getNewsOfTheDay.length !== 0">
             <PageTitle icon="mdi-newspaper" :title="$t('home.newsOfTheDay')"/>
           </v-col>
           <!-- Add News Button -->
@@ -100,7 +100,7 @@
         </transition-group>
         <!-- Display News -->
         <v-row v-if="getNews.length !== 0" class="mt-5">
-          <v-col cols="8">
+          <v-col>
             <PageTitle icon="mdi-newspaper-variant-multiple" :title="$t('home.news')"/>
           </v-col>
         </v-row>
