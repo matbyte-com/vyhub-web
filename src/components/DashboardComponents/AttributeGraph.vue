@@ -51,6 +51,9 @@ export default {
     },
   },
   watch: {
+    $route() {
+      this.fetchData();
+    },
     async activeDef() {
       if (this.activeDef == null) {
         this.activeHistory = null;
