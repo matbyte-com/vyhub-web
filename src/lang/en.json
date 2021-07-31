@@ -632,5 +632,6 @@
   "save": "Save",
   "warnings": "Warnings",
   "enable": "Enable",
-  "disable": "Disable"
+  "disable": "Disable",
+  "error": "Error"
 }

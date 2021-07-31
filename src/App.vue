@@ -124,6 +124,7 @@ export default Vue.extend({
   }),
   created() {
     this.setThemeFromCache();
+    this.setApiInterceptor();
   },
   beforeMount() {
     AuthService.setAuthTokens();
@@ -203,6 +204,24 @@ export default Vue.extend({
         this.$vuetify.theme.currentTheme.warning = obj.warning;
         this.$vuetify.theme.currentTheme.error = obj.error;
       }
+    },
+    async setApiInterceptor() {
+      const client = await openapi;
+      client.interceptors.response.use((response) => response,
+        (error) => {
+          let msg = '';
+          if (error.response.data.detail) {
+            msg = error.response.data.detail;
+          } else {
+            msg = error.response.data;
+          }
+          this.$notify({
+            title: `${this.$t('error')} ${error.response.status}`,
+            text: msg,
+            type: 'error',
+          });
+          return Promise.reject(error);
+        });
     },
   },
   computed: {
