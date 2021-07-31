@@ -170,9 +170,9 @@
               <ServerStatus  ref="ServerStatus"/>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row v-if="donationGoal.enabled">
             <v-col>
-              <DonationGoal v-if="donationGoal.enabled" :donationGoal="donationGoal" />
+              <DonationGoal :donationGoal="donationGoal" />
             </v-col>
           </v-row>
           <v-row>
