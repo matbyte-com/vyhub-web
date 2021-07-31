@@ -4,6 +4,7 @@ declare global {
   interface VyHubConfig {
     backend_url: string;
     default_title: string;
+    demo_mode: boolean;
   }
 
   interface Window {

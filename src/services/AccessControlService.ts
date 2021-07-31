@@ -5,13 +5,20 @@
  * When the optional Parameter Bundle is given the Property has to exist in the given bundle
  */
 import store from '@/store/index';
+import config from '@/config';
 
 export default {
   methods: {
     $checkProp(prop: string, bundleId?: string): boolean {
       // return True if user is admin
-      if (store.getters.isLoggedIn && store.getters.user.admin === true) {
-        return true;
+      if (store.getters.isLoggedIn) {
+        if (store.getters.user.admin === true) {
+          return true;
+        }
+
+        if (config.demo_mode) {
+          return true;
+        }
       }
 
       if (prop === null) {

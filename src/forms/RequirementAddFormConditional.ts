@@ -1,7 +1,6 @@
 import i18n from '@/plugins/i18n';
 import RequirementAddForm from './RequirementAddForm';
 import Common from './Common';
-import Properties from '../services/PropertyService';
 
 const API_URL = Common.apiURL;
 
