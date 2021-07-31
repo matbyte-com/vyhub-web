@@ -3646,6 +3646,22 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ServerDeleteServer {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ServerEditBundle {
     namespace Parameters {
       /**
@@ -3690,7 +3706,7 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace ServerGetServer {
+  namespace ServerGetServerByBundle {
     namespace Parameters {
       /**
        * Uuid
@@ -3703,7 +3719,7 @@ declare namespace Paths {
     }
     namespace Responses {
       /**
-       * Response Get Server Server Bundle  Uuid  Server Get
+       * Response Get Server By Bundle Server Bundle  Uuid  Server Get
        */
       export type $200 = Components.Schemas.ServerModelShort[];
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -4460,12 +4476,12 @@ declare namespace Paths {
        * Sort
        * Sort by value.
        */
-      export type Sort = string; // ^(type|registered_ob|username)$
+      export type Sort = string; // ^(type|registered_on|username)$
     }
     export interface QueryParameters {
       query?: Parameters.Query;
       limit?: Parameters.Limit;
-      sort?: Parameters.Sort; // ^(type|registered_ob|username)$
+      sort?: Parameters.Sort; // ^(type|registered_on|username)$
       desc?: Parameters.Desc;
     }
     namespace Responses {
@@ -4861,13 +4877,13 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerGetGroups.Responses.$200 | Paths.ServerGetGroups.Responses.$422>
   /**
-   * server_getServer - Get Server
+   * server_getServerByBundle - Get Server By Bundle
    */
-  'server_getServer'(
-    parameters?: Parameters<Paths.ServerGetServer.PathParameters> | null,
+  'server_getServerByBundle'(
+    parameters?: Parameters<Paths.ServerGetServerByBundle.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>
+  ): OperationResponse<Paths.ServerGetServerByBundle.Responses.$200 | Paths.ServerGetServerByBundle.Responses.$422>
   /**
    * server_editBundle - Edit Bundle
    */
@@ -4901,13 +4917,13 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
   /**
-   * server_deleteBundle - Delete Bundle
+   * server_deleteServer - Delete Server
    */
-  'server_deleteBundle'(
-    parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters> | null,
+  'server_deleteServer'(
+    parameters?: Parameters<Paths.ServerDeleteServer.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+  ): OperationResponse<Paths.ServerDeleteServer.Responses.$200 | Paths.ServerDeleteServer.Responses.$422>
   /**
    * group_getGroups - Get Groups
    */
@@ -5993,13 +6009,13 @@ export interface PathsDictionary {
   }
   ['/server/bundle/{uuid}/server']: {
     /**
-     * server_getServer - Get Server
+     * server_getServerByBundle - Get Server By Bundle
      */
     'get'(
-      parameters?: Parameters<Paths.ServerGetServer.PathParameters> | null,
+      parameters?: Parameters<Paths.ServerGetServerByBundle.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>
+    ): OperationResponse<Paths.ServerGetServerByBundle.Responses.$200 | Paths.ServerGetServerByBundle.Responses.$422>
   }
   ['/server/bundle/{uuid}']: {
     /**
@@ -6041,13 +6057,13 @@ export interface PathsDictionary {
   }
   ['/server/{uuid}']: {
     /**
-     * server_deleteBundle - Delete Bundle
+     * server_deleteServer - Delete Server
      */
     'delete'(
-      parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters> | null,
+      parameters?: Parameters<Paths.ServerDeleteServer.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+    ): OperationResponse<Paths.ServerDeleteServer.Responses.$200 | Paths.ServerDeleteServer.Responses.$422>
   }
   ['/group/']: {
     /**

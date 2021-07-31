@@ -104,7 +104,6 @@
 </template>
 
 <script>
-import api from '@/api/api';
 import DialogForm from '@/components/DialogForm.vue';
 import BundleAddForm from '@/forms/BundleAddForm';
 import EditBundleForm from '@/forms/BundleEditForm';
@@ -156,9 +155,15 @@ export default {
     this.queryData();
   },
   methods: {
-    queryData() {
-      api.server.getBundles().then((rsp) => { this.bundles = rsp.data; this.dataFetched += 1; });
-      api.server.getServer().then((rsp) => { this.server = rsp.data; this.dataFetched += 1; });
+    async queryData() {
+      (await openapi).server_getBundles().then((rsp) => {
+        this.bundles = rsp.data;
+        this.dataFetched += 1;
+      });
+      (await openapi).server_getServers().then((rsp) => {
+        this.server = rsp.data;
+        this.dataFetched += 1;
+      });
     },
     getBundle(item) {
       if (this.dataFetched !== 2) { return ''; }
@@ -189,18 +194,18 @@ export default {
     openDeleteServerDialog(item) {
       this.$refs.deleteServerDialog.show(item);
     },
-    deleteBundle(bundle) {
-      api.server.deleteBundle(bundle.id).then(() => {
-        this.$refs.deleteBundleDialog.cancel();
-        api.server.getBundles().then((response) => { this.bundles = response.data; });
+    async deleteBundle(bundle) {
+      (await openapi).server_deleteBundle(bundle.id).then(() => {
+        this.$refs.deleteBundleDialog.closeAndReset();
+        this.queryData();
       }).catch((err) => {
         this.$refs.deleteBundleDialog.setErrorMessage(err.response.data.detail);
       });
     },
-    deleteServer(server) {
-      api.server.deleteServer(server.id).then(() => {
-        this.$refs.deleteServerDialog.cancel();
-        api.server.getServer().then((response) => { this.server = response.data; });
+    async deleteServer(server) {
+      (await openapi).server_deleteServer(server.id).then(() => {
+        this.$refs.deleteServerDialog.closeAndReset();
+        this.queryData();
       }).catch((err) => {
         this.$refs.deleteServerDialog.setErrorMessage(err.response.data.detail);
       });
