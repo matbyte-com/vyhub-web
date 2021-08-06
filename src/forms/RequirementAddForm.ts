@@ -4,10 +4,11 @@ const typeMapping = {
   ACTIVE: ['ACTIVE', 'INACTIVE', 'NEVER_ACTIVE'],
   NUMBER: ['EQ', 'LEQ', 'GEQ', 'LT', 'GT'],
   HAVE: ['HAVE'],
+  EQ: ['EQ'],
 };
 
 const types = {
-  GROUP_MEMBER: ['mdi-account-multiple', typeMapping.ACTIVE],
+  GROUP_MEMBER: ['mdi-account-multiple', typeMapping.EQ],
   PERMISSION_LEVEL: ['mdi-numeric-9-plus-box-outline', typeMapping.NUMBER],
   PERMISSION_LEVEL_SB: ['mdi-numeric-9-plus-box-multiple-outline', typeMapping.NUMBER],
   PROPERTY: ['mdi-asterisk', typeMapping.HAVE],
@@ -15,7 +16,7 @@ const types = {
   USER_ATTRIBUTE: ['mdi-account-details', typeMapping.HAVE],
   PACKET: ['mdi-gift-open', typeMapping.ACTIVE],
   DATE: ['mdi-calendar', typeMapping.NUMBER],
-  USER_SELF: ['mdi-account-box', typeMapping.HAVE],
+  USER_SELF: ['mdi-account-box', typeMapping.EQ],
 };
 
 function returnForm() {

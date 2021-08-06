@@ -401,8 +401,8 @@
     "requirementSet": "Requirement Set",
     "types": {
       "GROUP_MEMBER": "Groupmember",
-      "PERMISSION_LVL": "Permission Level",
-      "PERMISSION_LVL_SB": "Permission Level SB",
+      "PERMISSION_LEVEL": "Permission Level",
+      "PERMISSION_LEVEL_SB": "Permission Level (in Serverbundle)",
       "PROPERTY": "Property",
       "PROPERTY_SB": "Property SB",
       "USER_ATTRIBUTE": "User Attribute",
