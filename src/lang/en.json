@@ -161,6 +161,7 @@
       "packet_relation_violated": "This packet violates a packet relation with an other packet: {relation_type} {packet_title}.",
       "packet_already_in_cart": "This packet is already in your cart.",
       "packet_not_purchasable": "You cannot purchase this packet.",
+      "cart_full": "Your cart is full.",
       "unauthorized": "You must be logged in to add this packet to your cart.",
       "coupon": {
         "not_found": "This code is invalid."
