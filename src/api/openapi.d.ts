@@ -301,6 +301,15 @@ declare namespace Components {
       payment_gateway_id: string; // uuid
     }
     /**
+     * BundleTokenCreateModel
+     */
+    export interface BundleTokenCreateModel {
+      /**
+       * Extra Properties
+       */
+      extra_properties?: string[];
+    }
+    /**
      * BusinessAddressModelAdd
      */
     export interface BusinessAddressModelAdd {
@@ -1025,6 +1034,24 @@ declare namespace Components {
       icon?: string;
     }
     /**
+     * UserModelNoLinkedShort
+     */
+    export interface Model_User_UserModelNoLinkedShort {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      type: UserType;
+      /**
+       * Username
+       */
+      username: string;
+      /**
+       * Avatar
+       */
+      avatar: string;
+    }
+    /**
      * UserModelShort
      */
     export interface Model_User_UserModelShort {
@@ -1044,7 +1071,25 @@ declare namespace Components {
       /**
        * Linked Users
        */
-      linked_users: UserModelNoLinkedShort[];
+      linked_users: Model_User_UserModelNoLinkedShort[];
+    }
+    /**
+     * UserModelNoLinkedShort
+     */
+    export interface Model_User_User_UserModelNoLinkedShort {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      type: UserType;
+      /**
+       * Username
+       */
+      username: string;
+      /**
+       * Avatar
+       */
+      avatar: string;
     }
     /**
      * UserModelShort
@@ -1066,7 +1111,7 @@ declare namespace Components {
       /**
        * Linked Users
        */
-      linked_users: UserModelNoLinkedShort[];
+      linked_users: Model_User_UserModelNoLinkedShort[];
     }
     /**
      * NavModel
@@ -1201,6 +1246,76 @@ declare namespace Components {
        * Id
        */
       id?: string /* uuid */ [];
+    }
+    /**
+     * OAuth2TokenModel
+     */
+    export interface OAuth2TokenModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Name
+       */
+      name?: string;
+      user?: Model_User_User_UserModelNoLinkedShort;
+      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
+      /**
+       * Scope
+       */
+      scope: string;
+      /**
+       * Revoked
+       */
+      revoked: boolean;
+      /**
+       * Issued At
+       */
+      issued_at: number;
+      /**
+       * Expires In
+       */
+      expires_in?: number;
+      /**
+       * Access Token
+       */
+      access_token: string;
+    }
+    /**
+     * OAuth2TokenModelHidden
+     */
+    export interface OAuth2TokenModelHidden {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Name
+       */
+      name?: string;
+      user?: Model_User_User_UserModelNoLinkedShort;
+      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
+      /**
+       * Scope
+       */
+      scope: string;
+      /**
+       * Revoked
+       */
+      revoked: boolean;
+      /**
+       * Issued At
+       */
+      issued_at: number;
+      /**
+       * Expires In
+       */
+      expires_in?: number;
+      /**
+       * Access Token Hidden
+       */
+      access_token_hidden: string;
     }
     /**
      * PacketCategoryModel
@@ -1915,7 +2030,7 @@ declare namespace Components {
        * Date
        */
       date: string; // date-time
-      user: UserModelNoLinkedShort;
+      user: Model_User_UserModelNoLinkedShort;
       /**
        * Amount Total
        */
@@ -1994,7 +2109,7 @@ declare namespace Components {
        * Date
        */
       date: string; // date-time
-      user: UserModelNoLinkedShort;
+      user: Model_User_UserModelNoLinkedShort;
       /**
        * Amount Total
        */
@@ -2731,24 +2846,6 @@ declare namespace Components {
        * Username
        */
       username: string;
-    }
-    /**
-     * UserModelNoLinkedShort
-     */
-    export interface UserModelNoLinkedShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: UserType;
-      /**
-       * Username
-       */
-      username: string;
-      /**
-       * Avatar
-       */
-      avatar: string;
     }
     /**
      * UserPropertyModel
@@ -3630,6 +3727,23 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ServerCreateBundleToken {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.BundleTokenCreateModel;
+    namespace Responses {
+      export type $200 = Components.Schemas.OAuth2TokenModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ServerDeleteBundle {
     namespace Parameters {
       /**
@@ -3642,7 +3756,7 @@ declare namespace Paths {
       uuid: Parameters.Uuid;
     }
     namespace Responses {
-      export type $200 = any;
+      export type $200 = Components.Schemas.ServerbundleModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3675,7 +3789,26 @@ declare namespace Paths {
     }
     export type RequestBody = Components.Schemas.ServerBundleModelPatch;
     namespace Responses {
-      export type $200 = any;
+      export type $200 = Components.Schemas.ServerbundleModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ServerGetBundleTokens {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      /**
+       * Response Get Bundle Tokens Server Bundle  Uuid  Token Get
+       */
+      export type $200 = Components.Schemas.OAuth2TokenModelHidden[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -3742,6 +3875,28 @@ declare namespace Paths {
        * Response Get Servers Server  Get
        */
       export type $200 = Components.Schemas.ServerModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ServerRevokeBundleToken {
+    namespace Parameters {
+      /**
+       * Token Id
+       * UUID of token to revoke
+       */
+      export type TokenId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      token_id: Parameters.TokenId; // uuid
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.OAuth2TokenModelHidden;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -4901,6 +5056,30 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
   /**
+   * server_getBundleTokens - Get Bundle Tokens
+   */
+  'server_getBundleTokens'(
+    parameters?: Parameters<Paths.ServerGetBundleTokens.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerGetBundleTokens.Responses.$200 | Paths.ServerGetBundleTokens.Responses.$422>
+  /**
+   * server_createBundleToken - Create Bundle Token
+   */
+  'server_createBundleToken'(
+    parameters?: Parameters<Paths.ServerCreateBundleToken.PathParameters> | null,
+    data?: Paths.ServerCreateBundleToken.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerCreateBundleToken.Responses.$200 | Paths.ServerCreateBundleToken.Responses.$422>
+  /**
+   * server_revokeBundleToken - Revoke Bundle Token
+   */
+  'server_revokeBundleToken'(
+    parameters?: Parameters<Paths.ServerRevokeBundleToken.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerRevokeBundleToken.Responses.$200 | Paths.ServerRevokeBundleToken.Responses.$422>
+  /**
    * server_getServerTypes - Get Server Types
    */
   'server_getServerTypes'(
@@ -6034,6 +6213,34 @@ export interface PathsDictionary {
       data?: Paths.ServerEditBundle.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
+  }
+  ['/server/bundle/{uuid}/token']: {
+    /**
+     * server_getBundleTokens - Get Bundle Tokens
+     */
+    'get'(
+      parameters?: Parameters<Paths.ServerGetBundleTokens.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerGetBundleTokens.Responses.$200 | Paths.ServerGetBundleTokens.Responses.$422>
+    /**
+     * server_createBundleToken - Create Bundle Token
+     */
+    'post'(
+      parameters?: Parameters<Paths.ServerCreateBundleToken.PathParameters> | null,
+      data?: Paths.ServerCreateBundleToken.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerCreateBundleToken.Responses.$200 | Paths.ServerCreateBundleToken.Responses.$422>
+  }
+  ['/server/bundle/{uuid}/token/{token_id}']: {
+    /**
+     * server_revokeBundleToken - Revoke Bundle Token
+     */
+    'patch'(
+      parameters?: Parameters<Paths.ServerRevokeBundleToken.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerRevokeBundleToken.Responses.$200 | Paths.ServerRevokeBundleToken.Responses.$422>
   }
   ['/server/type']: {
     /**

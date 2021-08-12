@@ -44,6 +44,12 @@
       "unbanned": "Unbanned"
     }
   },
+  "_serverbundle":{
+    "labels": {
+      "apiKeys": "Serverbundle API Keys",
+      "createApiKey": "Create new API Key"
+    }
+  },
   "settings": {
     "permissionLevel": "Permission Level",
     "membercount": "Members",
@@ -244,6 +250,8 @@
     "warning_toggle": "Toggle warning status to Disabled: {newStatus}, User: {username}",
     "warning_delete": "Delete warning of user: {username}",
     "warning_add": "Added warning for user: {username}",
+    "user_token_create": "Created token {token_id} with scope {scope} for serverbundle {bundle_id}",
+    "user_token_revoke": "Revoked token {token_id}.",
     "warning_config_edit": "Edited warning config"
   },
   "forms": {
@@ -532,6 +540,7 @@
   "servers": "Servers",
   "paymentGateways": "Payment Gateways",
   "general": "General",
+  "revoked": "Revoked",
   "purchases": "Purchases",
   "language": "Language",
   "payment": "Payment",
@@ -565,6 +574,7 @@
   "username": "Username",
   "navigation": "Navigation",
   "email": "E-Mail",
+  "extraProperties": "Extra Properties",
   "rewards": "Rewards",
   "packets": "Packets",
   "dark_mode": "Dark Mode",

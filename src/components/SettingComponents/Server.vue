@@ -39,6 +39,12 @@
                 <BoolIcon :value="item.multigroup" />
               </template>
               <template v-slot:item.actions="{ item }">
+                <v-btn outlined color="info" small class="mr-1"
+                       @click="showAPIKeysDialog(item)">
+                  <v-icon>
+                    mdi-key-chain
+                  </v-icon>
+                </v-btn>
                 <v-btn outlined color="primary" small
                        @click="openEditBundleDialog(item)" class="mr-1">
                   <v-icon>
@@ -100,6 +106,56 @@
         </v-card>
       </v-col>
     </v-row>
+    <Dialog icon="mdi-key-chain" :title="$t('_serverbundle.labels.apiKeys')" :max-width="500"
+            ref="bundleApiKeysDialog">
+      <v-card class="mt-2" v-if="createdToken != null" color="success">
+        <v-card-subtitle>
+          <div class="font-weight-bold">{{ createdToken.access_token }}</div>
+          <div>
+            {{ createdToken.name }}
+          </div>
+        </v-card-subtitle>
+        <v-card-text>
+          <div>
+            {{ createdToken.scope }}
+          </div>
+        </v-card-text>
+      </v-card>
+      <v-card v-for="token in apiKeys" v-bind:key="token.id" class="mt-2">
+        <v-card-subtitle class="d-flex justify-space-between">
+          <span>
+            <div>
+              <div class="font-weight-bold ">
+                {{ token.access_token_hidden }}
+              </div>
+              <div>
+                {{ token.name }}
+              </div>
+            </div>
+            <v-chip color="warning" small v-if="token.revoked" class="ml-3">
+              {{ $t('revoked') }}
+            </v-chip>
+          </span>
+          <span v-if="!token.revoked">
+            <v-btn color="warning" text small depressed @click="revokeToken(token)">
+              <v-icon>
+                mdi-cancel
+              </v-icon>
+            </v-btn>
+          </span>
+        </v-card-subtitle>
+        <v-card-text>
+          <div>
+            {{ token.scope }}
+          </div>
+        </v-card-text>
+      </v-card>
+      <h6 class="text-h6 mb-2 mt-3">{{ $t('_serverbundle.labels.createApiKey') }}</h6>
+      <GenForm :cancel-text="null" :submit-text="$t('create')" :form-schema="createTokenSchema"
+               @submit="createnToken" ref="createTokenForm">
+
+      </GenForm>
+    </Dialog>
   </div>
 </template>
 
@@ -110,12 +166,17 @@ import EditBundleForm from '@/forms/BundleEditForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DataTable from '@/components/DataTable.vue';
 import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
-import openapi from '@/api/openapi';
+import GenForm from '@/components/GenForm.vue';
+import ServerbundleAPITokenForm from '@/forms/ServerbundleAPITokenForm';
+import openapi from '../../api/openapi';
 import BoolIcon from '../BoolIcon.vue';
+import Dialog from '../Dialog.vue';
 
 export default {
   name: 'Server',
   components: {
+    GenForm,
+    Dialog,
     SettingTitle,
     BoolIcon,
     DeleteConfirmationDialog,
@@ -134,7 +195,7 @@ export default {
         { text: this.$t('settings.multigroup'), value: 'multigroup' },
         { text: this.$t('settings.defaultGroup'), value: 'default_group.name' },
         {
-          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false, width: 150,
+          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false, width: 250,
         },
       ],
       gameserverHeaders: [
@@ -149,6 +210,10 @@ export default {
       ],
       addBundleSchema: BundleAddForm.returnForm(),
       editBundleSchema: null,
+      createTokenSchema: ServerbundleAPITokenForm,
+      activeBundle: null,
+      apiKeys: null,
+      createdToken: null,
     };
   },
   beforeMount() {
@@ -230,6 +295,43 @@ export default {
       }).catch((err) => {
         this.$refs.editBundleDialog.setErrorMessage(err.response.data.detail);
       });
+    },
+    showAPIKeysDialog(bundle) {
+      this.createdToken = null;
+      this.activeBundle = bundle;
+      this.$refs.bundleApiKeysDialog.show();
+    },
+    async refreshKeys() {
+      const api = await openapi;
+
+      api.server_getBundleTokens({ uuid: this.activeBundle.id }).then((rsp) => {
+        this.apiKeys = rsp.data;
+      });
+    },
+    async revokeToken(token) {
+      const api = await openapi;
+
+      api.server_revokeBundleToken(
+        { uuid: token.serverbundle.id, token_id: token.id },
+      ).then((rsp) => {
+        this.refreshKeys();
+      });
+    },
+    async createnToken() {
+      const api = await openapi;
+
+      const data = this.$refs.createTokenForm.getData();
+
+      api.server_createBundleToken({ uuid: this.activeBundle.id }, data).then((rsp) => {
+        this.createdToken = rsp.data;
+      }).catch((err) => {
+        this.$refs.createTokenForm.setErrorMessage(err.response.data.detail);
+      });
+    },
+  },
+  watch: {
+    async activeBundle() {
+      this.refreshKeys();
     },
   },
 };
