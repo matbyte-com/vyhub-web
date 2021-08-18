@@ -4,7 +4,11 @@ import Common from './Common';
 
 const API_URL = Common.apiURL;
 
-const operatorMapping = {
+export interface IOperatorMapping {
+  [propertyName: string]: string;
+}
+
+const operatorMapping: IOperatorMapping = {
   EQ: 'mdi-equal',
   LEQ: 'mdi-less-than-or-equal',
   GEQ: 'mdi-greater-than-or-equal',
@@ -78,9 +82,9 @@ function returnInput(type: string) {
 
 function returnForm(type: string) {
   const oneOf: { const: string; title: string }[] = [];
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  const operators = RequirementAddForm.types[type][1];
+
+  const { operators } = RequirementAddForm.types[type];
+
   operators.forEach((op: string) => {
     const reqType = {
       const: '',
@@ -89,8 +93,6 @@ function returnForm(type: string) {
     };
     reqType.const = op;
     reqType.title = i18n.t(`_requirement.operators.${op}`).toString();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     reqType.icon = operatorMapping[op];
     oneOf.push(reqType);
   });

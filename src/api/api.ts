@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
-
 import axios from 'axios';
 import { throttleAdapterEnhancer } from 'axios-extensions';
 import qs from 'qs';

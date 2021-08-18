@@ -256,7 +256,6 @@ export default {
   },
   computed: {
     price() {
-      /* eslint-disable @typescript-eslint/camelcase */
       return {
         net: this.purchase.amount_net,
         total: this.purchase.amount_total,
