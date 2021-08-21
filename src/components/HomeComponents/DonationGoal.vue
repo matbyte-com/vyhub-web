@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import openapi from '@/api/openapi';
 import HeadlineSidebar from '@/components/HomeComponents/HeadlineSidebar.vue';
 
 export default {
