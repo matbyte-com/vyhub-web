@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     donationProgress() {
-      if (!this.donationGoal.current) return NaN;
+      if (!this.donationGoal.current) return 0;
       return Math.floor((this.donationGoal.current / this.donationGoal.goal) * 100);
     },
   },

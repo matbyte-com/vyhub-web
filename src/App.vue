@@ -98,8 +98,8 @@
 </template>
 
 <script>
-import emitter from '@/services/EventBus';
 import Vue from 'vue';
+import emitter from '@/services/EventBus';
 import AuthService from '@/services/AuthService';
 import AccessControlService from '@/services/AccessControlService';
 import UtilService from '@/services/UtilService';

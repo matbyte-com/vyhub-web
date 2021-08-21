@@ -487,7 +487,8 @@
       "ban": "Ban",
       "news": "News"
     },
-    "new_news": "News Created {newsSubject}"
+    "new_news": "News created {newsSubject}",
+    "new_ticket": "Ticket created {title} by {username}"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -503,7 +504,8 @@
     "shopAdministration": "Shop - Administration",
     "log": "Log",
     "warnings":  "Warnings",
-    "legal":  "Legal"
+    "legal":  "Legal",
+    "ticket": "Ticket"
   },
   "_warning": {
     "title": "Warnings",
@@ -516,6 +518,12 @@
     "add": "Add Warning",
     "banLength": "Length of automatic ban (minutes)",
     "reason": "Reason"
+  },
+  "_ticket": {
+    "tickets": "Tickets",
+    "addTicket": "Create Ticket",
+    "noTickets": "You have not created any tickets yet.",
+    "title": "Title"
   },
   "update": "Update",
   "recurring": "Recurring",

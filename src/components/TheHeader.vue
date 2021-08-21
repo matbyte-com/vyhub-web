@@ -79,9 +79,9 @@ export default {
       communityName: null,
       logo_width: 50,
       linksRight: [
-        /* {
-          title: 'Settings', icon: 'mdi-cog', link: '/settings',
-        }, */
+        {
+          title: 'Ticket', icon: 'mdi-ticket-confirmation', link: '/ticket',
+        },
       ],
     };
   },

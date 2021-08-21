@@ -78,10 +78,10 @@
 </template>
 
 <script>
+import Sortable from 'sortablejs';
 import DialogForm from '@/components/DialogForm.vue';
 import PacketForm from '@/forms/PacketForm';
 import DataTable from '@/components/DataTable.vue';
-import Sortable from 'sortablejs';
 import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';

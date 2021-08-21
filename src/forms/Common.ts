@@ -1,7 +1,6 @@
-import i18n from '@/plugins/i18n';
-
 import countries from 'country-list';
 import countryUnicodeFlags from 'country-flag-icons/unicode';
+import i18n from '@/plugins/i18n';
 import config from '@/config';
 
 const API_URL = config.backend_url;

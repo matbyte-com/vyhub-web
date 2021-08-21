@@ -60,9 +60,9 @@
 </template>
 
 <script>
+import Eventsource from 'eventsource';
 import store from '@/store/index';
 import openapi from '@/api/openapi';
-import Eventsource from 'eventsource';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
 

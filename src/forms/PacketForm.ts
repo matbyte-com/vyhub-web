@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
+import cc from 'currency-codes';
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
-import cc from 'currency-codes';
 
 const API_URL = Common.apiURL;
 

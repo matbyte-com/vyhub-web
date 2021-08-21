@@ -124,6 +124,18 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Legal.vue'),
   },
   {
+    path: '/ticket',
+    name: 'Ticket',
+    meta: { title: i18n.t('pageTitle.ticket'), requiresAuth: true },
+    component: () => import('../views/Ticket.vue'),
+  },
+  {
+    path: '/thread/:id',
+    name: 'Thread',
+    meta: { title: i18n.t('pageTitle.ticket') },
+    component: () => import('../views/Thread.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {

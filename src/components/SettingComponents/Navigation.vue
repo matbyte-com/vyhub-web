@@ -150,9 +150,9 @@
 
 <script>
 import draggable from 'vuedraggable';
+import { VueEditor } from 'vue2-editor';
 import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
-import { VueEditor } from 'vue2-editor';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import i18n from '@/plugins/i18n';

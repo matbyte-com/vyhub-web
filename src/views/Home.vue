@@ -151,11 +151,11 @@
       </v-col>
       <!-- Server Status -->
       <v-col ref="StatusCol">
-        <div style="position: fixed" :style="{width: `${statusColumnWidth}px`}"
+        <div style="position: fixed;" :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
           <v-row>
             <v-col>
-              <ServerStatus  ref="ServerStatus"/>
+              <ServerStatus ref="ServerStatus"/>
             </v-col>
           </v-row>
           <v-row v-if="donationGoal.enabled">
@@ -175,10 +175,10 @@
 </template>
 
 <script>
+import { VueEditor } from 'vue2-editor';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
 import NewsAddForm from '@/forms/NewsAddForm';
-import { VueEditor } from 'vue2-editor';
 import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
