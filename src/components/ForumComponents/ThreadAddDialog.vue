@@ -9,8 +9,9 @@
         </v-alert>
       </v-col>
     </v-row>
-    <v-text-field :label="$t('_ticket.title')" v-model="title"></v-text-field>
-    <vue-editor v-model="content" label="test"/>
+    <v-text-field v-if="!hideTitleInput" :label="$t('_ticket.title')"
+                  v-model="title"></v-text-field>
+    <vue-editor v-model="content" label="test" :class="hideTitleInput ? 'mt-3' : ''"/>
     <template v-slot:actions>
       <v-btn text color="primary" @click="$emit('submit')">
         <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
@@ -37,7 +38,7 @@ export default {
     Dialog,
     VueEditor,
   },
-  props: ['dialogTitle'],
+  props: ['dialogTitle', 'hideTitleInput'],
   data() {
     return {
       title: '',
