@@ -187,7 +187,7 @@ VueRouter.prototype.replace = function replace(location: RawLocation): Promise<R
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/',
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
