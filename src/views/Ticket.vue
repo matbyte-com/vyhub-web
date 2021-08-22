@@ -13,11 +13,35 @@
     <v-card v-for="ticket in tickets" :key="ticket.id" class="mb-3"
             :to="{ name: 'Thread', params: { id: ticket.id } }">
       <v-card-title>
-        {{ ticket.title }}
+        <v-avatar>
+          <v-img :src="ticket.creator.avatar"/>
+        </v-avatar>
+        <span class="ml-3">{{ ticket.title }}</span>
+        <v-spacer />
+        <span class="text--disabled subtitle-2">
+          {{ $d(new Date(ticket.created), 'long') }}
+        </span>
+        <span class="ml-3 mb-1">
+          <v-btn outlined color="primary" small
+                 @click="openEditMessageDialog(message)" class="mr-1">
+            <v-icon>
+              mdi-pencil
+            </v-icon>
+          </v-btn>
+          <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+            <v-icon>
+              mdi-delete
+            </v-icon>
+          </v-btn>
+        </span>
       </v-card-title>
-      <v-card-actions>
-        <span class="text--disabled">{{ ticket.created }}</span>
-      </v-card-actions>
+      <v-card-text class="ql-editor ml-15">
+        <span v-html="ticket.content.substr(0,300)" />
+        <div class="d-flex align-center" v-if="ticket.content.length > 3">
+          <v-icon left>mdi-arrow-right-bottom-bold</v-icon>
+          <span>{{ $t('_ticket.readMore') }}</span>
+        </div>
+      </v-card-text>
     </v-card>
     <v-card v-if="tickets === []">
       {{ $t('_ticket.noTickets') }}

@@ -7,7 +7,8 @@
       <span>{{ $t('_ticket.addPost') }}</span>
     </v-btn>
     <v-card v-for="post in posts" :key="post.id">
-      {{ post.content }}
+      <v-card-text class="ql-editor" v-html="post.content">
+      </v-card-text>
     </v-card>
   </div>
 </template>
