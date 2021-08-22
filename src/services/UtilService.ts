@@ -1,6 +1,6 @@
 import { HumanizeDurationLanguage, HumanizeDuration } from 'humanize-duration-ts';
-import i18n from '@/plugins/i18n';
 import Vue from 'vue';
+import i18n from '@/plugins/i18n';
 
 const langService: HumanizeDurationLanguage = new HumanizeDurationLanguage();
 const humanizeDuration: HumanizeDuration = new HumanizeDuration(langService);

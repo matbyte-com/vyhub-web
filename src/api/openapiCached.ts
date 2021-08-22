@@ -1,7 +1,7 @@
-import OpenAPIClientAxios from 'openapi-client-axios';
-import { Client } from '@/api/openapi.d';
 import { throttleAdapterEnhancer } from 'axios-extensions';
+import OpenAPIClientAxios from 'openapi-client-axios';
 import axios from 'axios';
+import { Client } from '@/api/openapi.d';
 import store from '@/store';
 import config from '@/config';
 

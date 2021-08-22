@@ -160,7 +160,6 @@ export default {
       });
     },
     async addPacket() {
-      /* eslint-disable @typescript-eslint/camelcase */
       const api = await openapi;
 
       let packet = this.$refs.addPacketDialog.getData();

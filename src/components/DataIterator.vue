@@ -84,6 +84,7 @@ export default {
       searchVal: '',
       filter: {},
       page: 1,
+      itemsPerPage: 0,
     };
   },
   props: {
@@ -96,7 +97,7 @@ export default {
       type: String,
       default: 'id',
     },
-    itemsPerPage: {
+    startItemsPerPage: {
       type: Number,
       default: 4,
     },
@@ -145,6 +146,9 @@ export default {
     updateItemsPerPage(number) {
       this.itemsPerPage = number;
     },
+  },
+  beforeMount() {
+    this.itemsPerPage = this.startItemsPerPage;
   },
 };
 </script>

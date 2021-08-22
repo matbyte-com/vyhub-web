@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import Common from '@/forms/Common';
 import i18n from '@/plugins/i18n';
 

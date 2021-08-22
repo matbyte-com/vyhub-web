@@ -1,8 +1,8 @@
+import { loadStripe } from '@stripe/stripe-js/pure';
 import store from '@/store';
 import router from '@/router';
 import openapi from '@/api/openapi';
 import UtilService from '@/services/UtilService';
-import { loadStripe } from '@stripe/stripe-js/pure';
 
 export default {
   async refreshCartPacketCount() {

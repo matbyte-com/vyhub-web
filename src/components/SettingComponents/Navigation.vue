@@ -149,8 +149,8 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable';
 import { VueEditor } from 'vue2-editor';
+import draggable from 'vuedraggable';
 import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import openapi from '@/api/openapi';

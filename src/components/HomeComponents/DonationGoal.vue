@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import openapi from '@/api/openapi';
 import HeadlineSidebar from '@/components/HomeComponents/HeadlineSidebar.vue';
 
 export default {
@@ -45,20 +44,10 @@ export default {
     };
   },
   props: ['donationGoal'],
-  mounted() {
-    // this.fetchData();
-  },
   computed: {
     donationProgress() {
       if (!this.donationGoal.current) return 0;
       return Math.floor((this.donationGoal.current / this.donationGoal.goal) * 100);
-    },
-  },
-  methods: {
-    async fetchData() {
-      (await openapi).shop_getDonationGoal().then((rsp) => {
-        this.donationGoal = rsp.data;
-      });
     },
   },
 };

@@ -313,7 +313,7 @@ export default {
 
       api.server_revokeBundleToken(
         { uuid: token.serverbundle.id, token_id: token.id },
-      ).then((rsp) => {
+      ).then(() => {
         this.refreshKeys();
       });
     },
