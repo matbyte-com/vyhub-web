@@ -27,6 +27,15 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
+  serverbundleSelectFieldByType(dt = 'object', type_key = 'type') {
+    return {
+      type: dt,
+      title: i18n.t('serverbundle'),
+      'x-fromUrl': `${API_URL}/server/bundle/?server_type={${type_key}}`,
+      'x-itemKey': 'id',
+      'x-itemTitle': 'name',
+    };
+  },
   serverTypeSelectField(disabled = false) {
     const form = {
       type: 'string',

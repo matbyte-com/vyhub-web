@@ -74,9 +74,13 @@ export default {
     };
   },
   methods: {
-    show(item) {
+    show(item, data) {
       this.$refs.dialog.show();
       this.item = item;
+
+      if (data != null) {
+        this.setData(data);
+      }
     },
     closeAndReset() {
       this.loading = false;

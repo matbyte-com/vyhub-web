@@ -305,6 +305,10 @@ declare namespace Components {
      */
     export interface BundleTokenCreateModel {
       /**
+       * Name
+       */
+      name?: string;
+      /**
        * Extra Properties
        */
       extra_properties?: string[];
@@ -1985,6 +1989,37 @@ declare namespace Components {
      */
     export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "CREDITS";
     /**
+     * PostModel
+     */
+    export interface PostModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Content
+       */
+      content: string;
+      /**
+       * Title
+       */
+      title?: string;
+      /**
+       * Created
+       */
+      created: string; // date-time
+      creator: Model_User_User_UserModelShort;
+    }
+    /**
+     * PostModelAdd
+     */
+    export interface PostModelAdd {
+      /**
+       * Content
+       */
+      content: string;
+    }
+    /**
      * PropertyModel
      */
     export interface PropertyModel {
@@ -2394,11 +2429,11 @@ declare namespace Components {
       /**
        * Name
        */
-      name: string;
+      name?: string;
       /**
        * Color
        */
-      color: string; // color
+      color?: string; // color
       /**
        * Icon
        */
@@ -2411,29 +2446,59 @@ declare namespace Components {
        * Multigroup
        */
       multigroup?: boolean;
-      /**
-       * Server
-       */
-      server?: any[];
     }
     /**
      * ServerModel
      */
     export interface ServerModel {
       /**
+       * Last Update
+       */
+      last_update?: string; // date-time
+      /**
+       * Users Max
+       */
+      users_max?: number;
+      /**
+       * Users Current
+       */
+      users_current?: number;
+      /**
+       * Map
+       */
+      map?: string;
+      /**
        * Name
        */
       name: string;
+      type: ServerType;
+      /**
+       * Address
+       */
+      address: string;
+      /**
+       * Port
+       */
+      port: number;
+      /**
+       * Serverbundle Id
+       */
+      serverbundle_id?: string; // uuid
       /**
        * Id
        */
       id: string; // uuid
-      type: ServerType;
+      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
+    }
+    /**
+     * ServerModelAdd
+     */
+    export interface ServerModelAdd {
       /**
-       * Status
+       * Name
        */
-      status?: {
-      };
+      name: string;
+      type: ServerType;
       /**
        * Address
        */
@@ -2448,17 +2513,55 @@ declare namespace Components {
       serverbundle_id?: string; // uuid
     }
     /**
+     * ServerModelPatch
+     */
+    export interface ServerModelPatch {
+      /**
+       * Last Update
+       */
+      last_update?: string; // date-time
+      /**
+       * Users Max
+       */
+      users_max?: number;
+      /**
+       * Users Current
+       */
+      users_current?: number;
+      /**
+       * Map
+       */
+      map?: string;
+      /**
+       * Name
+       */
+      name?: string;
+      type?: ServerType;
+      /**
+       * Address
+       */
+      address?: string;
+      /**
+       * Port
+       */
+      port?: number;
+      /**
+       * Serverbundle Id
+       */
+      serverbundle_id?: string; // uuid
+    }
+    /**
      * ServerModelShort
      */
     export interface ServerModelShort {
       /**
-       * Name
-       */
-      name: string;
-      /**
        * Id
        */
       id: string; // uuid
+      /**
+       * Name
+       */
+      name: string;
       type: ServerType;
       /**
        * Serverbundle Id
@@ -2630,6 +2733,66 @@ declare namespace Components {
        * Community Name
        */
       community_name?: string;
+    }
+    /**
+     * ThreadCategory
+     * An enumeration.
+     */
+    export type ThreadCategory = "DEFAULT" | "TICKET";
+    /**
+     * ThreadModel
+     */
+    export interface ThreadModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Title
+       */
+      title: string;
+      /**
+       * Content
+       */
+      content: string;
+      category: ThreadCategory;
+      /**
+       * Created
+       */
+      created: string; // date-time
+      creator: Model_User_User_UserModelShort;
+    }
+    /**
+     * ThreadModelAdd
+     */
+    export interface ThreadModelAdd {
+      /**
+       * Title
+       */
+      title: string;
+      /**
+       * Content
+       */
+      content: string;
+      category: ThreadCategory;
+    }
+    /**
+     * ThreadModelShort
+     */
+    export interface ThreadModelShort {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Title
+       */
+      title: string;
+      /**
+       * Created
+       */
+      created: string; // date-time
+      creator: Model_User_User_UserModelShort;
     }
     /**
      * TotalPriceModel
@@ -3202,6 +3365,65 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ForumGetThreadPosts {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      /**
+       * Response Get Thread Posts Forum  Uuid  Get
+       */
+      export type $200 = Components.Schemas.PostModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ForumGetThreads {
+    namespace Responses {
+      /**
+       * Response Get Threads Forum  Get
+       */
+      export type $200 = Components.Schemas.ThreadModelShort[];
+    }
+  }
+  namespace ForumGetTickets {
+    namespace Responses {
+      /**
+       * Response Get Tickets Forum Ticket Get
+       */
+      export type $200 = Components.Schemas.ThreadModelShort[];
+    }
+  }
+  namespace ForumNewPost {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.PostModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.PostModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ForumNewThread {
+    export type RequestBody = Components.Schemas.ThreadModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.ThreadModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace GroupAddGroup {
     export type RequestBody = Components.Schemas.GroupModelAdd;
     namespace Responses {
@@ -3744,6 +3966,13 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ServerCreateServer {
+    export type RequestBody = Components.Schemas.ServerModelAdd;
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ServerDeleteBundle {
     namespace Parameters {
       /**
@@ -3793,6 +4022,23 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace ServerEditServer {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export type RequestBody = Components.Schemas.ServerModelPatch;
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace ServerGetBundleTokens {
     namespace Parameters {
       /**
@@ -3836,6 +4082,22 @@ declare namespace Paths {
        * Response Get Groups Server Bundle  Uuid  Group Get
        */
       export type $200 = Components.Schemas.GroupModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ServerGetServer {
+    namespace Parameters {
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.ServerModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -5096,6 +5358,30 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
   /**
+   * server_createServer - Create Server
+   */
+  'server_createServer'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.ServerCreateServer.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerCreateServer.Responses.$200 | Paths.ServerCreateServer.Responses.$422>
+  /**
+   * server_getServer - Get Server
+   */
+  'server_getServer'(
+    parameters?: Parameters<Paths.ServerGetServer.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>
+  /**
+   * server_editServer - Edit Server
+   */
+  'server_editServer'(
+    parameters?: Parameters<Paths.ServerEditServer.PathParameters> | null,
+    data?: Paths.ServerEditServer.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerEditServer.Responses.$200 | Paths.ServerEditServer.Responses.$422>
+  /**
    * server_deleteServer - Delete Server
    */
   'server_deleteServer'(
@@ -5819,6 +6105,46 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>
+  /**
+   * forum_getThreads - Get Threads
+   */
+  'forum_getThreads'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumGetThreads.Responses.$200>
+  /**
+   * forum_newThread - New Thread
+   */
+  'forum_newThread'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.ForumNewThread.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumNewThread.Responses.$200 | Paths.ForumNewThread.Responses.$422>
+  /**
+   * forum_getTickets - Get Tickets
+   */
+  'forum_getTickets'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumGetTickets.Responses.$200>
+  /**
+   * forum_getThreadPosts - Get Thread Posts
+   */
+  'forum_getThreadPosts'(
+    parameters?: Parameters<Paths.ForumGetThreadPosts.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumGetThreadPosts.Responses.$200 | Paths.ForumGetThreadPosts.Responses.$422>
+  /**
+   * forum_newPost - New Post
+   */
+  'forum_newPost'(
+    parameters?: Parameters<Paths.ForumNewPost.PathParameters> | null,
+    data?: Paths.ForumNewPost.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumNewPost.Responses.$200 | Paths.ForumNewPost.Responses.$422>
 }
 
 export interface PathsDictionary {
@@ -6261,8 +6587,24 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
+    /**
+     * server_createServer - Create Server
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.ServerCreateServer.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerCreateServer.Responses.$200 | Paths.ServerCreateServer.Responses.$422>
   }
   ['/server/{uuid}']: {
+    /**
+     * server_getServer - Get Server
+     */
+    'get'(
+      parameters?: Parameters<Paths.ServerGetServer.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>
     /**
      * server_deleteServer - Delete Server
      */
@@ -6271,6 +6613,14 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerDeleteServer.Responses.$200 | Paths.ServerDeleteServer.Responses.$422>
+    /**
+     * server_editServer - Edit Server
+     */
+    'patch'(
+      parameters?: Parameters<Paths.ServerEditServer.PathParameters> | null,
+      data?: Paths.ServerEditServer.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerEditServer.Responses.$200 | Paths.ServerEditServer.Responses.$422>
   }
   ['/group/']: {
     /**
@@ -7101,6 +7451,54 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>
+  }
+  ['/forum/']: {
+    /**
+     * forum_getThreads - Get Threads
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumGetThreads.Responses.$200>
+    /**
+     * forum_newThread - New Thread
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.ForumNewThread.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumNewThread.Responses.$200 | Paths.ForumNewThread.Responses.$422>
+  }
+  ['/forum/ticket']: {
+    /**
+     * forum_getTickets - Get Tickets
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumGetTickets.Responses.$200>
+  }
+  ['/forum/{uuid}']: {
+    /**
+     * forum_getThreadPosts - Get Thread Posts
+     */
+    'get'(
+      parameters?: Parameters<Paths.ForumGetThreadPosts.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumGetThreadPosts.Responses.$200 | Paths.ForumGetThreadPosts.Responses.$422>
+  }
+  ['/forum/{uuid}/post']: {
+    /**
+     * forum_newPost - New Post
+     */
+    'post'(
+      parameters?: Parameters<Paths.ForumNewPost.PathParameters> | null,
+      data?: Paths.ForumNewPost.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumNewPost.Responses.$200 | Paths.ForumNewPost.Responses.$422>
   }
 }
 

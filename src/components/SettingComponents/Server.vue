@@ -3,7 +3,13 @@
     <DialogForm ref="addBundleDialog"
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
+                title-icon="mdi-server"
                 :title="$t('settings.labels.addBundle')"/>
+    <DialogForm ref="createServerDialog"
+                :form-schema="serverSchema"
+                title-icon="mdi-server"
+                @submit="createServer"
+                :title="$t('_server.labels.create')"/>
     <DeleteConfirmationDialog
                 ref="deleteBundleDialog"
                 @submit="deleteBundle"/>
@@ -11,9 +17,15 @@
                 ref="deleteServerDialog"
                 @submit="deleteServer"/>
     <DialogForm ref="editBundleDialog"
+                title-icon="mdi-server"
                 :form-schema="editBundleSchema"
                 @submit="editBundle"
                 :title="$t('settings.labels.editBundle')"/>
+    <DialogForm ref="editServerDialog"
+                :form-schema="serverSchema"
+                title-icon="mdi-server"
+                @submit="editServer"
+                :title="$t('_server.labels.edit')"/>
     <v-row>
       <v-col cols="12">
         <v-card outlined flat class="fill-height transparent">
@@ -84,7 +96,8 @@
                 {{ getBundle(item) }}
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-btn outlined color="primary" small class="mr-1">
+                <v-btn outlined color="primary" small class="mr-1"
+                       @click="$refs.editServerDialog.show(item, item);">
                   <v-icon>
                     mdi-pencil
                   </v-icon>
@@ -96,7 +109,7 @@
                 </v-btn>
               </template>
               <template v-slot:footer-right>
-                <v-btn color="success" outlined>
+                <v-btn color="success" outlined @click="$refs.createServerDialog.show()">
                   <v-icon left>mdi-plus</v-icon>
                   <span>{{ $t('settings.labels.addServer') }}</span>
                 </v-btn>
@@ -168,9 +181,10 @@ import DataTable from '@/components/DataTable.vue';
 import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
 import GenForm from '@/components/GenForm.vue';
 import ServerbundleAPITokenForm from '@/forms/ServerbundleAPITokenForm';
-import openapi from '../../api/openapi';
+import openapi from '@/api/openapi';
 import BoolIcon from '../BoolIcon.vue';
 import Dialog from '../Dialog.vue';
+import ServerForm from '@/forms/ServerForm';
 
 export default {
   name: 'Server',
@@ -203,12 +217,13 @@ export default {
         { text: this.$t('type'), value: 'type' },
         { text: this.$t('ipAddress'), value: 'address' },
         { text: this.$t('port'), value: 'port' },
-        { text: this.$t('bundle'), value: 'serverbundle_id' },
+        { text: this.$t('bundle'), value: 'serverbundle.name' },
         {
           text: this.$t('actions'), value: 'actions', sortable: false, align: 'right', width: 150,
         },
       ],
       addBundleSchema: BundleAddForm.returnForm(),
+      serverSchema: ServerForm,
       editBundleSchema: null,
       createTokenSchema: ServerbundleAPITokenForm,
       activeBundle: null,
@@ -237,20 +252,34 @@ export default {
       }
       return '-';
     },
-    getServerIdsByBundle(bundleId) {
-      const server = this.server.filter((s) => s.serverbundle_id === bundleId);
-      const serverIds = [];
-      server.forEach((s) => serverIds.push(s.id));
-      return serverIds;
-    },
     async addBundle() {
       const data = this.$refs.addBundleDialog.getData();
       data.default_group_id = data.default_group.id;
       (await openapi).server_addBundle(null, data).then(() => {
         this.queryData();
         this.$refs.addBundleDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_serverbundle.messages.createSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.addBundleDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
+    async createServer() {
+      const api = await openapi;
+
+      const data = this.$refs.createServerDialog.getData();
+
+      api.server_createServer(null, data).then(() => {
+        this.queryData();
+        this.$refs.createServerDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_server.messages.createSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.createServerDialog.setErrorMessage(err.response.data.detail);
       });
     },
     openDeleteBundleDialog(item) {
@@ -263,6 +292,10 @@ export default {
       (await openapi).server_deleteBundle(bundle.id).then(() => {
         this.$refs.deleteBundleDialog.closeAndReset();
         this.queryData();
+        this.$notify({
+          title: this.$t('_serverbundle.messages.createSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.deleteBundleDialog.setErrorMessage(err.response.data.detail);
       });
@@ -271,6 +304,10 @@ export default {
       (await openapi).server_deleteServer(server.id).then(() => {
         this.$refs.deleteServerDialog.closeAndReset();
         this.queryData();
+        this.$notify({
+          title: this.$t('_server.messages.deleteSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.deleteServerDialog.setErrorMessage(err.response.data.detail);
       });
@@ -279,7 +316,6 @@ export default {
       // set "old" data
       const obj = bundle;
       if (bundle.default_group) obj.defaultGroup = bundle.default_group.id;
-      obj.serverSelect = this.getServerIdsByBundle(bundle.id);
       // render correct form
       this.editBundleSchema = EditBundleForm.returnForm(String(bundle.server_type));
       // open and show dialog
@@ -292,8 +328,26 @@ export default {
       (await openapi).server_editBundle(bundle.id, data).then(() => {
         this.queryData();
         this.$refs.editBundleDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_serverbundle.messages.editSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.editBundleDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
+    async editServer(server) {
+      const data = this.$refs.editServerDialog.getData();
+
+      (await openapi).server_editServer(server.id, data).then(() => {
+        this.queryData();
+        this.$refs.editServerDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_server.messages.editSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.editServerDialog.setErrorMessage(err.response.data.detail);
       });
     },
     showAPIKeysDialog(bundle) {

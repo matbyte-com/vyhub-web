@@ -27,23 +27,6 @@ function returnForm(serverType: string) {
         type: 'object',
         properties: section1Properties,
       },
-      {
-        title: i18n.t('server'),
-        type: 'object',
-        properties: {
-          serverSelect: {
-            type: 'array',
-            items: {
-              type: 'string',
-            },
-            title: 'Server',
-            'x-fromUrl': `${API_URL}/server/?type=${serverType}`,
-            'x-itemTitle': 'name',
-            'x-itemKey': 'id',
-            'x-display': 'checkbox',
-          },
-        },
-      },
     ],
   };
 }

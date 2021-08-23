@@ -48,6 +48,11 @@
     "labels": {
       "apiKeys": "Serverbundle API Keys",
       "createApiKey": "Create new API Key"
+    },
+    "messages": {
+      "createSuccess": "Serverbundle successfully created.",
+      "editSuccess": "Serverbundle successfully edited.",
+      "deleteSuccess": "Serverbundle successfully deleted."
     }
   },
   "settings": {
@@ -526,6 +531,18 @@
     "title": "Title",
     "addPost": "Add Post",
     "readMore": "Read More"
+  },
+  "_server": {
+    "labels": {
+      "unknownStatus": "Status Unknown",
+      "create": "Create Server",
+      "edit": "Edit Server"
+    },
+    "messages": {
+      "createSuccess": "Server successfully created.",
+      "editSuccess": "Server successfully edited.",
+      "deleteSuccess": "Server successfully deleted."
+    }
   },
   "update": "Update",
   "recurring": "Recurring",

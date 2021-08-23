@@ -19,8 +19,25 @@
               <v-icon :color="getStatusColor(server)" left>
                 mdi-flash
               </v-icon>
-              <span>
-                <a>{{ server.status.player_count }} / {{ server.status.player_max }}</a>
+              <span v-if="server.users_current != null">
+                <a>
+                  <span v-if="server.users_current != null">
+                    {{ server.users_current }}
+                  </span>
+                  <span v-else>
+                    ?
+                  </span>
+                  /
+                  <span v-if="server.users_max != null">
+                    {{ server.users_max }}
+                  </span>
+                  <span v-else>
+                    ?
+                  </span>
+                </a>
+              </span>
+              <span class="font-italic text--disabled"  v-else>
+                {{ $t('_server.status.unknownStatus') }}
               </span>
             </td>
             <td style="">{{ server.name }}</td>
@@ -78,8 +95,12 @@ export default {
       return this.servers.filter((s) => s.serverbundle_id === bundleId);
     },
     getStatusColor(server) {
+      if (server.last_update == null) {
+        return '';
+      }
+
       // show as read when last__updated >= 15 minutes
-      if (new Date() - new Date(server.status.last_update) >= 900000) {
+      if (new Date() - new Date(server.last_update) >= 900000) {
         return 'error';
       }
       return 'success';
