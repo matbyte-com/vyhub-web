@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkvyhub"]=self["webpackChunkvyhub"]||[]).push([[190],{76190:function(e,t,r){r.r(t),r.d(t,{default:function(){return f}});var n=function(){var e=this,t=e.$createElement,r=e._self._c||t;return r("div",[r("v-card",[r("v-card-text",[e._v(" This is the Dashboard for Garry's Mod. Sadly, there is no content yet. ")])],1)],1)},a=[],u={name:"Gmod"},s=u,c=r(43736),d=r(43453),h=r.n(d),l=r(81062),o=r(37118),i=(0,c.Z)(s,n,a,!1,null,"a4c37be6",null),f=i.exports;h()(i,{VCard:l.Z,VCardText:o.ZB})}}]);
+//# sourceMappingURL=190.153e2de4.js.map
