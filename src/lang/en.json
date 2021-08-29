@@ -536,7 +536,10 @@
     "labels": {
       "unknownStatus": "Status Unknown",
       "create": "Create Server",
-      "edit": "Edit Server"
+      "edit": "Edit Server",
+      "numberOfReservedSlots": "Number of reserved slots",
+      "keepReservedSlotsFree": "Keep reserved slots free",
+      "hideReservedSlots": "Hide reserved slots"
     },
     "messages": {
       "createSuccess": "Server successfully created.",

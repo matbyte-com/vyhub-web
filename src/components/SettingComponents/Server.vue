@@ -254,7 +254,7 @@ export default {
     },
     async addBundle() {
       const data = this.$refs.addBundleDialog.getData();
-      data.default_group_id = data.default_group.id;
+      data.default_group_id = (data.default_group != null ? data.default_group.id : null);
       (await openapi).server_addBundle(null, data).then(() => {
         this.queryData();
         this.$refs.addBundleDialog.closeAndReset();
