@@ -18,8 +18,6 @@ module.exports = {
       aliasFields: ['browser'],
     },
     plugins: [
-      // fix "process is not defined" error:
-      // (do "npm install process" before running the build)
       new ProvidePlugin({
         process: 'process/browser',
       }),
