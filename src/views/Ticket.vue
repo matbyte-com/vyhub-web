@@ -38,8 +38,8 @@
       <v-card-text class="ql-editor ml-15">
         <span v-html="ticket.content.substr(0,300)" />
         <div class="d-flex align-center" v-if="ticket.content.length > 3">
-          <v-icon left>mdi-arrow-right-bottom-bold</v-icon>
-          <span>{{ $t('_ticket.readMore') }}</span>
+          <v-icon>mdi-arrow-right-top</v-icon>
+          <span>... {{ $t('_ticket.readMore') }}</span>
         </div>
       </v-card-text>
     </v-card>

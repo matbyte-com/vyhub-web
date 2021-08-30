@@ -2452,10 +2452,6 @@ declare namespace Components {
      */
     export interface ServerModel {
       /**
-       * Last Update
-       */
-      last_update?: string; // date-time
-      /**
        * Users Max
        */
       users_max?: number;
@@ -2485,9 +2481,18 @@ declare namespace Components {
        */
       serverbundle_id?: string; // uuid
       /**
+       * Extra
+       */
+      extra?: {
+      };
+      /**
        * Id
        */
       id: string; // uuid
+      /**
+       * Last Update
+       */
+      last_update?: string; // date-time
       serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
     }
     /**
@@ -2511,15 +2516,16 @@ declare namespace Components {
        * Serverbundle Id
        */
       serverbundle_id?: string; // uuid
+      /**
+       * Extra
+       */
+      extra?: {
+      };
     }
     /**
      * ServerModelPatch
      */
     export interface ServerModelPatch {
-      /**
-       * Last Update
-       */
-      last_update?: string; // date-time
       /**
        * Users Max
        */
@@ -2549,6 +2555,16 @@ declare namespace Components {
        * Serverbundle Id
        */
       serverbundle_id?: string; // uuid
+      /**
+       * Extra
+       */
+      extra?: {
+      };
+      /**
+       * Is Alive
+       * Set to true if the PATCH request comes from a server signalling that the server is alive. This will cause an update of the `last_update` attribute.
+       */
+      is_alive?: boolean;
     }
     /**
      * ServerModelShort
@@ -2789,10 +2805,18 @@ declare namespace Components {
        */
       title: string;
       /**
+       * Content
+       */
+      content: string;
+      /**
        * Created
        */
       created: string; // date-time
       creator: Model_User_User_UserModelShort;
+      /**
+       * Read
+       */
+      read: boolean;
     }
     /**
      * TotalPriceModel
@@ -4059,11 +4083,18 @@ declare namespace Paths {
     }
   }
   namespace ServerGetBundles {
+    namespace Parameters {
+      export type ServerType = Components.Schemas.ServerType;
+    }
+    export interface QueryParameters {
+      server_type?: Parameters.ServerType;
+    }
     namespace Responses {
       /**
        * Response Get Bundles Server Bundle  Get
        */
       export type $200 = Components.Schemas.ServerbundleModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ServerGetGroups {
@@ -5273,10 +5304,10 @@ export interface OperationMethods {
    * server_getBundles - Get Bundles
    */
   'server_getBundles'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ServerGetBundles.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetBundles.Responses.$200>
+  ): OperationResponse<Paths.ServerGetBundles.Responses.$200 | Paths.ServerGetBundles.Responses.$422>
   /**
    * server_addBundle - Add Bundle
    */
@@ -6489,10 +6520,10 @@ export interface PathsDictionary {
      * server_getBundles - Get Bundles
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ServerGetBundles.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetBundles.Responses.$200>
+    ): OperationResponse<Paths.ServerGetBundles.Responses.$200 | Paths.ServerGetBundles.Responses.$422>
     /**
      * server_addBundle - Add Bundle
      */

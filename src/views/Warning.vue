@@ -8,7 +8,13 @@
       <v-card-text>
         <DataTable :headers="headers"
                    :items="warnings"
-                   :item-class="warningRowFormatter">
+                   :item-class="warningRowFormatter"
+                   :server-items-length.sync="totalItems"
+                   :items-per-page.sync="itemsPerPage"
+                   @update:page="newPage"
+                   :footer-props="{
+                     'disable-items-per-page': true,
+                   }">
           <template v-slot:footer-right v-if="$checkProp('warning_edit')">
             <v-btn outlined color="success" @click="$refs.addWarningDialog.show()">
               <v-icon left>mdi-plus</v-icon>
@@ -84,16 +90,21 @@ export default {
         },
       ],
       WarningAddForm,
+      page: 1,
+      totalItems: 0,
+      itemsPerPage: 20,
     };
   },
   beforeMount() {
-    this.fetchData();
+    this.fetchData(this.page);
   },
   methods: {
-    async fetchData() {
-      (await openapi).warning_getWarnings().then((rsp) => {
-        this.warnings = rsp.data;
-      });
+    async fetchData(page) {
+      (await openapi).warning_getWarnings({ page: page - 1, size: this.itemsPerPage })
+        .then((rsp) => {
+          this.warnings = rsp.data.items;
+          this.totalItems = rsp.data.total;
+        });
     },
     warningRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
@@ -135,6 +146,10 @@ export default {
       }).catch((err) => {
         this.$refs.addWarningDialog.setErrorMessage(err.response.data.detail);
       });
+    },
+    newPage(page) {
+      this.page = page;
+      this.fetchData(page);
     },
   },
 };

@@ -10,7 +10,8 @@
           :sort-by="['created_on']"
           :sort-desc="[true]"
           :item-class="banRowFormatter"
-          @click:row="showDetails">
+          @click:row="showDetails"
+          @update:page="newPage">
           <template v-slot:footer-right>
             <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
               <v-icon left>mdi-plus</v-icon>
@@ -188,6 +189,7 @@ export default {
       bundles: [],
       banAddFormSchema,
       banEditFormSchema,
+      page: 1,
     };
   },
   beforeMount() {
@@ -322,6 +324,10 @@ export default {
     },
     showDetails(item) {
       this.$router.push({ name: 'Bans', params: { banId: item.id } });
+    },
+    newPage(page) {
+      this.page = page;
+      this.fetchData(page);
     },
   },
 };
