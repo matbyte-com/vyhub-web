@@ -14,7 +14,40 @@
                    @update:page="newPage"
                    :footer-props="{
                      'disable-items-per-page': true,
-                   }">
+                   }" :externalSearch="true" @search="newSearch">
+          <template v-slot:header>
+            <v-row>
+              <v-col class="d-flex align-center">
+                <v-menu offset-y :close-on-content-click="false">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      outlined
+                      color="primary"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon left>
+                        mdi-filter
+                      </v-icon>
+                      {{ $t('bundle') }}
+                    </v-btn>
+                  </template>
+                  <v-checkbox
+                    class="ml-2, mr-2"
+                    dense
+                    hide-details
+                    v-for="(bundle, index) in bundles"
+                    :key="index"
+                    v-model="selectedBundle"
+                    :label="bundle.name"
+                    :value="bundle.id"
+                    @change="newBundle"
+                  ></v-checkbox>
+                  <a class="ma-1" @click="selectedBundle = []; fetchData()">{{ $t('reset') }}</a>
+                </v-menu>
+              </v-col>
+            </v-row>
+          </template>
           <template v-slot:footer-right v-if="$checkProp('warning_edit')">
             <v-btn outlined color="success" @click="$refs.addWarningDialog.show()">
               <v-icon left>mdi-plus</v-icon>
@@ -56,6 +89,7 @@
         </DataTable>
       </v-card-text>
     </v-card>
+    {{ selectedBundle }}
   </div>
 </template>
 
@@ -80,11 +114,12 @@ export default {
   data() {
     return {
       warnings: [],
+      bundles: [],
       headers: [
-        { text: this.$t('user'), value: 'user' },
-        { text: this.$t('reason'), value: 'reason' },
-        { text: this.$t('bundle'), value: 'serverbundle.name' },
-        { text: this.$t('createdOn'), value: 'created_on' },
+        { text: this.$t('user'), value: 'user', sortable: false },
+        { text: this.$t('reason'), value: 'reason', sortable: false },
+        { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
+        { text: this.$t('createdOn'), value: 'created_on', sortable: false },
         {
           text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
         },
@@ -93,18 +128,31 @@ export default {
       page: 1,
       totalItems: 0,
       itemsPerPage: 20,
+      selectedBundle: [],
+      search: '',
     };
   },
   beforeMount() {
     this.fetchData(this.page);
+    this.fetchServerbundles();
   },
   methods: {
     async fetchData(page) {
-      (await openapi).warning_getWarnings({ page: page - 1, size: this.itemsPerPage })
+      (await openapi).warning_getWarnings({
+        page: page - 1,
+        size: this.itemsPerPage,
+        bundles: this.selectedBundle,
+        query: this.search,
+      })
         .then((rsp) => {
           this.warnings = rsp.data.items;
           this.totalItems = rsp.data.total;
         });
+    },
+    async fetchServerbundles() {
+      (await openapi).server_getBundles().then((rsp) => {
+        this.bundles = rsp.data;
+      });
     },
     warningRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
@@ -141,7 +189,7 @@ export default {
       data.user_id = form.user.id;
       data.reason = form.reason;
       (await openapi).warning_addWarning(null, data).then(() => {
-        this.fetchData();
+        this.fetchData(1);
         this.$refs.addWarningDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.addWarningDialog.setErrorMessage(err.response.data.detail);
@@ -150,6 +198,14 @@ export default {
     newPage(page) {
       this.page = page;
       this.fetchData(page);
+    },
+    newBundle(bundles) {
+      this.selectedBundle = bundles;
+      this.fetchData(1);
+    },
+    newSearch(str) {
+      this.search = str;
+      this.fetchData(1);
     },
   },
 };
