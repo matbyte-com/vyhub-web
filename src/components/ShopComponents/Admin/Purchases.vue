@@ -5,7 +5,11 @@
         :items="purchases"
         :sort-by="['date']"
         :sort-desc="[true]"
-        :search="true">
+        :external-search="true"
+        @update:page="newPage"
+        @search="newSearch"
+        :server-items-length.sync="totalItems"
+        :items-per-page.sync="itemsPerPage">
         <template v-slot:item.date="{ item }">
           <span>{{ new Date(item.date).toLocaleString() }}</span>
         </template>
@@ -291,8 +295,8 @@ export default {
   data() {
     return {
       headers: [
-        { text: this.$t('id'), value: 'id' },
-        { text: this.$t('status'), value: 'status' },
+        { text: this.$t('id'), value: 'id', sortable: false },
+        { text: this.$t('status'), value: 'status', sortable: false },
         { text: this.$t('date'), value: 'date' },
         { text: this.$t('user'), value: 'user' },
         { text: this.$t('_purchases.labels.amountNet'), value: 'amount_net' },
@@ -303,14 +307,23 @@ export default {
         },
       ],
       purchases: null,
+      page: 1,
+      search: '',
+      itemsPerPage: 5,
+      totalItems: 20,
     };
   },
   methods: {
-    async queryData() {
+    async queryData(page) {
       const api = await openapi;
 
-      api.shop_getPurchases().then((rsp) => {
-        this.purchases = rsp.data;
+      api.shop_getPurchases({
+        size: this.itemsPerPage,
+        page: page - 1,
+        query: this.search,
+      }).then((rsp) => {
+        this.purchases = rsp.data.items;
+        this.totalItems = rsp.data.total;
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
@@ -414,9 +427,17 @@ export default {
           this.$refs.confirmSubCancelDialog.setErrorMessage(err.response.data);
         });
     },
+    newSearch(str) {
+      this.search = str;
+      this.queryData(1);
+    },
+    newPage(page) {
+      this.page = page;
+      this.queryData(page);
+    },
   },
   beforeMount() {
-    this.queryData();
+    this.queryData(this.page);
   },
   watch: {
     $route() {

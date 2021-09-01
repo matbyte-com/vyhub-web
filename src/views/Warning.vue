@@ -127,7 +127,7 @@ export default {
       WarningAddForm,
       page: 1,
       totalItems: 0,
-      itemsPerPage: 20,
+      itemsPerPage: 50,
       selectedBundle: [],
       search: '',
     };
