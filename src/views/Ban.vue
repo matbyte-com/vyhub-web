@@ -10,8 +10,44 @@
           :sort-by="['created_on']"
           :sort-desc="[true]"
           :item-class="banRowFormatter"
+          :server-items-length.sync="totalItems"
+          :items-per-page.sync="itemsPerPage"
+          :externalSearch="true" @search="newSearch"
           @click:row="showDetails"
           @update:page="newPage">
+          <template v-slot:header>
+            <v-row>
+              <v-col class="d-flex align-center">
+                <v-menu offset-y :close-on-content-click="false">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      outlined
+                      color="primary"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon left>
+                        mdi-filter
+                      </v-icon>
+                      {{ $t('bundle') }}
+                    </v-btn>
+                  </template>
+                  <v-checkbox
+                    class="ml-2, mr-2"
+                    dense
+                    hide-details
+                    v-for="(bundle, index) in bundles"
+                    :key="index"
+                    v-model="selectedBundle"
+                    :label="bundle.name"
+                    :value="bundle.id"
+                    @change="newBundle"
+                  ></v-checkbox>
+                  <a class="ma-1" @click="selectedBundle = []; fetchData()">{{ $t('reset') }}</a>
+                </v-menu>
+              </v-col>
+            </v-row>
+          </template>
           <template v-slot:footer-right>
             <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
               <v-icon left>mdi-plus</v-icon>
@@ -159,6 +195,7 @@ import banEditFormSchema from '@/forms/BanEditForm';
 import apiService from '@/api/api';
 import DataTable from '@/components/DataTable.vue';
 import Dialog from '../components/Dialog.vue';
+import openapi from '../api/openapi';
 
 export default {
   name: 'Ban.vue',
@@ -190,10 +227,14 @@ export default {
       banAddFormSchema,
       banEditFormSchema,
       page: 1,
+      itemsPerPage: 50,
+      totalItems: 20,
+      selectedBundle: [],
     };
   },
   beforeMount() {
-    this.queryData();
+    this.queryData(1);
+    this.getBundles();
   },
   computed: {
     getBans() {
@@ -227,9 +268,16 @@ export default {
     },
   },
   methods: {
-    queryData() {
-      apiService.ban.getBans().then((rsp) => { this.bans = rsp.data; });
-      apiService.server.getBundles().then((rsp) => { this.bundles = rsp.data; });
+    async queryData(page) {
+      (await openapi).ban_getBans({
+        page: page - 1,
+        bundles: this.selectedBundle,
+        query: this.search,
+      })
+        .then((rsp) => { this.bans = rsp.data.items; });
+    },
+    async getBundles() {
+      (await openapi).server_getBundles().then((rsp) => { this.bundles = rsp.data; });
     },
     banRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
@@ -327,7 +375,15 @@ export default {
     },
     newPage(page) {
       this.page = page;
-      this.fetchData(page);
+      this.queryData(page);
+    },
+    newBundle(bundles) {
+      this.selectedBundle = bundles;
+      this.queryData(1);
+    },
+    newSearch(str) {
+      this.search = str;
+      this.queryData(1);
     },
   },
 };
