@@ -184,7 +184,9 @@
       "finished": "Finished",
       "refunded": "Refunded",
       "revoked": "Revoked",
-      "recurring": "Recurring"
+      "recurring": "Recurring",
+      "enabled": "Active",
+      "disabled": "Expired"
     }
   },
   "_user": {

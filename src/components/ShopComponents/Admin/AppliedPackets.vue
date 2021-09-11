@@ -3,9 +3,49 @@
       <DataTable
         :headers="headers"
         :items="appliedPackets"
-        :sort-by="['begin']"
-        :sort-desc="[true]"
-        :search="true">
+        :external-search="true"
+        @update:page="newPage" @update:sort-by="newOrderBy"
+        @update:sort-desc="newSortDesc"
+        :footer-props="{
+                     'disable-items-per-page': true,
+                   }"
+        @search="newSearch"
+        :server-items-length.sync="totalItems"
+        :items-per-page.sync="itemsPerPage">
+        <template v-slot:header>
+          <v-row>
+            <v-col class="d-flex align-center">
+              <v-menu offset-y :close-on-content-click="false">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    outlined
+                    color="primary"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon left>
+                      mdi-filter
+                    </v-icon>
+                    {{ $t('status') }}
+                  </v-btn>
+                </template>
+                <v-checkbox
+                  class="ml-2, mr-2"
+                  dense
+                  hide-details
+                  v-for="(st, index) in availableStatus"
+                  :key="index"
+                  v-model="active_filter"
+                  :label="$t(`_shop.purchaseStatus.${st.toLowerCase()}`)"
+                  :value="st"
+                  @change="newActive"
+                ></v-checkbox>
+                <a class="ma-1" @click="active_filter = []; queryData(1)">
+                  {{ $t('reset') }}</a>
+              </v-menu>
+            </v-col>
+          </v-row>
+        </template>
         <template v-slot:item.packet_title="{ item }">
           {{ item.packet.title }}
         </template>
@@ -71,9 +111,9 @@ export default {
   data() {
     return {
       headers: [
-        { text: this.$t('name'), value: 'packet_title' },
-        { text: this.$t('user'), value: 'user' },
-        { text: this.$t('active'), value: 'active' },
+        { text: this.$t('name'), value: 'packet_title', sortable: false },
+        { text: this.$t('user'), value: 'user', sortable: false },
+        { text: this.$t('active'), value: 'active', sortable: false },
         { text: this.$t('begin'), value: 'begin' },
         { text: this.$t('end'), value: 'end' },
         {
@@ -82,14 +122,35 @@ export default {
       ],
       appliedPackets: null,
       editFormSchema: AppliedPacketEditForm,
+      itemsPerPage: 50,
+      page: 1,
+      search: '',
+      sort_by: '',
+      sortDesc: false,
+      active_filter: [],
+      totalItems: 20,
+      availableStatus: [],
     };
   },
   methods: {
-    async queryData() {
+    async queryAvailableStatus() {
+      (await openapi).packet_getAvailablePacketStatus().then((rsp) => {
+        this.availableStatus = rsp.data;
+      });
+    },
+    async queryData(page) {
       const api = await openapi;
 
-      api.packet_getAppliedPackets().then((rsp) => {
-        this.appliedPackets = rsp.data;
+      api.packet_getAppliedPackets({
+        size: this.itemsPerPage,
+        page: page - 1,
+        query: this.search,
+        sort_by: this.orderBy,
+        sort_desc: this.sortDesc,
+        active_filter: this.active_filter,
+      }).then((rsp) => {
+        this.appliedPackets = rsp.data.items;
+        this.totalItems = rsp.data.total;
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
@@ -105,7 +166,7 @@ export default {
           type: 'success',
         });
         this.$refs.editAppliedPacketDialog.closeAndReset();
-        this.queryData();
+        this.queryData(1);
       }).catch((err) => {
         console.log(err);
         this.$refs.editAppliedPacketDialog.setErrorMessage(err.response.data.detail);
@@ -124,19 +185,46 @@ export default {
           type: 'success',
         });
         this.$refs.deleteAppliedPacketDialog.closeAndReset();
-        this.queryData();
+        this.queryData(1);
       }).catch((err) => {
         console.log(err);
         this.$refs.deleteAppliedPacketDialog.setErrorMessage(err.response.data.detail);
       });
     },
+    newSearch(str) {
+      this.search = str;
+      this.queryData(1);
+    },
+    newOrderBy(str) {
+      if (str[0] !== this.orderBy && str[0] !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        this.orderBy = str[0];
+        this.queryData(1);
+      }
+    },
+    newSortDesc(val) {
+      if (val[0] !== this.sortDesc && val[0] !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        this.sortDesc = val[0];
+        this.queryData(1);
+      }
+    },
+    newActive(status) {
+      this.active_filter = status;
+      this.queryData(1);
+    },
+    newPage(page) {
+      this.page = page;
+      this.queryData(page);
+    },
   },
   beforeMount() {
-    this.queryData();
+    this.queryData(1);
+    this.queryAvailableStatus();
   },
   watch: {
     $route() {
-      this.queryData();
+      this.queryData(1);
     },
   },
 };
