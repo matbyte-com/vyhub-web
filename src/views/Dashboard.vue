@@ -66,7 +66,7 @@ export default {
         this.user = rsp.data;
         document.title = `${i18n.t('pageTitle.dashboard')} ${this.user.username}`;
         if (this.user.type === 'CENTRAL') {
-          this.$router.replace({ name: 'UserDashboard', params: { id: this.user.username } });
+          this.$router.replace({ name: 'UserDashboard', params: { id: this.user.username }, query: this.$route.query });
         }
       }).catch((error) => {
         this.error = error;
