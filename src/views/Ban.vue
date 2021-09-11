@@ -41,7 +41,7 @@
                     :value="bundle.id"
                     @change="newBundle"
                   ></v-checkbox>
-                  <a class="ma-1" @click="selectedBundle = []; queryData(page)">
+                  <a class="ma-1" @click="selectedBundle = []; queryData(1)">
                     {{ $t('reset') }}</a>
                 </v-menu>
               </v-col>

@@ -177,6 +177,14 @@
       "coupon": {
         "not_found": "This code is invalid."
       }
+    },
+    "purchaseStatus": {
+      "open": "Open",
+      "cancelled": "Cancelled",
+      "finished": "Finished",
+      "refunded": "Refunded",
+      "revoked": "Revoked",
+      "recurring": "Recurring"
     }
   },
   "_user": {

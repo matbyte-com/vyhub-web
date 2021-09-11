@@ -3,13 +3,49 @@
       <DataTable
         :headers="headers"
         :items="purchases"
-        :sort-by="['date']"
-        :sort-desc="[true]"
         :external-search="true"
-        @update:page="newPage"
+        @update:page="newPage" @update:sort-by="newOrderBy"
+        @update:sort-desc="newSortDesc"
+        :footer-props="{
+                     'disable-items-per-page': true,
+                   }"
         @search="newSearch"
         :server-items-length.sync="totalItems"
         :items-per-page.sync="itemsPerPage">
+        <template v-slot:header>
+          <v-row>
+            <v-col class="d-flex align-center">
+              <v-menu offset-y :close-on-content-click="false">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    outlined
+                    color="primary"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon left>
+                      mdi-filter
+                    </v-icon>
+                    {{ $t('status') }}
+                  </v-btn>
+                </template>
+                <v-checkbox
+                  class="ml-2, mr-2"
+                  dense
+                  hide-details
+                  v-for="(st, index) in availableStatus"
+                  :key="index"
+                  v-model="selectedStatus"
+                  :label="$t(`_shop.purchaseStatus.${st.toLowerCase()}`)"
+                  :value="st"
+                  @change="newStatus"
+                ></v-checkbox>
+                <a class="ma-1" @click="selectedStatus = []; queryData(1)">
+                  {{ $t('reset') }}</a>
+              </v-menu>
+            </v-col>
+          </v-row>
+        </template>
         <template v-slot:item.date="{ item }">
           <span>{{ new Date(item.date).toLocaleString() }}</span>
         </template>
@@ -298,7 +334,7 @@ export default {
         { text: this.$t('id'), value: 'id', sortable: false },
         { text: this.$t('status'), value: 'status', sortable: false },
         { text: this.$t('date'), value: 'date' },
-        { text: this.$t('user'), value: 'user' },
+        { text: this.$t('user'), value: 'user', sortable: false },
         { text: this.$t('_purchases.labels.amountNet'), value: 'amount_net' },
         { text: this.$t('_purchases.labels.amountTotal'), value: 'amount_total' },
         { text: this.$t('_shop.labels.credits'), value: 'credits' },
@@ -311,6 +347,10 @@ export default {
       search: '',
       itemsPerPage: 5,
       totalItems: 20,
+      orderBy: '',
+      sortDesc: false,
+      selectedStatus: [],
+      availableStatus: [],
     };
   },
   methods: {
@@ -321,12 +361,20 @@ export default {
         size: this.itemsPerPage,
         page: page - 1,
         query: this.search,
+        sort_by: this.orderBy,
+        sort_desc: this.sortDesc,
+        status_filter: this.selectedStatus,
       }).then((rsp) => {
         this.purchases = rsp.data.items;
         this.totalItems = rsp.data.total;
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
+      });
+    },
+    async queryAvailableStatus() {
+      (await openapi).shop_getAvailablePurchaseStatus().then((rsp) => {
+        this.availableStatus = rsp.data;
       });
     },
     showDetails(purchase) {
@@ -356,7 +404,7 @@ export default {
             title: this.$t('_purchases.messages.revokeSuccess'),
             type: 'success',
           });
-          this.queryData();
+          this.queryData(1);
         }).catch((err) => {
           console.log(err);
           this.utils.notifyUnexpectedError(err.response.data);
@@ -371,7 +419,7 @@ export default {
             title: this.$t('_purchases.messages.unrevokeSuccess'),
             type: 'success',
           });
-          this.queryData();
+          this.queryData(1);
         }).catch((err) => {
           console.log(err);
           this.utils.notifyUnexpectedError(err.response.data);
@@ -386,7 +434,7 @@ export default {
             title: this.$t('_purchases.messages.refundInitSuccess'),
             type: 'success',
           });
-          this.queryData();
+          this.queryData(1);
           this.$refs.confirmRefundDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
@@ -403,7 +451,7 @@ export default {
               title: this.$t('_purchases.messages.refreshSuccess'),
               type: 'success',
             });
-            this.queryData();
+            this.queryData(1);
           }).catch((err) => {
             console.log(err);
             this.utils.notifyUnexpectedError(err.response.data);
@@ -420,7 +468,7 @@ export default {
             title: this.$t('_purchases.messages.cancelSubscriptionSuccess'),
             type: 'success',
           });
-          this.queryData();
+          this.queryData(1);
           this.$refs.confirmSubCancelDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
@@ -431,6 +479,24 @@ export default {
       this.search = str;
       this.queryData(1);
     },
+    newOrderBy(str) {
+      if (str[0] !== this.orderBy && str[0] !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        this.orderBy = str[0];
+        this.queryData(1);
+      }
+    },
+    newSortDesc(val) {
+      if (val[0] !== this.sortDesc && val[0] !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        this.sortDesc = val[0];
+        this.queryData(1);
+      }
+    },
+    newStatus(status) {
+      this.selectedStatus = status;
+      this.queryData(1);
+    },
     newPage(page) {
       this.page = page;
       this.queryData(page);
@@ -438,6 +504,7 @@ export default {
   },
   beforeMount() {
     this.queryData(this.page);
+    this.queryAvailableStatus();
   },
   watch: {
     $route() {
