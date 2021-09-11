@@ -7,14 +7,12 @@
           :headers="headers"
           :items="getBans"
           :search="true"
-          :sort-by="['created_on']"
-          :sort-desc="[true]"
           :item-class="banRowFormatter"
           :server-items-length.sync="totalItems"
           :items-per-page.sync="itemsPerPage"
           :externalSearch="true" @search="newSearch"
           @click:row="showDetails"
-          @update:page="newPage">
+          @update:page="newPage" @update:sort-by="newOrderBy" @update:sort-desc="newSortDesc">
           <template v-slot:header>
             <v-row>
               <v-col class="d-flex align-center">
@@ -43,7 +41,8 @@
                     :value="bundle.id"
                     @change="newBundle"
                   ></v-checkbox>
-                  <a class="ma-1" @click="selectedBundle = []; fetchData()">{{ $t('reset') }}</a>
+                  <a class="ma-1" @click="selectedBundle = []; queryData(page)">
+                    {{ $t('reset') }}</a>
                 </v-menu>
               </v-col>
             </v-row>
@@ -212,11 +211,11 @@ export default {
     return {
       search: '',
       headers: [
-        { text: this.$t('user'), value: 'user' },
+        { text: this.$t('user'), value: 'user', sortable: false },
         { text: this.$t('reason'), value: 'reason' },
-        { text: this.$t('bundle'), value: 'serverbundle.name' },
+        { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
         { text: this.$t('length'), value: 'length' },
-        { text: this.$t('creator'), value: 'creator' },
+        { text: this.$t('creator'), value: 'creator', sortable: false },
         { text: this.$t('createdOn'), value: 'created_on' },
         {
           text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
@@ -230,6 +229,8 @@ export default {
       itemsPerPage: 50,
       totalItems: 20,
       selectedBundle: [],
+      orderBy: '',
+      sortDesc: false,
     };
   },
   beforeMount() {
@@ -269,10 +270,13 @@ export default {
   },
   methods: {
     async queryData(page) {
+      this.page = page;
       (await openapi).ban_getBans({
         page: page - 1,
-        bundles: this.selectedBundle,
+        bundles_filter: this.selectedBundle,
         query: this.search,
+        order_by: this.orderBy,
+        sort_desc: this.sortDesc,
       })
         .then((rsp) => { this.bans = rsp.data.items; });
     },
@@ -304,7 +308,7 @@ export default {
         data.length * 60,
         (data.serverbundle ? data.serverbundle.id : null),
       ).then(() => {
-        this.queryData();
+        this.queryData(1);
         this.$refs.banAddDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.banAddDialog.setErrorMessage(err.response.data.detail);
@@ -319,7 +323,7 @@ export default {
         data.length * 60,
         (data.serverbundle ? data.serverbundle.id : null),
       ).then(() => {
-        this.queryData();
+        this.queryData(this.page);
         this.$refs.banEditDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
@@ -332,7 +336,7 @@ export default {
       ).then(() => {
         this.$refs.deleteBanDialog.closeAndReset();
         this.banDetailShown = false;
-        this.queryData();
+        this.queryData(this.page);
       }).catch((err) => {
         this.$refs.deleteBanDialog.setErrorMessage(err.response.data.detail);
         console.log(err);
@@ -343,7 +347,7 @@ export default {
         this.currentBan.id,
         'UNBANNED',
       ).then(() => {
-        this.queryData();
+        this.queryData(this.page);
       }).catch((err) => {
         console.log(err);
       });
@@ -353,7 +357,7 @@ export default {
         this.currentBan.id,
         'ACTIVE',
       ).then(() => {
-        this.queryData();
+        this.queryData(this.page);
       }).catch((err) => {
         console.log(err);
       });
@@ -384,6 +388,21 @@ export default {
     newSearch(str) {
       this.search = str;
       this.queryData(1);
+    },
+    newOrderBy(str) {
+      if (str[0] !== this.orderBy && str[0] !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        this.orderBy = str[0];
+        this.queryData(1);
+      }
+    },
+    newSortDesc(val) {
+      if (val[0] !== this.sortDesc && val[0] !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        this.sortDesc = val[0];
+        console.log(this.sortDesc);
+        this.queryData(1);
+      }
     },
   },
 };
