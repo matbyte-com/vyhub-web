@@ -27,58 +27,54 @@
         }"
         >
         <template v-slot:header>
-          <v-row>
-            <v-col class="d-flex align-center">
-              <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
-              <v-btn
-                outlined
-                color="primary"
-                @click="$refs.markAsReadDialog.show"
-              >
-                <v-icon left>
-                  mdi-playlist-check
-                </v-icon>
-                {{ $t('notification.markAllAsRead') }}
-              </v-btn>
-            </v-col>
-            <v-col class="d-flex align-center">
-              <v-spacer />
+          <div class="d-flex align-center">
+            <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
+            <v-btn
+              outlined
+              color="primary"
+              @click="$refs.markAsReadDialog.show"
+            >
+              <v-icon left>
+                mdi-playlist-check
+              </v-icon>
+              {{ $t('notification.markAllAsRead') }}
+            </v-btn>
+            <v-spacer />
+            <v-checkbox
+              :hide-details="true"
+              dense
+              :label="$t('notification.hideReadNotifications')"
+              @change="showReadNotifications"
+              class="mr-3 align-self-center mt-0 pt-0">
+            </v-checkbox>
+            <v-menu offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  outlined
+                  color="primary"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon left>
+                    mdi-filter
+                  </v-icon>
+                  {{ $t('type') }}
+                </v-btn>
+              </template>
               <v-checkbox
-                align-center
+                class="ml-2, mr-2"
                 dense
-                :label="$t('notification.hideReadNotifications')"
-                @change="showReadNotifications"
-                class="mr-3">
-              </v-checkbox>
-              <v-menu offset-y :close-on-content-click="false">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    outlined
-                    color="primary"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <v-icon left>
-                      mdi-filter
-                    </v-icon>
-                    {{ $t('type') }}
-                  </v-btn>
-                </template>
-                <v-checkbox
-                  class="ml-2, mr-2"
-                  dense
-                  hide-details
-                  v-for="(category, index) in categories"
-                  :key="index"
-                  v-model="selectedCat"
-                  :label="$t(`notification.type.${category.toLowerCase()}`)"
-                  :value="category"
-                  @change="newCat"
-                ></v-checkbox>
-                <a class="ma-1" @click="selectedCat = []; fetchData()">{{ $t('reset') }}</a>
-              </v-menu>
-            </v-col>
-          </v-row>
+                hide-details
+                v-for="(category, index) in categories"
+                :key="index"
+                v-model="selectedCat"
+                :label="$t(`notification.type.${category.toLowerCase()}`)"
+                :value="category"
+                @change="newCat"
+              ></v-checkbox>
+              <a class="ma-1" @click="selectedCat = []; fetchData()">{{ $t('reset') }}</a>
+            </v-menu>
+          </div>
         </template>
         <template v-slot:item.icon="{ item }">
           <v-icon>
@@ -161,7 +157,7 @@ export default {
         { text: this.$t('type'), value: 'category', sortable: false },
         { text: this.$t('createdOn'), value: 'time' },
         {
-          value: 'action', sortable: false, align: 'right',
+          value: 'action', sortable: false, align: 'right', width: '150px',
         },
       ],
       state: {

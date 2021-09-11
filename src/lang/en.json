@@ -490,7 +490,8 @@
     "type": {
       "general": "General",
       "ban": "Ban",
-      "news": "News"
+      "news": "News",
+      "ticket": "Ticket"
     },
     "new_news": "News created {newsSubject}",
     "new_ticket": "Ticket created {title} by {username}"

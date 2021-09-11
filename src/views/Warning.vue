@@ -11,7 +11,8 @@
                    :item-class="warningRowFormatter"
                    :server-items-length.sync="totalItems"
                    :items-per-page.sync="itemsPerPage"
-                   @update:page="newPage"
+                   @update:page="newPage" @update:sort-by="newOrderBy"
+                   @update:sort-desc="newSortDesc"
                    :footer-props="{
                      'disable-items-per-page': true,
                    }" :externalSearch="true" @search="newSearch">
@@ -117,9 +118,9 @@ export default {
       bundles: [],
       headers: [
         { text: this.$t('user'), value: 'user', sortable: false },
-        { text: this.$t('reason'), value: 'reason', sortable: false },
+        { text: this.$t('reason'), value: 'reason' },
         { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
-        { text: this.$t('createdOn'), value: 'created_on', sortable: false },
+        { text: this.$t('createdOn'), value: 'created_on' },
         {
           text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
         },
@@ -130,6 +131,8 @@ export default {
       itemsPerPage: 50,
       selectedBundle: [],
       search: '',
+      orderBy: '',
+      sortDesc: false,
     };
   },
   beforeMount() {
@@ -141,8 +144,10 @@ export default {
       (await openapi).warning_getWarnings({
         page: page - 1,
         size: this.itemsPerPage,
-        bundles: this.selectedBundle,
+        bundles_filter: this.selectedBundle,
         query: this.search,
+        order_by: this.orderBy,
+        sort_desc: this.sortDesc,
       })
         .then((rsp) => {
           this.warnings = rsp.data.items;
@@ -206,6 +211,21 @@ export default {
     newSearch(str) {
       this.search = str;
       this.fetchData(1);
+    },
+    newOrderBy(str) {
+      if (str[0] !== this.orderBy && str[0] !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        this.orderBy = str[0];
+        this.fetchData(1);
+      }
+    },
+    newSortDesc(val) {
+      if (val[0] !== this.sortDesc && val[0] !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        this.sortDesc = val[0];
+        console.log(this.sortDesc);
+        this.fetchData(1);
+      }
     },
   },
 };

@@ -400,7 +400,6 @@ export default {
       if (val[0] !== this.sortDesc && val[0] !== undefined) {
         // eslint-disable-next-line prefer-destructuring
         this.sortDesc = val[0];
-        console.log(this.sortDesc);
         this.queryData(1);
       }
     },
