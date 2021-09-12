@@ -21,7 +21,8 @@
     "labels": {
       "add": "Add Group Membership",
       "edit": "Edit Group Membership",
-      "endMembership": "End Membership"
+      "endMembership": "End Membership",
+      "activeMemberships": "Active Memberships"
     }
   },
   "_dashboard": {

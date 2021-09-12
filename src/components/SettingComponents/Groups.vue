@@ -16,10 +16,11 @@
     <DeleteConfirmationDialog
       ref="deleteGroupDialog"
       @submit="deleteGroup"/>
-    <DeleteConfirmationDialog
-      ref="deleteMembershipDialog"
-      @submit="deleteMembership"/>
-    <Dialog ref="showMemberDialog" :title="memberGroup.name">
+    <MembershipEditDialog
+      ref="editMembershipDialog"
+      @submit="fetchGroupMembers(1)"/>
+    <Dialog ref="showMemberDialog"
+            :title="`${$t('_membership.labels.activeMemberships')}:  ${memberGroup.name}`">
       <DataTable :items="groupMembersData.items" :headers="groupMemberHeaders"
                  :footer-props="{
                   'disable-items-per-page': true,
@@ -42,9 +43,9 @@
           : '∞') }}
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-btn outlined color="error" small @click="openDeleteMembershipDialog(item)">
+          <v-btn outlined color="primary" small @click="openEditMembershipDialog(item)">
             <v-icon>
-              mdi-delete
+              mdi-pencil
             </v-icon>
           </v-btn>
         </template>
@@ -132,10 +133,12 @@ import DataTable from '@/components/DataTable.vue';
 import Dialog from '@/components/Dialog.vue';
 import UserLink from '@/components/UserLink.vue';
 import SettingTitle from './SettingTitle.vue';
+import MembershipEditDialog from '../DashboardComponents/MembershipEditDialog.vue';
 
 export default {
   name: 'Groups',
   components: {
+    MembershipEditDialog,
     UserLink,
     Dialog,
     SettingTitle,
@@ -247,17 +250,10 @@ export default {
           this.groupMembersData = rsp.data;
         });
     },
-    openDeleteMembershipDialog(item) {
-      this.$refs.deleteMembershipDialog.show(item);
-    },
-    async deleteMembership(membership) {
-      (await openapi).user_deleteMembership(membership.id).then(() => {
-        const index = this.groupMembersData.items.findIndex((m) => m.id === membership.id);
-        this.groupMembersData.items.splice(index, 1);
-        this.$refs.deleteMembershipDialog.closeAndReset();
-      }).catch((err) => {
-        this.$refs.deleteMembershipDialog.setErrorMessage(err.response.data.detail);
-      });
+    openEditMembershipDialog(item) {
+      const mship = item;
+      mship.active = true;
+      this.$refs.editMembershipDialog.show(mship);
     },
     newMembershipPage(page) {
       this.fetchGroupMembers(page);
