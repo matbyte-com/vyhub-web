@@ -25,6 +25,8 @@
                  :footer-props="{
                   'disable-items-per-page': true,
                   }"
+                 :server-items-length.sync="totalItems"
+                 :items-per-page.sync="itemsPerPage"
                  @update:page="newMembershipPage"
                  :external-search="true"
                  @search="newSearch"
@@ -173,6 +175,8 @@ export default {
       editGroupSchema: EditGroupForm,
       memberGroup: {},
       groupMembersData: [],
+      itemsPerPage: 50,
+      totalItems: 20,
     };
   },
   beforeMount() {
@@ -248,6 +252,7 @@ export default {
       })
         .then((rsp) => {
           this.groupMembersData = rsp.data;
+          this.totalItems = rsp.data.total;
         });
     },
     openEditMembershipDialog(item) {
