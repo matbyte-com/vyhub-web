@@ -69,7 +69,9 @@
                   :headers="groupTableHeaders"
                   :items="memberships"
                   :items-per-page="5"
-                  :hide-default-footer="true"
+                  :item-class="membershipRowFormatter"
+                  :sort-by="membershipSortBy"
+                  :sort-desc="membershipSortDesc"
                 >
                   <template v-slot:item.group.name="{ item }">
                     <v-chip
@@ -156,6 +158,8 @@ export default {
         },
       ],
       userMembershipAddForm: UserMembershipAddForm,
+      membershipSortBy: 'begin',
+      membershipSortDesc: true,
     };
   },
   watch: {
@@ -255,6 +259,14 @@ export default {
     },
     openEditMembershipDialog(membership) {
       this.$refs.userMembershipEditDialog.show(membership);
+    },
+    membershipRowFormatter(item) {
+      const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
+
+      if (item.active) {
+        return `green ${add}`;
+      }
+      return '';
     },
   },
   computed: {
