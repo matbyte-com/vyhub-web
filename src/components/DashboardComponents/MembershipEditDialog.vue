@@ -3,17 +3,33 @@
                title-icon="mdi-account-group"
                :title="$t('_membership.labels.edit')"
                ref="editMembershipDialog"
-               @submit="editUserMembership"/>
+               @submit="editUserMembership">
+    <template slot="end-after">
+      <ConfirmationDialog ref="endMembershipConfirmation" @submit="endMembership"
+                          :btn-text="$t('_membership.labels.endMembership')"/>
+      <v-btn color="error" text outlined @click="$refs.endMembershipConfirmation.show()"
+             :disabled="!membership.active">
+        <v-icon left>
+          mdi-stop-circle
+        </v-icon>
+        <span>
+          {{ $t('_membership.labels.endMembership') }}
+        </span>
+      </v-btn>
+    </template>
+  </dialog-form>
 </template>
 
 <script>
 import DialogForm from '../DialogForm.vue';
 import UserMembershipEditForm from '../../forms/UserMembershipEditForm';
 import openapi from '../../api/openapi';
+import ConfirmationDialog from '../ConfirmationDialog.vue';
 
 export default {
   name: 'MembershipEditDialog',
   components: {
+    ConfirmationDialog,
     DialogForm,
   },
   data() {
@@ -32,8 +48,18 @@ export default {
       const data = this.$refs.editMembershipDialog.getData();
       (await openapi).user_editMembership(this.membership.id, data).then(() => {
         this.$refs.editMembershipDialog.closeAndReset();
+        this.$emit('submit');
       }).catch((err) => {
         this.$refs.editMembershipDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
+    async endMembership() {
+      (await openapi).user_endMembership(this.membership.id).then(() => {
+        this.$refs.endMembershipConfirmation.closeAndReset();
+        this.$refs.editMembershipDialog.closeAndReset();
+        this.$emit('submit');
+      }).catch((err) => {
+        this.$refs.endMembershipConfirmation.setErrorMessage(err.response.data.detail);
       });
     },
   },

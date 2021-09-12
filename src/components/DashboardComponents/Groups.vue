@@ -5,7 +5,7 @@
                  :title="$t('_membership.labels.add')"
                  ref="addMembershipDialog"
                  @submit="addUserMembership"/>
-    <MembershipEditDialog ref="userMembershipEditDialog" />
+    <MembershipEditDialog ref="userMembershipEditDialog" @submit="queryData"/>
     <v-card-title>
       <v-icon class="mr-2">mdi-account-group</v-icon>
       {{ $t('groups') }}

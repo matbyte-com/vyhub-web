@@ -20,7 +20,8 @@
   "_membership": {
     "labels": {
       "add": "Add Group Membership",
-      "edit": "Edit Group Membership"
+      "edit": "Edit Group Membership",
+      "endMembership": "End Membership"
     }
   },
   "_dashboard": {

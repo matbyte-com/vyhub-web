@@ -22,7 +22,6 @@
                 <slot :name="name"/>
               </template>
             </v-jsf>
-            <v-divider class="mb-3"/>
             <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
               <v-col cols="12">
                 <v-btn v-if="submitText != null" class="mr-4"
