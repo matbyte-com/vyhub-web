@@ -19,7 +19,8 @@
   },
   "_membership": {
     "labels": {
-      "add": "Add Group Membership"
+      "add": "Add Group Membership",
+      "edit": "Edit Group Membership"
     }
   },
   "_dashboard": {
@@ -262,6 +263,8 @@
     "general_shop_settings_edit": "Edited shop general settings",
     "membership_add": "Membership Added Group: {groupName}, User: {username}",
     "membership_deleted": "Deleted Membership: Group: {groupName}, User: {username}",
+    "membership_ended": "Ended Membership: Group: {groupName}, User: {username}",
+    "membership_edit": "Edited Membership: Group: {groupName}, User: {username}, Old: {oldBegin} {oldEnd}, New: {newBegin} {newEnd}",
     "warning_toggle": "Toggle warning status to Disabled: {newStatus}, User: {username}",
     "warning_delete": "Delete warning of user: {username}",
     "warning_add": "Added warning for user: {username}",
@@ -557,6 +560,9 @@
       "editSuccess": "Server successfully edited.",
       "deleteSuccess": "Server successfully deleted."
     }
+  },
+  "_server_exception": {
+    "begin_smaller_end": "Begin Date has to be after End Date"
   },
   "update": "Update",
   "recurring": "Recurring",

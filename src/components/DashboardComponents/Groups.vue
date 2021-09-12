@@ -5,6 +5,7 @@
                  :title="$t('_membership.labels.add')"
                  ref="addMembershipDialog"
                  @submit="addUserMembership"/>
+    <MembershipEditDialog ref="userMembershipEditDialog" />
     <v-card-title>
       <v-icon class="mr-2">mdi-account-group</v-icon>
       {{ $t('groups') }}
@@ -90,6 +91,14 @@
                     ? $d(new Date(item.end), 'short', $i18n.locale)
                     : '∞') }}
                   </template>
+                  <template v-slot:item.actions="{ item }">
+                    <v-btn outlined color="primary" small
+                           @click="openEditMembershipDialog(item)" class="ma-0 pa-0">
+                      <v-icon>
+                        mdi-pencil
+                      </v-icon>
+                    </v-btn>
+                  </template>
                 </v-data-table>
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -122,10 +131,11 @@ import DialogForm from '@/components/DialogForm.vue';
 import UserMembershipAddForm from '@/forms/UserMembershipAddForm';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
+import MembershipEditDialog from './MembershipEditDialog.vue';
 
 export default {
   name: 'Groups',
-  components: { DialogForm },
+  components: { MembershipEditDialog, DialogForm },
   data() {
     return {
       dataFetched: 0,
@@ -141,6 +151,9 @@ export default {
         { text: this.$t('bundle'), value: 'group.serverbundle.name' },
         { text: this.$t('begin'), value: 'begin' },
         { text: this.$t('end'), value: 'end' },
+        {
+          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+        },
       ],
       userMembershipAddForm: UserMembershipAddForm,
     };
@@ -239,6 +252,9 @@ export default {
       }).catch((err) => {
         this.$refs.addMembershipDialog.setErrorMessage(err.response.data.detail);
       });
+    },
+    openEditMembershipDialog(membership) {
+      this.$refs.userMembershipEditDialog.show(membership);
     },
   },
   computed: {

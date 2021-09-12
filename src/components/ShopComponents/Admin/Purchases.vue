@@ -508,7 +508,7 @@ export default {
   },
   watch: {
     $route() {
-      this.queryData(1);
+      // this.queryData(1);
     },
   },
   computed: {
