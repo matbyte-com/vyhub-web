@@ -5,10 +5,22 @@
     <div class="d-flex mb-5">
       <PageTitle icon="mdi-ticket-confirmation">{{ $t('_ticket.tickets') }}</PageTitle>
       <v-spacer />
-      <v-btn color="success" @click="$refs.addThreadDialog.show()">
-        <v-icon left>mdi-plus</v-icon>
-        <span>{{ $t('_ticket.addTicket') }}</span>
-      </v-btn>
+      <v-card height="20%">
+        <v-card-text class="d-flex">
+          <v-checkbox v-model="showClosed" :label="$t('_ticket.showClosed')" @change="fetchData"
+                      hide-details="true" class="text-capitalize">
+          </v-checkbox>
+          <v-text-field hide-details="true"
+                        class="ml-3"
+                        @input="fetchData" v-model="query" :label="$t('search')"/>
+          <v-divider vertical class="ml-3" />
+          <v-btn color="success" class="ml-5 align-self-center" depressed
+                 @click="$refs.addThreadDialog.show()">
+            <v-icon left>mdi-plus</v-icon>
+            <span>{{ $t('_ticket.addTicket') }}</span>
+          </v-btn>
+        </v-card-text>
+      </v-card>
     </div>
     <div class="d-flex mt-3" v-for="ticket in tickets" :key="ticket.id">
       <v-avatar size="100px">
@@ -39,6 +51,19 @@
         </v-card-actions>
       </v-card>
     </div>
+    <div class="d-flex mt-3">
+      <v-spacer />
+      <v-btn fab small :disabled="page===1" @click="page = page - 1">
+        <v-icon>
+          mdi-chevron-left
+        </v-icon>
+      </v-btn>
+      <v-btn fab small class="ml-2" @click="page = page + 1" :disabled="total / 50 <= page">
+        <v-icon>
+          mdi-chevron-right
+        </v-icon>
+      </v-btn>
+    </div>
     <v-card v-if="tickets === []">
       {{ $t('_ticket.noTickets') }}
     </v-card>
@@ -61,14 +86,30 @@ export default {
   data() {
     return {
       tickets: [],
+      showClosed: false,
+      query: '',
+      page: 1,
+      total: 50,
     };
   },
   beforeMount() {
+    if (this.$route.query.page) this.page = this.$route.query.page;
     this.fetchData();
+  },
+  watch: {
+    page() {
+      this.$router.replace({ query: { page: this.page } });
+      this.fetchData();
+    },
   },
   methods: {
     async fetchData() {
-      (await openapi).forum_getTickets().then((rsp) => { this.tickets = rsp.data; });
+      (await openapi).forum_getTickets({
+        showClosed: this.showClosed,
+        query: this.query,
+        page: this.page - 1,
+      })
+        .then((rsp) => { this.tickets = rsp.data.items; this.total = rsp.data.total; });
       return true;
     },
     async newThread() {

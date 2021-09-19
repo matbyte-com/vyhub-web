@@ -544,15 +544,16 @@
     "tickets": "Tickets",
     "ticket": "Ticket",
     "creator": "Creator",
-    "lastUpdated": "Last Update: ",
-    "addTicket": "Create Ticket: ",
+    "lastUpdated": "Last Update",
+    "addTicket": "Create Ticket",
     "noTickets": "You have not created any tickets yet.",
     "title": "Title",
     "addPost": "Add Post",
     "readMore": "Read More",
     "open": "Open",
     "closed": "Closed",
-    "close": "Close"
+    "close": "Close",
+    "showClosed": "show closed"
   },
   "_server": {
     "labels": {
