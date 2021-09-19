@@ -17,24 +17,14 @@
       <v-card :to="{ name: 'Thread', params: { id: ticket.id } }" class="ml-10" flat outlined
               width="100%" >
         <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
-          <v-row>
-            <v-col>
-              {{ ticket.title }}
-            </v-col>
-            <v-col v-if="$checkProp('news_edit')" class="text-right">
-              <v-btn outlined color="primary" small
-                     @click="openEditMessageDialog()" class="mr-1">
-                <v-icon>
-                  mdi-pencil
-                </v-icon>
-              </v-btn>
-              <v-btn outlined color="error" small @click="openDeleteMessageDialog()">
-                <v-icon>
-                  mdi-delete
-                </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
+          <span>{{ ticket.title }}</span>
+          <v-spacer />
+          <v-chip v-if="ticket.status === 'OPEN'" color="success" class="text-uppercase">
+            {{ $t('_ticket.open') }}
+          </v-chip>
+          <v-chip v-else color="error" class="text-uppercase">
+            {{ $t('_ticket.closed') }}
+          </v-chip>
         </v-card-title>
         <v-card-text class="mt-3">
           <span v-html="ticket.content.substr(0,300)" class="ql-editor"/>
