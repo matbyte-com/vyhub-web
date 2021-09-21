@@ -700,5 +700,6 @@
   "warnings": "Warnings",
   "enable": "Enable",
   "disable": "Disable",
-  "error": "Error"
+  "error": "Error",
+  "maxInputExceeded": "Maximum input length of {length} exceeded"
 }

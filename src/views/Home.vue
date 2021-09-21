@@ -185,6 +185,8 @@ import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
 import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
 import PageTitle from '@/components/PageTitle.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';
+import config from '../config';
+import i18n from '../plugins/i18n';
 
 export default {
   components: {
@@ -243,6 +245,11 @@ export default {
     async addMessage() {
       const data = this.$refs.messageAddDialog.getData();
       data.content = this.message;
+      if (this.message.length() > config.html_max_input_length) {
+        this.$refs.messageAddDialog.setErrorMessage(i18n.t('maxInputExceeded'),
+          { length: config.html_max_input_length });
+        return;
+      }
       (await openapi).news_addMessage({}, data).then((rsp) => {
         this.$refs.messageAddDialog.closeAndReset();
         this.message = null;

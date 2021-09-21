@@ -31,6 +31,8 @@
 <script>
 import { VueEditor } from 'vue2-editor';
 import Dialog from '../Dialog.vue';
+import config from '../../config';
+import i18n from "../../plugins/i18n";
 
 export default {
   name: 'ThreadAddDialog',
@@ -49,6 +51,10 @@ export default {
   },
   methods: {
     getData() {
+      if (this.content.length() > config.html_max_input_length) {
+        this.errorMsg = i18n.t('maxInputExceeded', { length: config.html_max_input_length });
+        return {};
+      }
       this.loading = true;
       return {
         title: this.title,
