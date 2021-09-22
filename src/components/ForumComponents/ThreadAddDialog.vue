@@ -32,7 +32,7 @@
 import { VueEditor } from 'vue2-editor';
 import Dialog from '../Dialog.vue';
 import config from '../../config';
-import i18n from "../../plugins/i18n";
+import i18n from '../../plugins/i18n';
 
 export default {
   name: 'ThreadAddDialog',

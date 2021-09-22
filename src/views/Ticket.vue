@@ -105,7 +105,7 @@ export default {
   methods: {
     async fetchData() {
       (await openapi).forum_getTickets({
-        showClosed: this.showClosed,
+        show_closed: this.showClosed,
         query: this.query,
         page: this.page - 1,
       })

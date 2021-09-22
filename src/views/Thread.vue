@@ -51,7 +51,8 @@
     </div>
     <div class="d-flex mt-3">
       <v-spacer />
-      <v-btn :color="thread.status === 'CLOSED' ? 'success' : 'error'"
+      <v-btn v-if="$checkProp('ticket_edit')"
+             :color="thread.status === 'CLOSED' ? 'success' : 'error'"
              @click="toggleStatus">
         <div v-if="thread.status === 'CLOSED'">
           <v-icon left>mdi-lock-open-variant</v-icon>
@@ -89,7 +90,7 @@ export default {
       threadId: '',
       posts: [],
       avatarWidth: '100px',
-      thread: { creator: '' },
+      thread: { creator: {} },
     };
   },
   beforeMount() {
@@ -115,6 +116,7 @@ export default {
       });
     },
     async toggleStatus() {
+      if (this.$checkProp('ticket_edit') === false) return;
       (await openapi).forum_toggleStatus(this.threadId).then((rsp) => { this.thread = rsp.data; });
     },
   },
