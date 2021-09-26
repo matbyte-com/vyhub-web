@@ -1,5 +1,6 @@
 <template>
   <div>
+    <delete-confirmation-dialog ref="relationDeleteDialog" @submit="deleteRelation"/>
     <dialog-form :title="$t('_discord.addRelation')" :form-schema="relationAddSchema"
                  ref="relationAddDialog" @submit="addRelation"/>
     <SettingTitle>{{ $t('discord') }}</SettingTitle>
@@ -35,7 +36,7 @@
           :key="relation.id"
         >
           <td>
-            <v-tooltip left v-if="getDiscordRoleName(relation.role_id + 1)">
+            <v-tooltip left v-if="!getDiscordRoleName(relation.role_id)">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon  color="warning" v-bind="attrs"
                          v-on="on">
@@ -48,7 +49,7 @@
           </td>
           <td>{{ relation.group.name }}</td>
           <td class="text-right">
-            <v-btn outlined color="error" small>
+            <v-btn outlined color="error" small @click="openDeleteConfirmationDialog(relation)">
               <v-icon>
                 mdi-delete
               </v-icon>
@@ -69,10 +70,11 @@ import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
 import DiscordRelationAddForm from '../../forms/DiscordRelationAddForm';
 import DialogForm from '../DialogForm.vue';
+import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 
 export default {
   name: 'Discord.vue',
-  components: { SettingTitle, DialogForm },
+  components: { DeleteConfirmationDialog, SettingTitle, DialogForm },
   data() {
     return {
       discordRoles: [],
@@ -125,10 +127,21 @@ export default {
         });
     },
     getDiscordRoleName(id) {
-      if (this.discordRoles === []) return '';
+      if (this.discordRoles === []) return false;
       if (this.discordRoles.some((r) => r.id === id)) {
         return this.discordRoles.find((r) => r.id === id).name;
       } return false;
+    },
+    openDeleteConfirmationDialog(relation) {
+      this.$refs.relationDeleteDialog.show(relation.id);
+    },
+    async deleteRelation(relation) {
+      (await openapi).discord_deleteRelation(relation).then(() => {
+        this.getRelations();
+        this.$refs.relationDeleteDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.relationDeleteDialog.setErrorMessage(err.response.data.detail);
+      });
     },
   },
 };
