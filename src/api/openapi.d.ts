@@ -626,6 +626,19 @@ declare namespace Components {
      */
     export type DebitStatus = "STARTED" | "APPROVED" | "FINISHED" | "CANCELLED";
     /**
+     * DiscordRole
+     */
+    export interface DiscordRole {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Id
+       */
+      id: number;
+    }
+    /**
      * DiscountModel
      */
     export interface DiscountModel {
@@ -1971,6 +1984,27 @@ declare namespace Components {
        * Items
        */
       items: PurchaseModel[];
+      /**
+       * Total
+       */
+      total: number;
+      /**
+       * Page
+       */
+      page: number;
+      /**
+       * Size
+       */
+      size: number;
+    }
+    /**
+     * Page[ThreadModelShort]
+     */
+    export interface PageThreadModelShort {
+      /**
+       * Items
+       */
+      items: ThreadModelShort[];
       /**
        * Total
        */
@@ -3535,6 +3569,14 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace DiscordGetGuildRoles {
+    namespace Responses {
+      /**
+       * Response Get Guild Roles Discord Roles Get
+       */
+      export type $200 = Components.Schemas.DiscordRole[];
+    }
+  }
   namespace FinanceGetAccount {
     namespace Parameters {
       /**
@@ -3595,11 +3637,33 @@ declare namespace Paths {
     }
   }
   namespace ForumGetTickets {
-    namespace Responses {
+    namespace Parameters {
       /**
-       * Response Get Tickets Forum Ticket Get
+       * Page
        */
-      export type $200 = Components.Schemas.ThreadModelShort[];
+      export type Page = number;
+      /**
+       * Query
+       */
+      export type Query = string;
+      /**
+       * Show Closed
+       */
+      export type ShowClosed = boolean;
+      /**
+       * Size
+       */
+      export type Size = number;
+    }
+    export interface QueryParameters {
+      query?: Parameters.Query;
+      show_closed?: Parameters.ShowClosed;
+      page?: Parameters.Page;
+      size?: Parameters.Size;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.PageThreadModelShort;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ForumNewPost {
@@ -6527,10 +6591,10 @@ export interface OperationMethods {
    * forum_getTickets - Get Tickets
    */
   'forum_getTickets'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ForumGetTickets.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ForumGetTickets.Responses.$200>
+  ): OperationResponse<Paths.ForumGetTickets.Responses.$200 | Paths.ForumGetTickets.Responses.$422>
   /**
    * forum_getThread - Get Thread
    */
@@ -6563,6 +6627,14 @@ export interface OperationMethods {
     data?: Paths.ForumNewPost.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumNewPost.Responses.$200 | Paths.ForumNewPost.Responses.$422>
+  /**
+   * discord_getGuildRoles - Get Guild Roles
+   */
+  'discord_getGuildRoles'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DiscordGetGuildRoles.Responses.$200>
 }
 
 export interface PathsDictionary {
@@ -7929,10 +8001,10 @@ export interface PathsDictionary {
      * forum_getTickets - Get Tickets
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ForumGetTickets.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ForumGetTickets.Responses.$200>
+    ): OperationResponse<Paths.ForumGetTickets.Responses.$200 | Paths.ForumGetTickets.Responses.$422>
   }
   ['/forum/{uuid}']: {
     /**
@@ -7969,6 +8041,16 @@ export interface PathsDictionary {
       data?: Paths.ForumNewPost.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumNewPost.Responses.$200 | Paths.ForumNewPost.Responses.$422>
+  }
+  ['/discord/roles']: {
+    /**
+     * discord_getGuildRoles - Get Guild Roles
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DiscordGetGuildRoles.Responses.$200>
   }
 }
 

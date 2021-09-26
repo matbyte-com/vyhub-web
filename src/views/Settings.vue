@@ -172,6 +172,13 @@ export default {
             },
           ],
         },
+        {
+          name: 'discord',
+          icon: 'mdi-discord',
+          component: 'Discord',
+          reqProp: 'discord_show',
+          title: this.$t('discord'),
+        },
       ],
       activeTabName: 'general',
     };

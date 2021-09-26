@@ -573,6 +573,15 @@
   "_server_exception": {
     "begin_smaller_end": "Begin Date has to be after End Date"
   },
+  "_discord": {
+    "addDiscordServer": "Add Discord Server",
+    "connectedServer": "Connected Server",
+    "activeRelations": "Active Relation",
+    "addRelation": "Add Relation",
+    "discordRole": "Discord Role",
+    "group": "Group",
+    "discordRoleNotFound": "Discord Role not found. Please delete relation"
+  },
   "update": "Update",
   "recurring": "Recurring",
   "revenue": "Revenue",
@@ -701,5 +710,6 @@
   "enable": "Enable",
   "disable": "Disable",
   "error": "Error",
-  "maxInputExceeded": "Maximum input length of {length} exceeded"
+  "maxInputExceeded": "Maximum input length of {length} exceeded",
+  "discord": "Discord"
 }

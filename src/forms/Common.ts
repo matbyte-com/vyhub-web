@@ -127,5 +127,12 @@ export default {
     'x-itemTitle': 'description', // TODO: Replace with translation based on property name,
     'x-display': 'checkbox',
   },
+  groupSelectField: {
+    type: 'object',
+    title: i18n.t('group'),
+    'x-fromUrl': `${API_URL}/group/`,
+    'x-itemTitle': 'name',
+    'x-itemKey': 'id',
+  },
   apiURL: API_URL,
 };
