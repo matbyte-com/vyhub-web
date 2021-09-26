@@ -166,7 +166,7 @@ export default {
         return `green ${add}`;
       }
 
-      if (item.is_active === true) {
+      if (item.active === true) {
         return `orange ${add}`;
       }
 

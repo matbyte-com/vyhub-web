@@ -130,7 +130,7 @@
                 </tr>
                 <tr>
                   <td>{{ $t('status') }}</td>
-                  <td v-if="currentBan.is_active">
+                  <td v-if="currentBan.active">
                     <v-chip color="green">{{ $t('active') }}</v-chip>
                   </td>
                   <td v-else-if="currentBan.status === 'UNBANNED'">
@@ -286,7 +286,7 @@ export default {
     banRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
 
-      if (item.is_active) {
+      if (item.active) {
         if (item.serverbundle == null) {
           return `blue ${add}`;
         }
