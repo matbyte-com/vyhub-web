@@ -24,6 +24,7 @@
 import api from '@/api/api';
 import AuthService from '@/services/AuthService';
 import Dialog from '@/components/Dialog.vue';
+import UserService from '@/services/UserService';
 
 export default {
   name: 'Login.vue',
@@ -35,12 +36,17 @@ export default {
         {
           id: 'vyhub_central',
           name: 'CENTRAL',
-          icon: 'mdi-image-filter-center-focus-strong',
+          icon: UserService.userTypeIcons.CENTRAL,
         },
         {
           id: 'steam',
           name: 'STEAM',
-          icon: 'mdi-steam',
+          icon: UserService.userTypeIcons.STEAM,
+        },
+        {
+          id: 'discord',
+          name: 'DISCORD',
+          icon: UserService.userTypeIcons.DISCORD,
         },
       ], // TODO: Fetch backends from API
     };

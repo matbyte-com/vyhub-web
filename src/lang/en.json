@@ -204,6 +204,10 @@
       "STEAM": {
         "name": "Steam",
         "info": "The famous gaming platform."
+      },
+      "DISCORD": {
+        "name": "Discord",
+        "info": "Your place to talk and hang out."
       }
     }
   },
