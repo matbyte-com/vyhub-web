@@ -82,6 +82,9 @@
                     <v-chip v-for="(prop, index) in item.properties" :key="index" small
                             color="primary" class="mr-1 mb-1">
                       {{ prop.name }}
+                      <span v-if="prop.value !== null">
+                        : {{ prop.value }}
+                      </span>
                     </v-chip>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -89,6 +92,9 @@
               <v-chip v-else v-for="(prop, index) in item.properties" :key="index" small
                       color="primary" class="mr-1 mb-1">
                 {{ prop.name }}
+                <span v-if="prop.value !== null">
+                  : {{ prop.value }}
+                </span>
               </v-chip>
             </template>
             <template v-slot:item.actions="{ item }">
@@ -177,6 +183,7 @@ export default {
       groupMembersData: [],
       itemsPerPage: 50,
       totalItems: 20,
+      advancedProps: ['server_group'],
     };
   },
   beforeMount() {
@@ -209,11 +216,24 @@ export default {
     },
     openEditGroupDialog(item) {
       const obj = {};
+
+      const allProps = Object.keys(item.properties);
+      const props = allProps.filter((x) => !this.advancedProps.includes(x));
+      const advPropsKeys = allProps.filter((x) => this.advancedProps.includes(x));
+      const advProps = {};
+
+      advPropsKeys.map((key) => {
+        advProps[key] = item.properties[key].value;
+        return null;
+      });
+
       obj.name = item.name;
       obj.permission_level = item.permission_level;
       obj.color = item.color;
       obj.serverbundle = item.serverbundle_id;
-      obj.properties = Object.keys(item.properties);
+      obj.properties = props;
+      obj.advanced_properties = advProps;
+
       this.$refs.editGroupDialog.show(item);
       this.$refs.editGroupDialog.setData(obj);
     },
@@ -230,6 +250,21 @@ export default {
     },
     async editGroup(group) {
       const data = this.$refs.editGroupDialog.getData();
+
+      data.properties = [
+        ...data.properties.map((p) => ({
+          name: p,
+          granted: true,
+        })),
+        ...Object.entries(data.advanced_properties).map(([key, value]) => ({
+          name: key,
+          granted: true,
+          value,
+        })),
+      ];
+
+      delete data.advanced_properties;
+
       (await openapi).group_editGroup(group.id, data)
         .then(() => {
           this.fetchData();

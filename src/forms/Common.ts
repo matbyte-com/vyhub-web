@@ -127,6 +127,16 @@ export default {
     'x-itemTitle': 'description', // TODO: Replace with translation based on property name,
     'x-display': 'checkbox',
   },
+  advancedProperties: {
+    type: 'object',
+    title: i18n.t('advancedProperties'),
+    properties: {
+      server_group: {
+        type: 'string',
+        title: i18n.t('_properties.server_group'),
+      },
+    },
+  },
   groupSelectField: {
     type: 'object',
     title: i18n.t('group'),

@@ -114,7 +114,8 @@
   "_properties": {
     "ban_show": "Enables user to display bans in specified bundle",
     "ban_edit": "Enables user to edit bans in specified bundle",
-    "bundle_edit": "Add and Edit Serverbundles"
+    "bundle_edit": "Add and Edit Serverbundles",
+    "server_group": "Name of the group/rank/role on the server"
   },
   "_shop": {
     "labels": {
@@ -660,6 +661,7 @@
   "dashboard": "Dashboard",
   "message": "Message",
   "date": "Date",
+  "advancedProperties": "Advanced Properties",
   "details": "Details",
   "server": "Server",
   "endsOn": "Ends on",

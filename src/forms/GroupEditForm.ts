@@ -21,5 +21,12 @@ export default {
         properties: Common.propertiesSelector,
       },
     },
+    {
+      title: i18n.t('advancedProperties'),
+      type: 'object',
+      properties: {
+        advanced_properties: Common.advancedProperties,
+      },
+    },
   ],
 };
