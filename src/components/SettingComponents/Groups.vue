@@ -11,6 +11,7 @@
       ref="editGroupDialog"
       title-icon="mdi-account-multiple"
       :form-schema="editGroupSchema"
+      max-width="600"
       @submit="editGroup"
       :title="$t('settings.labels.editGroup')"/>
     <DeleteConfirmationDialog
