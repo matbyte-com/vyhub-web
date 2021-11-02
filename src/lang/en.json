@@ -3,13 +3,10 @@
   "header": {
     "labels": {
       "login": "Login",
+      "linkAccountTooltip": "Please login into an account which is already connected to a central account",
       "register": "Register",
       "logout": "Logout",
       "close": "close"
-    },
-    "forms": {
-      "email": "Email",
-      "password": "Password"
     }
   },
   "footer": {
