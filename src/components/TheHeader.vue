@@ -42,7 +42,7 @@
         </v-btn>
       </div>
     </div>
-    <LinkAccountDialog ref="linkAccountDialog" v-if="!$store.getters.isLoggedIn">
+    <LinkAccountDialog ref="linkAccountDialog">
     </LinkAccountDialog>
   </v-app-bar>
 </template>
@@ -80,7 +80,7 @@ export default {
       logo_width: 50,
       linksRight: [
         {
-          title: 'Ticket', icon: 'mdi-ticket-confirmation', link: '/ticket',
+          title: '_ticket.ticket', icon: 'mdi-ticket-confirmation', link: '/ticket',
         },
       ],
     };

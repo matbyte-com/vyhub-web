@@ -7,15 +7,22 @@
       </v-btn>
     </template>
     <v-list dense>
-      <v-list-item
-        v-for="(link, index) in menuLinks"
-        :key="index"
-        @click="$router.push(link.link)"
-        >
-          <v-icon left>{{ link.icon }}</v-icon>
-          <v-list-item-title>
-            {{ link.title }}
-          </v-list-item-title>
+      <v-list-item :to="{path: this.$route.path, query: { login: 'true',
+      return_url: getReturnUrl() } }">
+        <v-icon left>
+          mdi-account-plus
+        </v-icon>
+        <v-list-item-title>
+          {{ $t('link_account') }}
+        </v-list-item-title>
+      </v-list-item>
+      <v-list-item v-for="(link, index) in menuLinks"
+                   :key="index"
+                   :to="link.link">
+        <v-icon left>{{ link.icon }}</v-icon>
+        <v-list-item-title>
+          {{ $t(link.title) }}
+        </v-list-item-title>
       </v-list-item>
       <v-list-item @click="logout">
         <v-icon left>mdi-logout-variant</v-icon>
@@ -27,6 +34,7 @@
 
 <script>
 import AuthService from '@/services/AuthService';
+import UtilService from '@/services/UtilService';
 
 export default {
   name: 'ProfileMenu.vue',
@@ -46,6 +54,9 @@ export default {
     },
     emitLogout() {
       this.$emit('logout');
+    },
+    getReturnUrl() {
+      return UtilService.data().utils.getFullUrl(this.$route.path);
     },
   },
 };

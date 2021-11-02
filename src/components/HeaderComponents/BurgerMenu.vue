@@ -39,10 +39,19 @@
       <v-divider />
       <!-- render menuTabs + Logout-->
       <div v-if="$store.getters.isLoggedIn">
+        <v-list-item :to="{path: this.$route.path, query: { login: 'true',
+      return_url: getReturnUrl() } }">
+          <v-icon left>
+            mdi-account-plus
+          </v-icon>
+          <v-list-item-title>
+            {{ $t('link_account') }}
+          </v-list-item-title>
+        </v-list-item>
         <v-list-item v-for="(menuLink, index) in menuLinks"
                      :key="index" :to="menuLink.link">
           <v-icon left>{{ menuLink.icon }}</v-icon>
-          <v-list-item-title>{{ menuLink.title }}</v-list-item-title>
+          <v-list-item-title>{{ $t(menuLink.title) }}</v-list-item-title>
         </v-list-item>
         <v-list-item @click="emitLogout">
           <v-icon left>mdi-logout-variant</v-icon>
@@ -64,6 +73,7 @@
 <script>
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 import Credits from '@/components/HeaderComponents/Credits.vue';
+import UtilService from '@/services/UtilService';
 
 export default {
   name: 'BurgerMenu.vue',
@@ -85,6 +95,9 @@ export default {
     },
     emitLogout() {
       this.$emit('logout');
+    },
+    getReturnUrl() {
+      return UtilService.data().utils.getFullUrl(this.$route.path);
     },
   },
 };
