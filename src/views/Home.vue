@@ -245,7 +245,7 @@ export default {
     async addMessage() {
       const data = this.$refs.messageAddDialog.getData();
       data.content = this.message;
-      if (this.message.length() > config.html_max_input_length) {
+      if (this.message.length > config.html_max_input_length) {
         this.$refs.messageAddDialog.setErrorMessage(i18n.t('maxInputExceeded'),
           { length: config.html_max_input_length });
         return;
