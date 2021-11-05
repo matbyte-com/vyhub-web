@@ -2,10 +2,23 @@
   <div>
     <v-row v-if="userSelf">
       <v-col>
-        <v-btn color="success" @click="$refs.linkAccountDialog.show()" block>
-          <v-icon left>mdi-account-plus</v-icon>
-          <span>{{ $t("_dashboard.labels.linkNewAccount") }}</span>
-        </v-btn>
+        <v-tooltip left :disabled="checkIfCentralAccount()" offset-overflow>
+          <template v-slot:activator="{ on, attrs }">
+            <div v-bind="attrs" v-on="on">
+              <v-card>
+                <v-btn color="success" width="100%" :to="{path: $route.path,
+              query: { login: 'true', return_url: getReturnUrl() } }"
+                       :disabled="!checkIfCentralAccount()" block>
+                  <v-icon left>
+                    mdi-account-plus
+                  </v-icon>
+                  {{ $t("_dashboard.labels.linkNewAccount") }}
+                </v-btn>
+              </v-card>
+            </div>
+          </template>
+          <span>{{ $t('header.labels.linkAccountTooltip') }}</span>
+        </v-tooltip>
       </v-col>
     </v-row>
     <v-row>
@@ -28,7 +41,7 @@
                   <v-col cols="3" lg="4" xl="3" class="justify-center">
                     <v-avatar>
                       <v-img :src="acc.avatar" contain
-                             alt="avatar" />
+                             alt="avatar"/>
                     </v-avatar>
                   </v-col>
                 </v-row>
@@ -39,23 +52,23 @@
                   {{ acc.identifier }}
                 </div>
               </v-card-subtitle>
-              <v-divider />
+              <v-divider/>
               <v-card-text v-if="Object.keys(acc.attributes).length > 0">
                 <v-row>
                   <v-col>
                     <v-simple-table
                       dense v-if="attributeDefinitions != null">
                       <tbody>
-                        <tr
-                          v-for="(attrVal, attrName) in unspecificAttributes"
-                          :key="attrName">
-                          <td>
-                            {{ attributeDefinitionsDict[attrName].title }}
-                          </td>
-                          <td>
-                            {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
-                          </td>
-                        </tr>
+                      <tr
+                        v-for="(attrVal, attrName) in unspecificAttributes"
+                        :key="attrName">
+                        <td>
+                          {{ attributeDefinitionsDict[attrName].title }}
+                        </td>
+                        <td>
+                          {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
+                        </td>
+                      </tr>
                       </tbody>
                     </v-simple-table>
                   </v-col>
@@ -66,20 +79,16 @@
         </v-data-iterator>
       </v-col>
     </v-row>
-    <LinkAccountDialog ref="linkAccountDialog" />
   </div>
 </template>
 
 <script>
-import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import userService from '@/services/UserService';
 import openapiCached from '@/api/openapiCached';
+import UtilService from '@/services/UtilService';
 
 export default {
   name: 'LinkedAccounts',
-  components: {
-    LinkAccountDialog,
-  },
   props: {
     user: Object,
   },
@@ -104,6 +113,15 @@ export default {
       (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
         this.attributeDefinitions = rsp.data;
       });
+    },
+    getReturnUrl() {
+      return UtilService.data().utils.getFullUrl(this.$route.path);
+    },
+    checkIfCentralAccount() {
+      if (this.$store.getters.user) {
+        return this.$store.getters.user.type === 'CENTRAL';
+      }
+      return false;
     },
   },
   computed: {
