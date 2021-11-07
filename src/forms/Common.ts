@@ -93,7 +93,7 @@ export default {
     items: {
       type: 'object',
     },
-    'x-fromUrl': `${API_URL}/packet/reward?query={q}`,
+    'x-fromUrl': `${API_URL}/packet/reward/?query={q}`,
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },

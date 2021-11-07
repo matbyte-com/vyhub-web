@@ -366,6 +366,7 @@
         "connect": "Execute on connect",
         "disconnect": "Execute on disconnect",
         "spawn": "Execute on spawn",
+        "disable": "Execute when applied packet becomes inactive",
         "death": "Execute on death"
       },
       "_types": {

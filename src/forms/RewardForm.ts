@@ -95,6 +95,10 @@ function form() {
               const: 'DEATH',
               title: i18n.t('_reward.labels._events.death'),
             },
+            {
+              const: 'DISABLE',
+              title: i18n.t('_reward.labels._events.disable'),
+            },
           ],
         },
         once: {
