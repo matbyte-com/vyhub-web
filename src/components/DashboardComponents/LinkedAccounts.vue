@@ -53,22 +53,24 @@
                 </div>
               </v-card-subtitle>
               <v-divider/>
-              <v-card-text v-if="Object.keys(acc.attributes).length > 0">
+              <v-card-text v-if="unspecificAttributes != null
+              && unspecificAttributes[acc.id] != null
+              && Object.keys(unspecificAttributes[acc.id]).length > 0">
                 <v-row>
                   <v-col>
                     <v-simple-table
                       dense v-if="attributeDefinitions != null">
                       <tbody>
-                      <tr
-                        v-for="(attrVal, attrName) in unspecificAttributes"
-                        :key="attrName">
-                        <td>
-                          {{ attributeDefinitionsDict[attrName].title }}
-                        </td>
-                        <td>
-                          {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
-                        </td>
-                      </tr>
+                        <tr
+                          v-for="(attrVal, attrName) in unspecificAttributes[acc.id]"
+                          :key="attrName">
+                          <td>
+                            {{ attributeDefinitionsDict[attrName].title }}
+                          </td>
+                          <td>
+                            {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
+                          </td>
+                        </tr>
                       </tbody>
                     </v-simple-table>
                   </v-col>
@@ -148,10 +150,14 @@ export default {
 
       const unspecificAttributes = {};
 
-      Object.entries(this.user.attributes).forEach(([key, value]) => {
-        if (this.attributeDefinitionsDict[key].unspecific) {
-          unspecificAttributes[key] = value;
-        }
+      this.linkedUsers.forEach((user) => {
+        unspecificAttributes[user.id] = {};
+
+        Object.entries(user.attributes).forEach(([key, value]) => {
+          if (this.attributeDefinitionsDict[key].unspecific) {
+            unspecificAttributes[user.id][key] = value;
+          }
+        });
       });
 
       return unspecificAttributes;
