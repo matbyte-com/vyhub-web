@@ -512,7 +512,9 @@
       "ticket": "Ticket"
     },
     "new_news": "News created {newsSubject}",
-    "new_ticket": "Ticket created {title} by {username}"
+    "new_ticket": "Ticket created {title} by {username}",
+    "new_ban": "You have been banned. Reason: {reason}: ",
+    "new_warning": "A new warning has been created. Reason: {reason}"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
