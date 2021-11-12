@@ -1,15 +1,11 @@
 <template>
  <div>
    <DialogForm :form-schema="requirementAddForm" ref="requirementAddDialog"
-               @updated="updateConditionalForm" @submit="addRequirement">
-     <template slot="type-after">
-       <gen-form v-if="requirementAddFormConditional"
-                 ref="requirementAddDialogConditional"
-                 :form-schema="requirementAddFormConditional" :hide-buttons="true"/>
-     </template>
+               @submit="addRequirement" :title="$t('_requirement.addRequirement')"
+               title-icon="mdi-approximately-equal">
    </DialogForm>
    <DialogForm :form-schema="requirementSetAddForm" ref="requirementSetAddDialog"
-               :title="$t('settings.addRequirementSet')"
+               :title="$t('settings.addRequirementSet')" title-icon="mdi-greater-than-or-equal"
                @submit="addRequirementSet"/>
    <!-- Edit Requirement Sets Dialog -->
    <Dialog ref="requirementSetEditDialog" :title="$t('settings.editRequirementSet')"
@@ -109,7 +105,6 @@
 
 <script>
 import RequirementAddForm from '@/forms/RequirementAddForm';
-import RequirementAddFormConditional from '@/forms/RequirementAddFormConditional';
 import RequirementSetAddForm from '@/forms/RequirementSetAddForm';
 import DialogForm from '@/components/DialogForm.vue';
 import Dialog from '@/components/Dialog.vue';
@@ -125,7 +120,6 @@ export default {
   data() {
     return {
       requirementAddForm: RequirementAddForm.returnForm(),
-      requirementAddFormConditional: null,
       requirementSetAddForm: RequirementSetAddForm,
       requirementSets: null,
       requirements: null,
@@ -162,16 +156,6 @@ export default {
         this.requirements = rsp.data;
       });
     },
-    updateConditionalForm() {
-      if (this.$refs.requirementAddDialog.getData().type) {
-        const { type } = this.$refs.requirementAddDialog.getData();
-        this.requirementAddFormConditional = RequirementAddFormConditional.returnForm(type);
-        if (this.$refs.requirementAddDialogConditional) {
-          this.$refs.requirementAddDialogConditional
-            .setData({ operator: RequirementAddForm.types[type][1][0] });
-        }
-      }
-    },
     async addRequirementSet() {
       const data = this.$refs.requirementSetAddDialog.getData();
       (await openapi).requirements_createRequirementSet(null, data)
@@ -183,10 +167,7 @@ export default {
         });
     },
     async addRequirement() {
-      const data = {
-        ...this.$refs.requirementAddDialog.getData(),
-        ...this.$refs.requirementAddDialogConditional.getData(),
-      };
+      const data = this.$refs.requirementAddDialog.getData();
       if (data.type === 'DATE') {
         data.value = [data.begin, data.end];
       }
@@ -194,7 +175,6 @@ export default {
         .then(() => {
           this.fetchData();
           this.$refs.requirementAddDialog.closeAndReset();
-          this.$refs.requirementAddDialogConditional.cancelForm();
         }).catch((err) => {
           this.$refs.requirementAddDialog.setErrorMessage(err.response.data.detail);
         });
@@ -205,9 +185,6 @@ export default {
     },
     async openRequirementAddDialog(reqSet) {
       await this.$refs.requirementAddDialog.show();
-      this.$refs.requirementAddDialogConditional.setData(
-        { requirement_set_id: reqSet.id },
-      );
     },
     async editRequirementSet() {
       this.$refs.requirementSetEditForm.loading = true;

@@ -427,10 +427,15 @@
     "editNews": "Edit Message"
   },
   "_requirement": {
+    "addRequirement": "Requirement",
     "requirementType": "Type",
     "requirementOperator": "Operator",
     "permissionLevel": "Permission Level",
     "requirementSet": "Requirement Set",
+    "propertyName": "Property Name",
+    "attributeName": "Attribute Name",
+    "attributeValue": "Attribute Value",
+    "date": "Date",
     "types": {
       "GROUP_MEMBER": "Groupmember",
       "PERMISSION_LEVEL": "Permission Level",
@@ -444,6 +449,7 @@
     },
     "operators": {
       "EQ": "Equal",
+      "NEQ": "Not Equal",
       "LEQ": "Less Equal Than",
       "GEQ": "Greater Equal Than",
       "LT": "Less Than",
