@@ -7,6 +7,10 @@
    <DialogForm :form-schema="requirementSetAddForm" ref="requirementSetAddDialog"
                :title="$t('settings.addRequirementSet')" title-icon="mdi-greater-than-or-equal"
                @submit="addRequirementSet"/>
+   <DeleteConfirmationDialog ref="requirementSetDeleteConfirmationDialog"
+                             @submit="deleteRequirementSet" />
+   <DeleteConfirmationDialog ref="requirementDeleteConfirmationDialog"
+                             @submit="deleteRequirement" />
    <!-- Edit Requirement Sets Dialog -->
    <Dialog ref="requirementSetEditDialog" :title="$t('settings.editRequirementSet')"
            :max-width="1000">
@@ -111,11 +115,16 @@ import Dialog from '@/components/Dialog.vue';
 import DataTable from '@/components/DataTable.vue';
 import GenForm from '@/components/GenForm.vue';
 import openapi from '@/api/openapi';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
   name: 'Requirements',
   components: {
-    GenForm, DialogForm, DataTable, Dialog,
+    DeleteConfirmationDialog,
+    GenForm,
+    DialogForm,
+    DataTable,
+    Dialog,
   },
   data() {
     return {
@@ -186,7 +195,7 @@ export default {
         });
     },
     async openEditRequirementSetDialog(reqSet) {
-      await this.$refs.requirementSetEditDialog.show();
+      await this.$refs.requirementSetEditDialog.show(reqSet);
       this.requirement_set_id = reqSet.id;
     },
     async openRequirementAddDialog(reqSet) {
@@ -207,6 +216,17 @@ export default {
             .setErrorMessage(err.response.data.detail);
           this.$refs.requirementSetEditForm.loading = false;
         });
+    },
+    openDeleteRequirementSetDialog(reqSet) {
+      this.$refs.requirementSetDeleteConfirmationDialog.show(reqSet);
+    },
+    async deleteRequirementSet(reqSet) {
+      (await openapi).requirements_deleteRequirementSet(reqSet.id).then(() => {
+        this.fetchData();
+        this.$refs.requirementSetDeleteConfirmationDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.requirementSetDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
+      });
     },
     async editFormula(formula) {
       const reqSet = this.$refs.requirementSetEditDialog.getItem();

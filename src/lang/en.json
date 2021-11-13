@@ -260,6 +260,7 @@
     "requirement_set_add": "Added requirement set {requirementSetName} {requirementSetId}",
     "requirement_set_edit": "Edited requirement set {requirementSetName} {requirementSetId}",
     "requirement_add": "Added requirement {requirementId}",
+    "requirement_set_deleted": "Requirement set deleted {requirementSetName} {requirementSetId}",
     "news_add": "Added news {newsSubject} {newsId}",
     "news_edit": "Edited news {newsSubject} {newsId}",
     "news_deleted": "Deleted news message {newsSubject} {newsId}",
