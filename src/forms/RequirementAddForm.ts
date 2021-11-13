@@ -169,7 +169,7 @@ function requirementTypeField(requirementType: string) {
       },
       value: {
         type: 'string',
-        title: '_requirement.date',
+        title: i18n.t('_requirement.date'),
         format: 'date-time',
       },
     };
@@ -192,8 +192,7 @@ function requirementTypeField(requirementType: string) {
   return {
     required,
     properties: {
-      // title: i18n.t('type'),
-      schemaKey: {
+      type: {
         type: 'string',
         const: requirementType,
       },

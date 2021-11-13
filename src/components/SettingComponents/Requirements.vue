@@ -64,7 +64,6 @@
          </v-alert>
        </v-col>
      </v-row>
-     {{ requirementAddForm }}
    </Dialog>
    <!-- Real Component -->
    <v-row>
@@ -122,6 +121,7 @@ export default {
     return {
       requirementAddForm: RequirementAddForm.returnForm(),
       requirementSetAddForm: RequirementSetAddForm,
+      requirement_set_id: null,
       requirementSets: null,
       requirements: null,
       headers: [
@@ -133,7 +133,7 @@ export default {
       requirementHeaders: [
         { text: 'ID', value: 'hId' },
         { text: this.$t('type'), value: 'type' },
-        { text: this.$t('operator'), value: 'operator' },
+        { text: this.$t('_requirement.requirementOperator'), value: 'operator' },
         { text: this.$t('value'), value: 'value' },
         {
           text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
@@ -168,10 +168,15 @@ export default {
         });
     },
     async addRequirement() {
-      const data = this.$refs.requirementAddDialog.getData();
-      if (data.type === 'DATE') {
-        data.value = [data.begin, data.end];
+      const data = this.$refs.requirementAddDialog.getData().type;
+      data.requirement_set_id = this.requirement_set_id;
+      if (data.key && data.key.id) {
+        data.key = data.key.id;
       }
+      if (data.key && (data.type === 'PERMISSION_LEVEL' || data.type === 'PROPERTY')) {
+        delete data.key;
+      }
+
       (await openapi).requirements_createRequirement(null, data)
         .then(() => {
           this.fetchData();
@@ -181,10 +186,11 @@ export default {
         });
     },
     async openEditRequirementSetDialog(reqSet) {
-      await this.$refs.requirementSetEditDialog.show(reqSet);
-      this.$refs.requirementSetEditForm.setData({ name: reqSet.name });
+      await this.$refs.requirementSetEditDialog.show();
+      this.requirement_set_id = reqSet.id;
     },
     async openRequirementAddDialog(reqSet) {
+      await this.$refs.requirementAddDialog.setData({});
       await this.$refs.requirementAddDialog.show();
     },
     async editRequirementSet() {
