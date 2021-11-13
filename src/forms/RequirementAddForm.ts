@@ -190,17 +190,14 @@ function requirementTypeField(requirementType: string) {
   }
 
   return {
+    required,
     properties: {
-      type: {
-        title: i18n.t('type'),
+      // title: i18n.t('type'),
+      schemaKey: {
         type: 'string',
         const: requirementType,
       },
-      data: {
-        type: 'object',
-        required,
-        properties,
-      },
+      ...properties,
     },
   };
 }
@@ -211,17 +208,6 @@ function returnForm() {
     const reqType = {
       title: i18n.t(`_requirement.types.${key}`),
       icon: value.icon.toString(),
-      properties: {
-        type: {},
-        data: {},
-      },
-    };
-    reqType.properties.type = {
-      type: 'string',
-      const: key,
-    };
-    reqType.properties.data = {
-      type: 'object',
       ...requirementTypeField(key),
     };
     oneOf.push(reqType);
@@ -236,31 +222,9 @@ function returnForm() {
       type: {
         type: 'object',
         title: i18n.t('_requirement.requirementType'),
+        'x-display': 'icon',
+        'x-itemIcon': 'icon',
         oneOf,
-        // Structure of oneOf:
-        // [{
-        //  title: str
-        //  icon: str
-        //  properties: {
-        //    type: {
-        //      type: string
-        //      const: key
-        //      }
-        //    data: {
-        //      type: object
-        //      properties: {
-        //        type: {
-        //          title: str
-        //          type: string
-        //          const: key
-        //          }
-        //        data: {
-        //          type: object
-        //          required: []
-        //          properties { SUBSCHEMAS }
-        //          }
-        //      }
-        //  }]
       },
     },
   };
