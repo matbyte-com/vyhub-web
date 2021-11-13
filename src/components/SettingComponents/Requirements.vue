@@ -31,8 +31,8 @@
                mdi-pencil
              </v-icon>
            </v-btn>
-           <v-btn outlined color="error" disabled
-                  small @click="openDeleteRequirementSetDialog(item)">
+           <v-btn outlined color="error"
+                  small @click="openDeleteRequirementDialog(item)">
              <v-icon>
                mdi-delete
              </v-icon>
@@ -226,6 +226,17 @@ export default {
         this.$refs.requirementSetDeleteConfirmationDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.requirementSetDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
+    openDeleteRequirementDialog(requirement) {
+      this.$refs.requirementDeleteConfirmationDialog.show(requirement);
+    },
+    async deleteRequirement(requirement) {
+      (await openapi).requirements_deleteRequirement(requirement.id).then(() => {
+        this.fetchData();
+        this.$refs.requirementDeleteConfirmationDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.requirementDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
       });
     },
     async editFormula(formula) {
