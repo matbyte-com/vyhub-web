@@ -460,7 +460,8 @@
       "NEVER_ACTIVE": "Never Active",
       "ONLY_ACTIVE": "Only Inactive",
       "ONLY_INACTIVE": "Only Active",
-      "HAVE": "Have"
+      "HAVE": "Have",
+      "NHAVE": "Have Not"
     }
   },
   "_gateway": {

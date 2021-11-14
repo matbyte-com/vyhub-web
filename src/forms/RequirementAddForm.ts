@@ -38,6 +38,7 @@ const operators: IOperators = {
   ONLY_ACTIVE: { const: 'ONLY_ACTIVE', title: i18n.t('_requirement.operators.ONLY_ACTIVE').toString(), icon: 'mdi-gift-open-outline' },
   ONLY_INACTIVE: { const: 'ONLY_INACTIVE', title: i18n.t('_requirement.operators.ONLY_INACTIVE').toString(), icon: 'mdi-gift-outline' },
   HAVE: { const: 'HAVE', title: i18n.t('_requirement.operators.HAVE').toString(), icon: 'mdi-check' },
+  NHAVE: { const: 'NHAVE', title: i18n.t('_requirement.operators.NHAVE').toString(), icon: 'mdi-close' },
 };
 
 function checkIfTypeSB(requirementType: string) {
