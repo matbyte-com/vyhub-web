@@ -32,9 +32,11 @@ const operators: IOperators = {
   LEQ: { const: 'LEQ', title: i18n.t('_requirement.operators.LEQ').toString(), icon: 'mdi-less-than-or-equal' },
   LT: { const: 'LT', title: i18n.t('_requirement.operators.LT').toString(), icon: 'mdi-less-than' },
   GT: { const: 'GT', title: i18n.t('_requirement.operators.GT').toString(), icon: 'mdi-greater-than' },
-  ACTIVE: { const: 'ACTIVE', title: i18n.t('_requirement.operators.ACTIVE').toString(), icon: 'mdi-check' },
-  INACTIVE: { const: 'INACTIVE', title: i18n.t('_requirement.operators.INACTIVE').toString(), icon: 'mdi-close' },
-  NEVER_ACTIVE: { const: 'NEVER_ACTIVE', title: i18n.t('_requirement.operators.NEVER_ACTIVE').toString(), icon: 'mdi-close' },
+  ACTIVE: { const: 'ACTIVE', title: i18n.t('_requirement.operators.ACTIVE').toString(), icon: 'mdi-gift-open' },
+  INACTIVE: { const: 'INACTIVE', title: i18n.t('_requirement.operators.INACTIVE').toString(), icon: 'mdi-gift' },
+  NEVER_ACTIVE: { const: 'NEVER_ACTIVE', title: i18n.t('_requirement.operators.NEVER_ACTIVE').toString(), icon: 'mdi-gift-off' },
+  ONLY_ACTIVE: { const: 'ONLY_ACTIVE', title: i18n.t('_requirement.operators.ONLY_ACTIVE').toString(), icon: 'mdi-gift-open-outline' },
+  ONLY_INACTIVE: { const: 'ONLY_INACTIVE', title: i18n.t('_requirement.operators.ONLY_INACTIVE').toString(), icon: 'mdi-gift-outline' },
   HAVE: { const: 'HAVE', title: i18n.t('_requirement.operators.HAVE').toString(), icon: 'mdi-check' },
 };
 
@@ -144,6 +146,8 @@ function requirementTypeField(requirementType: string) {
         'x-itemIcon': 'icon',
         oneOf: [
           operators.ACTIVE,
+          operators.ONLY_ACTIVE,
+          operators.ONLY_INACTIVE,
           operators.INACTIVE,
           operators.NEVER_ACTIVE,
         ],

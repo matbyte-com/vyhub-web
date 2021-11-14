@@ -442,7 +442,7 @@
       "PERMISSION_LEVEL": "Permission Level",
       "PERMISSION_LEVEL_SB": "Permission Level (in Serverbundle)",
       "PROPERTY": "Property",
-      "PROPERTY_SB": "Property SB",
+      "PROPERTY_SB": "Property (in Serverbundle)",
       "USER_ATTRIBUTE": "User Attribute",
       "PACKET": "Packet",
       "DATE": "Date",
@@ -458,6 +458,8 @@
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
       "NEVER_ACTIVE": "Never Active",
+      "ONLY_ACTIVE": "Only Inactive",
+      "ONLY_INACTIVE": "Only Active",
       "HAVE": "Have"
     }
   },
