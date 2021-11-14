@@ -13,7 +13,7 @@
                              @submit="deleteRequirement" />
    <!-- Edit Requirement Sets Dialog -->
    <Dialog ref="requirementSetEditDialog" :title="$t('settings.editRequirementSet')"
-           :max-width="1000">
+           :max-width="1500">
      <h3 class="display-h3 mt-5">{{ $t('general') }}</h3>
      <gen-form ref="requirementSetEditForm" :form-schema="requirementSetAddForm"
                @submit="editRequirementSet"/>
@@ -22,6 +22,12 @@
      <DataTable :headers="requirementHeaders" :items="requirements">
        <template v-slot:item.hId="{ item }">
          {{ requirements.findIndex((i) => i.id === item.id) }}
+       </template>
+       <template v-slot:item.type="{ item }">
+         {{ $t(`_requirement.types.${item.type}`) }}
+       </template>
+       <template v-slot:item.value="{ item }">
+         {{ getValue(item) }}
        </template>
        <template v-slot:item.actions="{ item }">
          <div class="text-right">
@@ -143,6 +149,7 @@ export default {
         { text: 'ID', value: 'hId' },
         { text: this.$t('type'), value: 'type' },
         { text: this.$t('_requirement.requirementOperator'), value: 'operator' },
+        { text: this.$t('key'), value: 'key' },
         { text: this.$t('value'), value: 'value' },
         {
           text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
@@ -162,8 +169,10 @@ export default {
       (await openapi).requirements_getRequirementSets().then((rsp) => {
         this.requirementSets = rsp.data;
       });
-      (await openapi).requirements_getRequirements().then((rsp) => {
-        this.requirements = rsp.data;
+    },
+    async fetchRequirements() {
+      (await openapi).requirements_getRequirementSet(this.requirement_set_id).then((rsp) => {
+        this.requirements = rsp.data.requirements;
       });
     },
     async addRequirementSet() {
@@ -197,6 +206,7 @@ export default {
     async openEditRequirementSetDialog(reqSet) {
       await this.$refs.requirementSetEditDialog.show(reqSet);
       this.requirement_set_id = reqSet.id;
+      await this.fetchRequirements();
     },
     async openRequirementAddDialog(reqSet) {
       await this.$refs.requirementAddDialog.setData({});
@@ -233,11 +243,16 @@ export default {
     },
     async deleteRequirement(requirement) {
       (await openapi).requirements_deleteRequirement(requirement.id).then(() => {
-        this.fetchData();
+        this.fetchRequirements();
         this.$refs.requirementDeleteConfirmationDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.requirementDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
       });
+    },
+    getValue(item) {
+      if (item.type === 'DATE') {
+        return this.utils.formatDate(item.value);
+      } return item.value;
     },
     async editFormula(formula) {
       const reqSet = this.$refs.requirementSetEditDialog.getItem();

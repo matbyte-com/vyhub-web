@@ -167,7 +167,7 @@ declare namespace Components {
        * Active
        */
       active: boolean;
-      user: Model_User_User_UserModelShort;
+      user: Model_User_User_UserModelNoLinkedShort;
     }
     /**
      * AppliedPacketModelPatch
@@ -184,6 +184,40 @@ declare namespace Components {
      * An enumeration.
      */
     export type AppliedPacketStatus = "ENABLED" | "DISABLED";
+    /**
+     * AppliedRewardModel
+     */
+    export interface AppliedRewardModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Active
+       */
+      active: boolean;
+      reward: RewardModel;
+      user: Model_User_UserModelNoLinkedShort;
+      /**
+       * Applied Packet Id
+       */
+      applied_packet_id: string; // uuid
+      status: RewardStatus;
+      /**
+       * Executed On
+       */
+      executed_on: string /* uuid */ [];
+    }
+    /**
+     * AppliedRewardModelPatch
+     */
+    export interface AppliedRewardModelPatch {
+      status?: RewardStatus;
+      /**
+       * Executed On
+       */
+      executed_on?: string /* uuid */ [];
+    }
     /**
      * BanModel
      */
@@ -213,9 +247,9 @@ declare namespace Components {
       ends_on?: string; // date-time
       status: BanStatus;
       /**
-       * Is Active
+       * Active
        */
-      is_active: boolean;
+      active: boolean;
     }
     /**
      * BanModelAdd
@@ -241,6 +275,11 @@ declare namespace Components {
        * User Id
        */
       user_id: string; // uuid
+      /**
+       * BanStatus
+       * An enumeration.
+       */
+      status?: "ACTIVE" | "UNBANNED";
       /**
        * Created On
        */
@@ -626,9 +665,9 @@ declare namespace Components {
      */
     export type DebitStatus = "STARTED" | "APPROVED" | "FINISHED" | "CANCELLED";
     /**
-     * DiscordRole
+     * DiscordRoleModel
      */
-    export interface DiscordRole {
+    export interface DiscordRoleModel {
       /**
        * Name
        */
@@ -845,6 +884,7 @@ declare namespace Components {
        * Properties
        */
       properties: {
+        [name: string]: PropertyModelGroup;
       };
     }
     /**
@@ -891,7 +931,7 @@ declare namespace Components {
       /**
        * Properties
        */
-      properties?: any[];
+      properties?: PropertyModelAdd[];
     }
     /**
      * GroupModelShort
@@ -909,6 +949,23 @@ declare namespace Components {
        * Serverbundle Id
        */
       serverbundle_id: string; // uuid
+    }
+    /**
+     * GuildModel
+     */
+    export interface GuildModel {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Id
+       */
+      id: number;
+      /**
+       * Member Count
+       */
+      member_count: number;
     }
     /**
      * HTTPValidationError
@@ -1872,6 +1929,27 @@ declare namespace Components {
       size: number;
     }
     /**
+     * Page[AppliedRewardModel]
+     */
+    export interface PageAppliedRewardModel {
+      /**
+       * Items
+       */
+      items: AppliedRewardModel[];
+      /**
+       * Total
+       */
+      total: number;
+      /**
+       * Page
+       */
+      page: number;
+      /**
+       * Size
+       */
+      size: number;
+    }
+    /**
      * Page[BanModel]
      */
     export interface PageBanModel {
@@ -2188,6 +2266,40 @@ declare namespace Components {
       value?: string;
     }
     /**
+     * PropertyModelAdd
+     */
+    export interface PropertyModelAdd {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Granted
+       */
+      granted?: boolean;
+      /**
+       * Value
+       */
+      value?: string;
+    }
+    /**
+     * PropertyModelGroup
+     */
+    export interface PropertyModelGroup {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Granted
+       */
+      granted: boolean;
+      /**
+       * Value
+       */
+      value?: string;
+    }
+    /**
      * PropertyModelShortWithDescription
      */
     export interface PropertyModelShortWithDescription {
@@ -2371,7 +2483,7 @@ declare namespace Components {
       /**
        * Value
        */
-      value: string;
+      value?: string;
       /**
        * Requirement Set Id
        */
@@ -2390,7 +2502,7 @@ declare namespace Components {
       /**
        * Value
        */
-      value: string;
+      value?: string;
       /**
        * Requirement Set Id
        */
@@ -2400,7 +2512,7 @@ declare namespace Components {
      * RequirementOperator
      * An enumeration.
      */
-    export type RequirementOperator = "EQ" | "LEQ" | "GEQ" | "LT" | "GT" | "ACTIVE" | "INACTIVE" | "NEVER_ACTIVE" | "HAVE";
+    export type RequirementOperator = "EQ" | "NEQ" | "LEQ" | "GEQ" | "LT" | "GT" | "ACTIVE" | "INACTIVE" | "NEVER_ACTIVE" | "ONLY_ACTIVE" | "ONLY_INACTIVE" | "HAVE" | "NHAVE";
     /**
      * RequirementSetModel
      */
@@ -2447,6 +2559,27 @@ declare namespace Components {
        * Formula
        */
       formula?: any[];
+    }
+    /**
+     * RequirementSetModelShort
+     */
+    export interface RequirementSetModelShort {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Formula
+       */
+      formula?: any[];
+      /**
+       * Fulfilled
+       */
+      fulfilled?: boolean;
     }
     /**
      * RequirementType
@@ -2565,10 +2698,42 @@ declare namespace Components {
       requirement_set_id?: string; // uuid
     }
     /**
+     * RewardStatus
+     * An enumeration.
+     */
+    export type RewardStatus = "OPEN" | "EXECUTED" | "FAILED";
+    /**
      * RewardType
      * An enumeration.
      */
     export type RewardType = "COMMAND" | "SCRIPT" | "CREDITS" | "MEMBERSHIP";
+    /**
+     * RoleGroupRelationModel
+     */
+    export interface RoleGroupRelationModel {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      group: GroupModelShort;
+      /**
+       * Role Id
+       */
+      role_id: number;
+    }
+    /**
+     * RoleGroupRelationModelAdd
+     */
+    export interface RoleGroupRelationModelAdd {
+      /**
+       * Group Id
+       */
+      group_id: string; // uuid
+      /**
+       * Role Id
+       */
+      role_id: number;
+    }
     /**
      * ServerBundleModelPatch
      */
@@ -2973,6 +3138,11 @@ declare namespace Components {
      */
     export type ThreadStatus = "OPEN" | "CLOSED";
     /**
+     * TimeInterval
+     * An enumeration.
+     */
+    export type TimeInterval = "microseconds" | "milliseconds" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | "decade" | "century" | "millennium";
+    /**
      * TotalPriceModel
      */
     export interface TotalPriceModel {
@@ -3029,10 +3199,40 @@ declare namespace Components {
      */
     export interface UserAttributeDefinitionModel {
       /**
+       * Name
+       */
+      name: string;
+      /**
+       * Title
+       */
+      title: string;
+      /**
+       * Unit
+       */
+      unit: string;
+      type: UserAttributeType;
+      /**
+       * Statistics Interval
+       */
+      statistics_interval?: string;
+      accumulation_interval?: TimeInterval;
+      /**
+       * Unspecific
+       */
+      unspecific: boolean;
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id?: string; // uuid
+      /**
        * Id
        */
       id: string; // uuid
-      user_type: UserType;
+    }
+    /**
+     * UserAttributeDefinitionModelAdd
+     */
+    export interface UserAttributeDefinitionModelAdd {
       /**
        * Name
        */
@@ -3050,10 +3250,38 @@ declare namespace Components {
        * Statistics Interval
        */
       statistics_interval?: string;
+      accumulation_interval?: TimeInterval;
       /**
-       * Accumulation Interval
+       * Unspecific
        */
-      accumulation_interval?: string;
+      unspecific: boolean;
+      /**
+       * Requirement Set Id
+       */
+      requirement_set_id?: string; // uuid
+    }
+    /**
+     * UserAttributeDefinitionModelPatch
+     */
+    export interface UserAttributeDefinitionModelPatch {
+      /**
+       * Name
+       */
+      name: string;
+      /**
+       * Title
+       */
+      title: string;
+      /**
+       * Unit
+       */
+      unit: string;
+      type: UserAttributeType;
+      /**
+       * Statistics Interval
+       */
+      statistics_interval?: string;
+      accumulation_interval?: TimeInterval;
       /**
        * Unspecific
        */
@@ -3079,6 +3307,31 @@ declare namespace Components {
        * Server Id
        */
       server_id?: string; // uuid
+    }
+    /**
+     * UserAttributeModelAdd
+     */
+    export interface UserAttributeModelAdd {
+      /**
+       * Date
+       */
+      date?: string; // date-time
+      /**
+       * Value
+       */
+      value: string;
+      /**
+       * Definition Id
+       */
+      definition_id: string; // uuid
+      /**
+       * Server Id
+       */
+      server_id?: string; // uuid
+      /**
+       * User Id
+       */
+      user_id: string; // uuid
     }
     /**
      * UserAttributeType
@@ -3223,7 +3476,7 @@ declare namespace Components {
      * UserType
      * An enumeration.
      */
-    export type UserType = "CENTRAL" | "STEAM";
+    export type UserType = "CENTRAL" | "STEAM" | "DISCORD";
     /**
      * ValidationError
      */
@@ -3260,9 +3513,9 @@ declare namespace Components {
        */
       created_on: string; // date-time
       /**
-       * Is Active
+       * Active
        */
-      is_active: boolean;
+      active: boolean;
       /**
        * Disabled
        */
@@ -3295,16 +3548,16 @@ declare namespace Paths {
        */
       export type Backend = string;
       /**
-       * Return Url
-       * URL to redirect.
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
        */
-      export type ReturnUrl = string;
+      export type MorphUserId = string; // uuid
     }
     export interface PathParameters {
       backend: Parameters.Backend;
     }
     export interface QueryParameters {
-      return_url?: Parameters.ReturnUrl;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = any;
@@ -3317,8 +3570,19 @@ declare namespace Paths {
     }
   }
   namespace AuthPrepare {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace AuthRevokeToken {
@@ -3333,6 +3597,11 @@ declare namespace Paths {
        */
       export type Backend = string;
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Return Url
        * URL to redirect after login.
        */
@@ -3343,6 +3612,7 @@ declare namespace Paths {
     }
     export interface QueryParameters {
       return_url?: Parameters.ReturnUrl;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = any;
@@ -3350,6 +3620,16 @@ declare namespace Paths {
     }
   }
   namespace BanAddBan {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.BanModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.BanModel;
@@ -3359,6 +3639,11 @@ declare namespace Paths {
   namespace BanDeleteBan {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3366,6 +3651,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = any;
@@ -3375,6 +3663,11 @@ declare namespace Paths {
   namespace BanEditBan {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3382,6 +3675,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.BanModelPatch;
     namespace Responses {
@@ -3392,9 +3688,19 @@ declare namespace Paths {
   namespace BanGetBans {
     namespace Parameters {
       /**
+       * Active
+       * Only return active bans.
+       */
+      export type Active = boolean;
+      /**
        * Bundles Filter
        */
       export type BundlesFilter = string[];
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
       /**
        * Order By
        */
@@ -3421,8 +3727,10 @@ declare namespace Paths {
       query?: Parameters.Query;
       order_by?: Parameters.OrderBy;
       sort_desc?: Parameters.SortDesc;
+      active?: Parameters.Active;
       page?: Parameters.Page;
       size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.PageBanModel;
@@ -3432,6 +3740,11 @@ declare namespace Paths {
   namespace BanGetLogs {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3439,6 +3752,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
@@ -3448,7 +3764,22 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace BanTest {
+    namespace Responses {
+      export type $200 = any;
+    }
+  }
   namespace DesignCreateCmsHtml {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.CmsPageModelPost;
     namespace Responses {
       export type $200 = Components.Schemas.CmsPageModel;
@@ -3458,6 +3789,11 @@ declare namespace Paths {
   namespace DesignDeleteCmsHtml {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3466,12 +3802,25 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace DesignEditGeneralSettings {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.GeneralSettingModel;
     namespace Responses {
       export type $200 = Components.Schemas.GeneralSettingModel;
@@ -3535,6 +3884,11 @@ declare namespace Paths {
   namespace DesignUpdateCmsHtml {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3543,6 +3897,9 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.CmsPageModelPost;
     namespace Responses {
       export type $200 = any;
@@ -3550,6 +3907,16 @@ declare namespace Paths {
     }
   }
   namespace DesignUpdateNavItems {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     /**
      * Nav Put
      */
@@ -3563,22 +3930,46 @@ declare namespace Paths {
     }
   }
   namespace DesignUpdateTheme {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.ThemeModel;
     namespace Responses {
       export type $200 = Components.Schemas.ThemeModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace DiscordGetGuildRoles {
-    namespace Responses {
+  namespace DiscordAddRelation {
+    namespace Parameters {
       /**
-       * Response Get Guild Roles Discord Roles Get
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
        */
-      export type $200 = Components.Schemas.DiscordRole[];
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    export type RequestBody = Components.Schemas.RoleGroupRelationModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.RoleGroupRelationModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace FinanceGetAccount {
+  namespace DiscordDeleteRelation {
     namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
       /**
        * Uuid
        * The UUID of the referenced object.
@@ -3587,6 +3978,57 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace DiscordGetGuild {
+    namespace Responses {
+      /**
+       * Response Get Guild Discord Guild Get
+       */
+      export type $200 = Components.Schemas.GuildModel[];
+    }
+  }
+  namespace DiscordGetGuildRoles {
+    namespace Responses {
+      /**
+       * Response Get Guild Roles Discord Roles Get
+       */
+      export type $200 = Components.Schemas.DiscordRoleModel[];
+    }
+  }
+  namespace DiscordGetRelations {
+    namespace Responses {
+      /**
+       * Response Get Relations Discord Relation Get
+       */
+      export type $200 = Components.Schemas.RoleGroupRelationModel[];
+    }
+  }
+  namespace FinanceGetAccount {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.AccountModel;
@@ -3596,6 +4038,11 @@ declare namespace Paths {
   namespace ForumGetThread {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3603,6 +4050,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.ThreadModel;
@@ -3612,6 +4062,11 @@ declare namespace Paths {
   namespace ForumGetThreadPosts {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3619,6 +4074,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
@@ -3638,6 +4096,11 @@ declare namespace Paths {
   }
   namespace ForumGetTickets {
     namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
       /**
        * Page
        */
@@ -3660,6 +4123,7 @@ declare namespace Paths {
       show_closed?: Parameters.ShowClosed;
       page?: Parameters.Page;
       size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.PageThreadModelShort;
@@ -3669,6 +4133,11 @@ declare namespace Paths {
   namespace ForumNewPost {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3677,6 +4146,9 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.PostModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.PostModel;
@@ -3684,6 +4156,16 @@ declare namespace Paths {
     }
   }
   namespace ForumNewThread {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.ThreadModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.ThreadModel;
@@ -3693,6 +4175,11 @@ declare namespace Paths {
   namespace ForumToggleStatus {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3701,12 +4188,25 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = Components.Schemas.ThreadModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace GroupAddGroup {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.GroupModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.GroupModel;
@@ -3716,21 +4216,10 @@ declare namespace Paths {
   namespace GroupDeleteGroup {
     namespace Parameters {
       /**
-       * Uuid
-       * The UUID of the referenced object.
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
        */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace GroupEditGroup {
-    namespace Parameters {
+      export type MorphUserId = string; // uuid
       /**
        * Uuid
        * The UUID of the referenced object.
@@ -3740,10 +4229,45 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace GroupEditGroup {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.GroupModelPatch;
     namespace Responses {
       export type $200 = Components.Schemas.GroupModel;
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace GroupGetAdvancedProperties {
+    namespace Responses {
+      /**
+       * Response Get Advanced Properties Group Advanced Property  Get
+       */
+      export type $200 = Components.Schemas.PropertyModelShortWithDescription[];
     }
   }
   namespace GroupGetAllProperties {
@@ -3835,6 +4359,11 @@ declare namespace Paths {
        */
       export type Categories = string[];
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Page
        */
       export type Page = number;
@@ -3847,6 +4376,7 @@ declare namespace Paths {
       categories?: Parameters.Categories;
       page?: Parameters.Page;
       size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.PageLogEntryModel;
@@ -3854,6 +4384,16 @@ declare namespace Paths {
     }
   }
   namespace NewsAddMessage {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.NewsModelPost;
     namespace Responses {
       export type $200 = Components.Schemas.NewsModel;
@@ -3863,6 +4403,11 @@ declare namespace Paths {
   namespace NewsDeleteMessage {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3870,6 +4415,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = any;
@@ -3879,6 +4427,11 @@ declare namespace Paths {
   namespace NewsEditMessage {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3886,6 +4439,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.NewsModelPatch;
     namespace Responses {
@@ -3933,6 +4489,11 @@ declare namespace Paths {
        */
       export type HideRead = boolean;
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Page
        */
       export type Page = number;
@@ -3947,6 +4508,7 @@ declare namespace Paths {
       categories?: Parameters.Categories;
       page?: Parameters.Page;
       size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.PageNotificationEntryModel;
@@ -3954,11 +4516,32 @@ declare namespace Paths {
     }
   }
   namespace NotificationGetStream {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace NotificationMarkAsRead {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.NotificationRead;
     namespace Responses {
       export type $200 = any;
@@ -3966,6 +4549,16 @@ declare namespace Paths {
     }
   }
   namespace PacketAddPacket {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.PacketModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.PacketModel;
@@ -3973,6 +4566,16 @@ declare namespace Paths {
     }
   }
   namespace PacketAddReward {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.RewardModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.RewardModel;
@@ -3980,6 +4583,16 @@ declare namespace Paths {
     }
   }
   namespace PacketCreateCategory {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.PacketCategoryModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.PacketCategoryModel;
@@ -3989,6 +4602,11 @@ declare namespace Paths {
   namespace PacketDeleteAppliedPacket {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -3996,6 +4614,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4005,6 +4626,11 @@ declare namespace Paths {
   namespace PacketDeleteCategory {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4012,6 +4638,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4021,6 +4650,11 @@ declare namespace Paths {
   namespace PacketDeletePacket {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4028,6 +4662,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4037,6 +4674,11 @@ declare namespace Paths {
   namespace PacketDeleteReward {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4044,6 +4686,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4053,22 +4698,10 @@ declare namespace Paths {
   namespace PacketEditAppliedPacket {
     namespace Parameters {
       /**
-       * Uuid
-       * The UUID of the referenced object.
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
        */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export type RequestBody = Components.Schemas.AppliedPacketModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.AppliedPacketModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketEditCategory {
-    namespace Parameters {
+      export type MorphUserId = string; // uuid
       /**
        * Uuid
        * The UUID of the referenced object.
@@ -4077,6 +4710,59 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    export type RequestBody = Components.Schemas.AppliedPacketModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.AppliedPacketModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace PacketEditAppliedReward {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    export type RequestBody = Components.Schemas.AppliedRewardModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.AppliedRewardModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace PacketEditCategory {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.PacketCategoryModelPatch;
     namespace Responses {
@@ -4087,6 +4773,11 @@ declare namespace Paths {
   namespace PacketEditPacket {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4094,6 +4785,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.PacketModelPatch;
     namespace Responses {
@@ -4104,6 +4798,11 @@ declare namespace Paths {
   namespace PacketEditReward {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4111,6 +4810,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.RewardModelPatch;
     namespace Responses {
@@ -4121,9 +4823,14 @@ declare namespace Paths {
   namespace PacketGetAppliedPackets {
     namespace Parameters {
       /**
-       * Active Filter
+       * Active
        */
-      export type ActiveFilter = string[];
+      export type Active = boolean;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
       /**
        * Page
        */
@@ -4144,17 +4851,138 @@ declare namespace Paths {
        * Sort Desc
        */
       export type SortDesc = boolean;
+      export type StatusFilter = Components.Schemas.AppliedPacketStatus[];
     }
     export interface QueryParameters {
-      active_filter?: Parameters.ActiveFilter;
+      status_filter?: Parameters.StatusFilter;
+      active?: Parameters.Active;
       query?: Parameters.Query;
       sort_by?: Parameters.SortBy;
       sort_desc?: Parameters.SortDesc;
       page?: Parameters.Page;
       size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.PageAppliedPacketModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace PacketGetAppliedRewards {
+    namespace Parameters {
+      /**
+       * Active
+       */
+      export type Active = boolean;
+      /**
+       * For Server Id
+       * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
+       */
+      export type ForServerId = string /* uuid */ [];
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Page
+       */
+      export type Page = number;
+      /**
+       * Query
+       */
+      export type Query = string;
+      /**
+       * Serverbundle Id
+       * Filter by serverbundle.
+       */
+      export type ServerbundleId = string /* uuid */ [];
+      /**
+       * Size
+       */
+      export type Size = number;
+      /**
+       * Sort By
+       */
+      export type SortBy = string;
+      /**
+       * Sort Desc
+       */
+      export type SortDesc = boolean;
+      /**
+       * Filter by status.
+       */
+      export type Status = Components.Schemas.RewardStatus[];
+    }
+    export interface QueryParameters {
+      active?: Parameters.Active;
+      serverbundle_id?: Parameters.ServerbundleId;
+      status?: Parameters.Status;
+      for_server_id?: Parameters.ForServerId;
+      query?: Parameters.Query;
+      sort_by?: Parameters.SortBy;
+      sort_desc?: Parameters.SortDesc;
+      page?: Parameters.Page;
+      size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.PageAppliedRewardModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace PacketGetAppliedRewardsByUser {
+    namespace Parameters {
+      /**
+       * Active
+       */
+      export type Active = boolean;
+      /**
+       * For Server Id
+       * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
+       */
+      export type ForServerId = string; // uuid
+      /**
+       * Foreign Ids
+       * Index result by foreign user identifier instead of VyHub user id.
+       */
+      export type ForeignIds = boolean;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Serverbundle Id
+       * Filter by serverbundle.
+       */
+      export type ServerbundleId = string /* uuid */ [];
+      /**
+       * Filter by status.
+       */
+      export type Status = Components.Schemas.RewardStatus[];
+      /**
+       * User Id
+       * Filter by user.
+       */
+      export type UserId = string /* uuid */ [];
+    }
+    export interface QueryParameters {
+      user_id?: Parameters.UserId;
+      serverbundle_id?: Parameters.ServerbundleId;
+      status?: Parameters.Status;
+      for_server_id?: Parameters.ForServerId; // uuid
+      active?: Parameters.Active;
+      foreign_ids?: Parameters.ForeignIds;
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      /**
+       * Response Get Applied Rewards By User Packet Reward Applied User Get
+       */
+      export interface $200 {
+        [name: string]: Components.Schemas.AppliedRewardModel[];
+      }
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -4178,9 +5006,15 @@ declare namespace Paths {
        * Filter by category
        */
       export type CategoryId = string; // uuid
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
     }
     export interface QueryParameters {
       category_id?: Parameters.CategoryId; // uuid
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
@@ -4193,6 +5027,11 @@ declare namespace Paths {
   namespace PacketGetRewards {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Query
        * Filter by rewards by name
        */
@@ -4200,16 +5039,27 @@ declare namespace Paths {
     }
     export interface QueryParameters {
       query?: Parameters.Query;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
-       * Response Get Rewards Packet Reward Get
+       * Response Get Rewards Packet Reward  Get
        */
       export type $200 = Components.Schemas.RewardModel[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace RequirementsCreateRequirement {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.RequirementModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.RequirementModel;
@@ -4217,13 +5067,96 @@ declare namespace Paths {
     }
   }
   namespace RequirementsCreateRequirementSet {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.RequirementSetModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.RequirementSetModelAdd;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace RequirementsDeleteRequirement {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace RequirementsDeleteRequirementSet {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace RequirementsEditRequirementSet {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    export type RequestBody = Components.Schemas.RequirementSetModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.RequirementSetModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace RequirementsGetRequirementSet {
     namespace Parameters {
       /**
        * Uuid
@@ -4234,7 +5167,6 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
-    export type RequestBody = Components.Schemas.RequirementSetModelPatch;
     namespace Responses {
       export type $200 = Components.Schemas.RequirementSetModel;
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -4245,7 +5177,7 @@ declare namespace Paths {
       /**
        * Response Get Requirement Sets Requirement Set Get
        */
-      export type $200 = Components.Schemas.RequirementSetModel[];
+      export type $200 = Components.Schemas.RequirementSetModelShort[];
     }
   }
   namespace RequirementsGetRequirementTypes {
@@ -4262,6 +5194,16 @@ declare namespace Paths {
     }
   }
   namespace ServerAddBundle {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.ServerbundleModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.ServerbundleModel;
@@ -4271,6 +5213,11 @@ declare namespace Paths {
   namespace ServerCreateBundleToken {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4279,6 +5226,9 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.BundleTokenCreateModel;
     namespace Responses {
       export type $200 = Components.Schemas.OAuth2TokenModel;
@@ -4286,6 +5236,16 @@ declare namespace Paths {
     }
   }
   namespace ServerCreateServer {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.ServerModelAdd;
     namespace Responses {
       export type $200 = any;
@@ -4295,6 +5255,11 @@ declare namespace Paths {
   namespace ServerDeleteBundle {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4302,6 +5267,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.ServerbundleModel;
@@ -4311,6 +5279,11 @@ declare namespace Paths {
   namespace ServerDeleteServer {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4318,6 +5291,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = any;
@@ -4327,6 +5303,11 @@ declare namespace Paths {
   namespace ServerEditBundle {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4334,6 +5315,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.ServerBundleModelPatch;
     namespace Responses {
@@ -4344,6 +5328,11 @@ declare namespace Paths {
   namespace ServerEditServer {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4352,13 +5341,51 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.ServerModelPatch;
     namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace ServerGetBundleTokens {
+  namespace ServerGetBans {
+    namespace Parameters {
+      /**
+       * Active
+       * Only return active bans.
+       */
+      export type Active = boolean;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      active?: Parameters.Active;
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      /**
+       * Response Get Bans Server Bundle  Uuid  Ban Get
+       */
+      export interface $200 {
+        [name: string]: Components.Schemas.BanModel[];
+      }
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ServerGetBundle {
     namespace Parameters {
       /**
        * Uuid
@@ -4368,6 +5395,30 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.ServerbundleModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace ServerGetBundleTokens {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
@@ -4469,6 +5520,11 @@ declare namespace Paths {
   namespace ServerRevokeBundleToken {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Token Id
        * UUID of token to revoke
        */
@@ -4483,12 +5539,25 @@ declare namespace Paths {
       token_id: Parameters.TokenId; // uuid
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = Components.Schemas.OAuth2TokenModelHidden;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopAddPacketToCart {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.BodyAddPacketToCartShopCartPost;
     namespace Responses {
       export type $200 = Components.Schemas.CartPacketModel;
@@ -4502,9 +5571,17 @@ declare namespace Paths {
        * Discount id or code
        */
       export type CodeOrUuid = string;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
     }
     export interface PathParameters {
       code_or_uuid: Parameters.CodeOrUuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4514,6 +5591,11 @@ declare namespace Paths {
   namespace ShopCancelPayment {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4522,12 +5604,25 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = Components.Schemas.DebitModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopChangeBusinessAddress {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.BusinessAddressModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.AddressModel;
@@ -4537,6 +5632,11 @@ declare namespace Paths {
   namespace ShopCheckPayment {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4545,12 +5645,25 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = Components.Schemas.DebitModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopCreateDiscount {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.DiscountModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.DiscountModel;
@@ -4558,6 +5671,16 @@ declare namespace Paths {
     }
   }
   namespace ShopCreateGateway {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.PaymentGatewayModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.PaymentGatewayModel;
@@ -4565,6 +5688,16 @@ declare namespace Paths {
     }
   }
   namespace ShopCreateTaxRule {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.TaxModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.TaxModel;
@@ -4574,6 +5707,11 @@ declare namespace Paths {
   namespace ShopDeleteDiscount {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4581,6 +5719,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4590,6 +5731,11 @@ declare namespace Paths {
   namespace ShopDeleteGateway {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4597,6 +5743,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4606,6 +5755,11 @@ declare namespace Paths {
   namespace ShopDeleteTaxRule {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4613,6 +5767,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4622,6 +5779,11 @@ declare namespace Paths {
   namespace ShopEditDiscount {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4629,6 +5791,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.DiscountModelPatch;
     namespace Responses {
@@ -4639,6 +5804,11 @@ declare namespace Paths {
   namespace ShopEditGateway {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4647,6 +5817,9 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.PaymentGatewayModelPatch;
     namespace Responses {
       export type $200 = Components.Schemas.PaymentGatewayModel;
@@ -4654,6 +5827,16 @@ declare namespace Paths {
     }
   }
   namespace ShopEditGeneralConfig {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.GeneralSettingsModel;
     namespace Responses {
       export type $200 = Components.Schemas.GeneralSettingsModel;
@@ -4663,6 +5846,11 @@ declare namespace Paths {
   namespace ShopEditPurchase {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4670,6 +5858,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.PurchaseModelPatch;
     namespace Responses {
@@ -4680,6 +5871,11 @@ declare namespace Paths {
   namespace ShopFinishPayment {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4687,6 +5883,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.DebitModel;
@@ -4699,8 +5898,19 @@ declare namespace Paths {
     }
   }
   namespace ShopGetBusinessAddress {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = Components.Schemas.AddressModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopGetCart {
@@ -4710,8 +5920,14 @@ declare namespace Paths {
        * Country for price calculation
        */
       export type CountryCode = string;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
     }
     export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
       country_code?: Parameters.CountryCode;
     }
     namespace Responses {
@@ -4720,23 +5936,50 @@ declare namespace Paths {
     }
   }
   namespace ShopGetCartPackets {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       /**
        * Response Get Cart Packets Shop Cart Packet Get
        */
       export type $200 = Components.Schemas.CartPacketModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopGetCurrencies {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       /**
        * Response Get Currencies Shop Currency Get
        */
       export type $200 = Components.Schemas.CurrencyModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopGetDebitInvoice {
     namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
       /**
        * Uuid
        * The UUID of the referenced object.
@@ -4745,6 +5988,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = any;
@@ -4763,6 +6009,11 @@ declare namespace Paths {
        */
       export type Interval = "DAY" | "MONTH" | "YEAR";
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Only Successful
        * Only include purchases with a successful status (FINISHED, RECURRING)
        */
@@ -4771,6 +6022,7 @@ declare namespace Paths {
     export interface QueryParameters {
       interval?: Parameters.Interval;
       only_successful?: Parameters.OnlySuccessful;
+      morph_user_id?: Parameters.MorphUserId; // uuid
       currency_code: Parameters.CurrencyCode;
     }
     namespace Responses {
@@ -4788,9 +6040,17 @@ declare namespace Paths {
        * Discount id or code
        */
       export type CodeOrUuid = string;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
     }
     export interface PathParameters {
       code_or_uuid: Parameters.CodeOrUuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.DiscountModel;
@@ -4798,11 +6058,22 @@ declare namespace Paths {
     }
   }
   namespace ShopGetDiscounts {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       /**
        * Response Get Discounts Shop Discount  Get
        */
       export type $200 = Components.Schemas.DiscountModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopGetDonationGoal {
@@ -4811,11 +6082,22 @@ declare namespace Paths {
     }
   }
   namespace ShopGetGateways {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       /**
        * Response Get Gateways Shop Gateway  Get
        */
       export type $200 = Components.Schemas.PaymentGatewayModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopGetGeneralConfig {
@@ -4835,10 +6117,16 @@ declare namespace Paths {
        * Country for price calculation
        */
       export type CountryCode = string;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
     }
     export interface QueryParameters {
       category_id?: Parameters.CategoryId; // uuid
       country_code?: Parameters.CountryCode;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
@@ -4851,6 +6139,11 @@ declare namespace Paths {
   namespace ShopGetPurchaseGateways {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4858,6 +6151,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
@@ -4873,8 +6169,14 @@ declare namespace Paths {
        * Currency Code
        */
       export type CurrencyCode = string;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
     }
     export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
       currency_code: Parameters.CurrencyCode;
     }
     namespace Responses {
@@ -4884,6 +6186,11 @@ declare namespace Paths {
   }
   namespace ShopGetPurchases {
     namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
       /**
        * Page
        */
@@ -4913,6 +6220,7 @@ declare namespace Paths {
       status_filter?: Parameters.StatusFilter;
       page?: Parameters.Page;
       size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.PagePurchaseModel;
@@ -4920,11 +6228,22 @@ declare namespace Paths {
     }
   }
   namespace ShopGetTaxRules {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       /**
        * Response Get Tax Rules Shop Tax Get
        */
       export type $200 = Components.Schemas.TaxModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopRemoveDiscount {
@@ -4934,9 +6253,17 @@ declare namespace Paths {
        * Discount id or code
        */
       export type CodeOrUuid = string;
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
     }
     export interface PathParameters {
       code_or_uuid: Parameters.CodeOrUuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
@@ -4946,6 +6273,11 @@ declare namespace Paths {
   namespace ShopRemovePacketFromCart {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -4954,17 +6286,41 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopRemovePacketsFromCart {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = Components.Schemas.SuccessModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace ShopStartCheckout {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.BodyStartCheckoutShopCartCheckoutPost;
     namespace Responses {
       export type $200 = Components.Schemas.PurchaseModel;
@@ -4972,6 +6328,16 @@ declare namespace Paths {
     }
   }
   namespace ShopStartPayment {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.BodyStartPaymentShopCheckoutPost;
     namespace Responses {
       export type $200 = Components.Schemas.StartPaymentModel;
@@ -4979,6 +6345,16 @@ declare namespace Paths {
     }
   }
   namespace UserAddAddress {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.AddressModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.AddressModel;
@@ -4988,6 +6364,11 @@ declare namespace Paths {
   namespace UserAddMembership {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID or username of the referenced user.
        */
@@ -4996,21 +6377,73 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.MembershipModelUserAdd;
     namespace Responses {
       export type $200 = Components.Schemas.MembershipModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace UserCreateAttribute {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    export type RequestBody = Components.Schemas.UserAttributeModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.UserAttributeModelAdd;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace UserCreateAttributeDefinition {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    export type RequestBody = Components.Schemas.UserAttributeDefinitionModelAdd;
+    namespace Responses {
+      export type $200 = Components.Schemas.UserAttributeDefinitionModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace UserCreateUser {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.UserModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.UserModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace UserEditMembership {
+  namespace UserDeleteAttribute {
     namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
       /**
        * Uuid
        * The UUID of the referenced object.
@@ -5020,7 +6453,107 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.SuccessModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace UserDeleteAttributeDefinition {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.SuccessModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace UserEditAttributeDefinition {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    export type RequestBody = Components.Schemas.UserAttributeDefinitionModelPatch;
+    namespace Responses {
+      export type $200 = Components.Schemas.UserAttributeDefinitionModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace UserEditMembership {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.MembershipModelEdit;
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace UserEndActiveMemberships {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Uuid
+       * The UUID or username of the referenced user.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -5029,6 +6562,11 @@ declare namespace Paths {
   namespace UserEndMembership {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -5036,6 +6574,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = any;
@@ -5045,6 +6586,11 @@ declare namespace Paths {
   namespace UserGetActiveGroups {
     namespace Parameters {
       /**
+       * Serverbundle Id
+       * Filter by serverbundle
+       */
+      export type ServerbundleId = string; // uuid
+      /**
        * Uuid
        * The UUID or username of the referenced user.
        */
@@ -5052,6 +6598,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      serverbundle_id?: Parameters.ServerbundleId; // uuid
     }
     namespace Responses {
       /**
@@ -5064,6 +6613,11 @@ declare namespace Paths {
   namespace UserGetAddress {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -5071,6 +6625,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.AddressModel;
@@ -5080,6 +6637,11 @@ declare namespace Paths {
   namespace UserGetAddresses {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID or username of the referenced user.
        */
@@ -5087,6 +6649,9 @@ declare namespace Paths {
     }
     export interface PathParameters {
       uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
@@ -5096,12 +6661,39 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace UserGetAttributeDefinition {
+    namespace Parameters {
+      /**
+       * Uuid Or Name
+       * UUID or name of attribute definition.
+       */
+      export type UuidOrName = string;
+    }
+    export interface PathParameters {
+      uuid_or_name: Parameters.UuidOrName;
+    }
+    namespace Responses {
+      export type $200 = Components.Schemas.UserAttributeDefinitionModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace UserGetAttributeDefinitions {
+    namespace Parameters {
+      /**
+       * Name
+       * Filter by name (exact match).
+       */
+      export type Name = string;
+    }
+    export interface QueryParameters {
+      name?: Parameters.Name;
+    }
     namespace Responses {
       /**
        * Response Get Attribute Definitions User Attribute Definition Get
        */
       export type $200 = Components.Schemas.UserAttributeDefinitionModel[];
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace UserGetAttributeHistory {
@@ -5163,8 +6755,19 @@ declare namespace Paths {
     }
   }
   namespace UserGetCurrentUser {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace UserGetData {
@@ -5237,6 +6840,11 @@ declare namespace Paths {
        */
       export type Cancelled = boolean;
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Page
        */
       export type Page = number;
@@ -5257,6 +6865,7 @@ declare namespace Paths {
       cancelled?: Parameters.Cancelled;
       page?: Parameters.Page;
       size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       /**
@@ -5311,7 +6920,47 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace UserUnbanActiveBans {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
+       * Serverbundle Id
+       * Only unban bans that belong to the specified serverbundle. Global bans are also included.
+       */
+      export type ServerbundleId = string; // uuid
+      /**
+       * Uuid
+       * The UUID or username of the referenced user.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      uuid: Parameters.Uuid;
+    }
+    export interface QueryParameters {
+      serverbundle_id?: Parameters.ServerbundleId; // uuid
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace WarningAddWarning {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.WarningModelAdd;
     namespace Responses {
       export type $200 = Components.Schemas.WarningModel;
@@ -5321,6 +6970,11 @@ declare namespace Paths {
   namespace WarningDeleteWarning {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -5329,14 +6983,28 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace WarningGetWarningConfig {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = Components.Schemas.ConfigModel;
+      export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace WarningGetWarnings {
@@ -5345,6 +7013,11 @@ declare namespace Paths {
        * Bundles Filter
        */
       export type BundlesFilter = string[];
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
       /**
        * Order By
        */
@@ -5373,6 +7046,7 @@ declare namespace Paths {
       sort_desc?: Parameters.SortDesc;
       page?: Parameters.Page;
       size?: Parameters.Size;
+      morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
       export type $200 = Components.Schemas.PageWarningModel;
@@ -5382,6 +7056,11 @@ declare namespace Paths {
   namespace WarningToggleWarningStatus {
     namespace Parameters {
       /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+      /**
        * Uuid
        * The UUID of the referenced object.
        */
@@ -5390,12 +7069,25 @@ declare namespace Paths {
     export interface PathParameters {
       uuid: Parameters.Uuid;
     }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
   namespace WarningUpdateWarningConfig {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
     export type RequestBody = Components.Schemas.ConfigModel;
     namespace Responses {
       export type $200 = Components.Schemas.ConfigModel;
@@ -5433,7 +7125,7 @@ export interface OperationMethods {
    * design_updateNavItems - Update Nav Items
    */
   'design_updateNavItems'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.DesignUpdateNavItems.QueryParameters> | null,
     data?: Paths.DesignUpdateNavItems.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200 | Paths.DesignUpdateNavItems.Responses.$422>
@@ -5441,7 +7133,7 @@ export interface OperationMethods {
    * design_createCmsHtml - Create Cms Html
    */
   'design_createCmsHtml'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.DesignCreateCmsHtml.QueryParameters> | null,
     data?: Paths.DesignCreateCmsHtml.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200 | Paths.DesignCreateCmsHtml.Responses.$422>
@@ -5457,7 +7149,7 @@ export interface OperationMethods {
    * design_updateCmsHtml - Update Cms Html
    */
   'design_updateCmsHtml'(
-    parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters> | null,
+    parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters & Paths.DesignUpdateCmsHtml.QueryParameters> | null,
     data?: Paths.DesignUpdateCmsHtml.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>
@@ -5465,7 +7157,7 @@ export interface OperationMethods {
    * design_deleteCmsHtml - Delete Cms Html
    */
   'design_deleteCmsHtml'(
-    parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters> | null,
+    parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters & Paths.DesignDeleteCmsHtml.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>
@@ -5481,7 +7173,7 @@ export interface OperationMethods {
    * design_updateTheme - Update Theme
    */
   'design_updateTheme'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.DesignUpdateTheme.QueryParameters> | null,
     data?: Paths.DesignUpdateTheme.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200 | Paths.DesignUpdateTheme.Responses.$422>
@@ -5505,7 +7197,7 @@ export interface OperationMethods {
    * design_editGeneralSettings - Edit General Settings
    */
   'design_editGeneralSettings'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.DesignEditGeneralSettings.QueryParameters> | null,
     data?: Paths.DesignEditGeneralSettings.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
@@ -5537,10 +7229,10 @@ export interface OperationMethods {
    * auth_prepare - Prepare
    */
   'auth_prepare'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.AuthPrepare.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthPrepare.Responses.$200>
+  ): OperationResponse<Paths.AuthPrepare.Responses.$200 | Paths.AuthPrepare.Responses.$422>
   /**
    * auth_start - Start
    */
@@ -5569,10 +7261,10 @@ export interface OperationMethods {
    * user_getCurrentUser - Get Current User
    */
   'user_getCurrentUser'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.UserGetCurrentUser.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>
+  ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200 | Paths.UserGetCurrentUser.Responses.$422>
   /**
    * user_getData - Get Data
    */
@@ -5593,7 +7285,7 @@ export interface OperationMethods {
    * user_createUser - Create User
    */
   'user_createUser'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.UserCreateUser.QueryParameters> | null,
     data?: Paths.UserCreateUser.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserCreateUser.Responses.$200 | Paths.UserCreateUser.Responses.$422>
@@ -5609,10 +7301,58 @@ export interface OperationMethods {
    * user_getAttributeDefinitions - Get Attribute Definitions
    */
   'user_getAttributeDefinitions'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.UserGetAttributeDefinitions.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>
+  ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200 | Paths.UserGetAttributeDefinitions.Responses.$422>
+  /**
+   * user_createAttributeDefinition - Create Attribute Definition
+   */
+  'user_createAttributeDefinition'(
+    parameters?: Parameters<Paths.UserCreateAttributeDefinition.QueryParameters> | null,
+    data?: Paths.UserCreateAttributeDefinition.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserCreateAttributeDefinition.Responses.$200 | Paths.UserCreateAttributeDefinition.Responses.$422>
+  /**
+   * user_getAttributeDefinition - Get Attribute Definition
+   */
+  'user_getAttributeDefinition'(
+    parameters?: Parameters<Paths.UserGetAttributeDefinition.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserGetAttributeDefinition.Responses.$200 | Paths.UserGetAttributeDefinition.Responses.$422>
+  /**
+   * user_editAttributeDefinition - Edit Attribute Definition
+   */
+  'user_editAttributeDefinition'(
+    parameters?: Parameters<Paths.UserEditAttributeDefinition.PathParameters & Paths.UserEditAttributeDefinition.QueryParameters> | null,
+    data?: Paths.UserEditAttributeDefinition.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserEditAttributeDefinition.Responses.$200 | Paths.UserEditAttributeDefinition.Responses.$422>
+  /**
+   * user_deleteAttributeDefinition - Delete Attribute Definition
+   */
+  'user_deleteAttributeDefinition'(
+    parameters?: Parameters<Paths.UserDeleteAttributeDefinition.PathParameters & Paths.UserDeleteAttributeDefinition.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserDeleteAttributeDefinition.Responses.$200 | Paths.UserDeleteAttributeDefinition.Responses.$422>
+  /**
+   * user_createAttribute - Create Attribute
+   */
+  'user_createAttribute'(
+    parameters?: Parameters<Paths.UserCreateAttribute.QueryParameters> | null,
+    data?: Paths.UserCreateAttribute.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserCreateAttribute.Responses.$200 | Paths.UserCreateAttribute.Responses.$422>
+  /**
+   * user_deleteAttribute - Delete Attribute
+   */
+  'user_deleteAttribute'(
+    parameters?: Parameters<Paths.UserDeleteAttribute.PathParameters & Paths.UserDeleteAttribute.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserDeleteAttribute.Responses.$200 | Paths.UserDeleteAttribute.Responses.$422>
   /**
    * user_getMemberships - Get Memberships
    * 
@@ -5627,15 +7367,25 @@ export interface OperationMethods {
    * user_addMembership - Add Membership
    */
   'user_addMembership'(
-    parameters?: Parameters<Paths.UserAddMembership.PathParameters> | null,
+    parameters?: Parameters<Paths.UserAddMembership.PathParameters & Paths.UserAddMembership.QueryParameters> | null,
     data?: Paths.UserAddMembership.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
   /**
+   * user_endActiveMemberships - End Active Memberships
+   * 
+   * End all currently active memberships.
+   */
+  'user_endActiveMemberships'(
+    parameters?: Parameters<Paths.UserEndActiveMemberships.PathParameters & Paths.UserEndActiveMemberships.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserEndActiveMemberships.Responses.$200 | Paths.UserEndActiveMemberships.Responses.$422>
+  /**
    * user_editMembership - Edit Membership
    */
   'user_editMembership'(
-    parameters?: Parameters<Paths.UserEditMembership.PathParameters> | null,
+    parameters?: Parameters<Paths.UserEditMembership.PathParameters & Paths.UserEditMembership.QueryParameters> | null,
     data?: Paths.UserEditMembership.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserEditMembership.Responses.$200 | Paths.UserEditMembership.Responses.$422>
@@ -5643,7 +7393,7 @@ export interface OperationMethods {
    * user_endMembership - End Membership
    */
   'user_endMembership'(
-    parameters?: Parameters<Paths.UserEndMembership.PathParameters> | null,
+    parameters?: Parameters<Paths.UserEndMembership.PathParameters & Paths.UserEndMembership.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserEndMembership.Responses.$200 | Paths.UserEndMembership.Responses.$422>
@@ -5653,7 +7403,7 @@ export interface OperationMethods {
    * Returns all active groups.
    */
   'user_getActiveGroups'(
-    parameters?: Parameters<Paths.UserGetActiveGroups.PathParameters> | null,
+    parameters?: Parameters<Paths.UserGetActiveGroups.PathParameters & Paths.UserGetActiveGroups.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>
@@ -5699,7 +7449,7 @@ export interface OperationMethods {
    * user_getAddress - Get Address
    */
   'user_getAddress'(
-    parameters?: Parameters<Paths.UserGetAddress.PathParameters> | null,
+    parameters?: Parameters<Paths.UserGetAddress.PathParameters & Paths.UserGetAddress.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>
@@ -5707,7 +7457,7 @@ export interface OperationMethods {
    * user_addAddress - Add Address
    */
   'user_addAddress'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.UserAddAddress.QueryParameters> | null,
     data?: Paths.UserAddAddress.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>
@@ -5715,10 +7465,20 @@ export interface OperationMethods {
    * user_getAddresses - Get Addresses
    */
   'user_getAddresses'(
-    parameters?: Parameters<Paths.UserGetAddresses.PathParameters> | null,
+    parameters?: Parameters<Paths.UserGetAddresses.PathParameters & Paths.UserGetAddresses.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>
+  /**
+   * user_unbanActiveBans - Unban Active Bans
+   * 
+   * Unban all currently active bans.
+   */
+  'user_unbanActiveBans'(
+    parameters?: Parameters<Paths.UserUnbanActiveBans.PathParameters & Paths.UserUnbanActiveBans.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserUnbanActiveBans.Responses.$200 | Paths.UserUnbanActiveBans.Responses.$422>
   /**
    * server_getBundles - Get Bundles
    */
@@ -5731,10 +7491,34 @@ export interface OperationMethods {
    * server_addBundle - Add Bundle
    */
   'server_addBundle'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ServerAddBundle.QueryParameters> | null,
     data?: Paths.ServerAddBundle.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>
+  /**
+   * server_getBundle - Get Bundle
+   */
+  'server_getBundle'(
+    parameters?: Parameters<Paths.ServerGetBundle.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerGetBundle.Responses.$200 | Paths.ServerGetBundle.Responses.$422>
+  /**
+   * server_editBundle - Edit Bundle
+   */
+  'server_editBundle'(
+    parameters?: Parameters<Paths.ServerEditBundle.PathParameters & Paths.ServerEditBundle.QueryParameters> | null,
+    data?: Paths.ServerEditBundle.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
+  /**
+   * server_deleteBundle - Delete Bundle
+   */
+  'server_deleteBundle'(
+    parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters & Paths.ServerDeleteBundle.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
   /**
    * server_getGroups - Get Groups
    */
@@ -5752,26 +7536,20 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerGetServerByBundle.Responses.$200 | Paths.ServerGetServerByBundle.Responses.$422>
   /**
-   * server_editBundle - Edit Bundle
+   * server_getBans - Get Bans
+   * 
+   * Returns a dict of all bans in the bundle by user identifier.
    */
-  'server_editBundle'(
-    parameters?: Parameters<Paths.ServerEditBundle.PathParameters> | null,
-    data?: Paths.ServerEditBundle.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
-  /**
-   * server_deleteBundle - Delete Bundle
-   */
-  'server_deleteBundle'(
-    parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters> | null,
+  'server_getBans'(
+    parameters?: Parameters<Paths.ServerGetBans.PathParameters & Paths.ServerGetBans.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+  ): OperationResponse<Paths.ServerGetBans.Responses.$200 | Paths.ServerGetBans.Responses.$422>
   /**
    * server_getBundleTokens - Get Bundle Tokens
    */
   'server_getBundleTokens'(
-    parameters?: Parameters<Paths.ServerGetBundleTokens.PathParameters> | null,
+    parameters?: Parameters<Paths.ServerGetBundleTokens.PathParameters & Paths.ServerGetBundleTokens.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerGetBundleTokens.Responses.$200 | Paths.ServerGetBundleTokens.Responses.$422>
@@ -5779,7 +7557,7 @@ export interface OperationMethods {
    * server_createBundleToken - Create Bundle Token
    */
   'server_createBundleToken'(
-    parameters?: Parameters<Paths.ServerCreateBundleToken.PathParameters> | null,
+    parameters?: Parameters<Paths.ServerCreateBundleToken.PathParameters & Paths.ServerCreateBundleToken.QueryParameters> | null,
     data?: Paths.ServerCreateBundleToken.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerCreateBundleToken.Responses.$200 | Paths.ServerCreateBundleToken.Responses.$422>
@@ -5787,7 +7565,7 @@ export interface OperationMethods {
    * server_revokeBundleToken - Revoke Bundle Token
    */
   'server_revokeBundleToken'(
-    parameters?: Parameters<Paths.ServerRevokeBundleToken.PathParameters> | null,
+    parameters?: Parameters<Paths.ServerRevokeBundleToken.PathParameters & Paths.ServerRevokeBundleToken.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerRevokeBundleToken.Responses.$200 | Paths.ServerRevokeBundleToken.Responses.$422>
@@ -5811,7 +7589,7 @@ export interface OperationMethods {
    * server_createServer - Create Server
    */
   'server_createServer'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ServerCreateServer.QueryParameters> | null,
     data?: Paths.ServerCreateServer.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerCreateServer.Responses.$200 | Paths.ServerCreateServer.Responses.$422>
@@ -5827,7 +7605,7 @@ export interface OperationMethods {
    * server_editServer - Edit Server
    */
   'server_editServer'(
-    parameters?: Parameters<Paths.ServerEditServer.PathParameters> | null,
+    parameters?: Parameters<Paths.ServerEditServer.PathParameters & Paths.ServerEditServer.QueryParameters> | null,
     data?: Paths.ServerEditServer.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerEditServer.Responses.$200 | Paths.ServerEditServer.Responses.$422>
@@ -5835,7 +7613,7 @@ export interface OperationMethods {
    * server_deleteServer - Delete Server
    */
   'server_deleteServer'(
-    parameters?: Parameters<Paths.ServerDeleteServer.PathParameters> | null,
+    parameters?: Parameters<Paths.ServerDeleteServer.PathParameters & Paths.ServerDeleteServer.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ServerDeleteServer.Responses.$200 | Paths.ServerDeleteServer.Responses.$422>
@@ -5851,7 +7629,7 @@ export interface OperationMethods {
    * group_addGroup - Add Group
    */
   'group_addGroup'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.GroupAddGroup.QueryParameters> | null,
     data?: Paths.GroupAddGroup.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>
@@ -5875,7 +7653,7 @@ export interface OperationMethods {
    * group_editGroup - Edit Group
    */
   'group_editGroup'(
-    parameters?: Parameters<Paths.GroupEditGroup.PathParameters> | null,
+    parameters?: Parameters<Paths.GroupEditGroup.PathParameters & Paths.GroupEditGroup.QueryParameters> | null,
     data?: Paths.GroupEditGroup.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>
@@ -5883,7 +7661,7 @@ export interface OperationMethods {
    * group_deleteGroup - Delete Group
    */
   'group_deleteGroup'(
-    parameters?: Parameters<Paths.GroupDeleteGroup.PathParameters> | null,
+    parameters?: Parameters<Paths.GroupDeleteGroup.PathParameters & Paths.GroupDeleteGroup.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>
@@ -5898,6 +7676,16 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GroupGetAllProperties.Responses.$200>
   /**
+   * group_getAdvancedProperties - Get Advanced Properties
+   * 
+   * Returns all advanced properties with a short description.
+   */
+  'group_getAdvancedProperties'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.GroupGetAdvancedProperties.Responses.$200>
+  /**
    * ban_getBans - Get Bans
    */
   'ban_getBans'(
@@ -5909,7 +7697,7 @@ export interface OperationMethods {
    * ban_addBan - Add Ban
    */
   'ban_addBan'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.BanAddBan.QueryParameters> | null,
     data?: Paths.BanAddBan.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.BanAddBan.Responses.$200 | Paths.BanAddBan.Responses.$422>
@@ -5917,7 +7705,7 @@ export interface OperationMethods {
    * ban_editBan - Edit Ban
    */
   'ban_editBan'(
-    parameters?: Parameters<Paths.BanEditBan.PathParameters> | null,
+    parameters?: Parameters<Paths.BanEditBan.PathParameters & Paths.BanEditBan.QueryParameters> | null,
     data?: Paths.BanEditBan.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>
@@ -5925,7 +7713,7 @@ export interface OperationMethods {
    * ban_deleteBan - Delete Ban
    */
   'ban_deleteBan'(
-    parameters?: Parameters<Paths.BanDeleteBan.PathParameters> | null,
+    parameters?: Parameters<Paths.BanDeleteBan.PathParameters & Paths.BanDeleteBan.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.BanDeleteBan.Responses.$200 | Paths.BanDeleteBan.Responses.$422>
@@ -5933,10 +7721,18 @@ export interface OperationMethods {
    * ban_getLogs - Get Logs
    */
   'ban_getLogs'(
-    parameters?: Parameters<Paths.BanGetLogs.PathParameters> | null,
+    parameters?: Parameters<Paths.BanGetLogs.PathParameters & Paths.BanGetLogs.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
+  /**
+   * ban_test - Test
+   */
+  'ban_test'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.BanTest.Responses.$200>
   /**
    * warning_getWarnings - Get Warnings
    */
@@ -5949,7 +7745,7 @@ export interface OperationMethods {
    * warning_addWarning - Add Warning
    */
   'warning_addWarning'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.WarningAddWarning.QueryParameters> | null,
     data?: Paths.WarningAddWarning.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
@@ -5957,15 +7753,15 @@ export interface OperationMethods {
    * warning_getWarningConfig - Get Warning Config
    */
   'warning_getWarningConfig'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.WarningGetWarningConfig.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>
+  ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200 | Paths.WarningGetWarningConfig.Responses.$422>
   /**
    * warning_updateWarningConfig - Update Warning Config
    */
   'warning_updateWarningConfig'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.WarningUpdateWarningConfig.QueryParameters> | null,
     data?: Paths.WarningUpdateWarningConfig.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>
@@ -5973,7 +7769,7 @@ export interface OperationMethods {
    * warning_toggleWarningStatus - Toggle Warning Status
    */
   'warning_toggleWarningStatus'(
-    parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters> | null,
+    parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters & Paths.WarningToggleWarningStatus.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>
@@ -5981,7 +7777,7 @@ export interface OperationMethods {
    * warning_deleteWarning - Delete Warning
    */
   'warning_deleteWarning'(
-    parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters> | null,
+    parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters & Paths.WarningDeleteWarning.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>
@@ -5989,15 +7785,15 @@ export interface OperationMethods {
    * shop_getGateways - Get Gateways
    */
   'shop_getGateways'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopGetGateways.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
+  ): OperationResponse<Paths.ShopGetGateways.Responses.$200 | Paths.ShopGetGateways.Responses.$422>
   /**
    * shop_createGateway - Create Gateway
    */
   'shop_createGateway'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopCreateGateway.QueryParameters> | null,
     data?: Paths.ShopCreateGateway.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>
@@ -6005,7 +7801,7 @@ export interface OperationMethods {
    * shop_editGateway - Edit Gateway
    */
   'shop_editGateway'(
-    parameters?: Parameters<Paths.ShopEditGateway.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopEditGateway.PathParameters & Paths.ShopEditGateway.QueryParameters> | null,
     data?: Paths.ShopEditGateway.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
@@ -6013,7 +7809,7 @@ export interface OperationMethods {
    * shop_deleteGateway - Delete Gateway
    */
   'shop_deleteGateway'(
-    parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters & Paths.ShopDeleteGateway.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
@@ -6021,15 +7817,15 @@ export interface OperationMethods {
    * shop_getDiscounts - Get Discounts
    */
   'shop_getDiscounts'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopGetDiscounts.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>
+  ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200 | Paths.ShopGetDiscounts.Responses.$422>
   /**
    * shop_createDiscount - Create Discount
    */
   'shop_createDiscount'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopCreateDiscount.QueryParameters> | null,
     data?: Paths.ShopCreateDiscount.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>
@@ -6039,7 +7835,7 @@ export interface OperationMethods {
    * Get discount by UUID or code.
    */
   'shop_getDiscount'(
-    parameters?: Parameters<Paths.ShopGetDiscount.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopGetDiscount.PathParameters & Paths.ShopGetDiscount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
@@ -6047,7 +7843,7 @@ export interface OperationMethods {
    * shop_editDiscount - Edit Discount
    */
   'shop_editDiscount'(
-    parameters?: Parameters<Paths.ShopEditDiscount.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopEditDiscount.PathParameters & Paths.ShopEditDiscount.QueryParameters> | null,
     data?: Paths.ShopEditDiscount.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>
@@ -6055,7 +7851,7 @@ export interface OperationMethods {
    * shop_deleteDiscount - Delete Discount
    */
   'shop_deleteDiscount'(
-    parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters & Paths.ShopDeleteDiscount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>
@@ -6083,7 +7879,7 @@ export interface OperationMethods {
    * shop_addPacketToCart - Add Packet To Cart
    */
   'shop_addPacketToCart'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopAddPacketToCart.QueryParameters> | null,
     data?: Paths.ShopAddPacketToCart.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200 | Paths.ShopAddPacketToCart.Responses.$422>
@@ -6091,23 +7887,23 @@ export interface OperationMethods {
    * shop_removePacketsFromCart - Remove Packets From Cart
    */
   'shop_removePacketsFromCart'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopRemovePacketsFromCart.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>
+  ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200 | Paths.ShopRemovePacketsFromCart.Responses.$422>
   /**
    * shop_getCartPackets - Get Cart Packets
    */
   'shop_getCartPackets'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopGetCartPackets.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>
+  ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200 | Paths.ShopGetCartPackets.Responses.$422>
   /**
    * shop_removePacketFromCart - Remove Packet From Cart
    */
   'shop_removePacketFromCart'(
-    parameters?: Parameters<Paths.ShopRemovePacketFromCart.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopRemovePacketFromCart.PathParameters & Paths.ShopRemovePacketFromCart.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200 | Paths.ShopRemovePacketFromCart.Responses.$422>
@@ -6115,7 +7911,7 @@ export interface OperationMethods {
    * shop_applyDiscount - Apply Discount
    */
   'shop_applyDiscount'(
-    parameters?: Parameters<Paths.ShopApplyDiscount.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopApplyDiscount.PathParameters & Paths.ShopApplyDiscount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200 | Paths.ShopApplyDiscount.Responses.$422>
@@ -6123,7 +7919,7 @@ export interface OperationMethods {
    * shop_removeDiscount - Remove Discount
    */
   'shop_removeDiscount'(
-    parameters?: Parameters<Paths.ShopRemoveDiscount.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopRemoveDiscount.PathParameters & Paths.ShopRemoveDiscount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200 | Paths.ShopRemoveDiscount.Responses.$422>
@@ -6131,7 +7927,7 @@ export interface OperationMethods {
    * shop_startCheckout - Start Checkout
    */
   'shop_startCheckout'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopStartCheckout.QueryParameters> | null,
     data?: Paths.ShopStartCheckout.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopStartCheckout.Responses.$200 | Paths.ShopStartCheckout.Responses.$422>
@@ -6139,7 +7935,7 @@ export interface OperationMethods {
    * shop_startPayment - Start Payment
    */
   'shop_startPayment'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopStartPayment.QueryParameters> | null,
     data?: Paths.ShopStartPayment.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopStartPayment.Responses.$200 | Paths.ShopStartPayment.Responses.$422>
@@ -6147,7 +7943,7 @@ export interface OperationMethods {
    * shop_checkPayment - Check Payment
    */
   'shop_checkPayment'(
-    parameters?: Parameters<Paths.ShopCheckPayment.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopCheckPayment.PathParameters & Paths.ShopCheckPayment.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>
@@ -6157,7 +7953,7 @@ export interface OperationMethods {
    * Meant for payments than can be finished "in house". For example credits.
    */
   'shop_finishPayment'(
-    parameters?: Parameters<Paths.ShopFinishPayment.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopFinishPayment.PathParameters & Paths.ShopFinishPayment.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>
@@ -6165,7 +7961,7 @@ export interface OperationMethods {
    * shop_cancelPayment - Cancel Payment
    */
   'shop_cancelPayment'(
-    parameters?: Parameters<Paths.ShopCancelPayment.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopCancelPayment.PathParameters & Paths.ShopCancelPayment.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>
@@ -6189,7 +7985,7 @@ export interface OperationMethods {
    * shop_getPurchaseGateways - Get Purchase Gateways
    */
   'shop_getPurchaseGateways'(
-    parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters & Paths.ShopGetPurchaseGateways.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
@@ -6197,7 +7993,7 @@ export interface OperationMethods {
    * shop_editPurchase - Edit Purchase
    */
   'shop_editPurchase'(
-    parameters?: Parameters<Paths.ShopEditPurchase.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopEditPurchase.PathParameters & Paths.ShopEditPurchase.QueryParameters> | null,
     data?: Paths.ShopEditPurchase.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>
@@ -6205,7 +8001,7 @@ export interface OperationMethods {
    * shop_getDebitInvoice - Get Debit Invoice
    */
   'shop_getDebitInvoice'(
-    parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters & Paths.ShopGetDebitInvoice.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
@@ -6215,10 +8011,10 @@ export interface OperationMethods {
    * Get all currencies that were used in purchases.
    */
   'shop_getCurrencies'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopGetCurrencies.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>
+  ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200 | Paths.ShopGetCurrencies.Responses.$422>
   /**
    * shop_getDebitStatistic - Get Debit Statistic
    */
@@ -6239,15 +8035,15 @@ export interface OperationMethods {
    * shop_getTaxRules - Get Tax Rules
    */
   'shop_getTaxRules'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopGetTaxRules.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>
+  ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200 | Paths.ShopGetTaxRules.Responses.$422>
   /**
    * shop_createTaxRule - Create Tax Rule
    */
   'shop_createTaxRule'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopCreateTaxRule.QueryParameters> | null,
     data?: Paths.ShopCreateTaxRule.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>
@@ -6255,7 +8051,7 @@ export interface OperationMethods {
    * shop_deleteTaxRule - Delete Tax Rule
    */
   'shop_deleteTaxRule'(
-    parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters> | null,
+    parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters & Paths.ShopDeleteTaxRule.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
@@ -6271,7 +8067,7 @@ export interface OperationMethods {
    * shop_editGeneralConfig - Edit General Config
    */
   'shop_editGeneralConfig'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopEditGeneralConfig.QueryParameters> | null,
     data?: Paths.ShopEditGeneralConfig.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
@@ -6287,18 +8083,76 @@ export interface OperationMethods {
    * shop_getBusinessAddress - Get Business Address
    */
   'shop_getBusinessAddress'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopGetBusinessAddress.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>
+  ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200 | Paths.ShopGetBusinessAddress.Responses.$422>
   /**
    * shop_changeBusinessAddress - Change Business Address
    */
   'shop_changeBusinessAddress'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopChangeBusinessAddress.QueryParameters> | null,
     data?: Paths.ShopChangeBusinessAddress.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>
+  /**
+   * packet_getRewards - Get Rewards
+   */
+  'packet_getRewards'(
+    parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
+  /**
+   * packet_addReward - Add Reward
+   */
+  'packet_addReward'(
+    parameters?: Parameters<Paths.PacketAddReward.QueryParameters> | null,
+    data?: Paths.PacketAddReward.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
+  /**
+   * packet_editReward - Edit Reward
+   */
+  'packet_editReward'(
+    parameters?: Parameters<Paths.PacketEditReward.PathParameters & Paths.PacketEditReward.QueryParameters> | null,
+    data?: Paths.PacketEditReward.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
+  /**
+   * packet_deleteReward - Delete Reward
+   */
+  'packet_deleteReward'(
+    parameters?: Parameters<Paths.PacketDeleteReward.PathParameters & Paths.PacketDeleteReward.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
+  /**
+   * packet_getAppliedRewards - Get Applied Rewards
+   */
+  'packet_getAppliedRewards'(
+    parameters?: Parameters<Paths.PacketGetAppliedRewards.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketGetAppliedRewards.Responses.$200 | Paths.PacketGetAppliedRewards.Responses.$422>
+  /**
+   * packet_getAppliedRewardsByUser - Get Applied Rewards By User
+   * 
+   * Get rewards for a list of users.
+   */
+  'packet_getAppliedRewardsByUser'(
+    parameters?: Parameters<Paths.PacketGetAppliedRewardsByUser.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketGetAppliedRewardsByUser.Responses.$200 | Paths.PacketGetAppliedRewardsByUser.Responses.$422>
+  /**
+   * packet_editAppliedReward - Edit Applied Reward
+   */
+  'packet_editAppliedReward'(
+    parameters?: Parameters<Paths.PacketEditAppliedReward.PathParameters & Paths.PacketEditAppliedReward.QueryParameters> | null,
+    data?: Paths.PacketEditAppliedReward.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200 | Paths.PacketEditAppliedReward.Responses.$422>
   /**
    * packet_getCategories - Get Categories
    */
@@ -6311,7 +8165,7 @@ export interface OperationMethods {
    * packet_createCategory - Create Category
    */
   'packet_createCategory'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.PacketCreateCategory.QueryParameters> | null,
     data?: Paths.PacketCreateCategory.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>
@@ -6319,7 +8173,7 @@ export interface OperationMethods {
    * packet_editCategory - Edit Category
    */
   'packet_editCategory'(
-    parameters?: Parameters<Paths.PacketEditCategory.PathParameters> | null,
+    parameters?: Parameters<Paths.PacketEditCategory.PathParameters & Paths.PacketEditCategory.QueryParameters> | null,
     data?: Paths.PacketEditCategory.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>
@@ -6327,7 +8181,7 @@ export interface OperationMethods {
    * packet_deleteCategory - Delete Category
    */
   'packet_deleteCategory'(
-    parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters> | null,
+    parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters & Paths.PacketDeleteCategory.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>
@@ -6343,7 +8197,7 @@ export interface OperationMethods {
    * packet_addPacket - Add Packet
    */
   'packet_addPacket'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.PacketAddPacket.QueryParameters> | null,
     data?: Paths.PacketAddPacket.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketAddPacket.Responses.$200 | Paths.PacketAddPacket.Responses.$422>
@@ -6351,7 +8205,7 @@ export interface OperationMethods {
    * packet_editPacket - Edit Packet
    */
   'packet_editPacket'(
-    parameters?: Parameters<Paths.PacketEditPacket.PathParameters> | null,
+    parameters?: Parameters<Paths.PacketEditPacket.PathParameters & Paths.PacketEditPacket.QueryParameters> | null,
     data?: Paths.PacketEditPacket.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>
@@ -6359,42 +8213,10 @@ export interface OperationMethods {
    * packet_deletePacket - Delete Packet
    */
   'packet_deletePacket'(
-    parameters?: Parameters<Paths.PacketDeletePacket.PathParameters> | null,
+    parameters?: Parameters<Paths.PacketDeletePacket.PathParameters & Paths.PacketDeletePacket.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>
-  /**
-   * packet_getRewards - Get Rewards
-   */
-  'packet_getRewards'(
-    parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
-  /**
-   * packet_addReward - Add Reward
-   */
-  'packet_addReward'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: Paths.PacketAddReward.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
-  /**
-   * packet_editReward - Edit Reward
-   */
-  'packet_editReward'(
-    parameters?: Parameters<Paths.PacketEditReward.PathParameters> | null,
-    data?: Paths.PacketEditReward.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
-  /**
-   * packet_deleteReward - Delete Reward
-   */
-  'packet_deleteReward'(
-    parameters?: Parameters<Paths.PacketDeleteReward.PathParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
   /**
    * packet_getAppliedPackets - Get Applied Packets
    */
@@ -6415,7 +8237,7 @@ export interface OperationMethods {
    * packet_editAppliedPacket - Edit Applied Packet
    */
   'packet_editAppliedPacket'(
-    parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters> | null,
+    parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters & Paths.PacketEditAppliedPacket.QueryParameters> | null,
     data?: Paths.PacketEditAppliedPacket.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
@@ -6423,7 +8245,7 @@ export interface OperationMethods {
    * packet_deleteAppliedPacket - Delete Applied Packet
    */
   'packet_deleteAppliedPacket'(
-    parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters> | null,
+    parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters & Paths.PacketDeleteAppliedPacket.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
@@ -6439,7 +8261,7 @@ export interface OperationMethods {
    * news_addMessage - Add Message
    */
   'news_addMessage'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.NewsAddMessage.QueryParameters> | null,
     data?: Paths.NewsAddMessage.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>
@@ -6447,7 +8269,7 @@ export interface OperationMethods {
    * news_editMessage - Edit Message
    */
   'news_editMessage'(
-    parameters?: Parameters<Paths.NewsEditMessage.PathParameters> | null,
+    parameters?: Parameters<Paths.NewsEditMessage.PathParameters & Paths.NewsEditMessage.QueryParameters> | null,
     data?: Paths.NewsEditMessage.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
@@ -6455,7 +8277,7 @@ export interface OperationMethods {
    * news_deleteMessage - Delete Message
    */
   'news_deleteMessage'(
-    parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters> | null,
+    parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters & Paths.NewsDeleteMessage.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
@@ -6479,10 +8301,34 @@ export interface OperationMethods {
    * requirements_createRequirementSet - Create Requirement Set
    */
   'requirements_createRequirementSet'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.RequirementsCreateRequirementSet.QueryParameters> | null,
     data?: Paths.RequirementsCreateRequirementSet.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>
+  /**
+   * requirements_getRequirementSet - Get Requirement Set
+   */
+  'requirements_getRequirementSet'(
+    parameters?: Parameters<Paths.RequirementsGetRequirementSet.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsGetRequirementSet.Responses.$200 | Paths.RequirementsGetRequirementSet.Responses.$422>
+  /**
+   * requirements_editRequirementSet - Edit Requirement Set
+   */
+  'requirements_editRequirementSet'(
+    parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters & Paths.RequirementsEditRequirementSet.QueryParameters> | null,
+    data?: Paths.RequirementsEditRequirementSet.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
+  /**
+   * requirements_deleteRequirementSet - Delete Requirement Set
+   */
+  'requirements_deleteRequirementSet'(
+    parameters?: Parameters<Paths.RequirementsDeleteRequirementSet.PathParameters & Paths.RequirementsDeleteRequirementSet.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsDeleteRequirementSet.Responses.$200 | Paths.RequirementsDeleteRequirementSet.Responses.$422>
   /**
    * requirements_getRequirements - Get Requirements
    */
@@ -6495,23 +8341,23 @@ export interface OperationMethods {
    * requirements_createRequirement - Create Requirement
    */
   'requirements_createRequirement'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.RequirementsCreateRequirement.QueryParameters> | null,
     data?: Paths.RequirementsCreateRequirement.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
   /**
-   * requirements_editRequirementSet - Edit Requirement Set
+   * requirements_deleteRequirement - Delete Requirement
    */
-  'requirements_editRequirementSet'(
-    parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters> | null,
-    data?: Paths.RequirementsEditRequirementSet.RequestBody,
+  'requirements_deleteRequirement'(
+    parameters?: Parameters<Paths.RequirementsDeleteRequirement.PathParameters & Paths.RequirementsDeleteRequirement.QueryParameters> | null,
+    data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
+  ): OperationResponse<Paths.RequirementsDeleteRequirement.Responses.$200 | Paths.RequirementsDeleteRequirement.Responses.$422>
   /**
    * finance_getAccount - Get Account
    */
   'finance_getAccount'(
-    parameters?: Parameters<Paths.FinanceGetAccount.PathParameters> | null,
+    parameters?: Parameters<Paths.FinanceGetAccount.PathParameters & Paths.FinanceGetAccount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
@@ -6519,10 +8365,10 @@ export interface OperationMethods {
    * notification_getStream - Get Stream
    */
   'notification_getStream'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.NotificationGetStream.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationGetStream.Responses.$200>
+  ): OperationResponse<Paths.NotificationGetStream.Responses.$200 | Paths.NotificationGetStream.Responses.$422>
   /**
    * notification_getNotifications - Get Notifications
    */
@@ -6535,7 +8381,7 @@ export interface OperationMethods {
    * notification_markAsRead - Mark As Read
    */
   'notification_markAsRead'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.NotificationMarkAsRead.QueryParameters> | null,
     data?: Paths.NotificationMarkAsRead.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>
@@ -6583,7 +8429,7 @@ export interface OperationMethods {
    * forum_newThread - New Thread
    */
   'forum_newThread'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ForumNewThread.QueryParameters> | null,
     data?: Paths.ForumNewThread.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumNewThread.Responses.$200 | Paths.ForumNewThread.Responses.$422>
@@ -6599,7 +8445,7 @@ export interface OperationMethods {
    * forum_getThread - Get Thread
    */
   'forum_getThread'(
-    parameters?: Parameters<Paths.ForumGetThread.PathParameters> | null,
+    parameters?: Parameters<Paths.ForumGetThread.PathParameters & Paths.ForumGetThread.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumGetThread.Responses.$200 | Paths.ForumGetThread.Responses.$422>
@@ -6607,7 +8453,7 @@ export interface OperationMethods {
    * forum_toggleStatus - Toggle Status
    */
   'forum_toggleStatus'(
-    parameters?: Parameters<Paths.ForumToggleStatus.PathParameters> | null,
+    parameters?: Parameters<Paths.ForumToggleStatus.PathParameters & Paths.ForumToggleStatus.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumToggleStatus.Responses.$200 | Paths.ForumToggleStatus.Responses.$422>
@@ -6615,7 +8461,7 @@ export interface OperationMethods {
    * forum_getThreadPosts - Get Thread Posts
    */
   'forum_getThreadPosts'(
-    parameters?: Parameters<Paths.ForumGetThreadPosts.PathParameters> | null,
+    parameters?: Parameters<Paths.ForumGetThreadPosts.PathParameters & Paths.ForumGetThreadPosts.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumGetThreadPosts.Responses.$200 | Paths.ForumGetThreadPosts.Responses.$422>
@@ -6623,10 +8469,18 @@ export interface OperationMethods {
    * forum_newPost - New Post
    */
   'forum_newPost'(
-    parameters?: Parameters<Paths.ForumNewPost.PathParameters> | null,
+    parameters?: Parameters<Paths.ForumNewPost.PathParameters & Paths.ForumNewPost.QueryParameters> | null,
     data?: Paths.ForumNewPost.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumNewPost.Responses.$200 | Paths.ForumNewPost.Responses.$422>
+  /**
+   * discord_getGuild - Get Guild
+   */
+  'discord_getGuild'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DiscordGetGuild.Responses.$200>
   /**
    * discord_getGuildRoles - Get Guild Roles
    */
@@ -6635,6 +8489,30 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DiscordGetGuildRoles.Responses.$200>
+  /**
+   * discord_getRelations - Get Relations
+   */
+  'discord_getRelations'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DiscordGetRelations.Responses.$200>
+  /**
+   * discord_addRelation - Add Relation
+   */
+  'discord_addRelation'(
+    parameters?: Parameters<Paths.DiscordAddRelation.QueryParameters> | null,
+    data?: Paths.DiscordAddRelation.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DiscordAddRelation.Responses.$200 | Paths.DiscordAddRelation.Responses.$422>
+  /**
+   * discord_deleteRelation - Delete Relation
+   */
+  'discord_deleteRelation'(
+    parameters?: Parameters<Paths.DiscordDeleteRelation.PathParameters & Paths.DiscordDeleteRelation.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200 | Paths.DiscordDeleteRelation.Responses.$422>
 }
 
 export interface PathsDictionary {
@@ -6651,7 +8529,7 @@ export interface PathsDictionary {
      * design_updateNavItems - Update Nav Items
      */
     'put'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.DesignUpdateNavItems.QueryParameters> | null,
       data?: Paths.DesignUpdateNavItems.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200 | Paths.DesignUpdateNavItems.Responses.$422>
@@ -6661,7 +8539,7 @@ export interface PathsDictionary {
      * design_createCmsHtml - Create Cms Html
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.DesignCreateCmsHtml.QueryParameters> | null,
       data?: Paths.DesignCreateCmsHtml.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200 | Paths.DesignCreateCmsHtml.Responses.$422>
@@ -6679,7 +8557,7 @@ export interface PathsDictionary {
      * design_deleteCmsHtml - Delete Cms Html
      */
     'delete'(
-      parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters> | null,
+      parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters & Paths.DesignDeleteCmsHtml.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>
@@ -6687,7 +8565,7 @@ export interface PathsDictionary {
      * design_updateCmsHtml - Update Cms Html
      */
     'patch'(
-      parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters> | null,
+      parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters & Paths.DesignUpdateCmsHtml.QueryParameters> | null,
       data?: Paths.DesignUpdateCmsHtml.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>
@@ -6705,7 +8583,7 @@ export interface PathsDictionary {
      * design_updateTheme - Update Theme
      */
     'put'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.DesignUpdateTheme.QueryParameters> | null,
       data?: Paths.DesignUpdateTheme.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200 | Paths.DesignUpdateTheme.Responses.$422>
@@ -6733,7 +8611,7 @@ export interface PathsDictionary {
      * design_editGeneralSettings - Edit General Settings
      */
     'patch'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.DesignEditGeneralSettings.QueryParameters> | null,
       data?: Paths.DesignEditGeneralSettings.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
@@ -6773,10 +8651,10 @@ export interface PathsDictionary {
      * auth_prepare - Prepare
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.AuthPrepare.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthPrepare.Responses.$200>
+    ): OperationResponse<Paths.AuthPrepare.Responses.$200 | Paths.AuthPrepare.Responses.$422>
   }
   ['/auth/social/{backend}/start']: {
     /**
@@ -6811,10 +8689,10 @@ export interface PathsDictionary {
      * user_getCurrentUser - Get Current User
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.UserGetCurrentUser.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>
+    ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200 | Paths.UserGetCurrentUser.Responses.$422>
   }
   ['/user/{identifier}']: {
     /**
@@ -6839,7 +8717,7 @@ export interface PathsDictionary {
      * user_createUser - Create User
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.UserCreateUser.QueryParameters> | null,
       data?: Paths.UserCreateUser.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserCreateUser.Responses.$200 | Paths.UserCreateUser.Responses.$422>
@@ -6859,10 +8737,66 @@ export interface PathsDictionary {
      * user_getAttributeDefinitions - Get Attribute Definitions
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.UserGetAttributeDefinitions.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>
+    ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200 | Paths.UserGetAttributeDefinitions.Responses.$422>
+    /**
+     * user_createAttributeDefinition - Create Attribute Definition
+     */
+    'post'(
+      parameters?: Parameters<Paths.UserCreateAttributeDefinition.QueryParameters> | null,
+      data?: Paths.UserCreateAttributeDefinition.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserCreateAttributeDefinition.Responses.$200 | Paths.UserCreateAttributeDefinition.Responses.$422>
+  }
+  ['/user/attribute/definition/{uuid_or_name}']: {
+    /**
+     * user_getAttributeDefinition - Get Attribute Definition
+     */
+    'get'(
+      parameters?: Parameters<Paths.UserGetAttributeDefinition.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserGetAttributeDefinition.Responses.$200 | Paths.UserGetAttributeDefinition.Responses.$422>
+  }
+  ['/user/attribute/definition/{uuid}']: {
+    /**
+     * user_deleteAttributeDefinition - Delete Attribute Definition
+     */
+    'delete'(
+      parameters?: Parameters<Paths.UserDeleteAttributeDefinition.PathParameters & Paths.UserDeleteAttributeDefinition.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserDeleteAttributeDefinition.Responses.$200 | Paths.UserDeleteAttributeDefinition.Responses.$422>
+    /**
+     * user_editAttributeDefinition - Edit Attribute Definition
+     */
+    'patch'(
+      parameters?: Parameters<Paths.UserEditAttributeDefinition.PathParameters & Paths.UserEditAttributeDefinition.QueryParameters> | null,
+      data?: Paths.UserEditAttributeDefinition.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserEditAttributeDefinition.Responses.$200 | Paths.UserEditAttributeDefinition.Responses.$422>
+  }
+  ['/user/attribute/']: {
+    /**
+     * user_createAttribute - Create Attribute
+     */
+    'post'(
+      parameters?: Parameters<Paths.UserCreateAttribute.QueryParameters> | null,
+      data?: Paths.UserCreateAttribute.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserCreateAttribute.Responses.$200 | Paths.UserCreateAttribute.Responses.$422>
+  }
+  ['/user/attribute/{uuid}']: {
+    /**
+     * user_deleteAttribute - Delete Attribute
+     */
+    'delete'(
+      parameters?: Parameters<Paths.UserDeleteAttribute.PathParameters & Paths.UserDeleteAttribute.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserDeleteAttribute.Responses.$200 | Paths.UserDeleteAttribute.Responses.$422>
   }
   ['/user/{uuid}/membership']: {
     /**
@@ -6879,17 +8813,27 @@ export interface PathsDictionary {
      * user_addMembership - Add Membership
      */
     'post'(
-      parameters?: Parameters<Paths.UserAddMembership.PathParameters> | null,
+      parameters?: Parameters<Paths.UserAddMembership.PathParameters & Paths.UserAddMembership.QueryParameters> | null,
       data?: Paths.UserAddMembership.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
+    /**
+     * user_endActiveMemberships - End Active Memberships
+     * 
+     * End all currently active memberships.
+     */
+    'delete'(
+      parameters?: Parameters<Paths.UserEndActiveMemberships.PathParameters & Paths.UserEndActiveMemberships.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserEndActiveMemberships.Responses.$200 | Paths.UserEndActiveMemberships.Responses.$422>
   }
   ['/user/membership/{uuid}']: {
     /**
      * user_endMembership - End Membership
      */
     'delete'(
-      parameters?: Parameters<Paths.UserEndMembership.PathParameters> | null,
+      parameters?: Parameters<Paths.UserEndMembership.PathParameters & Paths.UserEndMembership.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserEndMembership.Responses.$200 | Paths.UserEndMembership.Responses.$422>
@@ -6897,7 +8841,7 @@ export interface PathsDictionary {
      * user_editMembership - Edit Membership
      */
     'patch'(
-      parameters?: Parameters<Paths.UserEditMembership.PathParameters> | null,
+      parameters?: Parameters<Paths.UserEditMembership.PathParameters & Paths.UserEditMembership.QueryParameters> | null,
       data?: Paths.UserEditMembership.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserEditMembership.Responses.$200 | Paths.UserEditMembership.Responses.$422>
@@ -6909,7 +8853,7 @@ export interface PathsDictionary {
      * Returns all active groups.
      */
     'get'(
-      parameters?: Parameters<Paths.UserGetActiveGroups.PathParameters> | null,
+      parameters?: Parameters<Paths.UserGetActiveGroups.PathParameters & Paths.UserGetActiveGroups.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>
@@ -6965,7 +8909,7 @@ export interface PathsDictionary {
      * user_getAddress - Get Address
      */
     'get'(
-      parameters?: Parameters<Paths.UserGetAddress.PathParameters> | null,
+      parameters?: Parameters<Paths.UserGetAddress.PathParameters & Paths.UserGetAddress.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>
@@ -6975,7 +8919,7 @@ export interface PathsDictionary {
      * user_addAddress - Add Address
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.UserAddAddress.QueryParameters> | null,
       data?: Paths.UserAddAddress.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>
@@ -6985,10 +8929,22 @@ export interface PathsDictionary {
      * user_getAddresses - Get Addresses
      */
     'get'(
-      parameters?: Parameters<Paths.UserGetAddresses.PathParameters> | null,
+      parameters?: Parameters<Paths.UserGetAddresses.PathParameters & Paths.UserGetAddresses.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>
+  }
+  ['/user/{uuid}/ban']: {
+    /**
+     * user_unbanActiveBans - Unban Active Bans
+     * 
+     * Unban all currently active bans.
+     */
+    'patch'(
+      parameters?: Parameters<Paths.UserUnbanActiveBans.PathParameters & Paths.UserUnbanActiveBans.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserUnbanActiveBans.Responses.$200 | Paths.UserUnbanActiveBans.Responses.$422>
   }
   ['/server/bundle/']: {
     /**
@@ -7003,10 +8959,36 @@ export interface PathsDictionary {
      * server_addBundle - Add Bundle
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ServerAddBundle.QueryParameters> | null,
       data?: Paths.ServerAddBundle.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>
+  }
+  ['/server/bundle/{uuid}']: {
+    /**
+     * server_getBundle - Get Bundle
+     */
+    'get'(
+      parameters?: Parameters<Paths.ServerGetBundle.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerGetBundle.Responses.$200 | Paths.ServerGetBundle.Responses.$422>
+    /**
+     * server_deleteBundle - Delete Bundle
+     */
+    'delete'(
+      parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters & Paths.ServerDeleteBundle.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+    /**
+     * server_editBundle - Edit Bundle
+     */
+    'patch'(
+      parameters?: Parameters<Paths.ServerEditBundle.PathParameters & Paths.ServerEditBundle.QueryParameters> | null,
+      data?: Paths.ServerEditBundle.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
   }
   ['/server/bundle/{uuid}/group']: {
     /**
@@ -7028,30 +9010,24 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerGetServerByBundle.Responses.$200 | Paths.ServerGetServerByBundle.Responses.$422>
   }
-  ['/server/bundle/{uuid}']: {
+  ['/server/bundle/{uuid}/ban']: {
     /**
-     * server_deleteBundle - Delete Bundle
+     * server_getBans - Get Bans
+     * 
+     * Returns a dict of all bans in the bundle by user identifier.
      */
-    'delete'(
-      parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters> | null,
+    'get'(
+      parameters?: Parameters<Paths.ServerGetBans.PathParameters & Paths.ServerGetBans.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
-    /**
-     * server_editBundle - Edit Bundle
-     */
-    'patch'(
-      parameters?: Parameters<Paths.ServerEditBundle.PathParameters> | null,
-      data?: Paths.ServerEditBundle.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
+    ): OperationResponse<Paths.ServerGetBans.Responses.$200 | Paths.ServerGetBans.Responses.$422>
   }
   ['/server/bundle/{uuid}/token']: {
     /**
      * server_getBundleTokens - Get Bundle Tokens
      */
     'get'(
-      parameters?: Parameters<Paths.ServerGetBundleTokens.PathParameters> | null,
+      parameters?: Parameters<Paths.ServerGetBundleTokens.PathParameters & Paths.ServerGetBundleTokens.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerGetBundleTokens.Responses.$200 | Paths.ServerGetBundleTokens.Responses.$422>
@@ -7059,7 +9035,7 @@ export interface PathsDictionary {
      * server_createBundleToken - Create Bundle Token
      */
     'post'(
-      parameters?: Parameters<Paths.ServerCreateBundleToken.PathParameters> | null,
+      parameters?: Parameters<Paths.ServerCreateBundleToken.PathParameters & Paths.ServerCreateBundleToken.QueryParameters> | null,
       data?: Paths.ServerCreateBundleToken.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerCreateBundleToken.Responses.$200 | Paths.ServerCreateBundleToken.Responses.$422>
@@ -7069,7 +9045,7 @@ export interface PathsDictionary {
      * server_revokeBundleToken - Revoke Bundle Token
      */
     'patch'(
-      parameters?: Parameters<Paths.ServerRevokeBundleToken.PathParameters> | null,
+      parameters?: Parameters<Paths.ServerRevokeBundleToken.PathParameters & Paths.ServerRevokeBundleToken.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerRevokeBundleToken.Responses.$200 | Paths.ServerRevokeBundleToken.Responses.$422>
@@ -7097,7 +9073,7 @@ export interface PathsDictionary {
      * server_createServer - Create Server
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ServerCreateServer.QueryParameters> | null,
       data?: Paths.ServerCreateServer.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerCreateServer.Responses.$200 | Paths.ServerCreateServer.Responses.$422>
@@ -7115,7 +9091,7 @@ export interface PathsDictionary {
      * server_deleteServer - Delete Server
      */
     'delete'(
-      parameters?: Parameters<Paths.ServerDeleteServer.PathParameters> | null,
+      parameters?: Parameters<Paths.ServerDeleteServer.PathParameters & Paths.ServerDeleteServer.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerDeleteServer.Responses.$200 | Paths.ServerDeleteServer.Responses.$422>
@@ -7123,7 +9099,7 @@ export interface PathsDictionary {
      * server_editServer - Edit Server
      */
     'patch'(
-      parameters?: Parameters<Paths.ServerEditServer.PathParameters> | null,
+      parameters?: Parameters<Paths.ServerEditServer.PathParameters & Paths.ServerEditServer.QueryParameters> | null,
       data?: Paths.ServerEditServer.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ServerEditServer.Responses.$200 | Paths.ServerEditServer.Responses.$422>
@@ -7141,7 +9117,7 @@ export interface PathsDictionary {
      * group_addGroup - Add Group
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.GroupAddGroup.QueryParameters> | null,
       data?: Paths.GroupAddGroup.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>
@@ -7169,7 +9145,7 @@ export interface PathsDictionary {
      * group_deleteGroup - Delete Group
      */
     'delete'(
-      parameters?: Parameters<Paths.GroupDeleteGroup.PathParameters> | null,
+      parameters?: Parameters<Paths.GroupDeleteGroup.PathParameters & Paths.GroupDeleteGroup.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>
@@ -7177,7 +9153,7 @@ export interface PathsDictionary {
      * group_editGroup - Edit Group
      */
     'patch'(
-      parameters?: Parameters<Paths.GroupEditGroup.PathParameters> | null,
+      parameters?: Parameters<Paths.GroupEditGroup.PathParameters & Paths.GroupEditGroup.QueryParameters> | null,
       data?: Paths.GroupEditGroup.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>
@@ -7194,6 +9170,18 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GroupGetAllProperties.Responses.$200>
   }
+  ['/group/advanced-property/']: {
+    /**
+     * group_getAdvancedProperties - Get Advanced Properties
+     * 
+     * Returns all advanced properties with a short description.
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.GroupGetAdvancedProperties.Responses.$200>
+  }
   ['/ban/']: {
     /**
      * ban_getBans - Get Bans
@@ -7207,7 +9195,7 @@ export interface PathsDictionary {
      * ban_addBan - Add Ban
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.BanAddBan.QueryParameters> | null,
       data?: Paths.BanAddBan.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.BanAddBan.Responses.$200 | Paths.BanAddBan.Responses.$422>
@@ -7217,7 +9205,7 @@ export interface PathsDictionary {
      * ban_deleteBan - Delete Ban
      */
     'delete'(
-      parameters?: Parameters<Paths.BanDeleteBan.PathParameters> | null,
+      parameters?: Parameters<Paths.BanDeleteBan.PathParameters & Paths.BanDeleteBan.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.BanDeleteBan.Responses.$200 | Paths.BanDeleteBan.Responses.$422>
@@ -7225,7 +9213,7 @@ export interface PathsDictionary {
      * ban_editBan - Edit Ban
      */
     'patch'(
-      parameters?: Parameters<Paths.BanEditBan.PathParameters> | null,
+      parameters?: Parameters<Paths.BanEditBan.PathParameters & Paths.BanEditBan.QueryParameters> | null,
       data?: Paths.BanEditBan.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>
@@ -7235,10 +9223,20 @@ export interface PathsDictionary {
      * ban_getLogs - Get Logs
      */
     'get'(
-      parameters?: Parameters<Paths.BanGetLogs.PathParameters> | null,
+      parameters?: Parameters<Paths.BanGetLogs.PathParameters & Paths.BanGetLogs.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
+  }
+  ['/ban/test']: {
+    /**
+     * ban_test - Test
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.BanTest.Responses.$200>
   }
   ['/warning/']: {
     /**
@@ -7253,7 +9251,7 @@ export interface PathsDictionary {
      * warning_addWarning - Add Warning
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.WarningAddWarning.QueryParameters> | null,
       data?: Paths.WarningAddWarning.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
@@ -7263,15 +9261,15 @@ export interface PathsDictionary {
      * warning_getWarningConfig - Get Warning Config
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.WarningGetWarningConfig.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>
+    ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200 | Paths.WarningGetWarningConfig.Responses.$422>
     /**
      * warning_updateWarningConfig - Update Warning Config
      */
     'patch'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.WarningUpdateWarningConfig.QueryParameters> | null,
       data?: Paths.WarningUpdateWarningConfig.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>
@@ -7281,7 +9279,7 @@ export interface PathsDictionary {
      * warning_toggleWarningStatus - Toggle Warning Status
      */
     'patch'(
-      parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters> | null,
+      parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters & Paths.WarningToggleWarningStatus.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>
@@ -7291,7 +9289,7 @@ export interface PathsDictionary {
      * warning_deleteWarning - Delete Warning
      */
     'delete'(
-      parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters> | null,
+      parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters & Paths.WarningDeleteWarning.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>
@@ -7301,15 +9299,15 @@ export interface PathsDictionary {
      * shop_getGateways - Get Gateways
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopGetGateways.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
+    ): OperationResponse<Paths.ShopGetGateways.Responses.$200 | Paths.ShopGetGateways.Responses.$422>
     /**
      * shop_createGateway - Create Gateway
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopCreateGateway.QueryParameters> | null,
       data?: Paths.ShopCreateGateway.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>
@@ -7319,7 +9317,7 @@ export interface PathsDictionary {
      * shop_deleteGateway - Delete Gateway
      */
     'delete'(
-      parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters & Paths.ShopDeleteGateway.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
@@ -7327,7 +9325,7 @@ export interface PathsDictionary {
      * shop_editGateway - Edit Gateway
      */
     'patch'(
-      parameters?: Parameters<Paths.ShopEditGateway.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopEditGateway.PathParameters & Paths.ShopEditGateway.QueryParameters> | null,
       data?: Paths.ShopEditGateway.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
@@ -7337,15 +9335,15 @@ export interface PathsDictionary {
      * shop_getDiscounts - Get Discounts
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopGetDiscounts.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>
+    ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200 | Paths.ShopGetDiscounts.Responses.$422>
     /**
      * shop_createDiscount - Create Discount
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopCreateDiscount.QueryParameters> | null,
       data?: Paths.ShopCreateDiscount.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>
@@ -7357,7 +9355,7 @@ export interface PathsDictionary {
      * Get discount by UUID or code.
      */
     'get'(
-      parameters?: Parameters<Paths.ShopGetDiscount.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopGetDiscount.PathParameters & Paths.ShopGetDiscount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
@@ -7367,7 +9365,7 @@ export interface PathsDictionary {
      * shop_deleteDiscount - Delete Discount
      */
     'delete'(
-      parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters & Paths.ShopDeleteDiscount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>
@@ -7375,7 +9373,7 @@ export interface PathsDictionary {
      * shop_editDiscount - Edit Discount
      */
     'patch'(
-      parameters?: Parameters<Paths.ShopEditDiscount.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopEditDiscount.PathParameters & Paths.ShopEditDiscount.QueryParameters> | null,
       data?: Paths.ShopEditDiscount.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>
@@ -7407,7 +9405,7 @@ export interface PathsDictionary {
      * shop_addPacketToCart - Add Packet To Cart
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopAddPacketToCart.QueryParameters> | null,
       data?: Paths.ShopAddPacketToCart.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200 | Paths.ShopAddPacketToCart.Responses.$422>
@@ -7415,27 +9413,27 @@ export interface PathsDictionary {
      * shop_removePacketsFromCart - Remove Packets From Cart
      */
     'delete'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopRemovePacketsFromCart.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>
+    ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200 | Paths.ShopRemovePacketsFromCart.Responses.$422>
   }
   ['/shop/cart/packet']: {
     /**
      * shop_getCartPackets - Get Cart Packets
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopGetCartPackets.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>
+    ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200 | Paths.ShopGetCartPackets.Responses.$422>
   }
   ['/shop/cart/{uuid}']: {
     /**
      * shop_removePacketFromCart - Remove Packet From Cart
      */
     'delete'(
-      parameters?: Parameters<Paths.ShopRemovePacketFromCart.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopRemovePacketFromCart.PathParameters & Paths.ShopRemovePacketFromCart.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200 | Paths.ShopRemovePacketFromCart.Responses.$422>
@@ -7445,7 +9443,7 @@ export interface PathsDictionary {
      * shop_applyDiscount - Apply Discount
      */
     'post'(
-      parameters?: Parameters<Paths.ShopApplyDiscount.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopApplyDiscount.PathParameters & Paths.ShopApplyDiscount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200 | Paths.ShopApplyDiscount.Responses.$422>
@@ -7453,7 +9451,7 @@ export interface PathsDictionary {
      * shop_removeDiscount - Remove Discount
      */
     'delete'(
-      parameters?: Parameters<Paths.ShopRemoveDiscount.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopRemoveDiscount.PathParameters & Paths.ShopRemoveDiscount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200 | Paths.ShopRemoveDiscount.Responses.$422>
@@ -7463,7 +9461,7 @@ export interface PathsDictionary {
      * shop_startCheckout - Start Checkout
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopStartCheckout.QueryParameters> | null,
       data?: Paths.ShopStartCheckout.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopStartCheckout.Responses.$200 | Paths.ShopStartCheckout.Responses.$422>
@@ -7473,7 +9471,7 @@ export interface PathsDictionary {
      * shop_startPayment - Start Payment
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopStartPayment.QueryParameters> | null,
       data?: Paths.ShopStartPayment.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopStartPayment.Responses.$200 | Paths.ShopStartPayment.Responses.$422>
@@ -7483,7 +9481,7 @@ export interface PathsDictionary {
      * shop_checkPayment - Check Payment
      */
     'get'(
-      parameters?: Parameters<Paths.ShopCheckPayment.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopCheckPayment.PathParameters & Paths.ShopCheckPayment.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>
@@ -7493,7 +9491,7 @@ export interface PathsDictionary {
      * Meant for payments than can be finished "in house". For example credits.
      */
     'post'(
-      parameters?: Parameters<Paths.ShopFinishPayment.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopFinishPayment.PathParameters & Paths.ShopFinishPayment.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>
@@ -7501,7 +9499,7 @@ export interface PathsDictionary {
      * shop_cancelPayment - Cancel Payment
      */
     'patch'(
-      parameters?: Parameters<Paths.ShopCancelPayment.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopCancelPayment.PathParameters & Paths.ShopCancelPayment.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>
@@ -7531,7 +9529,7 @@ export interface PathsDictionary {
      * shop_getPurchaseGateways - Get Purchase Gateways
      */
     'get'(
-      parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters & Paths.ShopGetPurchaseGateways.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
@@ -7541,7 +9539,7 @@ export interface PathsDictionary {
      * shop_editPurchase - Edit Purchase
      */
     'patch'(
-      parameters?: Parameters<Paths.ShopEditPurchase.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopEditPurchase.PathParameters & Paths.ShopEditPurchase.QueryParameters> | null,
       data?: Paths.ShopEditPurchase.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>
@@ -7551,7 +9549,7 @@ export interface PathsDictionary {
      * shop_getDebitInvoice - Get Debit Invoice
      */
     'get'(
-      parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters & Paths.ShopGetDebitInvoice.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
@@ -7563,10 +9561,10 @@ export interface PathsDictionary {
      * Get all currencies that were used in purchases.
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopGetCurrencies.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>
+    ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200 | Paths.ShopGetCurrencies.Responses.$422>
   }
   ['/shop/debit/statistic']: {
     /**
@@ -7593,15 +9591,15 @@ export interface PathsDictionary {
      * shop_getTaxRules - Get Tax Rules
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopGetTaxRules.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>
+    ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200 | Paths.ShopGetTaxRules.Responses.$422>
     /**
      * shop_createTaxRule - Create Tax Rule
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopCreateTaxRule.QueryParameters> | null,
       data?: Paths.ShopCreateTaxRule.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>
@@ -7611,7 +9609,7 @@ export interface PathsDictionary {
      * shop_deleteTaxRule - Delete Tax Rule
      */
     'delete'(
-      parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters> | null,
+      parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters & Paths.ShopDeleteTaxRule.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
@@ -7629,7 +9627,7 @@ export interface PathsDictionary {
      * shop_editGeneralConfig - Edit General Config
      */
     'patch'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopEditGeneralConfig.QueryParameters> | null,
       data?: Paths.ShopEditGeneralConfig.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
@@ -7649,18 +9647,86 @@ export interface PathsDictionary {
      * shop_getBusinessAddress - Get Business Address
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopGetBusinessAddress.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>
+    ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200 | Paths.ShopGetBusinessAddress.Responses.$422>
     /**
      * shop_changeBusinessAddress - Change Business Address
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopChangeBusinessAddress.QueryParameters> | null,
       data?: Paths.ShopChangeBusinessAddress.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>
+  }
+  ['/packet/reward/']: {
+    /**
+     * packet_getRewards - Get Rewards
+     */
+    'get'(
+      parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
+    /**
+     * packet_addReward - Add Reward
+     */
+    'post'(
+      parameters?: Parameters<Paths.PacketAddReward.QueryParameters> | null,
+      data?: Paths.PacketAddReward.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
+  }
+  ['/packet/reward/{uuid}']: {
+    /**
+     * packet_deleteReward - Delete Reward
+     */
+    'delete'(
+      parameters?: Parameters<Paths.PacketDeleteReward.PathParameters & Paths.PacketDeleteReward.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
+    /**
+     * packet_editReward - Edit Reward
+     */
+    'patch'(
+      parameters?: Parameters<Paths.PacketEditReward.PathParameters & Paths.PacketEditReward.QueryParameters> | null,
+      data?: Paths.PacketEditReward.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
+  }
+  ['/packet/reward/applied']: {
+    /**
+     * packet_getAppliedRewards - Get Applied Rewards
+     */
+    'get'(
+      parameters?: Parameters<Paths.PacketGetAppliedRewards.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketGetAppliedRewards.Responses.$200 | Paths.PacketGetAppliedRewards.Responses.$422>
+  }
+  ['/packet/reward/applied/user']: {
+    /**
+     * packet_getAppliedRewardsByUser - Get Applied Rewards By User
+     * 
+     * Get rewards for a list of users.
+     */
+    'get'(
+      parameters?: Parameters<Paths.PacketGetAppliedRewardsByUser.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketGetAppliedRewardsByUser.Responses.$200 | Paths.PacketGetAppliedRewardsByUser.Responses.$422>
+  }
+  ['/packet/reward/applied/{uuid}']: {
+    /**
+     * packet_editAppliedReward - Edit Applied Reward
+     */
+    'patch'(
+      parameters?: Parameters<Paths.PacketEditAppliedReward.PathParameters & Paths.PacketEditAppliedReward.QueryParameters> | null,
+      data?: Paths.PacketEditAppliedReward.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200 | Paths.PacketEditAppliedReward.Responses.$422>
   }
   ['/packet/category']: {
     /**
@@ -7675,7 +9741,7 @@ export interface PathsDictionary {
      * packet_createCategory - Create Category
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.PacketCreateCategory.QueryParameters> | null,
       data?: Paths.PacketCreateCategory.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>
@@ -7685,7 +9751,7 @@ export interface PathsDictionary {
      * packet_deleteCategory - Delete Category
      */
     'delete'(
-      parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters> | null,
+      parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters & Paths.PacketDeleteCategory.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>
@@ -7693,7 +9759,7 @@ export interface PathsDictionary {
      * packet_editCategory - Edit Category
      */
     'patch'(
-      parameters?: Parameters<Paths.PacketEditCategory.PathParameters> | null,
+      parameters?: Parameters<Paths.PacketEditCategory.PathParameters & Paths.PacketEditCategory.QueryParameters> | null,
       data?: Paths.PacketEditCategory.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>
@@ -7711,7 +9777,7 @@ export interface PathsDictionary {
      * packet_addPacket - Add Packet
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.PacketAddPacket.QueryParameters> | null,
       data?: Paths.PacketAddPacket.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketAddPacket.Responses.$200 | Paths.PacketAddPacket.Responses.$422>
@@ -7721,7 +9787,7 @@ export interface PathsDictionary {
      * packet_deletePacket - Delete Packet
      */
     'delete'(
-      parameters?: Parameters<Paths.PacketDeletePacket.PathParameters> | null,
+      parameters?: Parameters<Paths.PacketDeletePacket.PathParameters & Paths.PacketDeletePacket.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>
@@ -7729,46 +9795,10 @@ export interface PathsDictionary {
      * packet_editPacket - Edit Packet
      */
     'patch'(
-      parameters?: Parameters<Paths.PacketEditPacket.PathParameters> | null,
+      parameters?: Parameters<Paths.PacketEditPacket.PathParameters & Paths.PacketEditPacket.QueryParameters> | null,
       data?: Paths.PacketEditPacket.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>
-  }
-  ['/packet/reward']: {
-    /**
-     * packet_getRewards - Get Rewards
-     */
-    'get'(
-      parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
-    /**
-     * packet_addReward - Add Reward
-     */
-    'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: Paths.PacketAddReward.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
-  }
-  ['/packet/reward/{uuid}']: {
-    /**
-     * packet_deleteReward - Delete Reward
-     */
-    'delete'(
-      parameters?: Parameters<Paths.PacketDeleteReward.PathParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
-    /**
-     * packet_editReward - Edit Reward
-     */
-    'patch'(
-      parameters?: Parameters<Paths.PacketEditReward.PathParameters> | null,
-      data?: Paths.PacketEditReward.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
   }
   ['/packet/applied']: {
     /**
@@ -7780,7 +9810,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200 | Paths.PacketGetAppliedPackets.Responses.$422>
   }
-  ['/packet/available_packet_status']: {
+  ['/packet/available-status']: {
     /**
      * packet_getAvailablePacketStatus - Get Available Packet Status
      */
@@ -7795,7 +9825,7 @@ export interface PathsDictionary {
      * packet_deleteAppliedPacket - Delete Applied Packet
      */
     'delete'(
-      parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters> | null,
+      parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters & Paths.PacketDeleteAppliedPacket.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
@@ -7803,7 +9833,7 @@ export interface PathsDictionary {
      * packet_editAppliedPacket - Edit Applied Packet
      */
     'patch'(
-      parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters> | null,
+      parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters & Paths.PacketEditAppliedPacket.QueryParameters> | null,
       data?: Paths.PacketEditAppliedPacket.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
@@ -7821,7 +9851,7 @@ export interface PathsDictionary {
      * news_addMessage - Add Message
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.NewsAddMessage.QueryParameters> | null,
       data?: Paths.NewsAddMessage.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>
@@ -7831,7 +9861,7 @@ export interface PathsDictionary {
      * news_deleteMessage - Delete Message
      */
     'delete'(
-      parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters> | null,
+      parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters & Paths.NewsDeleteMessage.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
@@ -7839,7 +9869,7 @@ export interface PathsDictionary {
      * news_editMessage - Edit Message
      */
     'patch'(
-      parameters?: Parameters<Paths.NewsEditMessage.PathParameters> | null,
+      parameters?: Parameters<Paths.NewsEditMessage.PathParameters & Paths.NewsEditMessage.QueryParameters> | null,
       data?: Paths.NewsEditMessage.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
@@ -7867,10 +9897,36 @@ export interface PathsDictionary {
      * requirements_createRequirementSet - Create Requirement Set
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.RequirementsCreateRequirementSet.QueryParameters> | null,
       data?: Paths.RequirementsCreateRequirementSet.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>
+  }
+  ['/requirement/set/{uuid}']: {
+    /**
+     * requirements_getRequirementSet - Get Requirement Set
+     */
+    'get'(
+      parameters?: Parameters<Paths.RequirementsGetRequirementSet.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsGetRequirementSet.Responses.$200 | Paths.RequirementsGetRequirementSet.Responses.$422>
+    /**
+     * requirements_deleteRequirementSet - Delete Requirement Set
+     */
+    'delete'(
+      parameters?: Parameters<Paths.RequirementsDeleteRequirementSet.PathParameters & Paths.RequirementsDeleteRequirementSet.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsDeleteRequirementSet.Responses.$200 | Paths.RequirementsDeleteRequirementSet.Responses.$422>
+    /**
+     * requirements_editRequirementSet - Edit Requirement Set
+     */
+    'patch'(
+      parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters & Paths.RequirementsEditRequirementSet.QueryParameters> | null,
+      data?: Paths.RequirementsEditRequirementSet.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
   }
   ['/requirement/']: {
     /**
@@ -7885,27 +9941,27 @@ export interface PathsDictionary {
      * requirements_createRequirement - Create Requirement
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.RequirementsCreateRequirement.QueryParameters> | null,
       data?: Paths.RequirementsCreateRequirement.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
   }
-  ['/requirement/set/{uuid}']: {
+  ['/requirement{uuid}']: {
     /**
-     * requirements_editRequirementSet - Edit Requirement Set
+     * requirements_deleteRequirement - Delete Requirement
      */
-    'patch'(
-      parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters> | null,
-      data?: Paths.RequirementsEditRequirementSet.RequestBody,
+    'delete'(
+      parameters?: Parameters<Paths.RequirementsDeleteRequirement.PathParameters & Paths.RequirementsDeleteRequirement.QueryParameters> | null,
+      data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
+    ): OperationResponse<Paths.RequirementsDeleteRequirement.Responses.$200 | Paths.RequirementsDeleteRequirement.Responses.$422>
   }
   ['/finance/account/{uuid}']: {
     /**
      * finance_getAccount - Get Account
      */
     'get'(
-      parameters?: Parameters<Paths.FinanceGetAccount.PathParameters> | null,
+      parameters?: Parameters<Paths.FinanceGetAccount.PathParameters & Paths.FinanceGetAccount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
@@ -7915,10 +9971,10 @@ export interface PathsDictionary {
      * notification_getStream - Get Stream
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.NotificationGetStream.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationGetStream.Responses.$200>
+    ): OperationResponse<Paths.NotificationGetStream.Responses.$200 | Paths.NotificationGetStream.Responses.$422>
   }
   ['/notification/']: {
     /**
@@ -7933,7 +9989,7 @@ export interface PathsDictionary {
      * notification_markAsRead - Mark As Read
      */
     'patch'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.NotificationMarkAsRead.QueryParameters> | null,
       data?: Paths.NotificationMarkAsRead.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>
@@ -7991,7 +10047,7 @@ export interface PathsDictionary {
      * forum_newThread - New Thread
      */
     'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ForumNewThread.QueryParameters> | null,
       data?: Paths.ForumNewThread.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumNewThread.Responses.$200 | Paths.ForumNewThread.Responses.$422>
@@ -8011,7 +10067,7 @@ export interface PathsDictionary {
      * forum_getThread - Get Thread
      */
     'get'(
-      parameters?: Parameters<Paths.ForumGetThread.PathParameters> | null,
+      parameters?: Parameters<Paths.ForumGetThread.PathParameters & Paths.ForumGetThread.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumGetThread.Responses.$200 | Paths.ForumGetThread.Responses.$422>
@@ -8019,7 +10075,7 @@ export interface PathsDictionary {
      * forum_toggleStatus - Toggle Status
      */
     'patch'(
-      parameters?: Parameters<Paths.ForumToggleStatus.PathParameters> | null,
+      parameters?: Parameters<Paths.ForumToggleStatus.PathParameters & Paths.ForumToggleStatus.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumToggleStatus.Responses.$200 | Paths.ForumToggleStatus.Responses.$422>
@@ -8029,7 +10085,7 @@ export interface PathsDictionary {
      * forum_getThreadPosts - Get Thread Posts
      */
     'get'(
-      parameters?: Parameters<Paths.ForumGetThreadPosts.PathParameters> | null,
+      parameters?: Parameters<Paths.ForumGetThreadPosts.PathParameters & Paths.ForumGetThreadPosts.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumGetThreadPosts.Responses.$200 | Paths.ForumGetThreadPosts.Responses.$422>
@@ -8037,10 +10093,20 @@ export interface PathsDictionary {
      * forum_newPost - New Post
      */
     'post'(
-      parameters?: Parameters<Paths.ForumNewPost.PathParameters> | null,
+      parameters?: Parameters<Paths.ForumNewPost.PathParameters & Paths.ForumNewPost.QueryParameters> | null,
       data?: Paths.ForumNewPost.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumNewPost.Responses.$200 | Paths.ForumNewPost.Responses.$422>
+  }
+  ['/discord/guild']: {
+    /**
+     * discord_getGuild - Get Guild
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DiscordGetGuild.Responses.$200>
   }
   ['/discord/roles']: {
     /**
@@ -8051,6 +10117,34 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DiscordGetGuildRoles.Responses.$200>
+  }
+  ['/discord/relation']: {
+    /**
+     * discord_getRelations - Get Relations
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DiscordGetRelations.Responses.$200>
+    /**
+     * discord_addRelation - Add Relation
+     */
+    'post'(
+      parameters?: Parameters<Paths.DiscordAddRelation.QueryParameters> | null,
+      data?: Paths.DiscordAddRelation.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DiscordAddRelation.Responses.$200 | Paths.DiscordAddRelation.Responses.$422>
+  }
+  ['/discord/relation/{uuid}']: {
+    /**
+     * discord_deleteRelation - Delete Relation
+     */
+    'delete'(
+      parameters?: Parameters<Paths.DiscordDeleteRelation.PathParameters & Paths.DiscordDeleteRelation.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200 | Paths.DiscordDeleteRelation.Responses.$422>
   }
 }
 

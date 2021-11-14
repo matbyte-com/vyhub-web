@@ -728,5 +728,6 @@
   "disable": "Disable",
   "error": "Error",
   "maxInputExceeded": "Maximum input length of {length} exceeded",
-  "discord": "Discord"
+  "discord": "Discord",
+  "key": "Key"
 }
