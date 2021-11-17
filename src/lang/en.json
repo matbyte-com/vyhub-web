@@ -469,7 +469,8 @@
       "paypal": "PayPal",
       "stripe": "Stripe",
       "create": "Create Payment Gateway",
-      "edit": "Edit Payment Gateway"
+      "edit": "Edit Payment Gateway",
+      "paysafecard": "Paysafecard"
     },
     "messages": {
       "createSuccess": "Payment gateway successfully created.",

@@ -57,6 +57,28 @@ function gatewayFields(gatewayType: string) {
     };
   }
 
+  if (gatewayType === 'PAYSAFECARD') {
+    return {
+      secret_key: {
+        type: [
+          'string',
+          'null',
+        ],
+        title: 'Secret Key',
+      },
+      environment: {
+        type: [
+          'string',
+          'null',
+        ],
+        title: i18n.t('environment'),
+        enum: [
+          'SANDBOX',
+          'PRODUCTION',
+        ],
+      },
+    };
+  }
   return {};
 }
 

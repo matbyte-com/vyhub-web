@@ -115,6 +115,10 @@ export default {
           label: this.$t('_shop.labels.credits'),
           icon: 'mdi-circle-multiple',
         },
+        PAYSAFECARD: {
+          label: this.$t('_gateway.labels.paysafecard'),
+          icon: 'mdi-lock',
+        },
       },
       noAttributeKeys: ['name', 'subtitle', 'type', 'enabled'],
     };
