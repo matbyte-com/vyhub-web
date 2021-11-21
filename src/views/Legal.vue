@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-card>
+      <span class="text--disabled">This website is built using the <a target="_blank" href="https://vyhub.net">VyHub</a> gameserver and community management system.</span>
       <v-card-text>
-        <span>This website is built using <a target="_blank" href="https://vyhub.net">VyHub</a> gameserver and community management system.</span>
-        <div class="mt-2" v-html="content"></div>
+        <div class="mt-2 ql-editor" v-html="content"></div>
       </v-card-text>
     </v-card>
   </div>

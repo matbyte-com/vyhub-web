@@ -4,9 +4,20 @@
     <v-alert v-if="errorMsg" type="error">
       {{ errorMsg }}
     </v-alert>
-    <VueEditor v-model="content"/>
-    <v-btn depressed color="primary" @click="updateLegal">
-      {{ $t('save') }}
+    <v-card flat>
+      <v-card-text>
+        <VueEditor v-model="content"/>
+      </v-card-text>
+    </v-card>
+    <v-btn :loading="loading" depressed color="primary" class="mt-3" @click="updateLegal">
+      <span v-if="success">
+        <v-icon large color="success">
+          mdi-check
+        </v-icon>
+      </span>
+      <span v-else>
+        {{ $t('save') }}
+      </span>
     </v-btn>
   </div>
 </template>
@@ -24,6 +35,8 @@ export default {
     return {
       content: '',
       errorMsg: '',
+      loading: false,
+      success: false,
     };
   },
   beforeMount() {
@@ -43,11 +56,18 @@ export default {
         this.errorMsg = i18n.t('settings.contentEmpty');
         return;
       }
-      (await openapi).design_updateLegal(null, this.content).then((rsp) => {
+      this.loading = true;
+      (await openapi).design_updateLegal(null, { content: this.content }).then((rsp) => {
         this.content = rsp.data;
         this.errorMsg = '';
+        this.loading = false;
+        this.success = true;
+        setTimeout(() => {
+          this.success = false;
+        }, 3000);
       }).catch((err) => {
         this.errorMsg = err.response.data.detail;
+        this.loading = false;
       });
     },
   },
