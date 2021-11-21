@@ -2,16 +2,33 @@
   <div>
     <v-card>
       <v-card-text>
-        This website is operated by Matbyte UG. <br>
-        Please find the legal <a href="https://vyhub.net/legal"><strong>here</strong></a>
+        <span>This website is built using <a target="_blank" href="https://vyhub.net">VyHub</a> gameserver and community management system.</span>
+        <div class="mt-2" v-html="content"></div>
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script>
+import openapi from '@/api/openapi';
+
 export default {
   name: 'Legal.vue',
+  data() {
+    return {
+      content: 'Legal',
+    };
+  },
+  beforeMount() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      (await openapi).design_getLegal().then((rsp) => {
+        this.content = rsp.data;
+      });
+    },
+  },
 };
 </script>
 

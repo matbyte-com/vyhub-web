@@ -179,6 +179,13 @@ export default {
           reqProp: 'discord_show',
           title: this.$t('discord'),
         },
+        {
+          name: 'legal',
+          icon: 'mdi-scale-balance',
+          component: 'Legal',
+          reqProp: 'legal_edit',
+          title: this.$t('legal'),
+        },
       ],
       activeTabName: 'general',
     };

@@ -74,6 +74,7 @@
     "rawHtml": "Raw HTML",
     "editNavLink": "Edit Navigation Link",
     "editor": "Editor",
+    "contentEmpty": "Content is empty",
     "httpPlaceholder": "https://google.de",
     "addRequirementSet": "Add Requirement Set",
     "editRequirementSet": "Edit Requirement Set",
@@ -275,7 +276,8 @@
     "warning_add": "Added warning for user: {username}",
     "user_token_create": "Created token {token_id} with scope {scope} for serverbundle {bundle_id}",
     "user_token_revoke": "Revoked token {token_id}.",
-    "warning_config_edit": "Edited warning config"
+    "warning_config_edit": "Edited warning config",
+    "legal_edit": "Edited legal"
   },
   "forms": {
     "iconDescription": "Available icons"
@@ -730,5 +732,6 @@
   "error": "Error",
   "maxInputExceeded": "Maximum input length of {length} exceeded",
   "discord": "Discord",
-  "key": "Key"
+  "key": "Key",
+  "legal": "Legal"
 }

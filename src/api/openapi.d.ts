@@ -102,42 +102,6 @@ declare namespace Components {
       country_code: string; // ^[A-Z]{2}$
     }
     /**
-     * DonationGoalModel
-     */
-    export interface Api_V1_Design_DonationGoalModel {
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * Goal
-       */
-      goal?: number;
-      currency: CurrencyModel;
-      /**
-       * Current
-       */
-      current?: number;
-    }
-    /**
-     * DonationGoalModel
-     */
-    export interface Api_V1_Shop_DonationGoalModel {
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * Goal
-       */
-      goal?: number;
-      currency: CurrencyModel;
-      /**
-       * Current
-       */
-      current?: number;
-    }
-    /**
      * AppliedPacketModel
      */
     export interface AppliedPacketModel {
@@ -167,7 +131,7 @@ declare namespace Components {
        * Active
        */
       active: boolean;
-      user: Model_User_User_UserModelNoLinkedShort;
+      user: Model_User_User_UserModelShort;
     }
     /**
      * AppliedPacketModelPatch
@@ -197,7 +161,7 @@ declare namespace Components {
        */
       active: boolean;
       reward: RewardModel;
-      user: Model_User_UserModelNoLinkedShort;
+      user: Model_User_UserModelShort;
       /**
        * Applied Packet Id
        */
@@ -235,8 +199,8 @@ declare namespace Components {
        */
       reason?: string;
       serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
-      creator: Model_User_User_UserModelNoLinkedShort;
-      user: Model_User_User_UserModelNoLinkedShort;
+      creator: Model_User_User_UserModelShort;
+      user: Model_User_User_UserModelShort;
       /**
        * Created On
        */
@@ -475,23 +439,6 @@ declare namespace Components {
        * Content
        */
       content?: string;
-    }
-    /**
-     * ConfigModel
-     */
-    export interface ConfigModel {
-      /**
-       * Time To Live
-       */
-      time_to_live: number;
-      /**
-       * Count Till Ban
-       */
-      count_till_ban: number;
-      /**
-       * Ban Length
-       */
-      ban_length: number;
     }
     /**
      * CountryModel
@@ -834,6 +781,24 @@ declare namespace Components {
       packet_ids?: string /* uuid */ [];
     }
     /**
+     * DonationGoalModel
+     */
+    export interface DonationGoalModel {
+      /**
+       * Enabled
+       */
+      enabled: boolean;
+      /**
+       * Goal
+       */
+      goal?: number;
+      currency: CurrencyModel;
+      /**
+       * Current
+       */
+      current?: number;
+    }
+    /**
      * GeneralSettingModel
      */
     export interface GeneralSettingModel {
@@ -975,6 +940,15 @@ declare namespace Components {
        * Detail
        */
       detail?: ValidationError[];
+    }
+    /**
+     * LegalModel
+     */
+    export interface LegalModel {
+      /**
+       * Content
+       */
+      content: string;
     }
     /**
      * LinkType
@@ -1121,57 +1095,9 @@ declare namespace Components {
       icon?: string;
     }
     /**
-     * UserModelNoLinkedShort
-     */
-    export interface Model_User_UserModelNoLinkedShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: UserType;
-      /**
-       * Identifier
-       */
-      identifier: string;
-      /**
-       * Username
-       */
-      username: string;
-      /**
-       * Avatar
-       */
-      avatar: string;
-    }
-    /**
      * UserModelShort
      */
     export interface Model_User_UserModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: UserType;
-      /**
-       * Identifier
-       */
-      identifier: string;
-      /**
-       * Username
-       */
-      username: string;
-      /**
-       * Avatar
-       */
-      avatar: string;
-      /**
-       * Linked Users
-       */
-      linked_users: Model_User_UserModelNoLinkedShort[];
-    }
-    /**
-     * UserModelNoLinkedShort
-     */
-    export interface Model_User_User_UserModelNoLinkedShort {
       /**
        * Id
        */
@@ -1211,10 +1137,6 @@ declare namespace Components {
        * Avatar
        */
       avatar: string;
-      /**
-       * Linked Users
-       */
-      linked_users: Model_User_UserModelNoLinkedShort[];
     }
     /**
      * NavModel
@@ -1362,7 +1284,7 @@ declare namespace Components {
        * Name
        */
       name?: string;
-      user?: Model_User_User_UserModelNoLinkedShort;
+      user?: Model_User_User_UserModelShort;
       serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
       /**
        * Scope
@@ -1397,7 +1319,7 @@ declare namespace Components {
        * Name
        */
       name?: string;
-      user?: Model_User_User_UserModelNoLinkedShort;
+      user?: Model_User_User_UserModelShort;
       serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
       /**
        * Scope
@@ -2324,7 +2246,7 @@ declare namespace Components {
        * Date
        */
       date: string; // date-time
-      user: Model_User_UserModelNoLinkedShort;
+      user: Model_User_UserModelShort;
       /**
        * Amount Total
        */
@@ -2403,7 +2325,7 @@ declare namespace Components {
        * Date
        */
       date: string; // date-time
-      user: Model_User_UserModelNoLinkedShort;
+      user: Model_User_UserModelShort;
       /**
        * Amount Total
        */
@@ -3061,6 +2983,10 @@ declare namespace Components {
        * Community Name
        */
       community_name?: string;
+      /**
+       * Frontend Url
+       */
+      frontend_url: string;
     }
     /**
      * ThreadCategory
@@ -3396,6 +3322,32 @@ declare namespace Components {
       identifier: string;
     }
     /**
+     * UserModelLinkedShort
+     */
+    export interface UserModelLinkedShort {
+      /**
+       * Id
+       */
+      id: string; // uuid
+      type: UserType;
+      /**
+       * Identifier
+       */
+      identifier: string;
+      /**
+       * Username
+       */
+      username: string;
+      /**
+       * Avatar
+       */
+      avatar: string;
+      /**
+       * Linked Users
+       */
+      linked_users: Model_User_UserModelShort[];
+    }
+    /**
      * UserModelNoLinked
      */
     export interface UserModelNoLinked {
@@ -3495,6 +3447,23 @@ declare namespace Components {
       type: string;
     }
     /**
+     * WarningConfigModel
+     */
+    export interface WarningConfigModel {
+      /**
+       * Time To Live
+       */
+      time_to_live: number;
+      /**
+       * Count Till Ban
+       */
+      count_till_ban: number;
+      /**
+       * Ban Length
+       */
+      ban_length: number;
+    }
+    /**
      * WarningModel
      */
     export interface WarningModel {
@@ -3508,6 +3477,7 @@ declare namespace Components {
       reason?: string;
       serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
       user: Model_User_User_UserModelShort;
+      creator: Model_User_User_UserModelShort;
       /**
        * Created On
        */
@@ -3843,11 +3813,6 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
-  namespace DesignGetDonationGoal {
-    namespace Responses {
-      export type $200 = Components.Schemas.Api_V1_Design_DonationGoalModel;
-    }
-  }
   namespace DesignGetGeneralSettings {
     namespace Responses {
       export type $200 = any;
@@ -3866,6 +3831,11 @@ declare namespace Paths {
     namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace DesignGetLegal {
+    namespace Responses {
+      export type $200 = Components.Schemas.LegalModel;
     }
   }
   namespace DesignGetNavItems {
@@ -3901,6 +3871,23 @@ declare namespace Paths {
       morph_user_id?: Parameters.MorphUserId; // uuid
     }
     export type RequestBody = Components.Schemas.CmsPageModelPost;
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
+  namespace DesignUpdateLegal {
+    namespace Parameters {
+      /**
+       * Morph User Id
+       * Morph system user into given user. Requires user_morph property.
+       */
+      export type MorphUserId = string; // uuid
+    }
+    export interface QueryParameters {
+      morph_user_id?: Parameters.MorphUserId; // uuid
+    }
+    export type RequestBody = Components.Schemas.LegalModel;
     namespace Responses {
       export type $200 = any;
       export type $422 = Components.Schemas.HTTPValidationError;
@@ -5049,6 +5036,27 @@ declare namespace Paths {
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
+  namespace PaymentGatewayGetNotification {
+    namespace Parameters {
+      /**
+       * Payment Id
+       */
+      export type PaymentId = string;
+      /**
+       * Uuid
+       * The UUID of the referenced object.
+       */
+      export type Uuid = any;
+    }
+    export interface PathParameters {
+      payment_id: Parameters.PaymentId;
+      uuid: Parameters.Uuid;
+    }
+    namespace Responses {
+      export type $200 = any;
+      export type $422 = Components.Schemas.HTTPValidationError;
+    }
+  }
   namespace RequirementsCreateRequirement {
     namespace Parameters {
       /**
@@ -6078,7 +6086,7 @@ declare namespace Paths {
   }
   namespace ShopGetDonationGoal {
     namespace Responses {
-      export type $200 = Components.Schemas.Api_V1_Shop_DonationGoalModel;
+      export type $200 = Components.Schemas.DonationGoalModel;
     }
   }
   namespace ShopGetGateways {
@@ -6916,7 +6924,7 @@ declare namespace Paths {
       /**
        * Response Get Users User  Get
        */
-      export type $200 = Components.Schemas.Model_User_User_UserModelShort[];
+      export type $200 = Components.Schemas.UserModelLinkedShort[];
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -7003,7 +7011,7 @@ declare namespace Paths {
       morph_user_id?: Parameters.MorphUserId; // uuid
     }
     namespace Responses {
-      export type $200 = Components.Schemas.ConfigModel;
+      export type $200 = Components.Schemas.WarningConfigModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -7088,9 +7096,9 @@ declare namespace Paths {
     export interface QueryParameters {
       morph_user_id?: Parameters.MorphUserId; // uuid
     }
-    export type RequestBody = Components.Schemas.ConfigModel;
+    export type RequestBody = Components.Schemas.WarningConfigModel;
     namespace Responses {
-      export type $200 = Components.Schemas.ConfigModel;
+      export type $200 = Components.Schemas.WarningConfigModel;
       export type $422 = Components.Schemas.HTTPValidationError;
     }
   }
@@ -7202,13 +7210,21 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
   /**
-   * design_getDonationGoal - Get Donation Goal
+   * design_getLegal - Get Legal
    */
-  'design_getDonationGoal'(
+  'design_getLegal'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetDonationGoal.Responses.$200>
+  ): OperationResponse<Paths.DesignGetLegal.Responses.$200>
+  /**
+   * design_updateLegal - Update Legal
+   */
+  'design_updateLegal'(
+    parameters?: Parameters<Paths.DesignUpdateLegal.QueryParameters> | null,
+    data?: Paths.DesignUpdateLegal.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignUpdateLegal.Responses.$200 | Paths.DesignUpdateLegal.Responses.$422>
   /**
    * auth_getToken - Get Token
    */
@@ -8513,6 +8529,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200 | Paths.DiscordDeleteRelation.Responses.$422>
+  /**
+   * payment_gateway_getNotification - Get Notification
+   */
+  'payment_gateway_getNotification'(
+    parameters?: Parameters<Paths.PaymentGatewayGetNotification.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PaymentGatewayGetNotification.Responses.$200 | Paths.PaymentGatewayGetNotification.Responses.$422>
 }
 
 export interface PathsDictionary {
@@ -8616,15 +8640,23 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
   }
-  ['/design/donation-goal']: {
+  ['/design/legal']: {
     /**
-     * design_getDonationGoal - Get Donation Goal
+     * design_getLegal - Get Legal
      */
     'get'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetDonationGoal.Responses.$200>
+    ): OperationResponse<Paths.DesignGetLegal.Responses.$200>
+    /**
+     * design_updateLegal - Update Legal
+     */
+    'patch'(
+      parameters?: Parameters<Paths.DesignUpdateLegal.QueryParameters> | null,
+      data?: Paths.DesignUpdateLegal.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignUpdateLegal.Responses.$200 | Paths.DesignUpdateLegal.Responses.$422>
   }
   ['/auth/token']: {
     /**
@@ -10145,6 +10177,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200 | Paths.DiscordDeleteRelation.Responses.$422>
+  }
+  ['/payment_gateway/paysafecard/{uuid}/{payment_id}']: {
+    /**
+     * payment_gateway_getNotification - Get Notification
+     */
+    'post'(
+      parameters?: Parameters<Paths.PaymentGatewayGetNotification.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PaymentGatewayGetNotification.Responses.$200 | Paths.PaymentGatewayGetNotification.Responses.$422>
   }
 }
 
