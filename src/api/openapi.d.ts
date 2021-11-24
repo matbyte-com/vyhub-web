@@ -1,4 +1,4 @@
-import {
+import type {
   OpenAPIClient,
   Parameters,
   UnknownParamsObject,
@@ -7,7117 +7,8324 @@ import {
 } from 'openapi-client-axios'; 
 
 declare namespace Components {
-  namespace Schemas {
-    /**
-     * AccountModel
-     */
-    export interface AccountModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name?: string;
-      currency?: CurrencyModel;
-      /**
-       * Balance
-       */
-      balance?: number;
-      /**
-       * Transactions
-       */
-      transactions: TransactionModel[];
+    namespace Schemas {
+        /**
+         * AccountModel
+         */
+        export interface AccountModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name?: string;
+            currency?: /* CurrencyModel */ CurrencyModel;
+            /**
+             * Balance
+             */
+            balance?: number;
+            /**
+             * Transactions
+             */
+            transactions: /* TransactionModel */ TransactionModel[];
+        }
+        /**
+         * AddressModel
+         */
+        export interface AddressModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Street And Number
+             */
+            street_and_number: string;
+            /**
+             * Addition
+             */
+            addition?: string;
+            /**
+             * City
+             */
+            city: string;
+            /**
+             * State
+             */
+            state: string;
+            /**
+             * Zip Code
+             */
+            zip_code: string;
+            /**
+             * Id
+             */
+            id: string; // uuid
+            country: /* CountryModel */ CountryModel;
+            /**
+             * Vat Number
+             */
+            vat_number?: string;
+        }
+        /**
+         * AddressModelAdd
+         */
+        export interface AddressModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Street And Number
+             */
+            street_and_number: string;
+            /**
+             * Addition
+             */
+            addition?: string;
+            /**
+             * City
+             */
+            city: string;
+            /**
+             * State
+             */
+            state: string;
+            /**
+             * Zip Code
+             */
+            zip_code: string;
+            /**
+             * Country Code
+             */
+            country_code: string; // ^[A-Z]{2}$
+        }
+        /**
+         * AppliedPacketModel
+         */
+        export interface AppliedPacketModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            status: /**
+             * AppliedPacketStatus
+             * An enumeration.
+             */
+            AppliedPacketStatus;
+            packet: /* PacketModelShort */ PacketModelShort;
+            /**
+             * Purchase Id
+             */
+            purchase_id?: string; // uuid
+            /**
+             * Bounds
+             */
+            bounds: string;
+            /**
+             * Begin
+             */
+            begin: string; // date-time
+            /**
+             * End
+             */
+            end?: string; // date-time
+            /**
+             * Active
+             */
+            active: boolean;
+            user: /* UserModelShort */ ModelUserUserUserModelShort;
+        }
+        /**
+         * AppliedPacketModelPatch
+         */
+        export interface AppliedPacketModelPatch {
+            status?: /**
+             * AppliedPacketStatus
+             * An enumeration.
+             */
+            AppliedPacketStatus;
+            /**
+             * End
+             */
+            end?: string; // date-time
+        }
+        /**
+         * AppliedPacketStatus
+         * An enumeration.
+         */
+        export type AppliedPacketStatus = "ENABLED" | "DISABLED";
+        /**
+         * AppliedRewardModel
+         */
+        export interface AppliedRewardModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Active
+             */
+            active: boolean;
+            reward: /* RewardModel */ RewardModel;
+            user: /* UserModelShort */ ModelUserUserModelShort;
+            /**
+             * Applied Packet Id
+             */
+            applied_packet_id: string; // uuid
+            status: /**
+             * RewardStatus
+             * An enumeration.
+             */
+            RewardStatus;
+            /**
+             * Executed On
+             */
+            executed_on: string /* uuid */[];
+        }
+        /**
+         * AppliedRewardModelPatch
+         */
+        export interface AppliedRewardModelPatch {
+            status?: /**
+             * RewardStatus
+             * An enumeration.
+             */
+            RewardStatus;
+            /**
+             * Executed On
+             */
+            executed_on?: string /* uuid */[];
+        }
+        /**
+         * BanModel
+         */
+        export interface BanModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Length
+             */
+            length?: number; // time-delta
+            /**
+             * Reason
+             */
+            reason?: string;
+            serverbundle?: /* ServerbundleModelShort */ ModelServerServerbundleServerbundleModelShort;
+            creator: /* UserModelShort */ ModelUserUserUserModelShort;
+            user: /* UserModelShort */ ModelUserUserUserModelShort;
+            /**
+             * Created On
+             */
+            created_on: string; // date-time
+            /**
+             * Ends On
+             */
+            ends_on?: string; // date-time
+            status: /**
+             * BanStatus
+             * An enumeration.
+             */
+            BanStatus;
+            /**
+             * Active
+             */
+            active: boolean;
+        }
+        /**
+         * BanModelAdd
+         */
+        export interface BanModelAdd {
+            /**
+             * Length
+             */
+            length?: number; // time-delta
+            /**
+             * Reason
+             */
+            reason?: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+            /**
+             * Creator Id
+             */
+            creator_id?: string; // uuid
+            /**
+             * User Id
+             */
+            user_id: string; // uuid
+            /**
+             * BanStatus
+             * An enumeration.
+             */
+            status?: "ACTIVE" | "UNBANNED";
+            /**
+             * Created On
+             */
+            created_on?: string; // date-time
+        }
+        /**
+         * BanModelPatch
+         */
+        export interface BanModelPatch {
+            /**
+             * Length
+             */
+            length?: number; // time-delta
+            /**
+             * Reason
+             */
+            reason?: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+            status?: /**
+             * BanStatus
+             * An enumeration.
+             */
+            BanStatus;
+        }
+        /**
+         * BanStatus
+         * An enumeration.
+         */
+        export type BanStatus = "ACTIVE" | "UNBANNED";
+        /**
+         * Body_add_packet_to_cart_shop_cart_post
+         */
+        export interface BodyAddPacketToCartShopCartPost {
+            /**
+             * Packet Id
+             */
+            packet_id: string; // uuid
+        }
+        /**
+         * Body_start_checkout_shop_cart_checkout_post
+         */
+        export interface BodyStartCheckoutShopCartCheckoutPost {
+            /**
+             * Address Id
+             */
+            address_id: string; // uuid
+        }
+        /**
+         * Body_start_payment_shop_checkout_post
+         */
+        export interface BodyStartPaymentShopCheckoutPost {
+            /**
+             * Purchase Id
+             */
+            purchase_id: string; // uuid
+            /**
+             * Payment Gateway Id
+             */
+            payment_gateway_id: string; // uuid
+        }
+        /**
+         * BundleTokenCreateModel
+         */
+        export interface BundleTokenCreateModel {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Extra Properties
+             */
+            extra_properties?: string[];
+        }
+        /**
+         * BusinessAddressModelAdd
+         */
+        export interface BusinessAddressModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Street And Number
+             */
+            street_and_number: string;
+            /**
+             * Addition
+             */
+            addition?: string;
+            /**
+             * City
+             */
+            city: string;
+            /**
+             * State
+             */
+            state: string;
+            /**
+             * Zip Code
+             */
+            zip_code: string;
+            /**
+             * Country Code
+             */
+            country_code: string; // ^[A-Z]{2}$
+            /**
+             * Vat Number
+             */
+            vat_number?: string;
+        }
+        /**
+         * CartModel
+         */
+        export interface CartModel {
+            /**
+             * Correct
+             */
+            correct: boolean;
+            price: /* TotalPriceModel */ TotalPriceModel;
+            /**
+             * Packets
+             */
+            packets: /* CartPacketModel */ CartPacketModel[];
+        }
+        /**
+         * CartPacketModel
+         */
+        export interface CartPacketModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Price Net
+             */
+            price_net: number;
+            price?: /* TotalPriceModel */ TotalPriceModel;
+            /**
+             * Credits
+             */
+            credits?: number;
+            currency: /* CurrencyModel */ CurrencyModel;
+            packet: /* PacketModelShort */ PacketModelShort;
+            /**
+             * Packet Title
+             */
+            packet_title: string;
+            /**
+             * Last Update
+             */
+            last_update: string; // date-time
+            user: /* UserModelShort */ ModelUserUserUserModelShort;
+            /**
+             * Recurring
+             */
+            recurring?: number; // time-delta
+            discount?: /* DiscountModel */ DiscountModel;
+            /**
+             * Editable
+             */
+            editable: boolean;
+        }
+        /**
+         * CheckoutCheckboxModel
+         */
+        export interface CheckoutCheckboxModel {
+            /**
+             * Text
+             */
+            text: string;
+            /**
+             * Url
+             */
+            url: string; // uri
+        }
+        /**
+         * CmsPageModel
+         */
+        export interface CmsPageModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Content
+             */
+            content: string;
+        }
+        /**
+         * CmsPageModelPost
+         */
+        export interface CmsPageModelPost {
+            /**
+             * Content
+             */
+            content?: string;
+        }
+        /**
+         * CountryModel
+         */
+        export interface CountryModel {
+            /**
+             * Code
+             */
+            code: string;
+            /**
+             * Name
+             */
+            name: string;
+        }
+        /**
+         * CurrencyModel
+         */
+        export interface CurrencyModel {
+            /**
+             * Symbol
+             */
+            symbol: string;
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Code
+             */
+            code: string; // ^[A-Z]{3}$
+        }
+        /**
+         * DebitModel
+         */
+        export interface DebitModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Date
+             */
+            date: string; // date-time
+            /**
+             * Ext Transaction Id
+             */
+            ext_transaction_id?: string;
+            /**
+             * Transaction Id
+             */
+            transaction_id?: string; // uuid
+            payment_gateway: /* PaymentGatewayModel */ PaymentGatewayModel;
+            /**
+             * Amount Total
+             */
+            amount_total?: number;
+            /**
+             * Amount Net
+             */
+            amount_net?: number;
+            /**
+             * Tax Rate
+             */
+            tax_rate?: number;
+            /**
+             * Amount Tax
+             */
+            amount_tax?: number;
+            /**
+             * Credits
+             */
+            credits?: number;
+            status: /**
+             * DebitStatus
+             * An enumeration.
+             */
+            DebitStatus;
+            /**
+             * Invoice Number
+             */
+            invoice_number?: string;
+            /**
+             * Transaction Url
+             */
+            transaction_url?: string;
+            /**
+             * Invoice Available
+             */
+            invoice_available: boolean;
+            purchase: /* PurchaseModelShort */ PurchaseModelShort;
+        }
+        /**
+         * DebitModelNoPurchase
+         */
+        export interface DebitModelNoPurchase {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Date
+             */
+            date: string; // date-time
+            /**
+             * Ext Transaction Id
+             */
+            ext_transaction_id?: string;
+            /**
+             * Transaction Id
+             */
+            transaction_id?: string; // uuid
+            payment_gateway: /* PaymentGatewayModel */ PaymentGatewayModel;
+            /**
+             * Amount Total
+             */
+            amount_total?: number;
+            /**
+             * Amount Net
+             */
+            amount_net?: number;
+            /**
+             * Tax Rate
+             */
+            tax_rate?: number;
+            /**
+             * Amount Tax
+             */
+            amount_tax?: number;
+            /**
+             * Credits
+             */
+            credits?: number;
+            status: /**
+             * DebitStatus
+             * An enumeration.
+             */
+            DebitStatus;
+            /**
+             * Invoice Number
+             */
+            invoice_number?: string;
+            /**
+             * Transaction Url
+             */
+            transaction_url?: string;
+            /**
+             * Invoice Available
+             */
+            invoice_available: boolean;
+        }
+        /**
+         * DebitModelStatistic
+         */
+        export interface DebitModelStatistic {
+            /**
+             * Date
+             */
+            date: string; // date-time
+            /**
+             * Amount Net
+             */
+            amount_net?: number;
+            /**
+             * Amount Total
+             */
+            amount_total?: number;
+            /**
+             * Amount Tax
+             */
+            amount_tax?: number;
+            /**
+             * Credits
+             */
+            credits?: number;
+        }
+        /**
+         * DebitStatus
+         * An enumeration.
+         */
+        export type DebitStatus = "STARTED" | "APPROVED" | "FINISHED" | "CANCELLED";
+        /**
+         * DiscordRoleModel
+         */
+        export interface DiscordRoleModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Id
+             */
+            id: number;
+        }
+        /**
+         * DiscountModel
+         */
+        export interface DiscountModel {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Code
+             */
+            code?: string;
+            /**
+             * Bounds
+             */
+            bounds?: string;
+            /**
+             * Begin
+             */
+            begin: string; // date-time
+            /**
+             * End
+             */
+            end?: string; // date-time
+            /**
+             * Percentage
+             */
+            percentage: number;
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * All Packets
+             */
+            all_packets: boolean;
+            /**
+             * Max Usages
+             */
+            max_usages?: number;
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Deletable
+             */
+            deletable: boolean;
+            /**
+             * Active
+             */
+            active: boolean;
+            requirement_set?: /* RequirementSetModel */ RequirementSetModel;
+            /**
+             * Packets
+             */
+            packets: /* PacketModelShort */ PacketModelShort[];
+        }
+        /**
+         * DiscountModelAdd
+         */
+        export interface DiscountModelAdd {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Code
+             */
+            code?: string;
+            /**
+             * Bounds
+             */
+            bounds?: string;
+            /**
+             * Begin
+             */
+            begin: string; // date-time
+            /**
+             * End
+             */
+            end?: string; // date-time
+            /**
+             * Percentage
+             */
+            percentage: number;
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * All Packets
+             */
+            all_packets: boolean;
+            /**
+             * Max Usages
+             */
+            max_usages?: number;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+            /**
+             * Packet Ids
+             */
+            packet_ids?: string /* uuid */[];
+        }
+        /**
+         * DiscountModelPatch
+         */
+        export interface DiscountModelPatch {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Code
+             */
+            code?: string;
+            /**
+             * Bounds
+             */
+            bounds?: string;
+            /**
+             * Begin
+             */
+            begin?: string; // date-time
+            /**
+             * End
+             */
+            end?: string; // date-time
+            /**
+             * Percentage
+             */
+            percentage?: number;
+            /**
+             * Enabled
+             */
+            enabled?: boolean;
+            /**
+             * All Packets
+             */
+            all_packets?: boolean;
+            /**
+             * Max Usages
+             */
+            max_usages?: number;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+            /**
+             * Packet Ids
+             */
+            packet_ids?: string /* uuid */[];
+        }
+        /**
+         * DonationGoalModel
+         */
+        export interface DonationGoalModel {
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * Goal
+             */
+            goal?: number;
+            currency: /* CurrencyModel */ CurrencyModel;
+            /**
+             * Current
+             */
+            current?: number;
+        }
+        /**
+         * GeneralSettingModel
+         */
+        export interface GeneralSettingModel {
+            /**
+             * Community Name
+             */
+            community_name: string;
+        }
+        /**
+         * GeneralSettingsModel
+         */
+        export interface GeneralSettingsModel {
+            /**
+             * Donation Goal Enabled
+             */
+            donation_goal_enabled?: boolean;
+            /**
+             * Donation Goal
+             */
+            donation_goal?: number;
+            /**
+             * Checkout Checkboxes
+             */
+            checkout_checkboxes?: /* CheckoutCheckboxModel */ CheckoutCheckboxModel[];
+        }
+        /**
+         * GroupModel
+         */
+        export interface GroupModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Permission Level
+             */
+            permission_level: number;
+            /**
+             * Color
+             */
+            color: string;
+            serverbundle: /* ServerbundleModelShort */ ModelPydanticServerbundleModelShort;
+            /**
+             * Properties
+             */
+            properties: {
+                [name: string]: /* PropertyModelGroup */ PropertyModelGroup;
+            };
+        }
+        /**
+         * GroupModelAdd
+         */
+        export interface GroupModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Permission Level
+             */
+            permission_level: number;
+            /**
+             * Color
+             */
+            color: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id: string; // uuid
+        }
+        /**
+         * GroupModelPatch
+         */
+        export interface GroupModelPatch {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Permission Level
+             */
+            permission_level?: number;
+            /**
+             * Color
+             */
+            color?: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+            /**
+             * Properties
+             */
+            properties?: /* PropertyModelAdd */ PropertyModelAdd[];
+        }
+        /**
+         * GroupModelShort
+         */
+        export interface GroupModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id: string; // uuid
+        }
+        /**
+         * GuildModel
+         */
+        export interface GuildModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Id
+             */
+            id: number;
+            /**
+             * Member Count
+             */
+            member_count: number;
+        }
+        /**
+         * HTTPValidationError
+         */
+        export interface HTTPValidationError {
+            /**
+             * Detail
+             */
+            detail?: /* ValidationError */ ValidationError[];
+        }
+        /**
+         * LegalModel
+         */
+        export interface LegalModel {
+            /**
+             * Content
+             */
+            content: string;
+        }
+        /**
+         * LinkType
+         * An enumeration.
+         */
+        export type LinkType = "default" | "link" | "html";
+        /**
+         * LogEntryModel
+         */
+        export interface LogEntryModel {
+            author?: /* UserModelShort */ ModelUserUserModelShort;
+            /**
+             * Message
+             */
+            message: {
+                [key: string]: any;
+            };
+            /**
+             * Created On
+             */
+            created_on: string; // date-time
+            /**
+             * Category
+             */
+            category: string;
+        }
+        /**
+         * MembershipModel
+         */
+        export interface MembershipModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Bounds
+             */
+            bounds: string;
+            /**
+             * Begin
+             */
+            begin: string; // date-time
+            /**
+             * End
+             */
+            end?: string; // date-time
+            group: /* GroupModel */ GroupModel;
+            /**
+             * Active
+             */
+            active: boolean;
+            /**
+             * User Id
+             */
+            user_id: string; // uuid
+        }
+        /**
+         * MembershipModelEdit
+         */
+        export interface MembershipModelEdit {
+            /**
+             * Begin
+             */
+            begin: string; // date-time
+            /**
+             * End
+             */
+            end?: string; // date-time
+        }
+        /**
+         * MembershipModelMemberList
+         */
+        export interface MembershipModelMemberList {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Begin
+             */
+            begin: string; // date-time
+            /**
+             * End
+             */
+            end?: string; // date-time
+            user: /* UserModelNoLinkedExtraShort */ UserModelNoLinkedExtraShort;
+        }
+        /**
+         * MembershipModelUserAdd
+         */
+        export interface MembershipModelUserAdd {
+            /**
+             * Begin
+             */
+            begin: string; // date-time
+            /**
+             * End
+             */
+            end?: string; // date-time
+            /**
+             * Group Id
+             */
+            group_id: string; // uuid
+        }
+        /**
+         * ServerbundleModelShort
+         */
+        export interface ModelPydanticServerbundleModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color: string; // color
+            /**
+             * Icon
+             */
+            icon?: string;
+        }
+        /**
+         * ServerbundleModelShort
+         */
+        export interface ModelServerServerbundleServerbundleModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color: string; // color
+            /**
+             * Icon
+             */
+            icon?: string;
+        }
+        /**
+         * UserModelShort
+         */
+        export interface ModelUserUserModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+            /**
+             * Identifier
+             */
+            identifier: string;
+            /**
+             * Username
+             */
+            username: string;
+            /**
+             * Avatar
+             */
+            avatar: string;
+        }
+        /**
+         * UserModelShort
+         */
+        export interface ModelUserUserUserModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+            /**
+             * Identifier
+             */
+            identifier: string;
+            /**
+             * Username
+             */
+            username: string;
+            /**
+             * Avatar
+             */
+            avatar: string;
+        }
+        /**
+         * NavModel
+         */
+        export interface NavModel {
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Icon
+             */
+            icon: string;
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            linkType: /**
+             * LinkType
+             * An enumeration.
+             */
+            LinkType;
+            /**
+             * Reqprop
+             */
+            reqProp?: string;
+            /**
+             * Html
+             */
+            html?: string;
+            /**
+             * Link
+             */
+            link?: string;
+            /**
+             * Tabs
+             */
+            tabs?: any;
+        }
+        /**
+         * NewsModel
+         */
+        export interface NewsModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Subject
+             */
+            subject: string;
+            /**
+             * Content
+             */
+            content?: string;
+            type: /**
+             * NewsType
+             * An enumeration.
+             */
+            NewsType;
+            /**
+             * Created
+             */
+            created: string; // date-time
+            creator?: /* UserModelShort */ ModelUserUserUserModelShort;
+        }
+        /**
+         * NewsModelPatch
+         */
+        export interface NewsModelPatch {
+            /**
+             * Subject
+             */
+            subject?: string;
+            /**
+             * Content
+             */
+            content?: string;
+            type?: /**
+             * NewsType
+             * An enumeration.
+             */
+            NewsType;
+        }
+        /**
+         * NewsModelPost
+         */
+        export interface NewsModelPost {
+            /**
+             * Subject
+             */
+            subject: string;
+            /**
+             * Content
+             */
+            content?: string;
+            type: /**
+             * NewsType
+             * An enumeration.
+             */
+            NewsType;
+        }
+        /**
+         * NewsType
+         * An enumeration.
+         */
+        export type NewsType = "PINNED" | "DEFAULT";
+        /**
+         * NotificationEntryModel
+         */
+        export interface NotificationEntryModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Link
+             */
+            link?: {
+                [key: string]: any;
+            };
+            /**
+             * Message
+             */
+            message: {
+                [key: string]: any;
+            };
+            /**
+             * Created On
+             */
+            created_on: string; // date-time
+            /**
+             * Category
+             */
+            category: string;
+            /**
+             * Read
+             */
+            read: boolean;
+        }
+        /**
+         * NotificationRead
+         */
+        export interface NotificationRead {
+            /**
+             * All
+             */
+            all?: boolean;
+            /**
+             * Id
+             */
+            id?: string /* uuid */[];
+        }
+        /**
+         * OAuth2TokenModel
+         */
+        export interface OAuth2TokenModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name?: string;
+            user?: /* UserModelShort */ ModelUserUserUserModelShort;
+            serverbundle?: /* ServerbundleModelShort */ ModelServerServerbundleServerbundleModelShort;
+            /**
+             * Scope
+             */
+            scope: string;
+            /**
+             * Revoked
+             */
+            revoked: boolean;
+            /**
+             * Issued At
+             */
+            issued_at: number;
+            /**
+             * Expires In
+             */
+            expires_in?: number;
+            /**
+             * Access Token
+             */
+            access_token: string;
+        }
+        /**
+         * OAuth2TokenModelHidden
+         */
+        export interface OAuth2TokenModelHidden {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name?: string;
+            user?: /* UserModelShort */ ModelUserUserUserModelShort;
+            serverbundle?: /* ServerbundleModelShort */ ModelServerServerbundleServerbundleModelShort;
+            /**
+             * Scope
+             */
+            scope: string;
+            /**
+             * Revoked
+             */
+            revoked: boolean;
+            /**
+             * Issued At
+             */
+            issued_at: number;
+            /**
+             * Expires In
+             */
+            expires_in?: number;
+            /**
+             * Access Token Hidden
+             */
+            access_token_hidden: string;
+        }
+        /**
+         * PacketCategoryModel
+         */
+        export interface PacketCategoryModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * Sort Id
+             */
+            sort_id: number;
+            /**
+             * Id
+             */
+            id: string; // uuid
+        }
+        /**
+         * PacketCategoryModelAdd
+         */
+        export interface PacketCategoryModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * Sort Id
+             */
+            sort_id: number;
+        }
+        /**
+         * PacketCategoryModelPatch
+         */
+        export interface PacketCategoryModelPatch {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+            /**
+             * Enabled
+             */
+            enabled?: boolean;
+            /**
+             * Sort Id
+             */
+            sort_id?: number;
+        }
+        /**
+         * PacketModel
+         */
+        export interface PacketModel {
+            /**
+             * Description
+             */
+            description?: string;
+            /**
+             * Active For
+             */
+            active_for?: number; // time-delta
+            /**
+             * Custom Price
+             */
+            custom_price: boolean;
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * Buyable
+             */
+            buyable: boolean;
+            /**
+             * Buyable Active
+             */
+            buyable_active: boolean;
+            /**
+             * Buyable Inactive
+             */
+            buyable_inactive: boolean;
+            /**
+             * Recurring
+             */
+            recurring: boolean;
+            /**
+             * Sort Id
+             */
+            sort_id: number;
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+            /**
+             * Abstract
+             */
+            abstract?: string[];
+            /**
+             * Price
+             */
+            price: number;
+            /**
+             * Credits
+             */
+            credits?: number;
+            discount?: /* DiscountModel */ DiscountModel;
+            price_with_discount?: /* TotalPriceModel */ TotalPriceModel;
+            price_without_discount?: /* TotalPriceModel */ TotalPriceModel;
+            /**
+             * Id
+             */
+            id: string; // uuid
+            currency: /* CurrencyModel */ CurrencyModel;
+            category: /* PacketCategoryModel */ PacketCategoryModel;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+            /**
+             * Relations
+             */
+            relations: /* PacketRelationModel */ PacketRelationModel[];
+            /**
+             * Payment Gateways
+             */
+            payment_gateways: /* PaymentGatewayModel */ PaymentGatewayModel[];
+            /**
+             * Rewards
+             */
+            rewards: /* RewardModel */ RewardModel[];
+            /**
+             * Deletable
+             */
+            deletable: boolean;
+        }
+        /**
+         * PacketModelAdd
+         */
+        export interface PacketModelAdd {
+            /**
+             * Description
+             */
+            description?: string;
+            /**
+             * Active For
+             */
+            active_for?: number; // time-delta
+            /**
+             * Custom Price
+             */
+            custom_price: boolean;
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * Buyable
+             */
+            buyable: boolean;
+            /**
+             * Buyable Active
+             */
+            buyable_active: boolean;
+            /**
+             * Buyable Inactive
+             */
+            buyable_inactive: boolean;
+            /**
+             * Recurring
+             */
+            recurring: boolean;
+            /**
+             * Sort Id
+             */
+            sort_id: number;
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+            /**
+             * Abstract
+             */
+            abstract?: string[];
+            /**
+             * Price
+             */
+            price: number;
+            /**
+             * Credits
+             */
+            credits?: number;
+            discount?: /* DiscountModel */ DiscountModel;
+            price_with_discount?: /* TotalPriceModel */ TotalPriceModel;
+            price_without_discount?: /* TotalPriceModel */ TotalPriceModel;
+            /**
+             * Currency Code
+             */
+            currency_code: string; // ^[A-Z]{3}$
+            /**
+             * Category Id
+             */
+            category_id: string; // uuid
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+            /**
+             * Relations
+             */
+            relations: /* PacketRelationModelAdd */ PacketRelationModelAdd[];
+            /**
+             * Reward Ids
+             */
+            reward_ids?: string /* uuid */[];
+            /**
+             * Payment Gateway Ids
+             */
+            payment_gateway_ids?: string /* uuid */[];
+        }
+        /**
+         * PacketModelLight
+         */
+        export interface PacketModelLight {
+            /**
+             * Description
+             */
+            description?: string;
+            /**
+             * Active For
+             */
+            active_for?: number; // time-delta
+            /**
+             * Custom Price
+             */
+            custom_price: boolean;
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * Buyable
+             */
+            buyable: boolean;
+            /**
+             * Buyable Active
+             */
+            buyable_active: boolean;
+            /**
+             * Buyable Inactive
+             */
+            buyable_inactive: boolean;
+            /**
+             * Recurring
+             */
+            recurring: boolean;
+            /**
+             * Sort Id
+             */
+            sort_id: number;
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+            /**
+             * Abstract
+             */
+            abstract?: string[];
+            /**
+             * Price
+             */
+            price: number;
+            /**
+             * Credits
+             */
+            credits?: number;
+            discount?: /* DiscountModel */ DiscountModel;
+            price_with_discount?: /* TotalPriceModel */ TotalPriceModel;
+            price_without_discount?: /* TotalPriceModel */ TotalPriceModel;
+            /**
+             * Id
+             */
+            id: string; // uuid
+            currency: /* CurrencyModel */ CurrencyModel;
+            category: /* PacketCategoryModel */ PacketCategoryModel;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+            /**
+             * Relations
+             */
+            relations: /* PacketRelationModel */ PacketRelationModel[];
+        }
+        /**
+         * PacketModelPatch
+         */
+        export interface PacketModelPatch {
+            /**
+             * Description
+             */
+            description?: string;
+            /**
+             * Active For
+             */
+            active_for?: number; // time-delta
+            /**
+             * Custom Price
+             */
+            custom_price?: boolean;
+            /**
+             * Enabled
+             */
+            enabled?: boolean;
+            /**
+             * Buyable
+             */
+            buyable?: boolean;
+            /**
+             * Buyable Active
+             */
+            buyable_active?: boolean;
+            /**
+             * Buyable Inactive
+             */
+            buyable_inactive?: boolean;
+            /**
+             * Recurring
+             */
+            recurring?: boolean;
+            /**
+             * Sort Id
+             */
+            sort_id?: number;
+            /**
+             * Title
+             */
+            title?: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+            /**
+             * Abstract
+             */
+            abstract?: string[];
+            /**
+             * Price
+             */
+            price?: number;
+            /**
+             * Credits
+             */
+            credits?: number;
+            discount?: /* DiscountModel */ DiscountModel;
+            price_with_discount?: /* TotalPriceModel */ TotalPriceModel;
+            price_without_discount?: /* TotalPriceModel */ TotalPriceModel;
+            /**
+             * Currency Code
+             */
+            currency_code?: string; // ^[A-Z]{3}$
+            /**
+             * Category Id
+             */
+            category_id?: string; // uuid
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+            /**
+             * Relations
+             */
+            relations?: /* PacketRelationModelAdd */ PacketRelationModelAdd[];
+            /**
+             * Reward Ids
+             */
+            reward_ids?: string /* uuid */[];
+            /**
+             * Payment Gateway Ids
+             */
+            payment_gateway_ids?: string /* uuid */[];
+        }
+        /**
+         * PacketModelShort
+         */
+        export interface PacketModelShort {
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+            /**
+             * Abstract
+             */
+            abstract?: string[];
+            /**
+             * Price
+             */
+            price: number;
+            /**
+             * Credits
+             */
+            credits?: number;
+            discount?: /* DiscountModel */ DiscountModel;
+            price_with_discount?: /* TotalPriceModel */ TotalPriceModel;
+            price_without_discount?: /* TotalPriceModel */ TotalPriceModel;
+            /**
+             * Id
+             */
+            id: string; // uuid
+            currency: /* CurrencyModel */ CurrencyModel;
+        }
+        /**
+         * PacketRelationModel
+         */
+        export interface PacketRelationModel {
+            packet_left: /* PacketModelShort */ PacketModelShort;
+            packet_right: /* PacketModelShort */ PacketModelShort;
+            type: /**
+             * PacketRelationType
+             * An enumeration.
+             */
+            PacketRelationType;
+        }
+        /**
+         * PacketRelationModelAdd
+         */
+        export interface PacketRelationModelAdd {
+            /**
+             * Packet Right Id
+             */
+            packet_right_id: string; // uuid
+            type: /**
+             * PacketRelationType
+             * An enumeration.
+             */
+            PacketRelationType;
+        }
+        /**
+         * PacketRelationType
+         * An enumeration.
+         */
+        export type PacketRelationType = "DISABLES" | "REQUIRES" | "UPGRADES" | "NOT_COMPATIBLE";
+        /**
+         * Page[AppliedPacketModel]
+         */
+        export interface PageAppliedPacketModel {
+            /**
+             * Items
+             */
+            items: /* AppliedPacketModel */ AppliedPacketModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[BanModel]
+         */
+        export interface PageBanModel {
+            /**
+             * Items
+             */
+            items: /* BanModel */ BanModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[LogEntryModel]
+         */
+        export interface PageLogEntryModel {
+            /**
+             * Items
+             */
+            items: /* LogEntryModel */ LogEntryModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[MembershipModelMemberList]
+         */
+        export interface PageMembershipModelMemberList {
+            /**
+             * Items
+             */
+            items: /* MembershipModelMemberList */ MembershipModelMemberList[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[NewsModel]
+         */
+        export interface PageNewsModel {
+            /**
+             * Items
+             */
+            items: /* NewsModel */ NewsModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[NotificationEntryModel]
+         */
+        export interface PageNotificationEntryModel {
+            /**
+             * Items
+             */
+            items: /* NotificationEntryModel */ NotificationEntryModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[PurchaseModel]
+         */
+        export interface PagePurchaseModel {
+            /**
+             * Items
+             */
+            items: /* PurchaseModel */ PurchaseModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[ThreadModelShort]
+         */
+        export interface PageThreadModelShort {
+            /**
+             * Items
+             */
+            items: /* ThreadModelShort */ ThreadModelShort[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[WarningModel]
+         */
+        export interface PageWarningModel {
+            /**
+             * Items
+             */
+            items: /* WarningModel */ WarningModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * PaymentAction
+         */
+        export interface PaymentAction {
+            /**
+             * Type
+             */
+            type: string;
+            /**
+             * Data
+             */
+            data?: {
+                [key: string]: any;
+            };
+        }
+        /**
+         * PaymentGatewayModel
+         */
+        export interface PaymentGatewayModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            type: /**
+             * PaymentGatewayType
+             * An enumeration.
+             */
+            PaymentGatewayType;
+            /**
+             * Support Recurring
+             */
+            support_recurring: boolean;
+            /**
+             * Deletable
+             */
+            deletable: boolean;
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+        }
+        /**
+         * PaymentGatewayModelAdd
+         */
+        export interface PaymentGatewayModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            type: /**
+             * PaymentGatewayType
+             * An enumeration.
+             */
+            PaymentGatewayType;
+            /**
+             * Attributes
+             */
+            attributes?: {
+                [name: string]: string;
+            };
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+        }
+        /**
+         * PaymentGatewayModelPatch
+         */
+        export interface PaymentGatewayModelPatch {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            /**
+             * Attributes
+             */
+            attributes?: {
+                [name: string]: string;
+            };
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+        }
+        /**
+         * PaymentGatewayType
+         * An enumeration.
+         */
+        export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "CREDITS";
+        /**
+         * PostModel
+         */
+        export interface PostModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Content
+             */
+            content: string;
+            /**
+             * Title
+             */
+            title?: string;
+            /**
+             * Created
+             */
+            created: string; // date-time
+            creator: /* UserModelShort */ ModelUserUserUserModelShort;
+        }
+        /**
+         * PostModelAdd
+         */
+        export interface PostModelAdd {
+            /**
+             * Content
+             */
+            content: string;
+        }
+        /**
+         * PropertyModel
+         */
+        export interface PropertyModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Granted
+             */
+            granted: boolean;
+            /**
+             * Group Id
+             */
+            group_id: string; // uuid
+            /**
+             * Value
+             */
+            value?: string;
+        }
+        /**
+         * PropertyModelAdd
+         */
+        export interface PropertyModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Granted
+             */
+            granted?: boolean;
+            /**
+             * Value
+             */
+            value?: string;
+        }
+        /**
+         * PropertyModelGroup
+         */
+        export interface PropertyModelGroup {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Granted
+             */
+            granted: boolean;
+            /**
+             * Value
+             */
+            value?: string;
+        }
+        /**
+         * PropertyModelShortWithDescription
+         */
+        export interface PropertyModelShortWithDescription {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Description
+             */
+            description: string;
+        }
+        /**
+         * PurchaseModel
+         */
+        export interface PurchaseModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Date
+             */
+            date: string; // date-time
+            user: /* UserModelShort */ ModelUserUserModelShort;
+            /**
+             * Amount Total
+             */
+            amount_total: number;
+            currency: /* CurrencyModel */ CurrencyModel;
+            status: /**
+             * PurchaseStatus
+             * An enumeration.
+             */
+            PurchaseStatus;
+            /**
+             * Credits
+             */
+            credits?: number;
+            /**
+             * Amount Net
+             */
+            amount_net: number;
+            /**
+             * Tax Rate
+             */
+            tax_rate: number;
+            /**
+             * Amount Tax
+             */
+            amount_tax: number;
+            /**
+             * Tax Info
+             */
+            tax_info?: string;
+            /**
+             * Last Update
+             */
+            last_update: string; // date-time
+            /**
+             * Recurring
+             */
+            recurring?: number; // time-delta
+            /**
+             * Debits
+             */
+            debits: /* DebitModelNoPurchase */ DebitModelNoPurchase[];
+            /**
+             * Cart Packets
+             */
+            cart_packets: /* CartPacketModel */ CartPacketModel[];
+            address: /* AddressModel */ AddressModel;
+            /**
+             * Credits Used
+             */
+            credits_used: boolean;
+            /**
+             * Refundable
+             */
+            refundable: boolean;
+            /**
+             * Ext Subscription Id
+             */
+            ext_subscription_id?: string;
+            /**
+             * Payment Gateway Id
+             */
+            payment_gateway_id?: string; // uuid
+        }
+        /**
+         * PurchaseModelPatch
+         */
+        export interface PurchaseModelPatch {
+            status?: /**
+             * PurchaseStatus
+             * An enumeration.
+             */
+            PurchaseStatus;
+        }
+        /**
+         * PurchaseModelShort
+         */
+        export interface PurchaseModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Date
+             */
+            date: string; // date-time
+            user: /* UserModelShort */ ModelUserUserModelShort;
+            /**
+             * Amount Total
+             */
+            amount_total: number;
+            currency: /* CurrencyModel */ CurrencyModel;
+            status: /**
+             * PurchaseStatus
+             * An enumeration.
+             */
+            PurchaseStatus;
+            /**
+             * Credits
+             */
+            credits?: number;
+        }
+        /**
+         * PurchaseStatistic
+         */
+        export interface PurchaseStatistic {
+            /**
+             * Status
+             */
+            status: {
+                [name: string]: /* PurchaseStatisticEntry */ PurchaseStatisticEntry;
+            };
+            /**
+             * Country
+             */
+            country: {
+                [name: string]: /* PurchaseStatisticEntry */ PurchaseStatisticEntry;
+            };
+            /**
+             * Monthly Revenue
+             */
+            monthly_revenue: number;
+        }
+        /**
+         * PurchaseStatisticEntry
+         */
+        export interface PurchaseStatisticEntry {
+            /**
+             * Count
+             */
+            count: number;
+            /**
+             * Amount Total
+             */
+            amount_total: number;
+            /**
+             * Amount Net
+             */
+            amount_net: number;
+            /**
+             * Amount Tax
+             */
+            amount_tax: number;
+            /**
+             * Credits
+             */
+            credits: number;
+        }
+        /**
+         * PurchaseStatus
+         * An enumeration.
+         */
+        export type PurchaseStatus = "OPEN" | "CANCELLED" | "FINISHED" | "REFUNDED" | "REVOKED" | "RECURRING";
+        /**
+         * RequirementModel
+         */
+        export interface RequirementModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            type: /**
+             * RequirementType
+             * An enumeration.
+             */
+            RequirementType;
+            operator: /**
+             * RequirementOperator
+             * An enumeration.
+             */
+            RequirementOperator;
+            /**
+             * Key
+             */
+            key?: string;
+            /**
+             * Value
+             */
+            value?: string;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id: string; // uuid
+        }
+        /**
+         * RequirementModelAdd
+         */
+        export interface RequirementModelAdd {
+            type: /**
+             * RequirementType
+             * An enumeration.
+             */
+            RequirementType;
+            operator: /**
+             * RequirementOperator
+             * An enumeration.
+             */
+            RequirementOperator;
+            /**
+             * Key
+             */
+            key?: string;
+            /**
+             * Value
+             */
+            value?: string;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id: string; // uuid
+        }
+        /**
+         * RequirementOperator
+         * An enumeration.
+         */
+        export type RequirementOperator = "EQ" | "NEQ" | "LEQ" | "GEQ" | "LT" | "GT" | "ACTIVE" | "INACTIVE" | "NEVER_ACTIVE" | "ONLY_ACTIVE" | "ONLY_INACTIVE" | "HAVE" | "NHAVE";
+        /**
+         * RequirementSetModel
+         */
+        export interface RequirementSetModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Formula
+             */
+            formula?: any[];
+            /**
+             * Requirements
+             */
+            requirements: /* RequirementModel */ RequirementModel[];
+            /**
+             * Fulfilled
+             */
+            fulfilled?: boolean;
+        }
+        /**
+         * RequirementSetModelAdd
+         */
+        export interface RequirementSetModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+        }
+        /**
+         * RequirementSetModelPatch
+         */
+        export interface RequirementSetModelPatch {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Formula
+             */
+            formula?: any[];
+        }
+        /**
+         * RequirementSetModelShort
+         */
+        export interface RequirementSetModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Formula
+             */
+            formula?: any[];
+            /**
+             * Fulfilled
+             */
+            fulfilled?: boolean;
+        }
+        /**
+         * RequirementType
+         * An enumeration.
+         */
+        export type RequirementType = "GROUP_MEMBER" | "PERMISSION_LEVEL" | "PERMISSION_LEVEL_SB" | "PROPERTY" | "PROPERTY_SB" | "USER_ATTRIBUTE" | "PACKET" | "DATE" | "USER_SELF";
+        /**
+         * RewardEvent
+         * An enumeration.
+         */
+        export type RewardEvent = "DIRECT" | "CONNECT" | "SPAWN" | "DEATH" | "DISCONNECT" | "DISABLE";
+        /**
+         * RewardModel
+         */
+        export interface RewardModel {
+            /**
+             * Name
+             */
+            name: string;
+            type: /**
+             * RewardType
+             * An enumeration.
+             */
+            RewardType;
+            /**
+             * Data
+             */
+            data?: {
+                [key: string]: any;
+            };
+            /**
+             * Order
+             */
+            order: number;
+            /**
+             * Once
+             */
+            once: boolean;
+            /**
+             * Once From All
+             */
+            once_from_all: boolean;
+            on_event: /**
+             * RewardEvent
+             * An enumeration.
+             */
+            RewardEvent;
+            /**
+             * Id
+             */
+            id: string; // uuid
+            serverbundle: /* ServerbundleModelShort */ ModelPydanticServerbundleModelShort;
+            requirement_set?: /* RequirementSetModel */ RequirementSetModel;
+        }
+        /**
+         * RewardModelAdd
+         */
+        export interface RewardModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            type: /**
+             * RewardType
+             * An enumeration.
+             */
+            RewardType;
+            /**
+             * Data
+             */
+            data?: {
+                [key: string]: any;
+            };
+            /**
+             * Order
+             */
+            order: number;
+            /**
+             * Once
+             */
+            once: boolean;
+            /**
+             * Once From All
+             */
+            once_from_all: boolean;
+            on_event: /**
+             * RewardEvent
+             * An enumeration.
+             */
+            RewardEvent;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id: string; // uuid
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+        }
+        /**
+         * RewardModelPatch
+         */
+        export interface RewardModelPatch {
+            /**
+             * Name
+             */
+            name?: string;
+            type?: /**
+             * RewardType
+             * An enumeration.
+             */
+            RewardType;
+            /**
+             * Data
+             */
+            data?: {
+                [key: string]: any;
+            };
+            /**
+             * Order
+             */
+            order?: number;
+            /**
+             * Once
+             */
+            once?: boolean;
+            /**
+             * Once From All
+             */
+            once_from_all?: boolean;
+            on_event?: /**
+             * RewardEvent
+             * An enumeration.
+             */
+            RewardEvent;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+        }
+        /**
+         * RewardStatus
+         * An enumeration.
+         */
+        export type RewardStatus = "OPEN" | "EXECUTED" | "FAILED";
+        /**
+         * RewardType
+         * An enumeration.
+         */
+        export type RewardType = "COMMAND" | "SCRIPT" | "CREDITS" | "MEMBERSHIP";
+        /**
+         * RoleGroupRelationModel
+         */
+        export interface RoleGroupRelationModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            group: /* GroupModelShort */ GroupModelShort;
+            /**
+             * Role Id
+             */
+            role_id: number;
+        }
+        /**
+         * RoleGroupRelationModelAdd
+         */
+        export interface RoleGroupRelationModelAdd {
+            /**
+             * Group Id
+             */
+            group_id: string; // uuid
+            /**
+             * Role Id
+             */
+            role_id: number;
+        }
+        /**
+         * ServerBundleModelPatch
+         */
+        export interface ServerBundleModelPatch {
+            /**
+             * Name
+             */
+            name?: string;
+            /**
+             * Color
+             */
+            color?: string; // color
+            /**
+             * Icon
+             */
+            icon?: string;
+            /**
+             * Default Group Id
+             */
+            default_group_id?: string; // uuid
+            /**
+             * Multigroup
+             */
+            multigroup?: boolean;
+        }
+        /**
+         * ServerModel
+         */
+        export interface ServerModel {
+            /**
+             * Users Max
+             */
+            users_max?: number;
+            /**
+             * Users Current
+             */
+            users_current?: number;
+            /**
+             * Map
+             */
+            map?: string;
+            /**
+             * Name
+             */
+            name: string;
+            type: /**
+             * ServerType
+             * An enumeration.
+             */
+            ServerType;
+            /**
+             * Address
+             */
+            address: string;
+            /**
+             * Port
+             */
+            port: number;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+            /**
+             * Extra
+             */
+            extra?: {
+                [key: string]: any;
+            };
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Last Update
+             */
+            last_update?: string; // date-time
+            serverbundle?: /* ServerbundleModelShort */ ModelServerServerbundleServerbundleModelShort;
+        }
+        /**
+         * ServerModelAdd
+         */
+        export interface ServerModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            type: /**
+             * ServerType
+             * An enumeration.
+             */
+            ServerType;
+            /**
+             * Address
+             */
+            address: string;
+            /**
+             * Port
+             */
+            port: number;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+            /**
+             * Extra
+             */
+            extra?: {
+                [key: string]: any;
+            };
+        }
+        /**
+         * ServerModelPatch
+         */
+        export interface ServerModelPatch {
+            /**
+             * Users Max
+             */
+            users_max?: number;
+            /**
+             * Users Current
+             */
+            users_current?: number;
+            /**
+             * Map
+             */
+            map?: string;
+            /**
+             * Name
+             */
+            name?: string;
+            type?: /**
+             * ServerType
+             * An enumeration.
+             */
+            ServerType;
+            /**
+             * Address
+             */
+            address?: string;
+            /**
+             * Port
+             */
+            port?: number;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+            /**
+             * Extra
+             */
+            extra?: {
+                [key: string]: any;
+            };
+            /**
+             * Is Alive
+             * Set to true if the PATCH request comes from a server signalling that the server is alive. This will cause an update of the `last_update` attribute.
+             */
+            is_alive?: boolean;
+        }
+        /**
+         * ServerModelShort
+         */
+        export interface ServerModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            type: /**
+             * ServerType
+             * An enumeration.
+             */
+            ServerType;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+        }
+        /**
+         * ServerType
+         * An enumeration.
+         */
+        export type ServerType = "GMOD" | "MINECRAFT" | "TEAMSPEAK3" | "DISCORD";
+        /**
+         * ServerbundleModel
+         */
+        export interface ServerbundleModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Icon
+             */
+            icon?: string;
+            /**
+             * Multigroup
+             */
+            multigroup: boolean;
+            /**
+             * Color
+             */
+            color: string; // color
+            server_type: /**
+             * ServerType
+             * An enumeration.
+             */
+            ServerType;
+            default_group?: /* GroupModelShort */ GroupModelShort;
+        }
+        /**
+         * ServerbundleModelAdd
+         */
+        export interface ServerbundleModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color: string; // color
+            /**
+             * Server Type
+             */
+            server_type: string;
+            /**
+             * Icon
+             */
+            icon?: string;
+            /**
+             * Default Group Id
+             */
+            default_group_id?: string; // uuid
+            /**
+             * Multigroup
+             */
+            multigroup?: boolean;
+        }
+        /**
+         * StartPaymentModel
+         */
+        export interface StartPaymentModel {
+            debit: /* DebitModelNoPurchase */ DebitModelNoPurchase;
+            action?: /* PaymentAction */ PaymentAction;
+        }
+        /**
+         * StatisticInterval
+         * An enumeration.
+         */
+        export type StatisticInterval = "DAY" | "MONTH" | "YEAR";
+        /**
+         * SuccessModel
+         */
+        export interface SuccessModel {
+            /**
+             * Success
+             */
+            success?: boolean;
+        }
+        /**
+         * TaxModel
+         */
+        export interface TaxModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            country?: /* CountryModel */ CountryModel;
+            /**
+             * Percentage
+             */
+            percentage: number;
+            /**
+             * Info
+             */
+            info?: string;
+        }
+        /**
+         * TaxModelAdd
+         */
+        export interface TaxModelAdd {
+            /**
+             * Country Code
+             */
+            country_code?: string; // ^[A-Z]{2}$
+            /**
+             * Percentage
+             */
+            percentage: number;
+            /**
+             * Info
+             */
+            info?: string;
+        }
+        /**
+         * ThemeModel
+         */
+        export interface ThemeModel {
+            /**
+             * Dark
+             */
+            dark: boolean;
+            /**
+             * Image
+             */
+            image?: string;
+            /**
+             * Primary
+             */
+            primary: string; // color
+            /**
+             * Success
+             */
+            success: string; // color
+            /**
+             * Warning
+             */
+            warning: string; // color
+            /**
+             * Error
+             */
+            error: string; // color
+            /**
+             * Background
+             */
+            background: string;
+            /**
+             * Logo
+             */
+            logo?: string;
+            /**
+             * Logo Width
+             */
+            logo_width?: number;
+            /**
+             * Show Community Name
+             */
+            show_community_name: boolean;
+            /**
+             * Community Name
+             */
+            community_name?: string;
+            /**
+             * Frontend Url
+             */
+            frontend_url: string;
+        }
+        /**
+         * ThreadCategory
+         * An enumeration.
+         */
+        export type ThreadCategory = "DEFAULT" | "TICKET";
+        /**
+         * ThreadModel
+         */
+        export interface ThreadModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Content
+             */
+            content: string;
+            category: /**
+             * ThreadCategory
+             * An enumeration.
+             */
+            ThreadCategory;
+            /**
+             * Created
+             */
+            created: string; // date-time
+            creator: /* UserModelShort */ ModelUserUserUserModelShort;
+            status: /**
+             * ThreadStatus
+             * An enumeration.
+             */
+            ThreadStatus;
+        }
+        /**
+         * ThreadModelAdd
+         */
+        export interface ThreadModelAdd {
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Content
+             */
+            content: string;
+            category: /**
+             * ThreadCategory
+             * An enumeration.
+             */
+            ThreadCategory;
+        }
+        /**
+         * ThreadModelShort
+         */
+        export interface ThreadModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Content
+             */
+            content: string;
+            /**
+             * Created
+             */
+            created: string; // date-time
+            creator: /* UserModelShort */ ModelUserUserUserModelShort;
+            /**
+             * Read
+             */
+            read: boolean;
+            status: /**
+             * ThreadStatus
+             * An enumeration.
+             */
+            ThreadStatus;
+        }
+        /**
+         * ThreadStatus
+         * An enumeration.
+         */
+        export type ThreadStatus = "OPEN" | "CLOSED";
+        /**
+         * TimeInterval
+         * An enumeration.
+         */
+        export type TimeInterval = "microseconds" | "milliseconds" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | "decade" | "century" | "millennium";
+        /**
+         * TotalPriceModel
+         */
+        export interface TotalPriceModel {
+            /**
+             * Net
+             */
+            net: number;
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Tax Rate
+             */
+            tax_rate: number;
+            /**
+             * Amount Tax
+             */
+            amount_tax: number;
+            currency: /* CurrencyModel */ CurrencyModel;
+            /**
+             * Tax Info
+             */
+            tax_info?: string;
+            /**
+             * Credits
+             */
+            credits?: number;
+        }
+        /**
+         * TransactionModel
+         */
+        export interface TransactionModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Description
+             */
+            description: string;
+            /**
+             * Date
+             */
+            date: string; // date-time
+            author?: /* UserModelShort */ ModelUserUserUserModelShort;
+            /**
+             * Amount
+             */
+            amount: number;
+        }
+        /**
+         * UnlimitedPage[AppliedRewardModel]
+         */
+        export interface UnlimitedPageAppliedRewardModel {
+            /**
+             * Items
+             */
+            items: /* AppliedRewardModel */ AppliedRewardModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * UserAttributeDefinitionModel
+         */
+        export interface UserAttributeDefinitionModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Unit
+             */
+            unit: string;
+            type: /**
+             * UserAttributeType
+             * An enumeration.
+             */
+            UserAttributeType;
+            /**
+             * Statistics Interval
+             */
+            statistics_interval?: string;
+            accumulation_interval?: /**
+             * TimeInterval
+             * An enumeration.
+             */
+            TimeInterval;
+            /**
+             * Unspecific
+             */
+            unspecific: boolean;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+            /**
+             * Id
+             */
+            id: string; // uuid
+        }
+        /**
+         * UserAttributeDefinitionModelAdd
+         */
+        export interface UserAttributeDefinitionModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Unit
+             */
+            unit: string;
+            type: /**
+             * UserAttributeType
+             * An enumeration.
+             */
+            UserAttributeType;
+            /**
+             * Statistics Interval
+             */
+            statistics_interval?: string;
+            accumulation_interval?: /**
+             * TimeInterval
+             * An enumeration.
+             */
+            TimeInterval;
+            /**
+             * Unspecific
+             */
+            unspecific: boolean;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+        }
+        /**
+         * UserAttributeDefinitionModelPatch
+         */
+        export interface UserAttributeDefinitionModelPatch {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Unit
+             */
+            unit: string;
+            type: /**
+             * UserAttributeType
+             * An enumeration.
+             */
+            UserAttributeType;
+            /**
+             * Statistics Interval
+             */
+            statistics_interval?: string;
+            accumulation_interval?: /**
+             * TimeInterval
+             * An enumeration.
+             */
+            TimeInterval;
+            /**
+             * Unspecific
+             */
+            unspecific: boolean;
+            /**
+             * Requirement Set Id
+             */
+            requirement_set_id?: string; // uuid
+        }
+        /**
+         * UserAttributeHistoryModel
+         */
+        export interface UserAttributeHistoryModel {
+            /**
+             * Date
+             */
+            date: string; // date-time
+            /**
+             * Value
+             */
+            value: string;
+            /**
+             * Server Id
+             */
+            server_id?: string; // uuid
+        }
+        /**
+         * UserAttributeModelAdd
+         */
+        export interface UserAttributeModelAdd {
+            /**
+             * Date
+             */
+            date?: string; // date-time
+            /**
+             * Value
+             */
+            value: string;
+            /**
+             * Definition Id
+             */
+            definition_id: string; // uuid
+            /**
+             * Server Id
+             */
+            server_id?: string; // uuid
+            /**
+             * User Id
+             */
+            user_id: string; // uuid
+        }
+        /**
+         * UserAttributeType
+         * An enumeration.
+         */
+        export type UserAttributeType = "NEWEST" | "ACCUMULATED";
+        /**
+         * UserModel
+         */
+        export interface UserModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+            /**
+             * Identifier
+             */
+            identifier: string;
+            /**
+             * Registered On
+             */
+            registered_on: string; // date-time
+            /**
+             * Username
+             */
+            username?: string;
+            /**
+             * Avatar
+             */
+            avatar?: string;
+            /**
+             * Central User Id
+             */
+            central_user_id?: string; // uuid
+            /**
+             * Admin
+             */
+            admin: boolean;
+            /**
+             * Credit Account Id
+             */
+            credit_account_id: string; // uuid
+            /**
+             * Attributes
+             */
+            attributes: {
+                [key: string]: any;
+            };
+            /**
+             * Linked Users
+             */
+            linked_users: /* UserModelNoLinked */ UserModelNoLinked[];
+        }
+        /**
+         * UserModelAdd
+         */
+        export interface UserModelAdd {
+            type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+            /**
+             * Identifier
+             */
+            identifier: string;
+        }
+        /**
+         * UserModelLinkedShort
+         */
+        export interface UserModelLinkedShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+            /**
+             * Identifier
+             */
+            identifier: string;
+            /**
+             * Username
+             */
+            username: string;
+            /**
+             * Avatar
+             */
+            avatar: string;
+            /**
+             * Linked Users
+             */
+            linked_users: /* UserModelShort */ ModelUserUserModelShort[];
+        }
+        /**
+         * UserModelNoLinked
+         */
+        export interface UserModelNoLinked {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+            /**
+             * Identifier
+             */
+            identifier: string;
+            /**
+             * Registered On
+             */
+            registered_on: string; // date-time
+            /**
+             * Username
+             */
+            username?: string;
+            /**
+             * Avatar
+             */
+            avatar?: string;
+            /**
+             * Central User Id
+             */
+            central_user_id?: string; // uuid
+            /**
+             * Admin
+             */
+            admin: boolean;
+            /**
+             * Credit Account Id
+             */
+            credit_account_id: string; // uuid
+            /**
+             * Attributes
+             */
+            attributes: {
+                [key: string]: any;
+            };
+        }
+        /**
+         * UserModelNoLinkedExtraShort
+         */
+        export interface UserModelNoLinkedExtraShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Username
+             */
+            username: string;
+        }
+        /**
+         * UserPropertyModel
+         */
+        export interface UserPropertyModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Granted
+             */
+            granted: boolean;
+            /**
+             * Value
+             */
+            value?: string;
+            /**
+             * User Id
+             */
+            user_id: string; // uuid
+        }
+        /**
+         * UserType
+         * An enumeration.
+         */
+        export type UserType = "CENTRAL" | "STEAM" | "DISCORD";
+        /**
+         * ValidationError
+         */
+        export interface ValidationError {
+            /**
+             * Location
+             */
+            loc: string[];
+            /**
+             * Message
+             */
+            msg: string;
+            /**
+             * Error Type
+             */
+            type: string;
+        }
+        /**
+         * WarningConfigModel
+         */
+        export interface WarningConfigModel {
+            /**
+             * Time To Live
+             */
+            time_to_live: number;
+            /**
+             * Count Till Ban
+             */
+            count_till_ban: number;
+            /**
+             * Ban Length
+             */
+            ban_length: number;
+        }
+        /**
+         * WarningModel
+         */
+        export interface WarningModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Reason
+             */
+            reason?: string;
+            serverbundle?: /* ServerbundleModelShort */ ModelServerServerbundleServerbundleModelShort;
+            user: /* UserModelShort */ ModelUserUserUserModelShort;
+            creator: /* UserModelShort */ ModelUserUserUserModelShort;
+            /**
+             * Created On
+             */
+            created_on: string; // date-time
+            /**
+             * Active
+             */
+            active: boolean;
+            /**
+             * Disabled
+             */
+            disabled: boolean;
+        }
+        /**
+         * WarningModelAdd
+         */
+        export interface WarningModelAdd {
+            /**
+             * Reason
+             */
+            reason?: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id: string; // uuid
+            /**
+             * User Id
+             */
+            user_id: string; // uuid
+        }
     }
-    /**
-     * AddressModel
-     */
-    export interface AddressModel {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Street And Number
-       */
-      street_and_number: string;
-      /**
-       * Addition
-       */
-      addition?: string;
-      /**
-       * City
-       */
-      city: string;
-      /**
-       * State
-       */
-      state: string;
-      /**
-       * Zip Code
-       */
-      zip_code: string;
-      /**
-       * Id
-       */
-      id: string; // uuid
-      country: CountryModel;
-      /**
-       * Vat Number
-       */
-      vat_number?: string;
-    }
-    /**
-     * AddressModelAdd
-     */
-    export interface AddressModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Street And Number
-       */
-      street_and_number: string;
-      /**
-       * Addition
-       */
-      addition?: string;
-      /**
-       * City
-       */
-      city: string;
-      /**
-       * State
-       */
-      state: string;
-      /**
-       * Zip Code
-       */
-      zip_code: string;
-      /**
-       * Country Code
-       */
-      country_code: string; // ^[A-Z]{2}$
-    }
-    /**
-     * AppliedPacketModel
-     */
-    export interface AppliedPacketModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      status: AppliedPacketStatus;
-      packet: PacketModelShort;
-      /**
-       * Purchase Id
-       */
-      purchase_id?: string; // uuid
-      /**
-       * Bounds
-       */
-      bounds: string;
-      /**
-       * Begin
-       */
-      begin: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-      /**
-       * Active
-       */
-      active: boolean;
-      user: Model_User_User_UserModelShort;
-    }
-    /**
-     * AppliedPacketModelPatch
-     */
-    export interface AppliedPacketModelPatch {
-      status?: AppliedPacketStatus;
-      /**
-       * End
-       */
-      end?: string; // date-time
-    }
-    /**
-     * AppliedPacketStatus
-     * An enumeration.
-     */
-    export type AppliedPacketStatus = "ENABLED" | "DISABLED";
-    /**
-     * AppliedRewardModel
-     */
-    export interface AppliedRewardModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Active
-       */
-      active: boolean;
-      reward: RewardModel;
-      user: Model_User_UserModelShort;
-      /**
-       * Applied Packet Id
-       */
-      applied_packet_id: string; // uuid
-      status: RewardStatus;
-      /**
-       * Executed On
-       */
-      executed_on: string /* uuid */ [];
-    }
-    /**
-     * AppliedRewardModelPatch
-     */
-    export interface AppliedRewardModelPatch {
-      status?: RewardStatus;
-      /**
-       * Executed On
-       */
-      executed_on?: string /* uuid */ [];
-    }
-    /**
-     * BanModel
-     */
-    export interface BanModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Length
-       */
-      length?: number; // time-delta
-      /**
-       * Reason
-       */
-      reason?: string;
-      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
-      creator: Model_User_User_UserModelShort;
-      user: Model_User_User_UserModelShort;
-      /**
-       * Created On
-       */
-      created_on: string; // date-time
-      /**
-       * Ends On
-       */
-      ends_on?: string; // date-time
-      status: BanStatus;
-      /**
-       * Active
-       */
-      active: boolean;
-    }
-    /**
-     * BanModelAdd
-     */
-    export interface BanModelAdd {
-      /**
-       * Length
-       */
-      length?: number; // time-delta
-      /**
-       * Reason
-       */
-      reason?: string;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id?: string; // uuid
-      /**
-       * Creator Id
-       */
-      creator_id?: string; // uuid
-      /**
-       * User Id
-       */
-      user_id: string; // uuid
-      /**
-       * BanStatus
-       * An enumeration.
-       */
-      status?: "ACTIVE" | "UNBANNED";
-      /**
-       * Created On
-       */
-      created_on?: string; // date-time
-    }
-    /**
-     * BanModelPatch
-     */
-    export interface BanModelPatch {
-      /**
-       * Length
-       */
-      length?: number; // time-delta
-      /**
-       * Reason
-       */
-      reason?: string;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id?: string; // uuid
-      status?: BanStatus;
-    }
-    /**
-     * BanStatus
-     * An enumeration.
-     */
-    export type BanStatus = "ACTIVE" | "UNBANNED";
-    /**
-     * Body_add_packet_to_cart_shop_cart_post
-     */
-    export interface BodyAddPacketToCartShopCartPost {
-      /**
-       * Packet Id
-       */
-      packet_id: string; // uuid
-    }
-    /**
-     * Body_start_checkout_shop_cart_checkout_post
-     */
-    export interface BodyStartCheckoutShopCartCheckoutPost {
-      /**
-       * Address Id
-       */
-      address_id: string; // uuid
-    }
-    /**
-     * Body_start_payment_shop_checkout_post
-     */
-    export interface BodyStartPaymentShopCheckoutPost {
-      /**
-       * Purchase Id
-       */
-      purchase_id: string; // uuid
-      /**
-       * Payment Gateway Id
-       */
-      payment_gateway_id: string; // uuid
-    }
-    /**
-     * BundleTokenCreateModel
-     */
-    export interface BundleTokenCreateModel {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Extra Properties
-       */
-      extra_properties?: string[];
-    }
-    /**
-     * BusinessAddressModelAdd
-     */
-    export interface BusinessAddressModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Street And Number
-       */
-      street_and_number: string;
-      /**
-       * Addition
-       */
-      addition?: string;
-      /**
-       * City
-       */
-      city: string;
-      /**
-       * State
-       */
-      state: string;
-      /**
-       * Zip Code
-       */
-      zip_code: string;
-      /**
-       * Country Code
-       */
-      country_code: string; // ^[A-Z]{2}$
-      /**
-       * Vat Number
-       */
-      vat_number?: string;
-    }
-    /**
-     * CartModel
-     */
-    export interface CartModel {
-      /**
-       * Correct
-       */
-      correct: boolean;
-      price: TotalPriceModel;
-      /**
-       * Packets
-       */
-      packets: CartPacketModel[];
-    }
-    /**
-     * CartPacketModel
-     */
-    export interface CartPacketModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Price Net
-       */
-      price_net: number;
-      price?: TotalPriceModel;
-      /**
-       * Credits
-       */
-      credits?: number;
-      currency: CurrencyModel;
-      packet: PacketModelShort;
-      /**
-       * Packet Title
-       */
-      packet_title: string;
-      /**
-       * Last Update
-       */
-      last_update: string; // date-time
-      user: Model_User_User_UserModelShort;
-      /**
-       * Recurring
-       */
-      recurring?: number; // time-delta
-      discount?: DiscountModel;
-      /**
-       * Editable
-       */
-      editable: boolean;
-    }
-    /**
-     * CheckoutCheckboxModel
-     */
-    export interface CheckoutCheckboxModel {
-      /**
-       * Text
-       */
-      text: string;
-      /**
-       * Url
-       */
-      url: string; // uri
-    }
-    /**
-     * CmsPageModel
-     */
-    export interface CmsPageModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Content
-       */
-      content: string;
-    }
-    /**
-     * CmsPageModelPost
-     */
-    export interface CmsPageModelPost {
-      /**
-       * Content
-       */
-      content?: string;
-    }
-    /**
-     * CountryModel
-     */
-    export interface CountryModel {
-      /**
-       * Code
-       */
-      code: string;
-      /**
-       * Name
-       */
-      name: string;
-    }
-    /**
-     * CurrencyModel
-     */
-    export interface CurrencyModel {
-      /**
-       * Symbol
-       */
-      symbol: string;
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Code
-       */
-      code: string; // ^[A-Z]{3}$
-    }
-    /**
-     * DebitModel
-     */
-    export interface DebitModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Date
-       */
-      date: string; // date-time
-      /**
-       * Ext Transaction Id
-       */
-      ext_transaction_id?: string;
-      /**
-       * Transaction Id
-       */
-      transaction_id?: string; // uuid
-      payment_gateway: PaymentGatewayModel;
-      /**
-       * Amount Total
-       */
-      amount_total?: number;
-      /**
-       * Amount Net
-       */
-      amount_net?: number;
-      /**
-       * Tax Rate
-       */
-      tax_rate?: number;
-      /**
-       * Amount Tax
-       */
-      amount_tax?: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      status: DebitStatus;
-      /**
-       * Invoice Number
-       */
-      invoice_number?: string;
-      /**
-       * Transaction Url
-       */
-      transaction_url?: string;
-      /**
-       * Invoice Available
-       */
-      invoice_available: boolean;
-      purchase: PurchaseModelShort;
-    }
-    /**
-     * DebitModelNoPurchase
-     */
-    export interface DebitModelNoPurchase {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Date
-       */
-      date: string; // date-time
-      /**
-       * Ext Transaction Id
-       */
-      ext_transaction_id?: string;
-      /**
-       * Transaction Id
-       */
-      transaction_id?: string; // uuid
-      payment_gateway: PaymentGatewayModel;
-      /**
-       * Amount Total
-       */
-      amount_total?: number;
-      /**
-       * Amount Net
-       */
-      amount_net?: number;
-      /**
-       * Tax Rate
-       */
-      tax_rate?: number;
-      /**
-       * Amount Tax
-       */
-      amount_tax?: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      status: DebitStatus;
-      /**
-       * Invoice Number
-       */
-      invoice_number?: string;
-      /**
-       * Transaction Url
-       */
-      transaction_url?: string;
-      /**
-       * Invoice Available
-       */
-      invoice_available: boolean;
-    }
-    /**
-     * DebitModelStatistic
-     */
-    export interface DebitModelStatistic {
-      /**
-       * Date
-       */
-      date: string; // date-time
-      /**
-       * Amount Net
-       */
-      amount_net?: number;
-      /**
-       * Amount Total
-       */
-      amount_total?: number;
-      /**
-       * Amount Tax
-       */
-      amount_tax?: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-    }
-    /**
-     * DebitStatus
-     * An enumeration.
-     */
-    export type DebitStatus = "STARTED" | "APPROVED" | "FINISHED" | "CANCELLED";
-    /**
-     * DiscordRoleModel
-     */
-    export interface DiscordRoleModel {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Id
-       */
-      id: number;
-    }
-    /**
-     * DiscountModel
-     */
-    export interface DiscountModel {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Code
-       */
-      code?: string;
-      /**
-       * Bounds
-       */
-      bounds?: string;
-      /**
-       * Begin
-       */
-      begin: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-      /**
-       * Percentage
-       */
-      percentage: number;
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * All Packets
-       */
-      all_packets: boolean;
-      /**
-       * Max Usages
-       */
-      max_usages?: number;
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Deletable
-       */
-      deletable: boolean;
-      /**
-       * Active
-       */
-      active: boolean;
-      requirement_set?: RequirementSetModel;
-      /**
-       * Packets
-       */
-      packets: PacketModelShort[];
-    }
-    /**
-     * DiscountModelAdd
-     */
-    export interface DiscountModelAdd {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Code
-       */
-      code?: string;
-      /**
-       * Bounds
-       */
-      bounds?: string;
-      /**
-       * Begin
-       */
-      begin: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-      /**
-       * Percentage
-       */
-      percentage: number;
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * All Packets
-       */
-      all_packets: boolean;
-      /**
-       * Max Usages
-       */
-      max_usages?: number;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-      /**
-       * Packet Ids
-       */
-      packet_ids?: string /* uuid */ [];
-    }
-    /**
-     * DiscountModelPatch
-     */
-    export interface DiscountModelPatch {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Code
-       */
-      code?: string;
-      /**
-       * Bounds
-       */
-      bounds?: string;
-      /**
-       * Begin
-       */
-      begin?: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-      /**
-       * Percentage
-       */
-      percentage?: number;
-      /**
-       * Enabled
-       */
-      enabled?: boolean;
-      /**
-       * All Packets
-       */
-      all_packets?: boolean;
-      /**
-       * Max Usages
-       */
-      max_usages?: number;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-      /**
-       * Packet Ids
-       */
-      packet_ids?: string /* uuid */ [];
-    }
-    /**
-     * DonationGoalModel
-     */
-    export interface DonationGoalModel {
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * Goal
-       */
-      goal?: number;
-      currency: CurrencyModel;
-      /**
-       * Current
-       */
-      current?: number;
-    }
-    /**
-     * GeneralSettingModel
-     */
-    export interface GeneralSettingModel {
-      /**
-       * Community Name
-       */
-      community_name: string;
-    }
-    /**
-     * GeneralSettingsModel
-     */
-    export interface GeneralSettingsModel {
-      /**
-       * Donation Goal Enabled
-       */
-      donation_goal_enabled?: boolean;
-      /**
-       * Donation Goal
-       */
-      donation_goal?: number;
-      /**
-       * Checkout Checkboxes
-       */
-      checkout_checkboxes?: CheckoutCheckboxModel[];
-    }
-    /**
-     * GroupModel
-     */
-    export interface GroupModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Permission Level
-       */
-      permission_level: number;
-      /**
-       * Color
-       */
-      color: string;
-      serverbundle: Model_Pydantic_ServerbundleModelShort;
-      /**
-       * Properties
-       */
-      properties: {
-        [name: string]: PropertyModelGroup;
-      };
-    }
-    /**
-     * GroupModelAdd
-     */
-    export interface GroupModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Permission Level
-       */
-      permission_level: number;
-      /**
-       * Color
-       */
-      color: string;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id: string; // uuid
-    }
-    /**
-     * GroupModelPatch
-     */
-    export interface GroupModelPatch {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Permission Level
-       */
-      permission_level?: number;
-      /**
-       * Color
-       */
-      color?: string;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id?: string; // uuid
-      /**
-       * Properties
-       */
-      properties?: PropertyModelAdd[];
-    }
-    /**
-     * GroupModelShort
-     */
-    export interface GroupModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id: string; // uuid
-    }
-    /**
-     * GuildModel
-     */
-    export interface GuildModel {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Id
-       */
-      id: number;
-      /**
-       * Member Count
-       */
-      member_count: number;
-    }
-    /**
-     * HTTPValidationError
-     */
-    export interface HTTPValidationError {
-      /**
-       * Detail
-       */
-      detail?: ValidationError[];
-    }
-    /**
-     * LegalModel
-     */
-    export interface LegalModel {
-      /**
-       * Content
-       */
-      content: string;
-    }
-    /**
-     * LinkType
-     * An enumeration.
-     */
-    export type LinkType = "default" | "link" | "html";
-    /**
-     * LogEntryModel
-     */
-    export interface LogEntryModel {
-      author?: Model_User_UserModelShort;
-      /**
-       * Message
-       */
-      message: {
-      };
-      /**
-       * Created On
-       */
-      created_on: string; // date-time
-      /**
-       * Category
-       */
-      category: string;
-    }
-    /**
-     * MembershipModel
-     */
-    export interface MembershipModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Bounds
-       */
-      bounds: string;
-      /**
-       * Begin
-       */
-      begin: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-      group: GroupModel;
-      /**
-       * Active
-       */
-      active: boolean;
-      /**
-       * User Id
-       */
-      user_id: string; // uuid
-    }
-    /**
-     * MembershipModelEdit
-     */
-    export interface MembershipModelEdit {
-      /**
-       * Begin
-       */
-      begin: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-    }
-    /**
-     * MembershipModelMemberList
-     */
-    export interface MembershipModelMemberList {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Begin
-       */
-      begin: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-      user: UserModelNoLinkedExtraShort;
-    }
-    /**
-     * MembershipModelUserAdd
-     */
-    export interface MembershipModelUserAdd {
-      /**
-       * Begin
-       */
-      begin: string; // date-time
-      /**
-       * End
-       */
-      end?: string; // date-time
-      /**
-       * Group Id
-       */
-      group_id: string; // uuid
-    }
-    /**
-     * ServerbundleModelShort
-     */
-    export interface Model_Pydantic_ServerbundleModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Color
-       */
-      color: string; // color
-      /**
-       * Icon
-       */
-      icon?: string;
-    }
-    /**
-     * ServerbundleModelShort
-     */
-    export interface Model_Server_Serverbundle_ServerbundleModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Color
-       */
-      color: string; // color
-      /**
-       * Icon
-       */
-      icon?: string;
-    }
-    /**
-     * UserModelShort
-     */
-    export interface Model_User_UserModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: UserType;
-      /**
-       * Identifier
-       */
-      identifier: string;
-      /**
-       * Username
-       */
-      username: string;
-      /**
-       * Avatar
-       */
-      avatar: string;
-    }
-    /**
-     * UserModelShort
-     */
-    export interface Model_User_User_UserModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: UserType;
-      /**
-       * Identifier
-       */
-      identifier: string;
-      /**
-       * Username
-       */
-      username: string;
-      /**
-       * Avatar
-       */
-      avatar: string;
-    }
-    /**
-     * NavModel
-     */
-    export interface NavModel {
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Icon
-       */
-      icon: string;
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      linkType: LinkType;
-      /**
-       * Reqprop
-       */
-      reqProp?: string;
-      /**
-       * Html
-       */
-      html?: string;
-      /**
-       * Link
-       */
-      link?: string;
-      /**
-       * Tabs
-       */
-      tabs?: any;
-    }
-    /**
-     * NewsModel
-     */
-    export interface NewsModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Subject
-       */
-      subject: string;
-      /**
-       * Content
-       */
-      content?: string;
-      type: NewsType;
-      /**
-       * Created
-       */
-      created: string; // date-time
-      creator?: Model_User_User_UserModelShort;
-    }
-    /**
-     * NewsModelPatch
-     */
-    export interface NewsModelPatch {
-      /**
-       * Subject
-       */
-      subject?: string;
-      /**
-       * Content
-       */
-      content?: string;
-      type?: NewsType;
-    }
-    /**
-     * NewsModelPost
-     */
-    export interface NewsModelPost {
-      /**
-       * Subject
-       */
-      subject: string;
-      /**
-       * Content
-       */
-      content?: string;
-      type: NewsType;
-    }
-    /**
-     * NewsType
-     * An enumeration.
-     */
-    export type NewsType = "PINNED" | "DEFAULT";
-    /**
-     * NotificationEntryModel
-     */
-    export interface NotificationEntryModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Link
-       */
-      link?: {
-      };
-      /**
-       * Message
-       */
-      message: {
-      };
-      /**
-       * Created On
-       */
-      created_on: string; // date-time
-      /**
-       * Category
-       */
-      category: string;
-      /**
-       * Read
-       */
-      read: boolean;
-    }
-    /**
-     * NotificationRead
-     */
-    export interface NotificationRead {
-      /**
-       * All
-       */
-      all?: boolean;
-      /**
-       * Id
-       */
-      id?: string /* uuid */ [];
-    }
-    /**
-     * OAuth2TokenModel
-     */
-    export interface OAuth2TokenModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name?: string;
-      user?: Model_User_User_UserModelShort;
-      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
-      /**
-       * Scope
-       */
-      scope: string;
-      /**
-       * Revoked
-       */
-      revoked: boolean;
-      /**
-       * Issued At
-       */
-      issued_at: number;
-      /**
-       * Expires In
-       */
-      expires_in?: number;
-      /**
-       * Access Token
-       */
-      access_token: string;
-    }
-    /**
-     * OAuth2TokenModelHidden
-     */
-    export interface OAuth2TokenModelHidden {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name?: string;
-      user?: Model_User_User_UserModelShort;
-      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
-      /**
-       * Scope
-       */
-      scope: string;
-      /**
-       * Revoked
-       */
-      revoked: boolean;
-      /**
-       * Issued At
-       */
-      issued_at: number;
-      /**
-       * Expires In
-       */
-      expires_in?: number;
-      /**
-       * Access Token Hidden
-       */
-      access_token_hidden: string;
-    }
-    /**
-     * PacketCategoryModel
-     */
-    export interface PacketCategoryModel {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * Sort Id
-       */
-      sort_id: number;
-      /**
-       * Id
-       */
-      id: string; // uuid
-    }
-    /**
-     * PacketCategoryModelAdd
-     */
-    export interface PacketCategoryModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * Sort Id
-       */
-      sort_id: number;
-    }
-    /**
-     * PacketCategoryModelPatch
-     */
-    export interface PacketCategoryModelPatch {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Enabled
-       */
-      enabled?: boolean;
-      /**
-       * Sort Id
-       */
-      sort_id?: number;
-    }
-    /**
-     * PacketModel
-     */
-    export interface PacketModel {
-      /**
-       * Description
-       */
-      description?: string;
-      /**
-       * Active For
-       */
-      active_for?: number; // time-delta
-      /**
-       * Custom Price
-       */
-      custom_price: boolean;
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * Buyable
-       */
-      buyable: boolean;
-      /**
-       * Buyable Active
-       */
-      buyable_active: boolean;
-      /**
-       * Buyable Inactive
-       */
-      buyable_inactive: boolean;
-      /**
-       * Recurring
-       */
-      recurring: boolean;
-      /**
-       * Sort Id
-       */
-      sort_id: number;
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Abstract
-       */
-      abstract?: string[];
-      /**
-       * Price
-       */
-      price: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      discount?: DiscountModel;
-      price_with_discount?: TotalPriceModel;
-      price_without_discount?: TotalPriceModel;
-      /**
-       * Id
-       */
-      id: string; // uuid
-      currency: CurrencyModel;
-      category: PacketCategoryModel;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-      /**
-       * Relations
-       */
-      relations: PacketRelationModel[];
-      /**
-       * Payment Gateways
-       */
-      payment_gateways: PaymentGatewayModel[];
-      /**
-       * Rewards
-       */
-      rewards: RewardModel[];
-      /**
-       * Deletable
-       */
-      deletable: boolean;
-    }
-    /**
-     * PacketModelAdd
-     */
-    export interface PacketModelAdd {
-      /**
-       * Description
-       */
-      description?: string;
-      /**
-       * Active For
-       */
-      active_for?: number; // time-delta
-      /**
-       * Custom Price
-       */
-      custom_price: boolean;
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * Buyable
-       */
-      buyable: boolean;
-      /**
-       * Buyable Active
-       */
-      buyable_active: boolean;
-      /**
-       * Buyable Inactive
-       */
-      buyable_inactive: boolean;
-      /**
-       * Recurring
-       */
-      recurring: boolean;
-      /**
-       * Sort Id
-       */
-      sort_id: number;
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Abstract
-       */
-      abstract?: string[];
-      /**
-       * Price
-       */
-      price: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      discount?: DiscountModel;
-      price_with_discount?: TotalPriceModel;
-      price_without_discount?: TotalPriceModel;
-      /**
-       * Currency Code
-       */
-      currency_code: string; // ^[A-Z]{3}$
-      /**
-       * Category Id
-       */
-      category_id: string; // uuid
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-      /**
-       * Relations
-       */
-      relations: PacketRelationModelAdd[];
-      /**
-       * Reward Ids
-       */
-      reward_ids?: string /* uuid */ [];
-      /**
-       * Payment Gateway Ids
-       */
-      payment_gateway_ids?: string /* uuid */ [];
-    }
-    /**
-     * PacketModelLight
-     */
-    export interface PacketModelLight {
-      /**
-       * Description
-       */
-      description?: string;
-      /**
-       * Active For
-       */
-      active_for?: number; // time-delta
-      /**
-       * Custom Price
-       */
-      custom_price: boolean;
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-      /**
-       * Buyable
-       */
-      buyable: boolean;
-      /**
-       * Buyable Active
-       */
-      buyable_active: boolean;
-      /**
-       * Buyable Inactive
-       */
-      buyable_inactive: boolean;
-      /**
-       * Recurring
-       */
-      recurring: boolean;
-      /**
-       * Sort Id
-       */
-      sort_id: number;
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Abstract
-       */
-      abstract?: string[];
-      /**
-       * Price
-       */
-      price: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      discount?: DiscountModel;
-      price_with_discount?: TotalPriceModel;
-      price_without_discount?: TotalPriceModel;
-      /**
-       * Id
-       */
-      id: string; // uuid
-      currency: CurrencyModel;
-      category: PacketCategoryModel;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-      /**
-       * Relations
-       */
-      relations: PacketRelationModel[];
-    }
-    /**
-     * PacketModelPatch
-     */
-    export interface PacketModelPatch {
-      /**
-       * Description
-       */
-      description?: string;
-      /**
-       * Active For
-       */
-      active_for?: number; // time-delta
-      /**
-       * Custom Price
-       */
-      custom_price?: boolean;
-      /**
-       * Enabled
-       */
-      enabled?: boolean;
-      /**
-       * Buyable
-       */
-      buyable?: boolean;
-      /**
-       * Buyable Active
-       */
-      buyable_active?: boolean;
-      /**
-       * Buyable Inactive
-       */
-      buyable_inactive?: boolean;
-      /**
-       * Recurring
-       */
-      recurring?: boolean;
-      /**
-       * Sort Id
-       */
-      sort_id?: number;
-      /**
-       * Title
-       */
-      title?: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Abstract
-       */
-      abstract?: string[];
-      /**
-       * Price
-       */
-      price?: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      discount?: DiscountModel;
-      price_with_discount?: TotalPriceModel;
-      price_without_discount?: TotalPriceModel;
-      /**
-       * Currency Code
-       */
-      currency_code?: string; // ^[A-Z]{3}$
-      /**
-       * Category Id
-       */
-      category_id?: string; // uuid
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-      /**
-       * Relations
-       */
-      relations?: PacketRelationModelAdd[];
-      /**
-       * Reward Ids
-       */
-      reward_ids?: string /* uuid */ [];
-      /**
-       * Payment Gateway Ids
-       */
-      payment_gateway_ids?: string /* uuid */ [];
-    }
-    /**
-     * PacketModelShort
-     */
-    export interface PacketModelShort {
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      /**
-       * Image Url
-       */
-      image_url?: string; // uri
-      /**
-       * Abstract
-       */
-      abstract?: string[];
-      /**
-       * Price
-       */
-      price: number;
-      /**
-       * Credits
-       */
-      credits?: number;
-      discount?: DiscountModel;
-      price_with_discount?: TotalPriceModel;
-      price_without_discount?: TotalPriceModel;
-      /**
-       * Id
-       */
-      id: string; // uuid
-      currency: CurrencyModel;
-    }
-    /**
-     * PacketRelationModel
-     */
-    export interface PacketRelationModel {
-      packet_left: PacketModelShort;
-      packet_right: PacketModelShort;
-      type: PacketRelationType;
-    }
-    /**
-     * PacketRelationModelAdd
-     */
-    export interface PacketRelationModelAdd {
-      /**
-       * Packet Right Id
-       */
-      packet_right_id: string; // uuid
-      type: PacketRelationType;
-    }
-    /**
-     * PacketRelationType
-     * An enumeration.
-     */
-    export type PacketRelationType = "DISABLES" | "REQUIRES" | "UPGRADES" | "NOT_COMPATIBLE";
-    /**
-     * Page[AppliedPacketModel]
-     */
-    export interface PageAppliedPacketModel {
-      /**
-       * Items
-       */
-      items: AppliedPacketModel[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[AppliedRewardModel]
-     */
-    export interface PageAppliedRewardModel {
-      /**
-       * Items
-       */
-      items: AppliedRewardModel[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[BanModel]
-     */
-    export interface PageBanModel {
-      /**
-       * Items
-       */
-      items: BanModel[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[LogEntryModel]
-     */
-    export interface PageLogEntryModel {
-      /**
-       * Items
-       */
-      items: LogEntryModel[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[MembershipModelMemberList]
-     */
-    export interface PageMembershipModelMemberList {
-      /**
-       * Items
-       */
-      items: MembershipModelMemberList[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[NewsModel]
-     */
-    export interface PageNewsModel {
-      /**
-       * Items
-       */
-      items: NewsModel[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[NotificationEntryModel]
-     */
-    export interface PageNotificationEntryModel {
-      /**
-       * Items
-       */
-      items: NotificationEntryModel[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[PurchaseModel]
-     */
-    export interface PagePurchaseModel {
-      /**
-       * Items
-       */
-      items: PurchaseModel[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[ThreadModelShort]
-     */
-    export interface PageThreadModelShort {
-      /**
-       * Items
-       */
-      items: ThreadModelShort[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * Page[WarningModel]
-     */
-    export interface PageWarningModel {
-      /**
-       * Items
-       */
-      items: WarningModel[];
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Page
-       */
-      page: number;
-      /**
-       * Size
-       */
-      size: number;
-    }
-    /**
-     * PaymentAction
-     */
-    export interface PaymentAction {
-      /**
-       * Type
-       */
-      type: string;
-      /**
-       * Data
-       */
-      data?: {
-      };
-    }
-    /**
-     * PaymentGatewayModel
-     */
-    export interface PaymentGatewayModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      type: PaymentGatewayType;
-      /**
-       * Support Recurring
-       */
-      support_recurring: boolean;
-      /**
-       * Deletable
-       */
-      deletable: boolean;
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-    }
-    /**
-     * PaymentGatewayModelAdd
-     */
-    export interface PaymentGatewayModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      type: PaymentGatewayType;
-      /**
-       * Attributes
-       */
-      attributes?: {
-        [name: string]: string;
-      };
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-    }
-    /**
-     * PaymentGatewayModelPatch
-     */
-    export interface PaymentGatewayModelPatch {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Subtitle
-       */
-      subtitle?: string;
-      /**
-       * Attributes
-       */
-      attributes?: {
-        [name: string]: string;
-      };
-      /**
-       * Enabled
-       */
-      enabled: boolean;
-    }
-    /**
-     * PaymentGatewayType
-     * An enumeration.
-     */
-    export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "CREDITS";
-    /**
-     * PostModel
-     */
-    export interface PostModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Content
-       */
-      content: string;
-      /**
-       * Title
-       */
-      title?: string;
-      /**
-       * Created
-       */
-      created: string; // date-time
-      creator: Model_User_User_UserModelShort;
-    }
-    /**
-     * PostModelAdd
-     */
-    export interface PostModelAdd {
-      /**
-       * Content
-       */
-      content: string;
-    }
-    /**
-     * PropertyModel
-     */
-    export interface PropertyModel {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Granted
-       */
-      granted: boolean;
-      /**
-       * Group Id
-       */
-      group_id: string; // uuid
-      /**
-       * Value
-       */
-      value?: string;
-    }
-    /**
-     * PropertyModelAdd
-     */
-    export interface PropertyModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Granted
-       */
-      granted?: boolean;
-      /**
-       * Value
-       */
-      value?: string;
-    }
-    /**
-     * PropertyModelGroup
-     */
-    export interface PropertyModelGroup {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Granted
-       */
-      granted: boolean;
-      /**
-       * Value
-       */
-      value?: string;
-    }
-    /**
-     * PropertyModelShortWithDescription
-     */
-    export interface PropertyModelShortWithDescription {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Description
-       */
-      description: string;
-    }
-    /**
-     * PurchaseModel
-     */
-    export interface PurchaseModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Date
-       */
-      date: string; // date-time
-      user: Model_User_UserModelShort;
-      /**
-       * Amount Total
-       */
-      amount_total: number;
-      currency: CurrencyModel;
-      status: PurchaseStatus;
-      /**
-       * Credits
-       */
-      credits?: number;
-      /**
-       * Amount Net
-       */
-      amount_net: number;
-      /**
-       * Tax Rate
-       */
-      tax_rate: number;
-      /**
-       * Amount Tax
-       */
-      amount_tax: number;
-      /**
-       * Tax Info
-       */
-      tax_info?: string;
-      /**
-       * Last Update
-       */
-      last_update: string; // date-time
-      /**
-       * Recurring
-       */
-      recurring?: number; // time-delta
-      /**
-       * Debits
-       */
-      debits: DebitModelNoPurchase[];
-      /**
-       * Cart Packets
-       */
-      cart_packets: CartPacketModel[];
-      address: AddressModel;
-      /**
-       * Credits Used
-       */
-      credits_used: boolean;
-      /**
-       * Refundable
-       */
-      refundable: boolean;
-      /**
-       * Ext Subscription Id
-       */
-      ext_subscription_id?: string;
-      /**
-       * Payment Gateway Id
-       */
-      payment_gateway_id?: string; // uuid
-    }
-    /**
-     * PurchaseModelPatch
-     */
-    export interface PurchaseModelPatch {
-      status?: PurchaseStatus;
-    }
-    /**
-     * PurchaseModelShort
-     */
-    export interface PurchaseModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Date
-       */
-      date: string; // date-time
-      user: Model_User_UserModelShort;
-      /**
-       * Amount Total
-       */
-      amount_total: number;
-      currency: CurrencyModel;
-      status: PurchaseStatus;
-      /**
-       * Credits
-       */
-      credits?: number;
-    }
-    /**
-     * PurchaseStatistic
-     */
-    export interface PurchaseStatistic {
-      /**
-       * Status
-       */
-      status: {
-        [name: string]: PurchaseStatisticEntry;
-      };
-      /**
-       * Country
-       */
-      country: {
-        [name: string]: PurchaseStatisticEntry;
-      };
-      /**
-       * Monthly Revenue
-       */
-      monthly_revenue: number;
-    }
-    /**
-     * PurchaseStatisticEntry
-     */
-    export interface PurchaseStatisticEntry {
-      /**
-       * Count
-       */
-      count: number;
-      /**
-       * Amount Total
-       */
-      amount_total: number;
-      /**
-       * Amount Net
-       */
-      amount_net: number;
-      /**
-       * Amount Tax
-       */
-      amount_tax: number;
-      /**
-       * Credits
-       */
-      credits: number;
-    }
-    /**
-     * PurchaseStatus
-     * An enumeration.
-     */
-    export type PurchaseStatus = "OPEN" | "CANCELLED" | "FINISHED" | "REFUNDED" | "REVOKED" | "RECURRING";
-    /**
-     * RequirementModel
-     */
-    export interface RequirementModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: RequirementType;
-      operator: RequirementOperator;
-      /**
-       * Key
-       */
-      key?: string;
-      /**
-       * Value
-       */
-      value?: string;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id: string; // uuid
-    }
-    /**
-     * RequirementModelAdd
-     */
-    export interface RequirementModelAdd {
-      type: RequirementType;
-      operator: RequirementOperator;
-      /**
-       * Key
-       */
-      key?: string;
-      /**
-       * Value
-       */
-      value?: string;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id: string; // uuid
-    }
-    /**
-     * RequirementOperator
-     * An enumeration.
-     */
-    export type RequirementOperator = "EQ" | "NEQ" | "LEQ" | "GEQ" | "LT" | "GT" | "ACTIVE" | "INACTIVE" | "NEVER_ACTIVE" | "ONLY_ACTIVE" | "ONLY_INACTIVE" | "HAVE" | "NHAVE";
-    /**
-     * RequirementSetModel
-     */
-    export interface RequirementSetModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Formula
-       */
-      formula?: any[];
-      /**
-       * Requirements
-       */
-      requirements: RequirementModel[];
-      /**
-       * Fulfilled
-       */
-      fulfilled?: boolean;
-    }
-    /**
-     * RequirementSetModelAdd
-     */
-    export interface RequirementSetModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-    }
-    /**
-     * RequirementSetModelPatch
-     */
-    export interface RequirementSetModelPatch {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Formula
-       */
-      formula?: any[];
-    }
-    /**
-     * RequirementSetModelShort
-     */
-    export interface RequirementSetModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Formula
-       */
-      formula?: any[];
-      /**
-       * Fulfilled
-       */
-      fulfilled?: boolean;
-    }
-    /**
-     * RequirementType
-     * An enumeration.
-     */
-    export type RequirementType = "GROUP_MEMBER" | "PERMISSION_LEVEL" | "PERMISSION_LEVEL_SB" | "PROPERTY" | "PROPERTY_SB" | "USER_ATTRIBUTE" | "PACKET" | "DATE" | "USER_SELF";
-    /**
-     * RewardEvent
-     * An enumeration.
-     */
-    export type RewardEvent = "DIRECT" | "CONNECT" | "SPAWN" | "DEATH" | "DISCONNECT" | "DISABLE";
-    /**
-     * RewardModel
-     */
-    export interface RewardModel {
-      /**
-       * Name
-       */
-      name: string;
-      type: RewardType;
-      /**
-       * Data
-       */
-      data?: {
-      };
-      /**
-       * Order
-       */
-      order: number;
-      /**
-       * Once
-       */
-      once: boolean;
-      /**
-       * Once From All
-       */
-      once_from_all: boolean;
-      on_event: RewardEvent;
-      /**
-       * Id
-       */
-      id: string; // uuid
-      serverbundle: Model_Pydantic_ServerbundleModelShort;
-      requirement_set?: RequirementSetModel;
-    }
-    /**
-     * RewardModelAdd
-     */
-    export interface RewardModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      type: RewardType;
-      /**
-       * Data
-       */
-      data?: {
-      };
-      /**
-       * Order
-       */
-      order: number;
-      /**
-       * Once
-       */
-      once: boolean;
-      /**
-       * Once From All
-       */
-      once_from_all: boolean;
-      on_event: RewardEvent;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id: string; // uuid
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-    }
-    /**
-     * RewardModelPatch
-     */
-    export interface RewardModelPatch {
-      /**
-       * Name
-       */
-      name?: string;
-      type?: RewardType;
-      /**
-       * Data
-       */
-      data?: {
-      };
-      /**
-       * Order
-       */
-      order?: number;
-      /**
-       * Once
-       */
-      once?: boolean;
-      /**
-       * Once From All
-       */
-      once_from_all?: boolean;
-      on_event?: RewardEvent;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id?: string; // uuid
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-    }
-    /**
-     * RewardStatus
-     * An enumeration.
-     */
-    export type RewardStatus = "OPEN" | "EXECUTED" | "FAILED";
-    /**
-     * RewardType
-     * An enumeration.
-     */
-    export type RewardType = "COMMAND" | "SCRIPT" | "CREDITS" | "MEMBERSHIP";
-    /**
-     * RoleGroupRelationModel
-     */
-    export interface RoleGroupRelationModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      group: GroupModelShort;
-      /**
-       * Role Id
-       */
-      role_id: number;
-    }
-    /**
-     * RoleGroupRelationModelAdd
-     */
-    export interface RoleGroupRelationModelAdd {
-      /**
-       * Group Id
-       */
-      group_id: string; // uuid
-      /**
-       * Role Id
-       */
-      role_id: number;
-    }
-    /**
-     * ServerBundleModelPatch
-     */
-    export interface ServerBundleModelPatch {
-      /**
-       * Name
-       */
-      name?: string;
-      /**
-       * Color
-       */
-      color?: string; // color
-      /**
-       * Icon
-       */
-      icon?: string;
-      /**
-       * Default Group Id
-       */
-      default_group_id?: string; // uuid
-      /**
-       * Multigroup
-       */
-      multigroup?: boolean;
-    }
-    /**
-     * ServerModel
-     */
-    export interface ServerModel {
-      /**
-       * Users Max
-       */
-      users_max?: number;
-      /**
-       * Users Current
-       */
-      users_current?: number;
-      /**
-       * Map
-       */
-      map?: string;
-      /**
-       * Name
-       */
-      name: string;
-      type: ServerType;
-      /**
-       * Address
-       */
-      address: string;
-      /**
-       * Port
-       */
-      port: number;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id?: string; // uuid
-      /**
-       * Extra
-       */
-      extra?: {
-      };
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Last Update
-       */
-      last_update?: string; // date-time
-      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
-    }
-    /**
-     * ServerModelAdd
-     */
-    export interface ServerModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      type: ServerType;
-      /**
-       * Address
-       */
-      address: string;
-      /**
-       * Port
-       */
-      port: number;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id?: string; // uuid
-      /**
-       * Extra
-       */
-      extra?: {
-      };
-    }
-    /**
-     * ServerModelPatch
-     */
-    export interface ServerModelPatch {
-      /**
-       * Users Max
-       */
-      users_max?: number;
-      /**
-       * Users Current
-       */
-      users_current?: number;
-      /**
-       * Map
-       */
-      map?: string;
-      /**
-       * Name
-       */
-      name?: string;
-      type?: ServerType;
-      /**
-       * Address
-       */
-      address?: string;
-      /**
-       * Port
-       */
-      port?: number;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id?: string; // uuid
-      /**
-       * Extra
-       */
-      extra?: {
-      };
-      /**
-       * Is Alive
-       * Set to true if the PATCH request comes from a server signalling that the server is alive. This will cause an update of the `last_update` attribute.
-       */
-      is_alive?: boolean;
-    }
-    /**
-     * ServerModelShort
-     */
-    export interface ServerModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      type: ServerType;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id?: string; // uuid
-    }
-    /**
-     * ServerType
-     * An enumeration.
-     */
-    export type ServerType = "GMOD" | "MINECRAFT" | "TEAMSPEAK3" | "DISCORD";
-    /**
-     * ServerbundleModel
-     */
-    export interface ServerbundleModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Icon
-       */
-      icon?: string;
-      /**
-       * Multigroup
-       */
-      multigroup: boolean;
-      /**
-       * Color
-       */
-      color: string; // color
-      server_type: ServerType;
-      default_group?: GroupModelShort;
-    }
-    /**
-     * ServerbundleModelAdd
-     */
-    export interface ServerbundleModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Color
-       */
-      color: string; // color
-      /**
-       * Server Type
-       */
-      server_type: string;
-      /**
-       * Icon
-       */
-      icon?: string;
-      /**
-       * Default Group Id
-       */
-      default_group_id?: string; // uuid
-      /**
-       * Multigroup
-       */
-      multigroup?: boolean;
-    }
-    /**
-     * StartPaymentModel
-     */
-    export interface StartPaymentModel {
-      debit: DebitModelNoPurchase;
-      action?: PaymentAction;
-    }
-    /**
-     * StatisticInterval
-     * An enumeration.
-     */
-    export type StatisticInterval = "DAY" | "MONTH" | "YEAR";
-    /**
-     * SuccessModel
-     */
-    export interface SuccessModel {
-      /**
-       * Success
-       */
-      success?: boolean;
-    }
-    /**
-     * TaxModel
-     */
-    export interface TaxModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      country?: CountryModel;
-      /**
-       * Percentage
-       */
-      percentage: number;
-      /**
-       * Info
-       */
-      info?: string;
-    }
-    /**
-     * TaxModelAdd
-     */
-    export interface TaxModelAdd {
-      /**
-       * Country Code
-       */
-      country_code?: string; // ^[A-Z]{2}$
-      /**
-       * Percentage
-       */
-      percentage: number;
-      /**
-       * Info
-       */
-      info?: string;
-    }
-    /**
-     * ThemeModel
-     */
-    export interface ThemeModel {
-      /**
-       * Dark
-       */
-      dark: boolean;
-      /**
-       * Image
-       */
-      image?: string;
-      /**
-       * Primary
-       */
-      primary: string; // color
-      /**
-       * Success
-       */
-      success: string; // color
-      /**
-       * Warning
-       */
-      warning: string; // color
-      /**
-       * Error
-       */
-      error: string; // color
-      /**
-       * Background
-       */
-      background: string;
-      /**
-       * Logo
-       */
-      logo?: string;
-      /**
-       * Logo Width
-       */
-      logo_width?: number;
-      /**
-       * Show Community Name
-       */
-      show_community_name: boolean;
-      /**
-       * Community Name
-       */
-      community_name?: string;
-      /**
-       * Frontend Url
-       */
-      frontend_url: string;
-    }
-    /**
-     * ThreadCategory
-     * An enumeration.
-     */
-    export type ThreadCategory = "DEFAULT" | "TICKET";
-    /**
-     * ThreadModel
-     */
-    export interface ThreadModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Content
-       */
-      content: string;
-      category: ThreadCategory;
-      /**
-       * Created
-       */
-      created: string; // date-time
-      creator: Model_User_User_UserModelShort;
-      status: ThreadStatus;
-    }
-    /**
-     * ThreadModelAdd
-     */
-    export interface ThreadModelAdd {
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Content
-       */
-      content: string;
-      category: ThreadCategory;
-    }
-    /**
-     * ThreadModelShort
-     */
-    export interface ThreadModelShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Content
-       */
-      content: string;
-      /**
-       * Created
-       */
-      created: string; // date-time
-      creator: Model_User_User_UserModelShort;
-      /**
-       * Read
-       */
-      read: boolean;
-      status: ThreadStatus;
-    }
-    /**
-     * ThreadStatus
-     * An enumeration.
-     */
-    export type ThreadStatus = "OPEN" | "CLOSED";
-    /**
-     * TimeInterval
-     * An enumeration.
-     */
-    export type TimeInterval = "microseconds" | "milliseconds" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | "decade" | "century" | "millennium";
-    /**
-     * TotalPriceModel
-     */
-    export interface TotalPriceModel {
-      /**
-       * Net
-       */
-      net: number;
-      /**
-       * Total
-       */
-      total: number;
-      /**
-       * Tax Rate
-       */
-      tax_rate: number;
-      /**
-       * Amount Tax
-       */
-      amount_tax: number;
-      currency: CurrencyModel;
-      /**
-       * Tax Info
-       */
-      tax_info?: string;
-      /**
-       * Credits
-       */
-      credits?: number;
-    }
-    /**
-     * TransactionModel
-     */
-    export interface TransactionModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Description
-       */
-      description: string;
-      /**
-       * Date
-       */
-      date: string; // date-time
-      author?: Model_User_User_UserModelShort;
-      /**
-       * Amount
-       */
-      amount: number;
-    }
-    /**
-     * UserAttributeDefinitionModel
-     */
-    export interface UserAttributeDefinitionModel {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Unit
-       */
-      unit: string;
-      type: UserAttributeType;
-      /**
-       * Statistics Interval
-       */
-      statistics_interval?: string;
-      accumulation_interval?: TimeInterval;
-      /**
-       * Unspecific
-       */
-      unspecific: boolean;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-      /**
-       * Id
-       */
-      id: string; // uuid
-    }
-    /**
-     * UserAttributeDefinitionModelAdd
-     */
-    export interface UserAttributeDefinitionModelAdd {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Unit
-       */
-      unit: string;
-      type: UserAttributeType;
-      /**
-       * Statistics Interval
-       */
-      statistics_interval?: string;
-      accumulation_interval?: TimeInterval;
-      /**
-       * Unspecific
-       */
-      unspecific: boolean;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-    }
-    /**
-     * UserAttributeDefinitionModelPatch
-     */
-    export interface UserAttributeDefinitionModelPatch {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Title
-       */
-      title: string;
-      /**
-       * Unit
-       */
-      unit: string;
-      type: UserAttributeType;
-      /**
-       * Statistics Interval
-       */
-      statistics_interval?: string;
-      accumulation_interval?: TimeInterval;
-      /**
-       * Unspecific
-       */
-      unspecific: boolean;
-      /**
-       * Requirement Set Id
-       */
-      requirement_set_id?: string; // uuid
-    }
-    /**
-     * UserAttributeHistoryModel
-     */
-    export interface UserAttributeHistoryModel {
-      /**
-       * Date
-       */
-      date: string; // date-time
-      /**
-       * Value
-       */
-      value: string;
-      /**
-       * Server Id
-       */
-      server_id?: string; // uuid
-    }
-    /**
-     * UserAttributeModelAdd
-     */
-    export interface UserAttributeModelAdd {
-      /**
-       * Date
-       */
-      date?: string; // date-time
-      /**
-       * Value
-       */
-      value: string;
-      /**
-       * Definition Id
-       */
-      definition_id: string; // uuid
-      /**
-       * Server Id
-       */
-      server_id?: string; // uuid
-      /**
-       * User Id
-       */
-      user_id: string; // uuid
-    }
-    /**
-     * UserAttributeType
-     * An enumeration.
-     */
-    export type UserAttributeType = "NEWEST" | "ACCUMULATED";
-    /**
-     * UserModel
-     */
-    export interface UserModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: UserType;
-      /**
-       * Identifier
-       */
-      identifier: string;
-      /**
-       * Registered On
-       */
-      registered_on: string; // date-time
-      /**
-       * Username
-       */
-      username?: string;
-      /**
-       * Avatar
-       */
-      avatar?: string;
-      /**
-       * Central User Id
-       */
-      central_user_id?: string; // uuid
-      /**
-       * Admin
-       */
-      admin: boolean;
-      /**
-       * Credit Account Id
-       */
-      credit_account_id: string; // uuid
-      /**
-       * Attributes
-       */
-      attributes: {
-      };
-      /**
-       * Linked Users
-       */
-      linked_users: UserModelNoLinked[];
-    }
-    /**
-     * UserModelAdd
-     */
-    export interface UserModelAdd {
-      type: UserType;
-      /**
-       * Identifier
-       */
-      identifier: string;
-    }
-    /**
-     * UserModelLinkedShort
-     */
-    export interface UserModelLinkedShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: UserType;
-      /**
-       * Identifier
-       */
-      identifier: string;
-      /**
-       * Username
-       */
-      username: string;
-      /**
-       * Avatar
-       */
-      avatar: string;
-      /**
-       * Linked Users
-       */
-      linked_users: Model_User_UserModelShort[];
-    }
-    /**
-     * UserModelNoLinked
-     */
-    export interface UserModelNoLinked {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      type: UserType;
-      /**
-       * Identifier
-       */
-      identifier: string;
-      /**
-       * Registered On
-       */
-      registered_on: string; // date-time
-      /**
-       * Username
-       */
-      username?: string;
-      /**
-       * Avatar
-       */
-      avatar?: string;
-      /**
-       * Central User Id
-       */
-      central_user_id?: string; // uuid
-      /**
-       * Admin
-       */
-      admin: boolean;
-      /**
-       * Credit Account Id
-       */
-      credit_account_id: string; // uuid
-      /**
-       * Attributes
-       */
-      attributes: {
-      };
-    }
-    /**
-     * UserModelNoLinkedExtraShort
-     */
-    export interface UserModelNoLinkedExtraShort {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Username
-       */
-      username: string;
-    }
-    /**
-     * UserPropertyModel
-     */
-    export interface UserPropertyModel {
-      /**
-       * Name
-       */
-      name: string;
-      /**
-       * Granted
-       */
-      granted: boolean;
-      /**
-       * Value
-       */
-      value?: string;
-      /**
-       * User Id
-       */
-      user_id: string; // uuid
-    }
-    /**
-     * UserType
-     * An enumeration.
-     */
-    export type UserType = "CENTRAL" | "STEAM" | "DISCORD";
-    /**
-     * ValidationError
-     */
-    export interface ValidationError {
-      /**
-       * Location
-       */
-      loc: string[];
-      /**
-       * Message
-       */
-      msg: string;
-      /**
-       * Error Type
-       */
-      type: string;
-    }
-    /**
-     * WarningConfigModel
-     */
-    export interface WarningConfigModel {
-      /**
-       * Time To Live
-       */
-      time_to_live: number;
-      /**
-       * Count Till Ban
-       */
-      count_till_ban: number;
-      /**
-       * Ban Length
-       */
-      ban_length: number;
-    }
-    /**
-     * WarningModel
-     */
-    export interface WarningModel {
-      /**
-       * Id
-       */
-      id: string; // uuid
-      /**
-       * Reason
-       */
-      reason?: string;
-      serverbundle?: Model_Server_Serverbundle_ServerbundleModelShort;
-      user: Model_User_User_UserModelShort;
-      creator: Model_User_User_UserModelShort;
-      /**
-       * Created On
-       */
-      created_on: string; // date-time
-      /**
-       * Active
-       */
-      active: boolean;
-      /**
-       * Disabled
-       */
-      disabled: boolean;
-    }
-    /**
-     * WarningModelAdd
-     */
-    export interface WarningModelAdd {
-      /**
-       * Reason
-       */
-      reason?: string;
-      /**
-       * Serverbundle Id
-       */
-      serverbundle_id: string; // uuid
-      /**
-       * User Id
-       */
-      user_id: string; // uuid
-    }
-  }
 }
 declare namespace Paths {
-  namespace AuthFinish {
-    namespace Parameters {
-      /**
-       * Backend
-       */
-      export type Backend = string;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface PathParameters {
-      backend: Parameters.Backend;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace AuthGetToken {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace AuthPrepare {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace AuthRevokeToken {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace AuthStart {
-    namespace Parameters {
-      /**
-       * Backend
-       */
-      export type Backend = string;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Return Url
-       * URL to redirect after login.
-       */
-      export type ReturnUrl = string;
-    }
-    export interface PathParameters {
-      backend: Parameters.Backend;
-    }
-    export interface QueryParameters {
-      return_url?: Parameters.ReturnUrl;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace BanAddBan {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.BanModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.BanModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace BanDeleteBan {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace BanEditBan {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.BanModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.BanModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace BanGetBans {
-    namespace Parameters {
-      /**
-       * Active
-       * Only return active bans.
-       */
-      export type Active = boolean;
-      /**
-       * Bundles Filter
-       */
-      export type BundlesFilter = string[];
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Order By
-       */
-      export type OrderBy = string;
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Query
-       */
-      export type Query = string;
-      /**
-       * Size
-       */
-      export type Size = number;
-      /**
-       * Sort Desc
-       */
-      export type SortDesc = boolean;
-    }
-    export interface QueryParameters {
-      bundles_filter?: Parameters.BundlesFilter;
-      query?: Parameters.Query;
-      order_by?: Parameters.OrderBy;
-      sort_desc?: Parameters.SortDesc;
-      active?: Parameters.Active;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageBanModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace BanGetLogs {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Logs Ban  Uuid  Log Get
-       */
-      export type $200 = Components.Schemas.LogEntryModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace BanTest {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace DesignCreateCmsHtml {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.CmsPageModelPost;
-    namespace Responses {
-      export type $200 = Components.Schemas.CmsPageModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DesignDeleteCmsHtml {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DesignEditGeneralSettings {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.GeneralSettingModel;
-    namespace Responses {
-      export type $200 = Components.Schemas.GeneralSettingModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DesignGetCmsHtml {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DesignGetGeneralSettings {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace DesignGetIcons {
-    namespace Parameters {
-      /**
-       * Query
-       */
-      export type Query = string;
-    }
-    export interface QueryParameters {
-      query: Parameters.Query;
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DesignGetLegal {
-    namespace Responses {
-      export type $200 = Components.Schemas.LegalModel;
-    }
-  }
-  namespace DesignGetNavItems {
-    namespace Responses {
-      /**
-       * Response Get Nav Items Design Nav Get
-       */
-      export type $200 = Components.Schemas.NavModel[];
-    }
-  }
-  namespace DesignGetTheme {
-    namespace Responses {
-      export type $200 = Components.Schemas.ThemeModel;
-    }
-  }
-  namespace DesignUpdateCmsHtml {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.CmsPageModelPost;
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DesignUpdateLegal {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.LegalModel;
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DesignUpdateNavItems {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    /**
-     * Nav Put
-     */
-    export type RequestBody = Components.Schemas.NavModel[];
-    namespace Responses {
-      /**
-       * Response Update Nav Items Design Nav Put
-       */
-      export type $200 = Components.Schemas.NavModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DesignUpdateTheme {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.ThemeModel;
-    namespace Responses {
-      export type $200 = Components.Schemas.ThemeModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DiscordAddRelation {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.RoleGroupRelationModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.RoleGroupRelationModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DiscordDeleteRelation {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace DiscordGetGuild {
-    namespace Responses {
-      /**
-       * Response Get Guild Discord Guild Get
-       */
-      export type $200 = Components.Schemas.GuildModel[];
-    }
-  }
-  namespace DiscordGetGuildRoles {
-    namespace Responses {
-      /**
-       * Response Get Guild Roles Discord Roles Get
-       */
-      export type $200 = Components.Schemas.DiscordRoleModel[];
-    }
-  }
-  namespace DiscordGetRelations {
-    namespace Responses {
-      /**
-       * Response Get Relations Discord Relation Get
-       */
-      export type $200 = Components.Schemas.RoleGroupRelationModel[];
-    }
-  }
-  namespace FinanceGetAccount {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.AccountModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ForumGetThread {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.ThreadModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ForumGetThreadPosts {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Thread Posts Forum  Uuid  Post Get
-       */
-      export type $200 = Components.Schemas.PostModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ForumGetThreads {
-    namespace Responses {
-      /**
-       * Response Get Threads Forum  Get
-       */
-      export type $200 = Components.Schemas.ThreadModelShort[];
-    }
-  }
-  namespace ForumGetTickets {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Query
-       */
-      export type Query = string;
-      /**
-       * Show Closed
-       */
-      export type ShowClosed = boolean;
-      /**
-       * Size
-       */
-      export type Size = number;
-    }
-    export interface QueryParameters {
-      query?: Parameters.Query;
-      show_closed?: Parameters.ShowClosed;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageThreadModelShort;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ForumNewPost {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.PostModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.PostModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ForumNewThread {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.ThreadModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.ThreadModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ForumToggleStatus {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.ThreadModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace GroupAddGroup {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.GroupModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.GroupModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace GroupDeleteGroup {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace GroupEditGroup {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.GroupModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.GroupModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace GroupGetAdvancedProperties {
-    namespace Responses {
-      /**
-       * Response Get Advanced Properties Group Advanced Property  Get
-       */
-      export type $200 = Components.Schemas.PropertyModelShortWithDescription[];
-    }
-  }
-  namespace GroupGetAllProperties {
-    namespace Responses {
-      /**
-       * Response Get All Properties Group Property  Get
-       */
-      export type $200 = Components.Schemas.PropertyModelShortWithDescription[];
-    }
-  }
-  namespace GroupGetGroup {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.GroupModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace GroupGetGroupMembers {
-    namespace Parameters {
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Search
-       */
-      export type Search = any;
-      /**
-       * Size
-       */
-      export type Size = number;
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      search?: Parameters.Search;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageMembershipModelMemberList;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace GroupGetGroups {
-    namespace Parameters {
-      /**
-       * Serverbundle Id
-       */
-      export type ServerbundleId = string; // uuid
-      export type Type = Components.Schemas.ServerType;
-    }
-    export interface QueryParameters {
-      type?: Parameters.Type;
-      serverbundle_id?: Parameters.ServerbundleId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Groups Group  Get
-       */
-      export type $200 = Components.Schemas.GroupModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace LogGetCategories {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace LogGetLog {
-    namespace Parameters {
-      /**
-       * Categories
-       */
-      export type Categories = string[];
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Size
-       */
-      export type Size = number;
-    }
-    export interface QueryParameters {
-      categories?: Parameters.Categories;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageLogEntryModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace NewsAddMessage {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.NewsModelPost;
-    namespace Responses {
-      export type $200 = Components.Schemas.NewsModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace NewsDeleteMessage {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace NewsEditMessage {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.NewsModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.NewsModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace NewsGetMessages {
-    namespace Parameters {
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Size
-       */
-      export type Size = number;
-    }
-    export interface QueryParameters {
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageNewsModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace NotificationGetCategories {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace NotificationGetNotifications {
-    namespace Parameters {
-      /**
-       * Categories
-       */
-      export type Categories = string[];
-      /**
-       * Descending
-       */
-      export type Descending = boolean;
-      /**
-       * Hide Read
-       */
-      export type HideRead = boolean;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Size
-       */
-      export type Size = number;
-    }
-    export interface QueryParameters {
-      descending?: Parameters.Descending;
-      hide_read?: Parameters.HideRead;
-      categories?: Parameters.Categories;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageNotificationEntryModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace NotificationGetStream {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace NotificationMarkAsRead {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.NotificationRead;
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketAddPacket {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.PacketModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.PacketModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketAddReward {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.RewardModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.RewardModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketCreateCategory {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.PacketCategoryModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.PacketCategoryModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketDeleteAppliedPacket {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketDeleteCategory {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketDeletePacket {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketDeleteReward {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketEditAppliedPacket {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.AppliedPacketModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.AppliedPacketModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketEditAppliedReward {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.AppliedRewardModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.AppliedRewardModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketEditCategory {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.PacketCategoryModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.PacketCategoryModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketEditPacket {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.PacketModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.PacketModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketEditReward {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.RewardModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.RewardModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketGetAppliedPackets {
-    namespace Parameters {
-      /**
-       * Active
-       */
-      export type Active = boolean;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Query
-       */
-      export type Query = string;
-      /**
-       * Size
-       */
-      export type Size = number;
-      /**
-       * Sort By
-       */
-      export type SortBy = string;
-      /**
-       * Sort Desc
-       */
-      export type SortDesc = boolean;
-      export type StatusFilter = Components.Schemas.AppliedPacketStatus[];
-    }
-    export interface QueryParameters {
-      status_filter?: Parameters.StatusFilter;
-      active?: Parameters.Active;
-      query?: Parameters.Query;
-      sort_by?: Parameters.SortBy;
-      sort_desc?: Parameters.SortDesc;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageAppliedPacketModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketGetAppliedRewards {
-    namespace Parameters {
-      /**
-       * Active
-       */
-      export type Active = boolean;
-      /**
-       * For Server Id
-       * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
-       */
-      export type ForServerId = string /* uuid */ [];
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Query
-       */
-      export type Query = string;
-      /**
-       * Serverbundle Id
-       * Filter by serverbundle.
-       */
-      export type ServerbundleId = string /* uuid */ [];
-      /**
-       * Size
-       */
-      export type Size = number;
-      /**
-       * Sort By
-       */
-      export type SortBy = string;
-      /**
-       * Sort Desc
-       */
-      export type SortDesc = boolean;
-      /**
-       * Filter by status.
-       */
-      export type Status = Components.Schemas.RewardStatus[];
-    }
-    export interface QueryParameters {
-      active?: Parameters.Active;
-      serverbundle_id?: Parameters.ServerbundleId;
-      status?: Parameters.Status;
-      for_server_id?: Parameters.ForServerId;
-      query?: Parameters.Query;
-      sort_by?: Parameters.SortBy;
-      sort_desc?: Parameters.SortDesc;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageAppliedRewardModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketGetAppliedRewardsByUser {
-    namespace Parameters {
-      /**
-       * Active
-       */
-      export type Active = boolean;
-      /**
-       * For Server Id
-       * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
-       */
-      export type ForServerId = string; // uuid
-      /**
-       * Foreign Ids
-       * Index result by foreign user identifier instead of VyHub user id.
-       */
-      export type ForeignIds = boolean;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Serverbundle Id
-       * Filter by serverbundle.
-       */
-      export type ServerbundleId = string /* uuid */ [];
-      /**
-       * Filter by status.
-       */
-      export type Status = Components.Schemas.RewardStatus[];
-      /**
-       * User Id
-       * Filter by user.
-       */
-      export type UserId = string /* uuid */ [];
-    }
-    export interface QueryParameters {
-      user_id?: Parameters.UserId;
-      serverbundle_id?: Parameters.ServerbundleId;
-      status?: Parameters.Status;
-      for_server_id?: Parameters.ForServerId; // uuid
-      active?: Parameters.Active;
-      foreign_ids?: Parameters.ForeignIds;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Applied Rewards By User Packet Reward Applied User Get
-       */
-      export interface $200 {
-        [name: string]: Components.Schemas.AppliedRewardModel[];
-      }
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketGetAvailablePacketStatus {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace PacketGetCategories {
-    namespace Responses {
-      /**
-       * Response Get Categories Packet Category Get
-       */
-      export type $200 = Components.Schemas.PacketCategoryModel[];
-    }
-  }
-  namespace PacketGetPackets {
-    namespace Parameters {
-      /**
-       * Category Id
-       * Filter by category
-       */
-      export type CategoryId = string; // uuid
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      category_id?: Parameters.CategoryId; // uuid
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Packets Packet  Get
-       */
-      export type $200 = Components.Schemas.PacketModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PacketGetRewards {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Query
-       * Filter by rewards by name
-       */
-      export type Query = string;
-    }
-    export interface QueryParameters {
-      query?: Parameters.Query;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Rewards Packet Reward  Get
-       */
-      export type $200 = Components.Schemas.RewardModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace PaymentGatewayGetNotification {
-    namespace Parameters {
-      /**
-       * Payment Id
-       */
-      export type PaymentId = string;
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      payment_id: Parameters.PaymentId;
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace RequirementsCreateRequirement {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.RequirementModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.RequirementModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace RequirementsCreateRequirementSet {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.RequirementSetModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.RequirementSetModelAdd;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace RequirementsDeleteRequirement {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace RequirementsDeleteRequirementSet {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace RequirementsEditRequirementSet {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.RequirementSetModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.RequirementSetModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace RequirementsGetRequirementSet {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.RequirementSetModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace RequirementsGetRequirementSets {
-    namespace Responses {
-      /**
-       * Response Get Requirement Sets Requirement Set Get
-       */
-      export type $200 = Components.Schemas.RequirementSetModelShort[];
-    }
-  }
-  namespace RequirementsGetRequirementTypes {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace RequirementsGetRequirements {
-    namespace Responses {
-      /**
-       * Response Get Requirements Requirement  Get
-       */
-      export type $200 = Components.Schemas.RequirementModel[];
-    }
-  }
-  namespace ServerAddBundle {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.ServerbundleModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.ServerbundleModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerCreateBundleToken {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.BundleTokenCreateModel;
-    namespace Responses {
-      export type $200 = Components.Schemas.OAuth2TokenModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerCreateServer {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.ServerModelAdd;
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerDeleteBundle {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.ServerbundleModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerDeleteServer {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerEditBundle {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.ServerBundleModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.ServerbundleModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerEditServer {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.ServerModelPatch;
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerGetBans {
-    namespace Parameters {
-      /**
-       * Active
-       * Only return active bans.
-       */
-      export type Active = boolean;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      active?: Parameters.Active;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Bans Server Bundle  Uuid  Ban Get
-       */
-      export interface $200 {
-        [name: string]: Components.Schemas.BanModel[];
-      }
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerGetBundle {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.ServerbundleModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerGetBundleTokens {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Bundle Tokens Server Bundle  Uuid  Token Get
-       */
-      export type $200 = Components.Schemas.OAuth2TokenModelHidden[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerGetBundles {
-    namespace Parameters {
-      export type ServerType = Components.Schemas.ServerType;
-    }
-    export interface QueryParameters {
-      server_type?: Parameters.ServerType;
-    }
-    namespace Responses {
-      /**
-       * Response Get Bundles Server Bundle  Get
-       */
-      export type $200 = Components.Schemas.ServerbundleModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerGetGroups {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      /**
-       * Response Get Groups Server Bundle  Uuid  Group Get
-       */
-      export type $200 = Components.Schemas.GroupModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerGetServer {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.ServerModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerGetServerByBundle {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      /**
-       * Response Get Server By Bundle Server Bundle  Uuid  Server Get
-       */
-      export type $200 = Components.Schemas.ServerModelShort[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerGetServerTypes {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace ServerGetServers {
-    namespace Parameters {
-      export type Type = Components.Schemas.ServerType;
-    }
-    export interface QueryParameters {
-      type?: Parameters.Type;
-    }
-    namespace Responses {
-      /**
-       * Response Get Servers Server  Get
-       */
-      export type $200 = Components.Schemas.ServerModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ServerRevokeBundleToken {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Token Id
-       * UUID of token to revoke
-       */
-      export type TokenId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      token_id: Parameters.TokenId; // uuid
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.OAuth2TokenModelHidden;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopAddPacketToCart {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.BodyAddPacketToCartShopCartPost;
-    namespace Responses {
-      export type $200 = Components.Schemas.CartPacketModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopApplyDiscount {
-    namespace Parameters {
-      /**
-       * Code Or Uuid
-       * Discount id or code
-       */
-      export type CodeOrUuid = string;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface PathParameters {
-      code_or_uuid: Parameters.CodeOrUuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopCancelPayment {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.DebitModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopChangeBusinessAddress {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.BusinessAddressModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.AddressModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopCheckPayment {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.DebitModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopCreateDiscount {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.DiscountModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.DiscountModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopCreateGateway {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.PaymentGatewayModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.PaymentGatewayModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopCreateTaxRule {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.TaxModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.TaxModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopDeleteDiscount {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopDeleteGateway {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopDeleteTaxRule {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopEditDiscount {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.DiscountModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.DiscountModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopEditGateway {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.PaymentGatewayModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.PaymentGatewayModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopEditGeneralConfig {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.GeneralSettingsModel;
-    namespace Responses {
-      export type $200 = Components.Schemas.GeneralSettingsModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopEditPurchase {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.PurchaseModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.PurchaseModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopFinishPayment {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.DebitModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetAvailablePurchaseStatus {
-    namespace Responses {
-      export type $200 = any;
-    }
-  }
-  namespace ShopGetBusinessAddress {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.AddressModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetCart {
-    namespace Parameters {
-      /**
-       * Country Code
-       * Country for price calculation
-       */
-      export type CountryCode = string;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-      country_code?: Parameters.CountryCode;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.CartModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetCartPackets {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Cart Packets Shop Cart Packet Get
-       */
-      export type $200 = Components.Schemas.CartPacketModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetCurrencies {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Currencies Shop Currency Get
-       */
-      export type $200 = Components.Schemas.CurrencyModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetDebitInvoice {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetDebitStatistic {
-    namespace Parameters {
-      /**
-       * Currency Code
-       */
-      export type CurrencyCode = string;
-      /**
-       * StatisticInterval
-       * An enumeration.
-       */
-      export type Interval = "DAY" | "MONTH" | "YEAR";
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Only Successful
-       * Only include purchases with a successful status (FINISHED, RECURRING)
-       */
-      export type OnlySuccessful = boolean;
-    }
-    export interface QueryParameters {
-      interval?: Parameters.Interval;
-      only_successful?: Parameters.OnlySuccessful;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-      currency_code: Parameters.CurrencyCode;
-    }
-    namespace Responses {
-      /**
-       * Response Get Debit Statistic Shop Debit Statistic Get
-       */
-      export type $200 = Components.Schemas.DebitModelStatistic[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetDiscount {
-    namespace Parameters {
-      /**
-       * Code Or Uuid
-       * Discount id or code
-       */
-      export type CodeOrUuid = string;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface PathParameters {
-      code_or_uuid: Parameters.CodeOrUuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.DiscountModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetDiscounts {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Discounts Shop Discount  Get
-       */
-      export type $200 = Components.Schemas.DiscountModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetDonationGoal {
-    namespace Responses {
-      export type $200 = Components.Schemas.DonationGoalModel;
-    }
-  }
-  namespace ShopGetGateways {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Gateways Shop Gateway  Get
-       */
-      export type $200 = Components.Schemas.PaymentGatewayModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetGeneralConfig {
-    namespace Responses {
-      export type $200 = Components.Schemas.GeneralSettingsModel;
-    }
-  }
-  namespace ShopGetPackets {
-    namespace Parameters {
-      /**
-       * Category Id
-       * Filter by category
-       */
-      export type CategoryId = string; // uuid
-      /**
-       * Country Code
-       * Country for price calculation
-       */
-      export type CountryCode = string;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      category_id?: Parameters.CategoryId; // uuid
-      country_code?: Parameters.CountryCode;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Packets Shop Packet Get
-       */
-      export type $200 = Components.Schemas.PacketModelLight[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetPurchaseGateways {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Purchase Gateways Shop Purchase  Uuid  Gateway Get
-       */
-      export type $200 = Components.Schemas.PaymentGatewayModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetPurchaseStatistic {
-    namespace Parameters {
-      /**
-       * Currency Code
-       */
-      export type CurrencyCode = string;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-      currency_code: Parameters.CurrencyCode;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PurchaseStatistic;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetPurchases {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Query
-       */
-      export type Query = string;
-      /**
-       * Size
-       */
-      export type Size = number;
-      /**
-       * Sort By
-       */
-      export type SortBy = string;
-      /**
-       * Sort Desc
-       */
-      export type SortDesc = boolean;
-      export type StatusFilter = Components.Schemas.PurchaseStatus[];
-    }
-    export interface QueryParameters {
-      query?: Parameters.Query;
-      sort_by?: Parameters.SortBy;
-      sort_desc?: Parameters.SortDesc;
-      status_filter?: Parameters.StatusFilter;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PagePurchaseModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopGetTaxRules {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Tax Rules Shop Tax Get
-       */
-      export type $200 = Components.Schemas.TaxModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopRemoveDiscount {
-    namespace Parameters {
-      /**
-       * Code Or Uuid
-       * Discount id or code
-       */
-      export type CodeOrUuid = string;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface PathParameters {
-      code_or_uuid: Parameters.CodeOrUuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopRemovePacketFromCart {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopRemovePacketsFromCart {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopStartCheckout {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.BodyStartCheckoutShopCartCheckoutPost;
-    namespace Responses {
-      export type $200 = Components.Schemas.PurchaseModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace ShopStartPayment {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.BodyStartPaymentShopCheckoutPost;
-    namespace Responses {
-      export type $200 = Components.Schemas.StartPaymentModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserAddAddress {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.AddressModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.AddressModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserAddMembership {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.MembershipModelUserAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.MembershipModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserCreateAttribute {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.UserAttributeModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.UserAttributeModelAdd;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserCreateAttributeDefinition {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.UserAttributeDefinitionModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.UserAttributeDefinitionModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserCreateUser {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.UserModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.UserModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserDeleteAttribute {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserDeleteAttributeDefinition {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.SuccessModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserEditAttributeDefinition {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.UserAttributeDefinitionModelPatch;
-    namespace Responses {
-      export type $200 = Components.Schemas.UserAttributeDefinitionModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserEditMembership {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.MembershipModelEdit;
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserEndActiveMemberships {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserEndMembership {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetActiveGroups {
-    namespace Parameters {
-      /**
-       * Serverbundle Id
-       * Filter by serverbundle
-       */
-      export type ServerbundleId = string; // uuid
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      serverbundle_id?: Parameters.ServerbundleId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Active Groups User  Uuid  Group Get
-       */
-      export type $200 = Components.Schemas.GroupModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetAddress {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.AddressModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetAddresses {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Addresses User  Uuid  Address Get
-       */
-      export type $200 = Components.Schemas.AddressModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetAttributeDefinition {
-    namespace Parameters {
-      /**
-       * Uuid Or Name
-       * UUID or name of attribute definition.
-       */
-      export type UuidOrName = string;
-    }
-    export interface PathParameters {
-      uuid_or_name: Parameters.UuidOrName;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.UserAttributeDefinitionModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetAttributeDefinitions {
-    namespace Parameters {
-      /**
-       * Name
-       * Filter by name (exact match).
-       */
-      export type Name = string;
-    }
-    export interface QueryParameters {
-      name?: Parameters.Name;
-    }
-    namespace Responses {
-      /**
-       * Response Get Attribute Definitions User Attribute Definition Get
-       */
-      export type $200 = Components.Schemas.UserAttributeDefinitionModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetAttributeHistory {
-    namespace Parameters {
-      /**
-       * Definition Id
-       * ID of the attribute definition.
-       */
-      export type DefinitionId = string; // uuid
-      /**
-       * Linked Users
-       * Include attributes from linked users.
-       */
-      export type LinkedUsers = boolean;
-      /**
-       * Split Servers
-       * Split history by server.
-       */
-      export type SplitServers = boolean;
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      definition_id: Parameters.DefinitionId; // uuid
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      split_servers?: Parameters.SplitServers;
-      linked_users?: Parameters.LinkedUsers;
-    }
-    namespace Responses {
-      /**
-       * Response Get Attribute History User  Uuid  Attribute  Definition Id  Get
-       */
-      export type $200 = Components.Schemas.UserAttributeHistoryModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetCurrentProperties {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      /**
-       * Response Get Current Properties User  Uuid  Property Get
-       */
-      export type $200 = Components.Schemas.UserPropertyModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetCurrentUser {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetData {
-    namespace Parameters {
-      /**
-       * Identifier
-       * UUID or other identifier
-       */
-      export type Identifier = string;
-      /**
-       * Non Central
-       * Set to true if searching a user by its identifier (and not uuid or central username)
-       */
-      export type NonCentral = boolean;
-    }
-    export interface PathParameters {
-      identifier: Parameters.Identifier;
-    }
-    export interface QueryParameters {
-      non_central?: Parameters.NonCentral;
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.UserModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetMemberships {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      /**
-       * Response Get Memberships User  Uuid  Membership Get
-       */
-      export type $200 = Components.Schemas.MembershipModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetPackets {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      /**
-       * Response Get Packets User  Uuid  Packet Get
-       */
-      export type $200 = Components.Schemas.AppliedPacketModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetPurchases {
-    namespace Parameters {
-      /**
-       * Cancelled
-       * Include cancelled purchases.
-       */
-      export type Cancelled = boolean;
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Size
-       */
-      export type Size = number;
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      cancelled?: Parameters.Cancelled;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      /**
-       * Response Get Purchases User  Uuid  Purchase Get
-       */
-      export type $200 = Components.Schemas.PurchaseModel[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserGetUnauthProperties {
-    namespace Responses {
-      /**
-       * Response Get Unauth Properties User Property  Get
-       */
-      export type $200 = Components.Schemas.PropertyModel[];
-    }
-  }
-  namespace UserGetUsers {
-    namespace Parameters {
-      /**
-       * Desc
-       * Order descending.
-       */
-      export type Desc = boolean;
-      /**
-       * Limit
-       * Maximum results
-       */
-      export type Limit = number;
-      /**
-       * Query
-       * User-ID, external identifier or keyword that the username must include
-       */
-      export type Query = string;
-      /**
-       * Sort
-       * Sort by value.
-       */
-      export type Sort = string; // ^(type|registered_on|username)$
-    }
-    export interface QueryParameters {
-      query?: Parameters.Query;
-      limit?: Parameters.Limit;
-      sort?: Parameters.Sort; // ^(type|registered_on|username)$
-      desc?: Parameters.Desc;
-    }
-    namespace Responses {
-      /**
-       * Response Get Users User  Get
-       */
-      export type $200 = Components.Schemas.UserModelLinkedShort[];
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace UserUnbanActiveBans {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Serverbundle Id
-       * Only unban bans that belong to the specified serverbundle. Global bans are also included.
-       */
-      export type ServerbundleId = string; // uuid
-      /**
-       * Uuid
-       * The UUID or username of the referenced user.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      serverbundle_id?: Parameters.ServerbundleId; // uuid
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace WarningAddWarning {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.WarningModelAdd;
-    namespace Responses {
-      export type $200 = Components.Schemas.WarningModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace WarningDeleteWarning {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace WarningGetWarningConfig {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.WarningConfigModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace WarningGetWarnings {
-    namespace Parameters {
-      /**
-       * Bundles Filter
-       */
-      export type BundlesFilter = string[];
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Order By
-       */
-      export type OrderBy = string;
-      /**
-       * Page
-       */
-      export type Page = number;
-      /**
-       * Query
-       */
-      export type Query = string;
-      /**
-       * Size
-       */
-      export type Size = number;
-      /**
-       * Sort Desc
-       */
-      export type SortDesc = boolean;
-    }
-    export interface QueryParameters {
-      bundles_filter?: Parameters.BundlesFilter;
-      query?: Parameters.Query;
-      order_by?: Parameters.OrderBy;
-      sort_desc?: Parameters.SortDesc;
-      page?: Parameters.Page;
-      size?: Parameters.Size;
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = Components.Schemas.PageWarningModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace WarningToggleWarningStatus {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace WarningUpdateWarningConfig {
-    namespace Parameters {
-      /**
-       * Morph User Id
-       * Morph system user into given user. Requires user_morph property.
-       */
-      export type MorphUserId = string; // uuid
-    }
-    export interface QueryParameters {
-      morph_user_id?: Parameters.MorphUserId; // uuid
-    }
-    export type RequestBody = Components.Schemas.WarningConfigModel;
-    namespace Responses {
-      export type $200 = Components.Schemas.WarningConfigModel;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
-  namespace WebhookStripeEvent {
-    namespace Parameters {
-      /**
-       * Uuid
-       * The UUID of the referenced object.
-       */
-      export type Uuid = any;
-    }
-    export interface PathParameters {
-      uuid: Parameters.Uuid;
-    }
-    namespace Responses {
-      export type $200 = any;
-      export type $422 = Components.Schemas.HTTPValidationError;
-    }
-  }
+    namespace AuthFinish {
+        namespace Parameters {
+            /**
+             * Backend
+             */
+            export type Backend = string;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface PathParameters {
+            backend: /* Backend */ Parameters.Backend;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace AuthGetToken {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace AuthPrepare {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace AuthRevokeToken {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace AuthStart {
+        namespace Parameters {
+            /**
+             * Backend
+             */
+            export type Backend = string;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Return Url
+             * URL to redirect after login.
+             */
+            export type ReturnUrl = string;
+        }
+        export interface PathParameters {
+            backend: /* Backend */ Parameters.Backend;
+        }
+        export interface QueryParameters {
+            return_url?: /**
+             * Return Url
+             * URL to redirect after login.
+             */
+            Parameters.ReturnUrl;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace BanAddBan {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* BanModelAdd */ Components.Schemas.BanModelAdd;
+        namespace Responses {
+            export type $200 = /* BanModel */ Components.Schemas.BanModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace BanDeleteBan {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace BanEditBan {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* BanModelPatch */ Components.Schemas.BanModelPatch;
+        namespace Responses {
+            export type $200 = /* BanModel */ Components.Schemas.BanModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace BanGetBans {
+        namespace Parameters {
+            /**
+             * Active
+             * Only return active bans.
+             */
+            export type Active = boolean;
+            /**
+             * Bundles Filter
+             */
+            export type BundlesFilter = string[];
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Order By
+             */
+            export type OrderBy = string;
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Query
+             */
+            export type Query = string;
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Sort Desc
+             */
+            export type SortDesc = boolean;
+        }
+        export interface QueryParameters {
+            bundles_filter?: /* Bundles Filter */ Parameters.BundlesFilter;
+            query?: /* Query */ Parameters.Query;
+            order_by?: /* Order By */ Parameters.OrderBy;
+            sort_desc?: /* Sort Desc */ Parameters.SortDesc;
+            active?: /**
+             * Active
+             * Only return active bans.
+             */
+            Parameters.Active;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[BanModel] */ Components.Schemas.PageBanModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace BanGetLogs {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Logs Ban  Uuid  Log Get
+             */
+            export type $200 = /* LogEntryModel */ Components.Schemas.LogEntryModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignCreateCmsHtml {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* CmsPageModelPost */ Components.Schemas.CmsPageModelPost;
+        namespace Responses {
+            export type $200 = /* CmsPageModel */ Components.Schemas.CmsPageModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignDeleteCmsHtml {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignEditGeneralSettings {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* GeneralSettingModel */ Components.Schemas.GeneralSettingModel;
+        namespace Responses {
+            export type $200 = /* GeneralSettingModel */ Components.Schemas.GeneralSettingModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignGetCmsHtml {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignGetGeneralSettings {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace DesignGetIcons {
+        namespace Parameters {
+            /**
+             * Query
+             */
+            export type Query = string;
+        }
+        export interface QueryParameters {
+            query: /* Query */ Parameters.Query;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignGetLegal {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace DesignGetNavItems {
+        namespace Responses {
+            /**
+             * Response Get Nav Items Design Nav Get
+             */
+            export type $200 = /* NavModel */ Components.Schemas.NavModel[];
+        }
+    }
+    namespace DesignGetTheme {
+        namespace Responses {
+            export type $200 = /* ThemeModel */ Components.Schemas.ThemeModel;
+        }
+    }
+    namespace DesignUpdateCmsHtml {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* CmsPageModelPost */ Components.Schemas.CmsPageModelPost;
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignUpdateLegal {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* LegalModel */ Components.Schemas.LegalModel;
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignUpdateNavItems {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        /**
+         * Nav Put
+         */
+        export type RequestBody = /* NavModel */ Components.Schemas.NavModel[];
+        namespace Responses {
+            /**
+             * Response Update Nav Items Design Nav Put
+             */
+            export type $200 = /* NavModel */ Components.Schemas.NavModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DesignUpdateTheme {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* ThemeModel */ Components.Schemas.ThemeModel;
+        namespace Responses {
+            export type $200 = /* ThemeModel */ Components.Schemas.ThemeModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DiscordAddRelation {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* RoleGroupRelationModelAdd */ Components.Schemas.RoleGroupRelationModelAdd;
+        namespace Responses {
+            export type $200 = /* RoleGroupRelationModel */ Components.Schemas.RoleGroupRelationModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DiscordDeleteRelation {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace DiscordGetGuild {
+        namespace Responses {
+            /**
+             * Response Get Guild Discord Guild Get
+             */
+            export type $200 = /* GuildModel */ Components.Schemas.GuildModel[];
+        }
+    }
+    namespace DiscordGetGuildRoles {
+        namespace Responses {
+            /**
+             * Response Get Guild Roles Discord Roles Get
+             */
+            export type $200 = /* DiscordRoleModel */ Components.Schemas.DiscordRoleModel[];
+        }
+    }
+    namespace DiscordGetRelations {
+        namespace Responses {
+            /**
+             * Response Get Relations Discord Relation Get
+             */
+            export type $200 = /* RoleGroupRelationModel */ Components.Schemas.RoleGroupRelationModel[];
+        }
+    }
+    namespace FinanceGetAccount {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* AccountModel */ Components.Schemas.AccountModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumGetThread {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* ThreadModel */ Components.Schemas.ThreadModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumGetThreadPosts {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Thread Posts Forum  Uuid  Post Get
+             */
+            export type $200 = /* PostModel */ Components.Schemas.PostModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumGetThreads {
+        namespace Responses {
+            /**
+             * Response Get Threads Forum  Get
+             */
+            export type $200 = /* ThreadModelShort */ Components.Schemas.ThreadModelShort[];
+        }
+    }
+    namespace ForumGetTickets {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Query
+             */
+            export type Query = string;
+            /**
+             * Show Closed
+             */
+            export type ShowClosed = boolean;
+            /**
+             * Size
+             */
+            export type Size = number;
+        }
+        export interface QueryParameters {
+            query?: /* Query */ Parameters.Query;
+            show_closed?: /* Show Closed */ Parameters.ShowClosed;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[ThreadModelShort] */ Components.Schemas.PageThreadModelShort;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumNewPost {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* PostModelAdd */ Components.Schemas.PostModelAdd;
+        namespace Responses {
+            export type $200 = /* PostModel */ Components.Schemas.PostModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumNewThread {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* ThreadModelAdd */ Components.Schemas.ThreadModelAdd;
+        namespace Responses {
+            export type $200 = /* ThreadModel */ Components.Schemas.ThreadModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumToggleStatus {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* ThreadModel */ Components.Schemas.ThreadModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace GroupAddGroup {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* GroupModelAdd */ Components.Schemas.GroupModelAdd;
+        namespace Responses {
+            export type $200 = /* GroupModel */ Components.Schemas.GroupModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace GroupDeleteGroup {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace GroupEditGroup {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* GroupModelPatch */ Components.Schemas.GroupModelPatch;
+        namespace Responses {
+            export type $200 = /* GroupModel */ Components.Schemas.GroupModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace GroupGetAdvancedProperties {
+        namespace Responses {
+            /**
+             * Response Get Advanced Properties Group Advanced Property  Get
+             */
+            export type $200 = /* PropertyModelShortWithDescription */ Components.Schemas.PropertyModelShortWithDescription[];
+        }
+    }
+    namespace GroupGetAllProperties {
+        namespace Responses {
+            /**
+             * Response Get All Properties Group Property  Get
+             */
+            export type $200 = /* PropertyModelShortWithDescription */ Components.Schemas.PropertyModelShortWithDescription[];
+        }
+    }
+    namespace GroupGetGroup {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* GroupModel */ Components.Schemas.GroupModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace GroupGetGroupMembers {
+        namespace Parameters {
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Search
+             */
+            export type Search = any;
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            search?: /* Search */ Parameters.Search;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[MembershipModelMemberList] */ Components.Schemas.PageMembershipModelMemberList;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace GroupGetGroups {
+        namespace Parameters {
+            /**
+             * Serverbundle Id
+             */
+            export type ServerbundleId = string; // uuid
+            export type Type = /**
+             * ServerType
+             * An enumeration.
+             */
+            Components.Schemas.ServerType;
+        }
+        export interface QueryParameters {
+            type?: Parameters.Type;
+            serverbundle_id?: /* Serverbundle Id */ Parameters.ServerbundleId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Groups Group  Get
+             */
+            export type $200 = /* GroupModel */ Components.Schemas.GroupModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace LogGetCategories {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace LogGetLog {
+        namespace Parameters {
+            /**
+             * Categories
+             */
+            export type Categories = string[];
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Size
+             */
+            export type Size = number;
+        }
+        export interface QueryParameters {
+            categories?: /* Categories */ Parameters.Categories;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[LogEntryModel] */ Components.Schemas.PageLogEntryModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace NewsAddMessage {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* NewsModelPost */ Components.Schemas.NewsModelPost;
+        namespace Responses {
+            export type $200 = /* NewsModel */ Components.Schemas.NewsModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace NewsDeleteMessage {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace NewsEditMessage {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* NewsModelPatch */ Components.Schemas.NewsModelPatch;
+        namespace Responses {
+            export type $200 = /* NewsModel */ Components.Schemas.NewsModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace NewsGetMessages {
+        namespace Parameters {
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Size
+             */
+            export type Size = number;
+        }
+        export interface QueryParameters {
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[NewsModel] */ Components.Schemas.PageNewsModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace NotificationGetCategories {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace NotificationGetNotifications {
+        namespace Parameters {
+            /**
+             * Categories
+             */
+            export type Categories = string[];
+            /**
+             * Descending
+             */
+            export type Descending = boolean;
+            /**
+             * Hide Read
+             */
+            export type HideRead = boolean;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Size
+             */
+            export type Size = number;
+        }
+        export interface QueryParameters {
+            descending?: /* Descending */ Parameters.Descending;
+            hide_read?: /* Hide Read */ Parameters.HideRead;
+            categories?: /* Categories */ Parameters.Categories;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[NotificationEntryModel] */ Components.Schemas.PageNotificationEntryModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace NotificationGetStream {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace NotificationMarkAsRead {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* NotificationRead */ Components.Schemas.NotificationRead;
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketAddPacket {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* PacketModelAdd */ Components.Schemas.PacketModelAdd;
+        namespace Responses {
+            export type $200 = /* PacketModel */ Components.Schemas.PacketModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketAddReward {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* RewardModelAdd */ Components.Schemas.RewardModelAdd;
+        namespace Responses {
+            export type $200 = /* RewardModel */ Components.Schemas.RewardModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketCreateCategory {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* PacketCategoryModelAdd */ Components.Schemas.PacketCategoryModelAdd;
+        namespace Responses {
+            export type $200 = /* PacketCategoryModel */ Components.Schemas.PacketCategoryModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketDeleteAppliedPacket {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketDeleteCategory {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketDeletePacket {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketDeleteReward {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketEditAppliedPacket {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* AppliedPacketModelPatch */ Components.Schemas.AppliedPacketModelPatch;
+        namespace Responses {
+            export type $200 = /* AppliedPacketModel */ Components.Schemas.AppliedPacketModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketEditAppliedReward {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* AppliedRewardModelPatch */ Components.Schemas.AppliedRewardModelPatch;
+        namespace Responses {
+            export type $200 = /* AppliedRewardModel */ Components.Schemas.AppliedRewardModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketEditCategory {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* PacketCategoryModelPatch */ Components.Schemas.PacketCategoryModelPatch;
+        namespace Responses {
+            export type $200 = /* PacketCategoryModel */ Components.Schemas.PacketCategoryModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketEditPacket {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* PacketModelPatch */ Components.Schemas.PacketModelPatch;
+        namespace Responses {
+            export type $200 = /* PacketModel */ Components.Schemas.PacketModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketEditReward {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* RewardModelPatch */ Components.Schemas.RewardModelPatch;
+        namespace Responses {
+            export type $200 = /* RewardModel */ Components.Schemas.RewardModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketGetAppliedPackets {
+        namespace Parameters {
+            /**
+             * Active
+             */
+            export type Active = boolean;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Query
+             */
+            export type Query = string;
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Sort By
+             */
+            export type SortBy = string;
+            /**
+             * Sort Desc
+             */
+            export type SortDesc = boolean;
+            export type StatusFilter = /**
+             * AppliedPacketStatus
+             * An enumeration.
+             */
+            Components.Schemas.AppliedPacketStatus[];
+        }
+        export interface QueryParameters {
+            status_filter?: Parameters.StatusFilter;
+            active?: /* Active */ Parameters.Active;
+            query?: /* Query */ Parameters.Query;
+            sort_by?: /* Sort By */ Parameters.SortBy;
+            sort_desc?: /* Sort Desc */ Parameters.SortDesc;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[AppliedPacketModel] */ Components.Schemas.PageAppliedPacketModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketGetAppliedRewards {
+        namespace Parameters {
+            /**
+             * Active
+             */
+            export type Active = boolean;
+            /**
+             * For Server Id
+             * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
+             */
+            export type ForServerId = string /* uuid */[];
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Query
+             */
+            export type Query = string;
+            /**
+             * Serverbundle Id
+             * Filter by serverbundle.
+             */
+            export type ServerbundleId = string /* uuid */[];
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Sort By
+             */
+            export type SortBy = string;
+            /**
+             * Sort Desc
+             */
+            export type SortDesc = boolean;
+            /**
+             * Filter by status.
+             */
+            export type Status = /**
+             * RewardStatus
+             * An enumeration.
+             */
+            Components.Schemas.RewardStatus[];
+        }
+        export interface QueryParameters {
+            active?: /* Active */ Parameters.Active;
+            serverbundle_id?: /**
+             * Serverbundle Id
+             * Filter by serverbundle.
+             */
+            Parameters.ServerbundleId;
+            status?: /* Filter by status. */ Parameters.Status;
+            for_server_id?: /**
+             * For Server Id
+             * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
+             */
+            Parameters.ForServerId;
+            query?: /* Query */ Parameters.Query;
+            sort_by?: /* Sort By */ Parameters.SortBy;
+            sort_desc?: /* Sort Desc */ Parameters.SortDesc;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* UnlimitedPage[AppliedRewardModel] */ Components.Schemas.UnlimitedPageAppliedRewardModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketGetAppliedRewardsByUser {
+        namespace Parameters {
+            /**
+             * Active
+             */
+            export type Active = boolean;
+            /**
+             * For Server Id
+             * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
+             */
+            export type ForServerId = string; // uuid
+            /**
+             * Foreign Ids
+             * Index result by foreign user identifier instead of VyHub user id.
+             */
+            export type ForeignIds = boolean;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Serverbundle Id
+             * Filter by serverbundle.
+             */
+            export type ServerbundleId = string /* uuid */[];
+            /**
+             * Filter by status.
+             */
+            export type Status = /**
+             * RewardStatus
+             * An enumeration.
+             */
+            Components.Schemas.RewardStatus[];
+            /**
+             * User Id
+             * Filter by user.
+             */
+            export type UserId = string /* uuid */[];
+        }
+        export interface QueryParameters {
+            user_id?: /**
+             * User Id
+             * Filter by user.
+             */
+            Parameters.UserId;
+            serverbundle_id?: /**
+             * Serverbundle Id
+             * Filter by serverbundle.
+             */
+            Parameters.ServerbundleId;
+            status?: /* Filter by status. */ Parameters.Status;
+            for_server_id?: /**
+             * For Server Id
+             * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
+             */
+            Parameters.ForServerId /* uuid */;
+            active?: /* Active */ Parameters.Active;
+            foreign_ids?: /**
+             * Foreign Ids
+             * Index result by foreign user identifier instead of VyHub user id.
+             */
+            Parameters.ForeignIds;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Applied Rewards By User Packet Reward Applied User Get
+             */
+            export interface $200 {
+                [name: string]: /* AppliedRewardModel */ Components.Schemas.AppliedRewardModel[];
+            }
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketGetAvailablePacketStatus {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace PacketGetCategories {
+        namespace Responses {
+            /**
+             * Response Get Categories Packet Category Get
+             */
+            export type $200 = /* PacketCategoryModel */ Components.Schemas.PacketCategoryModel[];
+        }
+    }
+    namespace PacketGetPackets {
+        namespace Parameters {
+            /**
+             * Category Id
+             * Filter by category
+             */
+            export type CategoryId = string; // uuid
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            category_id?: /**
+             * Category Id
+             * Filter by category
+             */
+            Parameters.CategoryId /* uuid */;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Packets Packet  Get
+             */
+            export type $200 = /* PacketModel */ Components.Schemas.PacketModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketGetRewards {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Query
+             * Filter by rewards by name
+             */
+            export type Query = string;
+        }
+        export interface QueryParameters {
+            query?: /**
+             * Query
+             * Filter by rewards by name
+             */
+            Parameters.Query;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Rewards Packet Reward  Get
+             */
+            export type $200 = /* RewardModel */ Components.Schemas.RewardModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PaymentGatewayGetNotification {
+        namespace Parameters {
+            /**
+             * Payment Id
+             */
+            export type PaymentId = string;
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            payment_id: /* Payment Id */ Parameters.PaymentId;
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace RequirementsCreateRequirement {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* RequirementModelAdd */ Components.Schemas.RequirementModelAdd;
+        namespace Responses {
+            export type $200 = /* RequirementModel */ Components.Schemas.RequirementModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace RequirementsCreateRequirementSet {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* RequirementSetModelAdd */ Components.Schemas.RequirementSetModelAdd;
+        namespace Responses {
+            export type $200 = /* RequirementSetModelAdd */ Components.Schemas.RequirementSetModelAdd;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace RequirementsDeleteRequirement {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace RequirementsDeleteRequirementSet {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace RequirementsEditRequirementSet {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* RequirementSetModelPatch */ Components.Schemas.RequirementSetModelPatch;
+        namespace Responses {
+            export type $200 = /* RequirementSetModel */ Components.Schemas.RequirementSetModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace RequirementsGetRequirementSet {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* RequirementSetModel */ Components.Schemas.RequirementSetModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace RequirementsGetRequirementSets {
+        namespace Responses {
+            /**
+             * Response Get Requirement Sets Requirement Set Get
+             */
+            export type $200 = /* RequirementSetModelShort */ Components.Schemas.RequirementSetModelShort[];
+        }
+    }
+    namespace RequirementsGetRequirementTypes {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace RequirementsGetRequirements {
+        namespace Responses {
+            /**
+             * Response Get Requirements Requirement  Get
+             */
+            export type $200 = /* RequirementModel */ Components.Schemas.RequirementModel[];
+        }
+    }
+    namespace ServerAddBundle {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* ServerbundleModelAdd */ Components.Schemas.ServerbundleModelAdd;
+        namespace Responses {
+            export type $200 = /* ServerbundleModel */ Components.Schemas.ServerbundleModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerCreateBundleToken {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* BundleTokenCreateModel */ Components.Schemas.BundleTokenCreateModel;
+        namespace Responses {
+            export type $200 = /* OAuth2TokenModel */ Components.Schemas.OAuth2TokenModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerCreateServer {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* ServerModelAdd */ Components.Schemas.ServerModelAdd;
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerDeleteBundle {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* ServerbundleModel */ Components.Schemas.ServerbundleModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerDeleteServer {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerEditBundle {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* ServerBundleModelPatch */ Components.Schemas.ServerBundleModelPatch;
+        namespace Responses {
+            export type $200 = /* ServerbundleModel */ Components.Schemas.ServerbundleModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerEditServer {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* ServerModelPatch */ Components.Schemas.ServerModelPatch;
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetBans {
+        namespace Parameters {
+            /**
+             * Active
+             * Only return active bans.
+             */
+            export type Active = boolean;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            active?: /**
+             * Active
+             * Only return active bans.
+             */
+            Parameters.Active;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Bans Server Bundle  Uuid  Ban Get
+             */
+            export interface $200 {
+                [name: string]: /* BanModel */ Components.Schemas.BanModel[];
+            }
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetBundle {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* ServerbundleModel */ Components.Schemas.ServerbundleModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetBundleTokens {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Bundle Tokens Server Bundle  Uuid  Token Get
+             */
+            export type $200 = /* OAuth2TokenModelHidden */ Components.Schemas.OAuth2TokenModelHidden[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetBundles {
+        namespace Parameters {
+            export type ServerType = /**
+             * ServerType
+             * An enumeration.
+             */
+            Components.Schemas.ServerType;
+        }
+        export interface QueryParameters {
+            server_type?: Parameters.ServerType;
+        }
+        namespace Responses {
+            /**
+             * Response Get Bundles Server Bundle  Get
+             */
+            export type $200 = /* ServerbundleModel */ Components.Schemas.ServerbundleModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetGroups {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            /**
+             * Response Get Groups Server Bundle  Uuid  Group Get
+             */
+            export type $200 = /* GroupModel */ Components.Schemas.GroupModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetServer {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* ServerModel */ Components.Schemas.ServerModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetServerByBundle {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            /**
+             * Response Get Server By Bundle Server Bundle  Uuid  Server Get
+             */
+            export type $200 = /* ServerModelShort */ Components.Schemas.ServerModelShort[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetServerTypes {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace ServerGetServers {
+        namespace Parameters {
+            export type Type = /**
+             * ServerType
+             * An enumeration.
+             */
+            Components.Schemas.ServerType;
+        }
+        export interface QueryParameters {
+            type?: Parameters.Type;
+        }
+        namespace Responses {
+            /**
+             * Response Get Servers Server  Get
+             */
+            export type $200 = /* ServerModel */ Components.Schemas.ServerModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerGetWarnings {
+        namespace Parameters {
+            /**
+             * Active
+             * Only return active bans.
+             */
+            export type Active = boolean;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            active?: /**
+             * Active
+             * Only return active bans.
+             */
+            Parameters.Active;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Warnings Server Bundle  Uuid  Warning Get
+             */
+            export interface $200 {
+                [name: string]: /* WarningModel */ Components.Schemas.WarningModel[];
+            }
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ServerRevokeBundleToken {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Token Id
+             * UUID of token to revoke
+             */
+            export type TokenId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            token_id: /**
+             * Token Id
+             * UUID of token to revoke
+             */
+            Parameters.TokenId /* uuid */;
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* OAuth2TokenModelHidden */ Components.Schemas.OAuth2TokenModelHidden;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopAddPacketToCart {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* Body_add_packet_to_cart_shop_cart_post */ Components.Schemas.BodyAddPacketToCartShopCartPost;
+        namespace Responses {
+            export type $200 = /* CartPacketModel */ Components.Schemas.CartPacketModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopApplyDiscount {
+        namespace Parameters {
+            /**
+             * Code Or Uuid
+             * Discount id or code
+             */
+            export type CodeOrUuid = string;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface PathParameters {
+            code_or_uuid: /**
+             * Code Or Uuid
+             * Discount id or code
+             */
+            Parameters.CodeOrUuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopCancelPayment {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* DebitModel */ Components.Schemas.DebitModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopChangeBusinessAddress {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* BusinessAddressModelAdd */ Components.Schemas.BusinessAddressModelAdd;
+        namespace Responses {
+            export type $200 = /* AddressModel */ Components.Schemas.AddressModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopCheckPayment {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* DebitModel */ Components.Schemas.DebitModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopCreateDiscount {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* DiscountModelAdd */ Components.Schemas.DiscountModelAdd;
+        namespace Responses {
+            export type $200 = /* DiscountModel */ Components.Schemas.DiscountModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopCreateGateway {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* PaymentGatewayModelAdd */ Components.Schemas.PaymentGatewayModelAdd;
+        namespace Responses {
+            export type $200 = /* PaymentGatewayModel */ Components.Schemas.PaymentGatewayModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopCreateTaxRule {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* TaxModelAdd */ Components.Schemas.TaxModelAdd;
+        namespace Responses {
+            export type $200 = /* TaxModel */ Components.Schemas.TaxModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopDeleteDiscount {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopDeleteGateway {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopDeleteTaxRule {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopEditDiscount {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* DiscountModelPatch */ Components.Schemas.DiscountModelPatch;
+        namespace Responses {
+            export type $200 = /* DiscountModel */ Components.Schemas.DiscountModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopEditGateway {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* PaymentGatewayModelPatch */ Components.Schemas.PaymentGatewayModelPatch;
+        namespace Responses {
+            export type $200 = /* PaymentGatewayModel */ Components.Schemas.PaymentGatewayModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopEditGeneralConfig {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* GeneralSettingsModel */ Components.Schemas.GeneralSettingsModel;
+        namespace Responses {
+            export type $200 = /* GeneralSettingsModel */ Components.Schemas.GeneralSettingsModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopEditPurchase {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* PurchaseModelPatch */ Components.Schemas.PurchaseModelPatch;
+        namespace Responses {
+            export type $200 = /* PurchaseModel */ Components.Schemas.PurchaseModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopFinishPayment {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* DebitModel */ Components.Schemas.DebitModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetAvailablePurchaseStatus {
+        namespace Responses {
+            export type $200 = any;
+        }
+    }
+    namespace ShopGetBusinessAddress {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* AddressModel */ Components.Schemas.AddressModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetCart {
+        namespace Parameters {
+            /**
+             * Country Code
+             * Country for price calculation
+             */
+            export type CountryCode = string;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            country_code?: /**
+             * Country Code
+             * Country for price calculation
+             */
+            Parameters.CountryCode;
+        }
+        namespace Responses {
+            export type $200 = /* CartModel */ Components.Schemas.CartModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetCartPackets {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Cart Packets Shop Cart Packet Get
+             */
+            export type $200 = /* CartPacketModel */ Components.Schemas.CartPacketModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetCurrencies {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Currencies Shop Currency Get
+             */
+            export type $200 = /* CurrencyModel */ Components.Schemas.CurrencyModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetDebitInvoice {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetDebitStatistic {
+        namespace Parameters {
+            /**
+             * Currency Code
+             */
+            export type CurrencyCode = string;
+            /**
+             * StatisticInterval
+             * An enumeration.
+             */
+            export type Interval = "DAY" | "MONTH" | "YEAR";
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Only Successful
+             * Only include purchases with a successful status (FINISHED, RECURRING)
+             */
+            export type OnlySuccessful = boolean;
+        }
+        export interface QueryParameters {
+            interval?: /**
+             * StatisticInterval
+             * An enumeration.
+             */
+            Parameters.Interval;
+            only_successful?: /**
+             * Only Successful
+             * Only include purchases with a successful status (FINISHED, RECURRING)
+             */
+            Parameters.OnlySuccessful;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            currency_code: /* Currency Code */ Parameters.CurrencyCode;
+        }
+        namespace Responses {
+            /**
+             * Response Get Debit Statistic Shop Debit Statistic Get
+             */
+            export type $200 = /* DebitModelStatistic */ Components.Schemas.DebitModelStatistic[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetDiscount {
+        namespace Parameters {
+            /**
+             * Code Or Uuid
+             * Discount id or code
+             */
+            export type CodeOrUuid = string;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface PathParameters {
+            code_or_uuid: /**
+             * Code Or Uuid
+             * Discount id or code
+             */
+            Parameters.CodeOrUuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* DiscountModel */ Components.Schemas.DiscountModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetDiscounts {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Discounts Shop Discount  Get
+             */
+            export type $200 = /* DiscountModel */ Components.Schemas.DiscountModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetDonationGoal {
+        namespace Responses {
+            export type $200 = /* DonationGoalModel */ Components.Schemas.DonationGoalModel;
+        }
+    }
+    namespace ShopGetGateways {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Gateways Shop Gateway  Get
+             */
+            export type $200 = /* PaymentGatewayModel */ Components.Schemas.PaymentGatewayModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetGeneralConfig {
+        namespace Responses {
+            export type $200 = /* GeneralSettingsModel */ Components.Schemas.GeneralSettingsModel;
+        }
+    }
+    namespace ShopGetPackets {
+        namespace Parameters {
+            /**
+             * Category Id
+             * Filter by category
+             */
+            export type CategoryId = string; // uuid
+            /**
+             * Country Code
+             * Country for price calculation
+             */
+            export type CountryCode = string;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            category_id?: /**
+             * Category Id
+             * Filter by category
+             */
+            Parameters.CategoryId /* uuid */;
+            country_code?: /**
+             * Country Code
+             * Country for price calculation
+             */
+            Parameters.CountryCode;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Packets Shop Packet Get
+             */
+            export type $200 = /* PacketModelLight */ Components.Schemas.PacketModelLight[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetPurchaseGateways {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Purchase Gateways Shop Purchase  Uuid  Gateway Get
+             */
+            export type $200 = /* PaymentGatewayModel */ Components.Schemas.PaymentGatewayModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetPurchaseStatistic {
+        namespace Parameters {
+            /**
+             * Currency Code
+             */
+            export type CurrencyCode = string;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            currency_code: /* Currency Code */ Parameters.CurrencyCode;
+        }
+        namespace Responses {
+            export type $200 = /* PurchaseStatistic */ Components.Schemas.PurchaseStatistic;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetPurchases {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Query
+             */
+            export type Query = string;
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Sort By
+             */
+            export type SortBy = string;
+            /**
+             * Sort Desc
+             */
+            export type SortDesc = boolean;
+            export type StatusFilter = /**
+             * PurchaseStatus
+             * An enumeration.
+             */
+            Components.Schemas.PurchaseStatus[];
+        }
+        export interface QueryParameters {
+            query?: /* Query */ Parameters.Query;
+            sort_by?: /* Sort By */ Parameters.SortBy;
+            sort_desc?: /* Sort Desc */ Parameters.SortDesc;
+            status_filter?: Parameters.StatusFilter;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[PurchaseModel] */ Components.Schemas.PagePurchaseModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetTaxRules {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Tax Rules Shop Tax Get
+             */
+            export type $200 = /* TaxModel */ Components.Schemas.TaxModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopRemoveDiscount {
+        namespace Parameters {
+            /**
+             * Code Or Uuid
+             * Discount id or code
+             */
+            export type CodeOrUuid = string;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface PathParameters {
+            code_or_uuid: /**
+             * Code Or Uuid
+             * Discount id or code
+             */
+            Parameters.CodeOrUuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopRemovePacketFromCart {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopRemovePacketsFromCart {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopStartCheckout {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* Body_start_checkout_shop_cart_checkout_post */ Components.Schemas.BodyStartCheckoutShopCartCheckoutPost;
+        namespace Responses {
+            export type $200 = /* PurchaseModel */ Components.Schemas.PurchaseModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopStartPayment {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* Body_start_payment_shop_checkout_post */ Components.Schemas.BodyStartPaymentShopCheckoutPost;
+        namespace Responses {
+            export type $200 = /* StartPaymentModel */ Components.Schemas.StartPaymentModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserAddAddress {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* AddressModelAdd */ Components.Schemas.AddressModelAdd;
+        namespace Responses {
+            export type $200 = /* AddressModel */ Components.Schemas.AddressModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserAddMembership {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* MembershipModelUserAdd */ Components.Schemas.MembershipModelUserAdd;
+        namespace Responses {
+            export type $200 = /* MembershipModel */ Components.Schemas.MembershipModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserCreateAttribute {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* UserAttributeModelAdd */ Components.Schemas.UserAttributeModelAdd;
+        namespace Responses {
+            export type $200 = /* UserAttributeModelAdd */ Components.Schemas.UserAttributeModelAdd;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserCreateAttributeDefinition {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* UserAttributeDefinitionModelAdd */ Components.Schemas.UserAttributeDefinitionModelAdd;
+        namespace Responses {
+            export type $200 = /* UserAttributeDefinitionModel */ Components.Schemas.UserAttributeDefinitionModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserCreateUser {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* UserModelAdd */ Components.Schemas.UserModelAdd;
+        namespace Responses {
+            export type $200 = /* UserModel */ Components.Schemas.UserModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserDeleteAttribute {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserDeleteAttributeDefinition {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserEditAttributeDefinition {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* UserAttributeDefinitionModelPatch */ Components.Schemas.UserAttributeDefinitionModelPatch;
+        namespace Responses {
+            export type $200 = /* UserAttributeDefinitionModel */ Components.Schemas.UserAttributeDefinitionModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserEditMembership {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* MembershipModelEdit */ Components.Schemas.MembershipModelEdit;
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserEndActiveMemberships {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserEndMembership {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetActiveGroups {
+        namespace Parameters {
+            /**
+             * Serverbundle Id
+             * Filter by serverbundle
+             */
+            export type ServerbundleId = string; // uuid
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            serverbundle_id?: /**
+             * Serverbundle Id
+             * Filter by serverbundle
+             */
+            Parameters.ServerbundleId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Active Groups User  Uuid  Group Get
+             */
+            export type $200 = /* GroupModel */ Components.Schemas.GroupModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetAddress {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* AddressModel */ Components.Schemas.AddressModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetAddresses {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            /**
+             * Response Get Addresses User  Uuid  Address Get
+             */
+            export type $200 = /* AddressModel */ Components.Schemas.AddressModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetAttributeDefinition {
+        namespace Parameters {
+            /**
+             * Uuid Or Name
+             * UUID or name of attribute definition.
+             */
+            export type UuidOrName = string;
+        }
+        export interface PathParameters {
+            uuid_or_name: /**
+             * Uuid Or Name
+             * UUID or name of attribute definition.
+             */
+            Parameters.UuidOrName;
+        }
+        namespace Responses {
+            export type $200 = /* UserAttributeDefinitionModel */ Components.Schemas.UserAttributeDefinitionModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetAttributeDefinitions {
+        namespace Parameters {
+            /**
+             * Name
+             * Filter by name (exact match).
+             */
+            export type Name = string;
+        }
+        export interface QueryParameters {
+            name?: /**
+             * Name
+             * Filter by name (exact match).
+             */
+            Parameters.Name;
+        }
+        namespace Responses {
+            /**
+             * Response Get Attribute Definitions User Attribute Definition Get
+             */
+            export type $200 = /* UserAttributeDefinitionModel */ Components.Schemas.UserAttributeDefinitionModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetAttributeHistory {
+        namespace Parameters {
+            /**
+             * Definition Id
+             * ID of the attribute definition.
+             */
+            export type DefinitionId = string; // uuid
+            /**
+             * Linked Users
+             * Include attributes from linked users.
+             */
+            export type LinkedUsers = boolean;
+            /**
+             * Split Servers
+             * Split history by server.
+             */
+            export type SplitServers = boolean;
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            definition_id: /**
+             * Definition Id
+             * ID of the attribute definition.
+             */
+            Parameters.DefinitionId /* uuid */;
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            split_servers?: /**
+             * Split Servers
+             * Split history by server.
+             */
+            Parameters.SplitServers;
+            linked_users?: /**
+             * Linked Users
+             * Include attributes from linked users.
+             */
+            Parameters.LinkedUsers;
+        }
+        namespace Responses {
+            /**
+             * Response Get Attribute History User  Uuid  Attribute  Definition Id  Get
+             */
+            export type $200 = /* UserAttributeHistoryModel */ Components.Schemas.UserAttributeHistoryModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetCurrentProperties {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            /**
+             * Response Get Current Properties User  Uuid  Property Get
+             */
+            export type $200 = /* UserPropertyModel */ Components.Schemas.UserPropertyModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetCurrentUser {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetData {
+        namespace Parameters {
+            /**
+             * Identifier
+             * UUID or other identifier
+             */
+            export type Identifier = string;
+            /**
+             * Non Central
+             * Set to true if searching a user by its identifier (and not uuid or central username)
+             */
+            export type NonCentral = boolean;
+        }
+        export interface PathParameters {
+            identifier: /**
+             * Identifier
+             * UUID or other identifier
+             */
+            Parameters.Identifier;
+        }
+        export interface QueryParameters {
+            non_central?: /**
+             * Non Central
+             * Set to true if searching a user by its identifier (and not uuid or central username)
+             */
+            Parameters.NonCentral;
+        }
+        namespace Responses {
+            export type $200 = /* UserModel */ Components.Schemas.UserModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetMemberships {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            /**
+             * Response Get Memberships User  Uuid  Membership Get
+             */
+            export type $200 = /* MembershipModel */ Components.Schemas.MembershipModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetPackets {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            /**
+             * Response Get Packets User  Uuid  Packet Get
+             */
+            export type $200 = /* AppliedPacketModel */ Components.Schemas.AppliedPacketModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetPurchases {
+        namespace Parameters {
+            /**
+             * Cancelled
+             * Include cancelled purchases.
+             */
+            export type Cancelled = boolean;
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            cancelled?: /**
+             * Cancelled
+             * Include cancelled purchases.
+             */
+            Parameters.Cancelled;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[PurchaseModel] */ Components.Schemas.PagePurchaseModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserGetUnauthProperties {
+        namespace Responses {
+            /**
+             * Response Get Unauth Properties User Property  Get
+             */
+            export type $200 = /* PropertyModel */ Components.Schemas.PropertyModel[];
+        }
+    }
+    namespace UserGetUsers {
+        namespace Parameters {
+            /**
+             * Desc
+             * Order descending.
+             */
+            export type Desc = boolean;
+            /**
+             * Limit
+             * Maximum results
+             */
+            export type Limit = number;
+            /**
+             * Query
+             * User-ID, external identifier or keyword that the username must include
+             */
+            export type Query = string;
+            /**
+             * Sort
+             * Sort by value.
+             */
+            export type Sort = string; // ^(type|registered_on|username)$
+        }
+        export interface QueryParameters {
+            query?: /**
+             * Query
+             * User-ID, external identifier or keyword that the username must include
+             */
+            Parameters.Query;
+            limit?: /**
+             * Limit
+             * Maximum results
+             */
+            Parameters.Limit;
+            sort?: /**
+             * Sort
+             * Sort by value.
+             */
+            Parameters.Sort /* ^(type|registered_on|username)$ */;
+            desc?: /**
+             * Desc
+             * Order descending.
+             */
+            Parameters.Desc;
+        }
+        namespace Responses {
+            /**
+             * Response Get Users User  Get
+             */
+            export type $200 = /* UserModelLinkedShort */ Components.Schemas.UserModelLinkedShort[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace UserUnbanActiveBans {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Serverbundle Id
+             * Only unban bans that belong to the specified serverbundle. Global bans are also included.
+             */
+            export type ServerbundleId = string; // uuid
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            serverbundle_id?: /**
+             * Serverbundle Id
+             * Only unban bans that belong to the specified serverbundle. Global bans are also included.
+             */
+            Parameters.ServerbundleId /* uuid */;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace WarningAddWarning {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* WarningModelAdd */ Components.Schemas.WarningModelAdd;
+        namespace Responses {
+            export type $200 = /* WarningModel */ Components.Schemas.WarningModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace WarningDeleteWarning {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace WarningGetWarningConfig {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = /* WarningConfigModel */ Components.Schemas.WarningConfigModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace WarningGetWarnings {
+        namespace Parameters {
+            /**
+             * Bundles Filter
+             */
+            export type BundlesFilter = string[];
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Order By
+             */
+            export type OrderBy = string;
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Query
+             */
+            export type Query = string;
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Sort Desc
+             */
+            export type SortDesc = boolean;
+        }
+        export interface QueryParameters {
+            bundles_filter?: /* Bundles Filter */ Parameters.BundlesFilter;
+            query?: /* Query */ Parameters.Query;
+            order_by?: /* Order By */ Parameters.OrderBy;
+            sort_desc?: /* Sort Desc */ Parameters.SortDesc;
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[WarningModel] */ Components.Schemas.PageWarningModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace WarningToggleWarningStatus {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace WarningUpdateWarningConfig {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* WarningConfigModel */ Components.Schemas.WarningConfigModel;
+        namespace Responses {
+            export type $200 = /* WarningConfigModel */ Components.Schemas.WarningConfigModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace WebhookStripeEvent {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
 }
 
 export interface OperationMethods {
@@ -7136,7 +8343,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignUpdateNavItems.QueryParameters> | null,
     data?: Paths.DesignUpdateNavItems.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200 | Paths.DesignUpdateNavItems.Responses.$422>
+  ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200>
   /**
    * design_createCmsHtml - Create Cms Html
    */
@@ -7144,7 +8351,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignCreateCmsHtml.QueryParameters> | null,
     data?: Paths.DesignCreateCmsHtml.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200 | Paths.DesignCreateCmsHtml.Responses.$422>
+  ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200>
   /**
    * design_getCmsHtml - Get Cms Html
    */
@@ -7152,7 +8359,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignGetCmsHtml.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200 | Paths.DesignGetCmsHtml.Responses.$422>
+  ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200>
   /**
    * design_updateCmsHtml - Update Cms Html
    */
@@ -7160,7 +8367,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters & Paths.DesignUpdateCmsHtml.QueryParameters> | null,
     data?: Paths.DesignUpdateCmsHtml.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>
+  ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200>
   /**
    * design_deleteCmsHtml - Delete Cms Html
    */
@@ -7168,7 +8375,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters & Paths.DesignDeleteCmsHtml.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>
+  ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200>
   /**
    * design_getTheme - Get Theme
    */
@@ -7184,7 +8391,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignUpdateTheme.QueryParameters> | null,
     data?: Paths.DesignUpdateTheme.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200 | Paths.DesignUpdateTheme.Responses.$422>
+  ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200>
   /**
    * design_getIcons - Get Icons
    */
@@ -7192,7 +8399,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignGetIcons.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetIcons.Responses.$200 | Paths.DesignGetIcons.Responses.$422>
+  ): OperationResponse<Paths.DesignGetIcons.Responses.$200>
   /**
    * design_getGeneralSettings - Get General Settings
    */
@@ -7208,7 +8415,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignEditGeneralSettings.QueryParameters> | null,
     data?: Paths.DesignEditGeneralSettings.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
+  ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200>
   /**
    * design_getLegal - Get Legal
    */
@@ -7224,7 +8431,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DesignUpdateLegal.QueryParameters> | null,
     data?: Paths.DesignUpdateLegal.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignUpdateLegal.Responses.$200 | Paths.DesignUpdateLegal.Responses.$422>
+  ): OperationResponse<Paths.DesignUpdateLegal.Responses.$200>
   /**
    * auth_getToken - Get Token
    */
@@ -7248,7 +8455,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.AuthPrepare.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthPrepare.Responses.$200 | Paths.AuthPrepare.Responses.$422>
+  ): OperationResponse<Paths.AuthPrepare.Responses.$200>
   /**
    * auth_start - Start
    */
@@ -7256,7 +8463,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.AuthStart.PathParameters & Paths.AuthStart.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthStart.Responses.$200 | Paths.AuthStart.Responses.$422>
+  ): OperationResponse<Paths.AuthStart.Responses.$200>
   /**
    * auth_finish - Finish
    */
@@ -7264,7 +8471,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
+  ): OperationResponse<Paths.AuthFinish.Responses.$200>
   /**
    * auth_finish - Finish
    */
@@ -7272,7 +8479,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
+  ): OperationResponse<Paths.AuthFinish.Responses.$200>
   /**
    * user_getCurrentUser - Get Current User
    */
@@ -7280,7 +8487,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetCurrentUser.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200 | Paths.UserGetCurrentUser.Responses.$422>
+  ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>
   /**
    * user_getData - Get Data
    */
@@ -7288,7 +8495,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetData.PathParameters & Paths.UserGetData.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetData.Responses.$200 | Paths.UserGetData.Responses.$422>
+  ): OperationResponse<Paths.UserGetData.Responses.$200>
   /**
    * user_getUsers - Get Users
    */
@@ -7296,7 +8503,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetUsers.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetUsers.Responses.$200 | Paths.UserGetUsers.Responses.$422>
+  ): OperationResponse<Paths.UserGetUsers.Responses.$200>
   /**
    * user_createUser - Create User
    */
@@ -7304,7 +8511,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserCreateUser.QueryParameters> | null,
     data?: Paths.UserCreateUser.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserCreateUser.Responses.$200 | Paths.UserCreateUser.Responses.$422>
+  ): OperationResponse<Paths.UserCreateUser.Responses.$200>
   /**
    * user_getAttributeHistory - Get Attribute History
    */
@@ -7312,7 +8519,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetAttributeHistory.PathParameters & Paths.UserGetAttributeHistory.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>
+  ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200>
   /**
    * user_getAttributeDefinitions - Get Attribute Definitions
    */
@@ -7320,7 +8527,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetAttributeDefinitions.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200 | Paths.UserGetAttributeDefinitions.Responses.$422>
+  ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>
   /**
    * user_createAttributeDefinition - Create Attribute Definition
    */
@@ -7328,7 +8535,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserCreateAttributeDefinition.QueryParameters> | null,
     data?: Paths.UserCreateAttributeDefinition.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserCreateAttributeDefinition.Responses.$200 | Paths.UserCreateAttributeDefinition.Responses.$422>
+  ): OperationResponse<Paths.UserCreateAttributeDefinition.Responses.$200>
   /**
    * user_getAttributeDefinition - Get Attribute Definition
    */
@@ -7336,7 +8543,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetAttributeDefinition.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAttributeDefinition.Responses.$200 | Paths.UserGetAttributeDefinition.Responses.$422>
+  ): OperationResponse<Paths.UserGetAttributeDefinition.Responses.$200>
   /**
    * user_editAttributeDefinition - Edit Attribute Definition
    */
@@ -7344,7 +8551,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserEditAttributeDefinition.PathParameters & Paths.UserEditAttributeDefinition.QueryParameters> | null,
     data?: Paths.UserEditAttributeDefinition.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserEditAttributeDefinition.Responses.$200 | Paths.UserEditAttributeDefinition.Responses.$422>
+  ): OperationResponse<Paths.UserEditAttributeDefinition.Responses.$200>
   /**
    * user_deleteAttributeDefinition - Delete Attribute Definition
    */
@@ -7352,7 +8559,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserDeleteAttributeDefinition.PathParameters & Paths.UserDeleteAttributeDefinition.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserDeleteAttributeDefinition.Responses.$200 | Paths.UserDeleteAttributeDefinition.Responses.$422>
+  ): OperationResponse<Paths.UserDeleteAttributeDefinition.Responses.$200>
   /**
    * user_createAttribute - Create Attribute
    */
@@ -7360,7 +8567,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserCreateAttribute.QueryParameters> | null,
     data?: Paths.UserCreateAttribute.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserCreateAttribute.Responses.$200 | Paths.UserCreateAttribute.Responses.$422>
+  ): OperationResponse<Paths.UserCreateAttribute.Responses.$200>
   /**
    * user_deleteAttribute - Delete Attribute
    */
@@ -7368,7 +8575,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserDeleteAttribute.PathParameters & Paths.UserDeleteAttribute.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserDeleteAttribute.Responses.$200 | Paths.UserDeleteAttribute.Responses.$422>
+  ): OperationResponse<Paths.UserDeleteAttribute.Responses.$200>
   /**
    * user_getMemberships - Get Memberships
    * 
@@ -7378,7 +8585,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetMemberships.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetMemberships.Responses.$200 | Paths.UserGetMemberships.Responses.$422>
+  ): OperationResponse<Paths.UserGetMemberships.Responses.$200>
   /**
    * user_addMembership - Add Membership
    */
@@ -7386,7 +8593,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserAddMembership.PathParameters & Paths.UserAddMembership.QueryParameters> | null,
     data?: Paths.UserAddMembership.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
+  ): OperationResponse<Paths.UserAddMembership.Responses.$200>
   /**
    * user_endActiveMemberships - End Active Memberships
    * 
@@ -7396,7 +8603,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserEndActiveMemberships.PathParameters & Paths.UserEndActiveMemberships.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserEndActiveMemberships.Responses.$200 | Paths.UserEndActiveMemberships.Responses.$422>
+  ): OperationResponse<Paths.UserEndActiveMemberships.Responses.$200>
   /**
    * user_editMembership - Edit Membership
    */
@@ -7404,7 +8611,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserEditMembership.PathParameters & Paths.UserEditMembership.QueryParameters> | null,
     data?: Paths.UserEditMembership.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserEditMembership.Responses.$200 | Paths.UserEditMembership.Responses.$422>
+  ): OperationResponse<Paths.UserEditMembership.Responses.$200>
   /**
    * user_endMembership - End Membership
    */
@@ -7412,7 +8619,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserEndMembership.PathParameters & Paths.UserEndMembership.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserEndMembership.Responses.$200 | Paths.UserEndMembership.Responses.$422>
+  ): OperationResponse<Paths.UserEndMembership.Responses.$200>
   /**
    * user_getActiveGroups - Get Active Groups
    * 
@@ -7422,7 +8629,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetActiveGroups.PathParameters & Paths.UserGetActiveGroups.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>
+  ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200>
   /**
    * user_getPackets - Get Packets
    * 
@@ -7432,7 +8639,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetPackets.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetPackets.Responses.$200 | Paths.UserGetPackets.Responses.$422>
+  ): OperationResponse<Paths.UserGetPackets.Responses.$200>
   /**
    * user_getCurrentProperties - Get Current Properties
    * 
@@ -7442,7 +8649,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetCurrentProperties.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>
+  ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200>
   /**
    * user_getUnauthProperties - Get Unauth Properties
    * 
@@ -7460,7 +8667,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetPurchases.PathParameters & Paths.UserGetPurchases.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetPurchases.Responses.$200 | Paths.UserGetPurchases.Responses.$422>
+  ): OperationResponse<Paths.UserGetPurchases.Responses.$200>
   /**
    * user_getAddress - Get Address
    */
@@ -7468,7 +8675,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetAddress.PathParameters & Paths.UserGetAddress.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>
+  ): OperationResponse<Paths.UserGetAddress.Responses.$200>
   /**
    * user_addAddress - Add Address
    */
@@ -7476,7 +8683,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserAddAddress.QueryParameters> | null,
     data?: Paths.UserAddAddress.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>
+  ): OperationResponse<Paths.UserAddAddress.Responses.$200>
   /**
    * user_getAddresses - Get Addresses
    */
@@ -7484,7 +8691,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserGetAddresses.PathParameters & Paths.UserGetAddresses.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>
+  ): OperationResponse<Paths.UserGetAddresses.Responses.$200>
   /**
    * user_unbanActiveBans - Unban Active Bans
    * 
@@ -7494,7 +8701,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.UserUnbanActiveBans.PathParameters & Paths.UserUnbanActiveBans.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.UserUnbanActiveBans.Responses.$200 | Paths.UserUnbanActiveBans.Responses.$422>
+  ): OperationResponse<Paths.UserUnbanActiveBans.Responses.$200>
   /**
    * server_getBundles - Get Bundles
    */
@@ -7502,7 +8709,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerGetBundles.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetBundles.Responses.$200 | Paths.ServerGetBundles.Responses.$422>
+  ): OperationResponse<Paths.ServerGetBundles.Responses.$200>
   /**
    * server_addBundle - Add Bundle
    */
@@ -7510,7 +8717,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerAddBundle.QueryParameters> | null,
     data?: Paths.ServerAddBundle.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>
+  ): OperationResponse<Paths.ServerAddBundle.Responses.$200>
   /**
    * server_getBundle - Get Bundle
    */
@@ -7518,7 +8725,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerGetBundle.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetBundle.Responses.$200 | Paths.ServerGetBundle.Responses.$422>
+  ): OperationResponse<Paths.ServerGetBundle.Responses.$200>
   /**
    * server_editBundle - Edit Bundle
    */
@@ -7526,7 +8733,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerEditBundle.PathParameters & Paths.ServerEditBundle.QueryParameters> | null,
     data?: Paths.ServerEditBundle.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
+  ): OperationResponse<Paths.ServerEditBundle.Responses.$200>
   /**
    * server_deleteBundle - Delete Bundle
    */
@@ -7534,7 +8741,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters & Paths.ServerDeleteBundle.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+  ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200>
   /**
    * server_getGroups - Get Groups
    */
@@ -7542,7 +8749,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerGetGroups.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetGroups.Responses.$200 | Paths.ServerGetGroups.Responses.$422>
+  ): OperationResponse<Paths.ServerGetGroups.Responses.$200>
   /**
    * server_getServerByBundle - Get Server By Bundle
    */
@@ -7550,7 +8757,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerGetServerByBundle.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetServerByBundle.Responses.$200 | Paths.ServerGetServerByBundle.Responses.$422>
+  ): OperationResponse<Paths.ServerGetServerByBundle.Responses.$200>
   /**
    * server_getBans - Get Bans
    * 
@@ -7560,7 +8767,17 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerGetBans.PathParameters & Paths.ServerGetBans.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetBans.Responses.$200 | Paths.ServerGetBans.Responses.$422>
+  ): OperationResponse<Paths.ServerGetBans.Responses.$200>
+  /**
+   * server_getWarnings - Get Warnings
+   * 
+   * Returns a dict of all warnings in the bundle by user identifier.
+   */
+  'server_getWarnings'(
+    parameters?: Parameters<Paths.ServerGetWarnings.PathParameters & Paths.ServerGetWarnings.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ServerGetWarnings.Responses.$200>
   /**
    * server_getBundleTokens - Get Bundle Tokens
    */
@@ -7568,7 +8785,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerGetBundleTokens.PathParameters & Paths.ServerGetBundleTokens.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetBundleTokens.Responses.$200 | Paths.ServerGetBundleTokens.Responses.$422>
+  ): OperationResponse<Paths.ServerGetBundleTokens.Responses.$200>
   /**
    * server_createBundleToken - Create Bundle Token
    */
@@ -7576,7 +8793,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerCreateBundleToken.PathParameters & Paths.ServerCreateBundleToken.QueryParameters> | null,
     data?: Paths.ServerCreateBundleToken.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerCreateBundleToken.Responses.$200 | Paths.ServerCreateBundleToken.Responses.$422>
+  ): OperationResponse<Paths.ServerCreateBundleToken.Responses.$200>
   /**
    * server_revokeBundleToken - Revoke Bundle Token
    */
@@ -7584,7 +8801,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerRevokeBundleToken.PathParameters & Paths.ServerRevokeBundleToken.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerRevokeBundleToken.Responses.$200 | Paths.ServerRevokeBundleToken.Responses.$422>
+  ): OperationResponse<Paths.ServerRevokeBundleToken.Responses.$200>
   /**
    * server_getServerTypes - Get Server Types
    */
@@ -7600,7 +8817,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerGetServers.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
+  ): OperationResponse<Paths.ServerGetServers.Responses.$200>
   /**
    * server_createServer - Create Server
    */
@@ -7608,7 +8825,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerCreateServer.QueryParameters> | null,
     data?: Paths.ServerCreateServer.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerCreateServer.Responses.$200 | Paths.ServerCreateServer.Responses.$422>
+  ): OperationResponse<Paths.ServerCreateServer.Responses.$200>
   /**
    * server_getServer - Get Server
    */
@@ -7616,7 +8833,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerGetServer.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>
+  ): OperationResponse<Paths.ServerGetServer.Responses.$200>
   /**
    * server_editServer - Edit Server
    */
@@ -7624,7 +8841,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerEditServer.PathParameters & Paths.ServerEditServer.QueryParameters> | null,
     data?: Paths.ServerEditServer.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerEditServer.Responses.$200 | Paths.ServerEditServer.Responses.$422>
+  ): OperationResponse<Paths.ServerEditServer.Responses.$200>
   /**
    * server_deleteServer - Delete Server
    */
@@ -7632,7 +8849,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ServerDeleteServer.PathParameters & Paths.ServerDeleteServer.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ServerDeleteServer.Responses.$200 | Paths.ServerDeleteServer.Responses.$422>
+  ): OperationResponse<Paths.ServerDeleteServer.Responses.$200>
   /**
    * group_getGroups - Get Groups
    */
@@ -7640,7 +8857,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.GroupGetGroups.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupGetGroups.Responses.$200 | Paths.GroupGetGroups.Responses.$422>
+  ): OperationResponse<Paths.GroupGetGroups.Responses.$200>
   /**
    * group_addGroup - Add Group
    */
@@ -7648,7 +8865,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.GroupAddGroup.QueryParameters> | null,
     data?: Paths.GroupAddGroup.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>
+  ): OperationResponse<Paths.GroupAddGroup.Responses.$200>
   /**
    * group_getGroupMembers - Get Group Members
    */
@@ -7656,7 +8873,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.GroupGetGroupMembers.PathParameters & Paths.GroupGetGroupMembers.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200 | Paths.GroupGetGroupMembers.Responses.$422>
+  ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200>
   /**
    * group_getGroup - Get Group
    */
@@ -7664,7 +8881,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.GroupGetGroup.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupGetGroup.Responses.$200 | Paths.GroupGetGroup.Responses.$422>
+  ): OperationResponse<Paths.GroupGetGroup.Responses.$200>
   /**
    * group_editGroup - Edit Group
    */
@@ -7672,7 +8889,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.GroupEditGroup.PathParameters & Paths.GroupEditGroup.QueryParameters> | null,
     data?: Paths.GroupEditGroup.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>
+  ): OperationResponse<Paths.GroupEditGroup.Responses.$200>
   /**
    * group_deleteGroup - Delete Group
    */
@@ -7680,7 +8897,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.GroupDeleteGroup.PathParameters & Paths.GroupDeleteGroup.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>
+  ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200>
   /**
    * group_getAllProperties - Get All Properties
    * 
@@ -7708,7 +8925,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.BanGetBans.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanGetBans.Responses.$200 | Paths.BanGetBans.Responses.$422>
+  ): OperationResponse<Paths.BanGetBans.Responses.$200>
   /**
    * ban_addBan - Add Ban
    */
@@ -7716,7 +8933,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.BanAddBan.QueryParameters> | null,
     data?: Paths.BanAddBan.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanAddBan.Responses.$200 | Paths.BanAddBan.Responses.$422>
+  ): OperationResponse<Paths.BanAddBan.Responses.$200>
   /**
    * ban_editBan - Edit Ban
    */
@@ -7724,7 +8941,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.BanEditBan.PathParameters & Paths.BanEditBan.QueryParameters> | null,
     data?: Paths.BanEditBan.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>
+  ): OperationResponse<Paths.BanEditBan.Responses.$200>
   /**
    * ban_deleteBan - Delete Ban
    */
@@ -7732,7 +8949,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.BanDeleteBan.PathParameters & Paths.BanDeleteBan.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanDeleteBan.Responses.$200 | Paths.BanDeleteBan.Responses.$422>
+  ): OperationResponse<Paths.BanDeleteBan.Responses.$200>
   /**
    * ban_getLogs - Get Logs
    */
@@ -7740,15 +8957,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.BanGetLogs.PathParameters & Paths.BanGetLogs.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
-  /**
-   * ban_test - Test
-   */
-  'ban_test'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.BanTest.Responses.$200>
+  ): OperationResponse<Paths.BanGetLogs.Responses.$200>
   /**
    * warning_getWarnings - Get Warnings
    */
@@ -7756,7 +8965,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.WarningGetWarnings.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningGetWarnings.Responses.$200 | Paths.WarningGetWarnings.Responses.$422>
+  ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
   /**
    * warning_addWarning - Add Warning
    */
@@ -7764,7 +8973,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.WarningAddWarning.QueryParameters> | null,
     data?: Paths.WarningAddWarning.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
+  ): OperationResponse<Paths.WarningAddWarning.Responses.$200>
   /**
    * warning_getWarningConfig - Get Warning Config
    */
@@ -7772,7 +8981,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.WarningGetWarningConfig.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200 | Paths.WarningGetWarningConfig.Responses.$422>
+  ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>
   /**
    * warning_updateWarningConfig - Update Warning Config
    */
@@ -7780,7 +8989,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.WarningUpdateWarningConfig.QueryParameters> | null,
     data?: Paths.WarningUpdateWarningConfig.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>
+  ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200>
   /**
    * warning_toggleWarningStatus - Toggle Warning Status
    */
@@ -7788,7 +8997,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters & Paths.WarningToggleWarningStatus.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>
+  ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200>
   /**
    * warning_deleteWarning - Delete Warning
    */
@@ -7796,7 +9005,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters & Paths.WarningDeleteWarning.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>
+  ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200>
   /**
    * shop_getGateways - Get Gateways
    */
@@ -7804,7 +9013,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetGateways.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetGateways.Responses.$200 | Paths.ShopGetGateways.Responses.$422>
+  ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
   /**
    * shop_createGateway - Create Gateway
    */
@@ -7812,7 +9021,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopCreateGateway.QueryParameters> | null,
     data?: Paths.ShopCreateGateway.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>
+  ): OperationResponse<Paths.ShopCreateGateway.Responses.$200>
   /**
    * shop_editGateway - Edit Gateway
    */
@@ -7820,7 +9029,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopEditGateway.PathParameters & Paths.ShopEditGateway.QueryParameters> | null,
     data?: Paths.ShopEditGateway.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
+  ): OperationResponse<Paths.ShopEditGateway.Responses.$200>
   /**
    * shop_deleteGateway - Delete Gateway
    */
@@ -7828,7 +9037,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters & Paths.ShopDeleteGateway.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
+  ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200>
   /**
    * shop_getDiscounts - Get Discounts
    */
@@ -7836,7 +9045,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetDiscounts.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200 | Paths.ShopGetDiscounts.Responses.$422>
+  ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>
   /**
    * shop_createDiscount - Create Discount
    */
@@ -7844,7 +9053,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopCreateDiscount.QueryParameters> | null,
     data?: Paths.ShopCreateDiscount.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>
+  ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200>
   /**
    * shop_getDiscount - Get Discount
    * 
@@ -7854,7 +9063,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetDiscount.PathParameters & Paths.ShopGetDiscount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
+  ): OperationResponse<Paths.ShopGetDiscount.Responses.$200>
   /**
    * shop_editDiscount - Edit Discount
    */
@@ -7862,7 +9071,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopEditDiscount.PathParameters & Paths.ShopEditDiscount.QueryParameters> | null,
     data?: Paths.ShopEditDiscount.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>
+  ): OperationResponse<Paths.ShopEditDiscount.Responses.$200>
   /**
    * shop_deleteDiscount - Delete Discount
    */
@@ -7870,7 +9079,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters & Paths.ShopDeleteDiscount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>
+  ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200>
   /**
    * shop_getPackets - Get Packets
    * 
@@ -7880,7 +9089,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetPackets.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetPackets.Responses.$200 | Paths.ShopGetPackets.Responses.$422>
+  ): OperationResponse<Paths.ShopGetPackets.Responses.$200>
   /**
    * shop_getCart - Get Cart
    * 
@@ -7890,7 +9099,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetCart.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCart.Responses.$200 | Paths.ShopGetCart.Responses.$422>
+  ): OperationResponse<Paths.ShopGetCart.Responses.$200>
   /**
    * shop_addPacketToCart - Add Packet To Cart
    */
@@ -7898,7 +9107,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopAddPacketToCart.QueryParameters> | null,
     data?: Paths.ShopAddPacketToCart.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200 | Paths.ShopAddPacketToCart.Responses.$422>
+  ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200>
   /**
    * shop_removePacketsFromCart - Remove Packets From Cart
    */
@@ -7906,7 +9115,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopRemovePacketsFromCart.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200 | Paths.ShopRemovePacketsFromCart.Responses.$422>
+  ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>
   /**
    * shop_getCartPackets - Get Cart Packets
    */
@@ -7914,7 +9123,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetCartPackets.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200 | Paths.ShopGetCartPackets.Responses.$422>
+  ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>
   /**
    * shop_removePacketFromCart - Remove Packet From Cart
    */
@@ -7922,7 +9131,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopRemovePacketFromCart.PathParameters & Paths.ShopRemovePacketFromCart.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200 | Paths.ShopRemovePacketFromCart.Responses.$422>
+  ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200>
   /**
    * shop_applyDiscount - Apply Discount
    */
@@ -7930,7 +9139,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopApplyDiscount.PathParameters & Paths.ShopApplyDiscount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200 | Paths.ShopApplyDiscount.Responses.$422>
+  ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200>
   /**
    * shop_removeDiscount - Remove Discount
    */
@@ -7938,7 +9147,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopRemoveDiscount.PathParameters & Paths.ShopRemoveDiscount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200 | Paths.ShopRemoveDiscount.Responses.$422>
+  ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200>
   /**
    * shop_startCheckout - Start Checkout
    */
@@ -7946,7 +9155,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopStartCheckout.QueryParameters> | null,
     data?: Paths.ShopStartCheckout.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopStartCheckout.Responses.$200 | Paths.ShopStartCheckout.Responses.$422>
+  ): OperationResponse<Paths.ShopStartCheckout.Responses.$200>
   /**
    * shop_startPayment - Start Payment
    */
@@ -7954,7 +9163,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopStartPayment.QueryParameters> | null,
     data?: Paths.ShopStartPayment.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopStartPayment.Responses.$200 | Paths.ShopStartPayment.Responses.$422>
+  ): OperationResponse<Paths.ShopStartPayment.Responses.$200>
   /**
    * shop_checkPayment - Check Payment
    */
@@ -7962,7 +9171,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopCheckPayment.PathParameters & Paths.ShopCheckPayment.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>
+  ): OperationResponse<Paths.ShopCheckPayment.Responses.$200>
   /**
    * shop_finishPayment - Finish Payment
    * 
@@ -7972,7 +9181,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopFinishPayment.PathParameters & Paths.ShopFinishPayment.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>
+  ): OperationResponse<Paths.ShopFinishPayment.Responses.$200>
   /**
    * shop_cancelPayment - Cancel Payment
    */
@@ -7980,7 +9189,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopCancelPayment.PathParameters & Paths.ShopCancelPayment.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>
+  ): OperationResponse<Paths.ShopCancelPayment.Responses.$200>
   /**
    * shop_getPurchases - Get Purchases
    */
@@ -7988,7 +9197,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetPurchases.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetPurchases.Responses.$200 | Paths.ShopGetPurchases.Responses.$422>
+  ): OperationResponse<Paths.ShopGetPurchases.Responses.$200>
   /**
    * shop_getAvailablePurchaseStatus - Get Available Purchase Status
    */
@@ -8004,7 +9213,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters & Paths.ShopGetPurchaseGateways.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
+  ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200>
   /**
    * shop_editPurchase - Edit Purchase
    */
@@ -8012,7 +9221,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopEditPurchase.PathParameters & Paths.ShopEditPurchase.QueryParameters> | null,
     data?: Paths.ShopEditPurchase.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>
+  ): OperationResponse<Paths.ShopEditPurchase.Responses.$200>
   /**
    * shop_getDebitInvoice - Get Debit Invoice
    */
@@ -8020,7 +9229,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters & Paths.ShopGetDebitInvoice.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
+  ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200>
   /**
    * shop_getCurrencies - Get Currencies
    * 
@@ -8030,7 +9239,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetCurrencies.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200 | Paths.ShopGetCurrencies.Responses.$422>
+  ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>
   /**
    * shop_getDebitStatistic - Get Debit Statistic
    */
@@ -8038,7 +9247,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetDebitStatistic.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200 | Paths.ShopGetDebitStatistic.Responses.$422>
+  ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200>
   /**
    * shop_getPurchaseStatistic - Get Purchase Statistic
    */
@@ -8046,7 +9255,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetPurchaseStatistic.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200 | Paths.ShopGetPurchaseStatistic.Responses.$422>
+  ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200>
   /**
    * shop_getTaxRules - Get Tax Rules
    */
@@ -8054,7 +9263,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetTaxRules.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200 | Paths.ShopGetTaxRules.Responses.$422>
+  ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>
   /**
    * shop_createTaxRule - Create Tax Rule
    */
@@ -8062,7 +9271,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopCreateTaxRule.QueryParameters> | null,
     data?: Paths.ShopCreateTaxRule.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>
+  ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200>
   /**
    * shop_deleteTaxRule - Delete Tax Rule
    */
@@ -8070,7 +9279,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters & Paths.ShopDeleteTaxRule.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
+  ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200>
   /**
    * shop_getGeneralConfig - Get General Config
    */
@@ -8086,7 +9295,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopEditGeneralConfig.QueryParameters> | null,
     data?: Paths.ShopEditGeneralConfig.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
+  ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200>
   /**
    * shop_getDonationGoal - Get Donation Goal
    */
@@ -8102,7 +9311,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopGetBusinessAddress.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200 | Paths.ShopGetBusinessAddress.Responses.$422>
+  ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>
   /**
    * shop_changeBusinessAddress - Change Business Address
    */
@@ -8110,7 +9319,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ShopChangeBusinessAddress.QueryParameters> | null,
     data?: Paths.ShopChangeBusinessAddress.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>
+  ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200>
   /**
    * packet_getRewards - Get Rewards
    */
@@ -8118,7 +9327,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
+  ): OperationResponse<Paths.PacketGetRewards.Responses.$200>
   /**
    * packet_addReward - Add Reward
    */
@@ -8126,7 +9335,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketAddReward.QueryParameters> | null,
     data?: Paths.PacketAddReward.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
+  ): OperationResponse<Paths.PacketAddReward.Responses.$200>
   /**
    * packet_editReward - Edit Reward
    */
@@ -8134,7 +9343,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketEditReward.PathParameters & Paths.PacketEditReward.QueryParameters> | null,
     data?: Paths.PacketEditReward.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
+  ): OperationResponse<Paths.PacketEditReward.Responses.$200>
   /**
    * packet_deleteReward - Delete Reward
    */
@@ -8142,7 +9351,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketDeleteReward.PathParameters & Paths.PacketDeleteReward.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
+  ): OperationResponse<Paths.PacketDeleteReward.Responses.$200>
   /**
    * packet_getAppliedRewards - Get Applied Rewards
    */
@@ -8150,7 +9359,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketGetAppliedRewards.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetAppliedRewards.Responses.$200 | Paths.PacketGetAppliedRewards.Responses.$422>
+  ): OperationResponse<Paths.PacketGetAppliedRewards.Responses.$200>
   /**
    * packet_getAppliedRewardsByUser - Get Applied Rewards By User
    * 
@@ -8160,7 +9369,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketGetAppliedRewardsByUser.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetAppliedRewardsByUser.Responses.$200 | Paths.PacketGetAppliedRewardsByUser.Responses.$422>
+  ): OperationResponse<Paths.PacketGetAppliedRewardsByUser.Responses.$200>
   /**
    * packet_editAppliedReward - Edit Applied Reward
    */
@@ -8168,7 +9377,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketEditAppliedReward.PathParameters & Paths.PacketEditAppliedReward.QueryParameters> | null,
     data?: Paths.PacketEditAppliedReward.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200 | Paths.PacketEditAppliedReward.Responses.$422>
+  ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200>
   /**
    * packet_getCategories - Get Categories
    */
@@ -8184,7 +9393,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketCreateCategory.QueryParameters> | null,
     data?: Paths.PacketCreateCategory.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>
+  ): OperationResponse<Paths.PacketCreateCategory.Responses.$200>
   /**
    * packet_editCategory - Edit Category
    */
@@ -8192,7 +9401,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketEditCategory.PathParameters & Paths.PacketEditCategory.QueryParameters> | null,
     data?: Paths.PacketEditCategory.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>
+  ): OperationResponse<Paths.PacketEditCategory.Responses.$200>
   /**
    * packet_deleteCategory - Delete Category
    */
@@ -8200,7 +9409,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters & Paths.PacketDeleteCategory.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>
+  ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200>
   /**
    * packet_getPackets - Get Packets
    */
@@ -8208,7 +9417,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketGetPackets.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetPackets.Responses.$200 | Paths.PacketGetPackets.Responses.$422>
+  ): OperationResponse<Paths.PacketGetPackets.Responses.$200>
   /**
    * packet_addPacket - Add Packet
    */
@@ -8216,7 +9425,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketAddPacket.QueryParameters> | null,
     data?: Paths.PacketAddPacket.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketAddPacket.Responses.$200 | Paths.PacketAddPacket.Responses.$422>
+  ): OperationResponse<Paths.PacketAddPacket.Responses.$200>
   /**
    * packet_editPacket - Edit Packet
    */
@@ -8224,7 +9433,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketEditPacket.PathParameters & Paths.PacketEditPacket.QueryParameters> | null,
     data?: Paths.PacketEditPacket.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>
+  ): OperationResponse<Paths.PacketEditPacket.Responses.$200>
   /**
    * packet_deletePacket - Delete Packet
    */
@@ -8232,7 +9441,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketDeletePacket.PathParameters & Paths.PacketDeletePacket.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>
+  ): OperationResponse<Paths.PacketDeletePacket.Responses.$200>
   /**
    * packet_getAppliedPackets - Get Applied Packets
    */
@@ -8240,7 +9449,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketGetAppliedPackets.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200 | Paths.PacketGetAppliedPackets.Responses.$422>
+  ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
   /**
    * packet_getAvailablePacketStatus - Get Available Packet Status
    */
@@ -8256,7 +9465,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters & Paths.PacketEditAppliedPacket.QueryParameters> | null,
     data?: Paths.PacketEditAppliedPacket.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
+  ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200>
   /**
    * packet_deleteAppliedPacket - Delete Applied Packet
    */
@@ -8264,7 +9473,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters & Paths.PacketDeleteAppliedPacket.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
+  ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200>
   /**
    * news_getMessages - Get Messages
    */
@@ -8272,7 +9481,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.NewsGetMessages.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsGetMessages.Responses.$200 | Paths.NewsGetMessages.Responses.$422>
+  ): OperationResponse<Paths.NewsGetMessages.Responses.$200>
   /**
    * news_addMessage - Add Message
    */
@@ -8280,7 +9489,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.NewsAddMessage.QueryParameters> | null,
     data?: Paths.NewsAddMessage.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>
+  ): OperationResponse<Paths.NewsAddMessage.Responses.$200>
   /**
    * news_editMessage - Edit Message
    */
@@ -8288,7 +9497,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.NewsEditMessage.PathParameters & Paths.NewsEditMessage.QueryParameters> | null,
     data?: Paths.NewsEditMessage.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
+  ): OperationResponse<Paths.NewsEditMessage.Responses.$200>
   /**
    * news_deleteMessage - Delete Message
    */
@@ -8296,7 +9505,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters & Paths.NewsDeleteMessage.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
+  ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200>
   /**
    * requirements_getRequirementTypes - Get Requirement Types
    */
@@ -8320,7 +9529,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.RequirementsCreateRequirementSet.QueryParameters> | null,
     data?: Paths.RequirementsCreateRequirementSet.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>
+  ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200>
   /**
    * requirements_getRequirementSet - Get Requirement Set
    */
@@ -8328,7 +9537,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.RequirementsGetRequirementSet.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsGetRequirementSet.Responses.$200 | Paths.RequirementsGetRequirementSet.Responses.$422>
+  ): OperationResponse<Paths.RequirementsGetRequirementSet.Responses.$200>
   /**
    * requirements_editRequirementSet - Edit Requirement Set
    */
@@ -8336,7 +9545,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters & Paths.RequirementsEditRequirementSet.QueryParameters> | null,
     data?: Paths.RequirementsEditRequirementSet.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
+  ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200>
   /**
    * requirements_deleteRequirementSet - Delete Requirement Set
    */
@@ -8344,7 +9553,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.RequirementsDeleteRequirementSet.PathParameters & Paths.RequirementsDeleteRequirementSet.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsDeleteRequirementSet.Responses.$200 | Paths.RequirementsDeleteRequirementSet.Responses.$422>
+  ): OperationResponse<Paths.RequirementsDeleteRequirementSet.Responses.$200>
   /**
    * requirements_getRequirements - Get Requirements
    */
@@ -8360,7 +9569,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.RequirementsCreateRequirement.QueryParameters> | null,
     data?: Paths.RequirementsCreateRequirement.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
+  ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200>
   /**
    * requirements_deleteRequirement - Delete Requirement
    */
@@ -8368,7 +9577,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.RequirementsDeleteRequirement.PathParameters & Paths.RequirementsDeleteRequirement.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.RequirementsDeleteRequirement.Responses.$200 | Paths.RequirementsDeleteRequirement.Responses.$422>
+  ): OperationResponse<Paths.RequirementsDeleteRequirement.Responses.$200>
   /**
    * finance_getAccount - Get Account
    */
@@ -8376,7 +9585,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.FinanceGetAccount.PathParameters & Paths.FinanceGetAccount.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
+  ): OperationResponse<Paths.FinanceGetAccount.Responses.$200>
   /**
    * notification_getStream - Get Stream
    */
@@ -8384,7 +9593,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.NotificationGetStream.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationGetStream.Responses.$200 | Paths.NotificationGetStream.Responses.$422>
+  ): OperationResponse<Paths.NotificationGetStream.Responses.$200>
   /**
    * notification_getNotifications - Get Notifications
    */
@@ -8392,7 +9601,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.NotificationGetNotifications.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200 | Paths.NotificationGetNotifications.Responses.$422>
+  ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200>
   /**
    * notification_markAsRead - Mark As Read
    */
@@ -8400,7 +9609,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.NotificationMarkAsRead.QueryParameters> | null,
     data?: Paths.NotificationMarkAsRead.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>
+  ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200>
   /**
    * notification_getCategories - Get Categories
    */
@@ -8416,7 +9625,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.LogGetLog.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.LogGetLog.Responses.$200 | Paths.LogGetLog.Responses.$422>
+  ): OperationResponse<Paths.LogGetLog.Responses.$200>
   /**
    * log_getCategories - Get Categories
    */
@@ -8432,7 +9641,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.WebhookStripeEvent.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>
+  ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200>
   /**
    * forum_getThreads - Get Threads
    */
@@ -8448,7 +9657,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ForumNewThread.QueryParameters> | null,
     data?: Paths.ForumNewThread.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ForumNewThread.Responses.$200 | Paths.ForumNewThread.Responses.$422>
+  ): OperationResponse<Paths.ForumNewThread.Responses.$200>
   /**
    * forum_getTickets - Get Tickets
    */
@@ -8456,7 +9665,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ForumGetTickets.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ForumGetTickets.Responses.$200 | Paths.ForumGetTickets.Responses.$422>
+  ): OperationResponse<Paths.ForumGetTickets.Responses.$200>
   /**
    * forum_getThread - Get Thread
    */
@@ -8464,7 +9673,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ForumGetThread.PathParameters & Paths.ForumGetThread.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ForumGetThread.Responses.$200 | Paths.ForumGetThread.Responses.$422>
+  ): OperationResponse<Paths.ForumGetThread.Responses.$200>
   /**
    * forum_toggleStatus - Toggle Status
    */
@@ -8472,7 +9681,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ForumToggleStatus.PathParameters & Paths.ForumToggleStatus.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ForumToggleStatus.Responses.$200 | Paths.ForumToggleStatus.Responses.$422>
+  ): OperationResponse<Paths.ForumToggleStatus.Responses.$200>
   /**
    * forum_getThreadPosts - Get Thread Posts
    */
@@ -8480,7 +9689,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ForumGetThreadPosts.PathParameters & Paths.ForumGetThreadPosts.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ForumGetThreadPosts.Responses.$200 | Paths.ForumGetThreadPosts.Responses.$422>
+  ): OperationResponse<Paths.ForumGetThreadPosts.Responses.$200>
   /**
    * forum_newPost - New Post
    */
@@ -8488,7 +9697,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.ForumNewPost.PathParameters & Paths.ForumNewPost.QueryParameters> | null,
     data?: Paths.ForumNewPost.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ForumNewPost.Responses.$200 | Paths.ForumNewPost.Responses.$422>
+  ): OperationResponse<Paths.ForumNewPost.Responses.$200>
   /**
    * discord_getGuild - Get Guild
    */
@@ -8520,7 +9729,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DiscordAddRelation.QueryParameters> | null,
     data?: Paths.DiscordAddRelation.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DiscordAddRelation.Responses.$200 | Paths.DiscordAddRelation.Responses.$422>
+  ): OperationResponse<Paths.DiscordAddRelation.Responses.$200>
   /**
    * discord_deleteRelation - Delete Relation
    */
@@ -8528,7 +9737,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.DiscordDeleteRelation.PathParameters & Paths.DiscordDeleteRelation.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200 | Paths.DiscordDeleteRelation.Responses.$422>
+  ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200>
   /**
    * payment_gateway_getNotification - Get Notification
    */
@@ -8536,7 +9745,7 @@ export interface OperationMethods {
     parameters?: Parameters<Paths.PaymentGatewayGetNotification.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PaymentGatewayGetNotification.Responses.$200 | Paths.PaymentGatewayGetNotification.Responses.$422>
+  ): OperationResponse<Paths.PaymentGatewayGetNotification.Responses.$200>
 }
 
 export interface PathsDictionary {
@@ -8556,7 +9765,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignUpdateNavItems.QueryParameters> | null,
       data?: Paths.DesignUpdateNavItems.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200 | Paths.DesignUpdateNavItems.Responses.$422>
+    ): OperationResponse<Paths.DesignUpdateNavItems.Responses.$200>
   }
   ['/design/html']: {
     /**
@@ -8566,7 +9775,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignCreateCmsHtml.QueryParameters> | null,
       data?: Paths.DesignCreateCmsHtml.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200 | Paths.DesignCreateCmsHtml.Responses.$422>
+    ): OperationResponse<Paths.DesignCreateCmsHtml.Responses.$200>
   }
   ['/design/html/{uuid}']: {
     /**
@@ -8576,7 +9785,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignGetCmsHtml.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200 | Paths.DesignGetCmsHtml.Responses.$422>
+    ): OperationResponse<Paths.DesignGetCmsHtml.Responses.$200>
     /**
      * design_deleteCmsHtml - Delete Cms Html
      */
@@ -8584,7 +9793,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignDeleteCmsHtml.PathParameters & Paths.DesignDeleteCmsHtml.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200 | Paths.DesignDeleteCmsHtml.Responses.$422>
+    ): OperationResponse<Paths.DesignDeleteCmsHtml.Responses.$200>
     /**
      * design_updateCmsHtml - Update Cms Html
      */
@@ -8592,7 +9801,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignUpdateCmsHtml.PathParameters & Paths.DesignUpdateCmsHtml.QueryParameters> | null,
       data?: Paths.DesignUpdateCmsHtml.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200 | Paths.DesignUpdateCmsHtml.Responses.$422>
+    ): OperationResponse<Paths.DesignUpdateCmsHtml.Responses.$200>
   }
   ['/design/theme']: {
     /**
@@ -8610,7 +9819,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignUpdateTheme.QueryParameters> | null,
       data?: Paths.DesignUpdateTheme.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200 | Paths.DesignUpdateTheme.Responses.$422>
+    ): OperationResponse<Paths.DesignUpdateTheme.Responses.$200>
   }
   ['/design/icons']: {
     /**
@@ -8620,7 +9829,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignGetIcons.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetIcons.Responses.$200 | Paths.DesignGetIcons.Responses.$422>
+    ): OperationResponse<Paths.DesignGetIcons.Responses.$200>
   }
   ['/design/general-settings']: {
     /**
@@ -8638,7 +9847,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignEditGeneralSettings.QueryParameters> | null,
       data?: Paths.DesignEditGeneralSettings.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200 | Paths.DesignEditGeneralSettings.Responses.$422>
+    ): OperationResponse<Paths.DesignEditGeneralSettings.Responses.$200>
   }
   ['/design/legal']: {
     /**
@@ -8656,7 +9865,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DesignUpdateLegal.QueryParameters> | null,
       data?: Paths.DesignUpdateLegal.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignUpdateLegal.Responses.$200 | Paths.DesignUpdateLegal.Responses.$422>
+    ): OperationResponse<Paths.DesignUpdateLegal.Responses.$200>
   }
   ['/auth/token']: {
     /**
@@ -8686,7 +9895,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.AuthPrepare.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthPrepare.Responses.$200 | Paths.AuthPrepare.Responses.$422>
+    ): OperationResponse<Paths.AuthPrepare.Responses.$200>
   }
   ['/auth/social/{backend}/start']: {
     /**
@@ -8696,7 +9905,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.AuthStart.PathParameters & Paths.AuthStart.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthStart.Responses.$200 | Paths.AuthStart.Responses.$422>
+    ): OperationResponse<Paths.AuthStart.Responses.$200>
   }
   ['/auth/social/{backend}/finish']: {
     /**
@@ -8706,7 +9915,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
+    ): OperationResponse<Paths.AuthFinish.Responses.$200>
     /**
      * auth_finish - Finish
      */
@@ -8714,7 +9923,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.AuthFinish.PathParameters & Paths.AuthFinish.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthFinish.Responses.$200 | Paths.AuthFinish.Responses.$422>
+    ): OperationResponse<Paths.AuthFinish.Responses.$200>
   }
   ['/user/current']: {
     /**
@@ -8724,7 +9933,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetCurrentUser.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200 | Paths.UserGetCurrentUser.Responses.$422>
+    ): OperationResponse<Paths.UserGetCurrentUser.Responses.$200>
   }
   ['/user/{identifier}']: {
     /**
@@ -8734,7 +9943,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetData.PathParameters & Paths.UserGetData.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetData.Responses.$200 | Paths.UserGetData.Responses.$422>
+    ): OperationResponse<Paths.UserGetData.Responses.$200>
   }
   ['/user/']: {
     /**
@@ -8744,7 +9953,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetUsers.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetUsers.Responses.$200 | Paths.UserGetUsers.Responses.$422>
+    ): OperationResponse<Paths.UserGetUsers.Responses.$200>
     /**
      * user_createUser - Create User
      */
@@ -8752,7 +9961,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserCreateUser.QueryParameters> | null,
       data?: Paths.UserCreateUser.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserCreateUser.Responses.$200 | Paths.UserCreateUser.Responses.$422>
+    ): OperationResponse<Paths.UserCreateUser.Responses.$200>
   }
   ['/user/{uuid}/attribute/{definition_id}']: {
     /**
@@ -8762,7 +9971,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetAttributeHistory.PathParameters & Paths.UserGetAttributeHistory.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200 | Paths.UserGetAttributeHistory.Responses.$422>
+    ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200>
   }
   ['/user/attribute/definition']: {
     /**
@@ -8772,7 +9981,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetAttributeDefinitions.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200 | Paths.UserGetAttributeDefinitions.Responses.$422>
+    ): OperationResponse<Paths.UserGetAttributeDefinitions.Responses.$200>
     /**
      * user_createAttributeDefinition - Create Attribute Definition
      */
@@ -8780,7 +9989,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserCreateAttributeDefinition.QueryParameters> | null,
       data?: Paths.UserCreateAttributeDefinition.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserCreateAttributeDefinition.Responses.$200 | Paths.UserCreateAttributeDefinition.Responses.$422>
+    ): OperationResponse<Paths.UserCreateAttributeDefinition.Responses.$200>
   }
   ['/user/attribute/definition/{uuid_or_name}']: {
     /**
@@ -8790,7 +9999,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetAttributeDefinition.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAttributeDefinition.Responses.$200 | Paths.UserGetAttributeDefinition.Responses.$422>
+    ): OperationResponse<Paths.UserGetAttributeDefinition.Responses.$200>
   }
   ['/user/attribute/definition/{uuid}']: {
     /**
@@ -8800,7 +10009,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserDeleteAttributeDefinition.PathParameters & Paths.UserDeleteAttributeDefinition.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserDeleteAttributeDefinition.Responses.$200 | Paths.UserDeleteAttributeDefinition.Responses.$422>
+    ): OperationResponse<Paths.UserDeleteAttributeDefinition.Responses.$200>
     /**
      * user_editAttributeDefinition - Edit Attribute Definition
      */
@@ -8808,7 +10017,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserEditAttributeDefinition.PathParameters & Paths.UserEditAttributeDefinition.QueryParameters> | null,
       data?: Paths.UserEditAttributeDefinition.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserEditAttributeDefinition.Responses.$200 | Paths.UserEditAttributeDefinition.Responses.$422>
+    ): OperationResponse<Paths.UserEditAttributeDefinition.Responses.$200>
   }
   ['/user/attribute/']: {
     /**
@@ -8818,7 +10027,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserCreateAttribute.QueryParameters> | null,
       data?: Paths.UserCreateAttribute.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserCreateAttribute.Responses.$200 | Paths.UserCreateAttribute.Responses.$422>
+    ): OperationResponse<Paths.UserCreateAttribute.Responses.$200>
   }
   ['/user/attribute/{uuid}']: {
     /**
@@ -8828,7 +10037,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserDeleteAttribute.PathParameters & Paths.UserDeleteAttribute.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserDeleteAttribute.Responses.$200 | Paths.UserDeleteAttribute.Responses.$422>
+    ): OperationResponse<Paths.UserDeleteAttribute.Responses.$200>
   }
   ['/user/{uuid}/membership']: {
     /**
@@ -8840,7 +10049,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetMemberships.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetMemberships.Responses.$200 | Paths.UserGetMemberships.Responses.$422>
+    ): OperationResponse<Paths.UserGetMemberships.Responses.$200>
     /**
      * user_addMembership - Add Membership
      */
@@ -8848,7 +10057,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserAddMembership.PathParameters & Paths.UserAddMembership.QueryParameters> | null,
       data?: Paths.UserAddMembership.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserAddMembership.Responses.$200 | Paths.UserAddMembership.Responses.$422>
+    ): OperationResponse<Paths.UserAddMembership.Responses.$200>
     /**
      * user_endActiveMemberships - End Active Memberships
      * 
@@ -8858,7 +10067,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserEndActiveMemberships.PathParameters & Paths.UserEndActiveMemberships.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserEndActiveMemberships.Responses.$200 | Paths.UserEndActiveMemberships.Responses.$422>
+    ): OperationResponse<Paths.UserEndActiveMemberships.Responses.$200>
   }
   ['/user/membership/{uuid}']: {
     /**
@@ -8868,7 +10077,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserEndMembership.PathParameters & Paths.UserEndMembership.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserEndMembership.Responses.$200 | Paths.UserEndMembership.Responses.$422>
+    ): OperationResponse<Paths.UserEndMembership.Responses.$200>
     /**
      * user_editMembership - Edit Membership
      */
@@ -8876,7 +10085,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserEditMembership.PathParameters & Paths.UserEditMembership.QueryParameters> | null,
       data?: Paths.UserEditMembership.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserEditMembership.Responses.$200 | Paths.UserEditMembership.Responses.$422>
+    ): OperationResponse<Paths.UserEditMembership.Responses.$200>
   }
   ['/user/{uuid}/group']: {
     /**
@@ -8888,7 +10097,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetActiveGroups.PathParameters & Paths.UserGetActiveGroups.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200 | Paths.UserGetActiveGroups.Responses.$422>
+    ): OperationResponse<Paths.UserGetActiveGroups.Responses.$200>
   }
   ['/user/{uuid}/packet']: {
     /**
@@ -8900,7 +10109,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetPackets.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetPackets.Responses.$200 | Paths.UserGetPackets.Responses.$422>
+    ): OperationResponse<Paths.UserGetPackets.Responses.$200>
   }
   ['/user/{uuid}/property']: {
     /**
@@ -8912,7 +10121,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetCurrentProperties.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200 | Paths.UserGetCurrentProperties.Responses.$422>
+    ): OperationResponse<Paths.UserGetCurrentProperties.Responses.$200>
   }
   ['/user/property/']: {
     /**
@@ -8934,7 +10143,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetPurchases.PathParameters & Paths.UserGetPurchases.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetPurchases.Responses.$200 | Paths.UserGetPurchases.Responses.$422>
+    ): OperationResponse<Paths.UserGetPurchases.Responses.$200>
   }
   ['/user/address/{uuid}']: {
     /**
@@ -8944,7 +10153,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetAddress.PathParameters & Paths.UserGetAddress.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAddress.Responses.$200 | Paths.UserGetAddress.Responses.$422>
+    ): OperationResponse<Paths.UserGetAddress.Responses.$200>
   }
   ['/user/address']: {
     /**
@@ -8954,7 +10163,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserAddAddress.QueryParameters> | null,
       data?: Paths.UserAddAddress.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserAddAddress.Responses.$200 | Paths.UserAddAddress.Responses.$422>
+    ): OperationResponse<Paths.UserAddAddress.Responses.$200>
   }
   ['/user/{uuid}/address']: {
     /**
@@ -8964,7 +10173,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserGetAddresses.PathParameters & Paths.UserGetAddresses.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserGetAddresses.Responses.$200 | Paths.UserGetAddresses.Responses.$422>
+    ): OperationResponse<Paths.UserGetAddresses.Responses.$200>
   }
   ['/user/{uuid}/ban']: {
     /**
@@ -8976,7 +10185,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.UserUnbanActiveBans.PathParameters & Paths.UserUnbanActiveBans.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.UserUnbanActiveBans.Responses.$200 | Paths.UserUnbanActiveBans.Responses.$422>
+    ): OperationResponse<Paths.UserUnbanActiveBans.Responses.$200>
   }
   ['/server/bundle/']: {
     /**
@@ -8986,7 +10195,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerGetBundles.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetBundles.Responses.$200 | Paths.ServerGetBundles.Responses.$422>
+    ): OperationResponse<Paths.ServerGetBundles.Responses.$200>
     /**
      * server_addBundle - Add Bundle
      */
@@ -8994,7 +10203,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerAddBundle.QueryParameters> | null,
       data?: Paths.ServerAddBundle.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerAddBundle.Responses.$200 | Paths.ServerAddBundle.Responses.$422>
+    ): OperationResponse<Paths.ServerAddBundle.Responses.$200>
   }
   ['/server/bundle/{uuid}']: {
     /**
@@ -9004,7 +10213,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerGetBundle.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetBundle.Responses.$200 | Paths.ServerGetBundle.Responses.$422>
+    ): OperationResponse<Paths.ServerGetBundle.Responses.$200>
     /**
      * server_deleteBundle - Delete Bundle
      */
@@ -9012,7 +10221,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerDeleteBundle.PathParameters & Paths.ServerDeleteBundle.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200 | Paths.ServerDeleteBundle.Responses.$422>
+    ): OperationResponse<Paths.ServerDeleteBundle.Responses.$200>
     /**
      * server_editBundle - Edit Bundle
      */
@@ -9020,7 +10229,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerEditBundle.PathParameters & Paths.ServerEditBundle.QueryParameters> | null,
       data?: Paths.ServerEditBundle.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerEditBundle.Responses.$200 | Paths.ServerEditBundle.Responses.$422>
+    ): OperationResponse<Paths.ServerEditBundle.Responses.$200>
   }
   ['/server/bundle/{uuid}/group']: {
     /**
@@ -9030,7 +10239,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerGetGroups.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetGroups.Responses.$200 | Paths.ServerGetGroups.Responses.$422>
+    ): OperationResponse<Paths.ServerGetGroups.Responses.$200>
   }
   ['/server/bundle/{uuid}/server']: {
     /**
@@ -9040,7 +10249,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerGetServerByBundle.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetServerByBundle.Responses.$200 | Paths.ServerGetServerByBundle.Responses.$422>
+    ): OperationResponse<Paths.ServerGetServerByBundle.Responses.$200>
   }
   ['/server/bundle/{uuid}/ban']: {
     /**
@@ -9052,7 +10261,19 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerGetBans.PathParameters & Paths.ServerGetBans.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetBans.Responses.$200 | Paths.ServerGetBans.Responses.$422>
+    ): OperationResponse<Paths.ServerGetBans.Responses.$200>
+  }
+  ['/server/bundle/{uuid}/warning']: {
+    /**
+     * server_getWarnings - Get Warnings
+     * 
+     * Returns a dict of all warnings in the bundle by user identifier.
+     */
+    'get'(
+      parameters?: Parameters<Paths.ServerGetWarnings.PathParameters & Paths.ServerGetWarnings.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ServerGetWarnings.Responses.$200>
   }
   ['/server/bundle/{uuid}/token']: {
     /**
@@ -9062,7 +10283,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerGetBundleTokens.PathParameters & Paths.ServerGetBundleTokens.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetBundleTokens.Responses.$200 | Paths.ServerGetBundleTokens.Responses.$422>
+    ): OperationResponse<Paths.ServerGetBundleTokens.Responses.$200>
     /**
      * server_createBundleToken - Create Bundle Token
      */
@@ -9070,7 +10291,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerCreateBundleToken.PathParameters & Paths.ServerCreateBundleToken.QueryParameters> | null,
       data?: Paths.ServerCreateBundleToken.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerCreateBundleToken.Responses.$200 | Paths.ServerCreateBundleToken.Responses.$422>
+    ): OperationResponse<Paths.ServerCreateBundleToken.Responses.$200>
   }
   ['/server/bundle/{uuid}/token/{token_id}']: {
     /**
@@ -9080,7 +10301,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerRevokeBundleToken.PathParameters & Paths.ServerRevokeBundleToken.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerRevokeBundleToken.Responses.$200 | Paths.ServerRevokeBundleToken.Responses.$422>
+    ): OperationResponse<Paths.ServerRevokeBundleToken.Responses.$200>
   }
   ['/server/type']: {
     /**
@@ -9100,7 +10321,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerGetServers.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetServers.Responses.$200 | Paths.ServerGetServers.Responses.$422>
+    ): OperationResponse<Paths.ServerGetServers.Responses.$200>
     /**
      * server_createServer - Create Server
      */
@@ -9108,7 +10329,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerCreateServer.QueryParameters> | null,
       data?: Paths.ServerCreateServer.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerCreateServer.Responses.$200 | Paths.ServerCreateServer.Responses.$422>
+    ): OperationResponse<Paths.ServerCreateServer.Responses.$200>
   }
   ['/server/{uuid}']: {
     /**
@@ -9118,7 +10339,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerGetServer.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerGetServer.Responses.$200 | Paths.ServerGetServer.Responses.$422>
+    ): OperationResponse<Paths.ServerGetServer.Responses.$200>
     /**
      * server_deleteServer - Delete Server
      */
@@ -9126,7 +10347,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerDeleteServer.PathParameters & Paths.ServerDeleteServer.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerDeleteServer.Responses.$200 | Paths.ServerDeleteServer.Responses.$422>
+    ): OperationResponse<Paths.ServerDeleteServer.Responses.$200>
     /**
      * server_editServer - Edit Server
      */
@@ -9134,7 +10355,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ServerEditServer.PathParameters & Paths.ServerEditServer.QueryParameters> | null,
       data?: Paths.ServerEditServer.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ServerEditServer.Responses.$200 | Paths.ServerEditServer.Responses.$422>
+    ): OperationResponse<Paths.ServerEditServer.Responses.$200>
   }
   ['/group/']: {
     /**
@@ -9144,7 +10365,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.GroupGetGroups.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupGetGroups.Responses.$200 | Paths.GroupGetGroups.Responses.$422>
+    ): OperationResponse<Paths.GroupGetGroups.Responses.$200>
     /**
      * group_addGroup - Add Group
      */
@@ -9152,7 +10373,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.GroupAddGroup.QueryParameters> | null,
       data?: Paths.GroupAddGroup.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupAddGroup.Responses.$200 | Paths.GroupAddGroup.Responses.$422>
+    ): OperationResponse<Paths.GroupAddGroup.Responses.$200>
   }
   ['/group/{uuid}/members']: {
     /**
@@ -9162,7 +10383,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.GroupGetGroupMembers.PathParameters & Paths.GroupGetGroupMembers.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200 | Paths.GroupGetGroupMembers.Responses.$422>
+    ): OperationResponse<Paths.GroupGetGroupMembers.Responses.$200>
   }
   ['/group/{uuid}']: {
     /**
@@ -9172,7 +10393,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.GroupGetGroup.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupGetGroup.Responses.$200 | Paths.GroupGetGroup.Responses.$422>
+    ): OperationResponse<Paths.GroupGetGroup.Responses.$200>
     /**
      * group_deleteGroup - Delete Group
      */
@@ -9180,7 +10401,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.GroupDeleteGroup.PathParameters & Paths.GroupDeleteGroup.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200 | Paths.GroupDeleteGroup.Responses.$422>
+    ): OperationResponse<Paths.GroupDeleteGroup.Responses.$200>
     /**
      * group_editGroup - Edit Group
      */
@@ -9188,7 +10409,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.GroupEditGroup.PathParameters & Paths.GroupEditGroup.QueryParameters> | null,
       data?: Paths.GroupEditGroup.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GroupEditGroup.Responses.$200 | Paths.GroupEditGroup.Responses.$422>
+    ): OperationResponse<Paths.GroupEditGroup.Responses.$200>
   }
   ['/group/property/']: {
     /**
@@ -9222,7 +10443,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.BanGetBans.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanGetBans.Responses.$200 | Paths.BanGetBans.Responses.$422>
+    ): OperationResponse<Paths.BanGetBans.Responses.$200>
     /**
      * ban_addBan - Add Ban
      */
@@ -9230,7 +10451,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.BanAddBan.QueryParameters> | null,
       data?: Paths.BanAddBan.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanAddBan.Responses.$200 | Paths.BanAddBan.Responses.$422>
+    ): OperationResponse<Paths.BanAddBan.Responses.$200>
   }
   ['/ban/{uuid}']: {
     /**
@@ -9240,7 +10461,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.BanDeleteBan.PathParameters & Paths.BanDeleteBan.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanDeleteBan.Responses.$200 | Paths.BanDeleteBan.Responses.$422>
+    ): OperationResponse<Paths.BanDeleteBan.Responses.$200>
     /**
      * ban_editBan - Edit Ban
      */
@@ -9248,7 +10469,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.BanEditBan.PathParameters & Paths.BanEditBan.QueryParameters> | null,
       data?: Paths.BanEditBan.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanEditBan.Responses.$200 | Paths.BanEditBan.Responses.$422>
+    ): OperationResponse<Paths.BanEditBan.Responses.$200>
   }
   ['/ban/{uuid}/log']: {
     /**
@@ -9258,17 +10479,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.BanGetLogs.PathParameters & Paths.BanGetLogs.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanGetLogs.Responses.$200 | Paths.BanGetLogs.Responses.$422>
-  }
-  ['/ban/test']: {
-    /**
-     * ban_test - Test
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.BanTest.Responses.$200>
+    ): OperationResponse<Paths.BanGetLogs.Responses.$200>
   }
   ['/warning/']: {
     /**
@@ -9278,7 +10489,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.WarningGetWarnings.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningGetWarnings.Responses.$200 | Paths.WarningGetWarnings.Responses.$422>
+    ): OperationResponse<Paths.WarningGetWarnings.Responses.$200>
     /**
      * warning_addWarning - Add Warning
      */
@@ -9286,7 +10497,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.WarningAddWarning.QueryParameters> | null,
       data?: Paths.WarningAddWarning.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningAddWarning.Responses.$200 | Paths.WarningAddWarning.Responses.$422>
+    ): OperationResponse<Paths.WarningAddWarning.Responses.$200>
   }
   ['/warning/config']: {
     /**
@@ -9296,7 +10507,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.WarningGetWarningConfig.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200 | Paths.WarningGetWarningConfig.Responses.$422>
+    ): OperationResponse<Paths.WarningGetWarningConfig.Responses.$200>
     /**
      * warning_updateWarningConfig - Update Warning Config
      */
@@ -9304,7 +10515,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.WarningUpdateWarningConfig.QueryParameters> | null,
       data?: Paths.WarningUpdateWarningConfig.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200 | Paths.WarningUpdateWarningConfig.Responses.$422>
+    ): OperationResponse<Paths.WarningUpdateWarningConfig.Responses.$200>
   }
   ['/warning/{uuid}/toggle']: {
     /**
@@ -9314,7 +10525,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.WarningToggleWarningStatus.PathParameters & Paths.WarningToggleWarningStatus.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200 | Paths.WarningToggleWarningStatus.Responses.$422>
+    ): OperationResponse<Paths.WarningToggleWarningStatus.Responses.$200>
   }
   ['/warning/{uuid}']: {
     /**
@@ -9324,7 +10535,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.WarningDeleteWarning.PathParameters & Paths.WarningDeleteWarning.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200 | Paths.WarningDeleteWarning.Responses.$422>
+    ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200>
   }
   ['/shop/gateway/']: {
     /**
@@ -9334,7 +10545,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetGateways.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetGateways.Responses.$200 | Paths.ShopGetGateways.Responses.$422>
+    ): OperationResponse<Paths.ShopGetGateways.Responses.$200>
     /**
      * shop_createGateway - Create Gateway
      */
@@ -9342,7 +10553,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopCreateGateway.QueryParameters> | null,
       data?: Paths.ShopCreateGateway.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCreateGateway.Responses.$200 | Paths.ShopCreateGateway.Responses.$422>
+    ): OperationResponse<Paths.ShopCreateGateway.Responses.$200>
   }
   ['/shop/gateway/{uuid}']: {
     /**
@@ -9352,7 +10563,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopDeleteGateway.PathParameters & Paths.ShopDeleteGateway.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200 | Paths.ShopDeleteGateway.Responses.$422>
+    ): OperationResponse<Paths.ShopDeleteGateway.Responses.$200>
     /**
      * shop_editGateway - Edit Gateway
      */
@@ -9360,7 +10571,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopEditGateway.PathParameters & Paths.ShopEditGateway.QueryParameters> | null,
       data?: Paths.ShopEditGateway.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditGateway.Responses.$200 | Paths.ShopEditGateway.Responses.$422>
+    ): OperationResponse<Paths.ShopEditGateway.Responses.$200>
   }
   ['/shop/discount/']: {
     /**
@@ -9370,7 +10581,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetDiscounts.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200 | Paths.ShopGetDiscounts.Responses.$422>
+    ): OperationResponse<Paths.ShopGetDiscounts.Responses.$200>
     /**
      * shop_createDiscount - Create Discount
      */
@@ -9378,7 +10589,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopCreateDiscount.QueryParameters> | null,
       data?: Paths.ShopCreateDiscount.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200 | Paths.ShopCreateDiscount.Responses.$422>
+    ): OperationResponse<Paths.ShopCreateDiscount.Responses.$200>
   }
   ['/shop/discount/{code_or_uuid}']: {
     /**
@@ -9390,7 +10601,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetDiscount.PathParameters & Paths.ShopGetDiscount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDiscount.Responses.$200 | Paths.ShopGetDiscount.Responses.$422>
+    ): OperationResponse<Paths.ShopGetDiscount.Responses.$200>
   }
   ['/shop/discount/{uuid}']: {
     /**
@@ -9400,7 +10611,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopDeleteDiscount.PathParameters & Paths.ShopDeleteDiscount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200 | Paths.ShopDeleteDiscount.Responses.$422>
+    ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200>
     /**
      * shop_editDiscount - Edit Discount
      */
@@ -9408,7 +10619,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopEditDiscount.PathParameters & Paths.ShopEditDiscount.QueryParameters> | null,
       data?: Paths.ShopEditDiscount.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditDiscount.Responses.$200 | Paths.ShopEditDiscount.Responses.$422>
+    ): OperationResponse<Paths.ShopEditDiscount.Responses.$200>
   }
   ['/shop/packet']: {
     /**
@@ -9420,7 +10631,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetPackets.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetPackets.Responses.$200 | Paths.ShopGetPackets.Responses.$422>
+    ): OperationResponse<Paths.ShopGetPackets.Responses.$200>
   }
   ['/shop/cart']: {
     /**
@@ -9432,7 +10643,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetCart.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCart.Responses.$200 | Paths.ShopGetCart.Responses.$422>
+    ): OperationResponse<Paths.ShopGetCart.Responses.$200>
     /**
      * shop_addPacketToCart - Add Packet To Cart
      */
@@ -9440,7 +10651,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopAddPacketToCart.QueryParameters> | null,
       data?: Paths.ShopAddPacketToCart.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200 | Paths.ShopAddPacketToCart.Responses.$422>
+    ): OperationResponse<Paths.ShopAddPacketToCart.Responses.$200>
     /**
      * shop_removePacketsFromCart - Remove Packets From Cart
      */
@@ -9448,7 +10659,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopRemovePacketsFromCart.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200 | Paths.ShopRemovePacketsFromCart.Responses.$422>
+    ): OperationResponse<Paths.ShopRemovePacketsFromCart.Responses.$200>
   }
   ['/shop/cart/packet']: {
     /**
@@ -9458,7 +10669,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetCartPackets.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200 | Paths.ShopGetCartPackets.Responses.$422>
+    ): OperationResponse<Paths.ShopGetCartPackets.Responses.$200>
   }
   ['/shop/cart/{uuid}']: {
     /**
@@ -9468,7 +10679,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopRemovePacketFromCart.PathParameters & Paths.ShopRemovePacketFromCart.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200 | Paths.ShopRemovePacketFromCart.Responses.$422>
+    ): OperationResponse<Paths.ShopRemovePacketFromCart.Responses.$200>
   }
   ['/shop/cart/discount/{code_or_uuid}']: {
     /**
@@ -9478,7 +10689,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopApplyDiscount.PathParameters & Paths.ShopApplyDiscount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200 | Paths.ShopApplyDiscount.Responses.$422>
+    ): OperationResponse<Paths.ShopApplyDiscount.Responses.$200>
     /**
      * shop_removeDiscount - Remove Discount
      */
@@ -9486,7 +10697,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopRemoveDiscount.PathParameters & Paths.ShopRemoveDiscount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200 | Paths.ShopRemoveDiscount.Responses.$422>
+    ): OperationResponse<Paths.ShopRemoveDiscount.Responses.$200>
   }
   ['/shop/cart/checkout']: {
     /**
@@ -9496,7 +10707,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopStartCheckout.QueryParameters> | null,
       data?: Paths.ShopStartCheckout.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopStartCheckout.Responses.$200 | Paths.ShopStartCheckout.Responses.$422>
+    ): OperationResponse<Paths.ShopStartCheckout.Responses.$200>
   }
   ['/shop/checkout']: {
     /**
@@ -9506,7 +10717,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopStartPayment.QueryParameters> | null,
       data?: Paths.ShopStartPayment.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopStartPayment.Responses.$200 | Paths.ShopStartPayment.Responses.$422>
+    ): OperationResponse<Paths.ShopStartPayment.Responses.$200>
   }
   ['/shop/checkout/{uuid}']: {
     /**
@@ -9516,7 +10727,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopCheckPayment.PathParameters & Paths.ShopCheckPayment.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCheckPayment.Responses.$200 | Paths.ShopCheckPayment.Responses.$422>
+    ): OperationResponse<Paths.ShopCheckPayment.Responses.$200>
     /**
      * shop_finishPayment - Finish Payment
      * 
@@ -9526,7 +10737,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopFinishPayment.PathParameters & Paths.ShopFinishPayment.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopFinishPayment.Responses.$200 | Paths.ShopFinishPayment.Responses.$422>
+    ): OperationResponse<Paths.ShopFinishPayment.Responses.$200>
     /**
      * shop_cancelPayment - Cancel Payment
      */
@@ -9534,7 +10745,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopCancelPayment.PathParameters & Paths.ShopCancelPayment.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCancelPayment.Responses.$200 | Paths.ShopCancelPayment.Responses.$422>
+    ): OperationResponse<Paths.ShopCancelPayment.Responses.$200>
   }
   ['/shop/purchase']: {
     /**
@@ -9544,9 +10755,9 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetPurchases.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetPurchases.Responses.$200 | Paths.ShopGetPurchases.Responses.$422>
+    ): OperationResponse<Paths.ShopGetPurchases.Responses.$200>
   }
-  ['/shop/available_purchase_status']: {
+  ['/shop/available-purchase-status']: {
     /**
      * shop_getAvailablePurchaseStatus - Get Available Purchase Status
      */
@@ -9564,7 +10775,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetPurchaseGateways.PathParameters & Paths.ShopGetPurchaseGateways.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200 | Paths.ShopGetPurchaseGateways.Responses.$422>
+    ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200>
   }
   ['/shop/purchase/{uuid}']: {
     /**
@@ -9574,7 +10785,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopEditPurchase.PathParameters & Paths.ShopEditPurchase.QueryParameters> | null,
       data?: Paths.ShopEditPurchase.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditPurchase.Responses.$200 | Paths.ShopEditPurchase.Responses.$422>
+    ): OperationResponse<Paths.ShopEditPurchase.Responses.$200>
   }
   ['/shop/debit/{uuid}/invoice']: {
     /**
@@ -9584,7 +10795,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetDebitInvoice.PathParameters & Paths.ShopGetDebitInvoice.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200 | Paths.ShopGetDebitInvoice.Responses.$422>
+    ): OperationResponse<Paths.ShopGetDebitInvoice.Responses.$200>
   }
   ['/shop/currency']: {
     /**
@@ -9596,7 +10807,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetCurrencies.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200 | Paths.ShopGetCurrencies.Responses.$422>
+    ): OperationResponse<Paths.ShopGetCurrencies.Responses.$200>
   }
   ['/shop/debit/statistic']: {
     /**
@@ -9606,7 +10817,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetDebitStatistic.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200 | Paths.ShopGetDebitStatistic.Responses.$422>
+    ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200>
   }
   ['/shop/purchase/statistic']: {
     /**
@@ -9616,7 +10827,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetPurchaseStatistic.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200 | Paths.ShopGetPurchaseStatistic.Responses.$422>
+    ): OperationResponse<Paths.ShopGetPurchaseStatistic.Responses.$200>
   }
   ['/shop/tax']: {
     /**
@@ -9626,7 +10837,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetTaxRules.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200 | Paths.ShopGetTaxRules.Responses.$422>
+    ): OperationResponse<Paths.ShopGetTaxRules.Responses.$200>
     /**
      * shop_createTaxRule - Create Tax Rule
      */
@@ -9634,7 +10845,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopCreateTaxRule.QueryParameters> | null,
       data?: Paths.ShopCreateTaxRule.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200 | Paths.ShopCreateTaxRule.Responses.$422>
+    ): OperationResponse<Paths.ShopCreateTaxRule.Responses.$200>
   }
   ['/shop/tax/{uuid}']: {
     /**
@@ -9644,7 +10855,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopDeleteTaxRule.PathParameters & Paths.ShopDeleteTaxRule.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200 | Paths.ShopDeleteTaxRule.Responses.$422>
+    ): OperationResponse<Paths.ShopDeleteTaxRule.Responses.$200>
   }
   ['/shop/general-settings']: {
     /**
@@ -9662,7 +10873,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopEditGeneralConfig.QueryParameters> | null,
       data?: Paths.ShopEditGeneralConfig.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200 | Paths.ShopEditGeneralConfig.Responses.$422>
+    ): OperationResponse<Paths.ShopEditGeneralConfig.Responses.$200>
   }
   ['/shop/donation-goal']: {
     /**
@@ -9682,7 +10893,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopGetBusinessAddress.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200 | Paths.ShopGetBusinessAddress.Responses.$422>
+    ): OperationResponse<Paths.ShopGetBusinessAddress.Responses.$200>
     /**
      * shop_changeBusinessAddress - Change Business Address
      */
@@ -9690,7 +10901,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ShopChangeBusinessAddress.QueryParameters> | null,
       data?: Paths.ShopChangeBusinessAddress.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200 | Paths.ShopChangeBusinessAddress.Responses.$422>
+    ): OperationResponse<Paths.ShopChangeBusinessAddress.Responses.$200>
   }
   ['/packet/reward/']: {
     /**
@@ -9700,7 +10911,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketGetRewards.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetRewards.Responses.$200 | Paths.PacketGetRewards.Responses.$422>
+    ): OperationResponse<Paths.PacketGetRewards.Responses.$200>
     /**
      * packet_addReward - Add Reward
      */
@@ -9708,7 +10919,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketAddReward.QueryParameters> | null,
       data?: Paths.PacketAddReward.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketAddReward.Responses.$200 | Paths.PacketAddReward.Responses.$422>
+    ): OperationResponse<Paths.PacketAddReward.Responses.$200>
   }
   ['/packet/reward/{uuid}']: {
     /**
@@ -9718,7 +10929,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketDeleteReward.PathParameters & Paths.PacketDeleteReward.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeleteReward.Responses.$200 | Paths.PacketDeleteReward.Responses.$422>
+    ): OperationResponse<Paths.PacketDeleteReward.Responses.$200>
     /**
      * packet_editReward - Edit Reward
      */
@@ -9726,7 +10937,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketEditReward.PathParameters & Paths.PacketEditReward.QueryParameters> | null,
       data?: Paths.PacketEditReward.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditReward.Responses.$200 | Paths.PacketEditReward.Responses.$422>
+    ): OperationResponse<Paths.PacketEditReward.Responses.$200>
   }
   ['/packet/reward/applied']: {
     /**
@@ -9736,7 +10947,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketGetAppliedRewards.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetAppliedRewards.Responses.$200 | Paths.PacketGetAppliedRewards.Responses.$422>
+    ): OperationResponse<Paths.PacketGetAppliedRewards.Responses.$200>
   }
   ['/packet/reward/applied/user']: {
     /**
@@ -9748,7 +10959,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketGetAppliedRewardsByUser.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetAppliedRewardsByUser.Responses.$200 | Paths.PacketGetAppliedRewardsByUser.Responses.$422>
+    ): OperationResponse<Paths.PacketGetAppliedRewardsByUser.Responses.$200>
   }
   ['/packet/reward/applied/{uuid}']: {
     /**
@@ -9758,7 +10969,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketEditAppliedReward.PathParameters & Paths.PacketEditAppliedReward.QueryParameters> | null,
       data?: Paths.PacketEditAppliedReward.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200 | Paths.PacketEditAppliedReward.Responses.$422>
+    ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200>
   }
   ['/packet/category']: {
     /**
@@ -9776,7 +10987,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketCreateCategory.QueryParameters> | null,
       data?: Paths.PacketCreateCategory.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketCreateCategory.Responses.$200 | Paths.PacketCreateCategory.Responses.$422>
+    ): OperationResponse<Paths.PacketCreateCategory.Responses.$200>
   }
   ['/packet/category/{uuid}']: {
     /**
@@ -9786,7 +10997,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketDeleteCategory.PathParameters & Paths.PacketDeleteCategory.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200 | Paths.PacketDeleteCategory.Responses.$422>
+    ): OperationResponse<Paths.PacketDeleteCategory.Responses.$200>
     /**
      * packet_editCategory - Edit Category
      */
@@ -9794,7 +11005,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketEditCategory.PathParameters & Paths.PacketEditCategory.QueryParameters> | null,
       data?: Paths.PacketEditCategory.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditCategory.Responses.$200 | Paths.PacketEditCategory.Responses.$422>
+    ): OperationResponse<Paths.PacketEditCategory.Responses.$200>
   }
   ['/packet/']: {
     /**
@@ -9804,7 +11015,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketGetPackets.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetPackets.Responses.$200 | Paths.PacketGetPackets.Responses.$422>
+    ): OperationResponse<Paths.PacketGetPackets.Responses.$200>
     /**
      * packet_addPacket - Add Packet
      */
@@ -9812,7 +11023,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketAddPacket.QueryParameters> | null,
       data?: Paths.PacketAddPacket.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketAddPacket.Responses.$200 | Paths.PacketAddPacket.Responses.$422>
+    ): OperationResponse<Paths.PacketAddPacket.Responses.$200>
   }
   ['/packet/{uuid}']: {
     /**
@@ -9822,7 +11033,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketDeletePacket.PathParameters & Paths.PacketDeletePacket.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeletePacket.Responses.$200 | Paths.PacketDeletePacket.Responses.$422>
+    ): OperationResponse<Paths.PacketDeletePacket.Responses.$200>
     /**
      * packet_editPacket - Edit Packet
      */
@@ -9830,7 +11041,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketEditPacket.PathParameters & Paths.PacketEditPacket.QueryParameters> | null,
       data?: Paths.PacketEditPacket.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditPacket.Responses.$200 | Paths.PacketEditPacket.Responses.$422>
+    ): OperationResponse<Paths.PacketEditPacket.Responses.$200>
   }
   ['/packet/applied']: {
     /**
@@ -9840,7 +11051,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketGetAppliedPackets.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200 | Paths.PacketGetAppliedPackets.Responses.$422>
+    ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
   }
   ['/packet/available-status']: {
     /**
@@ -9860,7 +11071,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketDeleteAppliedPacket.PathParameters & Paths.PacketDeleteAppliedPacket.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200 | Paths.PacketDeleteAppliedPacket.Responses.$422>
+    ): OperationResponse<Paths.PacketDeleteAppliedPacket.Responses.$200>
     /**
      * packet_editAppliedPacket - Edit Applied Packet
      */
@@ -9868,7 +11079,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PacketEditAppliedPacket.PathParameters & Paths.PacketEditAppliedPacket.QueryParameters> | null,
       data?: Paths.PacketEditAppliedPacket.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200 | Paths.PacketEditAppliedPacket.Responses.$422>
+    ): OperationResponse<Paths.PacketEditAppliedPacket.Responses.$200>
   }
   ['/news/']: {
     /**
@@ -9878,7 +11089,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.NewsGetMessages.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsGetMessages.Responses.$200 | Paths.NewsGetMessages.Responses.$422>
+    ): OperationResponse<Paths.NewsGetMessages.Responses.$200>
     /**
      * news_addMessage - Add Message
      */
@@ -9886,7 +11097,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.NewsAddMessage.QueryParameters> | null,
       data?: Paths.NewsAddMessage.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsAddMessage.Responses.$200 | Paths.NewsAddMessage.Responses.$422>
+    ): OperationResponse<Paths.NewsAddMessage.Responses.$200>
   }
   ['/news/{uuid}']: {
     /**
@@ -9896,7 +11107,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.NewsDeleteMessage.PathParameters & Paths.NewsDeleteMessage.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200 | Paths.NewsDeleteMessage.Responses.$422>
+    ): OperationResponse<Paths.NewsDeleteMessage.Responses.$200>
     /**
      * news_editMessage - Edit Message
      */
@@ -9904,7 +11115,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.NewsEditMessage.PathParameters & Paths.NewsEditMessage.QueryParameters> | null,
       data?: Paths.NewsEditMessage.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NewsEditMessage.Responses.$200 | Paths.NewsEditMessage.Responses.$422>
+    ): OperationResponse<Paths.NewsEditMessage.Responses.$200>
   }
   ['/requirement/type']: {
     /**
@@ -9932,7 +11143,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.RequirementsCreateRequirementSet.QueryParameters> | null,
       data?: Paths.RequirementsCreateRequirementSet.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200 | Paths.RequirementsCreateRequirementSet.Responses.$422>
+    ): OperationResponse<Paths.RequirementsCreateRequirementSet.Responses.$200>
   }
   ['/requirement/set/{uuid}']: {
     /**
@@ -9942,7 +11153,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.RequirementsGetRequirementSet.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsGetRequirementSet.Responses.$200 | Paths.RequirementsGetRequirementSet.Responses.$422>
+    ): OperationResponse<Paths.RequirementsGetRequirementSet.Responses.$200>
     /**
      * requirements_deleteRequirementSet - Delete Requirement Set
      */
@@ -9950,7 +11161,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.RequirementsDeleteRequirementSet.PathParameters & Paths.RequirementsDeleteRequirementSet.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsDeleteRequirementSet.Responses.$200 | Paths.RequirementsDeleteRequirementSet.Responses.$422>
+    ): OperationResponse<Paths.RequirementsDeleteRequirementSet.Responses.$200>
     /**
      * requirements_editRequirementSet - Edit Requirement Set
      */
@@ -9958,7 +11169,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.RequirementsEditRequirementSet.PathParameters & Paths.RequirementsEditRequirementSet.QueryParameters> | null,
       data?: Paths.RequirementsEditRequirementSet.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200 | Paths.RequirementsEditRequirementSet.Responses.$422>
+    ): OperationResponse<Paths.RequirementsEditRequirementSet.Responses.$200>
   }
   ['/requirement/']: {
     /**
@@ -9976,7 +11187,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.RequirementsCreateRequirement.QueryParameters> | null,
       data?: Paths.RequirementsCreateRequirement.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200 | Paths.RequirementsCreateRequirement.Responses.$422>
+    ): OperationResponse<Paths.RequirementsCreateRequirement.Responses.$200>
   }
   ['/requirement{uuid}']: {
     /**
@@ -9986,7 +11197,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.RequirementsDeleteRequirement.PathParameters & Paths.RequirementsDeleteRequirement.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.RequirementsDeleteRequirement.Responses.$200 | Paths.RequirementsDeleteRequirement.Responses.$422>
+    ): OperationResponse<Paths.RequirementsDeleteRequirement.Responses.$200>
   }
   ['/finance/account/{uuid}']: {
     /**
@@ -9996,7 +11207,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.FinanceGetAccount.PathParameters & Paths.FinanceGetAccount.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.FinanceGetAccount.Responses.$200 | Paths.FinanceGetAccount.Responses.$422>
+    ): OperationResponse<Paths.FinanceGetAccount.Responses.$200>
   }
   ['/notification/stream']: {
     /**
@@ -10006,7 +11217,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.NotificationGetStream.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationGetStream.Responses.$200 | Paths.NotificationGetStream.Responses.$422>
+    ): OperationResponse<Paths.NotificationGetStream.Responses.$200>
   }
   ['/notification/']: {
     /**
@@ -10016,7 +11227,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.NotificationGetNotifications.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200 | Paths.NotificationGetNotifications.Responses.$422>
+    ): OperationResponse<Paths.NotificationGetNotifications.Responses.$200>
     /**
      * notification_markAsRead - Mark As Read
      */
@@ -10024,7 +11235,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.NotificationMarkAsRead.QueryParameters> | null,
       data?: Paths.NotificationMarkAsRead.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200 | Paths.NotificationMarkAsRead.Responses.$422>
+    ): OperationResponse<Paths.NotificationMarkAsRead.Responses.$200>
   }
   ['/notification/type']: {
     /**
@@ -10044,7 +11255,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.LogGetLog.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.LogGetLog.Responses.$200 | Paths.LogGetLog.Responses.$422>
+    ): OperationResponse<Paths.LogGetLog.Responses.$200>
   }
   ['/log/type']: {
     /**
@@ -10064,7 +11275,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.WebhookStripeEvent.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200 | Paths.WebhookStripeEvent.Responses.$422>
+    ): OperationResponse<Paths.WebhookStripeEvent.Responses.$200>
   }
   ['/forum/']: {
     /**
@@ -10082,7 +11293,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ForumNewThread.QueryParameters> | null,
       data?: Paths.ForumNewThread.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ForumNewThread.Responses.$200 | Paths.ForumNewThread.Responses.$422>
+    ): OperationResponse<Paths.ForumNewThread.Responses.$200>
   }
   ['/forum/ticket']: {
     /**
@@ -10092,7 +11303,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ForumGetTickets.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ForumGetTickets.Responses.$200 | Paths.ForumGetTickets.Responses.$422>
+    ): OperationResponse<Paths.ForumGetTickets.Responses.$200>
   }
   ['/forum/{uuid}']: {
     /**
@@ -10102,7 +11313,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ForumGetThread.PathParameters & Paths.ForumGetThread.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ForumGetThread.Responses.$200 | Paths.ForumGetThread.Responses.$422>
+    ): OperationResponse<Paths.ForumGetThread.Responses.$200>
     /**
      * forum_toggleStatus - Toggle Status
      */
@@ -10110,7 +11321,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ForumToggleStatus.PathParameters & Paths.ForumToggleStatus.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ForumToggleStatus.Responses.$200 | Paths.ForumToggleStatus.Responses.$422>
+    ): OperationResponse<Paths.ForumToggleStatus.Responses.$200>
   }
   ['/forum/{uuid}/post']: {
     /**
@@ -10120,7 +11331,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ForumGetThreadPosts.PathParameters & Paths.ForumGetThreadPosts.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ForumGetThreadPosts.Responses.$200 | Paths.ForumGetThreadPosts.Responses.$422>
+    ): OperationResponse<Paths.ForumGetThreadPosts.Responses.$200>
     /**
      * forum_newPost - New Post
      */
@@ -10128,7 +11339,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.ForumNewPost.PathParameters & Paths.ForumNewPost.QueryParameters> | null,
       data?: Paths.ForumNewPost.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ForumNewPost.Responses.$200 | Paths.ForumNewPost.Responses.$422>
+    ): OperationResponse<Paths.ForumNewPost.Responses.$200>
   }
   ['/discord/guild']: {
     /**
@@ -10166,7 +11377,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DiscordAddRelation.QueryParameters> | null,
       data?: Paths.DiscordAddRelation.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DiscordAddRelation.Responses.$200 | Paths.DiscordAddRelation.Responses.$422>
+    ): OperationResponse<Paths.DiscordAddRelation.Responses.$200>
   }
   ['/discord/relation/{uuid}']: {
     /**
@@ -10176,7 +11387,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.DiscordDeleteRelation.PathParameters & Paths.DiscordDeleteRelation.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200 | Paths.DiscordDeleteRelation.Responses.$422>
+    ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200>
   }
   ['/payment_gateway/paysafecard/{uuid}/{payment_id}']: {
     /**
@@ -10186,7 +11397,7 @@ export interface PathsDictionary {
       parameters?: Parameters<Paths.PaymentGatewayGetNotification.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PaymentGatewayGetNotification.Responses.$200 | Paths.PaymentGatewayGetNotification.Responses.$422>
+    ): OperationResponse<Paths.PaymentGatewayGetNotification.Responses.$200>
   }
 }
 
