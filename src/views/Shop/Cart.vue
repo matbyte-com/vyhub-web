@@ -265,9 +265,14 @@ export default {
           this.utils.notifyUnexpectedError(err.response.data);
         });
 
-      api.user_getPurchases({ uuid: this.$store.getters.user.id }).then((rsp) => {
-        this.openPurchase = rsp.data.find((p) => p.status === 'OPEN');
-      });
+      api.user_getPurchases({
+        uuid: this.$store.getters.user.id,
+        status: 'OPEN',
+        price_calculation: true,
+      })
+        .then((rsp) => {
+          this.openPurchase = rsp.data.find((p) => p.status === 'OPEN');
+        });
     },
     async queryAddresses() {
       const api = await openapi;

@@ -7987,13 +7987,15 @@ declare namespace Paths {
              */
             export type MorphUserId = string; // uuid
             /**
-             * Page
+             * Price Calculation
+             * Included price calculation for cart packets.
              */
-            export type Page = number;
+            export type PriceCalculation = boolean;
             /**
-             * Size
+             * PurchaseStatus
+             * Filter by status.
              */
-            export type Size = number;
+            export type Status = "OPEN" | "CANCELLED" | "FINISHED" | "REFUNDED" | "REVOKED" | "RECURRING";
             /**
              * Uuid
              * The UUID or username of the referenced user.
@@ -8013,16 +8015,27 @@ declare namespace Paths {
              * Include cancelled purchases.
              */
             Parameters.Cancelled;
+            status?: /**
+             * PurchaseStatus
+             * Filter by status.
+             */
+            Parameters.Status;
+            price_calculation?: /**
+             * Price Calculation
+             * Included price calculation for cart packets.
+             */
+            Parameters.PriceCalculation;
             morph_user_id?: /**
              * Morph User Id
              * Morph system user into given user. Requires user_morph property.
              */
             Parameters.MorphUserId /* uuid */;
-            page?: /* Page */ Parameters.Page;
-            size?: /* Size */ Parameters.Size;
         }
         namespace Responses {
-            export type $200 = /* Page[PurchaseModel] */ Components.Schemas.PagePurchaseModel;
+            /**
+             * Response Get Purchases User  Uuid  Purchase Get
+             */
+            export type $200 = /* PurchaseModel */ Components.Schemas.PurchaseModel[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
