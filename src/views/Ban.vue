@@ -272,7 +272,7 @@ export default {
     async queryData(page) {
       this.page = page;
       (await openapi).ban_getBans({
-        page: page - 1,
+        page,
         bundles_filter: this.selectedBundle,
         query: this.search,
         order_by: this.orderBy,

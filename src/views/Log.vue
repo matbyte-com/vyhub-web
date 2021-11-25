@@ -134,7 +134,7 @@ export default {
       if (sortByCat) this.selectedCat = sortByCat;
       (await openapi).log_getLog({
         size: this.itemsPerPage,
-        page: this.state.page - 1,
+        page: this.state.page,
         categories: this.selectedCat,
       })
         .then((rsp) => {

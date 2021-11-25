@@ -143,7 +143,7 @@ export default {
 
       api.packet_getAppliedPackets({
         size: this.itemsPerPage,
-        page: page - 1,
+        page,
         query: this.search,
         sort_by: this.orderBy,
         sort_desc: this.sortDesc,

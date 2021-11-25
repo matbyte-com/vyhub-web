@@ -283,7 +283,7 @@ export default {
     async fetchGroupMembers(page = 1, searchStr = null) {
       (await openapi).group_getGroupMembers({
         uuid: this.memberGroup.id,
-        page: page - 1,
+        page,
         search: searchStr,
       })
         .then((rsp) => {

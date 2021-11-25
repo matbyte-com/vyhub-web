@@ -185,7 +185,7 @@ export default {
       if (sortByCat) this.selectedCat = sortByCat;
       (await openapi).notification_getNotifications({
         size: this.itemsPerPage,
-        page: this.state.page - 1,
+        page: this.state.page,
         descending: this.state.desc,
         categories: this.selectedCat,
         hide_read: this.state.read,

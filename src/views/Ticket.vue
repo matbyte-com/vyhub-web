@@ -107,7 +107,7 @@ export default {
       (await openapi).forum_getTickets({
         show_closed: this.showClosed,
         query: this.query,
-        page: this.page - 1,
+        page: this.page,
       })
         .then((rsp) => { this.tickets = rsp.data.items; this.total = rsp.data.total; });
       return true;

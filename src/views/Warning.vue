@@ -142,7 +142,7 @@ export default {
   methods: {
     async fetchData(page) {
       (await openapi).warning_getWarnings({
-        page: page - 1,
+        page,
         size: this.itemsPerPage,
         bundles_filter: this.selectedBundle,
         query: this.search,
