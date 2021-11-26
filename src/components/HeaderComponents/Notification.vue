@@ -74,13 +74,32 @@ export default {
       newMessages: null,
       evtSource: null,
       serverName: 'VyHub',
+      timer: '',
     };
   },
   methods: {
     async fetchData() {
-      (await openapi).notification_getNotifications().then((rsp) => {
+      let lastNotificationId = 0;
+      if (this.notifications.length >= 1) {
+        lastNotificationId = this.notifications[0].id;
+      }
+      await (await openapi).notification_getPreviewNotifications().then((rsp) => {
         this.notifications = rsp.data;
       });
+      if (this.notifications.length >= 1) {
+        if (this.notifications[0].id !== lastNotificationId) {
+          this.newMessages = true;
+        }
+      }
+    },
+    startTimer() {
+      if (this.$store.getters.isLoggedIn) {
+        this.fetchData();
+        this.timer = setInterval(this.fetchData, 30000);
+      }
+    },
+    stopTimer() {
+      clearInterval(this.timer);
     },
     registerSse() {
       // TODO Fix and Enable for Production
@@ -120,11 +139,13 @@ export default {
     afterLogin() {
       this.notifications = [];
       this.registerSse();
+      this.startTimer();
     },
     afterLogout() {
       if (this.evtSource != null) {
         this.evtSource.close();
       }
+      this.stopTimer();
       this.notifications = [];
     },
     rowClick(item) {
@@ -158,6 +179,7 @@ export default {
   },
   beforeDestroy() {
     if (this.evtSource) this.evtSource.close();
+    this.stopTimer();
   },
   mounted() {
     this.getServerName();
@@ -165,6 +187,7 @@ export default {
     EventBus.on('login', this.afterLogin);
     EventBus.on('logout', this.afterLogout);
     setTimeout(() => { this.registerSse(); }, 700);
+    this.startTimer();
   },
   created() {
     window.addEventListener('beforeunload', () => {
