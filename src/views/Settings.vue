@@ -10,7 +10,7 @@
               <v-list-item-group color="primary">
                 <span v-for="tab in allowedTabs" :key="tab.id">
                   <v-list-item v-if="!('tabs' in tab)"
-                               link
+                               link :disabled="tab.disabled"
                                :class="tab.name === activeTab.name
                                ? 'active v-list-item--active' : ''"
                                :to="{ name: 'Settings',  params: { component: tab.name} }">
@@ -178,6 +178,7 @@ export default {
           component: 'Discord',
           reqProp: 'discord_show',
           title: this.$t('discord'),
+          disabled: true,
         },
         {
           name: 'legal',
