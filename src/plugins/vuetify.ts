@@ -10,6 +10,12 @@ import {
   VSelect,
   VTextarea,
   VCheckbox,
+  VColorPickerCanvas,
+  VColorPicker,
+  VSwitch,
+  VSlider,
+  VTimePicker,
+  VDatePicker,
 } from 'vuetify/lib';
 import minifyTheme from 'minify-css-string';
 
@@ -24,6 +30,12 @@ Vue.component('v-layout', VLayout);
 Vue.component('v-select', VSelect);
 Vue.component('v-textarea', VTextarea);
 Vue.component('v-checkbox', VCheckbox);
+Vue.component('v-color-picker-canvas', VColorPickerCanvas);
+Vue.component('v-color-picker', VColorPicker);
+Vue.component('v-switch', VSwitch);
+Vue.component('v-slider', VSlider);
+Vue.component('v-date-picker', VDatePicker);
+Vue.component('v-time-picker', VTimePicker);
 
 export default new Vuetify({
   theme: {
