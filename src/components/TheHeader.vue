@@ -10,8 +10,8 @@
     </div>
 
     <!-- Logo -->
-    <div class="d-flex align-center pr-5" @click="$router.push('/')" v-if="imgSrc">
-      <v-img alt="Community Logo" class="shrink" contain :src="imgSrc"
+    <div class="d-flex align-center pr-5" @click="$router.push('/')">
+      <v-img alt="Community Logo" class="shrink" contain v-if="imgSrc" :src="imgSrc"
              transition="scale-transition" :width="logo_width" height="50"/>
       <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>

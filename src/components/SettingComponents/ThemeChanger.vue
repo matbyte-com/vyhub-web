@@ -38,6 +38,7 @@ export default {
       (await openapi).design_updateTheme(
         null, data,
       ).then(() => {
+        this.errorMessage = null;
         emitter.emit('themeUpdated');
         this.$notify({
           title: this.$t('settingsSaveSuccess'),
