@@ -101,6 +101,7 @@
 import Vue from 'vue';
 import emitter from '@/services/EventBus';
 import AuthService from '@/services/AuthService';
+import SessionService from '@/services/SessionService';
 import AccessControlService from '@/services/AccessControlService';
 import UtilService from '@/services/UtilService';
 import openapi from '@/api/openapi';
@@ -129,6 +130,7 @@ export default Vue.extend({
   beforeMount() {
     AuthService.setAuthTokens();
     AuthService.setProperties();
+    SessionService.registerSessionService();
     this.setTheme();
     this.getGeneralSettings();
     this.background = this.$vuetify.theme.currentTheme.background;
