@@ -6,7 +6,7 @@ import UtilService from '@/services/UtilService';
 
 export default {
   async refreshCartPacketCount() {
-    (await openapi).shop_getCartPackets().then((rsp) => {
+    (await openapi).shop_getCartPackets().then((rsp: any) => {
       store.dispatch('setCartPacketCount', {
         cartPacketCount: rsp.data.length,
       });
