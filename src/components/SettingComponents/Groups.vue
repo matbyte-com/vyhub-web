@@ -251,6 +251,7 @@ export default {
     },
     async editGroup(group) {
       const data = this.$refs.editGroupDialog.getData();
+      data.serverbundle_id = data.serverbundle.id;
 
       data.properties = [
         ...data.properties.map((p) => ({
