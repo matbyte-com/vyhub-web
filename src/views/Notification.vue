@@ -232,9 +232,11 @@ export default {
       if (item.link) this.$router.push({ name: item.link.name, params: { ...item.link.kwargs } });
     },
     async toggleReadStatus(item) {
-      (await openapi).notification_markAsRead(null, { id: [item.id] });
-      // eslint-disable-next-line no-param-reassign
-      item.read = !item.read;
+      if (item.read !== true) {
+        (await openapi).notification_markAsRead(null, { id: [item.id] });
+        // eslint-disable-next-line no-param-reassign
+        item.read = !item.read;
+      }
     },
   },
 };

@@ -65,6 +65,7 @@ import store from '@/store/index';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
+import SessionService from '@/services/SessionService';
 
 export default {
   name: 'Notification.vue',
@@ -79,6 +80,10 @@ export default {
   },
   methods: {
     async fetchData() {
+      // return if this window was not the last active VyHub window
+      if (!SessionService.lastActiveWindow()) {
+        return;
+      }
       let lastNotificationId = 0;
       if (this.notifications.length >= 1) {
         lastNotificationId = this.notifications[0].id;
@@ -89,6 +94,7 @@ export default {
       if (this.notifications.length >= 1) {
         if (this.notifications[0].id !== lastNotificationId) {
           this.newMessages = true;
+          this.notifyBrowser(this.notifications[0].message);
         }
       }
     },
@@ -172,9 +178,11 @@ export default {
       }
     },
     async toggleReadStatus(item) {
-      (await openapi).notification_markAsRead(null, { id: [item.id] });
-      // eslint-disable-next-line no-param-reassign
-      item.read = !item.read;
+      if (item.read !== true) {
+        (await openapi).notification_markAsRead(null, { id: [item.id] });
+        // eslint-disable-next-line no-param-reassign
+        item.read = !item.read;
+      }
     },
   },
   beforeDestroy() {
