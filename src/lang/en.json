@@ -74,6 +74,7 @@
     "rawHtml": "Raw HTML",
     "editNavLink": "Edit Navigation Link",
     "editor": "Editor",
+    "contentSanitizationWarning": "JavaScript is only allowed to be used by Admins. Otherwise it is going to be sanitized.",
     "contentEmpty": "Content is empty",
     "httpPlaceholder": "https://google.de",
     "addRequirementSet": "Add Requirement Set",

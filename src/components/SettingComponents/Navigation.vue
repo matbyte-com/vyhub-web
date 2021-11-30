@@ -21,7 +21,10 @@
                         :placeholder="$i18n.t('settings.httpPlaceholder')"
                         />
           <div v-else>
-            <v-divider />
+            <v-alert
+              type="warning" outlined
+              dense
+            >{{ $t('settings.contentSanitizationWarning') }}</v-alert>
             <v-expansion-panels flat>
               <v-expansion-panel>
                 <v-expansion-panel-header>
