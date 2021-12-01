@@ -231,7 +231,7 @@ export default {
       obj.name = item.name;
       obj.permission_level = item.permission_level;
       obj.color = item.color;
-      obj.serverbundle = item.serverbundle_id;
+      obj.serverbundle = item.serverbundle;
       obj.properties = props;
       obj.advanced_properties = advProps;
 
