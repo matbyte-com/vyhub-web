@@ -1,4 +1,3 @@
-import cc from 'currency-codes';
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
 
@@ -89,12 +88,7 @@ export default {
           title: i18n.t('price'),
           'x-cols': 4,
         },
-        currency_code: {
-          type: 'string',
-          title: i18n.t('_packet.labels.currency'),
-          'x-cols': 4,
-          enum: cc.codes(),
-        },
+        currency_code: Common.currency_code,
         credits: {
           type: 'integer',
           title: i18n.t('_shop.labels.credits'),

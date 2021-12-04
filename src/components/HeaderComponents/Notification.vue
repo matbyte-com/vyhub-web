@@ -173,8 +173,8 @@ export default {
         .then(console.log);
     },
     async getServerName() {
-      if (this.$store.getters.generalSettings) {
-        this.serverName = this.$store.getters.generalSettings.community_name;
+      if (this.$store.getters.generalConfig) {
+        this.serverName = this.$store.getters.generalConfig.community_name;
       }
     },
     async toggleReadStatus(item) {

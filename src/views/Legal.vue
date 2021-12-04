@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).design_getLegal().then((rsp) => {
+      (await openapi).general_getLegal().then((rsp) => {
         this.content = rsp.data;
       });
     },

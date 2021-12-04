@@ -62,7 +62,7 @@ export default {
     async fetchData() {
       const api = await openapi;
 
-      api.shop_getGeneralConfig().then((rsp) => {
+      api.shop_getConfig().then((rsp) => {
         const { data } = rsp;
 
         if (data.checkout_checkboxes == null) {
@@ -84,7 +84,7 @@ export default {
     },
     async saveData() {
       const data = this.$refs.form.getData();
-      (await openapi).shop_editGeneralConfig(null, data).then(() => {
+      (await openapi).shop_editConfig(null, data).then(() => {
         this.$notify({
           title: this.$t('settingsSaveSuccess'),
           type: 'success',

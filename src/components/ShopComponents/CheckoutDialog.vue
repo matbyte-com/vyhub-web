@@ -193,7 +193,7 @@ export default {
 
       const apiCached = await openapiCached;
 
-      apiCached.shop_getGeneralConfig().then((rsp) => {
+      apiCached.shop_getConfig().then((rsp) => {
         this.generalConfig = rsp.data;
 
         if (this.checkboxes != null && this.checkboxes.length === 0) {

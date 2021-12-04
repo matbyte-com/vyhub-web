@@ -31,20 +31,16 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).warning_getWarningConfig().then((rsp) => {
+      (await openapi).warning_getConfig().then((rsp) => {
         const { data } = rsp;
         data.ban_length = rsp.data.ban_length / 60;
-        data.time_to_live = 12;
         this.$refs.form.setData(data);
-        // TODO why is the time to live value not updated and shown?
-        console.log(data);
-        console.log(this.$refs.form.getData());
       });
     },
     async saveData() {
       const data = this.$refs.form.getData();
       data.ban_length *= 60;
-      (await openapi).warning_updateWarningConfig(null, data).then(() => {
+      (await openapi).warning_updateConfig(null, data).then(() => {
         this.$notify({
           title: this.$t('settingsSaveSuccess'),
           type: 'success',

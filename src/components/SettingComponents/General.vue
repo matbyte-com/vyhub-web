@@ -26,13 +26,13 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).design_getGeneralSettings().then((rsp) => {
+      (await openapi).general_getConfig().then((rsp) => {
         this.$refs.form.setData(rsp.data);
       });
     },
     async saveData() {
       const data = this.$refs.form.getData();
-      (await openapi).design_editGeneralSettings(null, data).then(() => {
+      (await openapi).general_editConfig(null, data).then(() => {
         // caught in App.vue to Update Theme + Header
         EventBus.emit('themeUpdated');
         this.$notify({

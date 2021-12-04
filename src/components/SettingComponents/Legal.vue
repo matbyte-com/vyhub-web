@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).design_getLegal().then((rsp) => {
+      (await openapi).general_getLegal().then((rsp) => {
         this.content = rsp.data;
         this.errorMsg = '';
       }).catch((err) => {
@@ -57,7 +57,7 @@ export default {
         return;
       }
       this.loading = true;
-      (await openapi).design_updateLegal(null, { content: this.content }).then((rsp) => {
+      (await openapi).general_updateLegal(null, { content: this.content }).then((rsp) => {
         this.content = rsp.data;
         this.errorMsg = '';
         this.loading = false;

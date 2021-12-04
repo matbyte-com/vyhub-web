@@ -221,7 +221,7 @@ export default {
   },
   methods: {
     async getNavItems() {
-      (await openapi).design_getNavItems().then((rsp) => {
+      (await openapi).general_getNavItems().then((rsp) => {
         this.updateLinkEnabled = false;
         this.links = rsp.data;
       }).catch((err) => console.log(`Could not query nav ${err}`));
@@ -242,7 +242,7 @@ export default {
       }
       this.linkInput = item.link;
       if (item.linkType === 'html' && item.html) {
-        (await openapi).design_getCmsHtml(item.html)
+        (await openapi).general_getCmsHtml(item.html)
           .then((rsp) => { this.rawHtmlInput = rsp.data.content; });
       }
       this.$refs.navEditDialog.show(item);
@@ -271,7 +271,7 @@ export default {
         data.link = `/cms/${data.title.toLowerCase()}`;
       }
       this.links.push(data);
-      (await openapi).design_updateNavItems(null, this.links).then(() => {
+      (await openapi).general_updateNavItems(null, this.links).then(() => {
         this.$refs.navAddDialog.closeAndReset();
         this.getNavItems();
         EventBus.emit('navUpdated');
@@ -281,7 +281,7 @@ export default {
       });
     },
     async updateLinkOrder() {
-      (await openapi).design_updateNavItems(null, this.links).then(() => {
+      (await openapi).general_updateNavItems(null, this.links).then(() => {
         this.updateLinkEnabled = false;
         this.getNavItems();
         EventBus.emit('navUpdated'); // Event caught in Header to Update Navlinks
@@ -305,7 +305,7 @@ export default {
         this.$refs.deleteConfirmationDialog.setErrorMessage('Couldnt find index of nav object to update');
         return;
       }
-      (await openapi).design_deleteCmsHtml(nav.html);
+      (await openapi).general_deleteCmsHtml(nav.html);
       this.updateLinkOrder();
       this.$refs.deleteConfirmationDialog.closeAndReset();
     },
@@ -335,11 +335,11 @@ export default {
         // html content
         if (nav.html) {
           // update existing HTML Page Entry
-          await (await openapi).design_updateCmsHtml(nav.html, { content: inputToUpdate });
+          await (await openapi).general_updateCmsHtml(nav.html, { content: inputToUpdate });
           linkUpdated.html = nav.html;
         } else {
           // create new HTML Page Entry and save UUID
-          await (await openapi).design_createCmsHtml(null, { content: inputToUpdate })
+          await (await openapi).general_createCmsHtml(null, { content: inputToUpdate })
             .then((rsp) => { linkUpdated.html = rsp.data.id; })
             .catch((err) => {
               this.$refs.navEditDialog.setErrorMessage(err);

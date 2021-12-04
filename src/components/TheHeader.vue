@@ -93,7 +93,7 @@ export default {
     async getNavItems() {
       const api = await openapi;
 
-      api.design_getNavItems().then((rsp) => {
+      api.general_getNavItems().then((rsp) => {
         this.$store.commit('SET_NAV_ITEMS', rsp.data);
         this.links = rsp.data;
       }).catch((err) => console.log(`Could not query nav ${err}`));

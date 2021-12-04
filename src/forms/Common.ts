@@ -1,5 +1,6 @@
 import countries from 'country-list';
 import countryUnicodeFlags from 'country-flag-icons/unicode';
+import cc from 'currency-codes';
 import i18n from '@/plugins/i18n';
 import config from '@/config';
 
@@ -143,6 +144,12 @@ export default {
     'x-fromUrl': `${API_URL}/group/`,
     'x-itemTitle': 'name',
     'x-itemKey': 'id',
+  },
+  currency_code: {
+    type: 'string',
+    title: i18n.t('_packet.labels.currency'),
+    'x-cols': 4,
+    enum: cc.codes(),
   },
   apiURL: API_URL,
 };

@@ -13,7 +13,6 @@
 import emitter from '@/services/EventBus';
 import GenForm from '@/components/GenForm.vue';
 import ThemePickerSchema from '@/forms/ThemePicker';
-import api from '@/api/api';
 import openapi from '@/api/openapi';
 import SettingTitle from './SettingTitle.vue';
 
@@ -30,12 +29,17 @@ export default {
     };
   },
   beforeMount() {
-    api.design.getTheme().then((rsp) => { this.$refs.themePicker.setData(rsp.data); });
+    this.queryData();
   },
   methods: {
+    async queryData() {
+      (await openapi).general_getTheme().then((rsp) => {
+        this.$refs.themePicker.setData(rsp.data);
+      });
+    },
     async setTheme() {
       const data = this.$refs.themePicker.getData();
-      (await openapi).design_updateTheme(
+      (await openapi).general_updateTheme(
         null, data,
       ).then(() => {
         this.errorMessage = null;

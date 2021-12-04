@@ -1,8 +1,9 @@
 import i18n from '@/plugins/i18n';
+import Common from '@/forms/Common';
 
 export default {
   type: 'object',
-  required: ['donation_goal_enabled'],
+  required: ['donation_goal_enabled', 'donation_goal_currency_code'],
   properties: {
     donation_goal_enabled: {
       type: 'boolean',
@@ -15,6 +16,11 @@ export default {
       type: 'integer',
       title: i18n.t('_shop.labels.donationGoal'),
       minimum: '0',
+      'x-cols': 6,
+    },
+    donation_goal_currency_code: {
+      ...Common.currency_code,
+      'x-cols': 6,
     },
     checkout_checkboxes: {
       type: 'array',

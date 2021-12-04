@@ -13,7 +13,7 @@ const getDefaultState = () => ({
   address: null,
   cartPacketCount: 0,
   creditAccount: null,
-  generalSettings: null,
+  generalConfig: null,
   navItems: null,
   theme: null,
 });
@@ -32,7 +32,7 @@ export default new Vuex.Store({
     address: (state) => state.address,
     cartPacketCount: (state) => state.cartPacketCount,
     creditAccount: (state) => state.creditAccount,
-    generalSettings: (state) => state.generalSettings,
+    generalConfig: (state) => state.generalConfig,
     navItems: (state) => state.navItems,
     theme: (state) => state.theme,
   },
@@ -60,8 +60,8 @@ export default new Vuex.Store({
     SET_CREDIT_ACCOUNT: (state, credits) => {
       state.creditAccount = credits;
     },
-    SET_GENERAL_SETTINGS: (state, general_settings) => {
-      state.generalSettings = general_settings;
+    SET_GENERAL_CONFIG: (state, general_config) => {
+      state.generalConfig = general_config;
     },
     SET_NAV_ITEMS: (state, nav_items) => {
       state.navItems = nav_items;

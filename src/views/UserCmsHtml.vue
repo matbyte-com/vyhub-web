@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     async getLinks() {
-      (await openapi).design_getNavItems().then((rsp) => {
+      (await openapi).general_getNavItems().then((rsp) => {
         this.links = rsp.data;
       })
         .catch((err) => console.log(err.data));
@@ -37,7 +37,7 @@ export default {
     async getHtml() {
       const htmlId = this.links
         .find((l) => l.title.toLowerCase() === this.$route.params.title).html;
-      (await openapi).design_getCmsHtml(htmlId).then((rsp) => { this.html = rsp.data.content; })
+      (await openapi).general_getCmsHtml(htmlId).then((rsp) => { this.html = rsp.data.content; })
         .catch((err) => {
           this.html = `Error while fetching HTML ${err}`;
           console.log(err.data);

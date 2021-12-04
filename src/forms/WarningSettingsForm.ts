@@ -5,7 +5,7 @@ export default {
   required: ['time_to_live', 'count_till_ban', 'ban_length'],
   properties: {
     time_to_live: {
-      type: 'string',
+      type: 'integer',
       title: i18n.t('_warning.ttl'),
       'x-props': {
         placeholder: i18n.t('_warning.ttlPlaceholder'),
