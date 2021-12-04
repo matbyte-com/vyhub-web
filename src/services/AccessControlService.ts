@@ -7,6 +7,13 @@
 import store from '@/store/index';
 import config from '@/config';
 
+interface Property {
+  name: string
+  granted: boolean
+  value: string
+  user_id: string
+}
+
 export default {
   methods: {
     $checkProp(prop: string, bundleId?: string): boolean {
@@ -33,10 +40,13 @@ export default {
 
       // return bool depending if Optional[bundleId] is set
       if (bundleId) {
-        return properties
-          .some((el: any) => el.name === prop && el.serverbundle_id === bundleId);
+        throw Error('Not implemented.');
+        // TODO: Get properties by severbundle from backend
+        // return properties
+        //  .some((el: Property) => el.name === prop && el.serverbundle_id === bundleId
+        //  && el.granted);
       }
-      return properties.some((el: { name: string }) => el.name === prop);
+      return properties.some((el: Property) => el.name === prop && el.granted);
     },
   },
 };
