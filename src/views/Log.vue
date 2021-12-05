@@ -7,6 +7,7 @@
         class="mt-4"
         :headers="headers"
         :items="logs"
+        show-expand
         :server-items-length.sync="totalItems"
         :items-per-page.sync="itemsPerPage"
         @update:page="newPage"
@@ -60,9 +61,14 @@
           </v-row>
         </template>
         <template v-slot:item.message="{ item }">
-          <span>
+          <div class="text-truncate" :style="{'max-width': $vuetify.breakpoint.width / 2 + 'px'}">
             {{ $t(`_log.${item.message.name}`, { ...item.message.kwargs }) }}
-          </span>
+          </div>
+        </template>
+        <template v-slot:expanded-item="{ headers, item }">
+          <td :colspan="headers.length">
+            {{ $t(`_log.${item.message.name}`, { ...item.message.kwargs }) }}
+          </td>
         </template>
         <template v-slot:item.author="{ item }">
           <div v-if="item.author != null">
@@ -100,6 +106,7 @@ export default {
   data() {
     return {
       updateBtnLoading: false,
+      expanded: [],
       selectedCat: [],
       itemsPerPage: 50,
       newMessages: null,
@@ -107,10 +114,14 @@ export default {
       totalItems: 20,
       categories: [],
       headers: [
-        { text: this.$t('message'), value: 'message', sortable: false },
+        {
+          text: this.$t('createdOn'), value: 'time', sortable: false, width: '10%',
+        },
         { text: this.$t('user'), value: 'author', sortable: false },
         { text: this.$t('type'), value: 'category', sortable: false },
-        { text: this.$t('createdOn'), value: 'time', sortable: false },
+        {
+          text: this.$t('message'), value: 'message', sortable: false, width: '60%',
+        },
       ],
       state: {
         page: 1,

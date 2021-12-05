@@ -41,19 +41,18 @@ export default {
   data() {
     return {
       entries: [],
-      headers: [
-        { text: this.$t('user'), value: 'author' },
-        { text: this.$t('message'), value: 'message' },
-        { text: this.$t('date'), value: 'created_on' },
-      ],
       search: null,
     };
   },
   props: {
     type: String,
-    category: String,
+    categories: Array,
     objId: String,
     showSearch: Boolean,
+    showCategory: {
+      type: Boolean,
+      default: false,
+    },
   },
   beforeMount() {
     this.queryData();
@@ -72,12 +71,29 @@ export default {
         logFn = api.ban_getLogs;
         params = [{ uuid: this.objId }];
       } else {
-        params = [{ category: this.category }];
+        params = [{ category: this.categories }];
       }
 
       logFn(...params).then((rsp) => {
         this.entries = rsp.data;
       });
+    },
+  },
+  computed: {
+    headers() {
+      const headers = [
+        { text: this.$t('user'), value: 'author' },
+        { text: this.$t('message'), value: 'message' },
+        { text: this.$t('date'), value: 'created_on' },
+      ];
+
+      if (this.showCategory) {
+        headers.push(
+          { text: this.$t('type'), value: 'category', sortable: false },
+        );
+      }
+
+      return headers;
     },
   },
 };
