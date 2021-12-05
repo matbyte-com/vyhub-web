@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import api from '@/api/api';
 import AuthService from '@/services/AuthService';
 import Dialog from '@/components/Dialog.vue';
 import UserService from '@/services/UserService';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'Login.vue',
@@ -68,9 +68,9 @@ export default {
     redirectToSocial(backend) {
       window.location.href = AuthService.getSocialAuthUrl(backend, this.$route.query.return_url);
     },
-    startAuth(backend) {
+    async startAuth(backend) {
       if (this.$store.getters.isLoggedIn) {
-        api.user.prepareSocialAuth().then(() => {
+        (await openapi).auth_prepareSocial().then(() => {
           this.redirectToSocial(backend);
         }).catch((err) => {
           console.log(err);

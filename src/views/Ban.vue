@@ -191,7 +191,6 @@ import LogTable from '@/components/LogTable.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
-import apiService from '@/api/api';
 import DataTable from '@/components/DataTable.vue';
 import Dialog from '../components/Dialog.vue';
 import openapi from '../api/openapi';
@@ -299,29 +298,31 @@ export default {
 
       return `red ${add}`;
     },
-    addBan() {
+    async addBan() {
       const data = this.$refs.banAddDialog.getData();
 
-      apiService.ban.addBan(
-        (data.user ? data.user.id : null),
-        data.reason,
-        data.length * 60,
-        (data.serverbundle ? data.serverbundle.id : null),
-      ).then(() => {
+      (await openapi).ban_createBan(null, {
+        user_id: (data.user ? data.user.id : null),
+        reason: data.reason,
+        length: data.length * 60,
+        serverbundle_id: (data.serverbundle ? data.serverbundle.id : null),
+      }).then(() => {
         this.queryData(1);
         this.$refs.banAddDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.banAddDialog.setErrorMessage(err.response.data.detail);
       });
     },
-    editBan() {
+    async editBan() {
       const data = this.$refs.banEditDialog.getData();
 
-      apiService.ban.editBan(
-        this.currentBan.id,
-        data.reason,
-        data.length * 60,
-        (data.serverbundle ? data.serverbundle.id : null),
+      (await openapi).ban_editBan(
+        { uuid: this.currentBan.id },
+        {
+          reason: data.reason,
+          length: data.length * 60,
+          serverbundle_id: (data.serverbundle ? data.serverbundle.id : null),
+        },
       ).then(() => {
         this.queryData(this.page);
         this.$refs.banEditDialog.closeAndReset();
@@ -330,9 +331,9 @@ export default {
         this.$refs.banEditDialog.setErrorMessage(err.response.data.detail);
       });
     },
-    deleteBan(ban) {
-      apiService.ban.deleteBan(
-        ban.id,
+    async deleteBan(ban) {
+      (await openapi).ban_deleteBan(
+        { uuid: ban.id },
       ).then(() => {
         this.$refs.deleteBanDialog.closeAndReset();
         this.banDetailShown = false;
@@ -342,20 +343,20 @@ export default {
         console.log(err);
       });
     },
-    unbanBan() {
-      apiService.ban.editBanStatus(
-        this.currentBan.id,
-        'UNBANNED',
+    async unbanBan() {
+      (await openapi).ban_editBan(
+        { uuid: this.currentBan.id },
+        { status: 'UNBANNED' },
       ).then(() => {
         this.queryData(this.page);
       }).catch((err) => {
         console.log(err);
       });
     },
-    rebanBan() {
-      apiService.ban.editBanStatus(
-        this.currentBan.id,
-        'ACTIVE',
+    async rebanBan() {
+      (await openapi).ban_editBan(
+        { uuid: this.currentBan.id },
+        { status: 'ACTIVE' },
       ).then(() => {
         this.queryData(this.page);
       }).catch((err) => {

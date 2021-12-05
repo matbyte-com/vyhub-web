@@ -31,7 +31,7 @@
 
 <script>
 import UserLink from '@/components/UserLink.vue';
-import api from '../api/api';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'LogTable',
@@ -59,18 +59,20 @@ export default {
     this.queryData();
   },
   methods: {
-    queryData() {
-      let logFn = api.log.getEntries;
+    async queryData() {
+      const api = await openapi;
+
+      let logFn = api.log_getLog;
       let params = [];
 
       if (this.type === 'user') {
-        logFn = api.user.getLog;
-        params = [this.objId];
+        logFn = api.user_getLog;
+        params = [{ uuid: this.objId }];
       } else if (this.type === 'ban') {
-        logFn = api.ban.getLog;
-        params = [this.objId];
+        logFn = api.ban_getLogs;
+        params = [{ uuid: this.objId }];
       } else {
-        params = [this.category];
+        params = [{ category: this.category }];
       }
 
       logFn(...params).then((rsp) => {

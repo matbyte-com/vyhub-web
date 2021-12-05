@@ -135,7 +135,7 @@ export default {
       (await openapi).log_getLog({
         size: this.itemsPerPage,
         page: this.state.page,
-        categories: this.selectedCat,
+        category: this.selectedCat,
       })
         .then((rsp) => {
           this.logs = rsp.data.items;

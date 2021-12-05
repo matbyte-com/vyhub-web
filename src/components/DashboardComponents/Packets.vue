@@ -61,10 +61,10 @@
 </template>
 
 <script>
-import api from '@/api/api';
 import DataIterator from '../DataIterator.vue';
 import Dialog from '../Dialog.vue';
 import BoolIcon from '../BoolIcon.vue';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'Packets.vue',
@@ -82,8 +82,8 @@ export default {
     this.queryData();
   },
   methods: {
-    queryData() {
-      api.user.getPackets(this.user.id).then((rsp) => {
+    async queryData() {
+      (await openapi).user_getPackets({ uuid: this.user.id }).then((rsp) => {
         this.userPackets = rsp.data;
       }).catch((err) => {
         console.log(err);
