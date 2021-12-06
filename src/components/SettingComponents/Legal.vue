@@ -62,6 +62,10 @@ export default {
         this.errorMsg = '';
         this.loading = false;
         this.success = true;
+        this.$notify({
+          title: this.$t('_legal.messages.editedLegal'),
+          type: 'success',
+        });
         setTimeout(() => {
           this.success = false;
         }, 3000);

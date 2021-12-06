@@ -211,6 +211,10 @@ export default {
       ).then(() => {
         this.fetchData();
         this.$refs.addGroupDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_group.messages.addedGroup'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.addGroupDialog.setErrorMessage(err.response.data.detail);
       });
@@ -245,6 +249,10 @@ export default {
       (await openapi).group_deleteGroup(group.id).then(() => {
         this.$refs.deleteGroupDialog.cancel();
         this.fetchData();
+        this.$notify({
+          title: this.$t('_group.messages.deletedGroup'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.deleteGroupDialog.setErrorMessage(err.response.data.detail);
       });
@@ -271,6 +279,10 @@ export default {
         .then(() => {
           this.fetchData();
           this.$refs.editGroupDialog.closeAndReset();
+          this.$notify({
+            title: this.$t('_group.messages.editedGroup'),
+            type: 'success',
+          });
         }).catch((err) => {
           this.$refs.editGroupDialog.setErrorMessage(err.response.data.detail);
         });

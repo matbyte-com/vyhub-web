@@ -110,6 +110,13 @@
       "logoWidth": "Logo Width"
     }
   },
+  "_group": {
+    "messages": {
+      "addedGroup": "Added Group",
+      "deletedGroup": "Deleted Group",
+      "editedGroup": "Edited Group"
+    }
+  },
   "_properties": {
     "ban_show": "Enables user to display bans in specified bundle",
     "ban_edit": "Enables user to edit bans in specified bundle",
@@ -222,6 +229,19 @@
       "news": "News",
       "requirement": "Requirement",
       "design": "Design"
+    },
+    "_legal": {
+      "messages": {
+        "editedLegal": "Edited Legal"
+      }
+    },
+    "_navigation": {
+      "messages": {
+        "addedLink": "Added Navigation Link",
+        "updatedLinkOrder": "Updated Navigation Order",
+        "removedLink": "Removed Navigation Link",
+        "editedLink": "Edited Navigation Link"
+      }
     },
     "object_edit": "Edited {classname} with id {id}: {key} = {value}.",
     "object_delete": "Deleted {classname} with id {id}.",
@@ -421,7 +441,7 @@
       "cancelSubscriptionConfirm": "Are you sure that you want to cancel this subscription?"
     }
   },
-  "home": {
+  "_home": {
     "newsOfTheDay": "News of the day",
     "news": "News",
     "newsExhausted": "That's it. You have seen everything",
@@ -430,7 +450,12 @@
     "messageTypeNews": "Message",
     "messageTypePinned": "Message Of The Day",
     "messageSubject": "Subject",
-    "editNews": "Edit Message"
+    "editNews": "Edit Message",
+    "messages": {
+      "addSuccess": "News successfully added",
+      "editSuccess": "News edited successfully",
+      "deleteSucces": "News deleted successfully"
+    }
   },
   "_requirement": {
     "addRequirement": "Requirement",
@@ -467,6 +492,15 @@
       "ONLY_INACTIVE": "Only Active",
       "HAVE": "Have",
       "NHAVE": "Have Not"
+    },
+    "messages": {
+      "addedSet": "Added Requirement Set",
+      "editedSet": "Edited Requirement Set",
+      "addedRequirement": "Added Requirement",
+      "editedRequirement": "Edited Requirement Set",
+      "deletedSet": "Deleted Requirement Set",
+      "deletedRequirement": "Deleted Requirement",
+      "editedFormula": "Edited Formula"
     }
   },
   "_gateway": {
@@ -527,6 +561,9 @@
       "news": "News",
       "ticket": "Ticket"
     },
+    "messages": {
+      "readSuccess": "Successfully toggled read status"
+    },
     "new_news": "News created {newsSubject}",
     "new_ticket": "Ticket created {title} by {username}",
     "update_ticket": "New post in ticket: {title}",
@@ -560,7 +597,13 @@
     "settingFormDesc": "Users are banned automatically when they reach the specified number of ACTIVE warnings.",
     "add": "Add Warning",
     "banLength": "Length of automatic ban (minutes)",
-    "reason": "Reason"
+    "reason": "Reason",
+    "messages": {
+      "addedWarning": "Added Warning",
+      "deletedWarning": "Deleted Warning",
+      "toggledWarning": "Toggled Warning Status",
+      "editedSettings": "Edited Settings"
+    }
   },
   "_ticket": {
     "tickets": "Tickets",
@@ -575,7 +618,12 @@
     "open": "Open",
     "closed": "Closed",
     "close": "Close",
-    "showClosed": "show closed"
+    "showClosed": "show closed",
+    "messages": {
+      "addedPost": "Post added",
+      "toggleStatus": "Status toggled",
+      "addedThread": "Thread added"
+    }
   },
   "_server": {
     "labels": {
@@ -590,6 +638,11 @@
       "createSuccess": "Server successfully created.",
       "editSuccess": "Server successfully edited.",
       "deleteSuccess": "Server successfully deleted."
+    }
+  },
+  "_theme": {
+    "messages": {
+      "editedTheme": "Edited Theme"
     }
   },
   "_server_exception": {

@@ -2,7 +2,7 @@
   <div>
     <!-- Add Message Dialog -->
     <dialog-form ref="messageAddDialog" :form-schema="messageAddSchema"
-                 :title="$t('home.addNews')"
+                 :title="$t('_home.addNews')" title-icon="mdi-newspaper-plus"
                  :max-width="1000"
                  @submit="addMessage"
     >
@@ -11,7 +11,7 @@
       </template>
     </dialog-form>
     <dialog-form ref="messageEditDialog" :form-schema="messageAddSchema"
-                 :title="$t('home.editNews')"
+                 :title="$t('_home.editNews')" title-icon="mdi-newspaper"
                  :max-width="1000"
                  @submit="editMessage">
       <template slot="type-after">
@@ -56,14 +56,14 @@
         <!-- News of the Day -->
         <v-row class="pa-0">
           <v-col v-if="getNewsOfTheDay.length !== 0">
-            <PageTitle icon="mdi-newspaper" :title="$t('home.newsOfTheDay')"/>
+            <PageTitle icon="mdi-newspaper" :title="$t('_home.newsOfTheDay')"/>
           </v-col>
           <!-- Add News Button -->
           <v-col v-if="$checkProp('news_edit')" class="d-flex">
             <v-spacer v-if="$vuetify.breakpoint.smAndUp"/>
               <v-btn color="success" @click="showAddMessageDialog" data-cy="new-message-button">
                 <v-icon left>mdi-plus</v-icon>
-                <span>{{ $t('home.addNews') }}</span>
+                <span>{{ $t('_home.addNews') }}</span>
               </v-btn>
           </v-col>
         </v-row>
@@ -101,7 +101,7 @@
         <!-- Display News -->
         <v-row v-if="getNews.length !== 0" class="mt-5">
           <v-col>
-            <PageTitle icon="mdi-newspaper-variant-multiple" :title="$t('home.news')"/>
+            <PageTitle icon="mdi-newspaper-variant-multiple" :title="$t('_home.news')"/>
           </v-col>
         </v-row>
         <transition-group enter-active-class="animate__animated animate__fadeIn"
@@ -143,7 +143,7 @@
             </div>
             <v-card flat v-if="exhausted" class="mt-3">
               <v-card-text class="text-center animate__animated animate__fadeIn">
-                {{ $t('home.newsExhausted') }}
+                {{ $t('_home.newsExhausted') }}
               </v-card-text>
             </v-card>
           </v-col>
@@ -254,6 +254,10 @@ export default {
         this.$refs.messageAddDialog.closeAndReset();
         this.message = null;
         this.news.unshift(rsp.data);
+        this.$notify({
+          title: this.$t('_home.messages.addSuccess'),
+          type: 'success',
+        });
       }).catch((err) => this.$refs.messageAddDialog.setErrorMessage(err.response.data.detail));
     },
     openDeleteMessageDialog(message) {
@@ -261,7 +265,13 @@ export default {
     },
     async deleteMessage(message) {
       (await openapi).news_deleteMessage(message.id)
-        .then(this.$refs.deleteMessageDialog.closeAndReset)
+        .then(() => {
+          this.$refs.deleteMessageDialog.closeAndReset();
+          this.$notify({
+            title: this.$t('_home.messages.deleteSuccess'),
+            type: 'success',
+          });
+        })
         .catch((err) => this.$refs.deleteMessageDialog.setErrorMessage(err.response.data.detail));
       const index = this.news.findIndex((n) => n.id === message.id);
       if (index > -1) {
@@ -283,6 +293,10 @@ export default {
             this.news.splice(index, 1, rsp.data);
           }
           this.$refs.messageEditDialog.closeAndReset();
+          this.$notify({
+            title: this.$t('_home.messages.editSuccess'),
+            type: 'success',
+          });
         }).catch((err) => this.$refs.messageEditDialog.setErrorMessage(err.response.data.detail));
     },
     setWidth() {

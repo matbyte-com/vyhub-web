@@ -118,6 +118,10 @@ export default {
       (await openapi).forum_newThread(null, data).then(() => {
         this.$refs.addThreadDialog.close();
         this.fetchData();
+        this.$notify({
+          title: this.$t('_ticket.messages.addedThread'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.addThreadDialog.setErrorMessage(err.response.data.detail);
       });

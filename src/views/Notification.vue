@@ -225,18 +225,27 @@ export default {
       (await openapi).notification_markAsRead(null, { all: true }).then(() => {
         this.$refs.markAsReadDialog.closeAndReset();
         this.fetchData();
+        this.$notify({
+          title: this.$t('notification.messages.readSuccess'),
+          type: 'success',
+        });
       });
     },
     rowClick(item) {
-      this.toggleReadStatus(item);
+      if (!item.read) {
+        this.toggleReadStatus(item);
+      }
       if (item.link) this.$router.push({ name: item.link.name, params: { ...item.link.kwargs } });
     },
     async toggleReadStatus(item) {
-      if (item.read !== true) {
-        (await openapi).notification_markAsRead(null, { id: [item.id] });
-        // eslint-disable-next-line no-param-reassign
-        item.read = !item.read;
-      }
+      (await openapi).notification_markAsRead(null, { id: [item.id] }).then(() => {
+        this.$notify({
+          title: this.$t('notification.messages.readSuccess'),
+          type: 'success',
+        });
+      });
+      // eslint-disable-next-line no-param-reassign
+      item.read = !item.read;
     },
   },
 };

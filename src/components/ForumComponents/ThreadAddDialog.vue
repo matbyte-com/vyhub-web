@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     getData() {
-      if (this.content.length() > config.html_max_input_length) {
+      if (this.content.length > config.html_max_input_length) {
         this.errorMsg = i18n.t('maxInputExceeded', { length: config.html_max_input_length });
         return {};
       }

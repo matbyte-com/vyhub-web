@@ -111,13 +111,23 @@ export default {
       (await openapi).forum_newPost(this.threadId, data).then(() => {
         this.$refs.addPostDialog.close();
         this.fetchData();
+        this.$notify({
+          title: this.$t('_ticket.messages.addedPost'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.addPostDialog.setErrorMessage(err.response.data.detail);
       });
     },
     async toggleStatus() {
       if (this.$checkProp('ticket_edit') === false) return;
-      (await openapi).forum_toggleStatus(this.threadId).then((rsp) => { this.thread = rsp.data; });
+      (await openapi).forum_toggleStatus(this.threadId).then((rsp) => {
+        this.thread = rsp.data;
+        this.$notify({
+          title: this.$t('_ticket.messages.toggleStatus'),
+          type: 'success',
+        });
+      });
     },
   },
 };

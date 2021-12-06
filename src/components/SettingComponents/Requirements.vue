@@ -181,6 +181,10 @@ export default {
         .then(() => {
           this.fetchData();
           this.$refs.requirementSetAddDialog.closeAndReset();
+          this.$notify({
+            title: this.$t('_requirement.messages.addedSet'),
+            type: 'success',
+          });
         }).catch((err) => {
           this.$refs.requirementSetAddDialog.setErrorMessage(err.response.data.detail);
         });
@@ -199,6 +203,10 @@ export default {
         .then(() => {
           this.fetchData();
           this.$refs.requirementAddDialog.closeAndReset();
+          this.$notify({
+            title: this.$t('_requirement.messages.addedRequirement'),
+            type: 'success',
+          });
         }).catch((err) => {
           this.$refs.requirementAddDialog.setErrorMessage(err.response.data.detail);
         });
@@ -220,6 +228,10 @@ export default {
         .then(() => {
           this.fetchData();
           this.$refs.requirementSetEditForm.loading = false;
+          this.$notify({
+            title: this.$t('_requirement.messages.editedRequirement'),
+            type: 'success',
+          });
         })
         .catch((err) => {
           this.$refs.requirementSetEditForm
@@ -234,6 +246,10 @@ export default {
       (await openapi).requirements_deleteRequirementSet(reqSet.id).then(() => {
         this.fetchData();
         this.$refs.requirementSetDeleteConfirmationDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_requirement.messages.deletedSet'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.requirementSetDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
       });
@@ -245,6 +261,10 @@ export default {
       (await openapi).requirements_deleteRequirement(requirement.id).then(() => {
         this.fetchRequirements();
         this.$refs.requirementDeleteConfirmationDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_requirement.messages.deletedRequirement'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.requirementDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
       });
@@ -261,6 +281,10 @@ export default {
           this.formulaBtnLoading = false;
           this.formulaScss = true;
           setTimeout(() => { this.formulaScss = false; }, 5000);
+          this.$notify({
+            title: this.$t('_requirement.messages.editedFormula'),
+            type: 'success',
+          });
         }).catch((err) => {
           this.formulaBtnLoading = false;
           this.formulaMsg = err.response.data.detail;

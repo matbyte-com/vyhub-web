@@ -45,7 +45,7 @@ export default {
         this.errorMessage = null;
         emitter.emit('themeUpdated');
         this.$notify({
-          title: this.$t('settingsSaveSuccess'),
+          title: this.$t('_theme.messages.editedTheme'),
           type: 'success',
         });
       }).catch((err) => {

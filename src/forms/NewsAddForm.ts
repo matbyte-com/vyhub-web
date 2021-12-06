@@ -9,20 +9,20 @@ export default {
   properties: {
     subject: {
       type: 'string',
-      title: i18n.t('home.messageSubject'),
+      title: i18n.t('_home.messageSubject'),
     },
     type: {
       type: 'string',
-      title: i18n.t('home.messageType'),
+      title: i18n.t('_home.messageType'),
       default: 'DEFAULT',
       oneOf: [
         {
           const: 'DEFAULT',
-          title: i18n.t('home.messageTypeNews'),
+          title: i18n.t('_home.messageTypeNews'),
         },
         {
           const: 'PINNED',
-          title: i18n.t('home.messageTypePinned'),
+          title: i18n.t('_home.messageTypePinned'),
         },
       ],
     },

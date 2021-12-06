@@ -176,6 +176,10 @@ export default {
       (await openapi).warning_toggleWarningStatus(item.id).then(() => {
         // eslint-disable-next-line no-param-reassign
         item.disabled = !item.disabled;
+        this.$notify({
+          title: this.$t('_warning.messages.toggledWarning'),
+          type: 'success',
+        });
       });
     },
     openDeleteWarningDialog(item) {
@@ -185,6 +189,10 @@ export default {
       (await openapi).warning_deleteWarning(item.id).then(() => {
         this.$refs.deleteWarningDialog.closeAndReset();
         this.fetchData();
+        this.$notify({
+          title: this.$t('_warning.messages.deletedWarning'),
+          type: 'success',
+        });
       }).catch((err) => this.$refs.deleteWarningDialog.setErrorMessage(err.response.data.detail));
     },
     async addWarning() {
@@ -196,6 +204,10 @@ export default {
       (await openapi).warning_addWarning(null, data).then(() => {
         this.fetchData(1);
         this.$refs.addWarningDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_warning.messages.addedWarning'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.addWarningDialog.setErrorMessage(err.response.data.detail);
       });

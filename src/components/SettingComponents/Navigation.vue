@@ -275,6 +275,10 @@ export default {
         this.$refs.navAddDialog.closeAndReset();
         this.getNavItems();
         EventBus.emit('navUpdated');
+        this.$notify({
+          title: this.$t('_navigation.messages.addedLink'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.navAddDialog.setErrorMessage(err.response.data.detail);
         this.links.pop();
@@ -286,7 +290,7 @@ export default {
         this.getNavItems();
         EventBus.emit('navUpdated'); // Event caught in Header to Update Navlinks
         this.$notify({
-          title: this.$t('settingsSaveSuccess'),
+          title: this.$t('_navigation.messages.updatedLinkOrder'),
           type: 'success',
         });
       }).catch((err) => {
@@ -308,6 +312,10 @@ export default {
       (await openapi).general_deleteCmsHtml(nav.html);
       this.updateLinkOrder();
       this.$refs.deleteConfirmationDialog.closeAndReset();
+      this.$notify({
+        title: this.$t('_navigation.messages.removedLink'),
+        type: 'success',
+      });
     },
     async editNavItem(nav) {
       // check for html content and return if both are not null
@@ -362,6 +370,10 @@ export default {
       // send updated link to server
       await this.updateLinkOrder();
       this.$refs.navEditDialog.closeAndReset();
+      this.$notify({
+        title: this.$t('_navigation.messages.editedLink'),
+        type: 'success',
+      });
     },
   },
 };
