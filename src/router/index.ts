@@ -41,12 +41,6 @@ const routes: Array<RouteConfig> = [
     meta: { requiresAuth: false },
   },
   {
-    path: '/about',
-    name: 'About',
-    meta: { title: i18n.t('pageTitle.about') },
-    component: () => import('@/views/About.vue'),
-  },
-  {
     path: '/settings/:component?',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
