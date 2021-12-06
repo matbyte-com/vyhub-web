@@ -1,42 +1,7 @@
 <template>
   <v-app>
-    <notifications position="bottom left" :duration="8000" :width="400"
-                   classes="vue-notification vuetify-notification">
-      <template slot="body" slot-scope="{ item }">
-        <div :class="'vue-notification vuetify-notification ' + item.type">
-          <div class="body-2">
-            <v-row>
-              <v-col cols="1" align-self="center">
-                <v-icon v-if="item.data && item.data.icon" class="white--text">
-                  {{ item.data.icon }}
-                </v-icon>
-                <div v-else>
-                  <v-icon v-if="item.type === 'error'" class="white--text">
-                    mdi-alert-circle
-                  </v-icon>
-                  <v-icon v-else-if="item.type === 'warn'" class="white--text">
-                    mdi-alert
-                  </v-icon>
-                  <v-icon v-else-if="item.type === 'success'" class="white--text">
-                    mdi-check
-                  </v-icon>
-                  <v-icon v-else class="white--text">
-                    mdi-information
-                  </v-icon>
-                </div>
-              </v-col>
-              <v-col>
-                <div class="font-weight-bold">
-                  {{ item.title }}
-                </div>
-                {{ item.text }}
-              </v-col>
-            </v-row>
-          </div>
-        </div>
-      </template>
-    </notifications>
 
+    <VueNotification />
     <TheHeader/>
 
     <v-main :style="backgroundColor">
@@ -107,6 +72,7 @@ import UtilService from '@/services/UtilService';
 import openapi from '@/api/openapi';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
+import VueNotification from '@/components/VueNotification.vue';
 
 Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
@@ -115,6 +81,7 @@ export default Vue.extend({
   name: 'App',
 
   components: {
+    VueNotification,
     TheHeader,
     TheFooter,
   },
