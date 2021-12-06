@@ -345,10 +345,10 @@ export default {
       purchases: null,
       page: 1,
       search: '',
-      itemsPerPage: 5,
+      itemsPerPage: 10,
       totalItems: 20,
-      orderBy: '',
-      sortDesc: false,
+      orderBy: 'date',
+      sortDesc: true,
       selectedStatus: [],
       availableStatus: [],
     };
