@@ -278,6 +278,8 @@
     "user_token_create": "Created token {token_id} with scope {scope} for serverbundle {bundle_id}",
     "user_token_revoke": "Revoked token {token_id}.",
     "warning_config_edit": "Edited warning config",
+    "reward_process_failed": "Could not execute applied reward {reward_type} {applied_reward_id}: {error}",
+    "reward_process_success": "Successfully executed applied reward {reward_type} {applied_reward_id}.",
     "legal_edit": "Edited legal"
   },
   "forms": {
