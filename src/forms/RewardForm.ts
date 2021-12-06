@@ -63,8 +63,8 @@ function rewardTypeFields(rewardType: string) {
 function form() {
   return {
     type: 'object',
-    required: ['name', 'serverbundle', 'type', 'value', 'on_event'],
     allOf: [{
+      required: ['name', 'serverbundle', 'type', 'on_event'],
       properties: {
         name: {
           type: 'string',
