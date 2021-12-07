@@ -147,6 +147,7 @@
       "removeAllPackets": "Remove all packets",
       "donationGoal": "Donation Goal",
       "perMonth": "per month",
+      "loginToBuy": "Log in to buy this packet",
       "checkoutCheckboxes": "Checkout Checkboxes",
       "enableDonationGoal": "Enable Donation Goal",
       "enableDonationGoalDescription": "Donation goal component displayed on startpage (News)"
@@ -748,6 +749,7 @@
   "actions": "Actions",
   "title": "Title",
   "subtitle": "Subtitle",
+  "summary": "Summary",
   "expired": "Expired",
   "active": "Active",
   "areYouSure": "Are you sure?",

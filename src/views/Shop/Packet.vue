@@ -6,40 +6,44 @@
         </PageTitle>
 
         <v-row>
-          <v-col md="8" lg="9">
-            <v-row>
-              <v-col lg="4" class="d-flex">
-                <v-card class="flex-grow-1">
-                  <v-card-text>
-                    <v-img
-                      :src="packet.image_url"
-                    ></v-img>
-                    <v-list dense>
-                      <v-list-item v-for="point in packet.abstract" :key="point">
-                        <v-list-item-icon>
-                          <v-icon>mdi-star</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content class="body-2">
-                          {{ point }}
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col class="d-flex">
-                <v-card class="flex-grow-1">
-                  <v-card-text>
-                    <div class="body-2">
-                      {{ packet.description }}
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
+          <v-col md="3" lg="3" class="d-flex flex-column">
+            <v-card class="flex d-flex flex-column">
+              <v-card-title>
+                <v-icon left>mdi-archive-star</v-icon>
+                {{ $t('summary') }}
+              </v-card-title>
+              <v-card-text>
+                <v-img
+                  :src="packet.image_url"
+                ></v-img>
+                <v-list dense>
+                  <v-list-item v-for="point in packet.abstract" :key="point">
+                    <v-list-item-icon>
+                      <v-icon>mdi-star</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content class="body-2">
+                      {{ point }}
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-card-text>
+            </v-card>
           </v-col>
-          <v-col class="d-flex">
-            <v-card class="flex-grow-1">
+          <v-col md="6" lg="6" class="d-flex flex-column">
+            <v-card class="flex d-flex flex-column">
+              <v-card-title>
+                <v-icon left>mdi-image-text</v-icon>
+                {{ $t('description') }}
+              </v-card-title>
+              <v-card-text>
+                <div class="body-2">
+                  {{ packet.description }}
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col md="3" lg="3" class="d-flex flex-column">
+            <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-currency-usd</v-icon>
                 {{ $t('price') }}
@@ -81,8 +85,16 @@
                   </v-col>
                 </v-row>
               </v-card-text>
+              <v-spacer></v-spacer>
               <v-card-actions>
-                <v-btn block color="success" @click="addToCart">
+                <v-btn block color="info"
+                       v-if="!$store.getters.isLoggedIn"
+                       @click="$router.push({ path: $route.path,
+                       query: { login: 'true', return_url: getReturnUrl() }})">
+                  <v-icon left>mdi-lock</v-icon>
+                  {{ $t('_shop.labels.loginToBuy') }}
+                </v-btn>
+                <v-btn block color="success" @click="addToCart" v-else>
                   <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
                   <div v-else>
                     <v-icon left>mdi-cart-arrow-down</v-icon>
@@ -102,6 +114,7 @@ import ShopService from '../../services/ShopService';
 import PageTitle from '../../components/PageTitle.vue';
 import openapi from '../../api/openapi';
 import openapiCached from '../../api/openapiCached';
+import UtilService from '@/services/UtilService';
 
 export default {
   components: { PageTitle },
@@ -117,6 +130,9 @@ export default {
     this.queryData();
   },
   methods: {
+    getReturnUrl() {
+      return UtilService.data().utils.getFullUrl(this.$route.path);
+    },
     async queryData() {
       const apiCached = await openapiCached;
 
