@@ -52,11 +52,13 @@ export default {
   },
   watch: {
     $route() {
+      this.activeDef = null;
       this.fetchData();
     },
     async activeDef() {
       if (this.activeDef == null) {
         this.activeHistory = null;
+        return;
       }
 
       (await openapiCached).user_getAttributeHistory(
@@ -64,7 +66,6 @@ export default {
       ).then((rsp) => {
         this.activeHistory = rsp.data;
       }).catch((err) => {
-        console.log(err);
         this.activeHistory = null;
         this.utils.notifyUnexpectedError(err.response.data);
       });
