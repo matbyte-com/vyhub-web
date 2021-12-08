@@ -14,6 +14,7 @@ function api() {
     definition: `${config.backend_url}/openapi.json`,
     withServer: 'main',
     axiosConfigDefaults: {
+      withCredentials: true,
       headers,
     },
   }).init<Client>();
