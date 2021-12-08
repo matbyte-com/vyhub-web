@@ -29,7 +29,8 @@
           hide-default-footer>
           <template v-slot:default="{ items }">
             <v-card class="mb-2" v-for="acc in items"
-                    :key="acc.id">
+                    :key="acc.id"
+                    @click="openExternalProfileLink(acc.type, acc.identifier)">
               <v-card-title>
                 <v-row>
                   <v-col>
@@ -124,6 +125,13 @@ export default {
         return this.$store.getters.user.type === 'CENTRAL';
       }
       return false;
+    },
+    openExternalProfileLink(type, id) {
+      const link = userService.userExternalLink(type, id);
+
+      if (link != null) {
+        window.open(link, '_blank').focus();
+      }
     },
   },
   computed: {
