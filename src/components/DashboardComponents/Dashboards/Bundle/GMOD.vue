@@ -1,16 +1,19 @@
 <template>
   <div>
-    <v-card>
-      <v-card-text>
-        This is the Dashboard for Garry's Mod. Sadly, there is no content yet.
-      </v-card-text>
-    </v-card>
+    <AllBundleDashboard :user="user" :bundle="bundle" />
   </div>
 </template>
 
 <script>
+import AllBundleDashboard
+  from '@/components/DashboardComponents/Dashboards/Bundle/AllBundleDashboard.vue';
+
 export default {
-  name: 'Gmod',
+  components: { AllBundleDashboard },
+  props: {
+    user: Object,
+    bundle: Object,
+  },
 };
 </script>
 

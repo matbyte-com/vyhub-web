@@ -90,7 +90,6 @@
         </DataTable>
       </v-card-text>
     </v-card>
-    {{ selectedBundle }}
   </div>
 </template>
 

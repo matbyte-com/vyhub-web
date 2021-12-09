@@ -774,6 +774,7 @@
   "unexpectedErrorOccurred": "An unexpected error occurred.",
   "theme": "Theme",
   "url": "URL",
+  "noDataAvailable": "No data available.",
   "enabled": "Enabled",
   "htmlNoMatch": "This is not a valid url",
   "begin": "Begin",
