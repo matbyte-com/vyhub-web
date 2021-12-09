@@ -681,6 +681,7 @@
   "requirements": "Requirements",
   "servers": "Servers",
   "paymentGateways": "Payment Gateways",
+  "paymentMethods": "Payment Methods",
   "general": "General",
   "revoked": "Revoked",
   "purchases": "Purchases",

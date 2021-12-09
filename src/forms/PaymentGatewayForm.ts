@@ -54,6 +54,32 @@ function gatewayFields(gatewayType: string) {
         ],
         title: 'Webhook Secret',
       },
+      payment_methods: {
+        type: [
+          'array',
+          'null',
+        ],
+        title: i18n.t('paymentMethods'),
+        items: {
+          type: 'string',
+          enum: [
+            'alipay',
+            'card',
+            'ideal',
+            'fpx',
+            'bacs_debit',
+            'bancontact',
+            'giropay',
+            'p24',
+            'eps',
+            'sofort',
+            'sepa_debit',
+            'grabpay',
+            'afterpay_clearpay',
+            'acss_debit ',
+          ],
+        },
+      },
     };
   }
 
