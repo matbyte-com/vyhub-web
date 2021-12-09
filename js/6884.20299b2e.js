@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkvyhub"]=self["webpackChunkvyhub"]||[]).push([[6884],{76884:function(e,t,i){i.r(t),i.d(t,{default:function(){return f}});var n=function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",[i("h5",{staticClass:"text-h5"},[e._t("default")],2),e.divider?i("v-divider",{staticClass:"mb-1"}):e._e()],1)},u=[],a={name:"SettingTitle",props:{divider:{type:Boolean,default:!0}}},l=a,r=i(1001),s=i(43453),d=i.n(s),c=i(26796),v=(0,r.Z)(l,n,u,!1,null,"039c90ba",null),f=v.exports;d()(v,{VDivider:c.Z})}}]);
+//# sourceMappingURL=6884.20299b2e.js.map
