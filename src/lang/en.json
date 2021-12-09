@@ -47,7 +47,7 @@
   "_serverbundle":{
     "labels": {
       "apiKeys": "Serverbundle API Keys",
-      "createApiKey": "Create new API Key"
+      "createApiKey": "Create new API key"
     },
     "messages": {
       "createSuccess": "Serverbundle successfully created.",

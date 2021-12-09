@@ -213,6 +213,7 @@ export default {
         },
       ],
       gameserverHeaders: [
+        { text: this.$t('id'), value: 'id' },
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'type' },
         { text: this.$t('ipAddress'), value: 'address' },
@@ -353,6 +354,7 @@ export default {
     showAPIKeysDialog(bundle) {
       this.createdToken = null;
       this.activeBundle = bundle;
+      this.refreshKeys();
       this.$refs.bundleApiKeysDialog.show();
     },
     async refreshKeys() {
