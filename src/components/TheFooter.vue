@@ -10,8 +10,13 @@
         {{ link.title }}
       </v-btn>
       <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
-        {{ new Date().getFullYear() }} — <a class="text-decoration-none white--text"
-                                            href="http://vyhub.net"><strong>VyHub</strong></a>
+        <strong>
+        {{ new Date().getFullYear() }}
+        — {{ $store.getters.theme.community_name }}
+        — <a class="text-decoration-none white--text" href="http://vyhub.net">
+            Powered by VyHub
+          </a>
+        </strong>
       </v-col>
     </v-row>
     <LanguagePicker ref="languagePicker" />
