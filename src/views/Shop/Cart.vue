@@ -132,6 +132,9 @@
         <v-row>
           <v-col>
             <v-card>
+              <v-card-text v-if="currentAddress == null" class="red--text text-center">
+                {{ $t('_shop.messages.selectBillingAddressFirst') }}
+              </v-card-text>
               <v-card-actions>
                 <v-btn color="primary" block
                        :disabled="cartPackets.length == 0 || currentAddress == null ||

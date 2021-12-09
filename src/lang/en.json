@@ -174,7 +174,8 @@
       "couponApplySuccess": "Coupon successfully applied.",
       "couponRemoveSuccess": "Coupon successfully removed.",
       "couponNotApplied": "Coupon could not be applied to any packet in your cart.",
-      "includesVAT": "Includes {tax_rate}% VAT."
+      "includesVAT": "Includes {tax_rate}% VAT.",
+      "selectBillingAddressFirst": "Please select a billing address first."
     },
     "errors": {
       "cart_not_empty": "Your cart must be empty to add this packet.",

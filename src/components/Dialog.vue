@@ -12,7 +12,7 @@
         <v-spacer />
         <v-icon color="white" @click="cancel">mdi-close</v-icon>
       </v-card-title>
-      <v-card-text :class="textClass">
+      <v-card-text :class="textClass" :id="id">
         <slot></slot>
       </v-card-text>
       <v-card-actions>
@@ -37,12 +37,22 @@ export default {
       default: null,
       type: Boolean,
     },
+    withId: {
+      default: null,
+      type: Boolean,
+    },
   },
   data() {
     return {
       openValue: false,
       item: null,
+      id: null,
     };
+  },
+  mounted() {
+    if (this.withId) {
+      this.id = this.utils.random_string(6);
+    }
   },
   methods: {
     cancel() {

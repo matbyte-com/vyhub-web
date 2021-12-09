@@ -1,6 +1,6 @@
 <template>
   <Dialog :max-width="1000" icon="mdi-cart-arrow-right" :title="$t('_shop.labels.orderOverview')"
-          ref="checkoutDialog">
+          ref="checkoutDialog" with-id>
     <template>
       <div v-if="purchase == null">
         {{ $t('_shop.messages.noOngoingPurchase') }}
@@ -219,6 +219,12 @@ export default {
     showPaymentGateways() {
       if (this.checkboxes != null && this.$refs.checkboxesForm.validate()) {
         this.confirmed = true;
+
+        setTimeout(() => {
+          this.scrollDown();
+        }, 500);
+      } else {
+        this.scrollDown();
       }
     },
     async startPayment(gateway) {
@@ -252,6 +258,11 @@ export default {
     cancel() {
       this.$emit('cancel');
       this.close();
+    },
+    scrollDown() {
+      const { id } = this.$refs.checkoutDialog;
+      const container = document.querySelector(`#${id}`);
+      container.scrollTop = container.scrollHeight;
     },
   },
   computed: {
@@ -288,6 +299,8 @@ export default {
         return cbo;
       });
     },
+  },
+  watch: {
   },
 };
 </script>
