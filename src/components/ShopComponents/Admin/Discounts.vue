@@ -126,7 +126,9 @@ export default {
       const data = this.$refs.createDiscountDialog.getData();
 
       data.packet_ids = data.packets.map((packet) => packet.id);
+      data.requirement_set_id = (data.requirement_set != null ? data.requirement_set.id : null);
       delete data.packets;
+      delete data.requirement_set;
 
       const api = await openapi;
 
@@ -146,7 +148,9 @@ export default {
       const data = this.$refs.editDiscountDialog.getData();
 
       data.packet_ids = data.packets.map((packet) => packet.id);
+      data.requirement_set_id = (data.requirement_set != null ? data.requirement_set.id : null);
       delete data.packets;
+      delete data.requirement_set;
 
       const api = await openapi;
 

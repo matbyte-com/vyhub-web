@@ -192,6 +192,7 @@
   },
   "_errors": {
     "country_not_allowed": "Purchases from your country are not allowed.",
+    "requirement_parse_error": "Could not parse requirements formula. Please contact an admin.",
     "cart_not_empty": "Your cart must be empty to add this packet.",
     "packet_requires_other": "This packet requires an other packet: {packet_title}.",
     "packet_not_compatible": "This packet is not compatible with an other packet: {packet_title}.",

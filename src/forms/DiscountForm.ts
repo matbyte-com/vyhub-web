@@ -46,5 +46,6 @@ export default {
       default: true,
     },
     packets: Common.packetsSelectField,
+    requirement_set: Common.requirementSetSelectField,
   },
 };
