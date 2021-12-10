@@ -202,6 +202,7 @@ export default {
       (await openapi).requirements_createRequirement(null, data)
         .then(() => {
           this.fetchData();
+          this.fetchRequirements();
           this.$refs.requirementAddDialog.closeAndReset();
           this.$notify({
             title: this.$t('_requirement.messages.addedRequirement'),
