@@ -148,8 +148,10 @@
       "donationGoal": "Donation Goal",
       "perMonth": "per month",
       "loginToBuy": "Log in to buy this packet",
-      "checkoutCheckboxes": "Checkout Checkboxes",
-      "enableDonationGoal": "Enable Donation Goal",
+      "checkoutCheckboxes": "Checkout checkboxes",
+      "taxAllowUnknown": "Allow purchases from countries without tax rule.",
+      "taxAllowUnknownDescription": "If disabled, purchases from countries that do not have an explicit tax rule configured, are not possible.",
+      "enableDonationGoal": "Enable donation goal",
       "enableDonationGoalDescription": "Donation goal component displayed on startpage (News)"
     },
     "messages": {
@@ -177,19 +179,6 @@
       "includesVAT": "Includes {tax_rate}% VAT.",
       "selectBillingAddressFirst": "Please select a billing address first."
     },
-    "errors": {
-      "cart_not_empty": "Your cart must be empty to add this packet.",
-      "packet_requires_other": "This packet requires an other packet: {packet_title}.",
-      "packet_not_compatible": "This packet is not compatible with an other packet: {packet_title}.",
-      "packet_relation_violated": "This packet violates a packet relation with an other packet: {relation_type} {packet_title}.",
-      "packet_already_in_cart": "This packet is already in your cart.",
-      "packet_not_purchasable": "You cannot purchase this packet.",
-      "cart_full": "Your cart is full.",
-      "unauthorized": "You must be logged in to add this packet to your cart.",
-      "coupon": {
-        "not_found": "This code is invalid."
-      }
-    },
     "purchaseStatus": {
       "open": "Open",
       "cancelled": "Cancelled",
@@ -199,6 +188,21 @@
       "recurring": "Recurring",
       "enabled": "Active",
       "disabled": "Expired"
+    }
+  },
+  "_errors": {
+    "country_not_allowed": "Purchases from your country are not allowed.",
+    "cart_not_empty": "Your cart must be empty to add this packet.",
+    "packet_requires_other": "This packet requires an other packet: {packet_title}.",
+    "packet_not_compatible": "This packet is not compatible with an other packet: {packet_title}.",
+    "packet_relation_violated": "This packet violates a packet relation with an other packet: {relation_type} {packet_title}.",
+    "packet_already_in_cart": "This packet is already in your cart.",
+    "packet_not_purchasable": "You cannot purchase this packet.",
+    "cart_full": "Your cart is full.",
+    "not_found": "Not found.",
+    "unauthorized": "You must be logged in to do this.",
+    "coupon": {
+      "not_found": "This code is invalid."
     }
   },
   "_user": {
@@ -666,6 +670,8 @@
   "change": "Change",
   "code": "Code",
   "none": "None",
+  "unexpectedError": "Unexpected Error",
+  "requirementSet": "Requirement Set",
   "automatic": "Automatic",
   "discounts": "Discounts",
   "maxUsages": "Maximum Usages",

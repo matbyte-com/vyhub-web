@@ -185,11 +185,11 @@ export default {
           };
         }
 
-        this.$notify({
+        /* this.$notify({
           title: this.$t('_shop.messages.addToCartError'),
-          text: this.$t(`_shop.errors.${errDet.code}`, errDet.detail),
+          text: this.$t(`_errors.${errDet.code}`, errDet.detail),
           type: 'error',
-        });
+        }); */
       });
     },
   },

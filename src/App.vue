@@ -177,19 +177,43 @@ export default Vue.extend({
     async setApiInterceptor() {
       const client = await openapi;
       client.interceptors.response.use((response) => response,
-        (error) => {
-          let msg = '';
-          if (error.response.data.detail) {
-            msg = error.response.data.detail;
-          } else {
-            msg = error.response.data;
+        (err) => {
+          let errDet = (err.response.data.detail.code != null ? err.response.data.detail : null);
+
+          if (err.response.status === 401) {
+            errDet = {
+              code: 'unauthorized',
+              detail: { },
+            };
           }
-          this.$notify({
-            title: `${this.$t('error')} ${error.response.status}`,
-            text: msg,
-            type: 'error',
-          });
-          return Promise.reject(error);
+
+          if (errDet != null && this.$te(`_errors.${errDet.code}`)) {
+            this.$notify({
+              title: this.$t('error'),
+              text: this.$t(`_errors.${errDet.code}`, errDet.detail),
+              type: 'error',
+            });
+          } else {
+            let msg = '';
+
+            if (err.response.data.detail) {
+              if (err.response.data.detail.code) {
+                msg = `${err.response.data.detail.code} - ${err.response.data.detail.msg}`;
+              } else {
+                msg = err.response.data.detail;
+              }
+            } else {
+              msg = err.response.data;
+            }
+
+            this.$notify({
+              title: `${this.$t('unexpectedError')} ${err.response.status}`,
+              text: msg,
+              type: 'error',
+            });
+          }
+
+          return Promise.reject(err);
         });
     },
   },

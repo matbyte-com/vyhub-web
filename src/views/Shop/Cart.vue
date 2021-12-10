@@ -263,9 +263,6 @@ export default {
           this.$store.dispatch('setCartPacketCount', {
             cartPacketCount: this.cartPackets.length,
           });
-        }).catch((err) => {
-          console.log(err);
-          this.utils.notifyUnexpectedError(err.response.data);
         });
 
       api.user_getPurchases({
@@ -397,7 +394,7 @@ export default {
         }
       }).catch((err) => {
         console.log(err);
-        this.couponError = this.$t(`_shop.errors.coupon.${err.response.data.detail.code}`,
+        this.couponError = this.$t(`_errors.coupon.${err.response.data.detail.code}`,
           err.response.data.detail.detail);
       });
     },

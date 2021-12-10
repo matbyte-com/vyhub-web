@@ -98,6 +98,13 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
+  requirementSetSelectField: {
+    type: 'object',
+    title: i18n.t('requirementSet'),
+    'x-fromUrl': `${API_URL}/requirement/set`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'name',
+  },
   iconPicker: {
     title: i18n.t('icon'),
     type: 'string',

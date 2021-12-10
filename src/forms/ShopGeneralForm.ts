@@ -22,6 +22,12 @@ export default {
       ...Common.currency_code,
       'x-cols': 6,
     },
+    tax_allow_unknown: {
+      type: 'boolean',
+      title: i18n.t('_shop.labels.taxAllowUnknown'),
+      description: i18n.t('_shop.labels.taxAllowUnknownDescription'),
+      default: 'true',
+    },
     checkout_checkboxes: {
       type: 'array',
       title: i18n.t('_shop.labels.checkoutCheckboxes'),

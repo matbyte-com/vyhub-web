@@ -36,6 +36,8 @@ export default {
           }));
         },
         notifyUnexpectedError(detail: object) {
+          return;
+
           Vue.notify({
             title: i18n.t('unexpectedErrorOccurred').toString(),
             text: JSON.stringify(detail),
