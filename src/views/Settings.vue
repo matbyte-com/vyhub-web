@@ -181,6 +181,13 @@ export default {
           disabled: true,
         },
         {
+          name: 'api',
+          icon: 'mdi-code-json',
+          component: 'API',
+          reqProp: 'apikey_edit',
+          title: this.$t('api'),
+        },
+        {
           name: 'legal',
           icon: 'mdi-scale-balance',
           component: 'Legal',

@@ -165,7 +165,7 @@
       </v-card>
       <h6 class="text-h6 mb-2 mt-3">{{ $t('_serverbundle.labels.createApiKey') }}</h6>
       <GenForm :cancel-text="null" :submit-text="$t('create')" :form-schema="createTokenSchema"
-               @submit="createnToken" ref="createTokenForm">
+               @submit="createToken" ref="createTokenForm">
 
       </GenForm>
     </Dialog>
@@ -373,7 +373,7 @@ export default {
         this.refreshKeys();
       });
     },
-    async createnToken() {
+    async createToken() {
       const api = await openapi;
 
       const data = this.$refs.createTokenForm.getData();

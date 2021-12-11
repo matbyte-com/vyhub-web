@@ -183,6 +183,7 @@ export default Vue.extend({
           if (err.response.status === 401) {
             errDet = {
               code: 'unauthorized',
+              msg: '',
               detail: { },
             };
           }
@@ -190,7 +191,7 @@ export default Vue.extend({
           if (errDet != null && this.$te(`_errors.${errDet.code}`)) {
             this.$notify({
               title: this.$t('error'),
-              text: this.$t(`_errors.${errDet.code}`, errDet.detail),
+              text: this.$t(`_errors.${errDet.code}`, { ...errDet.detail, msg: errDet.msg }),
               type: 'error',
             });
           } else {

@@ -201,6 +201,8 @@
     "packet_not_purchasable": "You cannot purchase this packet.",
     "cart_full": "Your cart is full.",
     "not_found": "Not found.",
+    "missing_properties": "You do not have all required properties: {properties}",
+    "no_permissions": "Permission error: {msg}",
     "unauthorized": "You must be logged in to do this.",
     "coupon": {
       "not_found": "This code is invalid."
@@ -664,6 +666,17 @@
     "group": "Group",
     "discordRoleNotFound": "Discord Role not found. Please delete relation"
   },
+  "_api": {
+    "labels": {
+      "createKey": "Create Key",
+      "limitToServerbundle": "Limit to Serverbundle"
+    },
+    "messages": {
+      "keyCreated": "Created new key:",
+      "keyCreateSuccess": "Key successfully created.",
+      "keyRevokeSuccess": "Key successfully revoked."
+    }
+  },
   "update": "Update",
   "recurring": "Recurring",
   "revenue": "Revenue",
@@ -779,6 +792,8 @@
   "or": "or",
   "ipAddress": "IP-Address",
   "continue": "Continue",
+  "apiKeys": "API Keys",
+  "api": "API",
   "unexpectedErrorOccurred": "An unexpected error occurred.",
   "theme": "Theme",
   "url": "URL",
