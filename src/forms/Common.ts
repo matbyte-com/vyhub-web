@@ -54,6 +54,7 @@ export default {
       format: 'hexcolor',
       default: '#000000',
       description: (description != null ? i18n.t(description) : null),
+      'x-cols': 6,
       'x-props': {
         showSwatches: true,
         hideCanvas: true,

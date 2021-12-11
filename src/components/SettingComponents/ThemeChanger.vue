@@ -2,10 +2,15 @@
   <div>
     <SettingTitle>{{ $t('theme') }}</SettingTitle>
 
-    <GenForm :form-schema="formSchema" @submit="setTheme"
-             :error-message="errorMessage" :cancel-text="$t('cancel')" :submit-text="$t('submit')"
-             ref="themePicker" :settings-mode="true"
-    />
+    <v-row>
+      <v-col lg="8" xl="6">
+        <h6 class="text-h6">{{ $t('general') }}</h6>
+          <GenForm :form-schema="formSchema" @submit="setTheme"
+                   :error-message="errorMessage" :cancel-text="$t('cancel')"
+                   :submit-text="$t('submit')"
+                   ref="themePicker" :settings-mode="true" />
+      </v-col>
+    </v-row>
   </div>
 </template>
 

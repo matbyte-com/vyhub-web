@@ -3,7 +3,7 @@
     <PageTitle icon="mdi-cog" :title="$t('settings.labels.title')" />
     <v-row
     no-gutters>
-      <v-col xs="12" sm="12" md="12" lg="3" class="mb-2 mb-lg-0 mr-xl-2 mr-lg-2">
+      <v-col cols="12" xs="12" sm="12" md="12" lg="3" class="mb-2 mb-lg-0 mr-xl-2 mr-lg-2">
         <v-card flat class="fill-height">
           <v-card-text>
             <v-list shaped>
@@ -46,7 +46,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-divider vertical/>
+      <v-divider :vertical="$vuetify.breakpoint.lgAndUp"/>
       <v-col>
         <v-card class="fill-height" flat>
           <v-card-text>

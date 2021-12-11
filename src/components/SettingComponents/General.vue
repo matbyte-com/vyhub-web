@@ -1,8 +1,12 @@
 <template>
   <div>
     <SettingTitle>{{ $t('general') }}</SettingTitle>
-    <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
-             :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true"/>
+    <v-row>
+      <v-col lg="8" xl="6">
+        <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
+                 :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true"/>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

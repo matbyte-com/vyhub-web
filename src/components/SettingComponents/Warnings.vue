@@ -1,11 +1,16 @@
 <template>
   <div>
     <SettingTitle>{{ $t('warnings') }}</SettingTitle>
-    <GenForm :form-schema="formSchema" ref="form" @submit="saveData" :settings-mode="true">
-      <template slot="time_to_live-after">
-        {{ $t('_warning.settingFormDesc') }}
-      </template>
-    </GenForm>
+    <v-row>
+      <v-col lg="8" xl="6">
+        <h6 class="text-h6">{{ $t('general') }}</h6>
+        <GenForm :form-schema="formSchema" ref="form" @submit="saveData" :settings-mode="true">
+          <template slot="time_to_live-after">
+            {{ $t('_warning.settingFormDesc') }}
+          </template>
+        </GenForm>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
