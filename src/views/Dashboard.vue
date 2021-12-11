@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div v-if="error">
-      Error, user not found:
-      {{ error }}
-    </div>
     <div v-if="user">
       <PageTitle icon="mdi-account" :title="$t('_dashboard.labels.title', { usr: user.username })"/>
       <v-card>
@@ -69,8 +65,8 @@ export default {
         if (this.user.type === 'CENTRAL') {
           this.$router.replace({ name: 'UserDashboard', params: { id: this.user.username }, query: this.$route.query });
         }
-      }).catch((error) => {
-        this.error = error;
+      }).catch(() => {
+        this.$router.push('/');
       });
 
       (await openapiCached).server_getBundles().then((rsp) => { (this.bundles = rsp.data); });
