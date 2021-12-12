@@ -15,7 +15,8 @@
               <span>{{ bundle.name }}</span>
             </v-tab>
             <v-tab @click="switchTab('Purchases')"
-                   v-if="user.id === $store.getters.user.id || $checkProp('purchase_show')">
+                   v-if="$store.getters.isLoggedIn &&
+                   (user.id === $store.getters.user.id || $checkProp('purchase_show'))">
               <v-icon left>mdi-cart-check</v-icon>
               <span>{{ $t('purchases') }}</span>
             </v-tab>

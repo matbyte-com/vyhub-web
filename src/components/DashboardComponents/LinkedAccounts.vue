@@ -2,23 +2,16 @@
   <div>
     <v-row v-if="userSelf">
       <v-col>
-        <v-tooltip left :disabled="checkIfCentralAccount()" offset-overflow>
-          <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on">
-              <v-card>
-                <v-btn color="success" width="100%" :to="{path: $route.path,
-              query: { login: 'true', return_url: getReturnUrl() } }"
-                       :disabled="!checkIfCentralAccount()" block>
-                  <v-icon left>
-                    mdi-account-plus
-                  </v-icon>
-                  {{ $t("_dashboard.labels.linkNewAccount") }}
-                </v-btn>
-              </v-card>
-            </div>
-          </template>
-          <span>{{ $t('header.labels.linkAccountTooltip') }}</span>
-        </v-tooltip>
+        <v-card>
+          <v-btn color="success" width="100%" :to="{path: $route.path,
+        query: { login: 'true', return_url: getReturnUrl() } }"
+                block>
+            <v-icon left>
+              mdi-account-plus
+            </v-icon>
+            {{ $t("_dashboard.labels.linkNewAccount") }}
+          </v-btn>
+        </v-card>
       </v-col>
     </v-row>
     <v-row>
@@ -119,12 +112,6 @@ export default {
     },
     getReturnUrl() {
       return UtilService.data().utils.getFullUrl(this.$route.path);
-    },
-    checkIfCentralAccount() {
-      if (this.$store.getters.user) {
-        return this.$store.getters.user.type === 'CENTRAL';
-      }
-      return false;
     },
     openExternalProfileLink(type, id) {
       const link = userService.userExternalLink(type, id);

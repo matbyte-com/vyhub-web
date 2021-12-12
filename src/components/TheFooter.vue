@@ -12,7 +12,9 @@
       <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
         <strong>
         {{ new Date().getFullYear() }}
-        — {{ $store.getters.theme.community_name }}
+        <span v-if="$store.getters.theme != null">
+          — {{ $store.getters.theme.community_name }}
+        </span>
         — <a class="text-decoration-none white--text" href="http://vyhub.net">
             Powered by VyHub
           </a>

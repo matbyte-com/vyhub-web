@@ -55,6 +55,12 @@
       "deleteSuccess": "Serverbundle successfully deleted."
     }
   },
+  "_login": {
+    "messages": {
+      "loginSuccess": "Successfully logged in.",
+      "loginError": "Error while logging in."
+    }
+  },
   "settings": {
     "permissionLevel": "Permission Level",
     "membercount": "Members",

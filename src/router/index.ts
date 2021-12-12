@@ -205,9 +205,17 @@ router.beforeEach((to, from, next) => {
   if (refreshToken != null && typeof refreshToken === 'string') {
     AuthService.login(refreshToken).then(() => {
       console.log('Successful login!');
+      Vue.prototype.$notify({
+        title: i18n.t('_login.messages.loginSuccess'),
+        type: 'success',
+      });
       next();
     }).catch((e) => {
       console.log(e);
+      Vue.prototype.$notify({
+        title: i18n.t('_login.messages.loginError'),
+        type: 'error',
+      });
       showLoginDialog(to, from);
     });
   } else if ((to.query.login !== 'true')
