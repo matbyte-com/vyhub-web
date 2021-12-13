@@ -2,8 +2,9 @@
     <v-autocomplete
       ref="input"
       @focus="searchClosed = false"
-      @blur="searchClosed = true, $emit('focusloss')"
-      :placeholder="$t('user')"
+      @blur="searchClosed = true;"
+      @mousedown="searchClosed = false"
+      :placeholder="searchClosed ? '' : $t('user')"
       prepend-inner-icon="mdi-magnify"
       class="expanding-search mt-6"
       :class="{ 'closed' : searchClosed && !search }"
@@ -45,6 +46,9 @@
           </v-list-item>
         </v-list>
       </template>
+      <div ref="element12">
+        123
+      </div>
     </v-autocomplete>
 </template>
 
@@ -98,10 +102,6 @@ export default {
     },
     searchFilter() {
       return true;
-    },
-    test() {
-      console.log(this.searchClosed);
-      console.log(this.searchClosed && !this.search);
     },
   },
 };

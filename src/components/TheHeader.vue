@@ -25,7 +25,7 @@
 
     <v-spacer></v-spacer>
     <Notification v-if="$store.getters.isLoggedIn"/>
-    <Search />
+    <Search class="mr-2"/>
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
       <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
