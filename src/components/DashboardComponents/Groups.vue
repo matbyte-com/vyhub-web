@@ -85,12 +85,12 @@
                   </template>
                   <template v-slot:item.begin="{ item }">
                     {{ (item.begin != null
-                    ? $d(new Date(item.begin), 'short', $i18n.locale)
+                    ? utils.formatDate(item.begin)
                     : '-∞') }}
                   </template>
                   <template v-slot:item.end="{ item }">
                     {{ (item.end != null
-                    ? $d(new Date(item.end), 'short', $i18n.locale)
+                    ? utils.formatDate(item.begin)
                     : '∞') }}
                   </template>
                   <template v-slot:item.actions="{ item }">

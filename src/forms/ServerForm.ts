@@ -71,7 +71,7 @@ export default {
         {
           ...serverTypeFields('GMOD'),
         },
-        {
+        /* {
           ...serverTypeFields('MINECRAFT'),
         },
         {
@@ -79,7 +79,7 @@ export default {
         },
         {
           ...serverTypeFields('DISCORD'),
-        },
+        }, */
       ],
     },
     {

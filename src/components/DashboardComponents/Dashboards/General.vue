@@ -11,7 +11,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" xl="5">
+          <v-col cols="12" xl="6">
             <Groups :user="user" />
           </v-col>
         </v-row>
