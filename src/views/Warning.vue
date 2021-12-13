@@ -61,6 +61,9 @@
           <template v-slot:item.created_on="{ item }">
             <span>{{ new Date(item.created_on).toLocaleString() }}</span>
           </template>
+          <template v-slot:item.creator="{ item }">
+            <UserLink :user="item.creator"></UserLink>
+          </template>
           <template v-slot:item.actions="{ item }">
             <div class="d-flex">
               <v-spacer />
@@ -119,6 +122,7 @@ export default {
         { text: this.$t('user'), value: 'user', sortable: false },
         { text: this.$t('reason'), value: 'reason' },
         { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
+        { text: this.$t('creator'), value: 'creator', sortable: false },
         { text: this.$t('createdOn'), value: 'created_on' },
         {
           text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
@@ -130,8 +134,8 @@ export default {
       itemsPerPage: 50,
       selectedBundle: [],
       search: '',
-      orderBy: '',
-      sortDesc: false,
+      orderBy: 'created_on',
+      sortDesc: true,
     };
   },
   beforeMount() {
