@@ -84,6 +84,11 @@ export default {
       if (!SessionService.lastActiveWindow()) {
         return;
       }
+
+      if (!this.$store.getters.isLoggedIn) {
+        return;
+      }
+
       let lastNotificationId = 0;
       if (this.notifications.length >= 1) {
         lastNotificationId = this.notifications[0].id;
