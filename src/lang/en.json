@@ -317,6 +317,7 @@
     "warning_config_edit": "Edited warning config",
     "reward_process_failed": "Could not execute applied reward {reward_type} {applied_reward_id}: {error}",
     "reward_process_success": "Successfully executed applied reward {reward_type} {applied_reward_id}.",
+    "reward_membership_lower_level": "Ignored MEMBERSHIP reward {applied_reward_id} because user {user_id} level ({user_level}) is higher than the level of group {group_id} ({group_level}).",
     "legal_edit": "Edited legal"
   },
   "forms": {

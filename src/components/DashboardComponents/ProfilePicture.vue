@@ -25,6 +25,22 @@
           indeterminate
         ></v-progress-circular>
       </v-row>
+      <v-row v-if="user.admin">
+        <v-col>
+          <v-alert
+            dense
+            text
+            color="success"
+            outlined
+            class="font-weight-bold"
+          >
+            <v-icon color="success">
+              mdi-shield-account
+            </v-icon>
+            Admin
+          </v-alert>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
