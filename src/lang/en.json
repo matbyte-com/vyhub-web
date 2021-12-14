@@ -235,6 +235,19 @@
       }
     }
   },
+  "_legal": {
+    "messages": {
+      "editedLegal": "Legal edited."
+    }
+  },
+  "_navigation": {
+    "messages": {
+      "addedLink": "Navigation link created.",
+      "updatedLinkOrder": "Navigation order updated.",
+      "removedLink": "Navigation link deleted.",
+      "editedLink": "Navigation link edited."
+    }
+  },
   "_log": {
     "type": {
       "system": "System",
@@ -246,19 +259,6 @@
       "news": "News",
       "requirement": "Requirement",
       "design": "Design"
-    },
-    "_legal": {
-      "messages": {
-        "editedLegal": "Edited Legal"
-      }
-    },
-    "_navigation": {
-      "messages": {
-        "addedLink": "Added Navigation Link",
-        "updatedLinkOrder": "Updated Navigation Order",
-        "removedLink": "Removed Navigation Link",
-        "editedLink": "Edited Navigation Link"
-      }
     },
     "object_edit": "Edited {classname} with id {id}: {key} = {value}.",
     "object_delete": "Deleted {classname} with id {id}.",
@@ -617,10 +617,10 @@
     "banLength": "Length of automatic ban (minutes)",
     "reason": "Reason",
     "messages": {
-      "addedWarning": "Added Warning",
-      "deletedWarning": "Deleted Warning",
-      "toggledWarning": "Toggled Warning Status",
-      "editedSettings": "Edited Settings"
+      "addedWarning": "Warning created.",
+      "deletedWarning": "Warning deleted.",
+      "toggledWarning": "Warning status toggled.",
+      "editedSettings": "Warning settings edited."
     }
   },
   "_ticket": {
@@ -638,9 +638,9 @@
     "close": "Close",
     "showClosed": "show closed",
     "messages": {
-      "addedPost": "Post added",
-      "toggleStatus": "Status toggled",
-      "addedThread": "Thread added"
+      "addedPost": "Post created.",
+      "toggleStatus": "Status toggled.",
+      "addedThread": "Thread created."
     }
   },
   "_server": {
@@ -660,7 +660,7 @@
   },
   "_theme": {
     "messages": {
-      "editedTheme": "Edited Theme"
+      "editedTheme": "Theme edited."
     }
   },
   "_server_exception": {
