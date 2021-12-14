@@ -28,6 +28,12 @@ export default {
       description: i18n.t('_shop.labels.taxAllowUnknownDescription'),
       default: 'true',
     },
+    invoice_logo_url: {
+      type: 'string',
+      title: i18n.t('_shop.labels.invoiceLogoURL'),
+      description: i18n.t('_shop.labels.invoiceLogoURLDetails'),
+      pattern: '^(http|https)://.+$',
+    },
     checkout_checkboxes: {
       type: 'array',
       title: i18n.t('_shop.labels.checkoutCheckboxes'),

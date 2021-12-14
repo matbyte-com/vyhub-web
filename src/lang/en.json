@@ -118,9 +118,9 @@
   },
   "_group": {
     "messages": {
-      "addedGroup": "Added Group",
-      "deletedGroup": "Deleted Group",
-      "editedGroup": "Edited Group"
+      "addedGroup": "Group created.",
+      "deletedGroup": "Group deleted.",
+      "editedGroup": "Group edited."
     }
   },
   "_properties": {
@@ -132,6 +132,8 @@
   "_shop": {
     "labels": {
       "cart": "Cart",
+      "invoiceLogoURL": "Invoice logo URL",
+      "invoiceLogoURLDetails": "URL to a logo that is displayed on the invoice.",
       "admin": "Shop Administration",
       "applyCoupon": "Apply Coupon",
       "couponCode": "Coupon Code",
