@@ -7,6 +7,7 @@ function returnForm(disabled?: false) {
     required: [
       'title',
       'linkType',
+      'icon',
     ],
     properties: {
       title: {
