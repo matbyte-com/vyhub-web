@@ -4,7 +4,7 @@ import Common from '@/forms/Common';
 export default {
   type: 'object',
   required: [
-    'name', 'street_and_number', 'city', 'state', 'zip_code', 'country',
+    'name', 'street_and_number', 'city', 'state', 'zip_code', 'country_code',
   ],
   properties: {
     name: {
