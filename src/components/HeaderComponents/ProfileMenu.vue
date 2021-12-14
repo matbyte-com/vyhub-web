@@ -8,6 +8,7 @@
     </template>
     <v-list dense>
       <LinkAccountListItem />
+      <PersonalSettingsLinkItem />
       <v-list-item v-for="(link, index) in menuLinks"
                    :key="index"
                    :to="link.link">
@@ -27,10 +28,11 @@
 <script>
 import AuthService from '@/services/AuthService';
 import LinkAccountListItem from '@/components/HeaderComponents/LinkAccountListItem.vue';
+import PersonalSettingsLinkItem from '@/components/HeaderComponents/PersonalSettingsLinkItem.vue';
 
 export default {
   name: 'ProfileMenu.vue',
-  components: { LinkAccountListItem },
+  components: { PersonalSettingsLinkItem, LinkAccountListItem },
   props: {
     menuLinks: Array,
   },

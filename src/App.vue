@@ -3,6 +3,7 @@
 
     <VueNotification />
     <TheHeader/>
+    <PersonalSettings />
 
     <v-main :style="backgroundColor">
       <v-container>
@@ -73,6 +74,7 @@ import openapi from '@/api/openapi';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 import VueNotification from '@/components/VueNotification.vue';
+import PersonalSettings from '@/components/PersonalSettings.vue';
 
 Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
@@ -81,6 +83,7 @@ export default Vue.extend({
   name: 'App',
 
   components: {
+    PersonalSettings,
     VueNotification,
     TheHeader,
     TheFooter,

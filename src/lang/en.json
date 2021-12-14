@@ -827,5 +827,6 @@
   "maxInputExceeded": "Maximum input length of {length} exceeded",
   "discord": "Discord",
   "key": "Key",
-  "legal": "Legal"
+  "legal": "Legal",
+  "personalSettings": "Personal Settings"
 }
