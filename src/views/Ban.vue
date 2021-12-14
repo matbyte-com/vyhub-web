@@ -228,8 +228,8 @@ export default {
       itemsPerPage: 50,
       totalItems: 20,
       selectedBundle: [],
-      orderBy: '',
-      sortDesc: false,
+      orderBy: 'created_on',
+      sortDesc: true,
     };
   },
   beforeMount() {
