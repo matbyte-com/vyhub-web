@@ -582,7 +582,7 @@
     "messages": {
       "readSuccess": "Successfully toggled read status"
     },
-    "news_ew": "News created {newsSubject}",
+    "news_new": "News created {newsSubject}",
     "ticket_new": "Ticket created {title} by {username}",
     "ticket_update": "New post in ticket: {title}",
     "ban_new": "You have been banned. Reason: {reason}: ",
