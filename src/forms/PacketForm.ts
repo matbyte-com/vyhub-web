@@ -51,12 +51,13 @@ export default {
           description: i18n.t('_packet.labels.imageDetail'),
         },
         active_for: {
-          type: 'number',
+          type: ['number', 'null'],
           title: i18n.t('_packet.labels.activeFor'),
           description: i18n.t('_packet.labels.activeForDetail'),
           'x-slots': {
             'append-outer': i18n.t('days'),
           },
+          minimum: 1,
         },
         buyable: {
           type: 'boolean',
@@ -87,12 +88,14 @@ export default {
           type: 'number',
           title: i18n.t('price'),
           'x-cols': 4,
+          minimum: 0,
         },
         currency_code: Common.currency_code,
         credits: {
-          type: 'integer',
+          type: ['integer', 'null'],
           title: i18n.t('_shop.labels.credits'),
           'x-cols': 4,
+          minimum: 0,
         },
         custom_price: {
           type: 'boolean',
