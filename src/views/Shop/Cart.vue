@@ -142,7 +142,7 @@
                 <span v-if="currentAddress == null">
                   {{ $t('_shop.messages.selectBillingAddressFirst') }}
                 </span>
-                <span v-if="$refs.emailCard.email == null">
+                <span v-if="$refs.emailCard.user.email == null">
                   {{ $t('_shop.messages.selectEmailFirst') }}
                 </span>
               </v-card-text>
@@ -357,11 +357,11 @@ export default {
     },
     async startCheckout() {
       // Check for missing address or email and wobble
-      if (this.currentAddress == null || this.$refs.emailCard.email == null) {
+      if (this.currentAddress == null || this.$refs.emailCard.user.email == null) {
         if (this.currentAddress == null) {
           this.addressWobble = true;
         }
-        if (this.$refs.emailCard.email == null) {
+        if (this.$refs.emailCard.user.email == null) {
           this.emailWobble = true;
         }
         setTimeout(() => {
