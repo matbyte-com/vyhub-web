@@ -319,9 +319,7 @@
     "reward_process_failed": "Could not execute applied reward {reward_type} {applied_reward_id}: {error}",
     "reward_process_success": "Successfully executed applied reward {reward_type} {applied_reward_id}.",
     "legal_edit": "Edited legal",
-    "user_email_edit": "Changed email of user {username} to {newMail}",
-    "reward_membership_lower_level": "Ignored MEMBERSHIP reward {applied_reward_id} because user {user_id} level ({user_level}) is higher than the level of group {group_id} ({group_level}).",
-    "user_email_notification_edit": "Changed email notification settings of user {username} to {newSettings}"
+    "reward_membership_lower_level": "Ignored MEMBERSHIP reward {applied_reward_id} because user {user_id} level ({user_level}) is higher than the level of group {group_id} ({group_level})."
   },
   "forms": {
     "iconDescription": "Available icons"
