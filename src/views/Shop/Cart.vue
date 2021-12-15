@@ -76,11 +76,17 @@
             </v-card>
           </v-col>
         </v-row>
-
+        <!-- Email -->
+        <v-row>
+          <v-col>
+            <Email ref="emailCard" class="animate__animated"
+                   :class="{animate__headShake:emailWobble === true}"/>
+          </v-col>
+        </v-row>
         <!-- Billing address -->
         <v-row>
           <v-col>
-            <v-card>
+            <v-card class="animate__animated" :class="{animate__headShake:addressWobble === true}">
               <v-card-title>
                 <v-icon left>mdi-map-marker</v-icon>
                 {{ $t('_shop.labels.billingAddress') }}
@@ -132,13 +138,17 @@
         <v-row>
           <v-col>
             <v-card>
-              <v-card-text v-if="currentAddress == null" class="red--text text-center">
-                {{ $t('_shop.messages.selectBillingAddressFirst') }}
+              <v-card-text class="red--text text-center" v-if="showDetails">
+                <span v-if="currentAddress == null">
+                  {{ $t('_shop.messages.selectBillingAddressFirst') }}
+                </span>
+                <span v-if="$refs.emailCard.email == null">
+                  {{ $t('_shop.messages.selectEmailFirst') }}
+                </span>
               </v-card-text>
               <v-card-actions>
                 <v-btn color="primary" block
-                       :disabled="cartPackets.length == 0 || currentAddress == null ||
-                       openPurchase != null"
+                       :disabled="cartPackets.length == 0 || openPurchase != null"
                        @click="startCheckout">
                   <v-icon left>mdi-cart-arrow-right</v-icon>
                   {{ $t('_shop.labels.checkout') }}
@@ -195,7 +205,8 @@
         </div>
       </template>
     </Dialog>
-
+    <v-card>
+    </v-card>
     <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>
   </div>
 </template>
@@ -211,9 +222,11 @@ import CheckoutDialog from '@/components/ShopComponents/CheckoutDialog.vue';
 import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import Dialog from '@/components/Dialog.vue';
 import openapi from '../../api/openapi';
+import Email from '@/components/PersonalSettings/Email.vue';
 
 export default {
   components: {
+    Email,
     Dialog,
     CartTotal,
     CheckoutDialog,
@@ -233,6 +246,9 @@ export default {
       couponCode: null,
       couponError: null,
       couponStyle: null,
+      emailWobble: false,
+      addressWobble: false,
+      showDetails: false,
     };
   },
   beforeMount() {
@@ -340,6 +356,22 @@ export default {
       this.$refs.selectAddressDialog.close();
     },
     async startCheckout() {
+      // Check for missing address or email and wobble
+      if (this.currentAddress == null || this.$refs.emailCard.email == null) {
+        if (this.currentAddress == null) {
+          this.addressWobble = true;
+        }
+        if (this.$refs.emailCard.email == null) {
+          this.emailWobble = true;
+        }
+        setTimeout(() => {
+          this.emailWobble = false;
+          this.addressWobble = false;
+        }, 500);
+        this.showDetails = true;
+        return;
+      }
+
       const api = await openapi;
 
       api.shop_startCheckout(undefined, { address_id: this.currentAddress.id }).then((rsp) => {

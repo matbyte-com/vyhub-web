@@ -16,7 +16,7 @@
                     @keydown.enter="updateMail"/>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="warning" @click="this.showInputFunc" v-if="!showInput">
+      <v-btn text color="primary" @click="this.showInputFunc" v-if="!showInput">
         <v-icon left>mdi-pencil</v-icon>
         {{ $t('edit') }}
       </v-btn>
@@ -62,6 +62,7 @@ export default {
       });
     },
     async updateMail() {
+      if (!this.$refs.textfield.valid) { return; }
       (await openapi).user_updateEmail(this.$store.getters.user.id, { email: this.emailModel })
         .then((rsp) => {
           this.showInput = false;

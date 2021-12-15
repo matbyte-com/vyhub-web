@@ -185,7 +185,8 @@
       "couponRemoveSuccess": "Coupon successfully removed.",
       "couponNotApplied": "Coupon could not be applied to any packet in your cart.",
       "includesVAT": "Includes {tax_rate}% VAT.",
-      "selectBillingAddressFirst": "Please select a billing address first."
+      "selectBillingAddressFirst": "Please select a billing address first.",
+      "selectEmailFirst": "Please update your email address first"
     },
     "purchaseStatus": {
       "open": "Open",
