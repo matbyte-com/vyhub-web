@@ -59,7 +59,7 @@ export default {
       (await openapi).user_getEmail(this.$store.getters.user.id, null).then((rsp) => {
         if (!rsp.data) { return; }
         this.email = rsp.data.email;
-      });
+      }).catch(() => console.log('No email set'));
     },
     async updateMail() {
       if (!this.$refs.textfield.valid) { return; }

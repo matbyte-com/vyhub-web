@@ -3,16 +3,18 @@
           @close="$router.push($route.path)"
           icon="mdi-account">
     <Email class="mt-3"/>
+    <EmailNotifications class="mt-3" />
   </Dialog>
 </template>
 
 <script>
 import Dialog from '@/components/Dialog.vue';
 import Email from '@/components/PersonalSettings/Email.vue';
+import EmailNotifications from '@/components/PersonalSettings/EmailNotifications.vue';
 
 export default {
   name: 'PersonalSettings',
-  components: { Email, Dialog },
+  components: { EmailNotifications, Email, Dialog },
   watch: {
     $route(to) {
       if (to.query.personal_settings === 'true') {
