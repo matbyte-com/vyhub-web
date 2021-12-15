@@ -6,7 +6,7 @@
         </PageTitle>
 
         <v-row>
-          <v-col md="3" lg="3" class="d-flex flex-column">
+          <v-col md="3" lg="3" cols="12" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-archive-star</v-icon>
@@ -16,6 +16,19 @@
                 <v-img
                   :src="packet.image_url"
                 ></v-img>
+                <v-alert
+                  dense
+                  text
+                  color="info"
+                  outlined
+                  class="font-weight-bold text-center mt-2"
+                  v-if="packet.active_for != null"
+                >
+                  <v-icon color="info" left>
+                    mdi-clock-end
+                  </v-icon>
+                  {{ utils.formatLength(packet.active_for) }}
+                </v-alert>
                 <v-list dense>
                   <v-list-item v-for="point in packet.abstract" :key="point">
                     <v-list-item-icon>
@@ -29,7 +42,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col md="6" lg="6" class="d-flex flex-column">
+          <v-col md="6" lg="6" cols="12" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-image-text</v-icon>
@@ -42,7 +55,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col md="3" lg="3" class="d-flex flex-column">
+          <v-col md="3" lg="3" cols="12" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-currency-usd</v-icon>
@@ -65,7 +78,8 @@
                       {{ $t('every') }}
                       {{ utils.formatLength(packet.active_for) }}
                     </div>
-                    <div class="subtitle-2 font-italic mt-2">
+                    <div class="subtitle-2 font-italic mt-2"
+                         v-if="packet.price_with_discount.tax_rate > 0">
                       {{ $t('_shop.messages.includesVAT',
                       { tax_rate: packet.price_with_discount.tax_rate }) }}
                     </div>
