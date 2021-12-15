@@ -585,7 +585,9 @@
     "news_new": "News created {newsSubject}",
     "ticket_new": "Ticket created {title} by {username}",
     "ticket_update": "New post in ticket: {title}",
-    "ban_new": "You have been banned. Reason: {reason}: ",
+    "ban_new": "You have been banned. Reason: {reason}",
+    "packet_applied": "Packet {packet_title} has been activated!",
+    "purchase_finished": "Your purchase of {amount} has been finished!",
     "warning_new": "A new warning has been created. Reason: {reason}"
   },
   "pageTitle": {

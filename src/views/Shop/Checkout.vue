@@ -128,6 +128,7 @@ export default {
             this.debit = rsp2.data;
             this.loading = false;
           }).catch((err) => {
+            this.errorMessage = this.$t('unexpectedError');
             console.log(err);
             this.utils.notifyUnexpectedError(err.response.data);
           });
@@ -135,6 +136,7 @@ export default {
           this.loading = false;
         }
       }).catch((err) => {
+        this.errorMessage = this.$t('unexpectedError');
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
       });
