@@ -6,8 +6,8 @@
     </v-card-title>
     <v-card-text class="body-1">
       <div v-if="!showInput">
-        <div v-if="email != null">
-          {{ email }}
+        <div v-if="user.email != null">
+          {{ user.email }}
         </div>
         <div v-else>{{ $t('_personalSettings.noEmailSpecified') }}</div>
       </div>
@@ -35,42 +35,46 @@ export default {
   name: 'Email',
   data() {
     return {
-      email: null,
       showInput: false,
       emailModel: null,
+      user: {},
       validator: (value) => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return pattern.test(value) || 'Invalid e-mail.';
       },
     };
   },
+  props: {
+    userProp: {},
+  },
   beforeMount() {
-    this.getEmail();
+    this.getUser();
+    if (this.userProp) { this.user = this.userProp; }
   },
   methods: {
     showInputFunc() {
-      this.emailModel = this.email;
+      this.emailModel = this.user.email;
       this.showInput = true;
       this.$nextTick(() => {
         this.$refs.textfield.focus();
       });
     },
-    async getEmail() {
-      (await openapi).user_getEmail(this.$store.getters.user.id, null).then((rsp) => {
-        if (!rsp.data) { return; }
-        this.email = rsp.data.email;
-      }).catch(() => console.log('No email set'));
+    async getUser() {
+      if (this.userProp) { return; }
+      (await openapi).user_getCurrentUser().then((rsp) => {
+        this.user = rsp.data;
+      });
     },
     async updateMail() {
       if (!this.$refs.textfield.valid) { return; }
-      (await openapi).user_updateEmail(this.$store.getters.user.id, { email: this.emailModel })
+      (await openapi).user_patchUser(this.$store.getters.user.id, { email: this.emailModel })
         .then((rsp) => {
           this.showInput = false;
           this.$notify({
             title: this.$t('_personalSettings.messages.emailUpdated'),
             type: 'success',
           });
-          this.email = rsp.data.email;
+          this.user = rsp.data;
         }).catch((err) => {
           this.$notify({
             title: `${this.$t('unexpectedError')} ${err.response.status}`,

@@ -20,23 +20,17 @@ export default {
   data() {
     return {
       notificationSwitch: false,
-      data: {},
     };
   },
+  props: {
+    user: {},
+  },
   beforeMount() {
-    this.fetchData();
+    this.notificationSwitch = this.user.email_notification;
   },
   methods: {
-    async fetchData() {
-      (await openapi).user_getEmailNotificationSettings(this.$store.getters.user.id).then((rsp) => {
-        this.data = rsp.data;
-        this.notificationSwitch = this.data.email_notification;
-      }).catch((err) => {
-        this.utils.notifyUnexpectedError(err.response.data);
-      });
-    },
     async updateSettings() {
-      (await openapi).user_updateEmailNotificationSettings(this.$store.getters.user.id, {
+      (await openapi).user_patchUser(this.$store.getters.user.id, {
         email_notification: this.notificationSwitch,
       })
         .then((rsp) => {
