@@ -18,6 +18,7 @@ import {
   VDatePicker,
 } from 'vuetify/lib';
 import minifyTheme from 'minify-css-string';
+import '@mdi/font/css/materialdesignicons.css';
 
 Vue.use(Vuetify);
 
@@ -38,6 +39,9 @@ Vue.component('v-date-picker', VDatePicker);
 Vue.component('v-time-picker', VTimePicker);
 
 export default new Vuetify({
+  icons: {
+    iconfont: 'mdi',
+  },
   theme: {
     options: {
       customProperties: true,
