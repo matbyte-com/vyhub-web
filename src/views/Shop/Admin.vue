@@ -64,6 +64,13 @@ export default {
           title: this.$t('discounts'),
         },
         {
+          name: 'report',
+          icon: 'mdi-file-table',
+          component: 'Report',
+          reqProp: 'purchase_show',
+          title: this.$t('report'),
+        },
+        {
           name: 'statistics',
           icon: 'mdi-chart-areaspline',
           component: 'Statistics',
