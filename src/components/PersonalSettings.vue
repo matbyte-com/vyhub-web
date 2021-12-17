@@ -1,6 +1,8 @@
 <template>
   <Dialog ref="userSettingsDialog"
           :title="$t('_personalSettings.title')"
+          @close="$router.push($route.path)"
+          @cancel="$router.push($route.path)"
           icon="mdi-account">
     <Email :user="userCopy" @user-changed="refreshUser" class="mt-3"/>
     <EmailNotifications :user="userCopy" @user-changed="refreshUser" class="mt-3" />
@@ -28,13 +30,17 @@ export default {
     this.userCopy = this.user;
   },
   methods: {
-    async refreshUser() {
+    async refreshUser(fromChange = true) {
       (await openapi).user_getData(this.user.id).then((rsp) => {
         this.userCopy = rsp.data;
       });
+
+      if (fromChange) {
+        this.$emit('user-changed');
+      }
     },
     show() {
-      this.refreshUser();
+      this.refreshUser(false);
       this.$refs.userSettingsDialog.show();
     },
     close() {

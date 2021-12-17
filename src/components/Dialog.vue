@@ -90,7 +90,10 @@ export default {
   },
   watch: {
     open() {
-      this.$emit('input', this.open);
+      if (this.value != null) {
+        this.$emit('input', this.open);
+      }
+
       if (!this.open) {
         this.$emit('close');
       }

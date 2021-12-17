@@ -44,6 +44,10 @@
     </div>
     <LinkAccountDialog ref="linkAccountDialog">
     </LinkAccountDialog>
+    <PersonalSettings ref="userSelfSettings" :user="$store.getters.user"
+                      @user-changed="refreshUser"
+                      v-if="$store.getters.isLoggedIn">
+    </PersonalSettings>
   </v-app-bar>
 </template>
 
@@ -60,9 +64,11 @@ import EventBus from '@/services/EventBus';
 import Credits from '@/components/HeaderComponents/Credits.vue';
 import openapi from '@/api/openapi';
 import UtilService from '@/services/UtilService';
+import PersonalSettings from '@/components/PersonalSettings.vue';
 
 export default {
   components: {
+    PersonalSettings,
     ShoppingCart,
     ProfileMenu,
     BurgerMenu,
@@ -89,6 +95,9 @@ export default {
     logout() {
       AuthService.logout();
       this.$router.push('/');
+    },
+    refreshUser() {
+      AuthService.refreshUser();
     },
     async getNavItems() {
       const api = await openapi;
@@ -125,6 +134,15 @@ export default {
     allowedLinks() {
       return this.links
         .filter((l) => l.enabled && (!l.reqProp || this.$checkProp(l.reqProp) === true));
+    },
+  },
+  watch: {
+    $route(to) {
+      if (to.query.personal_settings === 'true') {
+        this.$refs.userSelfSettings.show();
+      } else {
+        this.$refs.userSelfSettings.close();
+      }
     },
   },
   beforeMount() {

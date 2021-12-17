@@ -80,6 +80,8 @@
         <v-row>
           <v-col>
             <Email ref="emailCard" class="animate__animated"
+                   @user-changed="refreshUser"
+                   :user="$store.getters.user"
                    :class="{animate__headShake:emailWobble === true}"/>
           </v-col>
         </v-row>
@@ -223,6 +225,7 @@ import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import Dialog from '@/components/Dialog.vue';
 import openapi from '../../api/openapi';
 import Email from '@/components/PersonalSettings/Email.vue';
+import AuthService from '@/services/AuthService';
 
 export default {
   components: {
@@ -300,6 +303,9 @@ export default {
           ShopService.selectAddress(this.addresses[0]);
         }
       });
+    },
+    refreshUser() {
+      AuthService.refreshUser();
     },
     async removeCartPacket(cartPacketId) {
       const api = await openapi;
