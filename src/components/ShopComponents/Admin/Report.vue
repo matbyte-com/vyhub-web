@@ -28,7 +28,7 @@ export default {
       const data = this.$refs.reportForm.getData();
 
       const start = new Date((new Date(data.start)).setHours(0, 0)).toISOString();
-      const end = new Date((new Date(data.end)).setHours(0, 0)).toISOString();
+      const end = new Date((new Date(data.end)).setHours(23, 59)).toISOString();
 
       (await openapi).shop_getReportCsv({ start, end }).then((rsp) => {
         this.utils.showFile(rsp.data, `vyhub_${data.start}_${data.end}.csv`, 'text/csv');
