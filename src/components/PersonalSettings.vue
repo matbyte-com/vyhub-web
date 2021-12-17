@@ -1,9 +1,9 @@
 <template>
-  <Dialog ref="dialog" @cancel="$router.push($route.path)" :title="$t('_personalSettings.title')"
-          @close="$router.push($route.path)"
+  <Dialog ref="userSettingsDialog"
+          :title="$t('_personalSettings.title')"
           icon="mdi-account">
-    <Email :user-prop="user" class="mt-3"/>
-    <EmailNotifications :user="user" class="mt-3" />
+    <Email :user="userCopy" @user-changed="refreshUser" class="mt-3"/>
+    <EmailNotifications :user="userCopy" @user-changed="refreshUser" class="mt-3" />
   </Dialog>
 </template>
 
@@ -16,28 +16,29 @@ import openapi from '@/api/openapi';
 export default {
   name: 'PersonalSettings',
   components: { EmailNotifications, Email, Dialog },
-  watch: {
-    $route(to) {
-      if (to.query.personal_settings === 'true') {
-        this.$refs.dialog.show();
-      } else {
-        this.$refs.dialog.close();
-      }
-    },
-  },
   data() {
     return {
-      user: {},
+      userCopy: Object,
     };
   },
+  props: {
+    user: Object,
+  },
   beforeMount() {
-    this.getUser();
+    this.userCopy = this.user;
   },
   methods: {
-    async getUser() {
-      (await openapi).user_getCurrentUser().then((rsp) => {
-        this.user = rsp.data;
+    async refreshUser() {
+      (await openapi).user_getData(this.user.id).then((rsp) => {
+        this.userCopy = rsp.data;
       });
+    },
+    show() {
+      this.refreshUser();
+      this.$refs.userSettingsDialog.show();
+    },
+    close() {
+      this.$refs.userSettingsDialog.close();
     },
   },
 };

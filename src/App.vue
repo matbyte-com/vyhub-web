@@ -3,7 +3,6 @@
 
     <VueNotification />
     <TheHeader/>
-    <PersonalSettings />
 
     <v-main :style="backgroundColor">
       <v-container>
@@ -83,7 +82,6 @@ export default Vue.extend({
   name: 'App',
 
   components: {
-    PersonalSettings,
     VueNotification,
     TheHeader,
     TheFooter,

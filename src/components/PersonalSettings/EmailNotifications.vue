@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     async updateSettings() {
-      (await openapi).user_patchUser(this.$store.getters.user.id, {
+      (await openapi).user_patchUser(this.user.id, {
         email_notification: this.notificationSwitch,
       })
         .then((rsp) => {
@@ -39,6 +39,7 @@ export default {
             title: this.$t('_personalSettings.messages.emailNotificationSettingsToggled'),
             type: 'success',
           });
+          this.$emit('user-changed');
         }).catch((err) => {
           this.utils.notifyUnexpectedError(err.response.data);
         });

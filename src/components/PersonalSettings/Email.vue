@@ -33,23 +33,18 @@ import openapi from '@/api/openapi';
 
 export default {
   name: 'Email',
+  props: {
+    user: {},
+  },
   data() {
     return {
       showInput: false,
       emailModel: null,
-      user: {},
       validator: (value) => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return pattern.test(value) || 'Invalid e-mail.';
       },
     };
-  },
-  props: {
-    userProp: {},
-  },
-  beforeMount() {
-    this.getUser();
-    if (this.userProp) { this.user = this.userProp; }
   },
   methods: {
     showInputFunc() {
@@ -59,22 +54,16 @@ export default {
         this.$refs.textfield.focus();
       });
     },
-    async getUser() {
-      if (this.userProp) { return; }
-      (await openapi).user_getCurrentUser().then((rsp) => {
-        this.user = rsp.data;
-      });
-    },
     async updateMail() {
       if (!this.$refs.textfield.valid) { return; }
       (await openapi).user_patchUser(this.$store.getters.user.id, { email: this.emailModel })
-        .then((rsp) => {
+        .then(() => {
           this.showInput = false;
           this.$notify({
             title: this.$t('_personalSettings.messages.emailUpdated'),
             type: 'success',
           });
-          this.user = rsp.data;
+          this.$emit('user-changed');
         }).catch((err) => {
           this.$notify({
             title: `${this.$t('unexpectedError')} ${err.response.status}`,
