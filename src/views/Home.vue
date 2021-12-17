@@ -202,7 +202,7 @@ export default {
   data() {
     return {
       news: [],
-      page: 0,
+      page: 1,
       exhausted: false,
       fetching: false,
       messageAddSchema: NewsAddForm,
