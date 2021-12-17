@@ -112,8 +112,12 @@ export default {
       errorMessage: null,
       valid: false,
       optionsBase: {
-        locale: i18n.locale,
+        // TODO: Maybe use i18n.locale again
+        locale: navigator.language.split('-')[0], // i18n.locale,
         httpLib: axios,
+        timePickerProps: {
+          format: '24hr',
+        },
         markdownit: {
           html: true,
         },
