@@ -59,8 +59,6 @@ export default {
         showSwatches: true,
         hideCanvas: true,
         hideSliders: true,
-        hideInputs: true,
-        hideModeSwitch: true,
       },
     };
     return form;
