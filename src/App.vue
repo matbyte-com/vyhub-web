@@ -38,17 +38,23 @@
             Question, Bugs, Feature Requests?
           </v-card-title>
           <v-card-text class="mt-4">
-            Please open a Github issue or contact us!
+            Please check the documentation or contact us!
           </v-card-text>
           <v-card-actions>
-            <v-btn class="red lighten-2" href="https://github.com/matbyte-com/vyhub-documentation/issues/new/choose" target="_blank">
+            <v-btn class="red lighten-2" href="https://docs.vyhub.net" target="_blank">
               <v-icon left>
-                mdi-github
+                mdi-help-circle-outline
               </v-icon>
-              <span>GitHub</span>
+              <span>Docs</span>
+            </v-btn>
+            <v-btn class="red lighten-2" href="https://discord.gg/QycQpd2AQP" target="_blank">
+              <v-icon left>
+                mdi-discord
+              </v-icon>
+              <span>Discord</span>
             </v-btn>
             <v-btn class="red lighten-2"
-                   :href="`mailto:info@vyhub.net?subject=Feedback Demo Route: ${$route.path}`">
+                   :href="`mailto:support@matbyte.com?subject=Feedback Demo Route: ${$route.path}`">
               <v-icon left>
                 mdi-email
               </v-icon>
