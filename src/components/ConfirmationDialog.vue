@@ -8,6 +8,9 @@
         {{ text }}
       </div>
     </template>
+    <template v-for="(index, name) in $slots" v-slot:[name]>
+      <slot :name="name" />
+    </template>
     <template v-slot:actions>
       <v-col>
         <v-btn text

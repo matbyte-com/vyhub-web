@@ -659,7 +659,8 @@
       "createSuccess": "Server successfully created.",
       "editSuccess": "Server successfully edited.",
       "deleteSuccess": "Server successfully deleted."
-    }
+    },
+    "deleteBundleConfirmationText": "This will delete objects referenced to this bundle (e.g. groups, rewards)"
   },
   "_theme": {
     "messages": {

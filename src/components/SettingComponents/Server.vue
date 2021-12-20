@@ -12,7 +12,11 @@
                 :title="$t('_server.labels.create')"/>
     <DeleteConfirmationDialog
                 ref="deleteBundleDialog"
-                @submit="deleteBundle"/>
+                @submit="deleteBundle">
+      <v-alert type="warning" class="mt-3">
+        {{ $t('_server.deleteBundleConfirmationText') }}
+      </v-alert>
+    </DeleteConfirmationDialog>
     <DeleteConfirmationDialog
                 ref="deleteServerDialog"
                 @submit="deleteServer"/>
