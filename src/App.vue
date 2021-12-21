@@ -201,10 +201,10 @@ export default Vue.extend({
               text: this.$t(`_errors.${errDet.code}`, { ...errDet.detail, msg: errDet.msg }),
               type: 'error',
             });
-          } else {
+          } else if (err.response) {
             let msg = '';
 
-            if (err.response.data.detail) {
+            if (err.response.data && err.response.data.detail) {
               if (err.response.data.detail.code) {
                 msg = `${err.response.data.detail.code} - ${err.response.data.detail.msg}`;
               } else {
@@ -217,6 +217,12 @@ export default Vue.extend({
             this.$notify({
               title: `${this.$t('unexpectedError')} ${err.response.status}`,
               text: msg,
+              type: 'error',
+            });
+          } else {
+            this.$notify({
+              title: `${this.$t('unexpectedError')}`,
+              text: '-',
               type: 'error',
             });
           }
