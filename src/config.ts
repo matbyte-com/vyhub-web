@@ -5,6 +5,8 @@ declare global {
     backend_url: string;
     default_title: string;
     demo_mode: boolean;
+    html_max_input_length: number;
+    sentry_dsn: string;
   }
 
   interface Window {

@@ -3,6 +3,8 @@ import Axios from 'axios';
 import Notifications from 'vue-notification';
 import VueApexCharts from 'vue-apexcharts';
 import VueNativeNotification from 'vue-native-notification';
+import * as Sentry from '@sentry/browser';
+import * as Integrations from '@sentry/integrations';
 import config from '@/config';
 import App from './App.vue';
 import router from './router';
@@ -31,3 +33,10 @@ new Vue({
   i18n,
   render: (h) => h(App),
 }).$mount('#app');
+
+if (config.sentry_dsn != null && config.sentry_dsn.length > 5) {
+  Sentry.init({
+    dsn: config.sentry_dsn,
+    integrations: [new Integrations.Vue({ Vue, attachProps: true })],
+  });
+}
