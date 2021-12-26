@@ -23,7 +23,7 @@
 
     <TheFooter/>
     <!-- floating button to show help-->
-    <v-fade-transition>
+    <v-fade-transition v-if="showInformationFab">
       <v-menu top>
         <template v-slot:activator="{ on, attrs }">
           <v-btn fab dark x-large style="background-color: rgba(255,255,255,0.7)"
@@ -79,7 +79,6 @@ import openapi from '@/api/openapi';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 import VueNotification from '@/components/VueNotification.vue';
-import PersonalSettings from '@/components/PersonalSettings.vue';
 
 Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
@@ -96,6 +95,7 @@ export default Vue.extend({
   data: () => ({
     background: '#FAFAFA',
     backgroundImage: null,
+    showInformationFab: false,
   }),
   created() {
     this.setThemeFromCache();
@@ -147,6 +147,7 @@ export default Vue.extend({
           this.$vuetify.theme.currentTheme.success = theme.success;
           this.$vuetify.theme.currentTheme.warning = theme.warning;
           this.$vuetify.theme.currentTheme.error = theme.error;
+          this.showInformationFab = theme.show_information_fab;
           cachedTheme.primary = theme.primary;
           cachedTheme.success = theme.success;
           cachedTheme.warning = theme.warning;
@@ -155,6 +156,7 @@ export default Vue.extend({
           cachedTheme.show_community_name = theme.show_community_name;
           cachedTheme.community_name = theme.community_name;
           cachedTheme.logo_width = theme.logo_width;
+          cachedTheme.show_information_fab = theme.show_information_fab;
           // save theme to VueX
           this.$store.commit('SET_THEME', cachedTheme);
           emitter.emit('themeUpdatedAfter');
@@ -179,6 +181,7 @@ export default Vue.extend({
         this.$vuetify.theme.currentTheme.success = obj.success;
         this.$vuetify.theme.currentTheme.warning = obj.warning;
         this.$vuetify.theme.currentTheme.error = obj.error;
+        this.showInformationFab = obj.show_information_fab;
       }
     },
     async setApiInterceptor() {

@@ -61,6 +61,26 @@
       "loginError": "Error while logging in."
     }
   },
+  "_theme": {
+    "showInformationFab": "Show information fab",
+    "showInformationFabDescription": "Information fab in bottom right",
+    "primaryColor": "Primary Color",
+    "successColor": "Success Color",
+    "errorColor": "Error Color",
+    "warningColor": "Warning Color",
+    "backgroundColor": "Background Color",
+    "backgroundColorDescription": "Color is overwritten by background image",
+    "darkmode": "Darkmode",
+    "backgroundUrl": "Background Image",
+    "logoUrl": "Logo Image",
+    "showCommunityName": "Show Community Name",
+    "communityNameDescription": "Displays community name in header",
+    "logoDescription": "Reload Page if logo is not displayed correctly",
+    "logoWidth": "Logo Width",
+    "messages": {
+      "editedTheme": "Theme edited."
+    }
+  },
   "settings": {
     "permissionLevel": "Permission Level",
     "membercount": "Members",
@@ -101,19 +121,7 @@
       "editGroup": "Edit Group",
       "addBundle": "Add Serverbundle",
       "editBundle": "Edit Serverbundle",
-      "addServer": "Add Server",
-      "primaryColor": "Primary Color",
-      "successColor": "Success Color",
-      "errorColor": "Error Color",
-      "warningColor": "Warning Color",
-      "backgroundColor": "Background Color",
-      "darkmode": "Darkmode",
-      "backgroundUrl": "Background Image",
-      "logoUrl": "Logo Image",
-      "showCommunityName": "Show Community Name",
-      "communityNameDescription": "Displays community name in header",
-      "logoDescription": "Reload Page if logo is not displayed correctly",
-      "logoWidth": "Logo Width"
+      "addServer": "Add Server"
     }
   },
   "_group": {
@@ -661,11 +669,6 @@
       "deleteSuccess": "Server successfully deleted."
     },
     "deleteBundleConfirmationText": "This will delete objects referenced to this bundle (e.g. groups, rewards)"
-  },
-  "_theme": {
-    "messages": {
-      "editedTheme": "Theme edited."
-    }
   },
   "_server_exception": {
     "begin_smaller_end": "Begin Date has to be after End Date"
