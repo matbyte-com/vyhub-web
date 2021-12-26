@@ -88,6 +88,7 @@ export default {
       this.loading = false;
       this.errorMessage = null;
       this.$refs.form.reset();
+      this.formModel = null;
       this.$emit('cancel');
       this.forceRerender();
     },
