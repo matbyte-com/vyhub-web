@@ -53,6 +53,15 @@ export default {
       'x-display': 'switch',
       description: i18n.t('_theme.communityNameDescription'),
     },
+    favicon: {
+      type: 'string',
+      title: i18n.t('_theme.favicon'),
+      pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
+      'x-props': {
+        clearable: true,
+        placeholder: i18n.t('settings.httpPlaceholder'),
+      },
+    },
     show_information_fab: {
       type: 'boolean',
       title: i18n.t('_theme.showInformationFab'),

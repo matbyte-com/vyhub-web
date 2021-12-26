@@ -157,9 +157,11 @@ export default Vue.extend({
           cachedTheme.community_name = theme.community_name;
           cachedTheme.logo_width = theme.logo_width;
           cachedTheme.show_information_fab = theme.show_information_fab;
+          cachedTheme.favicon = theme.favicon;
           // save theme to VueX
           this.$store.commit('SET_THEME', cachedTheme);
           emitter.emit('themeUpdatedAfter');
+          this.setIcon();
         } catch (e) {
           this.$vuetify.theme.currentTheme.primary = '#3f51b5';
           console.log('Error While Setting Theme');
@@ -169,6 +171,7 @@ export default Vue.extend({
     },
     setThemeFromCache() {
       if (this.$store.getters.theme) {
+        this.setIcon();
         const obj = this.$store.getters.theme;
         this.backgroundImage = obj.image;
         this.background = obj.background;
@@ -182,6 +185,12 @@ export default Vue.extend({
         this.$vuetify.theme.currentTheme.warning = obj.warning;
         this.$vuetify.theme.currentTheme.error = obj.error;
         this.showInformationFab = obj.show_information_fab;
+      }
+    },
+    setIcon() {
+      if (this.$store.getters.theme.favicon) {
+        const favicon = document.getElementById('favicon');
+        favicon.href = this.$store.getters.theme.favicon;
       }
     },
     async setApiInterceptor() {

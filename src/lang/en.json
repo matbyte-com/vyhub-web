@@ -77,6 +77,7 @@
     "communityNameDescription": "Displays community name in header",
     "logoDescription": "Reload Page if logo is not displayed correctly",
     "logoWidth": "Logo Width",
+    "favicon": "Favicon",
     "messages": {
       "editedTheme": "Theme edited."
     }
