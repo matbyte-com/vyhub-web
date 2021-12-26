@@ -81,7 +81,7 @@
     </v-card>
     <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
                 :title="$t('ban.labels.add')" :submit-text="$t('create')"
-                title-icon="mdi-account-cancel"
+                icon="mdi-account-cancel"
                 @submit="addBan">
     </DialogForm>
     <Dialog
@@ -174,7 +174,7 @@
     </Dialog>
     <DialogForm :form-schema="banEditFormSchema" ref="banEditDialog"
                 :title="$t('ban.labels.edit')" :submit-text="$t('edit')"
-                title-icon="mdi-account-cancel"
+                icon="mdi-account-cancel"
                 @submit="editBan">
     </DialogForm>
     <DeleteConfirmationDialog

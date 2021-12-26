@@ -2,7 +2,7 @@
   <div>
     <DeleteConfirmationDialog ref="deleteWarningDialog" @submit="deleteWarning"/>
     <DialogForm ref="addWarningDialog" @submit="addWarning" :form-schema="WarningAddForm"
-                :title="$t('_warning.add')" title-icon="mdi-account-alert" />
+                :title="$t('_warning.add')" icon="mdi-account-alert"/>
     <PageTitle icon="mdi-account-alert">{{ $t('_warning.title') }}</PageTitle>
     <v-card>
       <v-card-text>

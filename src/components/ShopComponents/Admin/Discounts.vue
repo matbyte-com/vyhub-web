@@ -56,14 +56,14 @@
     <DialogForm
       ref="createDiscountDialog"
       :form-schema="discountSchema"
-      titleIcon="mdi-ticket-percent"
+      icon="mdi-ticket-percent"
       :submitText="$t('create')"
       @submit="createDiscount"
       :title="$t('_discount.labels.create')"/>
     <DialogForm
       ref="editDiscountDialog"
       :form-schema="discountSchema"
-      titleIcon="mdi-ticket-percent"
+      icon="mdi-ticket-percent"
       :submitText="$t('edit')"
       @submit="editDiscount"
       :title="$t('_discount.labels.edit')"/>

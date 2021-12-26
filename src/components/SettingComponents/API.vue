@@ -49,7 +49,7 @@
     </DataTable>
 
     <DialogForm :cancel-text="null" :submit-text="$t('create')" :form-schema="apiTokenForm"
-                :title="$t('_api.labels.createKey')" title-icon="mdi-key-chain"
+                :title="$t('_api.labels.createKey')" icon="mdi-key-chain"
                 @submit="createToken" ref="createTokenDialog"></DialogForm>
   </div>
 </template>

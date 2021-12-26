@@ -1,5 +1,5 @@
 <template>
-  <Dialog :max-width="maxWidth" ref="dialog" :title="title" :icon="titleIcon" @cancel="cancelForm">
+  <Dialog :max-width="maxWidth" ref="dialog" :title="title" :icon="icon" @cancel="cancelForm">
           <!--:text-class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'"-->
     <template v-if="formSchema" style="overflow-x: hidden">
       <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
@@ -46,7 +46,7 @@ export default {
   },
   props: {
     title: String,
-    titleIcon: String,
+    icon: String,
     formSchema: Object,
     errorMessage: String,
     maxWidth: {

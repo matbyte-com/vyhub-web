@@ -49,14 +49,14 @@
     <DialogForm
       ref="createGatewayDialog"
       :form-schema="gatewaySchema"
-      titleIcon="mdi-currency-usd"
+      icon="mdi-currency-usd"
       :submitText="$t('create')"
       @submit="createGateway"
       :title="$t('_gateway.labels.create')"/>
     <DialogForm
       ref="editGatewayDialog"
       :form-schema="gatewaySchema"
-      titleIcon="mdi-currency-usd"
+      icon="mdi-currency-usd"
       :submitText="$t('edit')"
       @submit="editGateway"
       :title="$t('_gateway.labels.edit')">

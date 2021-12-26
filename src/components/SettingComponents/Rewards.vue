@@ -33,14 +33,14 @@
     <DialogForm
       ref="createRewardDialog"
       :form-schema="rewardSchema"
-      titleIcon="mdi-star-shooting"
+      icon="mdi-star-shooting"
       :submitText="$t('create')"
       @submit="createReward"
       :title="$t('_reward.labels.create')"/>
     <DialogForm
       ref="editRewardDialog"
       :form-schema="rewardSchema"
-      titleIcon="mdi-star-shooting"
+      icon="mdi-star-shooting"
       :submitText="$t('edit')"
       @submit="editReward"
       :title="$t('_reward.labels.edit')"/>

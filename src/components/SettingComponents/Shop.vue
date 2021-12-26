@@ -28,7 +28,7 @@
     <!-- Address Add Form -->
     <DialogForm :form-schema="addressFormSchema" ref="addressChangeDialog"
                 :title="$t('_address.labels.change')" :submit-text="$t('change')"
-                title-icon="mdi-map-marker"
+                icon="mdi-map-marker"
                 @submit="changeAddress">
     </DialogForm>
   </div>

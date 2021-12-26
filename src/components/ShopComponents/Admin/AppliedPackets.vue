@@ -80,7 +80,7 @@
       <DialogForm
         ref="editAppliedPacketDialog"
         :form-schema="editFormSchema"
-        titleIcon="mdi-gift-open"
+        icon="mdi-gift-open"
         :submitText="$t('edit')"
         @submit="editAppliedPacket"
         :title="$t('_purchases.labels.editAppliedPacket')"/>

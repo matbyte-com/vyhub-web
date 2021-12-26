@@ -43,7 +43,7 @@
     <DialogForm
       ref="createTaxRuleDialog"
       :form-schema="taxRuleSchema"
-      titleIcon="mdi-credit-card-plus"
+      icon="mdi-credit-card-plus"
       :submitText="$t('create')"
       @submit="createTaxRule"
       :title="$t('_taxRule.labels.create')"/>

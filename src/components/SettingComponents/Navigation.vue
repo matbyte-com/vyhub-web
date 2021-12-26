@@ -2,14 +2,14 @@
   <div>
     <SettingTitle>{{ $t('navigation') }}</SettingTitle>
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
-                 title-icon="mdi-navigation-outline"
+                 icon="mdi-navigation-outline"
                  :title="$t('settings.addNavlink')"
                  @submit="addLink"/>
     <delete-confirmation-dialog ref="deleteConfirmationDialog" @submit="deleteNav"/>
     <!-- Edit NavLink Dialog -->
     <dialog-form ref="navEditDialog" :form-schema="navlinkAddSchema"
               :title="$t('settings.editNavLink')"
-                 title-icon="mdi-navigation-outline"
+                 icon="mdi-navigation-outline"
               @updated="isExternalLink"
               :max-width="1000"
               @submit="editNavItem"

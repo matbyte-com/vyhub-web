@@ -180,7 +180,7 @@
     <!-- Address Add Form -->
     <DialogForm :form-schema="addressFormSchema" ref="addressAddDialog"
                 :title="$t('_address.labels.add')" :submit-text="$t('add')"
-                title-icon="mdi-map-marker"
+                icon="mdi-map-marker"
                 @submit="addAddress">
     </DialogForm>
 

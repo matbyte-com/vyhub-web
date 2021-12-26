@@ -58,7 +58,7 @@
     <DialogForm
       ref="addPacketDialog"
       :form-schema="packetSchema"
-      titleIcon="mdi-gift-open"
+      icon="mdi-gift-open"
       :submitText="$t('add')"
       @submit="addPacket"
       :max-width="600"
@@ -66,7 +66,7 @@
     <DialogForm
       ref="editPacketDialog"
       :form-schema="packetSchema"
-      titleIcon="mdi-gift-open"
+      icon="mdi-gift-open"
       :submitText="$t('edit')"
       @submit="editPacket"
       :max-width="600"

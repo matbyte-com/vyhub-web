@@ -2,7 +2,7 @@
   <div>
     <!-- Add Message Dialog -->
     <dialog-form ref="messageAddDialog" :form-schema="messageAddSchema"
-                 :title="$t('_home.addNews')" title-icon="mdi-newspaper-plus"
+                 :title="$t('_home.addNews')" icon="mdi-newspaper-plus"
                  :max-width="1000"
                  @submit="addMessage"
     >
@@ -11,7 +11,7 @@
       </template>
     </dialog-form>
     <dialog-form ref="messageEditDialog" :form-schema="messageAddSchema"
-                 :title="$t('_home.editNews')" title-icon="mdi-newspaper"
+                 :title="$t('_home.editNews')" icon="mdi-newspaper"
                  :max-width="1000"
                  @submit="editMessage">
       <template slot="type-after">

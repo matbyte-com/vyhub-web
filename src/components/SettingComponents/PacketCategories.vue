@@ -37,14 +37,14 @@
     <DialogForm
       ref="createCategoryDialog"
       :form-schema="categorySchema"
-      titleIcon="mdi-star"
+      icon="mdi-star"
       :submitText="$t('create')"
       @submit="createCategory"
       :title="$t('_packetCategory.labels.create')"/>
     <DialogForm
       ref="editCategoryDialog"
       :form-schema="categorySchema"
-      titleIcon="mdi-star"
+      icon="mdi-star"
       :submitText="$t('edit')"
       @submit="editCategory"
       :title="$t('_packetCategory.labels.edit')"/>

@@ -3,11 +3,11 @@
     <DialogForm ref="addBundleDialog"
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
-                title-icon="mdi-server"
+                icon="mdi-server"
                 :title="$t('settings.labels.addBundle')"/>
     <DialogForm ref="createServerDialog"
                 :form-schema="serverSchema"
-                title-icon="mdi-server"
+                icon="mdi-server"
                 @submit="createServer"
                 :title="$t('_server.labels.create')"/>
     <DeleteConfirmationDialog
@@ -21,13 +21,13 @@
                 ref="deleteServerDialog"
                 @submit="deleteServer"/>
     <DialogForm ref="editBundleDialog"
-                title-icon="mdi-server"
+                icon="mdi-server"
                 :form-schema="editBundleSchema"
                 @submit="editBundle"
                 :title="$t('settings.labels.editBundle')"/>
     <DialogForm ref="editServerDialog"
                 :form-schema="serverSchema"
-                title-icon="mdi-server"
+                icon="mdi-server"
                 @submit="editServer"
                 :title="$t('_server.labels.edit')"/>
     <v-row>

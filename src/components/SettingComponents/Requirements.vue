@@ -2,10 +2,10 @@
  <div>
    <DialogForm :form-schema="requirementAddForm" ref="requirementAddDialog"
                @submit="addRequirement" :title="$t('_requirement.addRequirement')"
-               title-icon="mdi-approximately-equal">
+               icon="mdi-approximately-equal">
    </DialogForm>
    <DialogForm :form-schema="requirementSetAddForm" ref="requirementSetAddDialog"
-               :title="$t('settings.addRequirementSet')" title-icon="mdi-greater-than-or-equal"
+               :title="$t('settings.addRequirementSet')" icon="mdi-greater-than-or-equal"
                @submit="addRequirementSet"/>
    <DeleteConfirmationDialog ref="requirementSetDeleteConfirmationDialog"
                              @submit="deleteRequirementSet" />

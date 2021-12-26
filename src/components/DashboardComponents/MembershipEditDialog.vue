@@ -1,6 +1,6 @@
 <template>
   <dialog-form :form-schema="userMembershipEditForm"
-               title-icon="mdi-account-group"
+               icon="mdi-account-group"
                :title="$t('_membership.labels.edit')"
                ref="editMembershipDialog"
                @submit="editUserMembership">
