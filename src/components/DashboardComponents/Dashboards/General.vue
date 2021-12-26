@@ -14,6 +14,9 @@
           <v-col cols="12" xl="6">
             <Groups :user="user" />
           </v-col>
+          <v-col cols="6">
+            <BansAndWarnings :user="user" />
+          </v-col>
         </v-row>
       </v-col>
       <v-col cols="12" md="4" lg="3">
@@ -38,13 +41,14 @@ import LinkedAccounts from '@/components/DashboardComponents/LinkedAccounts.vue'
 import Packets from '@/components/DashboardComponents/Packets.vue';
 import ProfilePicture from '@/components/DashboardComponents/ProfilePicture.vue';
 import AttributeGraph from '@/components/DashboardComponents/AttributeGraph.vue';
+import BansAndWarnings from '../BansAndWarnings.vue';
 
 export default {
   name: 'General.vue',
   components: {
+    BansAndWarnings,
     AttributeGraph,
     ProfilePicture,
-    Groups,
     LinkedAccounts,
     Packets,
   },
