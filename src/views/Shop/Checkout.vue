@@ -1,7 +1,7 @@
 <template>
     <div>
       <v-row class="justify-center">
-        <v-col lg="3" sm="4" xs="12">
+        <v-col cols="12" md="6" lg="5" xl="3">
           <v-card>
             <v-card-title>
               <v-icon>mdi-currency-usd</v-icon>

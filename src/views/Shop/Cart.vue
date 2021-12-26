@@ -4,7 +4,7 @@
 
     <v-row v-if="cartPackets != null">
       <!-- Cart packets -->
-      <v-col lg="9" md="8" cols="12">
+      <v-col xl="9" lg="8" cols="12">
         <v-row v-if="openPurchase != null">
           <v-col>
             <v-card>

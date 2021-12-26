@@ -21,13 +21,16 @@
         overlap
         color="error"
         :content="$store.getters.cartPacketCount"
-        v-if="$store.getters.cartPacketCount > 0"
+        v-if="$store.getters.cartPacketCount > 0 && !listItem"
       >
         <v-icon left>mdi-cart-variant</v-icon>
       </v-badge>
       <v-icon left v-else>mdi-cart-variant</v-icon>
       <v-list-item-title>
         {{ $t('_shop.labels.cart') }}
+        <span v-if="listItem && $store.getters.cartPacketCount > 0">
+          ({{ $store.getters.cartPacketCount }})
+        </span>
       </v-list-item-title>
     </v-list-item>
   </div>

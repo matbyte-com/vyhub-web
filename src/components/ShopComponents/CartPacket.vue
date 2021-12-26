@@ -2,14 +2,14 @@
   <v-card>
     <v-card-text>
       <v-row>
-        <v-col lg="2" align-self="center" class="text-center">
+        <v-col lg="2" cols="12" sm="4" align-self="center" class="text-center">
           <v-img
             @click="showPacket"
             style="cursor: pointer;"
             :src="cartPacket.packet.image_url"
           ></v-img>
         </v-col>
-        <v-col>
+        <v-col cols="12" lg="6" sm="8">
           <div class="text-h6" @click="showPacket" style="cursor: pointer;">
             {{ cartPacket.packet.title }}
           </div>
@@ -53,7 +53,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col lg="1" align-self="center" class="text-center" v-if="showRemove">
+        <v-col lg="1" cols="3" sm="2" align-self="center" class="text-center" v-if="showRemove">
           <v-btn fab outlined small color="error"
                  @click="$emit('remove')">
             <v-icon>mdi-delete</v-icon>
