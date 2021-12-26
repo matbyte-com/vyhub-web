@@ -178,8 +178,7 @@
 
 <script>
 import DialogForm from '@/components/DialogForm.vue';
-import BundleAddForm from '@/forms/BundleAddForm';
-import EditBundleForm from '@/forms/BundleEditForm';
+import ServerbundleForm from '@/forms/ServerbundleForm';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DataTable from '@/components/DataTable.vue';
 import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
@@ -227,7 +226,7 @@ export default {
           text: this.$t('actions'), value: 'actions', sortable: false, align: 'right', width: 150,
         },
       ],
-      addBundleSchema: BundleAddForm.returnForm(),
+      addBundleSchema: ServerbundleForm.returnForm(),
       serverSchema: ServerForm,
       editBundleSchema: null,
       createTokenSchema: ServerbundleAPITokenForm,
@@ -322,7 +321,7 @@ export default {
       const obj = bundle;
       if (bundle.default_group) obj.defaultGroup = bundle.default_group.id;
       // render correct form
-      this.editBundleSchema = EditBundleForm.returnForm(String(bundle.server_type));
+      this.editBundleSchema = ServerbundleForm.returnForm(true, String(bundle.server_type));
       // open and show dialog
       this.$refs.editBundleDialog.setData(obj);
       this.$refs.editBundleDialog.show(bundle);

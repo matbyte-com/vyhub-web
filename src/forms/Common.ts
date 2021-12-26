@@ -37,11 +37,11 @@ export default {
       'x-itemTitle': 'name',
     };
   },
-  serverTypeSelectField(disabled = false) {
+  serverTypeSelectField(disabled = false, selected = 'GMOD') {
     const form = {
       type: 'string',
       title: i18n.t('type'),
-      default: 'GMOD',
+      default: selected,
       readOnly: disabled,
       'x-fromUrl': `${API_URL}/server/type/`,
     };

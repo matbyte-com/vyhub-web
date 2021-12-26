@@ -89,7 +89,7 @@
     "defaultGroup": "Default Group",
     "multigroup": "Multiple Groups",
     "totalUsers": "Total Users: ",
-    "multigroupDescription": "Able to assign multiple groups to bundle",
+    "multigroupDescription": "Users can be a member in multiple groups at once in this bundle.",
     "backgroundColorDescription": "Background image overwrites the background color",
     "externalLink": "External Link",
     "htmlContent": "HTML Content",

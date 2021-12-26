@@ -1,9 +1,7 @@
 import Common from '@/forms/Common';
 import i18n from '@/plugins/i18n';
 
-const API_URL = Common.apiURL;
-
-function returnForm(disableServerTypeSelectField = false) {
+function returnForm(disableServerTypeSelectField = false, selected = 'GMOD') {
   const form = {
     type: 'object',
     required: [
@@ -22,7 +20,7 @@ function returnForm(disableServerTypeSelectField = false) {
       },
       color: Common.colorPicker(),
       icon: Common.iconPicker,
-      server_type: Common.serverTypeSelectField(disableServerTypeSelectField),
+      server_type: Common.serverTypeSelectField(disableServerTypeSelectField, selected),
       default_group: {
         ...Common.groupSelectField,
         title: i18n.t('settings.defaultGroup'),
