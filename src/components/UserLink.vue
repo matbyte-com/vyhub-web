@@ -1,17 +1,22 @@
 <template>
-  <div>
-    <v-chip v-if="!disabledLink"
+  <span>
+    <v-chip v-if="!disabledLink && !simple"
             @click="$router.push({ name: 'UserDashboard', params: {id: user.id}})"
             :outlined="outline" color="primary">
       <v-icon small>mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
-    <v-chip v-else
+    <v-chip v-if="disabledLink && !simple"
             :outlined="outline" color="primary">
       <v-icon small>mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
-  </div>
+    <span v-if="simple">
+      <v-icon small>mdi-account</v-icon>
+      <router-link
+        :to="{ name: 'UserDashboard', params: {id: user.id}}">{{ user.username }}</router-link>
+    </span>
+  </span>
 </template>
 
 <script>
@@ -24,6 +29,10 @@ export default {
       default: true,
     },
     disabledLink: {
+      type: Boolean,
+      default: false,
+    },
+    simple: {
       type: Boolean,
       default: false,
     },

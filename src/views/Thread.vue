@@ -3,71 +3,83 @@
     <ThreadAddDialog ref="addPostDialog"
                      :dialog-title="`${$t('_ticket.addPost')}`"
                      @submit="newPost" :hide-title-input="true"/>
-    <div class="d-flex">
-      <div :style="{width: avatarWidth}" />
-      <PageTitle class="mb-5 ml-10" v-if="posts[0]"
-                 :title="`${$t('_ticket.ticket')}: ${thread.title}`"/>
-      <v-spacer />
-      <v-card height="30%" v-if="thread && posts.length > 0">
-        <v-card-text class="d-flex" align="center">
-          <span class="align-self-center">
-            {{ $t('_ticket.creator') }}:
-          </span>
-          <user-link class="ml-1" :user="thread.creator" />
-          <span class="align-self-center ml-3">
-            {{ $t('_ticket.lastUpdated') }}: {{ $d(new Date(posts[0].created), 'long') }}
-          </span>
-          <v-chip v-if="thread.status === 'OPEN'" color="success" class="text-uppercase ml-3"
-                  @click="toggleStatus()">
-            {{ $t('_ticket.open') }}
-          </v-chip>
-          <v-chip v-else color="error" class="text-uppercase ml-3" @click="toggleStatus()">
-            {{ $t('_ticket.closed') }}
-          </v-chip>
-        </v-card-text>
-      </v-card>
-      <div class="ml-10" :style="{width: avatarWidth}"/>
+    <PageTitle v-if="posts[0]"
+               icon="mdi-forum"
+               class="mb-5"
+               show-subtitle
+               :title="thread.title">
+      <template v-slot:subtitle>
+        <v-row>
+          <v-col cols="12" sm="9" align-self="center">
+            <user-link simple class="ml-1" :user="thread.creator"/>
+            {{ utils.formatDate(posts[0].created) }}
+          </v-col>
+          <v-col cols="12" sm="3">
+            <v-chip v-if="thread.status === 'OPEN'" color="success" class="text-uppercase"
+                    @click="toggleStatus()">
+              {{ $t('_ticket.open') }}
+            </v-chip>
+            <v-chip v-else color="error" class="text-uppercase" @click="toggleStatus()">
+              {{ $t('_ticket.closed') }}
+            </v-chip>
+          </v-col>
+        </v-row>
+      </template>
+    </PageTitle>
+    <div class="mt-3" v-for="post in posts" :key="post.id">
+      <v-row>
+        <v-col class="hidden-xs-only" cols="2" lg="1">
+          <v-avatar v-if="post.creator.id === thread.creator.id" :size="avatarWidth">
+            <v-img :src="post.creator.avatar"/>
+          </v-avatar>
+        </v-col>
+        <v-col class="ml-sm-5 mr-sm-5">
+          <v-card flat outlined>
+            <v-card-text>
+              <span v-html="post.content" class="ql-editor pa-0">
+              </span>
+              <div class="text--disabled mt-3 d-flex align-center">
+                <v-avatar v-if="post.creator.id === thread.creator.id"
+                          class="hidden-sm-and-up mr-3"
+                          size="30">
+                  <v-img :src="post.creator.avatar"/>
+                </v-avatar>
+                <user-link v-if="post.creator" :user="post.creator"/>
+                <span class="ml-3">{{ utils.formatDate(post.created) }}</span>
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col class="hidden-xs-only" cols="2" lg="1">
+          <v-avatar v-if="post.creator.id !== thread.creator.id" :size="avatarWidth">
+            <v-img :src="post.creator.avatar"/>
+          </v-avatar>
+        </v-col>
+      </v-row>
     </div>
-    <div class="d-flex mt-3" v-for="post in posts" :key="post.id">
-      <v-avatar v-if="post.creator.id === thread.creator.id" :size="avatarWidth">
-        <v-img :src="post.creator.avatar"/>
-      </v-avatar>
-      <div v-else style="width: 100px" />
-      <v-card class="ml-10 mr-10" flat outlined
-              width="100%" >
-        <v-card-text>
-          <span v-html="post.content" class="ql-editor pa-0">
-          </span>
-        </v-card-text>
-        <v-card-actions class="text--disabled pt-0">
-          <span class="mr-3">{{ $d(new Date(post.created), 'long') }}</span>
-          <user-link v-if="post.creator" :user="post.creator"/>
-        </v-card-actions>
-      </v-card>
-      <v-avatar v-if="post.creator.id !== thread.creator.id" :size="avatarWidth">
-        <v-img :src="post.creator.avatar"/>
-      </v-avatar>
-      <div v-else :style="{width: avatarWidth}" />
-    </div>
-    <div class="d-flex mt-3">
-      <v-spacer />
-      <v-btn v-if="$checkProp('ticket_edit')"
-             :color="thread.status === 'CLOSED' ? 'success' : 'error'"
-             @click="toggleStatus">
-        <div v-if="thread.status === 'CLOSED'">
-          <v-icon left>mdi-lock-open-variant</v-icon>
-          <span >{{ $t('_ticket.open') }}</span>
-        </div>
-        <div v-else>
-          <v-icon left>mdi-lock</v-icon>
-          <span>{{ $t('_ticket.close') }}</span>
-        </div>
-      </v-btn>
-      <v-btn color="success" class="ml-3" @click="$refs.addPostDialog.show()">
-        <v-icon left>mdi-plus</v-icon>
-        <span>{{ $t('_ticket.addPost') }}</span>
-      </v-btn>
-      <div class="ml-10" :style="{width: avatarWidth}" />
+    <div class="mt-3">
+      <v-row>
+        <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
+        <v-col class="text-right ml-sm-5 mr-sm-5">
+          <v-btn v-if="$checkProp('ticket_edit')"
+                 :color="thread.status === 'CLOSED' ? 'success' : 'error'"
+                 @click="toggleStatus">
+            <div v-if="thread.status === 'CLOSED'">
+              <v-icon left>mdi-lock-open-variant</v-icon>
+              <span>{{ $t('_ticket.open') }}</span>
+            </div>
+            <div v-else>
+              <v-icon left>mdi-lock</v-icon>
+              <span>{{ $t('_ticket.close') }}</span>
+            </div>
+          </v-btn>
+          <v-btn color="success" class="ml-3" @click="$refs.addPostDialog.show()">
+            <v-icon left>mdi-plus</v-icon>
+            <span>{{ $t('_ticket.addPost') }}</span>
+          </v-btn>
+        </v-col>
+        <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -100,10 +112,14 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).forum_getThreadPosts(this.threadId).then((rsp) => { this.posts = rsp.data; });
+      (await openapi).forum_getThreadPosts(this.threadId).then((rsp) => {
+        this.posts = rsp.data;
+      });
     },
     async getThread() {
-      (await openapi).forum_getThread(this.threadId).then((rsp) => { this.thread = rsp.data; });
+      (await openapi).forum_getThread(this.threadId).then((rsp) => {
+        this.thread = rsp.data;
+      });
     },
     async newPost() {
       const data = this.$refs.addPostDialog.getData();
