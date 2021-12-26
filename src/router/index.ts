@@ -240,8 +240,8 @@ router.afterEach((to) => {
       } else {
         document.title = to.meta.title;
       }
-    } else {
-      document.title = config.default_title;
+    } else if (store.getters.generalConfig) {
+      document.title = store.getters.generalConfig.community_name;
     }
   });
 });
