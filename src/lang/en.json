@@ -27,7 +27,7 @@
       "title": "{usr}",
       "linkedAccounts": "Linked Accounts",
       "linkNewAccount": "link new Account",
-      "activeProperties": "Active Permissions",
+      "activeProperties": "Active Properties",
       "groupMemberships":  "Group Memberships"
     },
     "membershipEndDescription": "Leave empty for unlimited duration"

@@ -116,7 +116,12 @@
                       :class="'ml-1 mb-1 a '
                       + (prop.granted ? 'success' : 'error') + ' ' + checkProps(prop)"
                       small
-                    >{{ prop.name }}
+                    >
+                      {{ prop.name }}
+                      <span v-if="prop.values != null && prop.values.length > 0">
+                        :
+                        {{ prop.values.join(', ') }}
+                      </span>
                     </v-chip>
                   </span>
               </v-expansion-panel-content>
@@ -144,13 +149,13 @@ export default {
       activeProps: [],
       activeGroups: [],
       userActiveGroups: [],
-      groups: [],
       memberships: [],
       bundleGroups: [],
+      props: [],
       serverBundles: null,
       groupTableHeaders: [
         { text: this.$t('groupname'), align: 'start', value: 'group.name' },
-        { text: this.$t('bundle'), value: 'group.serverbundle.name' },
+        { text: this.$t('bundle'), value: 'serverbundle.name' },
         { text: this.$t('begin'), value: 'begin' },
         { text: this.$t('end'), value: 'end' },
         {
@@ -187,7 +192,8 @@ export default {
       this.activeGroups.push(group.id);
     },
     setActiveGroups(prop) {
-      this.activeGroups.push(prop.group_id);
+      this.activeGroups = this.allGroups.filter((g) => (prop.name in g.properties))
+        .map((g) => g.id);
       this.activeProps.push(prop.name);
     },
     checkGroups(group) {
@@ -212,33 +218,22 @@ export default {
 
       return classes.join(' ');
     },
-    // -----
-    getGroupsByBundle(bundleId) {
-      return this.groups.filter((g) => g.serverbundle_id === bundleId);
-    },
     getUserActiveGroupsByBundle(bundle) {
-      return this.userActiveGroups.filter((g) => g.serverbundle.id === bundle.id);
-    },
-    getPropsByBundle(bundleId) {
-      if (!this.dataFetched) { return []; }
-      const props = [];
-      this.getGroupsByBundle(bundleId).forEach((group) => {
-        Object.values(group.properties).forEach((prop) => props.push(prop));
-      });
-      return props;
+      return this.userActiveGroups
+        .filter((g) => g.serverbundle.id === bundle.id)
+        .map((g) => g.group);
     },
     async queryData() {
       (await openapi).user_getMemberships(this.user.id).then((response) => {
         this.memberships = response.data;
         this.dataFetched += 1;
       });
-      (await openapiCached).group_getGroups().then((response) => {
-        this.groups = response.data;
-        this.dataFetched += 1;
-      });
-      (await openapi).user_getActiveGroups(this.user.id).then((response) => {
+      (await openapi).user_getActiveGroupsByBundle(this.user.id).then((response) => {
         this.userActiveGroups = response.data;
         this.dataFetched += 1;
+      });
+      (await openapi).user_getCurrentProperties(this.user.id).then((response) => {
+        this.props = response.data;
       });
       (await openapiCached).server_getBundles().then((rsp) => { (this.serverBundles = rsp.data); });
     },
@@ -270,16 +265,8 @@ export default {
     },
   },
   computed: {
-    /**
-     * @link {} get all props belonging to active Group
-     * @returns {[]} Array of props
-     */
-    props() {
-      const props = [];
-      this.userActiveGroups.forEach((group) => {
-        Object.values(group.properties).forEach((prop) => props.push(prop));
-      });
-      return props;
+    allGroups() {
+      return this.userActiveGroups.map((gs) => gs.group);
     },
   },
 };
