@@ -1,4 +1,3 @@
-import GroupAddForm from '@/forms/GroupAddForm';
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
 
@@ -12,7 +11,23 @@ export default {
     {
       title: i18n.t('general'),
       type: 'object',
-      properties: GroupAddForm.properties,
+      required: [
+        'name',
+        'permission_level',
+      ],
+      properties: {
+        name: {
+          type: 'string',
+          title: i18n.t('name'),
+        },
+        permission_level: {
+          type: 'integer',
+          title: i18n.t('settings.permissionLevel'),
+          minimum: 0,
+          maximum: 100000,
+        },
+        color: Common.colorPicker(),
+      },
     },
     {
       title: i18n.t('properties'),

@@ -145,8 +145,8 @@ export default {
     },
   },
   groupSelectField: {
-    type: 'object',
     title: i18n.t('group'),
+    type: 'object',
     'x-fromUrl': `${API_URL}/group/`,
     'x-itemTitle': 'name',
     'x-itemKey': 'id',

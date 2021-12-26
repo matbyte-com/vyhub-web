@@ -11,6 +11,7 @@ export default {
     'begin',
   ],
   properties: {
+    group: Common.groupSelectField,
     begin: {
       type: 'string',
       title: i18n.t('begin'),
@@ -24,18 +25,5 @@ export default {
       description: i18n.t('_dashboard.membershipEndDescription'),
     },
     serverbundle: Common.serverbundleSelectField,
-  },
-  dependencies: {
-    serverbundle: {
-      properties: {
-        group: {
-          type: 'object',
-          title: i18n.t('group'),
-          'x-fromUrl': `${API_URL}/group/?serverbundle_id={serverbundle.id}`,
-          'x-itemKey': 'id',
-          'x-itemTitle': 'name',
-        },
-      },
-    },
   },
 };
