@@ -315,7 +315,7 @@
     "news_deleted": "Deleted news message {newsSubject} {newsId}",
     "config_edit": "Edited general config",
     "shop_config_edit": "Edited shop config",
-    "membership_add": "Membership Added Group: {groupName}, User: {username}",
+    "membership_add": "Added to group {group_name} in bundle {serverbundle} until {until}.",
     "membership_deleted": "Deleted Membership: Group: {groupName}, User: {username}",
     "membership_ended": "Ended Membership: Group: {groupName}, User: {username}",
     "membership_edit": "Edited Membership: Group: {groupName}, User: {username}, Old: {oldBegin} {oldEnd}, New: {newBegin} {newEnd}",
