@@ -44,6 +44,10 @@
                   <a class="ma-1" @click="selectedBundle = []; queryData(1)">
                     {{ $t('reset') }}</a>
                 </v-menu>
+                <v-alert type="info" color="primary" dense v-if="$route.query.user_id"
+                         class="mt-4 ml-3">
+                  {{ $t('_ban.showingUserBans', { id: $route.query.user_id }) }}
+                </v-alert>
               </v-col>
             </v-row>
           </template>
@@ -276,6 +280,7 @@ export default {
         query: this.search,
         order_by: this.orderBy,
         sort_desc: this.sortDesc,
+        user_id: this.$route.query.user_id,
       })
         .then((rsp) => { this.bans = rsp.data.items; });
     },

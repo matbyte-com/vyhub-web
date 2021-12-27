@@ -2,27 +2,31 @@
   <v-card class="flex-grow-1">
     <v-card-title>
       <v-icon class="mr-2">mdi-account-group</v-icon>
-      {{ $t('Bans and Warnings') }}
+      {{ $t('_dashboard.labels.bansAndWarnings') }}
     </v-card-title>
     <v-card-text>
       <v-row>
         <v-col>
-          <v-icon left>
-            mdi-account-cancel
-          </v-icon>
-          {{ $t('bans') }}:
-          <span>
+          <router-link :to="{ name: 'Bans', query: { user_id: user.id } }">
+            <v-icon left>
+              mdi-account-cancel
+            </v-icon>
+            {{ $t('bans') }}:
+            <span>
             {{ banCount }}
-          </span>
+            </span>
+          </router-link>
         </v-col>
         <v-col>
-          <v-icon left>
-            mdi-account-alert
-          </v-icon>
-          {{ $t('warnings') }}:
-          <span>
+          <router-link :to="{ name: 'Warnings', query: { user_id: user.id } }">
+            <v-icon left>
+              mdi-account-alert
+            </v-icon>
+            {{ $t('warnings') }}:
+            <span>
             {{ warningCount }}
           </span>
+          </router-link>
         </v-col>
       </v-row>
     </v-card-text>
@@ -48,11 +52,11 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).ban_getBans({ query: this.user.username, size: 1 }).then((rsp) => {
-        this.userBans = rsp.data.total;
+      (await openapi).ban_getBans({ user_id: this.user.id, size: 1 }).then((rsp) => {
+        this.banCount = rsp.data.total;
       });
       (await openapi).warning_getWarnings({ query: this.user.username, size: 1 }).then((rsp) => {
-        this.userWarnings = rsp.data.total;
+        this.warningCount = rsp.data.total;
       });
     },
   },

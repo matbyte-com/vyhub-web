@@ -28,7 +28,8 @@
       "linkedAccounts": "Linked Accounts",
       "linkNewAccount": "link new Account",
       "activeProperties": "Active Properties",
-      "groupMemberships":  "Group Memberships"
+      "groupMemberships":  "Group Memberships",
+      "bansAndWarnings": "Bans and Warnings"
     },
     "membershipEndDescription": "Leave empty for unlimited duration"
   },
@@ -43,6 +44,9 @@
       "reban": "Reban",
       "unbanned": "Unbanned"
     }
+  },
+  "_ban": {
+    "showingUserBans": "Showing bans of user with ID: {id}"
   },
   "_serverbundle":{
     "labels": {
@@ -628,6 +632,7 @@
     "add": "Add Warning",
     "banLength": "Length of automatic ban (minutes)",
     "reason": "Reason",
+    "showUserWarnings": "Showing warnings of user with ID: {id}",
     "messages": {
       "addedWarning": "Warning created.",
       "deletedWarning": "Warning deleted.",
