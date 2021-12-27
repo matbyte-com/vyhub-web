@@ -50,6 +50,11 @@ export default {
   beforeMount() {
     this.fetchData();
   },
+  watch: {
+    $route() {
+      this.fetchData();
+    },
+  },
   methods: {
     async fetchData() {
       (await openapi).ban_getBans({ user_id: this.user.id, size: 1 }).then((rsp) => {
