@@ -56,7 +56,7 @@ export default {
     },
     async updateMail() {
       if (!this.$refs.textfield.valid) { return; }
-      (await openapi).user_patchUser(this.$store.getters.user.id, { email: this.emailModel })
+      (await openapi).user_editUser(this.$store.getters.user.id, { email: this.emailModel })
         .then(() => {
           this.showInput = false;
           this.$notify({

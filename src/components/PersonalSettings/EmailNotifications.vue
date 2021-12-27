@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     async updateSettings() {
-      (await openapi).user_patchUser(this.user.id, {
+      (await openapi).user_editUser(this.user.id, {
         email_notification: this.notificationSwitch,
       })
         .then((rsp) => {
