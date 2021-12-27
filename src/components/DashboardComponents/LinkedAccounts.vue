@@ -43,6 +43,9 @@
               <v-card-subtitle>
                 {{ $t(`_user.type.${acc.type}.name`).toUpperCase() }}
                 <div class="text--disabled caption">
+                  {{ $t('_dashboard.registered_on') }}
+                  {{ $i18n.d(new Date(acc.registered_on), 'short') }}
+                  <br/>
                   {{ acc.identifier }}
                 </div>
               </v-card-subtitle>

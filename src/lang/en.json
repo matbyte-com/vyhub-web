@@ -32,6 +32,7 @@
       "bansAndWarnings": "Bans and Warnings",
       "userLog": "User Log"
     },
+    "registered_on": "Registered on:",
     "membershipEndDescription": "Leave empty for unlimited duration"
   },
   "ban":{
