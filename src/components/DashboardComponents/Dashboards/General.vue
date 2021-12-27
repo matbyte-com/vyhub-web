@@ -14,10 +14,18 @@
           <v-col cols="12" xl="6">
             <Groups :user="user"/>
           </v-col>
-          <v-col cols="6"
-                 v-if="$store.getters.user.id === user.id ||
+          <v-col cols="12" xl="6">
+            <v-row v-if="$store.getters.user.id === user.id ||
                   ($checkProp('ban_show') && $checkProp('warning_show'))">
-            <BansAndWarnings :user="user"/>
+              <v-col>
+                <BansAndWarnings :user="user"/>
+              </v-col>
+            </v-row>
+            <v-row v-if="$checkProp('user_log')">
+              <v-col>
+                <UserLogEntries :user="user"/>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
       </v-col>
@@ -44,10 +52,12 @@ import Packets from '@/components/DashboardComponents/Packets.vue';
 import ProfilePicture from '@/components/DashboardComponents/ProfilePicture.vue';
 import AttributeGraph from '@/components/DashboardComponents/AttributeGraph.vue';
 import BansAndWarnings from '../BansAndWarnings.vue';
+import UserLogEntries from '../UserLogEntries.vue';
 
 export default {
   name: 'General.vue',
   components: {
+    UserLogEntries,
     BansAndWarnings,
     AttributeGraph,
     ProfilePicture,

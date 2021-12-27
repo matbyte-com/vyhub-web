@@ -29,7 +29,8 @@
       "linkNewAccount": "link new Account",
       "activeProperties": "Active Properties",
       "groupMemberships":  "Group Memberships",
-      "bansAndWarnings": "Bans and Warnings"
+      "bansAndWarnings": "Bans and Warnings",
+      "userLog": "User Log"
     },
     "membershipEndDescription": "Leave empty for unlimited duration"
   },
@@ -332,7 +333,8 @@
     "reward_process_failed": "Could not execute applied reward {reward_type} {applied_reward_id}: {error}",
     "reward_process_success": "Successfully executed applied reward {reward_type} {applied_reward_id}.",
     "legal_edit": "Edited legal",
-    "reward_membership_lower_level": "Ignored MEMBERSHIP reward {applied_reward_id} because user {user_id} level ({user_level}) is higher than the level of group {group_id} ({group_level})."
+    "reward_membership_lower_level": "Ignored MEMBERSHIP reward {applied_reward_id} because user {user_id} level ({user_level}) is higher than the level of group {group_id} ({group_level}).",
+    "user_log_entry_add": "Log entry added to user {username}: {message}"
   },
   "forms": {
     "iconDescription": "Available icons"
@@ -574,6 +576,9 @@
       "editSuccess": "Discount successful edited.",
       "createSuccess": "Discount successful created."
     }
+  },
+  "_userLogEntry": {
+    "addLogEntry": "Add Log Entry"
   },
   "notification": {
     "noNotification": "No notifications",
