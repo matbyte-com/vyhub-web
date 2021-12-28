@@ -113,8 +113,9 @@
                   <td>
                     {{ utils.formatLength(currentBan['length']) }}
 
-                    ({{ (currentBan.ends_on == null ? '-' : new
-                    Date(currentBan.ends_on).toLocaleString()) }})
+                    <span v-if="currentBan.ends_on != null">
+                      ({{ utils.formatDate(currentBan.ends_on) }})
+                    </span>
                   </td>
                 </tr>
                 <tr>
