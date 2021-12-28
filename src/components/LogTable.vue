@@ -82,7 +82,7 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: this.$t('user'), value: 'author' },
+        { text: this.$t('author'), value: 'author' },
         { text: this.$t('message'), value: 'message' },
         { text: this.$t('date'), value: 'created_on' },
       ];

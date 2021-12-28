@@ -8,6 +8,9 @@
         {{ $t('_dashboard.labels.userLog') }}
         <v-spacer />
         <v-btn outlined color="success" @click="$refs.entryAddForm.show()">
+          <v-icon left>
+            mdi-plus
+          </v-icon>
           {{ $t('add') }}
         </v-btn>
       </v-card-title>

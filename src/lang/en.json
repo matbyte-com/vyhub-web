@@ -274,7 +274,10 @@
       "group": "Group",
       "news": "News",
       "requirement": "Requirement",
-      "design": "Design"
+      "design": "Design",
+      "warning": "Warning",
+      "discord": "Discord",
+      "server": "Server"
     },
     "object_edit": "Edited {classname} with id {id}: {key} = {value}.",
     "object_delete": "Deleted {classname} with id {id}.",
@@ -862,5 +865,6 @@
   "discord": "Discord",
   "key": "Key",
   "legal": "Legal",
-  "personalSettings": "Personal Settings"
+  "personalSettings": "Personal Settings",
+  "author": "Author"
 }
