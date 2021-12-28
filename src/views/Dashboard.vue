@@ -9,16 +9,16 @@
               <v-icon left>mdi-gamepad</v-icon>
               General
             </v-tab>
-            <v-tab v-for="bundle in bundles" :key="bundle.id" :style="'color:' + bundle.color"
-                   @click="switchTab('Bundle', bundle)">
-              <v-icon v-if="bundle.icon" left :color="bundle.color">{{ bundle.icon }}</v-icon>
-              <span>{{ bundle.name }}</span>
-            </v-tab>
             <v-tab @click="switchTab('Purchases')"
                    v-if="$store.getters.isLoggedIn &&
                    (user.id === $store.getters.user.id || $checkProp('purchase_show'))">
               <v-icon left>mdi-cart-check</v-icon>
               <span>{{ $t('purchases') }}</span>
+            </v-tab>
+            <v-tab v-for="bundle in bundles" :key="bundle.id" :style="'color:' + bundle.color"
+                   @click="switchTab('Bundle', bundle)">
+              <v-icon v-if="bundle.icon" left :color="bundle.color">{{ bundle.icon }}</v-icon>
+              <span>{{ bundle.name }}</span>
             </v-tab>
           </v-tabs>
         </v-card-text>
