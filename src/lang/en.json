@@ -336,7 +336,7 @@
     "reward_process_success": "Successfully executed applied reward {reward_type} {applied_reward_id}.",
     "legal_edit": "Edited legal",
     "reward_membership_lower_level": "Ignored MEMBERSHIP reward {applied_reward_id} because user {user_id} level ({user_level}) is higher than the level of group {group_id} ({group_level}).",
-    "user_log_entry_add": "Log entry added to user {username}: {message}"
+    "user_log_entry_add": "{message}"
   },
   "forms": {
     "iconDescription": "Available icons"

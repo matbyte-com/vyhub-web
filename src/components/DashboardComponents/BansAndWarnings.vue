@@ -7,26 +7,28 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <router-link :to="{ name: 'Bans', query: { user_id: user.id } }">
+          <v-chip color="primary" :to="{ name: 'Bans', query: { user_id: user.id } }">
             <v-icon left>
               mdi-account-cancel
             </v-icon>
             {{ $t('bans') }}:
             <span>
+            &nbsp;
             {{ banCount }}
             </span>
-          </router-link>
+          </v-chip>
         </v-col>
         <v-col>
-          <router-link :to="{ name: 'Warnings', query: { user_id: user.id } }">
+          <v-chip color="primary" :to="{ name: 'Warnings', query: { user_id: user.id } }">
             <v-icon left>
               mdi-account-alert
             </v-icon>
             {{ $t('warnings') }}:
             <span>
+            &nbsp;
             {{ warningCount }}
           </span>
-          </router-link>
+          </v-chip>
         </v-col>
       </v-row>
     </v-card-text>
