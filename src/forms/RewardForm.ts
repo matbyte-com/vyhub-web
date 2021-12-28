@@ -63,6 +63,8 @@ function rewardTypeFields(rewardType: string) {
       command: {
         type: 'string',
         title: i18n.t('command'),
+        description: 'Available: %steamid64%, %steamid32%, %user_id%, %nick%, %uniqueid%, '
+          + '%applied_packet_id%',
       },
     };
   } else if (rewardType === 'SCRIPT') {
@@ -72,6 +74,8 @@ function rewardTypeFields(rewardType: string) {
         type: 'string',
         title: i18n.t('script'),
         'x-display': 'textarea',
+        description: 'Available: PLAYER, %steamid64%, %steamid32%, %user_id%, %nick%, %uniqueid%, '
+          + '%applied_packet_id%',
       },
     };
   } else if (rewardType === 'CREDITS') {
