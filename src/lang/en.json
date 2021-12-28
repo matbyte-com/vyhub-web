@@ -282,6 +282,7 @@
     "applied_packet_extended": "Extended applied packet {applied_packet_id}.",
     "applied_packet_not_extended": "Failed to extended applied packet {applied_packet_id}: {reason}.",
     "group_add": "Added group {groupName} {groupId}.",
+    "user_imported_from": "User imported from {source}.",
     "group_edit": "Edited group {groupName} {groupId}.",
     "group_deleted": "Deleted group {groupName} {groupId}.",
     "refund_finished": "Finished refund. debit_id: {debit_id}, purchase_id: {purchase_id}.",
