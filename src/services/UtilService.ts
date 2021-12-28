@@ -75,6 +75,10 @@ export default {
           return window.location.origin + path;
         },
         formatDate(datetime: string) {
+          if (datetime == null) {
+            return '-';
+          }
+
           return (new Date(datetime)).toLocaleString();
         },
         random_string(length: number) {
