@@ -68,7 +68,7 @@ export default {
         logFn = api.user_getLog;
         params = [{ uuid: this.objId }];
       } else if (this.type === 'ban') {
-        logFn = api.ban_getLogs;
+        logFn = api.ban_getLog;
         params = [{ uuid: this.objId }];
       } else {
         params = [{ category: this.categories }];
