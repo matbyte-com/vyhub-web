@@ -197,7 +197,11 @@ export default Vue.extend({
       const client = await openapi;
       client.interceptors.response.use((response) => response,
         (err) => {
-          let errDet = (err.response.data.detail.code != null ? err.response.data.detail : null);
+          let errDet = null;
+
+          if (err.response && err.response.data && err.response.data.detail) {
+            errDet = err.response.data.detail;
+          }
 
           if (err.response.status === 401) {
             errDet = {
