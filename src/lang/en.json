@@ -814,6 +814,7 @@
   "summary": "Summary",
   "expired": "Expired",
   "active": "Active",
+  "inactive": "Inactive",
   "areYouSure": "Are you sure?",
   "delete": "Delete",
   "color": "Color",

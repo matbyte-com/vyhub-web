@@ -26,21 +26,14 @@
                     <v-icon left>
                       mdi-filter
                     </v-icon>
-                    {{ $t('status') }}
+                    {{ $t('active') }}
                   </v-btn>
                 </template>
-                <v-checkbox
-                  class="ml-2, mr-2"
-                  dense
-                  hide-details
-                  v-for="(st, index) in availableStatus"
-                  :key="index"
-                  v-model="active_filter"
-                  :label="$t(`_shop.purchaseStatus.${st.toLowerCase()}`)"
-                  :value="st"
-                  @change="newActive"
-                ></v-checkbox>
-                <a class="ma-1" @click="active_filter = []; queryData(1)">
+                <v-radio-group v-model="active_filter">
+                  <v-radio :value="true" :label="$t('active')"></v-radio>
+                  <v-radio :value="false" :label="$t('inactive')"></v-radio>
+                </v-radio-group>
+                <a class="ma-1" @click="active_filter = null;">
                   {{ $t('reset') }}</a>
               </v-menu>
             </v-col>
@@ -125,30 +118,30 @@ export default {
       itemsPerPage: 50,
       page: 1,
       search: '',
-      sort_by: '',
-      sortDesc: false,
+      sort_by: 'begin',
+      sortDesc: true,
       active_filter: [],
       totalItems: 20,
       availableStatus: [],
     };
   },
   methods: {
-    async queryAvailableStatus() {
-      (await openapi).packet_getAvailablePacketStatus().then((rsp) => {
-        this.availableStatus = rsp.data;
-      });
-    },
     async queryData(page) {
       const api = await openapi;
 
-      api.packet_getAppliedPackets({
+      const params = {
         size: this.itemsPerPage,
         page,
         query: this.search,
         sort_by: this.orderBy,
         sort_desc: this.sortDesc,
-        active_filter: this.active_filter,
-      }).then((rsp) => {
+      };
+
+      if (this.active_filter != null) {
+        params.active = this.active_filter;
+      }
+
+      api.packet_getAppliedPackets(params).then((rsp) => {
         this.appliedPackets = rsp.data.items;
         this.totalItems = rsp.data.total;
       }).catch((err) => {
@@ -209,10 +202,6 @@ export default {
         this.queryData(1);
       }
     },
-    newActive(status) {
-      this.active_filter = status;
-      this.queryData(1);
-    },
     newPage(page) {
       this.page = page;
       this.queryData(page);
@@ -220,11 +209,13 @@ export default {
   },
   beforeMount() {
     this.queryData(1);
-    this.queryAvailableStatus();
   },
   watch: {
     $route() {
       // this.queryData(1);
+    },
+    active_filter() {
+      this.queryData(1);
     },
   },
 };

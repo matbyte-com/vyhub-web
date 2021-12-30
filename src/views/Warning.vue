@@ -151,7 +151,7 @@ export default {
       (await openapi).warning_getWarnings({
         page,
         size: this.itemsPerPage,
-        bundles_filter: this.selectedBundle,
+        bundle_id: this.selectedBundle,
         query: this.search,
         order_by: this.orderBy,
         sort_desc: this.sortDesc,

@@ -363,7 +363,7 @@ export default {
         query: this.search,
         sort_by: this.orderBy,
         sort_desc: this.sortDesc,
-        status_filter: this.selectedStatus,
+        status: this.selectedStatus,
       }).then((rsp) => {
         this.purchases = rsp.data.items;
         this.totalItems = rsp.data.total;
@@ -373,7 +373,7 @@ export default {
       });
     },
     async queryAvailableStatus() {
-      (await openapi).shop_getAvailablePurchaseStatus().then((rsp) => {
+      (await openapi).shop_getPurchaseStatuses().then((rsp) => {
         this.availableStatus = rsp.data;
       });
     },

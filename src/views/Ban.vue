@@ -277,7 +277,7 @@ export default {
       this.page = page;
       (await openapi).ban_getBans({
         page,
-        bundles_filter: this.selectedBundle,
+        bundle_id: this.selectedBundle,
         query: this.search,
         order_by: this.orderBy,
         sort_desc: this.sortDesc,
