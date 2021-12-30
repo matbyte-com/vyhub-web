@@ -125,10 +125,12 @@ import DataTable from '@/components/DataTable.vue';
 import GenForm from '@/components/GenForm.vue';
 import openapi from '@/api/openapi';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
+import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
 
 export default {
   name: 'Requirements',
   components: {
+    SettingTitle,
     DeleteConfirmationDialog,
     GenForm,
     DialogForm,
