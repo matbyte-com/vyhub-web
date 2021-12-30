@@ -135,7 +135,7 @@ export default {
       WarningAddForm,
       page: 1,
       totalItems: 0,
-      itemsPerPage: 50,
+      itemsPerPage: 10,
       selectedBundle: [],
       search: '',
       orderBy: 'created_on',

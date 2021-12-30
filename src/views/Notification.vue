@@ -144,7 +144,7 @@ export default {
   data() {
     return {
       selectedCat: [],
-      itemsPerPage: 50,
+      itemsPerPage: 20,
       newMessages: null,
       notifications: [],
       totalItems: 20,

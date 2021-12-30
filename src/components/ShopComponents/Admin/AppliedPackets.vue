@@ -115,7 +115,7 @@ export default {
       ],
       appliedPackets: null,
       editFormSchema: AppliedPacketEditForm,
-      itemsPerPage: 50,
+      itemsPerPage: 10,
       page: 1,
       search: '',
       sort_by: 'begin',

@@ -230,7 +230,7 @@ export default {
       banAddFormSchema,
       banEditFormSchema,
       page: 1,
-      itemsPerPage: 50,
+      itemsPerPage: 10,
       totalItems: 20,
       selectedBundle: [],
       orderBy: 'created_on',

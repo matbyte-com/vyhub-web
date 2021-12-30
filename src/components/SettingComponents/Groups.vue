@@ -175,7 +175,7 @@ export default {
       groupFormSchema: GroupForm,
       memberGroup: {},
       groupMembersData: [],
-      itemsPerPage: 50,
+      itemsPerPage: 10,
       totalItems: 20,
       advancedProps: ['server_group'],
     };
