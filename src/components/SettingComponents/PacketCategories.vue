@@ -1,6 +1,8 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('categories') }}</SettingTitle>
+    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/shop/packet">
+      {{ $t('categories') }}
+    </SettingTitle>
 
     <DataTable
       :headers="headers"

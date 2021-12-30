@@ -1,5 +1,8 @@
 <template>
  <div>
+   <SettingTitle doc-link="https://docs.vyhub.net/#/guide/requirements">
+     {{ $t('_settings.requirements') }}
+   </SettingTitle>
    <DialogForm :form-schema="requirementAddForm" ref="requirementAddDialog"
                @submit="addRequirement" :title="$t('_requirement.addRequirement')"
                icon="mdi-approximately-equal">

@@ -1,7 +1,8 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('theme') }}</SettingTitle>
-
+    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/customizability">
+      {{ $t('theme') }}
+    </SettingTitle>
     <v-row>
       <v-col lg="8" xl="6">
         <h6 class="text-h6">{{ $t('general') }}</h6>

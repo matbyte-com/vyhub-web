@@ -1,35 +1,8 @@
 <template>
   <div>
-    <DialogForm ref="addBundleDialog"
-                :form-schema="addBundleSchema"
-                @submit="addBundle"
-                icon="mdi-server"
-                :title="$t('settings.labels.addBundle')"/>
-    <DialogForm ref="createServerDialog"
-                :form-schema="serverSchema"
-                icon="mdi-server"
-                @submit="createServer"
-                :title="$t('_server.labels.create')"/>
-    <DeleteConfirmationDialog
-                ref="deleteBundleDialog"
-                @submit="deleteBundle">
-      <v-alert type="warning" class="mt-3">
-        {{ $t('_server.deleteBundleConfirmationText') }}
-      </v-alert>
-    </DeleteConfirmationDialog>
-    <DeleteConfirmationDialog
-                ref="deleteServerDialog"
-                @submit="deleteServer"/>
-    <DialogForm ref="editBundleDialog"
-                icon="mdi-server"
-                :form-schema="editBundleSchema"
-                @submit="editBundle"
-                :title="$t('settings.labels.editBundle')"/>
-    <DialogForm ref="editServerDialog"
-                :form-schema="serverSchema"
-                icon="mdi-server"
-                @submit="editServer"
-                :title="$t('_server.labels.edit')"/>
+    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/server">
+      {{ $t('_settings.serverAndServerbundle') }}
+    </SettingTitle>
     <v-row>
       <v-col cols="12">
         <v-card outlined flat class="fill-height transparent">
@@ -173,6 +146,36 @@
 
       </GenForm>
     </Dialog>
+    <DialogForm ref="addBundleDialog"
+                :form-schema="addBundleSchema"
+                @submit="addBundle"
+                icon="mdi-server"
+                :title="$t('settings.labels.addBundle')"/>
+    <DialogForm ref="createServerDialog"
+                :form-schema="serverSchema"
+                icon="mdi-server"
+                @submit="createServer"
+                :title="$t('_server.labels.create')"/>
+    <DeleteConfirmationDialog
+      ref="deleteBundleDialog"
+      @submit="deleteBundle">
+      <v-alert type="warning" class="mt-3">
+        {{ $t('_server.deleteBundleConfirmationText') }}
+      </v-alert>
+    </DeleteConfirmationDialog>
+    <DeleteConfirmationDialog
+      ref="deleteServerDialog"
+      @submit="deleteServer"/>
+    <DialogForm ref="editBundleDialog"
+                icon="mdi-server"
+                :form-schema="editBundleSchema"
+                @submit="editBundle"
+                :title="$t('settings.labels.editBundle')"/>
+    <DialogForm ref="editServerDialog"
+                :form-schema="serverSchema"
+                icon="mdi-server"
+                @submit="editServer"
+                :title="$t('_server.labels.edit')"/>
   </div>
 </template>
 

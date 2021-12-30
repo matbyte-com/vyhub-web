@@ -1,6 +1,8 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('paymentGateways') }}</SettingTitle>
+    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/shop/payment_gateways">
+      {{ $t('paymentGateways') }}
+    </SettingTitle>
 
     <DataTable
       :headers="headers"

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('navigation') }}</SettingTitle>
+    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/navigation">
+      {{ $t('navigation') }}
+    </SettingTitle>
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
                  icon="mdi-navigation-outline"
                  :title="$t('settings.addNavlink')"

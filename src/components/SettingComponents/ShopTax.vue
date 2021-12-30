@@ -1,6 +1,8 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('_shop.labels.taxRules') }}</SettingTitle>
+    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/shop/tax">
+      {{ $t('_shop.labels.taxRules') }}
+    </SettingTitle>
 
     <DataTable
       :headers="headers"

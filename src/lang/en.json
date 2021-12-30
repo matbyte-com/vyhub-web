@@ -131,6 +131,11 @@
       "addServer": "Add Server"
     }
   },
+  "_settings": {
+    "documentationLink": "Documentation",
+    "serverAndServerbundle": "Server / Serverbundle",
+    "requirements": "Requirements"
+  },
   "_group": {
     "messages": {
       "addedGroup": "Group created.",
@@ -684,7 +689,7 @@
       "editSuccess": "Server successfully edited.",
       "deleteSuccess": "Server successfully deleted."
     },
-    "deleteBundleConfirmationText": "This will delete objects referenced to this bundle (e.g. groups, rewards)"
+    "deleteBundleConfirmationText": "This will delete objects referenced to this bundle (e.g. rewards)"
   },
   "_server_exception": {
     "begin_smaller_end": "Begin Date has to be after End Date"

@@ -1,7 +1,8 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('groups') }}</SettingTitle>
-
+    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/group">
+      {{ $t('groups') }}
+    </SettingTitle>
     <div class="mt-2">
       <DataTable
         :headers="headers"
