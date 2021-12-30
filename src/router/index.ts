@@ -130,6 +130,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Thread.vue'),
   },
   {
+    path: '/team',
+    name: 'Team',
+    meta: { title: i18n.t('pageTitle.team') },
+    component: () => import('../views/Team.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {

@@ -634,7 +634,8 @@
     "log": "Log",
     "warnings":  "Warnings",
     "legal":  "Legal",
-    "ticket": "Ticket"
+    "ticket": "Ticket",
+    "team": "Team"
   },
   "_warning": {
     "title": "Warnings",
@@ -724,6 +725,9 @@
       "emailUpdated": "Email successfully updated",
       "emailNotificationSettingsToggled": "Notification Settings successfully updated"
     }
+  },
+  "_team": {
+    "title": "Team"
   },
   "update": "Update",
   "recurring": "Recurring",
