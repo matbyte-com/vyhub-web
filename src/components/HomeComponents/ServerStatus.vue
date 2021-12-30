@@ -37,7 +37,7 @@
                 </a>
               </span>
               <span class="font-italic text--disabled"  v-else>
-                {{ $t('_server.status.unknownStatus') }}
+                {{ $t('_server.labels.unknownStatus') }}
               </span>
             </td>
             <td style="">{{ server.name }}</td>
