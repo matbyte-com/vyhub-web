@@ -149,13 +149,15 @@
             </template>
           </v-simple-table>
           <br/>
-          <h6 class="text-h6 mb-2">{{ $t('log') }}</h6>
-          <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
-          </LogTable>
+          <div v-if="$checkProp('ban_edit')">
+            <h6 class="text-h6 mb-2">{{ $t('log') }}</h6>
+            <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
+            </LogTable>
+          </div>
         </div>
       </template>
       <template v-slot:actions>
-        <div v-if="currentBan != null">
+        <div v-if="currentBan != null && $checkProp('ban_edit')">
           <v-btn text color="primary" @click="showEditDialog">
             <v-icon left>mdi-pencil</v-icon>
             {{ $t('edit') }}
