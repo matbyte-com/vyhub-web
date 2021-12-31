@@ -136,7 +136,6 @@ export default {
     DialogForm,
     DataTable,
     Dialog,
-    SettingTitle,
   },
   data() {
     return {

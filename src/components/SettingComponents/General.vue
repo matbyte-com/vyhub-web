@@ -31,7 +31,8 @@ export default {
   methods: {
     async fetchData() {
       (await openapi).general_getConfig().then((rsp) => {
-        this.$refs.form.setData(rsp.data);
+        const { data } = rsp;
+        this.$refs.form.setData(data);
       });
     },
     async saveData() {

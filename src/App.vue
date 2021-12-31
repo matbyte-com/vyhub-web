@@ -109,9 +109,14 @@ export default Vue.extend({
     this.getGeneralConfig();
     this.background = this.$vuetify.theme.currentTheme.background;
     // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
-    emitter.on('themeUpdated', this.setTheme);
+    // and /Components/SettingComponents/General
+    emitter.on('themeUpdated', this.fetchData);
   },
   methods: {
+    async fetchData() {
+      this.setTheme();
+      this.getGeneralConfig();
+    },
     async getGeneralConfig() {
       (await openapi).general_getConfig().then((rsp) => {
         this.$store.commit('SET_GENERAL_CONFIG', rsp.data);

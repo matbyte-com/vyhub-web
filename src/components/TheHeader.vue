@@ -24,8 +24,9 @@
     </NavigationLink>
 
     <v-spacer></v-spacer>
-    <Notification v-if="$store.getters.isLoggedIn"/>
     <Search class="mr-2"/>
+    <Notification v-if="$store.getters.isLoggedIn"/>
+    <HelpCircle />
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
       <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
@@ -65,6 +66,7 @@ import Credits from '@/components/HeaderComponents/Credits.vue';
 import openapi from '@/api/openapi';
 import UtilService from '@/services/UtilService';
 import PersonalSettings from '@/components/PersonalSettings.vue';
+import HelpCircle from '@/components/HeaderComponents/HelpCircle.vue';
 
 export default {
   components: {
@@ -77,6 +79,7 @@ export default {
     Credits,
     LinkAccountDialog,
     Notification,
+    HelpCircle,
   },
   data() {
     return {
@@ -85,9 +88,6 @@ export default {
       communityName: null,
       logo_width: 50,
       linksRight: [
-        {
-          title: '_ticket.ticket', icon: 'mdi-ticket-confirmation', link: '/ticket',
-        },
       ],
     };
   },

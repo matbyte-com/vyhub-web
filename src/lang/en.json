@@ -134,7 +134,9 @@
   "_settings": {
     "documentationLink": "Documentation",
     "serverAndServerbundle": "Server / Serverbundle",
-    "requirements": "Requirements"
+    "requirements": "Requirements",
+    "showTicket": "Enable Ticket System",
+    "showTeam": "Enable Team Page"
   },
   "_group": {
     "messages": {
@@ -875,5 +877,6 @@
   "key": "Key",
   "legal": "Legal",
   "personalSettings": "Personal Settings",
-  "author": "Author"
+  "author": "Author",
+  "team": "Team"
 }
