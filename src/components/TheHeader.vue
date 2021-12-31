@@ -26,12 +26,12 @@
     <v-spacer></v-spacer>
     <Search class="mr-2"/>
     <Notification v-if="$store.getters.isLoggedIn"/>
-    <HelpCircle />
+    <HelpCircle :menu-links="allowedHelpCircleLinks"/>
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
       <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
-        <Credits />
-        <ShoppingCart />
+        <Credits/>
+        <ShoppingCart/>
         <ProfileMenu
           :menu-links="linksRight"
           @logout="logout"/>
@@ -49,6 +49,7 @@
                       @user-changed="refreshUser"
                       v-if="$store.getters.isLoggedIn">
     </PersonalSettings>
+    {{ allowedBurgerMenuLinks }}
   </v-app-bar>
 </template>
 
@@ -87,7 +88,24 @@ export default {
       imgSrc: null,
       communityName: null,
       logo_width: 50,
-      linksRight: [
+      linksRight: [],
+      helpCircleLinks: [
+        {
+          title: 'team',
+          icon: 'mdi-account-group',
+          link: '/team',
+          config: 'enable_team',
+          loggedIn: false,
+          enabled: true,
+        },
+        {
+          title: '_ticket.ticket',
+          icon: 'mdi-ticket-confirmation',
+          link: '/ticket',
+          config: 'enable_ticket',
+          loggedIn: true,
+          enabled: true,
+        },
       ],
     };
   },
@@ -133,7 +151,26 @@ export default {
   computed: {
     allowedLinks() {
       return this.links
-        .filter((l) => l.enabled && (!l.reqProp || this.$checkProp(l.reqProp) === true));
+        .filter((l) => l.enabled && (!l.reqProp || this.$checkProp(l.reqProp) === true))
+        .concat(this.allowedBurgerMenuLinks);
+    },
+    allowedBurgerMenuLinks() {
+      const helpCircle = {};
+      helpCircle.title = 'Help';
+      helpCircle.icon = 'mdi-help-circle';
+      helpCircle.tabs = this.allowedHelpCircleLinks;
+      helpCircle.enabled = true;
+      return [helpCircle];
+    },
+    allowedHelpCircleLinks() {
+      const res = [];
+      this.helpCircleLinks.forEach((m) => {
+        if (this.$store.getters.generalConfig[m.config]
+          && (this.$store.getters.isLoggedIn || this.$store.getters.isLoggedIn === m.loggedIn)) {
+          res.push(m);
+        }
+      });
+      return res;
     },
   },
   watch: {
