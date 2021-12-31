@@ -68,7 +68,11 @@ export default {
     },
   },
   watch: {
-    $route() {
+    user() {
+      this.activeDef = null;
+      this.fetchData();
+    },
+    bundle() {
       this.activeDef = null;
       this.fetchData();
     },

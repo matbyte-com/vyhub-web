@@ -168,7 +168,7 @@ export default {
     };
   },
   watch: {
-    $route() {
+    user() {
       this.queryData();
     },
   },

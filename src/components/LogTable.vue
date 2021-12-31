@@ -96,6 +96,11 @@ export default {
       return headers;
     },
   },
+  watch: {
+    objId() {
+      this.queryData();
+    },
+  },
 };
 </script>
 

@@ -103,7 +103,7 @@ export default {
     this.queryData();
   },
   watch: {
-    $route() {
+    user() {
       this.queryData();
     },
   },

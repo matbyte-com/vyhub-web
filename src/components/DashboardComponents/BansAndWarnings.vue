@@ -53,7 +53,7 @@ export default {
     this.fetchData();
   },
   watch: {
-    $route() {
+    user() {
       this.fetchData();
     },
   },
