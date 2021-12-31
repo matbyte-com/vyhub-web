@@ -108,7 +108,7 @@ export default {
       updateBtnLoading: false,
       expanded: [],
       selectedCat: [],
-      itemsPerPage: 10,
+      itemsPerPage: 25,
       newMessages: null,
       logs: [],
       totalItems: 20,
