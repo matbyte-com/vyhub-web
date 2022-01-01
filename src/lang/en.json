@@ -878,5 +878,7 @@
   "legal": "Legal",
   "personalSettings": "Personal Settings",
   "author": "Author",
-  "team": "Team"
+  "team": "Team",
+  "help": "Help",
+  "ticket": "Ticket"
 }

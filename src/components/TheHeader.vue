@@ -26,7 +26,7 @@
     <v-spacer></v-spacer>
     <Search class="mr-2"/>
     <Notification v-if="$store.getters.isLoggedIn"/>
-    <HelpCircle :menu-links="allowedHelpCircleLinks"/>
+    <HelpCircle class="hidden-sm-and-down" :menu-links="allowedHelpCircleLinks"/>
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
       <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
@@ -49,7 +49,6 @@
                       @user-changed="refreshUser"
                       v-if="$store.getters.isLoggedIn">
     </PersonalSettings>
-    {{ allowedBurgerMenuLinks }}
   </v-app-bar>
 </template>
 
@@ -91,7 +90,7 @@ export default {
       linksRight: [],
       helpCircleLinks: [
         {
-          title: 'team',
+          title: this.$t('team'),
           icon: 'mdi-account-group',
           link: '/team',
           config: 'enable_team',
@@ -99,7 +98,7 @@ export default {
           enabled: true,
         },
         {
-          title: '_ticket.ticket',
+          title: this.$t('ticket'),
           icon: 'mdi-ticket-confirmation',
           link: '/ticket',
           config: 'enable_ticket',
@@ -156,11 +155,11 @@ export default {
     },
     allowedBurgerMenuLinks() {
       const helpCircle = {};
-      helpCircle.title = 'Help';
+      helpCircle.title = this.$t('help');
       helpCircle.icon = 'mdi-help-circle';
       helpCircle.tabs = this.allowedHelpCircleLinks;
       helpCircle.enabled = true;
-      return [helpCircle];
+      return [helpCircle].concat(this.linksRight);
     },
     allowedHelpCircleLinks() {
       const res = [];
