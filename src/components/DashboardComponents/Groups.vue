@@ -240,6 +240,7 @@ export default {
     async addUserMembership() {
       const data = this.$refs.addMembershipDialog.getData();
       data.group_id = data.group.id;
+      data.serverbundle_id = data.serverbundle.id;
       const userId = this.$route.params.id;
 
       if (new Date(data.begin) > new Date(data.end)) {
@@ -248,6 +249,10 @@ export default {
       (await openapi).user_addMembership(userId, data).then(() => {
         this.queryData();
         this.$refs.addMembershipDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_membership.membershipSuccessfullyAdded'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.addMembershipDialog.setErrorMessage(err.response.data.detail);
       });

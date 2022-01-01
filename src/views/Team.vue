@@ -112,6 +112,10 @@ export default {
       (await openapi).general_editTeamMember(null, data).then(() => {
         this.$refs.editForm.closeAndReset();
         this.fetchData();
+        this.$notify({
+          title: this.$t('_team.teamGroupsSuccessfullyEdited'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.editForm.setErrorMessage(err.response.data.detail);
       });

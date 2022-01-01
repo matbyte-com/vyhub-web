@@ -20,7 +20,8 @@
       "edit": "Edit Group Membership",
       "endMembership": "End Membership",
       "activeMemberships": "Active Memberships"
-    }
+    },
+    "membershipSuccessfullyAdded": "Membership successfully added"
   },
   "_dashboard": {
     "labels": {
@@ -730,7 +731,8 @@
   },
   "_team": {
     "title": "Team",
-    "editTeam": "Edit Team"
+    "editTeam": "Edit Team",
+    "teamGroupsSuccessfullyEdited": "Team groups successfully edited."
   },
   "update": "Update",
   "recurring": "Recurring",
