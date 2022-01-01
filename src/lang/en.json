@@ -729,7 +729,8 @@
     }
   },
   "_team": {
-    "title": "Team"
+    "title": "Team",
+    "editTeam": "Edit Team"
   },
   "update": "Update",
   "recurring": "Recurring",

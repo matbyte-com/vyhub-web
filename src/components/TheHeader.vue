@@ -3,7 +3,7 @@
     <!-- burger menu on the left-->
     <div class="hidden-md-and-up">
       <BurgerMenu
-        :nav-links="allowedLinks"
+        :nav-links="allowedBurgerMenuLinks"
         :menu-links="linksRight"
         @logout="logout"
         @login="showLoginDialog()"/>
@@ -26,7 +26,9 @@
     <v-spacer></v-spacer>
     <Search class="mr-2"/>
     <Notification v-if="$store.getters.isLoggedIn"/>
-    <HelpCircle class="hidden-sm-and-down" :menu-links="allowedHelpCircleLinks"/>
+    <div class="hidden-xs-only">
+      <HelpCircle :menu-links="allowedHelpCircleLinks"/>
+    </div>
     <!-- profile icon with dropdown or login-->
     <div class="hidden-xs-only">
       <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
@@ -150,8 +152,7 @@ export default {
   computed: {
     allowedLinks() {
       return this.links
-        .filter((l) => l.enabled && (!l.reqProp || this.$checkProp(l.reqProp) === true))
-        .concat(this.allowedBurgerMenuLinks);
+        .filter((l) => l.enabled && (!l.reqProp || this.$checkProp(l.reqProp) === true));
     },
     allowedBurgerMenuLinks() {
       const helpCircle = {};
@@ -159,7 +160,7 @@ export default {
       helpCircle.icon = 'mdi-help-circle';
       helpCircle.tabs = this.allowedHelpCircleLinks;
       helpCircle.enabled = true;
-      return [helpCircle].concat(this.linksRight);
+      return this.allowedLinks.concat([helpCircle]).concat(this.linksRight);
     },
     allowedHelpCircleLinks() {
       const res = [];

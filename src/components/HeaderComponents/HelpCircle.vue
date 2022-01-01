@@ -11,7 +11,7 @@
         <v-list-item :to="link.link">
           <v-icon left>{{ link.icon }}</v-icon>
           <v-list-item-title>
-            {{ $t(link.title) }}
+            {{ link.title }}
           </v-list-item-title>
         </v-list-item>
       </div>

@@ -151,6 +151,16 @@ export default {
     'x-itemTitle': 'name',
     'x-itemKey': 'id',
   },
+  groupSelectFieldMulti: {
+    title: i18n.t('group'),
+    type: 'array',
+    items: {
+      type: 'string',
+    },
+    'x-fromUrl': `${API_URL}/group/`,
+    'x-itemTitle': 'name',
+    'x-itemKey': 'id',
+  },
   currency_code: {
     type: 'string',
     title: i18n.t('_packet.labels.currency'),
