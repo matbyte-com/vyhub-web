@@ -105,7 +105,7 @@ export default {
           res.push(m.user);
         }
       });
-      return res.sort((a, b) => a.username - b.username);
+      return res.sort((a, b) => a.username.localeCompare(b.username));
     },
     async editTeamMember() {
       const data = this.$refs.editForm.getData();
@@ -138,7 +138,7 @@ export default {
       if (!this.getCurrentTabMemberships) { return []; }
       const res = [];
       this.getCurrentTabMemberships.forEach((m) => {
-        res.push(m.group);
+        if (!res.find((r) => r.id === m.group.id)) { res.push(m.group); }
       });
       return res.sort((a, b) => b.permission_level - a.permission_level);
     },
