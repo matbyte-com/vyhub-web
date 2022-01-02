@@ -239,6 +239,7 @@ export default {
       obj.color = item.color;
       obj.properties = props;
       obj.advanced_properties = advProps;
+      obj.is_team = item.is_team;
 
       this.$refs.editGroupDialog.show(item);
       this.$refs.editGroupDialog.setData(obj);

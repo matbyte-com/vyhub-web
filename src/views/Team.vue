@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex">
       <PageTitle icon="mdi-account-group">{{ $t('_team.title') }}</PageTitle>
-      <v-spacer />
+      <v-spacer/>
       <v-btn v-if="$checkProp('edit_team')" color="success"
              @click="showEditDialog">
         <v-icon left>mdi-pencil</v-icon>
@@ -58,7 +58,7 @@
     <v-card>
     </v-card>
     <DialogForm ref="editForm" @submit="editTeamMember"
-                :form-schema="schema" :title="$t('_team.editTeam')" icon="mdi-account-group" />
+                :form-schema="schema" :title="$t('_team.editTeam')" icon="mdi-account-group"/>
   </div>
 </template>
 
@@ -88,13 +88,16 @@ export default {
   },
   methods: {
     async fetchData() {
+      // Bundles for Tab view
       (await openapi).server_getBundles().then((rsp) => {
         this.serverbundles = rsp.data;
       });
+      // Memberships for team view
       (await openapi).general_getTeamMember().then((rsp) => {
         this.memberships = rsp.data;
       });
-      (await openapi).group_getTeamMemberGroups().then((rsp) => {
+      // Team Groups only for the edit dialog
+      (await openapi).group_getGroups({ is_team: true }).then((rsp) => {
         this.teamMemberGroups = rsp.data;
       });
     },
@@ -128,6 +131,14 @@ export default {
     },
   },
   computed: {
+    /**
+     * First get the current Bundle which is selected by tab
+     * Second get all memberships which are active in the selected serverbundle
+     * Third get all groups which were active in at least one of the membership and order
+     *    them by permission_level
+     * Fourth get all users by the group and order them alphabetically
+     * @returns {*}
+     */
     currentBundleId() {
       return this.serverbundles[this.tab].id;
     },

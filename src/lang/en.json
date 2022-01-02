@@ -144,7 +144,9 @@
       "addedGroup": "Group created.",
       "deletedGroup": "Group deleted.",
       "editedGroup": "Group edited."
-    }
+    },
+    "isTeam": "Is Team",
+    "isTeamDescription": "Members of group will be shown on the team page"
   },
   "_properties": {
     "ban_show": "Enables user to display bans in specified bundle",
@@ -347,7 +349,8 @@
     "reward_process_success": "Successfully executed applied reward {reward_type} {applied_reward_id}.",
     "legal_edit": "Edited legal",
     "reward_membership_lower_level": "Ignored MEMBERSHIP reward {applied_reward_id} because user {user_id} level ({user_level}) is higher than the level of group {group_id} ({group_level}).",
-    "user_log_entry_add": "{message}"
+    "user_log_entry_add": "{message}",
+    "group_team_member_edited": "Groups is team member edited"
   },
   "forms": {
     "iconDescription": "Available icons"

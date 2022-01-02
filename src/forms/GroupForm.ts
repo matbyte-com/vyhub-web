@@ -27,6 +27,13 @@ export default {
           maximum: 100000,
         },
         color: Common.colorPicker(),
+        is_team: {
+          type: 'boolean',
+          title: i18n.t('_group.isTeam'),
+          description: i18n.t('_group.isTeamDescription'),
+          'x-display': 'switch',
+          default: false,
+        },
       },
     },
     {
