@@ -45,7 +45,11 @@ export default {
     },
     async setTheme() {
       const data = this.$refs.themePicker.getData();
-      (await openapi).general_updateTheme(
+      // Set logo, image, favicon null to allow for removal of these attributes in database
+      if (!data.logo) { data.logo = null; }
+      if (!data.image) { data.image = null; }
+      if (!data.favicon) { data.favicon = null; }
+      (await openapi).general_editTheme(
         null, data,
       ).then(() => {
         this.errorMessage = null;
