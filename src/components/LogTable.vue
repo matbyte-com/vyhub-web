@@ -18,7 +18,7 @@
       </v-row>
     </template>
     <template v-slot:item.author="{ item }">
-      <UserLink :user="item.author"></UserLink>
+      <UserLink :user="item.author" v-if="item.author != null"></UserLink>
     </template>
     <template v-slot:item.message="{ item }">
       {{ $t(`_log.${item.message.name}`, item.message.kwargs) }}

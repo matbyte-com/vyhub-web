@@ -15,7 +15,9 @@
         </v-btn>
       </v-card-title>
       <v-card-text>
-        <LogTable ref="logTable" type="user" :obj-id="user.id" :show-search="false"/>
+        <LogTable ref="logTable" type="user" :obj-id="user.id" :show-search="false"
+                  v-if="user != null" />
+        <v-skeleton-loader v-else></v-skeleton-loader>
       </v-card-text>
     </v-card>
     <DialogForm icon="mdi-format-list-bulleted" @submit="addUserLogEntry()"

@@ -175,10 +175,12 @@ export default {
   },
   watch: {
     $route(to) {
-      if (to.query.personal_settings === 'true') {
-        this.$refs.userSelfSettings.show();
-      } else {
-        this.$refs.userSelfSettings.close();
+      if (this.$store.getters.isLoggedIn) {
+        if (to.query.personal_settings === 'true') {
+          this.$refs.userSelfSettings.show();
+        } else {
+          this.$refs.userSelfSettings.close();
+        }
       }
     },
   },
