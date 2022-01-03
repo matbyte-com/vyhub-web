@@ -170,15 +170,15 @@ export default {
     warningRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
 
-      if (item.disabled === true) {
-        return `green ${add}`;
+      if (item.disabled) {
+        return `gray ${add}`;
       }
 
-      if (item.active === true) {
+      if (!item.active) {
         return `orange ${add}`;
       }
 
-      return '';
+      return `green ${add}`;
     },
     async toggleDisable(item) {
       (await openapi).warning_toggleWarningStatus(item.id).then(() => {
@@ -188,6 +188,7 @@ export default {
           title: this.$t('_warning.messages.toggledWarning'),
           type: 'success',
         });
+        this.fetchData(this.page);
       });
     },
     openDeleteWarningDialog(item) {
