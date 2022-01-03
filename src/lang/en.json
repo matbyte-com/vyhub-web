@@ -612,7 +612,9 @@
       "general": "General",
       "ban": "Ban",
       "news": "News",
-      "ticket": "Ticket"
+      "ticket": "Ticket",
+      "shop": "Shop",
+      "warning": "Warning",
     },
     "messages": {
       "readSuccess": "Successfully toggled read status"
