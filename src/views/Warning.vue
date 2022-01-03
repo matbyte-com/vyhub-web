@@ -120,7 +120,7 @@ export default {
   },
   data() {
     return {
-      warnings: [],
+      warnings: null,
       bundles: [],
       headers: [
         { text: this.$t('user'), value: 'user', sortable: false },

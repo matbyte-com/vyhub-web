@@ -227,7 +227,7 @@ export default {
           text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
         },
       ],
-      bans: [],
+      bans: null,
       bundles: [],
       banAddFormSchema,
       banEditFormSchema,

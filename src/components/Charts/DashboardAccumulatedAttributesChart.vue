@@ -5,6 +5,18 @@
 
       </apexchart>
     </div>
+    <div v-else>
+      <v-row>
+        <v-col>
+          <v-skeleton-loader type="heading"></v-skeleton-loader>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-skeleton-loader type="image"></v-skeleton-loader>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
