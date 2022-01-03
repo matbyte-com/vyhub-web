@@ -39,8 +39,9 @@
                     v-model="selectedBundles"
                     :label="bundle.name"
                     :value="bundle.id"
+                    @change="queryData()"
                   ></v-checkbox>
-                  <a class="ma-1" @click="selectedBundles = []; queryData(1)">
+                  <a class="ma-1" @click="selectedBundles = []; queryData()">
                     {{ $t('reset') }}</a>
                 </v-menu>
                 <v-alert type="info" color="primary" dense v-if="$route.query.user_id"
@@ -267,16 +268,10 @@ export default {
   },
   methods: {
     async queryData(queryParams = null) {
-      let addParams = queryParams;
-
-      if (queryParams == null) {
-        addParams = this.$refs.banTable.getQueryParameters();
-      }
-
       (await openapi).ban_getBans({
         bundle_id: this.selectedBundles,
         user_id: this.$route.query.user_id,
-        ...addParams,
+        ...(queryParams != null ? queryParams : this.$refs.banTable.getQueryParameters()),
       })
         .then((rsp) => {
           this.bans = rsp.data.items;
@@ -311,7 +306,7 @@ export default {
         length: data.length * 60,
         serverbundle_id: (data.serverbundle ? data.serverbundle.id : null),
       }).then(() => {
-        this.queryData(1);
+        this.queryData();
         this.$refs.banAddDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.banAddDialog.setErrorMessage(err.response.data.detail);
@@ -328,7 +323,7 @@ export default {
           serverbundle_id: (data.serverbundle ? data.serverbundle.id : null),
         },
       ).then(() => {
-        this.queryData(this.page);
+        this.queryData();
         this.$refs.banEditDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
@@ -341,7 +336,7 @@ export default {
       ).then(() => {
         this.$refs.deleteBanDialog.closeAndReset();
         this.banDetailShown = false;
-        this.queryData(this.page);
+        this.queryData();
       }).catch((err) => {
         this.$refs.deleteBanDialog.setErrorMessage(err.response.data.detail);
         console.log(err);
@@ -352,7 +347,7 @@ export default {
         { uuid: this.currentBan.id },
         { status: 'UNBANNED' },
       ).then(() => {
-        this.queryData(this.page);
+        this.queryData();
       }).catch((err) => {
         console.log(err);
       });
@@ -362,7 +357,7 @@ export default {
         { uuid: this.currentBan.id },
         { status: 'ACTIVE' },
       ).then(() => {
-        this.queryData(this.page);
+        this.queryData();
       }).catch((err) => {
         console.log(err);
       });
@@ -381,11 +376,6 @@ export default {
     },
     showDetails(item) {
       this.$router.push({ name: 'Bans', params: { banId: item.id } });
-    },
-  },
-  watch: {
-    selectedBundles() {
-      this.queryData();
     },
   },
 };
