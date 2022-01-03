@@ -614,7 +614,7 @@
       "news": "News",
       "ticket": "Ticket",
       "shop": "Shop",
-      "warning": "Warning",
+      "warning": "Warning"
     },
     "messages": {
       "readSuccess": "Successfully toggled read status"
