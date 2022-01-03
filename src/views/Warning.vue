@@ -6,16 +6,16 @@
     <PageTitle icon="mdi-account-alert">{{ $t('_warning.title') }}</PageTitle>
     <v-card>
       <v-card-text>
-        <DataTable :headers="headers"
-                   :items="warnings"
-                   :item-class="warningRowFormatter"
-                   :server-items-length.sync="totalItems"
-                   :items-per-page.sync="itemsPerPage"
-                   @update:page="newPage" @update:sort-by="newOrderBy"
-                   @update:sort-desc="newSortDesc"
-                   :footer-props="{
-                     'disable-items-per-page': true,
-                   }" :externalSearch="true" @search="newSearch">
+        <PaginatedDataTable
+          ref="warnTable"
+          :headers="headers"
+          :items="warnings"
+          :item-class="warningRowFormatter"
+          :totalItems="totalItems"
+          default-sort-by="created_on"
+          :default-sort-desc="true"
+          @reload="fetchData"
+          >
           <template v-slot:header>
             <v-row>
               <v-col class="d-flex align-center">
@@ -39,12 +39,12 @@
                     hide-details
                     v-for="(bundle, index) in bundles"
                     :key="index"
-                    v-model="selectedBundle"
+                    v-model="selectedBundles"
                     :label="bundle.name"
                     :value="bundle.id"
-                    @change="newBundle"
+                    @change="fetchData()"
                   ></v-checkbox>
-                  <a class="ma-1" @click="selectedBundle = []; fetchData(1)">{{ $t('reset') }}</a>
+                  <a class="ma-1" @click="selectedBundles = []; fetchData()">{{ $t('reset') }}</a>
                 </v-menu>
                 <v-alert type="info" color="primary" dense v-if="$route.query.user_id"
                          class="mt-4 ml-3">
@@ -94,7 +94,7 @@
               </v-btn>
             </div>
           </template>
-        </DataTable>
+        </PaginatedDataTable>
       </v-card-text>
     </v-card>
   </div>
@@ -102,19 +102,19 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
-import DataTable from '@/components/DataTable.vue';
 import UserLink from '@/components/UserLink.vue';
 import openapi from '@/api/openapi';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import WarningAddForm from '@/forms/WarningAddForm';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 
 export default {
   name: 'Warning.vue',
   components: {
+    PaginatedDataTable,
     DialogForm,
     DeleteConfirmationDialog,
-    DataTable,
     PageTitle,
     UserLink,
   },
@@ -133,29 +133,24 @@ export default {
         },
       ],
       WarningAddForm,
-      page: 1,
+      selectedBundles: [],
       totalItems: 0,
-      itemsPerPage: 10,
-      selectedBundle: [],
-      search: '',
-      orderBy: 'created_on',
-      sortDesc: true,
     };
   },
   beforeMount() {
-    this.fetchData(this.page);
     this.fetchServerbundles();
   },
   methods: {
-    async fetchData(page) {
+    async fetchData(queryParams = null) {
+      console.log(queryParams);
+      if (queryParams == null) {
+        console.log(this.$refs.warnTable.getQueryParameters());
+      }
+
       (await openapi).warning_getWarnings({
-        page,
-        size: this.itemsPerPage,
-        bundle_id: this.selectedBundle,
-        query: this.search,
-        order_by: this.orderBy,
-        sort_desc: this.sortDesc,
+        serverbundle_id: this.selectedBundles,
         user_id: this.$route.query.user_id,
+        ...(queryParams != null ? queryParams : this.$refs.warnTable.getQueryParameters()),
       })
         .then((rsp) => {
           this.warnings = rsp.data.items;
@@ -188,7 +183,7 @@ export default {
           title: this.$t('_warning.messages.toggledWarning'),
           type: 'success',
         });
-        this.fetchData(this.page);
+        this.fetchData();
       });
     },
     openDeleteWarningDialog(item) {
@@ -211,7 +206,7 @@ export default {
       data.user_id = form.user.id;
       data.reason = form.reason;
       (await openapi).warning_addWarning(null, data).then(() => {
-        this.fetchData(1);
+        this.fetchData();
         this.$refs.addWarningDialog.closeAndReset();
         this.$notify({
           title: this.$t('_warning.messages.addedWarning'),
@@ -220,33 +215,6 @@ export default {
       }).catch((err) => {
         this.$refs.addWarningDialog.setErrorMessage(err.response.data.detail);
       });
-    },
-    newPage(page) {
-      this.page = page;
-      this.fetchData(page);
-    },
-    newBundle(bundles) {
-      this.selectedBundle = bundles;
-      this.fetchData(1);
-    },
-    newSearch(str) {
-      this.search = str;
-      this.fetchData(1);
-    },
-    newOrderBy(str) {
-      if (str[0] !== this.orderBy && str[0] !== undefined) {
-        // eslint-disable-next-line prefer-destructuring
-        this.orderBy = str[0];
-        this.fetchData(1);
-      }
-    },
-    newSortDesc(val) {
-      if (val[0] !== this.sortDesc && val[0] !== undefined) {
-        // eslint-disable-next-line prefer-destructuring
-        this.sortDesc = val[0];
-        console.log(this.sortDesc);
-        this.fetchData(1);
-      }
     },
   },
 };
