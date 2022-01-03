@@ -35,10 +35,10 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       (await openapi).general_getTheme().then((rsp) => {
         this.$refs.themePicker.setData(rsp.data);
       });

@@ -45,7 +45,7 @@ export default {
       const data = this.$refs.entryAddForm.getData();
       (await openapi).user_createLogEntry(this.user.id, data).then(() => {
         this.$refs.entryAddForm.closeAndReset();
-        this.$refs.logTable.queryData();
+        this.$refs.logTable.fetchData();
       }).catch((err) => {
         this.$refs.entryAddForm.setErrorMessage(err.response.data.detail);
       });

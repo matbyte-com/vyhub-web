@@ -126,10 +126,10 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       let packetsData = null;

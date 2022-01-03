@@ -100,15 +100,15 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   watch: {
     user() {
-      this.queryData();
+      this.fetchData();
     },
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
         this.attributeDefinitions = rsp.data;
       });

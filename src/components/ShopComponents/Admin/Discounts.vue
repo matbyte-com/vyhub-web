@@ -109,10 +109,10 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       api.shop_getDiscounts().then((rsp) => {
@@ -133,7 +133,7 @@ export default {
       const api = await openapi;
 
       api.shop_createDiscount(null, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_discount.messages.createSuccess'),
           type: 'success',
@@ -155,7 +155,7 @@ export default {
       const api = await openapi;
 
       api.shop_editDiscount({ uuid: discount.id }, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_discount.messages.editSuccess'),
           type: 'success',
@@ -170,7 +170,7 @@ export default {
       const api = await openapi;
 
       api.shop_deleteDiscount({ uuid: discount.id }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_discount.messages.deleteSuccess'),
           type: 'success',

@@ -139,11 +139,11 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   watch: {
     $route() {
-      this.queryData();
+      this.fetchData();
     },
     currentCurrency() {
       if (this.currentCurrency != null) {
@@ -157,7 +157,7 @@ export default {
     },
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const cachedApi = await openapiCached;
 
       cachedApi.shop_getCurrencies().then((rsp) => {

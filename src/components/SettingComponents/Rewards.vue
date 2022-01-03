@@ -85,10 +85,10 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       api.packet_getRewards().then((rsp) => {
@@ -108,7 +108,7 @@ export default {
       const api = await openapi;
 
       api.packet_addReward(null, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_reward.messages.createSuccess'),
           type: 'success',
@@ -129,7 +129,7 @@ export default {
       const api = await openapi;
 
       api.packet_editReward({ uuid: reward.id }, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_reward.messages.editSuccess'),
           type: 'success',
@@ -144,7 +144,7 @@ export default {
       const api = await openapi;
 
       api.packet_deleteReward({ uuid: reward.id }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_reward.messages.deleteSuccess'),
           type: 'success',

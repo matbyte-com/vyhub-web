@@ -55,10 +55,10 @@ export default {
     },
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       let logFn = api.log_getLog;
@@ -98,7 +98,7 @@ export default {
   },
   watch: {
     objId() {
-      this.queryData();
+      this.fetchData();
     },
   },
 };

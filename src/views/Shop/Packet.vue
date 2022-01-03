@@ -141,13 +141,13 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
     getReturnUrl() {
       return UtilService.data().utils.getFullUrl(this.$route.path);
     },
-    async queryData() {
+    async fetchData() {
       const apiCached = await openapiCached;
 
       let packetsData = null;

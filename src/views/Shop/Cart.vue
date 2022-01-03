@@ -255,11 +255,11 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
     this.queryAddresses();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       let cartData = null;
@@ -311,7 +311,7 @@ export default {
       const api = await openapi;
 
       api.shop_removePacketFromCart({ uuid: cartPacketId }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_shop.messages.removeFromCartSuccess'),
           type: 'success',
@@ -325,7 +325,7 @@ export default {
       const api = await openapi;
 
       api.shop_removePacketsFromCart().then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_shop.messages.clearCartSuccess'),
           type: 'success',
@@ -347,7 +347,7 @@ export default {
           type: 'success',
         });
         this.$refs.addressAddDialog.closeAndReset();
-        this.queryData();
+        this.fetchData();
       }).catch((err) => {
         console.log(err);
         this.$refs.addressAddDialog.setErrorMessage(err.response.data);
@@ -383,11 +383,11 @@ export default {
       api.shop_startCheckout(undefined, { address_id: this.currentAddress.id }).then((rsp) => {
         const purchase = rsp.data;
         this.$refs.checkoutDialog.show(purchase);
-        this.queryData();
+        this.fetchData();
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
-        this.queryData();
+        this.fetchData();
       });
     },
     async cancelPurchase(purchase) {
@@ -395,7 +395,7 @@ export default {
         { uuid: purchase.id },
         { status: 'CANCELLED' },
       ).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_shop.messages.purchaseCancelledSuccess'),
           type: 'success',
@@ -403,7 +403,7 @@ export default {
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
-        this.queryData();
+        this.fetchData();
       });
     },
     async applyDiscount() {
@@ -419,7 +419,7 @@ export default {
 
       api.shop_applyDiscount({ code_or_uuid: code }).then((rsp) => {
         this.couponCode = null;
-        this.queryData();
+        this.fetchData();
 
         if (rsp.data.success === true) {
           this.couponStyle = 'border-color: green !important;';
@@ -440,7 +440,7 @@ export default {
       const api = await openapi;
 
       api.shop_removeDiscount({ code_or_uuid: id }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_shop.messages.couponRemoveSuccess'),
           type: 'success',
@@ -448,7 +448,7 @@ export default {
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
-        this.queryData();
+        this.fetchData();
       });
     },
   },

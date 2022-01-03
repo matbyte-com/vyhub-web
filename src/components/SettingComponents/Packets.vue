@@ -110,7 +110,7 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
     async queryPackets() {
@@ -150,7 +150,7 @@ export default {
         this.utils.notifyUnexpectedError(err.response.data);
       });
     },
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       api.packet_getCategories().then((rsp) => {
@@ -172,7 +172,7 @@ export default {
       packet = this.prepareDataForSending(packet);
 
       api.packet_addPacket(null, packet).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.addPacketDialog.closeAndReset();
         this.$notify({
           title: this.$t('_packet.messages.addSuccess'),
@@ -201,7 +201,7 @@ export default {
       const data = this.prepareDataForSending(this.$refs.editPacketDialog.getData());
 
       api.packet_editPacket({ uuid: packetOld.id }, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.editPacketDialog.closeAndReset();
         this.$notify({
           title: this.$t('_packet.messages.editSuccess'),
@@ -240,7 +240,7 @@ export default {
       const api = await openapi;
 
       api.packet_deletePacket({ uuid: packet.id }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.deletePacketDialog.closeAndReset();
         this.$notify({
           title: this.$t('_packet.messages.deleteSuccess'),

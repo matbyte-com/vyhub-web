@@ -182,7 +182,7 @@ export default {
         return null;
       }
     },
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
       api.shop_getPurchaseGateways({ uuid: this.purchase.id }).then((rsp) => {
         this.gateways = rsp.data;
@@ -210,7 +210,7 @@ export default {
       this.confirmed = false;
       this.loading = false;
 
-      this.queryData();
+      this.fetchData();
 
       if (purchase.debits.length > 0) {
         this.confirmed = true;

@@ -126,7 +126,7 @@ export default {
     };
   },
   methods: {
-    async queryData(page) {
+    async fetchData(page) {
       const api = await openapi;
 
       const params = {
@@ -159,7 +159,7 @@ export default {
           type: 'success',
         });
         this.$refs.editAppliedPacketDialog.closeAndReset();
-        this.queryData(1);
+        this.fetchData(1);
       }).catch((err) => {
         console.log(err);
         this.$refs.editAppliedPacketDialog.setErrorMessage(err.response.data.detail);
@@ -178,7 +178,7 @@ export default {
           type: 'success',
         });
         this.$refs.deleteAppliedPacketDialog.closeAndReset();
-        this.queryData(1);
+        this.fetchData(1);
       }).catch((err) => {
         console.log(err);
         this.$refs.deleteAppliedPacketDialog.setErrorMessage(err.response.data.detail);
@@ -186,36 +186,36 @@ export default {
     },
     newSearch(str) {
       this.search = str;
-      this.queryData(1);
+      this.fetchData(1);
     },
     newOrderBy(str) {
       if (str[0] !== this.orderBy && str[0] !== undefined) {
         // eslint-disable-next-line prefer-destructuring
         this.orderBy = str[0];
-        this.queryData(1);
+        this.fetchData(1);
       }
     },
     newSortDesc(val) {
       if (val[0] !== this.sortDesc && val[0] !== undefined) {
         // eslint-disable-next-line prefer-destructuring
         this.sortDesc = val[0];
-        this.queryData(1);
+        this.fetchData(1);
       }
     },
     newPage(page) {
       this.page = page;
-      this.queryData(page);
+      this.fetchData(page);
     },
   },
   beforeMount() {
-    this.queryData(1);
+    this.fetchData(1);
   },
   watch: {
     $route() {
-      // this.queryData(1);
+      // this.fetchData(1);
     },
     active_filter() {
-      this.queryData(1);
+      this.fetchData(1);
     },
   },
 };

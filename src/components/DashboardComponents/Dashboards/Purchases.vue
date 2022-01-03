@@ -173,15 +173,15 @@ export default {
     user: Object,
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   watch: {
     user() {
-      this.queryData();
+      this.fetchData();
     },
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       api.user_getPurchases({ uuid: this.user.id }).then((rsp) => {
@@ -215,7 +215,7 @@ export default {
             title: this.$t('_purchases.messages.cancelSubscriptionSuccess'),
             type: 'success',
           });
-          this.queryData();
+          this.fetchData();
           this.$refs.confirmSubCancelDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);

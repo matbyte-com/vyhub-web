@@ -126,10 +126,10 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       api.shop_getGateways().then((rsp) => {
@@ -147,7 +147,7 @@ export default {
       const api = await openapi;
 
       api.shop_createGateway(null, { ...noAttributes, attributes }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_gateway.messages.createSuccess'),
           type: 'success',
@@ -166,7 +166,7 @@ export default {
       const api = await openapi;
 
       api.shop_editGateway({ uuid: gateway.id }, { ...noAttributes, attributes }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_gateway.messages.editSuccess'),
           type: 'success',
@@ -181,7 +181,7 @@ export default {
       const api = await openapi;
 
       api.shop_deleteGateway({ uuid: gateway.id }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_gateway.messages.deleteSuccess'),
           type: 'success',

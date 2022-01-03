@@ -80,7 +80,7 @@ export default {
       this.activeBundle = bundle;
       this.activeTab = name;
     },
-    async queryData() {
+    async fetchData() {
       const userId = this.$route.params.id;
       // check if there is a user with the given id
       (await openapi).user_getData(userId).then((rsp) => {
@@ -97,7 +97,7 @@ export default {
     },
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   computed: {
     componentInstance() {
@@ -109,7 +109,7 @@ export default {
   },
   watch: {
     $route() {
-      this.queryData();
+      this.fetchData();
     },
   },
 };

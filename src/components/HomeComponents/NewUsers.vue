@@ -41,7 +41,7 @@ export default {
     };
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       api.user_getUsers({ limit: 4, sort: 'registered_on', desc: true }).then((rsp) => {
@@ -53,7 +53,7 @@ export default {
     },
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
 };
 </script>

@@ -41,10 +41,10 @@ export default {
     },
   },
   mounted() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    queryData() {
+    fetchData() {
       ShopService.refreshCreditAccount();
     },
   },

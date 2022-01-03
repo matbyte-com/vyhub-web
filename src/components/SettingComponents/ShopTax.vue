@@ -85,10 +85,10 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       api.shop_getTaxRules().then((rsp) => {
@@ -104,7 +104,7 @@ export default {
       const api = await openapi;
 
       api.shop_createTaxRule(null, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_taxRule.messages.createSuccess'),
           type: 'success',
@@ -119,7 +119,7 @@ export default {
       const api = await openapi;
 
       api.shop_deleteTaxRule({ uuid: taxRule.id }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_taxRule.messages.deleteSuccess'),
           type: 'success',

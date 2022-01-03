@@ -239,10 +239,10 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       (await openapi).server_getBundles().then((rsp) => {
         this.bundles = rsp.data;
         this.dataFetched += 1;
@@ -263,7 +263,7 @@ export default {
       const data = this.$refs.addBundleDialog.getData();
       data.default_group_id = (data.default_group != null ? data.default_group.id : null);
       (await openapi).server_addBundle(null, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.addBundleDialog.closeAndReset();
         this.$notify({
           title: this.$t('_serverbundle.messages.createSuccess'),
@@ -279,7 +279,7 @@ export default {
       const data = this.$refs.createServerDialog.getData();
 
       api.server_createServer(null, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.createServerDialog.closeAndReset();
         this.$notify({
           title: this.$t('_server.messages.createSuccess'),
@@ -298,7 +298,7 @@ export default {
     async deleteBundle(bundle) {
       (await openapi).server_deleteBundle(bundle.id).then(() => {
         this.$refs.deleteBundleDialog.closeAndReset();
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_serverbundle.messages.createSuccess'),
           type: 'success',
@@ -310,7 +310,7 @@ export default {
     async deleteServer(server) {
       (await openapi).server_deleteServer(server.id).then(() => {
         this.$refs.deleteServerDialog.closeAndReset();
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_server.messages.deleteSuccess'),
           type: 'success',
@@ -333,7 +333,7 @@ export default {
       const data = this.$refs.editBundleDialog.getData();
       data.default_group_id = (data.default_group != null ? data.default_group.id : null);
       (await openapi).server_editBundle(bundle.id, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.editBundleDialog.closeAndReset();
         this.$notify({
           title: this.$t('_serverbundle.messages.editSuccess'),
@@ -347,7 +347,7 @@ export default {
       const data = this.$refs.editServerDialog.getData();
 
       (await openapi).server_editServer(server.id, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.editServerDialog.closeAndReset();
         this.$notify({
           title: this.$t('_server.messages.editSuccess'),

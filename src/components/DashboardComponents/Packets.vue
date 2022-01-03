@@ -79,10 +79,10 @@ export default {
     user: Object,
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       (await openapi).user_getPackets({ uuid: this.user.id }).then((rsp) => {
         this.userPackets = rsp.data;
       }).catch((err) => {
@@ -108,7 +108,7 @@ export default {
   },
   watch: {
     user() {
-      this.queryData();
+      this.fetchData();
     },
   },
 };

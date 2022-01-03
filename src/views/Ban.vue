@@ -11,7 +11,7 @@
           defaultSortBy="created_on"
           :defaultSortDesc="true"
           :totalItems="totalItems"
-          @reload="queryData"
+          @reload="fetchData"
           @click:row="showDetails">
           <template v-slot:header>
             <v-row>
@@ -39,9 +39,9 @@
                     v-model="selectedBundles"
                     :label="bundle.name"
                     :value="bundle.id"
-                    @change="queryData()"
+                    @change="fetchData()"
                   ></v-checkbox>
-                  <a class="ma-1" @click="selectedBundles = []; queryData()">
+                  <a class="ma-1" @click="selectedBundles = []; fetchData()">
                     {{ $t('reset') }}</a>
                 </v-menu>
                 <v-alert type="info" color="primary" dense v-if="$route.query.user_id"
@@ -256,7 +256,7 @@ export default {
 
         if (bans.length > 0) {
           if (this.$refs.banLogTable) {
-            this.$refs.banLogTable.queryData();
+            this.$refs.banLogTable.fetchData();
           }
 
           return bans[0];
@@ -267,7 +267,7 @@ export default {
     },
   },
   methods: {
-    async queryData(queryParams = null) {
+    async fetchData(queryParams = null) {
       (await openapi).ban_getBans({
         bundle_id: this.selectedBundles,
         user_id: this.$route.query.user_id,
@@ -306,7 +306,7 @@ export default {
         length: data.length * 60,
         serverbundle_id: (data.serverbundle ? data.serverbundle.id : null),
       }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.banAddDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.banAddDialog.setErrorMessage(err.response.data.detail);
@@ -323,7 +323,7 @@ export default {
           serverbundle_id: (data.serverbundle ? data.serverbundle.id : null),
         },
       ).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.banEditDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
@@ -336,7 +336,7 @@ export default {
       ).then(() => {
         this.$refs.deleteBanDialog.closeAndReset();
         this.banDetailShown = false;
-        this.queryData();
+        this.fetchData();
       }).catch((err) => {
         this.$refs.deleteBanDialog.setErrorMessage(err.response.data.detail);
         console.log(err);
@@ -347,7 +347,7 @@ export default {
         { uuid: this.currentBan.id },
         { status: 'UNBANNED' },
       ).then(() => {
-        this.queryData();
+        this.fetchData();
       }).catch((err) => {
         console.log(err);
       });
@@ -357,7 +357,7 @@ export default {
         { uuid: this.currentBan.id },
         { status: 'ACTIVE' },
       ).then(() => {
-        this.queryData();
+        this.fetchData();
       }).catch((err) => {
         console.log(err);
       });

@@ -5,7 +5,7 @@
                  :title="$t('_membership.labels.add')"
                  ref="addMembershipDialog"
                  @submit="addUserMembership"/>
-    <MembershipEditDialog ref="userMembershipEditDialog" @submit="queryData"/>
+    <MembershipEditDialog ref="userMembershipEditDialog" @submit="fetchData"/>
     <v-card-title>
       <v-icon class="mr-2">mdi-account-group</v-icon>
       {{ $t('groups') }}
@@ -169,14 +169,14 @@ export default {
   },
   watch: {
     user() {
-      this.queryData();
+      this.fetchData();
     },
   },
   props: {
     user: Object,
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
     /**
@@ -223,7 +223,7 @@ export default {
         .filter((g) => g.serverbundle.id === bundle.id)
         .map((g) => g.group);
     },
-    async queryData() {
+    async fetchData() {
       (await openapi).user_getMemberships(this.user.id).then((response) => {
         this.memberships = response.data;
         this.dataFetched += 1;
@@ -247,7 +247,7 @@ export default {
         this.$refs.addMembershipDialog.setErrorMessage('Begin date after end date');
       }
       (await openapi).user_addMembership(userId, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$refs.addMembershipDialog.closeAndReset();
         this.$notify({
           title: this.$t('_membership.membershipSuccessfullyAdded'),

@@ -40,7 +40,7 @@
                   :value="st"
                   @change="newStatus"
                 ></v-checkbox>
-                <a class="ma-1" @click="selectedStatus = []; queryData(1)">
+                <a class="ma-1" @click="selectedStatus = []; fetchData(1)">
                   {{ $t('reset') }}</a>
               </v-menu>
             </v-col>
@@ -354,7 +354,7 @@ export default {
     };
   },
   methods: {
-    async queryData(page) {
+    async fetchData(page) {
       const api = await openapi;
 
       api.shop_getPurchases({
@@ -404,7 +404,7 @@ export default {
             title: this.$t('_purchases.messages.revokeSuccess'),
             type: 'success',
           });
-          this.queryData(1);
+          this.fetchData(1);
         }).catch((err) => {
           console.log(err);
           this.utils.notifyUnexpectedError(err.response.data);
@@ -419,7 +419,7 @@ export default {
             title: this.$t('_purchases.messages.unrevokeSuccess'),
             type: 'success',
           });
-          this.queryData(1);
+          this.fetchData(1);
         }).catch((err) => {
           console.log(err);
           this.utils.notifyUnexpectedError(err.response.data);
@@ -434,7 +434,7 @@ export default {
             title: this.$t('_purchases.messages.refundInitSuccess'),
             type: 'success',
           });
-          this.queryData(1);
+          this.fetchData(1);
           this.$refs.confirmRefundDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
@@ -451,7 +451,7 @@ export default {
               title: this.$t('_purchases.messages.refreshSuccess'),
               type: 'success',
             });
-            this.queryData(1);
+            this.fetchData(1);
           }).catch((err) => {
             console.log(err);
             this.utils.notifyUnexpectedError(err.response.data);
@@ -468,7 +468,7 @@ export default {
             title: this.$t('_purchases.messages.cancelSubscriptionSuccess'),
             type: 'success',
           });
-          this.queryData(1);
+          this.fetchData(1);
           this.$refs.confirmSubCancelDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
@@ -477,38 +477,38 @@ export default {
     },
     newSearch(str) {
       this.search = str;
-      this.queryData(1);
+      this.fetchData(1);
     },
     newOrderBy(str) {
       if (str[0] !== this.orderBy && str[0] !== undefined) {
         // eslint-disable-next-line prefer-destructuring
         this.orderBy = str[0];
-        this.queryData(1);
+        this.fetchData(1);
       }
     },
     newSortDesc(val) {
       if (val[0] !== this.sortDesc && val[0] !== undefined) {
         // eslint-disable-next-line prefer-destructuring
         this.sortDesc = val[0];
-        this.queryData(1);
+        this.fetchData(1);
       }
     },
     newStatus(status) {
       this.selectedStatus = status;
-      this.queryData(1);
+      this.fetchData(1);
     },
     newPage(page) {
       this.page = page;
-      this.queryData(page);
+      this.fetchData(page);
     },
   },
   beforeMount() {
-    this.queryData(this.page);
+    this.fetchData(this.page);
     this.queryAvailableStatus();
   },
   watch: {
     $route() {
-      // this.queryData(1);
+      // this.fetchData(1);
     },
   },
   computed: {

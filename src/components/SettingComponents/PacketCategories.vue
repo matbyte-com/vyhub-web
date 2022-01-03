@@ -89,10 +89,10 @@ export default {
     };
   },
   beforeMount() {
-    this.queryData();
+    this.fetchData();
   },
   methods: {
-    async queryData() {
+    async fetchData() {
       const api = await openapi;
 
       api.packet_getCategories().then((rsp) => {
@@ -108,7 +108,7 @@ export default {
       const api = await openapi;
 
       api.packet_createCategory(null, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_packetCategory.messages.createSuccess'),
           type: 'success',
@@ -125,7 +125,7 @@ export default {
       const api = await openapi;
 
       api.packet_editCategory({ uuid: category.id }, data).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_packetCategory.messages.editSuccess'),
           type: 'success',
@@ -140,7 +140,7 @@ export default {
       const api = await openapi;
 
       api.packet_deleteCategory({ uuid: category.id }).then(() => {
-        this.queryData();
+        this.fetchData();
         this.$notify({
           title: this.$t('_packetCategory.messages.deleteSuccess'),
           type: 'success',
