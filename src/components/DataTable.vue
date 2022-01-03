@@ -4,6 +4,7 @@
     :search="externalSearch ? null : searchModel"
     :loading="loading"
     :item-key="itemKey"
+    :footer-props="footerProps"
     v-bind="$attrs" v-on="$listeners">
     <template v-slot:top>
       <v-row>
@@ -12,7 +13,7 @@
           </slot>
         </v-col>
         <v-spacer v-if="!$slots.header"/>
-        <v-col lg="3" md="6" sm="12" v-if="search || externalSearch" align-self="center">
+        <v-col lg="3" md="6" sm="12" v-if="showSearch || externalSearch" align-self="center">
           <v-text-field
             v-model="searchModel"
             :label="$t('search')"
@@ -58,13 +59,21 @@ export default {
       default: false,
     },
     items: Array,
-    search: {
+    showSearch: {
       type: Boolean,
       default: false,
     },
     itemKey: {
       type: String,
       default: 'id',
+    },
+    footerProps: {
+      type: Object,
+      default() {
+        return {
+          'items-per-page-options': [5, 10, 25, 50],
+        };
+      },
     },
   },
   computed: {

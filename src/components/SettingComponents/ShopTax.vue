@@ -8,7 +8,7 @@
       :headers="headers"
       :items="taxRules"
       :sort-by="['country']"
-      :search="true">
+      showSearch="true">
       <template v-slot:footer-right>
         <v-btn outlined color="success" @click="$refs.createTaxRuleDialog.show()">
           <v-icon left>mdi-plus</v-icon>

@@ -10,7 +10,7 @@
       id="categories-table"
       disable-sort
       hide-default-footer
-      :search="true">
+      showSearch="true">
       <template v-slot:item.enabled="{ item }">
         <BoolIcon :value="item.enabled"></BoolIcon>
       </template>

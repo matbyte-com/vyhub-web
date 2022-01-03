@@ -3,16 +3,16 @@
     <PageTitle icon="mdi-account-cancel">{{ $t('ban.labels.title') }}</PageTitle>
     <v-card>
       <v-card-text>
-        <DataTable
+        <PaginatedDataTable
+          ref="banTable"
           :headers="headers"
-          :items="getBans"
-          :search="true"
+          :items="bans"
           :item-class="banRowFormatter"
-          :server-items-length.sync="totalItems"
-          :items-per-page.sync="itemsPerPage"
-          :externalSearch="true" @search="newSearch"
-          @click:row="showDetails"
-          @update:page="newPage" @update:sort-by="newOrderBy" @update:sort-desc="newSortDesc">
+          defaultSortBy="created_on"
+          :defaultSortDesc="true"
+          :totalItems="totalItems"
+          @reload="queryData"
+          @click:row="showDetails">
           <template v-slot:header>
             <v-row>
               <v-col class="d-flex align-center">
@@ -36,12 +36,11 @@
                     hide-details
                     v-for="(bundle, index) in bundles"
                     :key="index"
-                    v-model="selectedBundle"
+                    v-model="selectedBundles"
                     :label="bundle.name"
                     :value="bundle.id"
-                    @change="newBundle"
                   ></v-checkbox>
-                  <a class="ma-1" @click="selectedBundle = []; queryData(1)">
+                  <a class="ma-1" @click="selectedBundles = []; queryData(1)">
                     {{ $t('reset') }}</a>
                 </v-menu>
                 <v-alert type="info" color="primary" dense v-if="$route.query.user_id"
@@ -80,7 +79,7 @@
               {{ $t('details') }}
             </v-btn>
           </template>
-        </DataTable>
+        </PaginatedDataTable>
       </v-card-text>
     </v-card>
     <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
@@ -198,15 +197,16 @@ import LogTable from '@/components/LogTable.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
-import DataTable from '@/components/DataTable.vue';
 import Dialog from '../components/Dialog.vue';
 import openapi from '../api/openapi';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import openapiCached from '@/api/openapiCached';
 
 export default {
   name: 'Ban.vue',
   components: {
+    PaginatedDataTable,
     Dialog,
-    DataTable,
     LogTable,
     PageTitle,
     DialogForm,
@@ -215,7 +215,6 @@ export default {
   },
   data() {
     return {
-      search: '',
       headers: [
         { text: this.$t('user'), value: 'user', sortable: false },
         { text: this.$t('reason'), value: 'reason' },
@@ -231,22 +230,14 @@ export default {
       bundles: [],
       banAddFormSchema,
       banEditFormSchema,
-      page: 1,
-      itemsPerPage: 10,
-      totalItems: 20,
-      selectedBundle: [],
-      orderBy: 'created_on',
-      sortDesc: true,
+      selectedBundles: [],
+      totalItems: 0,
     };
   },
   beforeMount() {
-    this.queryData(1);
     this.getBundles();
   },
   computed: {
-    getBans() {
-      return this.bans;
-    },
     banDetailShown: {
       get() {
         return this.$route.params.banId != null && (!this.$refs.banEditDialog
@@ -275,20 +266,25 @@ export default {
     },
   },
   methods: {
-    async queryData(page) {
-      this.page = page;
+    async queryData(queryParams = null) {
+      let addParams = queryParams;
+
+      if (queryParams == null) {
+        addParams = this.$refs.banTable.getQueryParameters();
+      }
+
       (await openapi).ban_getBans({
-        page,
-        bundle_id: this.selectedBundle,
-        query: this.search,
-        order_by: this.orderBy,
-        sort_desc: this.sortDesc,
+        bundle_id: this.selectedBundles,
         user_id: this.$route.query.user_id,
+        ...addParams,
       })
-        .then((rsp) => { this.bans = rsp.data.items; });
+        .then((rsp) => {
+          this.bans = rsp.data.items;
+          this.totalItems = rsp.data.total;
+        });
     },
     async getBundles() {
-      (await openapi).server_getBundles().then((rsp) => { this.bundles = rsp.data; });
+      (await openapiCached).server_getBundles().then((rsp) => { this.bundles = rsp.data; });
     },
     banRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
@@ -386,31 +382,10 @@ export default {
     showDetails(item) {
       this.$router.push({ name: 'Bans', params: { banId: item.id } });
     },
-    newPage(page) {
-      this.page = page;
-      this.queryData(page);
-    },
-    newBundle(bundles) {
-      this.selectedBundle = bundles;
-      this.queryData(1);
-    },
-    newSearch(str) {
-      this.search = str;
-      this.queryData(1);
-    },
-    newOrderBy(str) {
-      if (str[0] !== this.orderBy && str[0] !== undefined) {
-        // eslint-disable-next-line prefer-destructuring
-        this.orderBy = str[0];
-        this.queryData(1);
-      }
-    },
-    newSortDesc(val) {
-      if (val[0] !== this.sortDesc && val[0] !== undefined) {
-        // eslint-disable-next-line prefer-destructuring
-        this.sortDesc = val[0];
-        this.queryData(1);
-      }
+  },
+  watch: {
+    selectedBundles() {
+      this.queryData();
     },
   },
 };

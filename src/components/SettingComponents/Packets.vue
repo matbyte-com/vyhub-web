@@ -12,7 +12,7 @@
       :hide-default-footer="currentCategory != null"
       :sort-by="(currentCategory != null ? null : ['category.name'])"
       id="packets-table"
-      :search="true">
+      showSearch="true">
       <template slot="header">
         <v-col xl="9" md="12">
           <v-select outlined hide-details dense
