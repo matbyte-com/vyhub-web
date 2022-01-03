@@ -7,9 +7,7 @@
     :sort-by.sync="sortBy"
     :sort-desc.sync="sortDesc"
     :search.sync="search"
-    @search="reload"
-    @update:options="reload"
-    @pagination="reload"
+    must-sort
     v-bind="$attrs" v-on="$listeners"
   >
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
@@ -50,12 +48,6 @@ export default {
     },
   },
   methods: {
-    reload() {
-      if (this.lastParams !== this.queryParams) {
-        this.lastParams = this.queryParams;
-        this.$emit('reload', this.queryParams);
-      }
-    },
     getQueryParameters() {
       return this.queryParams;
     },
@@ -74,7 +66,19 @@ export default {
   beforeMount() {
     this.sortBy = this.defaultSortBy;
     this.sortDesc = this.defaultSortDesc;
-    this.reload();
+  },
+  watch: {
+    queryParams() {
+      const params = { ...this.queryParams };
+      this.lastParams = { ...params };
+
+      setTimeout(() => {
+        console.log({ ...this.lastParams }, params);
+        if (JSON.stringify({ ...this.lastParams }) === JSON.stringify(params)) {
+          this.$emit('reload', this.queryParams);
+        }
+      }, 200);
+    },
   },
 };
 </script>
