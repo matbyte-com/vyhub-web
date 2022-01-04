@@ -31,6 +31,7 @@ export default {
       sortDesc: true,
       search: null,
       lastParams: null,
+      new: true,
     };
   },
   props: {
@@ -72,8 +73,13 @@ export default {
       const params = { ...this.queryParams };
       this.lastParams = { ...params };
 
+      if (this.new) {
+        this.$emit('reload', this.queryParams);
+        this.new = false;
+        return;
+      }
+
       setTimeout(() => {
-        console.log({ ...this.lastParams }, params);
         if (JSON.stringify({ ...this.lastParams }) === JSON.stringify(params)) {
           this.$emit('reload', this.queryParams);
         }
