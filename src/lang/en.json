@@ -559,7 +559,8 @@
       "stripe": "Stripe",
       "create": "Create Payment Gateway",
       "edit": "Edit Payment Gateway",
-      "paysafecard": "Paysafecard"
+      "paysafecard": "Paysafecard",
+      "webhookURL": "Webhook URL"
     },
     "messages": {
       "createSuccess": "Payment gateway successfully created.",

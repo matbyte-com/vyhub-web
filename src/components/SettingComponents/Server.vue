@@ -10,7 +10,7 @@
             <DataTable
               :headers="bundleHeaders"
               :items="bundles"
-              showSearch="true">
+              :showSearch="true">
               <template v-slot:header>
                 <SettingTitle :divider="false">
                   {{ $t('serverbundle') }}
@@ -62,7 +62,7 @@
             <DataTable
               :headers="gameserverHeaders"
               :items="server"
-              showSearch="true"
+              :showSearch="true"
             >
               <template v-slot:header>
                 <SettingTitle :divider="false">

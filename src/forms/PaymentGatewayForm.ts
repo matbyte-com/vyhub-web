@@ -6,7 +6,6 @@ function gatewayFields(gatewayType: string) {
       environment: {
         type: [
           'string',
-          'null',
         ],
         title: i18n.t('environment'),
         enum: [
@@ -17,14 +16,12 @@ function gatewayFields(gatewayType: string) {
       client_id: {
         type: [
           'string',
-          'null',
         ],
         title: 'Client ID',
       },
       client_secret: {
         type: [
           'string',
-          'null',
         ],
         title: 'Client Secret',
       },
@@ -36,29 +33,26 @@ function gatewayFields(gatewayType: string) {
       public_key: {
         type: [
           'string',
-          'null',
         ],
         title: 'Public Key',
       },
       secret_key: {
         type: [
           'string',
-          'null',
         ],
         title: 'Secret Key',
       },
       wh_secret: {
         type: [
           'string',
-          'null',
         ],
         title: 'Webhook Secret',
       },
       payment_methods: {
         type: [
           'array',
-          'null',
         ],
+        default: [],
         title: i18n.t('paymentMethods'),
         items: {
           type: 'string',
@@ -88,14 +82,12 @@ function gatewayFields(gatewayType: string) {
       secret_key: {
         type: [
           'string',
-          'null',
         ],
         title: 'Secret Key',
       },
       environment: {
         type: [
           'string',
-          'null',
         ],
         title: i18n.t('environment'),
         enum: [
@@ -105,6 +97,7 @@ function gatewayFields(gatewayType: string) {
       },
     };
   }
+
   return {};
 }
 
@@ -132,7 +125,10 @@ function form(gatewayType: string) {
         title: i18n.t('enabled'),
         default: false,
       },
-      ...gatewayFields(gatewayType),
+      attributes: {
+        type: 'object',
+        properties: gatewayFields(gatewayType),
+      },
     },
   };
 }

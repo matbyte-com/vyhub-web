@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/shop/payment_gateways">
+    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/shop/payment_gateway">
       {{ $t('paymentGateways') }}
     </SettingTitle>
 
@@ -62,10 +62,20 @@
       :submitText="$t('edit')"
       @submit="editGateway"
       :title="$t('_gateway.labels.edit')">
-      <template slot="enabled-after">
+      <template slot="attributes-before">
         <div class="text-center font-weight-bold">
           {{ $t('_gateway.messages.formAttributeChangeExplanation') }}
         </div>
+      </template>
+      <template slot="attributes-after"
+                v-if="selectedGateway != null && selectedGateway.type === 'STRIPE'">
+        <div class="text-subtitle-2"></div>
+        <v-text-field
+          @focus="$event.target.select()"
+          :value="getWebhookUrl(selectedGateway)"
+          :label="$t('_gateway.labels.webhookURL')"
+          readonly
+        ></v-text-field>
       </template>
     </DialogForm>
     <DeleteConfirmationDialog
@@ -82,6 +92,7 @@ import DialogForm from '../DialogForm.vue';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import GatewayForm from '../../forms/PaymentGatewayForm';
 import BoolIcon from '../BoolIcon.vue';
+import Common from '@/forms/Common';
 
 export default {
   name: 'ShopGateways',
@@ -123,6 +134,7 @@ export default {
         },
       },
       noAttributeKeys: ['name', 'subtitle', 'type', 'enabled'],
+      selectedGateway: null,
     };
   },
   beforeMount() {
@@ -141,12 +153,10 @@ export default {
     },
     async createGateway() {
       const data = this.$refs.createGatewayDialog.getData();
-      const processedData = this.processData(data);
-      const { noAttributes, attributes } = processedData;
 
       const api = await openapi;
 
-      api.shop_createGateway(null, { ...noAttributes, attributes }).then(() => {
+      api.shop_createGateway(null, data).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_gateway.messages.createSuccess'),
@@ -160,12 +170,10 @@ export default {
     },
     async editGateway(gateway) {
       const data = this.$refs.editGatewayDialog.getData();
-      const processedData = this.processData(data);
-      const { noAttributes, attributes } = processedData;
 
       const api = await openapi;
 
-      api.shop_editGateway({ uuid: gateway.id }, { ...noAttributes, attributes }).then(() => {
+      api.shop_editGateway({ uuid: gateway.id }, data).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_gateway.messages.editSuccess'),
@@ -194,6 +202,7 @@ export default {
     },
     showEditDialog(gateway) {
       this.gatewayType = gateway.type;
+      this.selectedGateway = gateway;
 
       const data = { ...gateway };
 
@@ -202,6 +211,7 @@ export default {
     },
     showCreateDialog(gatewayType) {
       this.gatewayType = gatewayType;
+      this.selectedGateway = null;
 
       this.$refs.createGatewayDialog.setData({
         type: gatewayType,
@@ -209,14 +219,12 @@ export default {
 
       this.$refs.createGatewayDialog.show();
     },
-    processData(data) {
-      const noAttributes = Object.fromEntries(Object.entries(data)
-        .filter(([key]) => this.noAttributeKeys.includes(key)));
+    getWebhookUrl(gateway) {
+      if (gateway == null) {
+        return null;
+      }
 
-      const attributes = Object.fromEntries(Object.entries(data)
-        .filter(([key]) => !this.noAttributeKeys.includes(key) && data[key] != null));
-
-      return { noAttributes, attributes };
+      return `${Common.apiURL}/webhook/${gateway.type.toLowerCase()}/${gateway.id}`;
     },
   },
   computed: {
