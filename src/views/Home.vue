@@ -7,7 +7,7 @@
                  @submit="addMessage"
     >
       <template slot="type-after">
-        <vue-editor v-model="message" />
+        <Editor ref="editor"/>
       </template>
     </dialog-form>
     <dialog-form ref="messageEditDialog" :form-schema="messageAddSchema"
@@ -15,7 +15,7 @@
                  :max-width="1000"
                  @submit="editMessage">
       <template slot="type-after">
-        <vue-editor v-model="message" />
+        <Editor ref="editEditor"/>
       </template>
     </dialog-form>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
@@ -175,7 +175,6 @@
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
 import NewsAddForm from '@/forms/NewsAddForm';
@@ -187,16 +186,17 @@ import PageTitle from '@/components/PageTitle.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';
 import config from '../config';
 import i18n from '../plugins/i18n';
+import Editor from '@/components/Editor.vue';
 
 export default {
   components: {
+    Editor,
     PageTitle,
     NewUsers,
     DonationGoal,
     ServerStatus,
     DeleteConfirmationDialog,
     UserLink,
-    VueEditor,
     DialogForm,
   },
   data() {
@@ -206,9 +206,9 @@ export default {
       exhausted: false,
       fetching: false,
       messageAddSchema: NewsAddForm,
-      message: null,
       statusColumnWidth: 250,
       donationGoal: {},
+      maxInputLength: 10000,
     };
   },
   mounted() {
@@ -244,9 +244,9 @@ export default {
     },
     async addMessage() {
       const data = this.$refs.messageAddDialog.getData();
-      data.content = this.message;
-      if (this.message.length > config.html_max_input_length) {
-        this.$refs.messageAddDialog.setErrorMessage(i18n.t('maxInputExceeded'),
+      data.content = this.$refs.editor.getContent();
+      if (data.content.length > this.maxInputLength) {
+        this.$refs.messageAddDialog.setErrorMessage(i18n.t('maxInputExceeded', { length: config.html_max_input_length }),
           { length: config.html_max_input_length });
         return;
       }
@@ -280,12 +280,14 @@ export default {
     },
     openEditMessageDialog(message) {
       this.$refs.messageEditDialog.show(message);
-      this.message = message.content;
       this.$refs.messageEditDialog.setData(message);
+      this.$nextTick(() => {
+        this.$refs.editEditor.setContent(message.content);
+      });
     },
     async editMessage(message) {
       const data = this.$refs.messageEditDialog.getData();
-      data.content = this.message;
+      data.content = this.$refs.editEditor.getContent();
       (await openapi).news_editMessage(message.id, data)
         .then((rsp) => {
           const index = this.news.findIndex((n) => n.id === rsp.data.id);
