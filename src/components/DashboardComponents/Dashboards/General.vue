@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12" md="8" lg="9" order-sm="2" order-md="1">
+      <v-col cols="12" md="7" lg="8" order-sm="2" order-md="1">
         <v-row>
           <v-col cols="12" xl="4" class="d-flex">
             <Packets :user="user" class="flex-md-grow-1"/>
@@ -29,7 +29,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" md="4" lg="3" order-md="2" order-sm="1">
+      <v-col cols="12" md="5" lg="4" order-md="2" order-sm="1">
         <v-row>
           <v-col>
             <ProfilePicture :user="user"/>
