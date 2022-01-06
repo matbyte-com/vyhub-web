@@ -7,6 +7,11 @@
 import store from '@/store/index';
 import config from '@/config';
 
+export interface UserModel {
+  id: string; // uuid
+  linked_users: /* UserModelNoLinked */ UserModel[];
+}
+
 interface Property {
   name: string
   granted: boolean
@@ -47,6 +52,21 @@ export default {
         //  && el.granted);
       }
       return properties.some((el: Property) => el.name === prop && el.granted);
+    },
+    $checkLinked(user1: UserModel, user2: UserModel) {
+      if (user1.id === user2.id) {
+        return true;
+      }
+
+      let found = false;
+
+      user1.linked_users.forEach((user) => {
+        if (user.id === user2.id) {
+          found = true;
+        }
+      });
+
+      return found;
     },
   },
 };

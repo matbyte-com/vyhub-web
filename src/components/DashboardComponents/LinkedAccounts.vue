@@ -165,7 +165,7 @@ export default {
         return false;
       }
 
-      if (this.user.id === this.$store.getters.user.id) {
+      if (this.$checkLinked(this.user, this.$store.getters.user)) {
         return true;
       }
 
