@@ -39,14 +39,16 @@ export default {
       ],
       editorSettings: {
         modules: {
-          imageResize: {},
+          imageResize: {
+            modules: ['Resize', 'DisplaySize'],
+          },
         },
       },
     };
   },
   methods: {
     ready(quill) {
-      // This is all done to allow for image urls instead of uploading the image to server
+      // Get quill instance and register image handler
       this.quill = quill;
       const toolbar = quill.getModule('toolbar');
       toolbar.addHandler('image', this.imageHandler);
