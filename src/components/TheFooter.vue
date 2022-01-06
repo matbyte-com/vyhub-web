@@ -11,13 +11,16 @@
       </v-btn>
       <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
         <strong>
-        {{ new Date().getFullYear() }}
-        <span v-if="$store.getters.theme != null">
-          — {{ $store.getters.theme.community_name }}
-        </span>
-        — <a class="text-decoration-none white--text" href="http://vyhub.net">
+          {{ new Date().getFullYear() }}
+          <span v-if="$store.getters.theme != null">
+            — {{ $store.getters.theme.community_name }}
+          </span>
+          —
+          <a class="text-decoration-none white--text" href="http://vyhub.net">
             Powered by VyHub
           </a>
+          —
+          {{ version }}
         </strong>
       </v-col>
     </v-row>
@@ -27,6 +30,7 @@
 
 <script>
 import LanguagePicker from '@/components/FooterComponents/LanguagePicker.vue';
+import { version } from '../../package.json';
 
 export default {
   components: { LanguagePicker },
@@ -35,6 +39,7 @@ export default {
   },
   data() {
     return {
+      version,
       links: [
         { title: 'Home', link: '/' },
         { title: 'Legal', link: '/legal' },
