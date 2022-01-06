@@ -39,7 +39,7 @@
                   </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <vue-editor v-model="htmlInput" />
+                  <editor v-model="htmlInput" />
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
@@ -156,7 +156,6 @@
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor';
 import draggable from 'vuedraggable';
 import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
@@ -165,15 +164,16 @@ import EventBus from '@/services/EventBus';
 import i18n from '@/plugins/i18n';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import SettingTitle from './SettingTitle.vue';
+import Editor from '@/components/Editor.vue';
 
 export default {
   name: 'Navigation',
   components: {
+    Editor,
     DeleteConfirmationDialog,
     SettingTitle,
     DialogForm,
     draggable,
-    VueEditor,
   },
   data() {
     return {

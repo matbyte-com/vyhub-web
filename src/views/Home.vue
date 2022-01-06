@@ -7,7 +7,7 @@
                  @submit="addMessage"
     >
       <template slot="type-after">
-        <Editor ref="editor"/>
+        <Editor v-model="message"/>
       </template>
     </dialog-form>
     <dialog-form ref="messageEditDialog" :form-schema="messageAddSchema"
@@ -15,7 +15,7 @@
                  :max-width="1000"
                  @submit="editMessage">
       <template slot="type-after">
-        <Editor ref="editEditor"/>
+        <Editor v-model="message"/>
       </template>
     </dialog-form>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
@@ -209,6 +209,7 @@ export default {
       statusColumnWidth: 250,
       donationGoal: {},
       maxInputLength: 10000,
+      message: '',
     };
   },
   mounted() {
@@ -244,7 +245,7 @@ export default {
     },
     async addMessage() {
       const data = this.$refs.messageAddDialog.getData();
-      data.content = this.$refs.editor.getContent();
+      data.content = this.message;
       if (data.content.length > this.maxInputLength) {
         this.$refs.messageAddDialog.setErrorMessage(i18n.t('maxInputExceeded', { length: config.html_max_input_length }),
           { length: config.html_max_input_length });
@@ -281,13 +282,11 @@ export default {
     openEditMessageDialog(message) {
       this.$refs.messageEditDialog.show(message);
       this.$refs.messageEditDialog.setData(message);
-      this.$nextTick(() => {
-        this.$refs.editEditor.setContent(message.content);
-      });
+      this.message = message.content;
     },
     async editMessage(message) {
       const data = this.$refs.messageEditDialog.getData();
-      data.content = this.$refs.editEditor.getContent();
+      data.content = this.message;
       (await openapi).news_editMessage(message.id, data)
         .then((rsp) => {
           const index = this.news.findIndex((n) => n.id === rsp.data.id);

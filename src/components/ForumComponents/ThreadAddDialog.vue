@@ -11,7 +11,7 @@
     </v-row>
     <v-text-field v-if="!hideTitleInput" :label="$t('_ticket.title')"
                   v-model="title"></v-text-field>
-    <vue-editor v-model="content" label="test" :class="hideTitleInput ? 'mt-3' : ''"/>
+    <editor v-model="content" label="test" :class="hideTitleInput ? 'mt-3' : ''"/>
     <template v-slot:actions>
       <v-btn text color="primary" @click="$emit('submit')">
         <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
@@ -29,16 +29,16 @@
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor';
 import Dialog from '../Dialog.vue';
 import config from '../../config';
 import i18n from '../../plugins/i18n';
+import Editor from '@/components/Editor.vue';
 
 export default {
   name: 'ThreadAddDialog',
   components: {
+    Editor,
     Dialog,
-    VueEditor,
   },
   props: ['dialogTitle', 'hideTitleInput'],
   data() {

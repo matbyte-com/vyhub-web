@@ -6,7 +6,7 @@
     </v-alert>
     <v-card flat>
       <v-card-text>
-        <VueEditor v-model="content"/>
+        <Editor v-model="content"/>
       </v-card-text>
     </v-card>
     <v-btn :loading="loading" depressed color="primary" class="mt-3" @click="updateLegal">
@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor';
 import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
+import Editor from '@/components/Editor.vue';
 
 export default {
-  components: { SettingTitle, VueEditor },
+  components: { Editor, SettingTitle },
   name: 'Legal',
   data() {
     return {
