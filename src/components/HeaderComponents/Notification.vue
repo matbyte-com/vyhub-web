@@ -97,9 +97,11 @@ export default {
         this.notifications = rsp.data;
       });
       if (this.notifications.length >= 1) {
-        if (this.notifications[0].id !== lastNotificationId) {
-          this.newMessages = true;
-          this.notifyBrowser(this.notifications[0].message);
+        if (this.notifications.filter((n) => !n.read).length > 0) {
+          if (this.notifications[0].id !== lastNotificationId) {
+            this.newMessages = true;
+            this.notifyBrowser(this.notifications[0].message);
+          }
         }
       }
     },
