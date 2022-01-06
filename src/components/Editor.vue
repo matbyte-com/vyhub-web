@@ -1,11 +1,15 @@
 <template>
   <div>
-    <vue-editor :editor-toolbar="toolbar" @ready="ready" v-model="content"></vue-editor>
+    <vue-editor :editor-toolbar="toolbar" :editorOptions="editorSettings"
+                @ready="ready" v-model="content"></vue-editor>
   </div>
 </template>
 
 <script>
 import { VueEditor, Quill } from 'vue2-editor';
+import ImageResize from 'quill-image-resize-vue';
+
+Quill.register('modules/imageResize', ImageResize);
 
 export default {
   name: 'Editor',
@@ -33,6 +37,11 @@ export default {
         ['link', 'image'],
         ['clean'], // remove formatting button
       ],
+      editorSettings: {
+        modules: {
+          imageResize: {},
+        },
+      },
     };
   },
   methods: {
