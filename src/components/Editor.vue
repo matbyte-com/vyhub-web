@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <vue-editor @ready="ready" v-model="content"></vue-editor>
   </div>
 </template>
@@ -12,6 +12,7 @@ export default {
   components: {
     VueEditor,
   },
+  props: ['value'],
   data() {
     return {
       quill: null,
@@ -26,7 +27,6 @@ export default {
         ['clean'],
         ['image'],
       ],
-      content: '',
     };
   },
   methods: {
@@ -63,11 +63,15 @@ export default {
       tooltip.edit('image');
       tooltip.textbox.placeholder = 'Embed URL';
     },
-    getContent() {
-      return this.content;
-    },
-    setContent(content) {
-      this.content = content;
+  },
+  computed: {
+    content: {
+      get() {
+        return this.value;
+      },
+      set(val) {
+        this.$emit('input', val);
+      },
     },
   },
 };
