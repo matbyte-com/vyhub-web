@@ -165,7 +165,7 @@ export default {
     allowedHelpCircleLinks() {
       const res = [];
       this.helpCircleLinks.forEach((m) => {
-        if (this.$store.getters.generalConfig[m.config]
+        if (this.$store.getters.generalConfig != null && this.$store.getters.generalConfig[m.config]
           && (this.$store.getters.isLoggedIn || this.$store.getters.isLoggedIn === m.loggedIn)) {
           res.push(m);
         }

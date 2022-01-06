@@ -69,13 +69,25 @@ export default new Vuex.Store({
     SET_THEME: (state, theme) => {
       state.theme = theme;
     },
+    LOGOUT: (state) => {
+      state.user = null;
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.refreshAfter = null;
+      state.user = null;
+      state.properties = null;
+      state.address = null;
+      state.cartPacketCount = 0;
+      state.creditAccount = null;
+      state.navItems = null;
+    },
   },
   actions: {
     login: ({ commit }, { accessToken, refreshToken, refreshAfter }) => {
       commit('SET_TOKEN', { accessToken, refreshToken, refreshAfter });
     },
     logout: ({ commit }) => {
-      commit('RESET', '');
+      commit('LOGOUT', '');
     },
     setUserData: ({ commit }, { user }) => {
       commit('SET_USER', user);
