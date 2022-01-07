@@ -6,26 +6,25 @@
   <v-card>
     <v-card-text class="mt-0 pt-0">
       <v-fade-transition>
-        <v-btn depressed color="primary" v-if="newMessages" @click="fetchData(1)" class="mt-3">
+        <v-btn depressed color="primary" v-if="newMessages" @click="fetchData()" class="mt-3">
           <v-icon left>
             mdi-sync
           </v-icon>
           {{ $t('notification.newNotifications') }}
         </v-btn>
       </v-fade-transition>
-      <DataTable
+      <PaginatedDataTable
+        :search-bar="false"
+        ref="notificationTable"
         class="mt-4"
         :headers="headers"
         :items="notifications"
-        :server-items-length.sync="totalItems"
-        :items-per-page.sync="itemsPerPage"
-        @update:page="newPage"
-        @update:sort-desc="newDesc"
+        :totalItems="totalItems"
+        default-sort-by="created_on"
+        :default-sort-desc="true"
         @click:row="rowClick"
-        :footer-props="{
-          'disable-items-per-page': true,
-        }"
-        >
+        @reload="fetchData"
+      >
         <template v-slot:header>
           <div class="d-flex align-center">
             <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
@@ -125,7 +124,7 @@
             </v-tooltip>
           </div>
         </template>
-      </DataTable>
+      </PaginatedDataTable>
     </v-card-text>
   </v-card>
 </div>
@@ -135,20 +134,20 @@
 import PageTitle from '@/components/PageTitle.vue';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import EventBus from '@/services/EventBus';
-import DataTable from '@/components/DataTable.vue';
 import openapi from '@/api/openapi';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 
 export default {
   name: 'Notification.vue',
-  components: { PageTitle, DataTable, ConfirmationDialog },
+  components: { PaginatedDataTable, PageTitle, ConfirmationDialog },
   data() {
     return {
       selectedCat: [],
-      itemsPerPage: 20,
       newMessages: null,
       notifications: [],
-      totalItems: 20,
+      totalItems: 0,
       categories: [],
+      showOnlyReadItems: false,
       headers: [
         {
           text: this.$t('icon'), value: 'icon', sortable: false, focus: true,
@@ -160,11 +159,6 @@ export default {
           value: 'action', sortable: false, align: 'right', width: '150px',
         },
       ],
-      state: {
-        page: 1,
-        desc: false,
-        read: false,
-      },
     };
   },
   mounted() {
@@ -178,17 +172,13 @@ export default {
         this.categories = rsp.data;
       });
     },
-    async fetchData(page = null, sortByCat = null) {
+    async fetchData(queryParams = null) {
       this.newMessages = false;
       this.notifications = null;
-      if (page) this.state.page = page;
-      if (sortByCat) this.selectedCat = sortByCat;
       (await openapi).notification_getNotifications({
-        size: this.itemsPerPage,
-        page: this.state.page,
-        descending: this.state.desc,
         categories: this.selectedCat,
-        hide_read: this.state.read,
+        hide_read: this.showOnlyReadItems,
+        ...(queryParams != null ? queryParams : this.$refs.notificationTable.getQueryParameters()),
       })
         .then((rsp) => {
           this.notifications = rsp.data.items;
@@ -202,24 +192,12 @@ export default {
       const time_obj = new Date(time);
       return `${time_obj.getHours()}:${time_obj.getMinutes()}`;
     },
-    newPage(page) {
-      this.fetchData(page);
-    },
-    newDesc(ev) {
-      if (ev[0] === undefined || ev[0] === false) this.state.desc = false;
-      else this.state.desc = true;
-      if (ev[0] !== false) this.fetchData(1);
-    },
-    newCat(cat) {
-      this.fetchData(1, cat);
-    },
-    resetCatFilter() {
-      this.selectedCat = [];
-      this.fetchData(1);
+    newCat() {
+      this.fetchData();
     },
     showReadNotifications(bool) {
-      this.state.read = bool;
-      this.fetchData(1);
+      this.showOnlyReadItems = bool;
+      this.fetchData();
     },
     async markAllAsRead() {
       (await openapi).notification_markAsRead(null, { all: true }).then(() => {

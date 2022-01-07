@@ -3,33 +3,20 @@
   <PageTitle icon="mdi-format-list-bulleted">{{ $t('log') }}</PageTitle>
   <v-card>
     <v-card-text class="mt-0 pt-0">
-      <DataTable
+      <PaginatedDataTable
+        ref="logTable"
         class="mt-4"
         :headers="headers"
+        :totalItems="totalItems"
         :items="logs"
+        default-sort-by="created_on"
+        :default-sort-desc="true"
         show-expand
-        :server-items-length.sync="totalItems"
-        :items-per-page.sync="itemsPerPage"
-        @update:page="newPage"
-        :footer-props="{
-          'disable-items-per-page': true,
-        }"
+        @reload="fetchData"
         >
         <template v-slot:header>
           <v-row>
             <v-col class="d-flex align-center">
-              <v-btn
-                color="primary"
-                depressed
-                :loading="updateBtnLoading"
-                @click="updateLog"
-              >
-                <v-icon left>
-                  mdi-sync
-                </v-icon>
-                {{ $t('update') }}
-              </v-btn>
-              <v-spacer />
               <v-menu offset-y :close-on-content-click="false">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -53,7 +40,7 @@
                   v-model="selectedCat"
                   :label="$t(`_log.type.${category.toLowerCase()}`)"
                   :value="category"
-                  @change="newCat"
+                  @change="fetchData()"
                 ></v-checkbox>
                 <a class="ma-1" @click="selectedCat = []; fetchData()">{{ $t('reset') }}</a>
               </v-menu>
@@ -88,7 +75,7 @@
            }) }}
           </span>
         </template>
-      </DataTable>
+      </PaginatedDataTable>
     </v-card-text>
   </v-card>
 </div>
@@ -96,20 +83,18 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
-import DataTable from '@/components/DataTable.vue';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 
 export default {
   name: 'Notification.vue',
-  components: { UserLink, PageTitle, DataTable },
+  components: { PaginatedDataTable, UserLink, PageTitle },
   data() {
     return {
-      updateBtnLoading: false,
       expanded: [],
       selectedCat: [],
       itemsPerPage: 25,
-      newMessages: null,
       logs: [],
       totalItems: 20,
       categories: [],
@@ -138,35 +123,18 @@ export default {
         this.categories = rsp.data;
       });
     },
-    async fetchData(page = null, sortByCat = null) {
-      this.newMessages = false;
+    async fetchData(queryParams = null) {
       this.logs = null;
-      if (page) this.state.page = page;
-      if (sortByCat) this.selectedCat = sortByCat;
       (await openapi).log_getLog({
         size: this.itemsPerPage,
         page: this.state.page,
         category: this.selectedCat,
+        ...(queryParams != null ? queryParams : this.$refs.logTable.getQueryParameters()),
       })
         .then((rsp) => {
           this.logs = rsp.data.items;
           this.totalItems = rsp.data.total;
-          setTimeout(() => { this.updateBtnLoading = false; }, 500);
         });
-    },
-    newPage(page) {
-      this.fetchData(page);
-    },
-    newCat(cat) {
-      this.fetchData(1, cat);
-    },
-    resetCatFilter() {
-      this.selectedCat = [];
-      this.fetchData(1);
-    },
-    updateLog() {
-      this.updateBtnLoading = true;
-      this.fetchData();
     },
   },
 };

@@ -72,15 +72,10 @@
     <Dialog ref="showMemberDialog"
             icon="mdi-account-multiple"
             :title="`${$t('_membership.labels.activeMemberships')}:  ${memberGroup.name}`">
-      <DataTable :items="groupMembersData.items" :headers="groupMemberHeaders"
-                 :footer-props="{
-                  'disable-items-per-page': true,
-                  }"
-                 :server-items-length.sync="totalItems"
-                 :items-per-page.sync="itemsPerPage"
-                 @update:page="newMembershipPage"
-                 :external-search="true"
-                 @search="newSearch"
+      <PaginatedDataTable :items="groupMembersData.items" :headers="groupMemberHeaders"
+                 ref="memberTable"
+                 :totalItems="totalItems"
+                 @reload="fetchGroupMembers"
                  class="mt-3">
         <template v-slot:item.user="{ item }">
           <UserLink :user="item.user" />
@@ -102,7 +97,7 @@
             </v-icon>
           </v-btn>
         </template>
-      </DataTable>
+      </PaginatedDataTable>
     </Dialog>
 
     <DialogForm
@@ -138,10 +133,12 @@ import Dialog from '@/components/Dialog.vue';
 import UserLink from '@/components/UserLink.vue';
 import SettingTitle from './SettingTitle.vue';
 import MembershipEditDialog from '../DashboardComponents/MembershipEditDialog.vue';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 
 export default {
   name: 'Groups',
   components: {
+    PaginatedDataTable,
     MembershipEditDialog,
     UserLink,
     Dialog,
@@ -175,8 +172,7 @@ export default {
       groupFormSchema: GroupForm,
       memberGroup: {},
       groupMembersData: [],
-      itemsPerPage: 10,
-      totalItems: 20,
+      totalItems: 0,
       advancedProps: ['server_group'],
     };
   },
@@ -283,11 +279,10 @@ export default {
       this.$refs.showMemberDialog.show();
       this.fetchGroupMembers();
     },
-    async fetchGroupMembers(page = 1, searchStr = null) {
+    async fetchGroupMembers(queryParams = null) {
       (await openapi).group_getGroupMembers({
         uuid: this.memberGroup.id,
-        page,
-        search: searchStr,
+        ...(queryParams != null ? queryParams : this.$refs.memberTable.getQueryParameters()),
       })
         .then((rsp) => {
           this.groupMembersData = rsp.data;
@@ -298,12 +293,6 @@ export default {
       const mship = item;
       mship.active = true;
       this.$refs.editMembershipDialog.show(mship);
-    },
-    newMembershipPage(page) {
-      this.fetchGroupMembers(page);
-    },
-    newSearch(str) {
-      this.fetchGroupMembers(1, str);
     },
   },
 };

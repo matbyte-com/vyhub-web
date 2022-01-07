@@ -12,7 +12,7 @@
           <slot name="header">
           </slot>
         </v-col>
-        <v-spacer v-if="!$slots.header"/>
+        <v-spacer v-if="!$slots.header && !$scopedSlots.header"/>
         <v-col lg="3" md="6" sm="12" v-if="showSearch || externalSearch" align-self="center">
           <v-text-field
             v-model="searchModel"
