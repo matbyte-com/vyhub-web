@@ -272,7 +272,13 @@
       "updatedLinkOrder": "Navigation order updated.",
       "removedLink": "Navigation link deleted.",
       "editedLink": "Navigation link edited."
-    }
+    },
+    "title": "Title",
+    "enabled": "Enabled",
+    "type": "Type",
+    "htmlContent": "HTML Content",
+    "externalLink": "External Link",
+    "link": "Link"
   },
   "_log": {
     "type": {
