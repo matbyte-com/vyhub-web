@@ -1,34 +1,20 @@
 <template>
   <div>
     <SettingTitle doc-link="https://docs.vyhub.net/#/guide/navigation">
-      {{ $t('navigation') }}
+      {{ $t('_navigation.title') }}
     </SettingTitle>
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
                  icon="mdi-navigation-outline"
-                 :title="$t('settings.addNavlink')"
-                 @submit="addLink"/>
-    <delete-confirmation-dialog ref="deleteConfirmationDialog" @submit="deleteNav"/>
-    <!-- Edit NavLink Dialog -->
-    <dialog-form ref="navEditDialog" :form-schema="navlinkAddSchema"
-              :title="$t('settings.editNavLink')"
-                 icon="mdi-navigation-outline"
-              @updated="isExternalLink"
-              :max-width="1000"
-              @submit="editNavItem"
-              >
+                 :title="$t('_navigation.addNavLink')" :max-width="1000"
+                 @submit="addLink" @updated="formChanged">
       <template slot="linkType-after">
-        <v-carousel-transition v-if="!defaultLink">
-          <v-text-field v-if="externalLink" hide-details="auto"
-                        :label="$t('url')"
-                        v-model="linkInput"
-                        :rules="[rules.http]"
-                        :placeholder="$i18n.t('settings.httpPlaceholder')"
-                        />
-          <div v-else>
+        <v-carousel-transition>
+          <div v-if="!isExternalLink">
             <v-alert
               type="warning" outlined
               dense
-            >{{ $t('settings.contentSanitizationWarning') }}</v-alert>
+            >{{ $t('settings.contentSanitizationWarning') }}
+            </v-alert>
             <v-expansion-panels flat>
               <v-expansion-panel>
                 <v-expansion-panel-header>
@@ -39,7 +25,52 @@
                   </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <editor v-model="htmlInput" />
+                  <editor v-model="htmlInput"/>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  <v-row>
+                    <v-badge :value="rawHtmlInput" inline dot class="float-left">
+                      {{ $t('settings.rawHtml') }}
+                    </v-badge>
+                  </v-row>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-textarea :placeholder="$t('settings.rawHtml')" v-model="rawHtmlInput"/>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </div>
+        </v-carousel-transition>
+      </template>
+    </dialog-form>
+    <delete-confirmation-dialog ref="deleteConfirmationDialog" @submit="deleteNav"/>
+    <!-- Edit NavLink Dialog -->
+    <dialog-form ref="navEditDialog" :form-schema="navlinkAddSchema"
+                 :title="$t('_navigation.editNavLink')" icon="mdi-navigation-outline"
+                 @updated="formChanged" :max-width="1000"
+                 @submit="editNavItem"
+    >
+      <template slot="linkType-after">
+        <v-carousel-transition v-if="!isExternalLink && !isDefaultLink">
+          <div>
+            <v-alert
+              type="warning" outlined
+              dense
+            >{{ $t('settings.contentSanitizationWarning') }}
+            </v-alert>
+            <v-expansion-panels flat>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  <v-row>
+                    <v-badge :value="htmlInput" inline dot class="float-left">
+                      {{ $t('settings.editor') }}
+                    </v-badge>
+                  </v-row>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <editor v-model="htmlInput"/>
                 </v-expansion-panel-content>
               </v-expansion-panel>
               <v-expansion-panel>
@@ -81,24 +112,24 @@
                 {{ link.link }}
               </v-col>
               <v-col class="text-right">
-                  <v-icon v-if="link.linkType === 'html'" class="mr-1">
-                    mdi-web
+                <v-icon v-if="link.linkType === 'html'" class="mr-1">
+                  mdi-web
+                </v-icon>
+                <v-icon v-if="link.linkType === 'link'" class="mr-1">
+                  mdi-link
+                </v-icon>
+                <v-btn outlined color="primary" small
+                       @click="openNavEditDialog(link)" class="mr-1">
+                  <v-icon>
+                    mdi-pencil
                   </v-icon>
-                  <v-icon v-if="link.linkType === 'link'" class="mr-1">
-                    mdi-link
+                </v-btn>
+                <v-btn :disabled="link.linkType==='default'"
+                       outlined color="error" small @click="openDeleteConfirmationDialog(link)">
+                  <v-icon>
+                    mdi-delete
                   </v-icon>
-                  <v-btn outlined color="primary" small
-                         @click="openNavEditDialog(link)" class="mr-1">
-                    <v-icon>
-                      mdi-pencil
-                    </v-icon>
-                  </v-btn>
-                  <v-btn :disabled="link.linkType==='default'"
-                         outlined color="error" small @click="openDeleteConfirmationDialog(link)">
-                    <v-icon>
-                      mdi-delete
-                    </v-icon>
-                  </v-btn>
+                </v-btn>
               </v-col>
             </v-row>
           </v-list-item>
@@ -161,7 +192,6 @@ import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
-import i18n from '@/plugins/i18n';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import SettingTitle from './SettingTitle.vue';
 import Editor from '@/components/Editor.vue';
@@ -178,36 +208,53 @@ export default {
   data() {
     return {
       navlinkAddSchema: null,
-      externalLink: false,
-      linkInput: null,
-      htmlInput: null,
-      rawHtmlInput: null,
-      defaultLink: null,
+      isExternalLink: false, // Boolean to differentiate between Link and HTML (CMS Page)
+      htmlInput: '',
+      rawHtmlInput: '',
+      isDefaultLink: false, // Boolean to differentiate between default links or user created ones
       updateLinkEnabled: false,
-      rules: {
-        http: (value) => {
-          const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
-          return pattern.test(value) || i18n.t('htmlNoMatch');
-        },
-      },
       links: [
         {
-          title: 'News', icon: 'mdi-newspaper', link: '/news', tabs: [], enabled: false, linkType: 'default',
+          title: 'News',
+          icon: 'mdi-newspaper',
+          link: '/news',
+          tabs: [],
+          enabled: false,
+          linkType: 'default',
         },
         {
-          title: 'Dashboard', icon: 'mdi-account', link: '/dashboard', enabled: true, linkType: 'default',
+          title: 'Dashboard',
+          icon: 'mdi-account',
+          link: '/dashboard',
+          enabled: true,
+          linkType: 'default',
           // title: 'Dashboard', icon: 'mdi-account', link: '/home', tabs: [{ title: 'Edit', icon:
           // 'mdi-home-edit-outline', link: '/dashboard' }, { title: 'Edit', icon:
           // 'mdi-home-edit-outline', link: '/dashboard' }],
         },
         {
-          title: 'Shop', icon: 'mdi-sack', link: '/shop', tabs: [], enabled: true, linkType: 'default',
+          title: 'Shop',
+          icon: 'mdi-sack',
+          link: '/shop',
+          tabs: [],
+          enabled: true,
+          linkType: 'default',
         },
         {
-          title: 'Bans', icon: 'mdi-account-cancel', link: '/ban', reqProp: 'ban_show', enabled: true, linkType: 'default',
+          title: 'Bans',
+          icon: 'mdi-account-cancel',
+          link: '/ban',
+          reqProp: 'ban_show',
+          enabled: true,
+          linkType: 'default',
         },
         {
-          title: 'Settings', icon: 'mdi-cog-outline', link: '/settings', tabs: [], enabled: true, linkType: 'default',
+          title: 'Settings',
+          icon: 'mdi-cog-outline',
+          link: '/settings',
+          tabs: [],
+          enabled: true,
+          linkType: 'default',
         },
       ],
       linksRight: [
@@ -230,36 +277,43 @@ export default {
         this.links = rsp.data;
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
+    formChanged() {
+      let data = {};
+      if (this.$refs.navAddDialog.open) {
+        data = this.$refs.navAddDialog.getData();
+      } else {
+        data = this.$refs.navEditDialog.getData();
+      }
+      this.isExternalLink = data.linkType === 'link';
+    },
     openDeleteConfirmationDialog(link) {
       this.$refs.deleteConfirmationDialog.show(link);
     },
     async openNavEditDialog(item) {
-      this.rawHtmlInput = null;
-      this.htmlInput = null;
-      this.linkInput = null;
+      this.rawHtmlInput = '';
+      this.htmlInput = '';
+      this.isExternalLink = item.linkType === 'link';
       if (item.linkType === 'default') {
         this.navlinkAddSchema = NavlinkAddForm.returnForm(true);
-        this.defaultLink = true;
+        this.isDefaultLink = true;
       } else {
         this.navlinkAddSchema = NavlinkAddForm.returnForm();
-        this.defaultLink = false;
+        this.isDefaultLink = false;
       }
-      this.linkInput = item.link;
       if (item.linkType === 'html' && item.html) {
         (await openapi).general_getCmsHtml(item.html)
-          .then((rsp) => { this.rawHtmlInput = rsp.data.content; });
+          .then((rsp) => {
+            this.rawHtmlInput = rsp.data.content;
+            this.htmlInput = rsp.data.content;
+          });
       }
       this.$refs.navEditDialog.show(item);
       this.$refs.navEditDialog.setData(item);
     },
-    isExternalLink() {
-      if (this.$refs.navEditDialog.getData().linkType === 'link') {
-        this.externalLink = true;
-      } else {
-        this.externalLink = false;
-      }
-    },
     openNavAddDialog() {
+      this.rawHtmlInput = '';
+      this.htmlInput = '';
+      this.isDefaultLink = false;
       this.navlinkAddSchema = NavlinkAddForm.returnForm();
       this.$refs.navAddDialog.show();
     },
@@ -267,12 +321,39 @@ export default {
       const data = this.$refs.navAddDialog.getData();
       // check if Title already used
       if (this.links.find((l) => l.title === data.title)) {
-        this.$refs.navAddDialog.setErrorMessage('Title already used');
+        this.$refs.navAddDialog.setErrorMessage(this.$t('_navigation.titleAlreadyUsed'));
         return;
       }
-      // set link for html content
+      // check for html content and return if both are not null
+      if (this.htmlInput && this.rawHtmlInput && !this.isExternalLink) {
+        this.$refs.navEditDialog.setErrorMessage(this.$t('_navigation.bothHtmlInputsUsed'));
+        return;
+      }
+      // handle html content
       if (data.linkType === 'html') {
+        // set link
         data.link = `/cms/${data.title.toLowerCase()}`;
+        // check for null input
+        if (this.rawHtmlInput.length === 0 && this.htmlInput.length === 0) {
+          this.$refs.navAddDialog.setErrorMessage(this.$t('_navigation.noHtmlGiven'));
+          return;
+        }
+        // differentiate between editor or raw html input
+        let input = '';
+        if (this.rawHtmlInput) {
+          input = this.rawHtmlInput;
+        } else {
+          input = this.htmlInput;
+        }
+        // create new HTML Page Entry and save UUID
+        await (await openapi).general_createCmsHtml(null, { content: input })
+          .then((rsp) => {
+            data.html = rsp.data.id;
+          })
+          .catch((err) => {
+            this.$refs.navEditDialog.setErrorMessage(err);
+            throw (err);
+          });
       }
       this.links.push(data);
       (await openapi).general_updateNavItems(null, this.links).then(() => {
@@ -303,22 +384,22 @@ export default {
     },
     async deleteNav(nav) {
       if (nav.linkType === 'default') {
-        this.$refs.deleteConfirmationDialog.setErrorMessage('Can not delete default links');
+        this.$refs.deleteConfirmationDialog.setErrorMessage(this.$t('_navigation.deleteDefaultLink'));
         return;
       }
       const index = this.links.findIndex((l) => l.title === nav.title);
       if (index > -1) {
         this.links.splice(index, 1);
       } else {
-        this.$refs.deleteConfirmationDialog.setErrorMessage('Couldnt find index of nav object to update');
+        this.$refs.deleteConfirmationDialog.setErrorMessage(this.$t('_navigation.cantFindLink'));
         return;
       }
 
       if (nav.linkType === 'html') {
-        (await openapi).general_deleteCmsHtml(nav.html);
+        await (await openapi).general_deleteCmsHtml(nav.html);
       }
 
-      this.updateLinkOrder();
+      await this.updateLinkOrder();
       this.$refs.deleteConfirmationDialog.closeAndReset();
       this.$notify({
         title: this.$t('_navigation.messages.removedLink'),
@@ -327,8 +408,8 @@ export default {
     },
     async editNavItem(nav) {
       // check for html content and return if both are not null
-      if (this.htmlInput && this.rawHtmlInput) {
-        this.$refs.navEditDialog.setErrorMessage('Do not use both HTML inputs');
+      if (this.htmlInput && this.rawHtmlInput && !this.isExternalLink) {
+        this.$refs.navEditDialog.setErrorMessage(this.$t('_navigation.bothHtmlInputsUsed'));
         return;
       }
       const linkUpdated = this.$refs.navEditDialog.getData();
@@ -344,35 +425,35 @@ export default {
       if (linkUpdated.linkType === 'html') {
         linkUpdated.link = `/cms/${linkUpdated.title.toLowerCase()}`;
         // find html input to update
-        let inputToUpdate = this.rawHtmlInput;
-        if (this.rawHtmlInput == null) {
-          inputToUpdate = this.htmlInput;
+        let input = '';
+        if (this.rawHtmlInput) {
+          input = this.rawHtmlInput;
+        } else {
+          input = this.htmlInput;
         }
         // html content
         if (nav.html) {
           // update existing HTML Page Entry
-          await (await openapi).general_updateCmsHtml(nav.html, { content: inputToUpdate });
+          await (await openapi).general_updateCmsHtml(nav.html, { content: input });
           linkUpdated.html = nav.html;
         } else {
           // create new HTML Page Entry and save UUID
-          await (await openapi).general_createCmsHtml(null, { content: inputToUpdate })
-            .then((rsp) => { linkUpdated.html = rsp.data.id; })
+          await (await openapi).general_createCmsHtml(null, { content: input })
+            .then((rsp) => {
+              linkUpdated.html = rsp.data.id;
+            })
             .catch((err) => {
               this.$refs.navEditDialog.setErrorMessage(err);
               throw (err);
             });
         }
       }
-      // Update External Link when needed
-      if (linkUpdated.linkType === 'link') {
-        linkUpdated.link = this.linkInput;
-      }
       // find correct object in array and replace it with newly updated
       const index = this.links.findIndex((l) => l.title === nav.title);
       if (index > -1) {
         this.links.splice(index, 1, linkUpdated);
       } else {
-        this.$refs.navEditDialog.setErrorMessage('Couldnt find index of nav object to update');
+        this.$refs.navEditDialog.setErrorMessage(this.$t('_navigation.cantFindLink'));
         return;
       }
       // send updated link to server

@@ -121,7 +121,7 @@ export default {
   imageURLField: {
     type: 'string',
     title: i18n.t('imageURL'),
-    pattern: '^https://.+$',
+    pattern: '^https?://.+$',
   },
   propertiesSelector: {
     type: 'array',

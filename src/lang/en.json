@@ -273,12 +273,20 @@
       "removedLink": "Navigation link deleted.",
       "editedLink": "Navigation link edited."
     },
-    "title": "Title",
+    "linkTitle": "Title",
     "enabled": "Enabled",
     "type": "Type",
     "htmlContent": "HTML Content",
     "externalLink": "External Link",
-    "link": "Link"
+    "link": "Link",
+    "title": "Navigation",
+    "addNavLink": "Add Navigation Link",
+    "editNavLink": "Edit Navigation Link",
+    "titleAlreadyUsed": "Title already used!",
+    "noHtmlGiven": "Please input some html!",
+    "deleteDefaultLink": "Can't delete default link",
+    "cantFindLink": "Couldn't find index of navigation link to update",
+    "bothHtmlInputsUsed": "Do not use both HTML inputs"
   },
   "_log": {
     "type": {
