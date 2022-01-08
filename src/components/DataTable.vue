@@ -97,5 +97,10 @@ export default {
       return [];
     },
   },
+  watch: {
+    searchModel() {
+      this.$emit('update:search', this.searchModel);
+    },
+  },
 };
 </script>
