@@ -1,6 +1,6 @@
 <template>
   <DataTable
-    :externalSearch="searchBar"
+    :externalSearch="showSearch"
     :server-items-length="totalItems"
     :items-per-page.sync="itemsPerPage"
     :page.sync="page"
@@ -47,7 +47,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    searchBar: {
+    showSearch: {
       type: Boolean,
       default: true,
     },

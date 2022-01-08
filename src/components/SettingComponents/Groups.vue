@@ -71,8 +71,9 @@
 
     <Dialog ref="showMemberDialog"
             icon="mdi-account-multiple"
-            :title="`${$t('_membership.labels.activeMemberships')}:  ${memberGroup.name}`">
-      <PaginatedDataTable :items="groupMembersData.items" :headers="groupMemberHeaders"
+            :title="`${$t('_membership.labels.activeMemberships')}:
+              ${memberGroup ? memberGroup : ''}`">
+      <PaginatedDataTable :items="groupMembers" :headers="groupMemberHeaders"
                  ref="memberTable"
                  :totalItems="totalItems"
                  @reload="fetchGroupMembers"
@@ -150,7 +151,6 @@ export default {
   data() {
     return {
       groups: [],
-      tab: null,
       headers: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('settings.permissionLevel'), value: 'permission_level' },
@@ -170,8 +170,8 @@ export default {
         },
       ],
       groupFormSchema: GroupForm,
-      memberGroup: {},
-      groupMembersData: [],
+      memberGroup: null,
+      groupMembers: null,
       totalItems: 0,
       advancedProps: ['server_group'],
     };
@@ -275,7 +275,7 @@ export default {
     },
     openShowMemberDialog(item) {
       this.memberGroup = item;
-      this.groupMembers = [];
+      this.groupMembers = null;
       this.$refs.showMemberDialog.show();
       this.fetchGroupMembers();
     },
@@ -285,7 +285,7 @@ export default {
         ...(queryParams != null ? queryParams : this.$refs.memberTable.getQueryParameters()),
       })
         .then((rsp) => {
-          this.groupMembersData = rsp.data;
+          this.groupMembers = rsp.data.items;
           this.totalItems = rsp.data.total;
         });
     },

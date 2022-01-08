@@ -14,7 +14,7 @@
         </v-btn>
       </v-fade-transition>
       <PaginatedDataTable
-        :search-bar="false"
+        :show-search="false"
         ref="notificationTable"
         class="mt-4"
         :headers="headers"
@@ -144,7 +144,7 @@ export default {
     return {
       selectedCat: [],
       newMessages: null,
-      notifications: [],
+      notifications: null,
       totalItems: 0,
       categories: [],
       showOnlyReadItems: false,

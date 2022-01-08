@@ -94,9 +94,8 @@ export default {
     return {
       expanded: [],
       selectedCat: [],
-      itemsPerPage: 25,
-      logs: [],
-      totalItems: 20,
+      logs: null,
+      totalItems: 0,
       categories: [],
       headers: [
         {
@@ -108,9 +107,6 @@ export default {
           text: this.$t('message'), value: 'message', sortable: false, width: '60%',
         },
       ],
-      state: {
-        page: 1,
-      },
     };
   },
   mounted() {
@@ -126,8 +122,6 @@ export default {
     async fetchData(queryParams = null) {
       this.logs = null;
       (await openapi).log_getLog({
-        size: this.itemsPerPage,
-        page: this.state.page,
         category: this.selectedCat,
         ...(queryParams != null ? queryParams : this.$refs.logTable.getQueryParameters()),
       })
