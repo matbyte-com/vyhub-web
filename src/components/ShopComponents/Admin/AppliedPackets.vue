@@ -1,17 +1,13 @@
 <template>
     <div>
-      <DataTable
+      <PaginatedDataTable
+        ref="packetTable"
+        :totalItems="totalItems"
         :headers="headers"
         :items="appliedPackets"
-        :external-search="true"
-        @update:page="newPage" @update:sort-by="newOrderBy"
-        @update:sort-desc="newSortDesc"
-        :footer-props="{
-                     'disable-items-per-page': true,
-                   }"
-        @search="newSearch"
-        :server-items-length.sync="totalItems"
-        :items-per-page.sync="itemsPerPage">
+        default-sort-by="active"
+        :default-sort-desc="true"
+        @reload="fetchData">
         <template v-slot:header>
           <v-row>
             <v-col class="d-flex align-center">
@@ -69,7 +65,7 @@
             </v-btn>
           </div>
         </template>
-      </DataTable>
+      </PaginatedDataTable>
       <DialogForm
         ref="editAppliedPacketDialog"
         :form-schema="editFormSchema"
@@ -84,22 +80,22 @@
 </template>
 
 <script>
-import DataTable from '../../DataTable.vue';
 import UserLink from '../../UserLink.vue';
 import openapi from '../../../api/openapi';
 import BoolIcon from '../../BoolIcon.vue';
 import AppliedPacketEditForm from '../../../forms/AppliedPacketEditForm';
 import DialogForm from '../../DialogForm.vue';
 import DeleteConfirmationDialog from '../../DeleteConfirmationDialog.vue';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 
 export default {
   name: 'UserPackets',
   components: {
+    PaginatedDataTable,
     DeleteConfirmationDialog,
     DialogForm,
     BoolIcon,
     UserLink,
-    DataTable,
   },
   data() {
     return {
@@ -115,26 +111,17 @@ export default {
       ],
       appliedPackets: null,
       editFormSchema: AppliedPacketEditForm,
-      itemsPerPage: 10,
-      page: 1,
-      search: '',
-      sort_by: 'begin',
-      sortDesc: true,
       active_filter: [],
-      totalItems: 20,
+      totalItems: 0,
       availableStatus: [],
     };
   },
   methods: {
-    async fetchData(page) {
+    async fetchData(queryParams = null) {
       const api = await openapi;
 
       const params = {
-        size: this.itemsPerPage,
-        page,
-        query: this.search,
-        sort_by: this.orderBy,
-        sort_desc: this.sortDesc,
+        ...(queryParams != null ? queryParams : this.$refs.packetTable.getQueryParameters()),
       };
 
       if (this.active_filter != null) {
@@ -184,38 +171,13 @@ export default {
         this.$refs.deleteAppliedPacketDialog.setErrorMessage(err.response.data.detail);
       });
     },
-    newSearch(str) {
-      this.search = str;
-      this.fetchData(1);
-    },
-    newOrderBy(str) {
-      if (str[0] !== this.orderBy && str[0] !== undefined) {
-        // eslint-disable-next-line prefer-destructuring
-        this.orderBy = str[0];
-        this.fetchData(1);
-      }
-    },
-    newSortDesc(val) {
-      if (val[0] !== this.sortDesc && val[0] !== undefined) {
-        // eslint-disable-next-line prefer-destructuring
-        this.sortDesc = val[0];
-        this.fetchData(1);
-      }
-    },
-    newPage(page) {
-      this.page = page;
-      this.fetchData(page);
-    },
   },
   beforeMount() {
-    this.fetchData(1);
+    this.fetchData();
   },
   watch: {
-    $route() {
-      // this.fetchData(1);
-    },
     active_filter() {
-      this.fetchData(1);
+      this.fetchData();
     },
   },
 };

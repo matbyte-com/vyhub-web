@@ -1,17 +1,13 @@
 <template>
     <div>
-      <DataTable
+      <PaginatedDataTable
+        ref="purchaseTable"
         :headers="headers"
         :items="purchases"
-        :external-search="true"
-        @update:page="newPage" @update:sort-by="newOrderBy"
-        @update:sort-desc="newSortDesc"
-        :footer-props="{
-                     'disable-items-per-page': true,
-                   }"
-        @search="newSearch"
-        :server-items-length.sync="totalItems"
-        :items-per-page.sync="itemsPerPage">
+        :total-items="totalItems"
+        default-sort-by="date"
+        :default-sort-desc="true"
+        @reload="fetchData">
         <template v-slot:header>
           <v-row>
             <v-col class="d-flex align-center">
@@ -83,7 +79,7 @@
             {{ $t('details') }}
           </v-btn>
         </template>
-      </DataTable>
+      </PaginatedDataTable>
       <Dialog
         ref="purchaseDetailDialog"
         icon="mdi-currency-usd"
@@ -312,21 +308,21 @@
 </template>
 
 <script>
-import DataTable from '../../DataTable.vue';
 import openapi from '../../../api/openapi';
 import UserLink from '../../UserLink.vue';
 import Dialog from '../../Dialog.vue';
 import PurchaseStatusChip from '../PurchaseStatusChip.vue';
 import ConfirmationDialog from '../../ConfirmationDialog.vue';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 
 export default {
   name: 'AllPurchases',
   components: {
+    PaginatedDataTable,
     ConfirmationDialog,
     PurchaseStatusChip,
     Dialog,
     UserLink,
-    DataTable,
   },
   data() {
     return {
@@ -343,10 +339,7 @@ export default {
         },
       ],
       purchases: null,
-      page: 1,
-      search: '',
-      itemsPerPage: 10,
-      totalItems: 20,
+      totalItems: 0,
       orderBy: 'date',
       sortDesc: true,
       selectedStatus: [],
@@ -354,16 +347,12 @@ export default {
     };
   },
   methods: {
-    async fetchData(page) {
+    async fetchData(queryParams = null) {
       const api = await openapi;
 
       api.shop_getPurchases({
-        size: this.itemsPerPage,
-        page,
-        query: this.search,
-        sort_by: this.orderBy,
-        sort_desc: this.sortDesc,
-        status: this.selectedStatus,
+        statuses: this.selectedStatus,
+        ...(queryParams != null ? queryParams : this.$refs.purchaseTable.getQueryParameters()),
       }).then((rsp) => {
         this.purchases = rsp.data.items;
         this.totalItems = rsp.data.total;
@@ -475,41 +464,14 @@ export default {
           this.$refs.confirmSubCancelDialog.setErrorMessage(err.response.data);
         });
     },
-    newSearch(str) {
-      this.search = str;
-      this.fetchData(1);
-    },
-    newOrderBy(str) {
-      if (str[0] !== this.orderBy && str[0] !== undefined) {
-        // eslint-disable-next-line prefer-destructuring
-        this.orderBy = str[0];
-        this.fetchData(1);
-      }
-    },
-    newSortDesc(val) {
-      if (val[0] !== this.sortDesc && val[0] !== undefined) {
-        // eslint-disable-next-line prefer-destructuring
-        this.sortDesc = val[0];
-        this.fetchData(1);
-      }
-    },
     newStatus(status) {
       this.selectedStatus = status;
-      this.fetchData(1);
-    },
-    newPage(page) {
-      this.page = page;
-      this.fetchData(page);
+      this.fetchData();
     },
   },
   beforeMount() {
-    this.fetchData(this.page);
+    this.fetchData();
     this.queryAvailableStatus();
-  },
-  watch: {
-    $route() {
-      // this.fetchData(1);
-    },
   },
   computed: {
     purchaseDetailShown: {
