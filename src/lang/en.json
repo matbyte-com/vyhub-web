@@ -754,6 +754,29 @@
     "editTeam": "Edit Team",
     "teamGroupsSuccessfullyEdited": "Team groups successfully edited."
   },
+  "_import": {
+    "labels": {
+    },
+    "messages": {
+      "description": "In this section, you can import data from other systems."
+    },
+    "gextension": {
+      "labels": {
+        "basicData": "Basic Data",
+        "url": "GExtension URL",
+        "gexPacket": "GExtension Packet",
+        "urlDescription": "URL to your GExtension site without index.php. Example: https://mycommunity.com/gextension/",
+        "apiKeyDescription": "Copy your API key from the GExtension settings.",
+        "packetTranslations": "Packet Translations",
+        "excludedRewards": "Excluded Rewards"
+      },
+      "messages": {
+        "importDescription": "VyHub is now ready to import your GExtension data. Make sure to import everything in the correct order and wait until one task is finished before starting the next. This may take several minutes, depending on how many users need to be imported. You can use the GExtension cleanup feature (in the update section) before to improve speed.",
+        "packetsDataDescription": "Select which VyHub packet should be given to owners of GExtension packets. It is also possible to exclude some rewards. If no GExtension packets are selectable, make sure that your URL and API key are correct.",
+        "basicDataDescription": "Insert the URL to your GExtension site (without index.php). Make sure to use GExtension version 2.7.7 or newer."
+      }
+    }
+  },
   "update": "Update",
   "recurring": "Recurring",
   "revenue": "Revenue",
@@ -789,6 +812,7 @@
   "gateway": "Gateway",
   "open": "Open",
   "log": "Log",
+  "apiKey": "API Key",
   "cancelled": "Cancelled",
   "finished": "Finished",
   "search": "Search",
@@ -847,6 +871,7 @@
   "bundle": "Bundle",
   "actions": "Actions",
   "title": "Title",
+  "import": "Import",
   "subtitle": "Subtitle",
   "summary": "Summary",
   "expired": "Expired",

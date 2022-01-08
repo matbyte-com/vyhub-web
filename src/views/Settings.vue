@@ -181,6 +181,13 @@ export default {
           disabled: true,
         },
         {
+          name: 'import',
+          icon: 'mdi-database-import',
+          component: 'Import',
+          reqProp: 'admin',
+          title: this.$t('import'),
+        },
+        {
           name: 'api',
           icon: 'mdi-code-json',
           component: 'API',

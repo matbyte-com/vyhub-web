@@ -17,6 +17,7 @@ import {
   VTimePicker,
   VDatePicker,
   VTabs,
+  VStepper,
 } from 'vuetify/lib';
 import minifyTheme from 'minify-css-string';
 import '@mdi/font/css/materialdesignicons.css';
@@ -39,6 +40,7 @@ Vue.component('v-slider', VSlider);
 Vue.component('v-date-picker', VDatePicker);
 Vue.component('v-time-picker', VTimePicker);
 Vue.component('v-tabs', VTabs);
+Vue.component('v-stepper', VStepper);
 
 export default new Vuetify({
   icons: {

@@ -73,7 +73,7 @@ export default {
   packetSelectField: {
     type: 'object',
     title: i18n.t('packet'),
-    'x-fromUrl': `${API_URL}/packet/`,
+    'x-fromUrl': `${API_URL}/packet/?query={q}`,
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
