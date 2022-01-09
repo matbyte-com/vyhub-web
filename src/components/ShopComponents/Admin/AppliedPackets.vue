@@ -5,7 +5,7 @@
         :totalItems="totalItems"
         :headers="headers"
         :items="appliedPackets"
-        default-sort-by="active"
+        default-sort-by="timerange"
         :default-sort-desc="true"
         @reload="fetchData">
         <template v-slot:header>
