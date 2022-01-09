@@ -35,7 +35,7 @@
                           :value="((progress[table].total) ?
                         ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
-                          striped
+                          :striped="progress[table].more === true"
                         >
                           <strong v-if="progress[table].imported != null">
                             {{ progress[table].imported }}
