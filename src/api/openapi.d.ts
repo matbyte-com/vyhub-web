@@ -933,7 +933,48 @@ declare namespace Components {
              * Api Key
              */
             api_key: string;
+            /**
+             * Packet Map
+             */
+            packet_map: {
+                [name: string]: string; // uuid
+            };
+            /**
+             * Ignored Reward Ids
+             */
+            ignored_reward_ids: string /* uuid */[];
+            table: /**
+             * GExtensionTable
+             * An enumeration.
+             */
+            GExtensionTable;
+            /**
+             * Page
+             */
+            page?: number;
         }
+        /**
+         * GExtensionPacketModel
+         */
+        export interface GExtensionPacketModel {
+            /**
+             * Id
+             */
+            id: number;
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id: number;
+        }
+        /**
+         * GExtensionTable
+         * An enumeration.
+         */
+        export type GExtensionTable = "group" | "serverbundle" | "user" | "user_attribute" | "ban" | "warning" | "applied_packet";
         /**
          * GeneralConfigModel
          */
@@ -2319,7 +2360,16 @@ declare namespace Components {
          * PaymentGatewayType
          * An enumeration.
          */
-        export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "CREDITS";
+        export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "PAYSAFECARD_MANUAL" | "CREDITS";
+        /**
+         * PinAddModel
+         */
+        export interface PinAddModel {
+            /**
+             * Pins
+             */
+            pins: string[];
+        }
         /**
          * PostModel
          */
@@ -4709,9 +4759,9 @@ declare namespace Paths {
              */
             export type Page = number;
             /**
-             * Search
+             * Query
              */
-            export type Search = any;
+            export type Query = string;
             /**
              * Size
              */
@@ -4730,7 +4780,7 @@ declare namespace Paths {
             Parameters.Uuid;
         }
         export interface QueryParameters {
-            search?: /* Search */ Parameters.Search;
+            query?: /* Query */ Parameters.Query;
             page?: /* Page */ Parameters.Page;
             size?: /* Size */ Parameters.Size;
         }
@@ -4743,14 +4793,14 @@ declare namespace Paths {
         namespace Parameters {
             /**
              * Is Team
-             * Returns all group which are marked as part of the team
+             * Returns all groups which are marked as part of the team
              */
             export type IsTeam = boolean;
         }
         export interface QueryParameters {
             is_team?: /**
              * Is Team
-             * Returns all group which are marked as part of the team
+             * Returns all groups which are marked as part of the team
              */
             Parameters.IsTeam;
         }
@@ -4759,6 +4809,29 @@ declare namespace Paths {
              * Response Get Groups Group  Get
              */
             export type $200 = /* GroupModel */ Components.Schemas.GroupModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ImportGetGextensionPackets {
+        namespace Parameters {
+            /**
+             * Api Key
+             */
+            export type ApiKey = string;
+            /**
+             * Url
+             */
+            export type Url = string; // uri
+        }
+        export interface QueryParameters {
+            url: /* Url */ Parameters.Url /* uri */;
+            api_key: /* Api Key */ Parameters.ApiKey;
+        }
+        namespace Responses {
+            /**
+             * Response Get Gextension Packets Import Gextension Packet Get
+             */
+            export type $200 = /* GExtensionPacketModel */ Components.Schemas.GExtensionPacketModel[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -4789,12 +4862,17 @@ declare namespace Paths {
              */
             export type Page = number;
             /**
+             * Query
+             */
+            export type Query = string;
+            /**
              * Size
              */
             export type Size = number;
         }
         export interface QueryParameters {
             category?: /* Category */ Parameters.Category;
+            query?: /* Query */ Parameters.Query;
             page?: /* Page */ Parameters.Page;
             size?: /* Size */ Parameters.Size;
         }
@@ -4883,10 +4961,6 @@ declare namespace Paths {
              */
             export type Categories = string[];
             /**
-             * Descending
-             */
-            export type Descending = boolean;
-            /**
              * Hide Read
              */
             export type HideRead = boolean;
@@ -4898,9 +4972,18 @@ declare namespace Paths {
              * Size
              */
             export type Size = number;
+            /**
+             * Sort By
+             */
+            export type SortBy = string;
+            /**
+             * Sort Desc
+             */
+            export type SortDesc = boolean;
         }
         export interface QueryParameters {
-            descending?: /* Descending */ Parameters.Descending;
+            sort_by?: /* Sort By */ Parameters.SortBy;
+            sort_desc?: /* Sort Desc */ Parameters.SortDesc;
             hide_read?: /* Hide Read */ Parameters.HideRead;
             categories?: /* Categories */ Parameters.Categories;
             page?: /* Page */ Parameters.Page;
@@ -5341,6 +5424,11 @@ declare namespace Paths {
              * Filter by category
              */
             export type CategoryId = string; // uuid
+            /**
+             * Query
+             * Filter
+             */
+            export type Query = string;
         }
         export interface QueryParameters {
             category_id?: /**
@@ -5348,6 +5436,11 @@ declare namespace Paths {
              * Filter by category
              */
             Parameters.CategoryId /* uuid */;
+            query?: /**
+             * Query
+             * Filter
+             */
+            Parameters.Query;
         }
         namespace Responses {
             /**
@@ -5377,6 +5470,27 @@ declare namespace Paths {
              * Response Get Rewards Packet Reward  Get
              */
             export type $200 = /* RewardModel */ Components.Schemas.RewardModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PaymentGatewayAddPaysafecardPin {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* PinAddModel */ Components.Schemas.PinAddModel;
+        namespace Responses {
+            export type $200 = any;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -6160,6 +6274,26 @@ declare namespace Paths {
             export type $200 = /* CurrencyModel */ Components.Schemas.CurrencyModel[];
         }
     }
+    namespace ShopGetDebit {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* DebitModel */ Components.Schemas.DebitModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace ShopGetDebitInvoice {
         namespace Parameters {
             /**
@@ -6216,6 +6350,14 @@ declare namespace Paths {
              */
             export type $200 = /* DebitModelStatistic */ Components.Schemas.DebitModelStatistic[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopGetDebits {
+        namespace Responses {
+            /**
+             * Response Get Debits Shop Debit Get
+             */
+            export type $200 = /* DebitModel */ Components.Schemas.DebitModel[];
         }
     }
     namespace ShopGetDiscount {
@@ -8404,6 +8546,22 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200>
   /**
+   * shop_getDebits - Get Debits
+   */
+  'shop_getDebits'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetDebits.Responses.$200>
+  /**
+   * shop_getDebit - Get Debit
+   */
+  'shop_getDebit'(
+    parameters?: Parameters<Paths.ShopGetDebit.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetDebit.Responses.$200>
+  /**
    * shop_getPurchaseStatistic - Get Purchase Statistic
    */
   'shop_getPurchaseStatistic'(
@@ -8932,6 +9090,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200>
   /**
+   * import_getGextensionPackets - Get Gextension Packets
+   */
+  'import_getGextensionPackets'(
+    parameters?: Parameters<Paths.ImportGetGextensionPackets.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ImportGetGextensionPackets.Responses.$200>
+  /**
    * import_importGextension - Import Gextension
    */
   'import_importGextension'(
@@ -8939,6 +9105,16 @@ export interface OperationMethods {
     data?: Paths.ImportImportGextension.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ImportImportGextension.Responses.$200>
+  /**
+   * payment-gateway_addPaysafecardPin - Add Paysafecard Pin
+   * 
+   * This saves the users paysafecard pins to the specified debit
+   */
+  'payment-gateway_addPaysafecardPin'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<any>
 }
 
 export interface PathsDictionary {
@@ -10112,6 +10288,26 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDebitStatistic.Responses.$200>
   }
+  ['/shop/debit']: {
+    /**
+     * shop_getDebits - Get Debits
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetDebits.Responses.$200>
+  }
+  ['/shop/debit/{uuid}']: {
+    /**
+     * shop_getDebit - Get Debit
+     */
+    'get'(
+      parameters?: Parameters<Paths.ShopGetDebit.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetDebit.Responses.$200>
+  }
   ['/shop/purchase/statistic']: {
     /**
      * shop_getPurchaseStatistic - Get Purchase Statistic
@@ -10728,6 +10924,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200>
   }
+  ['/import/gextension/packet']: {
+    /**
+     * import_getGextensionPackets - Get Gextension Packets
+     */
+    'get'(
+      parameters?: Parameters<Paths.ImportGetGextensionPackets.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ImportGetGextensionPackets.Responses.$200>
+  }
   ['/import/gextension']: {
     /**
      * import_importGextension - Import Gextension
@@ -10737,6 +10943,18 @@ export interface PathsDictionary {
       data?: Paths.ImportImportGextension.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ImportImportGextension.Responses.$200>
+  }
+  ['/payment-gateway/paysafecard/{uuid}/start']: {
+    /**
+     * payment-gateway_addPaysafecardPin - Add Paysafecard Pin
+     * 
+     * This saves the users paysafecard pins to the specified debit
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<any>
   }
 }
 

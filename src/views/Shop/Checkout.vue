@@ -42,6 +42,24 @@
                       </v-btn>
                     </div>
                   </div>
+                  <div v-if="debit.payment_gateway.type === 'PAYSAFECARD_MANUAL'">
+                    <div class="body-1">
+                      {{ $t('_shop.messages.confirmPaysafecardPayment') }}
+                      {{ debit.amount_total }}
+                    </div>
+                    <div class="mt-5">
+                      <GenForm ref="paysafecardForm" :form-schema="paysafecardPinSchema"
+                               @submit="confirmPaysafecardPayment" @cancel="cancelPayment"/>
+                      <!--<v-btn color="success" @click="confirmCreditPayment">
+                        <v-icon left>mdi-check</v-icon>
+                        {{ $t('confirm') }}
+                      </v-btn>
+                      <v-btn class="ml-1" @click="cancelPayment">
+                        <v-icon left>mdi-close</v-icon>
+                        {{ $t('cancel') }}
+                      </v-btn>-->
+                    </div>
+                  </div>
                   <div v-else>
                     <div>
                       <v-icon color="info" size="80" v-if="debit.status === 'STARTED'">
@@ -99,9 +117,12 @@
 <script>
 import openapi from '../../api/openapi';
 import ShopService from '../../services/ShopService';
+import GenForm from '@/components/GenForm.vue';
+import CheckoutPaysafecardPinForm from '@/forms/CheckoutPaysafecardPinForm';
 
 export default {
   name: 'Checkout',
+  components: { GenForm },
   data() {
     return {
       debitId: null,
@@ -109,6 +130,7 @@ export default {
       debit: null,
       loading: true,
       errorMessage: null,
+      paysafecardPinSchema: CheckoutPaysafecardPinForm,
     };
   },
   beforeMount() {
@@ -159,6 +181,13 @@ export default {
         } else {
           this.errorMessage = err.response.data.detail.msg;
         }
+      });
+    },
+    async confirmPaysafecardPayment() {
+      const data = this.$refs.paysafecardForm.getData();
+      data.pins = [data.pins];
+      (await openapi)['payment-gateway_addPaysafecardPin']({ debit_id: this.debit.id }, data).then((rsp) => {
+        console.log('nice');
       });
     },
     async cancelPayment() {

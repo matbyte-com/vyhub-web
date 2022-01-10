@@ -64,6 +64,13 @@ export default {
           title: this.$t('discounts'),
         },
         {
+          name: 'paysafecard',
+          icon: 'mdi-lock-reset',
+          component: 'Paysafecard',
+          reqProp: 'paysafecard_edit',
+          title: this.$t('paysafecard'),
+        },
+        {
           name: 'report',
           icon: 'mdi-file-table',
           component: 'Report',

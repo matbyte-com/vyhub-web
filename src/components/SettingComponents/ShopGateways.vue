@@ -132,6 +132,10 @@ export default {
           label: this.$t('_gateway.labels.paysafecard'),
           icon: 'mdi-lock',
         },
+        PAYSAFECARD_MANUAL: {
+          label: this.$t('_gateway.labels.paysafecardManual'),
+          icon: 'mdi-lock-reset',
+        },
       },
       noAttributeKeys: ['name', 'subtitle', 'type', 'enabled'],
       selectedGateway: null,
