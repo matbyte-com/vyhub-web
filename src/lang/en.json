@@ -771,9 +771,9 @@
         "excludedRewards": "Excluded Rewards"
       },
       "messages": {
-        "importDescription": "VyHub is now ready to import your GExtension data. Make sure to import everything in the correct order and wait until one task is finished before starting the next. This may take several minutes, depending on how many users need to be imported. You can use the GExtension cleanup feature (in the update section) before to improve speed.",
+        "importDescription": "VyHub is now ready to import your GExtension data. Make sure to import everything in the correct order and wait until one task is finished before starting the next. This may take several minutes, depending on how many users need to be imported.",
         "packetsDataDescription": "Select which VyHub packet should be given to owners of GExtension packets. It is also possible to exclude some rewards. If no GExtension packets are selectable, make sure that your URL and API key are correct.",
-        "basicDataDescription": "Insert the URL to your GExtension site (without index.php). Make sure to use GExtension version 2.7.7 or newer."
+        "basicDataDescription": "Insert the URL to your GExtension site (without index.php). Make sure to use GExtension version 2.7.8 or newer."
       }
     }
   },
