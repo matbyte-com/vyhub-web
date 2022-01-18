@@ -491,7 +491,8 @@
       "creditsSpent": "Credits Spent",
       "revenueByCountry": "Revenue by Country",
       "editAppliedPacket": "Edit Applied Packet",
-      "cancelSubscription": "Cancel Subscription"
+      "cancelSubscription": "Cancel Subscription",
+      "addAppliedPacket": "Add Applied Packet"
     },
     "messages": {
       "cancelSubscriptionSuccess": "Subscription successfully cancelled.",
@@ -501,6 +502,7 @@
       "unrevokeSuccess": "Purchase successfully unrevoked.",
       "editAppliedPacketSuccess": "Applied packet successfully edited.",
       "deleteAppliedPacketSuccess": "Applied packet successfully deleted.",
+      "createAppliedPacketSuccess": "Applied packet successfully created.",
       "refundConfirm": "Are you sure that you want to refund this purchase?",
       "cancelSubscriptionConfirm": "Are you sure that you want to cancel this subscription?"
     }

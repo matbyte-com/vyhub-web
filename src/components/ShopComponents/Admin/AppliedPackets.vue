@@ -32,6 +32,11 @@
                 <a class="ma-1" @click="active_filter = null;">
                   {{ $t('reset') }}</a>
               </v-menu>
+              <v-spacer />
+              <v-btn outlined color="success" @click="$refs.addAppliedPacketDialog.show()">
+                <v-icon left>mdi-plus</v-icon>
+                {{ $t('_purchases.labels.addAppliedPacket') }}
+              </v-btn>
             </v-col>
           </v-row>
         </template>
@@ -76,6 +81,12 @@
       <DeleteConfirmationDialog
         ref="deleteAppliedPacketDialog"
         @submit="deleteAppliedPacket"/>
+      <DialogForm
+        ref="addAppliedPacketDialog"
+        :form-schema="addFormSchema"
+        icon="mdi-gift-open"
+        @submit="createAppliedPacket"
+        :title="$t('_purchases.labels.addAppliedPacket')" />
     </div>
 </template>
 
@@ -87,6 +98,7 @@ import AppliedPacketEditForm from '../../../forms/AppliedPacketEditForm';
 import DialogForm from '../../DialogForm.vue';
 import DeleteConfirmationDialog from '../../DeleteConfirmationDialog.vue';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
 
 export default {
   name: 'UserPackets',
@@ -111,6 +123,7 @@ export default {
       ],
       appliedPackets: null,
       editFormSchema: AppliedPacketEditForm,
+      addFormSchema: UserAppliedPacketAddForm,
       active_filter: [],
       totalItems: 0,
       availableStatus: [],
@@ -169,6 +182,21 @@ export default {
       }).catch((err) => {
         console.log(err);
         this.$refs.deleteAppliedPacketDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
+    async createAppliedPacket() {
+      const data = this.$refs.addAppliedPacketDialog.getData();
+      data.user_id = data.user.id;
+      data.packet_id = data.packet.id;
+      (await openapi).packet_createAppliedPacket(null, data).then(() => {
+        this.$refs.addAppliedPacketDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_purchases.messages.createAppliedPacketSuccess'),
+          type: 'success',
+        });
+        this.fetchData();
+      }).catch((err) => {
+        this.$refs.addAppliedPacketDialog.setErrorMessage(err.response.data.detail);
       });
     },
   },
