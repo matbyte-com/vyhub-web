@@ -33,7 +33,8 @@
                   {{ $t('reset') }}</a>
               </v-menu>
               <v-spacer />
-              <v-btn outlined color="success" @click="$refs.addAppliedPacketDialog.show()">
+              <v-btn outlined color="success" @click="$refs.addAppliedPacketDialog.show()"
+                     v-if="$checkProp('applied_packet_edit')">
                 <v-icon left>mdi-plus</v-icon>
                 {{ $t('_purchases.labels.addAppliedPacket') }}
               </v-btn>
