@@ -32,14 +32,15 @@
                 <a class="ma-1" @click="active_filter = null;">
                   {{ $t('reset') }}</a>
               </v-menu>
-              <v-spacer />
-              <v-btn outlined color="success" @click="$refs.addAppliedPacketDialog.show()"
-                     v-if="$checkProp('applied_packet_edit')">
-                <v-icon left>mdi-plus</v-icon>
-                {{ $t('_purchases.labels.addAppliedPacket') }}
-              </v-btn>
             </v-col>
           </v-row>
+        </template>
+        <template v-slot:footer-right>
+          <v-btn outlined color="success" @click="$refs.addAppliedPacketDialog.show()"
+                 v-if="$checkProp('applied_packet_edit')">
+            <v-icon left>mdi-plus</v-icon>
+            {{ $t('_purchases.labels.addAppliedPacket') }}
+          </v-btn>
         </template>
         <template v-slot:item.packet_title="{ item }">
           {{ item.packet.title }}
