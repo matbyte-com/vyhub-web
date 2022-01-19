@@ -72,7 +72,7 @@
     <Dialog ref="showMemberDialog"
             icon="mdi-account-multiple"
             :title="`${$t('_membership.labels.activeMemberships')}:
-              ${memberGroup ? memberGroup : ''}`">
+              ${memberGroup ? memberGroup.name : ''}`">
       <PaginatedDataTable :items="groupMembers" :headers="groupMemberHeaders"
                  ref="memberTable"
                  :totalItems="totalItems"
