@@ -99,7 +99,7 @@ export default {
           name: 'groups',
           icon: 'mdi-account-multiple',
           component: 'Groups',
-          reqProp: 'group_show',
+          reqProp: 'group_edit',
           title: this.$t('groups'),
         },
         {
