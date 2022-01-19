@@ -1,13 +1,13 @@
 <template>
   <v-card class="flex-grow-1">
     <v-card-title>
-      <v-icon class="mr-2">mdi-account-group</v-icon>
+      <v-icon class="mr-2">mdi-alert</v-icon>
       {{ $t('_dashboard.labels.bansAndWarnings') }}
     </v-card-title>
     <v-card-text>
       <v-row>
         <v-col>
-          <v-chip :color="(banCount ? 'error darken-2' : 'gray')"
+          <v-chip :color="(banCount ? 'error darken-2' : 'gray')" outlined
                   :to="{ name: 'Bans', query: { user_id: user.id } }">
             <v-icon left>
               mdi-account-cancel
@@ -20,7 +20,7 @@
           </v-chip>
         </v-col>
         <v-col>
-          <v-chip :color="(warningCount ? 'warning darken-2' : 'gray')"
+          <v-chip :color="(warningCount ? 'warning darken-2' : 'gray')" outlined
                   :to="{ name: 'Warnings', query: { user_id: user.id } }">
             <v-icon left>
               mdi-account-alert
