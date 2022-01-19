@@ -7,7 +7,8 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <v-chip color="primary" :to="{ name: 'Bans', query: { user_id: user.id } }">
+          <v-chip :color="(banCount ? 'error darken-2' : 'gray')"
+                  :to="{ name: 'Bans', query: { user_id: user.id } }">
             <v-icon left>
               mdi-account-cancel
             </v-icon>
@@ -19,7 +20,8 @@
           </v-chip>
         </v-col>
         <v-col>
-          <v-chip color="primary" :to="{ name: 'Warnings', query: { user_id: user.id } }">
+          <v-chip :color="(warningCount ? 'warning darken-2' : 'gray')"
+                  :to="{ name: 'Warnings', query: { user_id: user.id } }">
             <v-icon left>
               mdi-account-alert
             </v-icon>
