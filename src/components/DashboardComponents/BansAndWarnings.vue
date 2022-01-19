@@ -62,7 +62,7 @@ export default {
       (await openapi).ban_getBans({ user_id: this.user.id, size: 1 }).then((rsp) => {
         this.banCount = rsp.data.total;
       });
-      (await openapi).warning_getWarnings({ query: this.user.username, size: 1 }).then((rsp) => {
+      (await openapi).warning_getWarnings({ user_id: this.user.id, size: 1 }).then((rsp) => {
         this.warningCount = rsp.data.total;
       });
     },
