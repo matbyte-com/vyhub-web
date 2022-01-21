@@ -26,8 +26,68 @@
             <v-card flat>
               <v-card-text v-if="item === 'GExtension'">
                 <GenForm :form-schema="gextensionSchema" hide-buttons ref="gexForm">
-                  <template slot="custom-import">
-                    <div v-for="table in tables" v-bind:key="table" class="mb-3">
+                  <template slot="custom-import-1">
+                    <div v-for="table in tables1" v-bind:key="table" class="mb-3">
+                      <div class="subtitle-2">{{ table.toUpperCase() }}</div>
+                      <div class="d-flex align-center">
+                        <v-progress-linear
+                          height="25"
+                          :value="((progress[table].total) ?
+                        ((progress[table].imported / progress[table].total) * 100) : 0)"
+                          :stream="progress[table].more === true"
+                          :striped="progress[table].more === true"
+                        >
+                          <strong v-if="progress[table].imported != null">
+                            {{ progress[table].imported }}
+                            /
+                            {{ progress[table].total }}
+                          </strong>
+                          <strong v-else>
+                            ?
+                          </strong>
+                        </v-progress-linear>
+                        <v-btn color="success" small class="ml-2" @click="startImport(table)"
+                               :disabled="inProgress" v-if="currenTable !== table">
+                          {{ $t('start') }}
+                        </v-btn>
+                        <v-btn color="error" small class="ml-2" @click="cancelImport" v-else>
+                          {{ $t('cancel') }}
+                        </v-btn>
+                      </div>
+                    </div>
+                  </template>
+                  <template slot="custom-import-2">
+                    <div v-for="table in tables2" v-bind:key="table" class="mb-3">
+                      <div class="subtitle-2">{{ table.toUpperCase() }}</div>
+                      <div class="d-flex align-center">
+                        <v-progress-linear
+                          height="25"
+                          :value="((progress[table].total) ?
+                        ((progress[table].imported / progress[table].total) * 100) : 0)"
+                          :stream="progress[table].more === true"
+                          :striped="progress[table].more === true"
+                        >
+                          <strong v-if="progress[table].imported != null">
+                            {{ progress[table].imported }}
+                            /
+                            {{ progress[table].total }}
+                          </strong>
+                          <strong v-else>
+                            ?
+                          </strong>
+                        </v-progress-linear>
+                        <v-btn color="success" small class="ml-2" @click="startImport(table)"
+                               :disabled="inProgress" v-if="currenTable !== table">
+                          {{ $t('start') }}
+                        </v-btn>
+                        <v-btn color="error" small class="ml-2" @click="cancelImport" v-else>
+                          {{ $t('cancel') }}
+                        </v-btn>
+                      </div>
+                    </div>
+                  </template>
+                  <template slot="custom-import-3">
+                    <div v-for="table in tables3" v-bind:key="table" class="mb-3">
                       <div class="subtitle-2">{{ table.toUpperCase() }}</div>
                       <div class="d-flex align-center">
                         <v-progress-linear
@@ -80,13 +140,17 @@ export default {
       system: 'GExtension',
       systems: ['GExtension'],
       gextensionSchema: ImportGExtensionForm,
-      tables: [
+      tables1: [
         'group',
         'serverbundle',
         'user',
+      ],
+      tables2: [
         'user_attribute',
         'ban',
         'warning',
+      ],
+      tables3: [
         'applied_packet',
       ],
       progress: {
@@ -147,7 +211,7 @@ export default {
 
           page += 1;
         } catch (err) {
-          const e = (err.response ? err.response.data : err);
+          const e = (err.response?.data?.detail?.msg ? err.response.data.detail.msg : err);
 
           this.$refs.gexForm[0].setErrorMessage(e);
           this.cancel = true;

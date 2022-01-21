@@ -33,6 +33,26 @@ export default {
       },
     },
     {
+      title: i18n.t('_import.gextension.labels.groupServerbundleUser'),
+      description: i18n.t('_import.gextension.messages.import1Description'),
+      type: 'object',
+      properties: {
+        import_buttons_1: {
+          'x-display': 'custom-import-1',
+        },
+      },
+    },
+    {
+      title: i18n.t('_import.gextension.labels.furtherData'),
+      description: i18n.t('_import.gextension.messages.import2Description'),
+      type: 'object',
+      properties: {
+        import_buttons_2: {
+          'x-display': 'custom-import-2',
+        },
+      },
+    },
+    {
       title: i18n.t('packets'),
       description: i18n.t('_import.gextension.messages.packetsDataDescription'),
       type: 'object',
@@ -59,15 +79,8 @@ export default {
             },
           },
         },
-      },
-    },
-    {
-      title: i18n.t('import'),
-      description: i18n.t('_import.gextension.messages.importDescription'),
-      type: 'object',
-      properties: {
-        import_buttons: {
-          'x-display': 'custom-import',
+        import_buttons_3: {
+          'x-display': 'custom-import-3',
         },
       },
     },

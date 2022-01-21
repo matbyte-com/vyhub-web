@@ -766,6 +766,8 @@
       "labels": {
         "basicData": "Basic Data",
         "url": "GExtension URL",
+        "furtherData": "Further Data",
+        "groupServerbundleUser": "Groups, Serverbundles, Users",
         "gexPacket": "GExtension Packet",
         "urlDescription": "URL to your GExtension site without index.php. Example: https://mycommunity.com/gextension/",
         "apiKeyDescription": "Copy your API key from the GExtension settings.",
@@ -773,8 +775,9 @@
         "excludedRewards": "Excluded Rewards"
       },
       "messages": {
-        "importDescription": "VyHub is now ready to import your GExtension data. Make sure to import everything in the correct order and wait until one task is finished before starting the next. This may take several minutes, depending on how many users need to be imported.",
-        "packetsDataDescription": "Select which VyHub packet should be given to owners of GExtension packets. It is also possible to exclude some rewards. If no GExtension packets are selectable, make sure that your URL and API key are correct.",
+        "import1Description": "VyHub is now ready to import the first objects: Groups, Serverbundles and Users. Make sure to start the import process in this order.",
+        "import2Description": "You can now import the additional objects below. The order is not relevant.",
+        "packetsDataDescription": "Select which VyHub packet should be given to owners of GExtension packets. It is also possible to exclude some rewards. If no GExtension packets are selectable, make sure that your URL and API key are correct. Start the packet import afterwards.",
         "basicDataDescription": "Insert the URL to your GExtension site (without index.php). Make sure to use GExtension version 2.7.8 or newer."
       }
     }
