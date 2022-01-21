@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/shop">{{ $t('shop') }}</SettingTitle>
+    <SettingTitle docPath="/guide/shop">{{ $t('shop') }}</SettingTitle>
 
     <v-row>
       <v-col sm="12" md="6">

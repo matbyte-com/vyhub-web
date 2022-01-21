@@ -19,6 +19,9 @@
 </template>
 
 <script>
+import semver from 'semver';
+import { version } from '../../../package.json';
+
 export default {
   name: 'SettingTitle',
   props: {
@@ -26,9 +29,19 @@ export default {
       type: Boolean,
       default: true,
     },
-    docLink: {
+    docPath: {
       type: String,
       default: '',
+    },
+  },
+  computed: {
+    minorVer() {
+      const ver = semver.coerce(version);
+
+      return `${ver.major}.${ver.minor}`;
+    },
+    docLink() {
+      return `https://docs.vyhub.net/${this.minorVer}${this.docPath}`;
     },
   },
 };

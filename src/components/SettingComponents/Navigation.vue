@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/navigation">
+    <SettingTitle docPath="/guide/navigation">
       {{ $t('_navigation.title') }}
     </SettingTitle>
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"

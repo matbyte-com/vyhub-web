@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/group">
+    <SettingTitle docPath="/guide/group">
       {{ $t('groups') }}
     </SettingTitle>
     <div class="mt-2">

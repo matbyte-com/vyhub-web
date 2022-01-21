@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('import') }}</SettingTitle>
+    <SettingTitle docPath="/guide/import">{{ $t('import') }}</SettingTitle>
     <v-row>
       <v-col>
         {{ $t('_import.messages.description') }}

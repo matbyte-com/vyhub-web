@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/server">
+    <SettingTitle docPath="/guide/serverbundle">
       {{ $t('_settings.serverAndServerbundle') }}
     </SettingTitle>
     <v-row>

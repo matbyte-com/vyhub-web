@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/shop/tax">
+    <SettingTitle docPath="/guide/shop/tax">
       {{ $t('_shop.labels.taxRules') }}
     </SettingTitle>
 

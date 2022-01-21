@@ -1,6 +1,6 @@
 <template>
  <div>
-   <SettingTitle doc-link="https://docs.vyhub.net/#/guide/requirements">
+   <SettingTitle docPath="/guide/requirements">
      {{ $t('_settings.requirements') }}
    </SettingTitle>
    <DialogForm :form-schema="requirementAddForm" ref="requirementAddDialog"

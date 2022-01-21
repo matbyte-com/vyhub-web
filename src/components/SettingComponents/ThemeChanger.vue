@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-link="https://docs.vyhub.net/#/guide/customizability">
+    <SettingTitle docPath="/guide/customizability">
       {{ $t('theme') }}
     </SettingTitle>
     <v-row>

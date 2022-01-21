@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('legal') }}</SettingTitle>
+    <SettingTitle docPath="/guide/legal">{{ $t('legal') }}</SettingTitle>
     <v-alert v-if="errorMsg" type="error">
       {{ errorMsg }}
     </v-alert>
