@@ -493,7 +493,8 @@
       "revenueByCountry": "Revenue by Country",
       "editAppliedPacket": "Edit Applied Packet",
       "cancelSubscription": "Cancel Subscription",
-      "addAppliedPacket": "Add Applied Packet"
+      "addAppliedPacket": "Add Applied Packet",
+      "confirmPurchases": "Confirm Purchases"
     },
     "messages": {
       "cancelSubscriptionSuccess": "Subscription successfully cancelled.",
@@ -577,7 +578,7 @@
       "create": "Create Payment Gateway",
       "edit": "Edit Payment Gateway",
       "paysafecard": "Paysafecard",
-      "paysafecardManual": "Paysafecard (manual confirmation)",
+      "coupon": "Coupon (manual confirmation)",
       "webhookURL": "Webhook URL"
     },
     "messages": {

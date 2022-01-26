@@ -132,8 +132,8 @@ export default {
           label: this.$t('_gateway.labels.paysafecard'),
           icon: 'mdi-lock',
         },
-        PAYSAFECARD_MANUAL: {
-          label: this.$t('_gateway.labels.paysafecardManual'),
+        COUPON: {
+          label: this.$t('_gateway.labels.coupon'),
           icon: 'mdi-lock-reset',
         },
       },

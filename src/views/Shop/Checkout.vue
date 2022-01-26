@@ -42,14 +42,14 @@
                       </v-btn>
                     </div>
                   </div>
-                  <div v-if="debit.payment_gateway.type === 'PAYSAFECARD_MANUAL'">
+                  <div v-if="debit.payment_gateway.type === 'COUPON'">
                     <div class="body-1">
                       {{ $t('_shop.messages.confirmPaysafecardPayment') }}
                       {{ debit.amount_total }}
                     </div>
                     <div class="mt-5">
-                      <GenForm ref="paysafecardForm" :form-schema="paysafecardPinSchema"
-                               @submit="confirmPaysafecardPayment" @cancel="cancelPayment"/>
+                      <GenForm ref="couponForm" :form-schema="couponCodeSchema"
+                               @submit="confirmCouponPayment" @cancel="cancelPayment"/>
                       <!--<v-btn color="success" @click="confirmCreditPayment">
                         <v-icon left>mdi-check</v-icon>
                         {{ $t('confirm') }}
@@ -118,7 +118,7 @@
 import openapi from '../../api/openapi';
 import ShopService from '../../services/ShopService';
 import GenForm from '@/components/GenForm.vue';
-import CheckoutPaysafecardPinForm from '@/forms/CheckoutPaysafecardPinForm';
+import CheckoutCouponCodeForm from '@/forms/CheckoutCouponCodeForm';
 
 export default {
   name: 'Checkout',
@@ -130,7 +130,7 @@ export default {
       debit: null,
       loading: true,
       errorMessage: null,
-      paysafecardPinSchema: CheckoutPaysafecardPinForm,
+      couponCodeSchema: CheckoutCouponCodeForm,
     };
   },
   beforeMount() {
@@ -183,10 +183,10 @@ export default {
         }
       });
     },
-    async confirmPaysafecardPayment() {
-      const data = this.$refs.paysafecardForm.getData();
+    async confirmCouponPayment() {
+      const data = this.$refs.couponForm.getData();
       data.pins = [data.pins];
-      (await openapi)['payment-gateway_addPaysafecardPin']({ debit_id: this.debit.id }, data).then((rsp) => {
+      (await openapi)['payment-gateway_addCouponCode']({ debit_id: this.debit.id }, data).then((rsp) => {
         console.log('nice');
       });
     },

@@ -64,11 +64,11 @@ export default {
           title: this.$t('discounts'),
         },
         {
-          name: 'paysafecard',
+          name: 'purchase-confirmation',
           icon: 'mdi-lock-reset',
-          component: 'Paysafecard',
-          reqProp: 'paysafecard_edit',
-          title: this.$t('paysafecard'),
+          component: 'PurchaseManualConfirmation',
+          reqProp: 'purchase_edit',
+          title: this.$t('_purchases.labels.confirmPurchases'),
         },
         {
           name: 'report',
