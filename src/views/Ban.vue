@@ -282,7 +282,7 @@ export default {
       (await openapiCached).server_getBundles().then((rsp) => { this.bundles = rsp.data; });
     },
     banRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
+      const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
 
       if (item.active) {
         if (item.serverbundle == null) {

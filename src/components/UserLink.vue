@@ -2,7 +2,7 @@
   <span>
     <v-chip v-if="!disabledLink && !simple"
             @click="$router.push({ name: 'UserDashboard', params: {id: user.id}})"
-            :outlined="outline" color="primary">
+            :outlined="isOutlined" color="primary">
       <v-icon small>mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
@@ -26,7 +26,7 @@ export default {
     user: Object,
     outline: {
       type: Boolean,
-      default: true,
+      default: null,
     },
     disabledLink: {
       type: Boolean,
@@ -35,6 +35,14 @@ export default {
     simple: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    isOutlined() {
+      if (this.outline == null) {
+        return !this.$vuetify.theme.dark;
+      }
+      return this.outline;
     },
   },
 };
