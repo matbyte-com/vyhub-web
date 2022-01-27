@@ -155,6 +155,19 @@ declare namespace Components {
             user: /* UserModelShort */ ModelUserUserUserModelShort;
         }
         /**
+         * AppliedPacketModelAdd
+         */
+        export interface AppliedPacketModelAdd {
+            /**
+             * Packet Id
+             */
+            packet_id: string; // uuid
+            /**
+             * User Id
+             */
+            user_id: string; // uuid
+        }
+        /**
          * AppliedPacketModelPatch
          */
         export interface AppliedPacketModelPatch {
@@ -231,7 +244,7 @@ declare namespace Components {
              * Id
              */
             id: string; // uuid
-            creator: /* UserModelShort */ ModelUserUserUserModelShort;
+            creator?: /* UserModelShort */ ModelUserUserUserModelShort;
             user: /* UserModelShort */ ModelUserUserUserModelShort;
             serverbundle?: /* ServerbundleModelShort */ ModelServerServerbundleServerbundleModelShort;
             /**
@@ -556,6 +569,12 @@ declare namespace Components {
              * Invoice Available
              */
             invoice_available: boolean;
+            /**
+             * Extra
+             */
+            extra?: {
+                [key: string]: any;
+            };
             purchase: /* PurchaseModelShort */ PurchaseModelShort;
         }
         /**
@@ -616,6 +635,12 @@ declare namespace Components {
              * Invoice Available
              */
             invoice_available: boolean;
+            /**
+             * Extra
+             */
+            extra?: {
+                [key: string]: any;
+            };
         }
         /**
          * DebitModelStatistic
@@ -2110,6 +2135,27 @@ declare namespace Components {
             size: number;
         }
         /**
+         * Page[DebitModel]
+         */
+        export interface PageDebitModel {
+            /**
+             * Items
+             */
+            items: /* DebitModel */ DebitModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
          * Page[LogEntryModel]
          */
         export interface PageLogEntryModel {
@@ -2360,7 +2406,7 @@ declare namespace Components {
          * PaymentGatewayType
          * An enumeration.
          */
-        export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "PAYSAFECARD_MANUAL" | "CREDITS";
+        export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "COUPON" | "CREDITS";
         /**
          * PinAddModel
          */
@@ -3984,10 +4030,6 @@ declare namespace Components {
              * Values
              */
             values?: string[];
-            /**
-             * User Id
-             */
-            user_id: string; // uuid
         }
         /**
          * UserType
@@ -4229,7 +4271,7 @@ declare namespace Paths {
             /**
              * User Id
              */
-            export type UserId = string;
+            export type UserId = string; // uuid
         }
         export interface QueryParameters {
             bundle_id?: /* Bundle Id */ Parameters.BundleId;
@@ -4241,7 +4283,7 @@ declare namespace Paths {
              * Only return active bans.
              */
             Parameters.Active;
-            user_id?: /* User Id */ Parameters.UserId;
+            user_id?: /* User Id */ Parameters.UserId /* uuid */;
             page?: /* Page */ Parameters.Page;
             size?: /* Size */ Parameters.Size;
         }
@@ -4558,7 +4600,7 @@ declare namespace Paths {
     }
     namespace GeneralGetConfig {
         namespace Responses {
-            export type $200 = any;
+            export type $200 = /* GeneralConfigModel */ Components.Schemas.GeneralConfigModel;
         }
     }
     namespace GeneralGetFrontendUrl {
@@ -4574,16 +4616,22 @@ declare namespace Paths {
             export type Query = string;
         }
         export interface QueryParameters {
-            query: /* Query */ Parameters.Query;
+            query?: /* Query */ Parameters.Query;
         }
         namespace Responses {
-            export type $200 = any;
+            /**
+             * Response Get Icons General Icons Get
+             */
+            export type $200 = string[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
     namespace GeneralGetLegal {
         namespace Responses {
-            export type $200 = any;
+            /**
+             * Response Get Legal General Legal Get
+             */
+            export type $200 = string;
         }
     }
     namespace GeneralGetNavItems {
@@ -4651,7 +4699,10 @@ declare namespace Paths {
     namespace GeneralUpdateLegal {
         export type RequestBody = /* LegalModel */ Components.Schemas.LegalModel;
         namespace Responses {
-            export type $200 = any;
+            /**
+             * Response Update Legal General Legal Patch
+             */
+            export type $200 = string;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -5025,6 +5076,13 @@ declare namespace Paths {
         export type RequestBody = /* RewardModelAdd */ Components.Schemas.RewardModelAdd;
         namespace Responses {
             export type $200 = /* RewardModel */ Components.Schemas.RewardModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketCreateAppliedPacket {
+        export type RequestBody = /* AppliedPacketModelAdd */ Components.Schemas.AppliedPacketModelAdd;
+        namespace Responses {
+            export type $200 = /* AppliedPacketModel */ Components.Schemas.AppliedPacketModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -5473,7 +5531,7 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
-    namespace PaymentGatewayAddPaysafecardPin {
+    namespace PaymentGatewayAddCouponCode {
         namespace Parameters {
             /**
              * Uuid
@@ -5489,6 +5547,26 @@ declare namespace Paths {
             Parameters.Uuid;
         }
         export type RequestBody = /* PinAddModel */ Components.Schemas.PinAddModel;
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PaymentGatewayConfirmDebit {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
         namespace Responses {
             export type $200 = any;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
@@ -6353,11 +6431,43 @@ declare namespace Paths {
         }
     }
     namespace ShopGetDebits {
-        namespace Responses {
+        namespace Parameters {
             /**
-             * Response Get Debits Shop Debit Get
+             * Coupon Purchase Open
              */
-            export type $200 = /* DebitModel */ Components.Schemas.DebitModel[];
+            export type CouponPurchaseOpen = boolean;
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Query
+             */
+            export type Query = string;
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Sort By
+             */
+            export type SortBy = string;
+            /**
+             * Sort Desc
+             */
+            export type SortDesc = boolean;
+        }
+        export interface QueryParameters {
+            query?: /* Query */ Parameters.Query;
+            sort_by?: /* Sort By */ Parameters.SortBy;
+            sort_desc?: /* Sort Desc */ Parameters.SortDesc;
+            coupon_purchase_open?: /* Coupon Purchase Open */ Parameters.CouponPurchaseOpen;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[DebitModel] */ Components.Schemas.PageDebitModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
     namespace ShopGetDiscount {
@@ -7448,14 +7558,14 @@ declare namespace Paths {
             /**
              * User Id
              */
-            export type UserId = string;
+            export type UserId = string; // uuid
         }
         export interface QueryParameters {
             serverbundle_id?: /* Serverbundle Id */ Parameters.ServerbundleId;
             query?: /* Query */ Parameters.Query;
             sort_by?: /* Sort By */ Parameters.SortBy;
             sort_desc?: /* Sort Desc */ Parameters.SortDesc;
-            user_id?: /* User Id */ Parameters.UserId;
+            user_id?: /* User Id */ Parameters.UserId /* uuid */;
             page?: /* Page */ Parameters.Page;
             size?: /* Size */ Parameters.Size;
         }
@@ -8549,7 +8659,7 @@ export interface OperationMethods {
    * shop_getDebits - Get Debits
    */
   'shop_getDebits'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+    parameters?: Parameters<Paths.ShopGetDebits.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDebits.Responses.$200>
@@ -8783,6 +8893,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
+  /**
+   * packet_createAppliedPacket - Create Applied Packet
+   */
+  'packet_createAppliedPacket'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.PacketCreateAppliedPacket.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketCreateAppliedPacket.Responses.$200>
   /**
    * packet_getAppliedPacketStatuses - Get Applied Packet Statuses
    */
@@ -9106,11 +9224,21 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ImportImportGextension.Responses.$200>
   /**
-   * payment-gateway_addPaysafecardPin - Add Paysafecard Pin
+   * payment-gateway_addCouponCode - Add Coupon Code
    * 
    * This saves the users paysafecard pins to the specified debit
    */
-  'payment-gateway_addPaysafecardPin'(
+  'payment-gateway_addCouponCode'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<any>
+  /**
+   * payment-gateway_confirmDebit - Confirm Debit
+   * 
+   * Manual confirmation of debit
+   */
+  'payment-gateway_confirmDebit'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
@@ -10293,7 +10421,7 @@ export interface PathsDictionary {
      * shop_getDebits - Get Debits
      */
     'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+      parameters?: Parameters<Paths.ShopGetDebits.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDebits.Responses.$200>
@@ -10565,6 +10693,14 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketGetAppliedPackets.Responses.$200>
+    /**
+     * packet_createAppliedPacket - Create Applied Packet
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.PacketCreateAppliedPacket.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketCreateAppliedPacket.Responses.$200>
   }
   ['/packet/applied/status']: {
     /**
@@ -10944,13 +11080,25 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ImportImportGextension.Responses.$200>
   }
-  ['/payment-gateway/paysafecard/{uuid}/start']: {
+  ['/payment-gateway/coupon/{uuid}/start']: {
     /**
-     * payment-gateway_addPaysafecardPin - Add Paysafecard Pin
+     * payment-gateway_addCouponCode - Add Coupon Code
      * 
      * This saves the users paysafecard pins to the specified debit
      */
     'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<any>
+  }
+  ['/payment-gateway/coupon/{uuid}/confirm']: {
+    /**
+     * payment-gateway_confirmDebit - Confirm Debit
+     * 
+     * Manual confirmation of debit
+     */
+    'patch'(
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  

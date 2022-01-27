@@ -186,7 +186,7 @@ export default {
     async confirmCouponPayment() {
       const data = this.$refs.couponForm.getData();
       data.pins = [data.pins];
-      (await openapi)['payment-gateway_addCouponCode']({ debit_id: this.debit.id }, data).then((rsp) => {
+      (await openapi)['payment-gateway_addCouponCode'](this.debit.id, data).then((rsp) => {
         console.log('nice');
       });
     },
