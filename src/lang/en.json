@@ -653,7 +653,8 @@
     "ban_new": "You have been banned. Reason: {reason}",
     "packet_applied": "Packet {packet_title} has been activated!",
     "purchase_finished": "Your purchase of {amount} has been finished!",
-    "warning_new": "A new warning has been created. Reason: {reason}"
+    "warning_new": "A new warning has been created. Reason: {reason}",
+    "coupon_purchase_new": "Approval for purchase with {amount_total} amount is required."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
