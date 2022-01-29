@@ -42,8 +42,9 @@
             <v-checkbox
               :hide-details="true"
               dense
+              v-model="showOnlyReadItems"
               :label="$t('notification.hideReadNotifications')"
-              @change="showReadNotifications"
+              @change="fetchData"
               class="mr-3 align-self-center mt-0 pt-0">
             </v-checkbox>
             <v-menu offset-y :close-on-content-click="false">
@@ -69,7 +70,7 @@
                 v-model="selectedCat"
                 :label="$t(`notification.type.${category.toLowerCase()}`)"
                 :value="category"
-                @change="newCat"
+                @change="fetchData"
               ></v-checkbox>
               <a class="ma-1" @click="selectedCat = []; fetchData()">{{ $t('reset') }}</a>
             </v-menu>
@@ -191,13 +192,6 @@ export default {
     getTime(time) {
       const time_obj = new Date(time);
       return `${time_obj.getHours()}:${time_obj.getMinutes()}`;
-    },
-    newCat() {
-      this.fetchData();
-    },
-    showReadNotifications(bool) {
-      this.showOnlyReadItems = bool;
-      this.fetchData();
     },
     async markAllAsRead() {
       (await openapi).notification_markAsRead(null, { all: true }).then(() => {
