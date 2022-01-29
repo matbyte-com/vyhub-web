@@ -42,22 +42,26 @@
                       </v-btn>
                     </div>
                   </div>
-                  <div v-if="debit.payment_gateway.type === 'COUPON'">
+                  <div v-if="debit.payment_gateway.type === 'COUPON'" class="text-left">
                     <div class="body-1">
-                      {{ $t('_shop.messages.confirmPaysafecardPayment') }}
-                      {{ debit.amount_total }}
+                      <div>
+                        {{ $t('_shop.messages.confirmCouponPayment') }}
+                      </div>
+                      <div class="mt-3 font-weight-bold">
+                        {{ $t('_shop.labels.total') }}: {{ debit ? debit.amount_total : '' }}
+                        {{ debit ? debit.purchase.currency.symbol : '' }}
+                      </div>
                     </div>
-                    <div class="mt-5">
+                    <div v-if="debit.extra && debit.extra.coupons" class="mt-3">
+                      <v-alert type="success" icon="mdi-timer-sand">
+                        {{ $t('_shop.messages.couponsEntered') }}
+                      </v-alert>
+                    </div>
+                    <div class="mt-3">
                       <GenForm ref="couponForm" :form-schema="couponCodeSchema"
-                               @submit="confirmCouponPayment" @cancel="cancelPayment"/>
-                      <!--<v-btn color="success" @click="confirmCreditPayment">
-                        <v-icon left>mdi-check</v-icon>
-                        {{ $t('confirm') }}
-                      </v-btn>
-                      <v-btn class="ml-1" @click="cancelPayment">
-                        <v-icon left>mdi-close</v-icon>
-                        {{ $t('cancel') }}
-                      </v-btn>-->
+                               @submit="confirmCouponPayment"
+                               :cancel-text="$t('_shop.labels.cancelPayment')"
+                               @cancel="cancelPayment"/>
                     </div>
                   </div>
                   <div v-else>
@@ -96,8 +100,8 @@
             <v-card-actions v-if="debit != null">
               <v-btn color="primary" text @click="$router.push({ name: 'ShopCart' })"
                      v-if="debit.status !== 'FINISHED'">
-                <v-icon>mdi-arrow-right</v-icon>
-                {{ $t('cart') }}
+                <v-icon>mdi-arrow-left</v-icon>
+                {{ $t('_shop.labels.cart') }}
               </v-btn>
               <v-btn color="primary" text @click="$router.push({ name: 'Dashboard' })"
                      v-if="debit.status === 'FINISHED'">
@@ -157,6 +161,14 @@ export default {
         } else {
           this.loading = false;
         }
+        // set already entered coupon code in form
+        if (this.debit.payment_gateway.type === 'COUPON') {
+          if (this.debit.extra && this.debit.extra.coupons) {
+            this.$nextTick(() => {
+              this.$refs.couponForm.setData({ coupon: this.debit.extra.coupons[0] });
+            });
+          }
+        }
       }).catch((err) => {
         this.errorMessage = this.$t('unexpectedError');
         console.log(err);
@@ -185,9 +197,15 @@ export default {
     },
     async confirmCouponPayment() {
       const data = this.$refs.couponForm.getData();
-      data.pins = [data.pins];
-      (await openapi).shop_addCouponCode(this.debit.id, data).then((rsp) => {
-        console.log('nice');
+      data.coupons = [data.coupon];
+      (await openapi).shop_addCouponCode(this.debit.id, data).then(() => {
+        this.checkPayment();
+        this.$notify({
+          title: this.$t('_shop.messages.couponsEditSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.couponForm.setErrorMessage(err.response.data.detail);
       });
     },
     async cancelPayment() {

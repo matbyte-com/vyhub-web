@@ -185,11 +185,14 @@
       "taxAllowUnknown": "Allow purchases from countries without tax rule.",
       "taxAllowUnknownDescription": "If disabled, purchases from countries that do not have an explicit tax rule configured, are not possible.",
       "enableDonationGoal": "Enable donation goal",
-      "enableDonationGoalDescription": "Donation goal component displayed on startpage (News)"
+      "enableDonationGoalDescription": "Donation goal component displayed on startpage (News)",
+      "cancelPayment": "Cancel Payment"
     },
     "messages": {
       "confirmCreditsPayment": "Please confirm the payment of {credits} credits.",
-      "confirmPaysafecardPayment": "Please enter your paysafecard pins. The payment is then manually approved by a team member",
+      "confirmCouponPayment": "Please enter your coupon code. The payment is then manually approved by a team member.",
+      "couponsEntered": "Your coupon was successfully added. You can edit your coupon until your purchase got approved.",
+      "couponsEditSuccess": "Coupon successfully edited.",
       "notEnoughCredits": "You do not have enough credits to pay this purchase. Please choose a different payment method or buy more credits.",
       "addToCartError": "An error occurred while adding the packet to your cart.",
       "addToCartSuccess": "Packet successfully added to cart.",
@@ -494,7 +497,12 @@
       "editAppliedPacket": "Edit Applied Packet",
       "cancelSubscription": "Cancel Subscription",
       "addAppliedPacket": "Add Applied Packet",
-      "confirmPurchases": "Confirm Purchases"
+      "confirmPurchases": "Confirm Purchases",
+      "coupon": "Coupon",
+      "confirm": "Confirm",
+      "confirmDebitText": "Confirm Debit? This can't be undone.",
+      "showApprovedDebits": "Show approved debits",
+      "paymentGateway": "Payment Gateway"
     },
     "messages": {
       "cancelSubscriptionSuccess": "Subscription successfully cancelled.",
