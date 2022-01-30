@@ -198,7 +198,7 @@ export default {
     async confirmCouponPayment() {
       const data = this.$refs.couponForm.getData();
       data.coupons = [data.coupon];
-      (await openapi).shop_addCouponCode(this.debit.id, data).then(() => {
+      (await openapi).shop_addCouponCodes(this.debit.id, data).then(() => {
         this.checkPayment();
         this.$notify({
           title: this.$t('_shop.messages.couponsEditSuccess'),

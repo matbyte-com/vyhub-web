@@ -86,7 +86,7 @@ export default {
         status.push('FINISHED');
       }
       (await openapi).shop_getDebits({
-        coupon_purchase_open: true,
+        has_coupon_data: true,
         status,
         ...(queryParams != null ? queryParams : this.$refs.debitTable.getQueryParameters()),
       })
