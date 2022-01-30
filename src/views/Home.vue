@@ -149,9 +149,10 @@
           </v-col>
         </v-row>
       </v-col>
-      <!-- Server Status -->
-      <v-col ref="StatusCol">
-        <div style="position: fixed;" :style="{width: `${statusColumnWidth}px`}"
+      <!-- Sidebar -->
+      <v-col ref="StatusCol" cols="4">
+        <div style="overflow-y: hidden; overflow-x: hidden;"
+             :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
           <v-row>
             <v-col>
