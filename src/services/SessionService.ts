@@ -11,6 +11,9 @@ export default {
       focus();
     });
   },
+  /**
+   * Returns true when the current tab was the last active tab
+   */
   lastActiveWindow() {
     return localStorage.getItem('sessionId') === sessionStorage.getItem('sessionId');
   },

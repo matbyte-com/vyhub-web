@@ -1,6 +1,8 @@
 import { HumanizeDurationLanguage, HumanizeDuration } from 'humanize-duration-ts';
 import Vue from 'vue';
 import i18n from '@/plugins/i18n';
+import openapi from '@/api/openapi';
+import store from '@/store';
 
 const langService: HumanizeDurationLanguage = new HumanizeDurationLanguage();
 const humanizeDuration: HumanizeDuration = new HumanizeDuration(langService);
@@ -90,6 +92,14 @@ export default {
               * charactersLength));
           }
           return result;
+        },
+        async getGeneralConfig() {
+          (await openapi).general_getConfig().then((rsp) => {
+            store.commit('SET_GENERAL_CONFIG', rsp.data);
+          }).catch((err) => {
+            console.log('Could not get General Settings');
+            throw err;
+          });
         },
       },
     };

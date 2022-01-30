@@ -65,6 +65,15 @@
       </v-menu>
     </v-fade-transition>
 
+    <!-- floating button to show help-->
+    <router-link to="settings/legal" class="text-center" v-if="showLegalReminder">
+      <v-alert dark style="left: 50%; top: 10%; margin-left: -150px; position: fixed"
+               width="300px" class="red darken-2"
+               bottom to="settings/legal">
+        <v-icon dark left>mdi-alert</v-icon>
+        {{ $t('_legal.showLegalReminder') }}
+      </v-alert>
+    </router-link>
   </v-app>
 </template>
 
@@ -96,6 +105,7 @@ export default Vue.extend({
     background: '#FAFAFA',
     backgroundImage: null,
     showInformationFab: false,
+    showLegalReminder1: false,
   }),
   created() {
     this.setThemeFromCache();
@@ -114,16 +124,11 @@ export default Vue.extend({
   },
   methods: {
     async fetchData() {
-      this.setTheme();
-      this.getGeneralConfig();
+      await this.setTheme();
+      await this.getGeneralConfig();
     },
     async getGeneralConfig() {
-      (await openapi).general_getConfig().then((rsp) => {
-        this.$store.commit('SET_GENERAL_CONFIG', rsp.data);
-      }).catch((err) => {
-        console.log('Could not get General Settings');
-        throw err;
-      });
+      await this.utils.getGeneralConfig();
     },
     async setTheme() {
       (await openapi).general_getTheme().then((rsp) => {
@@ -258,6 +263,16 @@ export default Vue.extend({
         return `background: url(${this.backgroundImage}) no-repeat center fixed !important; background-size: cover;`;
       }
       return `background-color: ${this.background}`;
+    },
+    showLegalReminder() {
+      const { user } = this.$store.getters;
+      const general = this.$store.getters.generalConfig;
+      if (user && general) {
+        if (user.admin && !general.legal) {
+          return true;
+        }
+      }
+      return false;
     },
   },
 });

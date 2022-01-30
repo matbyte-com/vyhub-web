@@ -268,7 +268,9 @@
   "_legal": {
     "messages": {
       "editedLegal": "Legal edited."
-    }
+    },
+    "descriptionText": "In most countries it is mandatory to have at least the website operators contact details, terms of use and a privacy policy. You can find an example privacy policy in the docs.",
+    "showLegalReminder": "Please set legal information in the settings!"
   },
   "_navigation": {
     "messages": {

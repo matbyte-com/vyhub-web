@@ -1,6 +1,7 @@
 <template>
   <div>
     <SettingTitle docPath="/guide/legal">{{ $t('legal') }}</SettingTitle>
+    <span>{{ $t('_legal.descriptionText') }}</span>
     <v-alert v-if="errorMsg" type="error">
       {{ errorMsg }}
     </v-alert>
@@ -66,6 +67,7 @@ export default {
           title: this.$t('_legal.messages.editedLegal'),
           type: 'success',
         });
+        this.utils.getGeneralConfig();
         setTimeout(() => {
           this.success = false;
         }, 3000);
