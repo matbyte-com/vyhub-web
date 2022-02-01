@@ -495,6 +495,15 @@ declare namespace Components {
             name: string;
         }
         /**
+         * CouponAddModel
+         */
+        export interface CouponAddModel {
+            /**
+             * Coupons
+             */
+            coupons: string[];
+        }
+        /**
          * CurrencyModel
          */
         export interface CurrencyModel {
@@ -1016,6 +1025,10 @@ declare namespace Components {
              * Enable Ticket
              */
             enable_ticket?: boolean;
+            /**
+             * Legal
+             */
+            legal?: boolean;
         }
         /**
          * GroupAndServerbundleModel
@@ -2407,15 +2420,6 @@ declare namespace Components {
          * An enumeration.
          */
         export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "COUPON" | "CREDITS";
-        /**
-         * PinAddModel
-         */
-        export interface PinAddModel {
-            /**
-             * Pins
-             */
-            pins: string[];
-        }
         /**
          * PostModel
          */
@@ -6020,7 +6024,7 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
-    namespace ShopAddCouponCode {
+    namespace ShopAddCouponCodes {
         namespace Parameters {
             /**
              * Uuid
@@ -6035,9 +6039,9 @@ declare namespace Paths {
              */
             Parameters.Uuid;
         }
-        export type RequestBody = /* PinAddModel */ Components.Schemas.PinAddModel;
+        export type RequestBody = /* CouponAddModel */ Components.Schemas.CouponAddModel;
         namespace Responses {
-            export type $200 = any;
+            export type $200 = /* DebitModel */ Components.Schemas.DebitModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -6131,7 +6135,7 @@ declare namespace Paths {
             Parameters.Uuid;
         }
         namespace Responses {
-            export type $200 = any;
+            export type $200 = /* DebitModel */ Components.Schemas.DebitModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -6433,9 +6437,10 @@ declare namespace Paths {
     namespace ShopGetDebits {
         namespace Parameters {
             /**
-             * Coupon Purchase Open
+             * Has Coupon Data
+             * Return only debits with entered coupons
              */
-            export type CouponPurchaseOpen = boolean;
+            export type HasCouponData = boolean;
             /**
              * Page
              */
@@ -6456,12 +6461,21 @@ declare namespace Paths {
              * Sort Desc
              */
             export type SortDesc = boolean;
+            /**
+             * Status
+             */
+            export type Status = string[];
         }
         export interface QueryParameters {
             query?: /* Query */ Parameters.Query;
             sort_by?: /* Sort By */ Parameters.SortBy;
             sort_desc?: /* Sort Desc */ Parameters.SortDesc;
-            coupon_purchase_open?: /* Coupon Purchase Open */ Parameters.CouponPurchaseOpen;
+            has_coupon_data?: /**
+             * Has Coupon Data
+             * Return only debits with entered coupons
+             */
+            Parameters.HasCouponData;
+            status?: /* Status */ Parameters.Status;
             page?: /* Page */ Parameters.Page;
             size?: /* Size */ Parameters.Size;
         }
@@ -8488,15 +8502,15 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopDeleteDiscount.Responses.$200>
   /**
-   * shop_addCouponCode - Add Coupon Code
+   * shop_addCouponCodes - Add Coupon Codes
    * 
-   * This saves the users paysafecard pins to the specified debit
+   * Save user entered coupons to the specified debit
    */
-  'shop_addCouponCode'(
-    parameters?: Parameters<Paths.ShopAddCouponCode.PathParameters> | null,
-    data?: Paths.ShopAddCouponCode.RequestBody,
+  'shop_addCouponCodes'(
+    parameters?: Parameters<Paths.ShopAddCouponCodes.PathParameters> | null,
+    data?: Paths.ShopAddCouponCodes.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ShopAddCouponCode.Responses.$200>
+  ): OperationResponse<Paths.ShopAddCouponCodes.Responses.$200>
   /**
    * shop_confirmDebit - Confirm Debit
    * 
@@ -10220,15 +10234,15 @@ export interface PathsDictionary {
   }
   ['/shop/coupon/{uuid}/start']: {
     /**
-     * shop_addCouponCode - Add Coupon Code
+     * shop_addCouponCodes - Add Coupon Codes
      * 
-     * This saves the users paysafecard pins to the specified debit
+     * Save user entered coupons to the specified debit
      */
     'post'(
-      parameters?: Parameters<Paths.ShopAddCouponCode.PathParameters> | null,
-      data?: Paths.ShopAddCouponCode.RequestBody,
+      parameters?: Parameters<Paths.ShopAddCouponCodes.PathParameters> | null,
+      data?: Paths.ShopAddCouponCodes.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ShopAddCouponCode.Responses.$200>
+    ): OperationResponse<Paths.ShopAddCouponCodes.Responses.$200>
   }
   ['/shop/coupon/{uuid}/confirm']: {
     /**
