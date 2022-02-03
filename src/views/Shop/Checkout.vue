@@ -45,7 +45,8 @@
                   <div v-if="debit.payment_gateway.type === 'COUPON'" class="text-left">
                     <div class="body-1">
                       <div>
-                        {{ $t('_shop.messages.confirmCouponPayment') }}
+                        {{ $t('_shop.messages.confirmCouponPayment',
+                        { gateway_name: this.debit.payment_gateway.name }) }}
                       </div>
                       <div class="mt-3 font-weight-bold">
                         {{ $t('_shop.labels.total') }}: {{ debit ? debit.amount_total : '' }}

@@ -186,11 +186,12 @@
       "taxAllowUnknownDescription": "If disabled, purchases from countries that do not have an explicit tax rule configured, are not possible.",
       "enableDonationGoal": "Enable donation goal",
       "enableDonationGoalDescription": "Donation goal component displayed on startpage (News)",
-      "cancelPayment": "Cancel Payment"
+      "cancelPayment": "Cancel Payment",
+      "cancelPurchase": "Cancel Purchase"
     },
     "messages": {
       "confirmCreditsPayment": "Please confirm the payment of {credits} credits.",
-      "confirmCouponPayment": "Please enter your coupon code. The payment is then manually approved by a team member.",
+      "confirmCouponPayment": "Please enter your {gateway_name} code. The payment is then manually approved by a team member.",
       "couponsEntered": "Your coupon was successfully added. You can edit your coupon until your purchase got approved.",
       "couponsEditSuccess": "Coupon successfully edited.",
       "notEnoughCredits": "You do not have enough credits to pay this purchase. Please choose a different payment method or buy more credits.",
@@ -215,7 +216,8 @@
       "couponNotApplied": "Coupon could not be applied to any packet in your cart.",
       "includesVAT": "Includes {tax_rate}% VAT.",
       "selectBillingAddressFirst": "Please select a billing address first.",
-      "selectEmailFirst": "Please update your email address first"
+      "selectEmailFirst": "Please update your email address first",
+      "cancelPurchaseConfirmation": "Started payments are cancelled. All entered coupons are lost. Cancelling a purchase cannot be undone."
     },
     "purchaseStatus": {
       "open": "Open",

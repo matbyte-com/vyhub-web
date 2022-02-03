@@ -20,7 +20,7 @@
                   <v-icon left>mdi-arrow-right</v-icon>
                   {{ $t('continue') }}
                 </v-btn>
-                <v-btn text color="error" @click="cancelPurchase(openPurchase)">
+                <v-btn text color="error" @click="$refs.cancelPurchaseConfirmationDialog.show()">
                   <v-icon left>mdi-close</v-icon>
                   {{ $t('cancel') }}
                 </v-btn>
@@ -209,6 +209,10 @@
     </Dialog>
     <v-card>
     </v-card>
+    <confirmation-dialog ref="cancelPurchaseConfirmationDialog"
+                         @submit="cancelPurchase(openPurchase)"
+                         :btn-text="$t('_shop.labels.cancelPurchase')"
+                         :text="$t('_shop.messages.cancelPurchaseConfirmation')"/>
     <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>
   </div>
 </template>
@@ -226,9 +230,11 @@ import Dialog from '@/components/Dialog.vue';
 import openapi from '../../api/openapi';
 import Email from '@/components/PersonalSettings/Email.vue';
 import AuthService from '@/services/AuthService';
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 
 export default {
   components: {
+    ConfirmationDialog,
     Email,
     Dialog,
     CartTotal,
@@ -396,6 +402,7 @@ export default {
         { status: 'CANCELLED' },
       ).then(() => {
         this.fetchData();
+        this.$refs.cancelPurchaseConfirmationDialog.closeAndReset();
         this.$notify({
           title: this.$t('_shop.messages.purchaseCancelledSuccess'),
           type: 'success',
