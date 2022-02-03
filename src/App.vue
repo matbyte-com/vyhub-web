@@ -268,7 +268,7 @@ export default Vue.extend({
       const { user } = this.$store.getters;
       const general = this.$store.getters.generalConfig;
       if (user && general) {
-        if (user.admin && !general.legal) {
+        if (user.admin && !general.legal_exists) {
           return true;
         }
       }
