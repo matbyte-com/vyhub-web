@@ -4,7 +4,7 @@
       <PageTitle icon="mdi-account" :title="$t('_dashboard.labels.title', { usr: user.username })"/>
       <v-card>
         <v-card-text>
-          <v-tabs>
+          <v-tabs v-model="activeTabIndex">
             <v-tab @click="switchTab('General')">
               <v-icon left>mdi-gamepad</v-icon>
               General
@@ -72,6 +72,7 @@ export default {
       user: null,
       activeBundle: null,
       activeTab: 'General',
+      activeTabIndex: 0,
       bundles: [],
     };
   },
@@ -79,6 +80,7 @@ export default {
     switchTab(name, bundle = null) {
       this.activeBundle = bundle;
       this.activeTab = name;
+      this.$router.replace({ name: 'UserDashboard', params: { component: name.toLowerCase(), id: this.user.id }, query: this.$route.query });
     },
     async fetchData() {
       const userId = this.$route.params.id;
@@ -95,21 +97,34 @@ export default {
 
       (await openapiCached).server_getBundles().then((rsp) => { (this.bundles = rsp.data); });
     },
+    setActiveTab() {
+      this.activeTab = this.$route.params.component[0].toUpperCase()
+        + this.$route.params.component.slice(1);
+      if (this.activeTab === 'General') { this.activeTabIndex = 0; }
+      if (this.activeTab === 'Purchases') { this.activeTabIndex = 1; }
+    },
   },
   beforeMount() {
     this.fetchData();
+    this.setActiveTab();
   },
   computed: {
     componentInstance() {
-      if (this.activeTab === 'Bundle') {
+      if (this.activeTab === 'Bundle' && this.activeBundle) {
         return () => import(`@/components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}`);
+      }
+      if (this.activeTab === 'Bundle') {
+        return () => import('@/components/DashboardComponents/Dashboards/General.vue');
       }
       return () => import(`@/components/DashboardComponents/Dashboards/${this.activeTab}`);
     },
   },
   watch: {
-    $route() {
-      this.fetchData();
+    $route(to, from) {
+      if (to.params.id !== from.params.id) {
+        this.fetchData();
+      }
+      this.setActiveTab();
     },
   },
 };
