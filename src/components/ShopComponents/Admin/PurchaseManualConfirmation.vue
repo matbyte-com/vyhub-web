@@ -35,6 +35,10 @@
           <v-icon left>mdi-check</v-icon>
           {{ $t('_purchases.labels.confirm') }}
         </v-btn>
+        <v-btn depressed small color="error" class="ml-1"
+               @click="$refs.debitDeclineDialog.show(item)">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </template>
       <template v-slot:item.coupon="{ item }">
         <span v-for="coupon in getCoupons(item)" :key="coupon">
@@ -48,6 +52,9 @@
     <confirmation-dialog :text="$t('_purchases.labels.confirmDebitText')"
                          :btn-text="$t('_purchases.labels.confirm')"
                          ref="debitConfirmationDialog" @submit="confirmDebit"/>
+    <confirmation-dialog :text="$t('_purchases.labels.declineDebitText')"
+                         :btn-text="$t('_purchases.labels.decline')"
+                         ref="debitDeclineDialog" @submit="declineDebit"/>
   </div>
 </template>
 
@@ -108,6 +115,14 @@ export default {
         this.fetchData();
       }).catch((err) => {
         this.$refs.debitConfirmationDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
+    async declineDebit(item) {
+      (await openapi).shop_editPurchase(item.purchase.id, { status: 'CANCELLED' }).then(() => {
+        this.$refs.debitDeclineDialog.closeAndReset();
+        this.fetchData();
+      }).catch((err) => {
+        this.$refs.debitDeclineDialog.setErrorMessage(err.response.data.detail);
       });
     },
   },

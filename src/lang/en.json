@@ -504,7 +504,9 @@
       "confirmPurchases": "Confirm Purchases",
       "coupon": "Coupon",
       "confirm": "Confirm",
-      "confirmDebitText": "Confirm Debit? This can't be undone.",
+      "decline": "Decline",
+      "confirmDebitText": "Confirm Purchase? This can't be undone.",
+      "declineDebitText": "Cancel Purchase? This can't be undone.",
       "showApprovedDebits": "Show approved debits",
       "paymentGateway": "Payment Gateway"
     },
