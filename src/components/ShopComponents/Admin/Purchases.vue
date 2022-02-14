@@ -351,7 +351,7 @@ export default {
       const api = await openapi;
 
       api.shop_getPurchases({
-        statuses: this.selectedStatus,
+        status: this.selectedStatus,
         ...(queryParams != null ? queryParams : this.$refs.purchaseTable.getQueryParameters()),
       }).then((rsp) => {
         this.purchases = rsp.data.items;
