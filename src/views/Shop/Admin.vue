@@ -23,9 +23,7 @@
       <v-col>
         <v-card class="fill-height" flat>
           <v-card-text>
-            <keep-alive>
-              <component :is="componentInstance"></component>
-            </keep-alive>
+            <component :is="componentInstance"></component>
           </v-card-text>
         </v-card>
       </v-col>

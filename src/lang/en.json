@@ -520,7 +520,9 @@
       "deleteAppliedPacketSuccess": "Applied packet successfully deleted.",
       "createAppliedPacketSuccess": "Applied packet successfully created.",
       "refundConfirm": "Are you sure that you want to refund this purchase?",
-      "cancelSubscriptionConfirm": "Are you sure that you want to cancel this subscription?"
+      "cancelSubscriptionConfirm": "Are you sure that you want to cancel this subscription?",
+      "confirmPurchaseSuccess": "Purchase successfully approved",
+      "declinePurchaseSuccess": "Purchase successfully cancelled"
     }
   },
   "_home": {
@@ -659,6 +661,7 @@
     "ban_new": "You have been banned. Reason: {reason}",
     "packet_applied": "Packet {packet_title} has been activated!",
     "purchase_finished": "Your purchase of {amount} has been finished!",
+    "purchase_cancelled": "Your purchase of {amount} has been cancelled!",
     "warning_new": "A new warning has been created. Reason: {reason}",
     "coupon_purchase_new": "{username} submitted {gateway_name} codes ({amount_total} {currency_symbol}) that need to be approved."
   },

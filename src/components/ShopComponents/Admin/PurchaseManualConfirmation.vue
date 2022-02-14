@@ -113,6 +113,10 @@ export default {
       (await openapi).shop_confirmDebit(item.id).then(() => {
         this.$refs.debitConfirmationDialog.closeAndReset();
         this.fetchData();
+        this.$notify({
+          title: this.$t('_purchases.messages.confirmPurchaseSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.debitConfirmationDialog.setErrorMessage(err.response.data.detail);
       });
@@ -121,6 +125,10 @@ export default {
       (await openapi).shop_editPurchase(item.purchase.id, { status: 'CANCELLED' }).then(() => {
         this.$refs.debitDeclineDialog.closeAndReset();
         this.fetchData();
+        this.$notify({
+          title: this.$t('_purchases.messages.declinePurchaseSuccess'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.debitDeclineDialog.setErrorMessage(err.response.data.detail);
       });
