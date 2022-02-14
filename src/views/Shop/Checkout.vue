@@ -53,7 +53,8 @@
                         {{ debit ? debit.purchase.currency.symbol : '' }}
                       </div>
                     </div>
-                    <div v-if="debit.extra && debit.extra.coupons" class="mt-3">
+                    <div v-if="debit.extra && debit.extra.coupons && debit.extra.coupons.length > 0"
+                         class="mt-3">
                       <v-alert type="success" icon="mdi-timer-sand">
                         {{ $t('_shop.messages.couponsEntered') }}
                       </v-alert>
@@ -61,6 +62,7 @@
                     <div class="mt-3">
                       <GenForm ref="couponForm" :form-schema="couponCodeSchema"
                                @submit="confirmCouponPayment"
+                               :optionsExtra="{editMode: 'inline'}"
                                :cancel-text="$t('_shop.labels.cancelPayment')"
                                @cancel="cancelPayment"/>
                     </div>
@@ -165,8 +167,12 @@ export default {
         // set already entered coupon code in form
         if (this.debit.payment_gateway.type === 'COUPON') {
           if (this.debit.extra && this.debit.extra.coupons) {
+            const couponArray = [];
+            this.debit.extra.coupons?.forEach((c) => {
+              couponArray.push({ coupon: c });
+            });
             this.$nextTick(() => {
-              this.$refs.couponForm.setData({ coupon: this.debit.extra.coupons[0] });
+              this.$refs.couponForm.setData({ couponArray });
             });
           }
         }
@@ -198,8 +204,11 @@ export default {
     },
     async confirmCouponPayment() {
       const data = this.$refs.couponForm.getData();
-      data.coupons = [data.coupon];
-      (await openapi).shop_addCouponCodes(this.debit.id, data).then(() => {
+      const coupons = [];
+      data.couponArray.forEach((c) => {
+        coupons.push(c.coupon);
+      });
+      (await openapi).shop_addCouponCodes(this.debit.id, { coupons }).then(() => {
         this.checkPayment();
         this.$notify({
           title: this.$t('_shop.messages.couponsEditSuccess'),

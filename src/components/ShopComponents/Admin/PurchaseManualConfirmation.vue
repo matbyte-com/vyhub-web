@@ -42,7 +42,7 @@
       </template>
       <template v-slot:item.coupon="{ item }">
         <span v-for="coupon in getCoupons(item)" :key="coupon">
-          {{ coupon }}
+          {{ coupon }} <br/>
         </span>
       </template>
       <template v-slot:item.date="{ item }">
