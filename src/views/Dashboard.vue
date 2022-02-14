@@ -98,10 +98,12 @@ export default {
       (await openapiCached).server_getBundles().then((rsp) => { (this.bundles = rsp.data); });
     },
     setActiveTab() {
-      this.activeTab = this.$route.params.component[0].toUpperCase()
-        + this.$route.params.component.slice(1);
-      if (this.activeTab === 'General') { this.activeTabIndex = 0; }
-      if (this.activeTab === 'Purchases') { this.activeTabIndex = 1; }
+      if (this.$route.params.component) {
+        this.activeTab = this.$route.params.component[0].toUpperCase()
+          + this.$route.params.component.slice(1);
+        if (this.activeTab === 'General') { this.activeTabIndex = 0; }
+        if (this.activeTab === 'Purchases') { this.activeTabIndex = 1; }
+      }
     },
   },
   beforeMount() {
