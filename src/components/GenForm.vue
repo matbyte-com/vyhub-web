@@ -23,7 +23,7 @@
               </template>
             </v-jsf>
             <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
-              <v-col cols="12">
+              <v-col cols="12" :class="`mt-${actionButtonTopMargin}`">
                 <v-btn v-if="submitText != null" class="mr-4"
                        depressed color="primary" type="submit" :loading="loading">
                   <span v-if="!settingsMode">{{ submitText }}</span>
@@ -73,6 +73,10 @@ export default {
     settingsMode: {
       type: Boolean,
       default: false,
+    },
+    actionButtonTopMargin: {
+      type: Number,
+      default: 0,
     },
   },
   methods: {

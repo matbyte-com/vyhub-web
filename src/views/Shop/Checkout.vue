@@ -63,8 +63,8 @@
                       <GenForm ref="couponForm" :form-schema="couponCodeSchema"
                                @submit="confirmCouponPayment"
                                :optionsExtra="{editMode: 'inline'}"
-                               :cancel-text="$t('_shop.labels.cancelPayment')"
-                               @cancel="cancelPayment"/>
+                               :action-button-top-margin="5"
+                               :cancel-text="null" />
                     </div>
                   </div>
                   <div v-else>
