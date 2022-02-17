@@ -139,10 +139,6 @@ export default {
                 type: 'string',
                 oneOf: [
                   {
-                    const: 'DISABLES',
-                    title: i18n.t('_packet.labels.relationDisables'),
-                  },
-                  {
                     const: 'REQUIRED',
                     title: i18n.t('_packet.labels.relationRequires'),
                   },
@@ -151,6 +147,10 @@ export default {
                     title: i18n.t('_packet.labels.relationNotCompatible'),
                   },
                   /* {
+                    const: 'DISABLES',
+                    title: i18n.t('_packet.labels.relationDisables'),
+                  },
+                   {
                     const: 'UPGRADES',
                     title: i18n.t('_packet.labels.relationUpgrades'),
                   }, */
