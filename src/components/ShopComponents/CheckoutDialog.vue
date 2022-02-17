@@ -209,6 +209,7 @@ export default {
       this.$refs.checkoutDialog.show();
       this.confirmed = false;
       this.loading = false;
+      this.errorMessage = null;
 
       this.fetchData();
 
