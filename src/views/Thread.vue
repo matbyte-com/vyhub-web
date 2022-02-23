@@ -10,7 +10,7 @@
                :title="thread.title">
       <template v-slot:subtitle>
         <v-row>
-          <v-col cols="12" sm="9" align-self="center">
+          <v-col cols="12" sm="9" align-self="center" style="white-space: nowrap">
             <user-link simple class="ml-1" :user="thread.creator"/>
             {{ utils.formatDate(posts[0].created) }}
           </v-col>
@@ -44,7 +44,7 @@
                           size="30">
                   <v-img :src="post.creator.avatar"/>
                 </v-avatar>
-                <user-link v-if="post.creator" :user="post.creator"/>
+                <user-link small v-if="post.creator" :user="post.creator"/>
                 <span class="ml-3">{{ utils.formatDate(post.created) }}</span>
               </div>
             </v-card-text>
