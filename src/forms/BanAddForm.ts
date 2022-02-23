@@ -16,7 +16,11 @@ export default {
       type: 'integer',
       title: i18n.t('ban.labels.lengthInMinutes'),
       minimum: 1,
+      description: i18n.t('ban.labels.infiniteBandDescription'),
     },
-    serverbundle: Common.serverbundleSelectField,
+    serverbundle: {
+      ...Common.serverbundleSelectField,
+      description: i18n.t('ban.labels.bundleDescription'),
+    },
   },
 };

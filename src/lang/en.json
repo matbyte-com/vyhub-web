@@ -45,7 +45,9 @@
       "details": "Ban Details",
       "unban": "Unban",
       "reban": "Reban",
-      "unbanned": "Unbanned"
+      "unbanned": "Unbanned",
+      "infiniteBandDescription": "Leave empty for lifetime ban",
+      "bundleDescription": "Leave empty for global ban"
     }
   },
   "_ban": {
