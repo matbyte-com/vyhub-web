@@ -706,6 +706,9 @@
     "tickets": "Tickets",
     "ticket": "Ticket",
     "creator": "Creator",
+    "content": "Content",
+    "created": "Created",
+    "last_post": "Last Post",
     "lastUpdated": "Last Update",
     "addTicket": "Create Ticket",
     "noTickets": "You have not created any tickets yet.",
@@ -716,6 +719,7 @@
     "closed": "Closed",
     "close": "Close",
     "showClosed": "show closed",
+
     "messages": {
       "addedPost": "Post created.",
       "toggleStatus": "Status toggled.",

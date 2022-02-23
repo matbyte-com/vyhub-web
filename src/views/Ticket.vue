@@ -1,72 +1,52 @@
 <template>
   <div>
+    <PageTitle icon="mdi-ticket-confirmation">{{ $t('_ticket.tickets') }}</PageTitle>
+    <v-card>
+      <v-card-text>
+        <PaginatedDataTable
+          ref="ticketTable"
+          :headers="headers"
+          :items="tickets"
+          :totalItems="totalItems"
+          default-sort-by="created"
+          :default-sort-desc="true"
+          @reload="fetchData"
+          :item-class="ticketRowFormatter"
+          @click:row="showTicket"
+          class="cursor"
+        >
+          <template v-slot:header>
+            <v-checkbox v-model="show_closed" :label="$t('_ticket.showClosed')" @change="fetchData"
+                        class="text-capitalize">
+            </v-checkbox>
+          </template>
+          <template v-slot:item.created="{ item }">
+            {{ utils.formatDate(item.created) }}
+          </template>
+          <template v-slot:item.creator="{ item }">
+            <v-avatar class="ma-1">
+              <v-img :src="item.creator.avatar"/>
+            </v-avatar>
+            <UserLink @click.prevent :user="item.creator"></UserLink>
+          </template>
+          <template v-slot:item.last_post="{ item }">
+            <span v-if="item.last_post" class="text-right">
+              {{ utils.formatDate(item.last_post.created) }}
+              <UserLink @click.prevent :user="item.last_post.creator"></UserLink>
+            </span>
+          </template>
+          <template v-slot:footer-right>
+            <v-btn color="success" outlined
+                   @click="$refs.addThreadDialog.show()">
+              <v-icon left>mdi-plus</v-icon>
+              <span>{{ $t('_ticket.addTicket') }}</span>
+            </v-btn>
+          </template>
+        </PaginatedDataTable>
+      </v-card-text>
+    </v-card>
     <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_ticket.addTicket')"
                      @submit="newThread"/>
-    <div class="d-flex mb-5">
-      <PageTitle icon="mdi-ticket-confirmation">{{ $t('_ticket.tickets') }}</PageTitle>
-      <v-spacer />
-      <v-card height="20%">
-        <v-card-text class="d-flex">
-          <v-checkbox v-model="showClosed" :label="$t('_ticket.showClosed')" @change="fetchData"
-                      hide-details="true" class="text-capitalize">
-          </v-checkbox>
-          <v-text-field hide-details="true"
-                        class="ml-3"
-                        @input="fetchData" v-model="query" :label="$t('search')"/>
-          <v-divider vertical class="ml-3" />
-          <v-btn color="success" class="ml-5 align-self-center" depressed
-                 @click="$refs.addThreadDialog.show()">
-            <v-icon left>mdi-plus</v-icon>
-            <span>{{ $t('_ticket.addTicket') }}</span>
-          </v-btn>
-        </v-card-text>
-      </v-card>
-    </div>
-    <div class="d-flex mt-3" v-for="ticket in tickets" :key="ticket.id">
-      <v-avatar size="100px">
-        <v-img :src="ticket.creator.avatar"/>
-      </v-avatar>
-      <v-card :to="{ name: 'Thread', params: { id: ticket.id } }" class="ml-10" flat outlined
-              width="100%" >
-        <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
-          <span>{{ ticket.title }}</span>
-          <v-spacer />
-          <v-chip v-if="ticket.status === 'OPEN'" color="success" class="text-uppercase">
-            {{ $t('_ticket.open') }}
-          </v-chip>
-          <v-chip v-else color="error" class="text-uppercase">
-            {{ $t('_ticket.closed') }}
-          </v-chip>
-        </v-card-title>
-        <v-card-text class="mt-3">
-          <span v-html="ticket.content.substr(0,300)" class="ql-editor"/>
-          <div class="d-flex align-center" v-if="ticket.content.length > 300">
-            <v-icon>mdi-arrow-right-top</v-icon>
-            <span>... {{ $t('_ticket.readMore') }}</span>
-          </div>
-        </v-card-text>
-        <v-card-actions class="text--disabled pt-0">
-          <span class="mr-3">{{ $d(new Date(ticket.created), 'long') }}</span>
-          <user-link v-if="ticket.creator" :user="ticket.creator"/>
-        </v-card-actions>
-      </v-card>
-    </div>
-    <div class="d-flex mt-3">
-      <v-spacer />
-      <v-btn fab small :disabled="page===1" @click="page = page - 1">
-        <v-icon>
-          mdi-chevron-left
-        </v-icon>
-      </v-btn>
-      <v-btn fab small class="ml-2" @click="page = page + 1" :disabled="total / 50 <= page">
-        <v-icon>
-          mdi-chevron-right
-        </v-icon>
-      </v-btn>
-    </div>
-    <v-card v-if="tickets === []">
-      {{ $t('_ticket.noTickets') }}
-    </v-card>
   </div>
 </template>
 
@@ -75,9 +55,11 @@ import PageTitle from '../components/PageTitle.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 import UserLink from '../components/UserLink.vue';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 
 export default {
   components: {
+    PaginatedDataTable,
     ThreadAddDialog,
     PageTitle,
     UserLink,
@@ -85,32 +67,29 @@ export default {
   name: 'Ticket.vue',
   data() {
     return {
-      tickets: [],
-      showClosed: false,
-      query: '',
+      tickets: null,
+      show_closed: false,
+      headers: [
+        { text: this.$t('_ticket.creator'), value: 'creator', sortable: false },
+        { text: this.$t('_ticket.title'), value: 'title', sortable: false },
+        { text: this.$t('_ticket.created'), value: 'created' },
+        {
+          text: this.$t('_ticket.last_post'), value: 'last_post', sortable: false, align: 'right',
+        },
+      ],
       page: 1,
-      total: 50,
+      totalItems: 0,
     };
   },
-  beforeMount() {
-    if (this.$route.query.page) this.page = this.$route.query.page;
-    this.fetchData();
-  },
-  watch: {
-    page() {
-      this.$router.replace({ query: { page: this.page } });
-      this.fetchData();
-    },
-  },
   methods: {
-    async fetchData() {
+    async fetchData(queryParams = null) {
       (await openapi).forum_getTickets({
-        show_closed: this.showClosed,
-        query: this.query,
-        page: this.page,
+        show_closed: this.show_closed,
+        ...(queryParams != null ? queryParams : this.$refs.ticketTable.getQueryParameters()),
       })
-        .then((rsp) => { this.tickets = rsp.data.items; this.total = rsp.data.total; });
-      return true;
+        .then((rsp) => {
+          this.tickets = rsp.data.items; this.totalItems = rsp.data.total;
+        });
     },
     async newThread() {
       const data = this.$refs.addThreadDialog.getData();
@@ -126,10 +105,28 @@ export default {
         this.$refs.addThreadDialog.setErrorMessage(err.response.data.detail);
       });
     },
+    ticketRowFormatter(item) {
+      const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
+
+      if (item.status === 'CLOSED') {
+        return `green ${add}`;
+      }
+
+      if (item.is_read) {
+        return `grey ${add}`;
+      }
+
+      return `orange ${add}`;
+    },
+    showTicket(item) {
+      this.$router.push({ name: 'Thread', params: { id: item.id } });
+    },
   },
 };
 </script>
 
 <style scoped>
-
+.cursor >>> td{
+  cursor: pointer !important;
+}
 </style>
