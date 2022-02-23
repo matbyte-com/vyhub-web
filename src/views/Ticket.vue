@@ -25,9 +25,10 @@
           </template>
           <template v-slot:item.creator="{ item }">
             <v-avatar class="ma-1">
-              <v-img :src="item.creator.avatar"/>
+              <v-img v-if="item.creator" :src="item.creator.avatar"/>
+              <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
             </v-avatar>
-            <UserLink @click.prevent :user="item.creator"></UserLink>
+            <UserLink v-if="item.creator" @click.prevent :user="item.creator"></UserLink>
           </template>
           <template v-slot:item.last_post="{ item }">
             <span v-if="item.last_post" class="text-right">

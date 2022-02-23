@@ -11,7 +11,7 @@
       <template v-slot:subtitle>
         <v-row>
           <v-col cols="12" sm="9" align-self="center" style="white-space: nowrap">
-            <user-link simple class="ml-1" :user="thread.creator"/>
+            <user-link simple class="ml-1" v-if="thread.creator" :user="thread.creator"/>
             {{ utils.formatDate(posts[0].created) }}
           </v-col>
           <v-col cols="12" sm="3">
@@ -29,8 +29,9 @@
     <div class="mt-3" v-for="post in posts" :key="post.id">
       <v-row>
         <v-col class="hidden-xs-only" cols="2" lg="1">
-          <v-avatar v-if="post.creator.id === thread.creator.id" :size="avatarWidth">
-            <v-img :src="post.creator.avatar"/>
+          <v-avatar :size="avatarWidth">
+            <v-img v-if="post.creator" :src="post.creator.avatar"/>
+            <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
           </v-avatar>
         </v-col>
         <v-col class="ml-sm-5 mr-sm-5">
@@ -39,7 +40,8 @@
               <span v-html="post.content" class="ql-editor pa-0">
               </span>
               <div class="text--disabled mt-3 d-flex align-center">
-                <v-avatar v-if="post.creator.id === thread.creator.id"
+                <v-avatar v-if="post.creator && thread.creator &&
+                 post.creator.id === thread.creator.id"
                           class="hidden-sm-and-up mr-3"
                           size="30">
                   <v-img :src="post.creator.avatar"/>
@@ -51,7 +53,8 @@
           </v-card>
         </v-col>
         <v-col class="hidden-xs-only" cols="2" lg="1">
-          <v-avatar v-if="post.creator.id !== thread.creator.id" :size="avatarWidth">
+          <v-avatar v-if="post.creator && thread.creator && post.creator.id !== thread.creator.id"
+                    :size="avatarWidth">
             <v-img :src="post.creator.avatar"/>
           </v-avatar>
         </v-col>
