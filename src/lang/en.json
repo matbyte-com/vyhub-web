@@ -246,6 +246,7 @@
     "missing_properties": "You do not have all required properties: {properties}",
     "no_permissions": "Permission error: {msg}",
     "unauthorized": "You must be logged in to do this.",
+    "wrong_currency": "You cannot have packets with different currencies in your cart.",
     "coupon": {
       "not_found": "This code is invalid."
     }
