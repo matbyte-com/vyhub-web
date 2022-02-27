@@ -139,7 +139,7 @@ export default {
                 type: 'string',
                 oneOf: [
                   {
-                    const: 'REQUIRED',
+                    const: 'REQUIRES',
                     title: i18n.t('_packet.labels.relationRequires'),
                   },
                   {
