@@ -201,7 +201,7 @@ export default {
         });
         this.$refs.deleteAppliedPacketDialog.closeAndReset();
         this.fetchData();
-        this.$refs.editAppliedPacketDialog.closeAndReset();
+        this.$refs.packetDetailDialog.close();
         this.currentItem = null;
       }).catch((err) => {
         console.log(err);
