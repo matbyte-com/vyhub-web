@@ -26,7 +26,8 @@
       <v-col>
         <v-btn text @click="cancel">
           <v-icon left>mdi-close</v-icon>
-          {{ $t('cancel') }}
+          <span v-if="btnCancelText">{{ btnCancelText }}</span>
+          <span v-else>{{ $t('cancel') }}</span>
         </v-btn>
       </v-col>
     </template>
@@ -54,6 +55,7 @@ export default {
       default: 'mdi-check',
     },
     btnText: String,
+    btnCancelText: String,
     width: {
       type: Number,
       default: 400,

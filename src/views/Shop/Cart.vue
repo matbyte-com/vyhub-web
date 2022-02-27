@@ -211,6 +211,7 @@
     </v-card>
     <confirmation-dialog ref="cancelPurchaseConfirmationDialog"
                          @submit="cancelPurchase(openPurchase)"
+                         :btn-cancel-text="$t('close')"
                          :btn-text="$t('_shop.labels.cancelPurchase')"
                          :text="$t('_shop.messages.cancelPurchaseConfirmation')"/>
     <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>
