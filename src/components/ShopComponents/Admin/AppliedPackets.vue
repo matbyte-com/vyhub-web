@@ -60,15 +60,12 @@
         </template>
         <template v-slot:item.actions="{ item }">
           <div class="text-right">
-            <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
-              <v-icon>
-                mdi-pencil
+            <v-btn depressed small color="error"
+                   @click="showDetails(item)">
+              <v-icon left>
+                mdi-eye
               </v-icon>
-            </v-btn>
-            <v-btn outlined color="error" small @click="$refs.deleteAppliedPacketDialog.show(item)">
-              <v-icon>
-                mdi-delete
-              </v-icon>
+              {{ $t('details') }}
             </v-btn>
           </div>
         </template>
@@ -89,6 +86,25 @@
         icon="mdi-gift-open"
         @submit="createAppliedPacket"
         :title="$t('_purchases.labels.addAppliedPacket')" />
+      <Dialog
+        ref="packetDetailDialog"
+        icon="mdi-gift-open" :title="getDetailDialogTitle">
+        <template v-slot:actions>
+          <v-btn text color="primary" small @click="showEditDialog(currentItem)" class="mr-1">
+            <v-icon left>
+              mdi-pencil
+            </v-icon>
+            {{ $t('edit') }}
+          </v-btn>
+          <v-btn text color="error" small
+                 @click="$refs.deleteAppliedPacketDialog.show(currentItem)">
+            <v-icon left>
+              mdi-delete
+            </v-icon>
+            {{ $t('delete') }}
+          </v-btn>
+        </template>
+      </Dialog>
     </div>
 </template>
 
@@ -101,10 +117,12 @@ import DialogForm from '../../DialogForm.vue';
 import DeleteConfirmationDialog from '../../DeleteConfirmationDialog.vue';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
+import Dialog from '../../Dialog.vue';
 
 export default {
   name: 'UserPackets',
   components: {
+    Dialog,
     PaginatedDataTable,
     DeleteConfirmationDialog,
     DialogForm,
@@ -129,6 +147,8 @@ export default {
       active_filter: [],
       totalItems: 0,
       availableStatus: [],
+      currentItem: null,
+      currentRewards: null,
     };
   },
   methods: {
@@ -180,7 +200,9 @@ export default {
           type: 'success',
         });
         this.$refs.deleteAppliedPacketDialog.closeAndReset();
-        this.fetchData(1);
+        this.fetchData();
+        this.$refs.editAppliedPacketDialog.closeAndReset();
+        this.currentItem = null;
       }).catch((err) => {
         console.log(err);
         this.$refs.deleteAppliedPacketDialog.setErrorMessage(err.response.data.detail);
@@ -201,6 +223,18 @@ export default {
         this.$refs.addAppliedPacketDialog.setErrorMessage(err.response.data.detail);
       });
     },
+    async getAppliedRewards() {
+      (await openapi).packet_getAppliedRewardsByUser(
+        { user_id: [this.currentItem.user.id] },
+      ).then((rsp) => {
+        this.currentRewards = rsp.data;
+      });
+    },
+    async showDetails(item) {
+      this.currentItem = item;
+      this.$refs.packetDetailDialog.show();
+      this.getAppliedRewards();
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -208,6 +242,14 @@ export default {
   watch: {
     active_filter() {
       this.fetchData();
+    },
+  },
+  computed: {
+    getDetailDialogTitle() {
+      if (this.currentItem) {
+        return `${this.currentItem.user.username}: ${this.currentItem.packet.title}`;
+      }
+      return '';
     },
   },
 };
