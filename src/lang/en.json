@@ -487,7 +487,9 @@
     "messages": {
       "createSuccess": "Reward successfully created.",
       "editSuccess": "Reward successfully edited.",
-      "deleteSuccess": "Reward successfully deleted."
+      "deleteSuccess": "Reward successfully deleted.",
+      "createAppliedRewardSuccess": "Applied reward successfully added",
+      "deleteAppliedRewardSuccess": "Applied reward successfully deleted"
     }
   },
   "_purchases": {
@@ -531,7 +533,6 @@
       "editAppliedPacketSuccess": "Applied packet successfully edited.",
       "deleteAppliedPacketSuccess": "Applied packet successfully deleted.",
       "createAppliedPacketSuccess": "Applied packet successfully created.",
-      "createAppliedRewardSuccess": "Applied reward successfully created.",
       "refundConfirm": "Are you sure that you want to refund this purchase?",
       "cancelSubscriptionConfirm": "Are you sure that you want to cancel this subscription?",
       "confirmPurchaseSuccess": "Purchase successfully approved",

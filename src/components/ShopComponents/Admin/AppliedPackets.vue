@@ -80,6 +80,9 @@
       <DeleteConfirmationDialog
         ref="deleteAppliedPacketDialog"
         @submit="deleteAppliedPacket"/>
+      <DeleteConfirmationDialog
+        ref="deleteAppliedRewardDialog"
+        @submit="deleteAppliedReward" />
       <DialogForm
         ref="addAppliedPacketDialog"
         :form-schema="addFormSchema"
@@ -98,7 +101,7 @@
         <template>
           <data-table :headers="appliedRewardsHeaders"
                       :items="currentAppliedRewards"
-                      :show-search="true" class="mt-3" :server-items-length="10">
+                      :show-search="true" class="mt-3">
             <template v-slot:footer-right>
               <v-btn outlined color="success" @click="$refs.addAppliedRewardDialog.show()"
                      v-if="$checkProp('applied_packet_edit')">
@@ -122,7 +125,7 @@
             </template>
             <template v-slot:item.actions="{ item }">
               <v-btn text color="error" small
-                     @click="$refs.deleteAppliedPacketDialog.show(item)">
+                     @click="$refs.deleteAppliedRewardDialog.show(item)">
                 <v-icon left>
                   mdi-delete
                 </v-icon>
@@ -298,7 +301,7 @@ export default {
       (await openapi).packet_addAppliedReward(null, data).then(() => {
         this.$refs.addAppliedRewardDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_purchases.messages.createAppliedRewardSuccess'),
+          title: this.$t('_reward.messages.createAppliedRewardSuccess'),
           type: 'success',
         });
         this.getAppliedRewards();
@@ -306,10 +309,23 @@ export default {
         this.$refs.addAppliedRewardDialog.setErrorMessage(err.response.data.detail);
       });
     },
+    async deleteAppliedReward(item) {
+      (await openapi).packet_deleteAppliedReward({ uuid: item.id }).then(() => {
+        this.$notify({
+          title: this.$t('_reward.messages.deleteAppliedRewardSuccess'),
+          type: 'success',
+        });
+        this.$refs.deleteAppliedRewardDialog.closeAndReset();
+        this.getAppliedRewards();
+      }).catch((err) => {
+        console.log(err);
+        this.$refs.deleteAppliedPacketDialog.setErrorMessage(err.response.data.detail);
+      });
+    },
     async showDetails(item) {
       this.currentItem = item;
       this.$refs.packetDetailDialog.show();
-      this.getAppliedRewards();
+      await this.getAppliedRewards();
     },
   },
   beforeMount() {
