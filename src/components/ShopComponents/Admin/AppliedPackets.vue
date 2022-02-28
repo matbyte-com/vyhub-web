@@ -86,9 +86,51 @@
         icon="mdi-gift-open"
         @submit="createAppliedPacket"
         :title="$t('_purchases.labels.addAppliedPacket')" />
+      <DialogForm
+        ref="addAppliedRewardDialog"
+        :form-schema="addAppliedRewardSchema"
+        icon="mdi-star"
+        @submit="addAppliedReward"
+        :title="$t('_reward.labels.addAppliedReward')" />
       <Dialog
         ref="packetDetailDialog"
-        icon="mdi-gift-open" :title="getDetailDialogTitle">
+        icon="mdi-gift-open" :title="getDetailDialogTitle" :max-width="1000">
+        <template>
+          <data-table :headers="appliedRewardsHeaders"
+                      :items="currentAppliedRewards"
+                      :show-search="true" class="mt-3" :server-items-length="10">
+            <template v-slot:footer-right>
+              <v-btn outlined color="success" @click="$refs.addAppliedRewardDialog.show()"
+                     v-if="$checkProp('applied_packet_edit')">
+                <v-icon left>mdi-plus</v-icon>
+                {{ $t('_reward.labels.addAppliedReward') }}
+              </v-btn>
+            </template>
+            <template v-slot:item.reward="{ item }">
+              {{ item.reward.name }}
+            </template>
+            <template v-slot:item.status="{ item }">
+              <v-chip v-if="item.status === 'OPEN'">
+                {{ $t(`_reward.status.${item.status}`) }}
+              </v-chip>
+              <v-chip v-if="item.status === 'EXECUTED'" color="success">
+                {{ $t(`_reward.status.${item.status}`) }}
+              </v-chip>
+              <v-chip v-if="item.status === 'FAILED'" color="error">
+                {{ $t(`_reward.status.${item.status}`) }}
+              </v-chip>
+            </template>
+            <template v-slot:item.actions="{ item }">
+              <v-btn text color="error" small
+                     @click="$refs.deleteAppliedPacketDialog.show(item)">
+                <v-icon left>
+                  mdi-delete
+                </v-icon>
+                {{ $t('delete') }}
+              </v-btn>
+            </template>
+          </data-table>
+        </template>
         <template v-slot:actions>
           <v-btn text color="primary" small @click="showEditDialog(currentItem)" class="mr-1">
             <v-icon left>
@@ -101,7 +143,7 @@
             <v-icon left>
               mdi-delete
             </v-icon>
-            {{ $t('delete') }}
+            {{ $t('_packet.labels.deleteAppliedPacket') }}
           </v-btn>
         </template>
       </Dialog>
@@ -117,11 +159,14 @@ import DialogForm from '../../DialogForm.vue';
 import DeleteConfirmationDialog from '../../DeleteConfirmationDialog.vue';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
+import AppliedRewardAddForm from '../../../forms/AppliedRewardAddForm';
 import Dialog from '../../Dialog.vue';
+import DataTable from '../../DataTable.vue';
 
 export default {
   name: 'UserPackets',
   components: {
+    DataTable,
     Dialog,
     PaginatedDataTable,
     DeleteConfirmationDialog,
@@ -141,14 +186,22 @@ export default {
           text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
         },
       ],
+      appliedRewardsHeaders: [
+        { text: this.$t('_purchases.labels.reward'), value: 'reward' },
+        { text: this.$t('status'), value: 'status' },
+        {
+          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+        },
+      ],
       appliedPackets: null,
       editFormSchema: AppliedPacketEditForm,
       addFormSchema: UserAppliedPacketAddForm,
+      addAppliedRewardSchema: AppliedRewardAddForm,
       active_filter: [],
       totalItems: 0,
       availableStatus: [],
       currentItem: null,
-      currentRewards: null,
+      currentAppliedRewards: null,
     };
   },
   methods: {
@@ -225,9 +278,32 @@ export default {
     },
     async getAppliedRewards() {
       (await openapi).packet_getAppliedRewardsByUser(
-        { user_id: [this.currentItem.user.id] },
+        {
+          user_id: [this.currentItem.user.id],
+          applied_packet_id: [this.currentItem.id],
+        },
       ).then((rsp) => {
-        this.currentRewards = rsp.data;
+        let res = [];
+        Object.values(rsp.data).forEach((r) => {
+          res = res.concat(r);
+        });
+        this.currentAppliedRewards = res;
+      });
+    },
+    async addAppliedReward() {
+      const data = this.$refs.addAppliedRewardDialog.getData();
+      data.reward_id = data.reward.id;
+      data.user_id = this.currentItem.user.id;
+      data.applied_packet_id = this.currentItem.id;
+      (await openapi).packet_addAppliedReward(null, data).then(() => {
+        this.$refs.addAppliedRewardDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_purchases.messages.createAppliedRewardSuccess'),
+          type: 'success',
+        });
+        this.getAppliedRewards();
+      }).catch((err) => {
+        this.$refs.addAppliedRewardDialog.setErrorMessage(err.response.data.detail);
       });
     },
     async showDetails(item) {

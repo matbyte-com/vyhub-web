@@ -433,7 +433,8 @@
       "relationNotCompatible": "Not compatible with the selected packet.",
       "relationUpgrades": "Can be used to upgrade the selected packet.",
       "imageDetail": "An HTTPS URL to the packet image.",
-      "editBundle": "Edit Serverbundle"
+      "editBundle": "Edit Serverbundle",
+      "deleteAppliedPacket": "Delete applied packet"
     },
     "messages": {
       "sortOnlyWithCategory": "Packets can only be sorted if a category is selected.",
@@ -462,6 +463,7 @@
       "onEvent": "Execute on event",
       "edit": "Edit Reward",
       "onceFromAll": "Only execute on one server",
+      "addAppliedReward": "Add applied reward",
       "_events": {
         "direct": "Execute directly",
         "connect": "Execute on connect",
@@ -476,6 +478,11 @@
         "credits": "Add credits to the buyers account",
         "membership": "Add group membership"
       }
+    },
+    "status": {
+      "OPEN": "Open",
+      "EXECUTED": "Executed",
+      "FAILED": "Failed"
     },
     "messages": {
       "createSuccess": "Reward successfully created.",
@@ -511,7 +518,9 @@
       "confirmDebitText": "Confirm Purchase? This can't be undone.",
       "declineDebitText": "Cancel Purchase? This can't be undone.",
       "showApprovedDebits": "Show approved debits",
-      "paymentGateway": "Payment Gateway"
+      "paymentGateway": "Payment Gateway",
+      "addAppliedReward": "Add applied reward",
+      "reward": "Reward"
     },
     "messages": {
       "cancelSubscriptionSuccess": "Subscription successfully cancelled.",
@@ -522,6 +531,7 @@
       "editAppliedPacketSuccess": "Applied packet successfully edited.",
       "deleteAppliedPacketSuccess": "Applied packet successfully deleted.",
       "createAppliedPacketSuccess": "Applied packet successfully created.",
+      "createAppliedRewardSuccess": "Applied reward successfully created.",
       "refundConfirm": "Are you sure that you want to refund this purchase?",
       "cancelSubscriptionConfirm": "Are you sure that you want to cancel this subscription?",
       "confirmPurchaseSuccess": "Purchase successfully approved",
