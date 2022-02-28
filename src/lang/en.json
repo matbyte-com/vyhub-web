@@ -434,13 +434,18 @@
       "relationUpgrades": "Can be used to upgrade the selected packet.",
       "imageDetail": "An HTTPS URL to the packet image.",
       "editBundle": "Edit Serverbundle",
-      "deleteAppliedPacket": "Delete applied packet"
+      "deleteAppliedPacket": "Delete applied packet",
+      "end": "End"
     },
     "messages": {
       "sortOnlyWithCategory": "Packets can only be sorted if a category is selected.",
       "addSuccess": "Packet successfully created.",
       "editSuccess": "Packet successfully edited.",
       "deleteSuccess": "Packet successfully deleted."
+    },
+    "status": {
+      "ENABLED": "Enabled",
+      "DISABLED": "Disabled"
     }
   },
   "_packetCategory": {

@@ -102,6 +102,14 @@
           <data-table :headers="appliedRewardsHeaders"
                       :items="currentAppliedRewards"
                       :show-search="true" class="mt-3">
+            <template v-slot:header>
+              <v-chip :color="currentItem.status === 'ENABLED' ? 'success' : ''">
+                {{ $t(`_packet.status.${currentItem.status}`) }}
+              </v-chip>
+              <span class="ml-2">
+                {{ $t('_packet.labels.end') }}: {{ utils.formatDate(currentItem.end) }}
+              </span>
+            </template>
             <template v-slot:footer-right>
               <v-btn outlined color="success" @click="$refs.addAppliedRewardDialog.show()"
                      v-if="$checkProp('applied_packet_edit')">
@@ -231,13 +239,14 @@ export default {
       const api = await openapi;
       const data = this.$refs.editAppliedPacketDialog.getData();
 
-      api.packet_editAppliedPacket({ uuid: aPacket.id }, data).then(() => {
+      api.packet_editAppliedPacket({ uuid: aPacket.id }, data).then((rsp) => {
         this.$notify({
           title: this.$t('_purchases.messages.editAppliedPacketSuccess'),
           type: 'success',
         });
         this.$refs.editAppliedPacketDialog.closeAndReset();
-        this.fetchData(1);
+        this.fetchData();
+        this.currentItem = rsp.data;
       }).catch((err) => {
         console.log(err);
         this.$refs.editAppliedPacketDialog.setErrorMessage(err.response.data.detail);
