@@ -42,7 +42,7 @@
                       </v-btn>
                     </div>
                   </div>
-                  <div v-if="debit.payment_gateway.type === 'COUPON'" class="text-left">
+                  <div v-else-if="debit.payment_gateway.type === 'COUPON'" class="text-left">
                     <div class="body-1">
                       <div>
                         {{ $t('_shop.messages.confirmCouponPayment',
