@@ -36,7 +36,7 @@
                   :value="st"
                   @change="newStatus"
                 ></v-checkbox>
-                <a class="ma-1" @click="selectedStatus = []; fetchData(1)">
+                <a class="ma-1" @click="selectedStatus = []; fetchData()">
                   {{ $t('reset') }}</a>
               </v-menu>
             </v-col>
@@ -393,7 +393,7 @@ export default {
             title: this.$t('_purchases.messages.revokeSuccess'),
             type: 'success',
           });
-          this.fetchData(1);
+          this.fetchData();
         }).catch((err) => {
           console.log(err);
           this.utils.notifyUnexpectedError(err.response.data);
@@ -408,7 +408,7 @@ export default {
             title: this.$t('_purchases.messages.unrevokeSuccess'),
             type: 'success',
           });
-          this.fetchData(1);
+          this.fetchData();
         }).catch((err) => {
           console.log(err);
           this.utils.notifyUnexpectedError(err.response.data);
@@ -423,7 +423,7 @@ export default {
             title: this.$t('_purchases.messages.refundInitSuccess'),
             type: 'success',
           });
-          this.fetchData(1);
+          this.fetchData();
           this.$refs.confirmRefundDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
@@ -440,7 +440,7 @@ export default {
               title: this.$t('_purchases.messages.refreshSuccess'),
               type: 'success',
             });
-            this.fetchData(1);
+            this.fetchData();
           }).catch((err) => {
             console.log(err);
             this.utils.notifyUnexpectedError(err.response.data);
@@ -457,7 +457,7 @@ export default {
             title: this.$t('_purchases.messages.cancelSubscriptionSuccess'),
             type: 'success',
           });
-          this.fetchData(1);
+          this.fetchData();
           this.$refs.confirmSubCancelDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
