@@ -34,7 +34,7 @@
           <h2 class="display-h5">{{ group.name }}</h2>
         </v-chip>
       </v-col>
-      <v-col cols="6" sm="4" lg="2"
+      <v-col cols="4" sm="3" lg="1"
              v-for="user in getUsersByGroup(group.id)" :key="user.id" class="text-center">
         <div style="position:relative;">
           <router-link :to="{ name: 'UserDashboard', params: { id: user.id } }">
