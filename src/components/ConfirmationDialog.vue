@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model="dialog" :max-width="width" :title="$t('areYouSure')" icon="mdi-help-circle">
+  <Dialog v-model="dialog" :max-width="width" :title="title" icon="mdi-help-circle">
     <template v-if="errorMessage != null || text != null">
       <v-alert type="error" v-if="errorMessage != null" class="mt-2">
         {{ errorMessage }}
@@ -36,6 +36,7 @@
 
 <script>
 import Dialog from './Dialog.vue';
+import i18n from '@/plugins/i18n';
 
 export default {
   name: 'ConfirmationDialog',
@@ -59,6 +60,10 @@ export default {
     width: {
       type: Number,
       default: 400,
+    },
+    title: {
+      type: String,
+      default: i18n.t('areYouSure'),
     },
   },
   methods: {

@@ -31,10 +31,16 @@
       "activeProperties": "Active Properties",
       "groupMemberships":  "Group Memberships",
       "bansAndWarnings": "Bans and Warnings",
-      "userLog": "User Log"
+      "userLog": "User Log",
+      "admin": "Admin"
+    },
+    "messages": {
+      "adminSuccessfullyRemoved": "Admin successfully removed"
     },
     "registered_on": "Registered on:",
-    "membershipEndDescription": "Leave empty for unlimited duration"
+    "membershipEndDescription": "Leave empty for unlimited duration",
+    "removeAdminConfirmation": "Do not forget to remove the former admin from the instance in your central instance overview.",
+    "removeAdminTitle": "Remove admin?"
   },
   "ban":{
     "labels": {
@@ -375,8 +381,9 @@
     "legal_edit": "Edited legal",
     "reward_membership_lower_level": "Ignored MEMBERSHIP reward {applied_reward_id} because user {user_id} level ({user_level}) is higher than the level of group {group_id} ({group_level}).",
     "user_log_entry_add": "{message}",
-    "group_team_member_edited": "Groups is team member edited"
-  },
+    "group_team_member_edited": "Groups is team member edited",
+    "user_admin_status_removed": "Admin status of user {username} - {user_id} edited: admin = {status}"
+    },
   "forms": {
     "iconDescription": "Available icons"
   },

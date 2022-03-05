@@ -33,24 +33,37 @@
             color="success"
             outlined
             class="font-weight-bold"
+            width="100%"
           >
-            <v-icon color="success">
+            <span>
+              <v-icon color="success">
               mdi-shield-account
             </v-icon>
-            Admin
+            {{ $t('_dashboard.labels.admin') }}
+            <v-btn icon color="error" v-if="$store.getters.user.admin"
+                   @click="$refs.adminDeleteConfirmationDialog.show()">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            </span>
           </v-alert>
         </v-col>
       </v-row>
     </v-card-text>
+    <confirmation-dialog ref="adminDeleteConfirmationDialog"
+                         :title="$t('_dashboard.removeAdminTitle')"
+                         :text="$t('_dashboard.removeAdminConfirmation')"
+                         @submit="removeAdmin"/>
   </v-card>
 </template>
 
 <script>
 import UserLink from '@/components/UserLink.vue';
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'ProfilePicture.vue',
-  components: { UserLink },
+  components: { ConfirmationDialog, UserLink },
   data() {
     return {
       userNum: 0,
@@ -90,6 +103,17 @@ export default {
 
         this.cycleAvatar();
       }, 4000);
+    },
+    async removeAdmin() {
+      (await openapi).user_editUser(this.user.id, { admin: false }).then(() => {
+        this.$refs.adminDeleteConfirmationDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_dashboard.messages.adminSuccessfullyRemoved'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.adminDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
+      });
     },
   },
 };
