@@ -215,6 +215,23 @@ declare namespace Components {
             executed_on: string /* uuid */[];
         }
         /**
+         * AppliedRewardModelAdd
+         */
+        export interface AppliedRewardModelAdd {
+            /**
+             * Reward Id
+             */
+            reward_id: string; // uuid
+            /**
+             * Applied Packet Id
+             */
+            applied_packet_id: string; // uuid
+            /**
+             * User Id
+             */
+            user_id: string; // uuid
+        }
+        /**
          * AppliedRewardModelPatch
          */
         export interface AppliedRewardModelPatch {
@@ -1026,9 +1043,9 @@ declare namespace Components {
              */
             enable_ticket?: boolean;
             /**
-             * Legal
+             * Legal Exists
              */
-            legal?: boolean;
+            legal_exists?: boolean;
         }
         /**
          * GroupAndServerbundleModel
@@ -1776,6 +1793,10 @@ declare namespace Components {
          */
         export interface PacketModelAdd {
             /**
+             * Currency Code
+             */
+            currency_code: string; // ^[A-Z]{3}$
+            /**
              * Description
              */
             description?: string;
@@ -1838,10 +1859,6 @@ declare namespace Components {
             discount?: /* DiscountModel */ DiscountModel;
             price_with_discount?: /* TotalPriceModel */ TotalPriceModel;
             price_without_discount?: /* TotalPriceModel */ TotalPriceModel;
-            /**
-             * Currency Code
-             */
-            currency_code: string; // ^[A-Z]{3}$
             /**
              * Category Id
              */
@@ -1950,6 +1967,10 @@ declare namespace Components {
          */
         export interface PacketModelPatch {
             /**
+             * Currency Code
+             */
+            currency_code?: string; // ^[A-Z]{3}$
+            /**
              * Description
              */
             description?: string;
@@ -2012,10 +2033,6 @@ declare namespace Components {
             discount?: /* DiscountModel */ DiscountModel;
             price_with_discount?: /* TotalPriceModel */ TotalPriceModel;
             price_without_discount?: /* TotalPriceModel */ TotalPriceModel;
-            /**
-             * Currency Code
-             */
-            currency_code?: string; // ^[A-Z]{3}$
             /**
              * Category Id
              */
@@ -2274,13 +2291,34 @@ declare namespace Components {
             size: number;
         }
         /**
-         * Page[ThreadModelShort]
+         * Page[ThreadModel]
          */
-        export interface PageThreadModelShort {
+        export interface PageThreadModel {
             /**
              * Items
              */
-            items: /* ThreadModelShort */ ThreadModelShort[];
+            items: /* ThreadModel */ ThreadModel[];
+            /**
+             * Total
+             */
+            total: number;
+            /**
+             * Page
+             */
+            page: number;
+            /**
+             * Size
+             */
+            size: number;
+        }
+        /**
+         * Page[UserAttributeModel]
+         */
+        export interface PageUserAttributeModel {
+            /**
+             * Items
+             */
+            items: /* UserAttributeModel */ UserAttributeModel[];
             /**
              * Total
              */
@@ -2440,7 +2478,7 @@ declare namespace Components {
              * Created
              */
             created: string; // date-time
-            creator: /* UserModelShort */ ModelUserUserUserModelShort;
+            creator?: /* UserModelShort */ ModelUserUserUserModelShort;
         }
         /**
          * PostModelAdd
@@ -2450,6 +2488,20 @@ declare namespace Components {
              * Content
              */
             content: string;
+        }
+        /**
+         * PostModelShort
+         */
+        export interface PostModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Created
+             */
+            created: string; // date-time
+            creator?: /* UserModelShort */ ModelUserUserUserModelShort;
         }
         /**
          * PropertyModel
@@ -3515,6 +3567,11 @@ declare namespace Components {
              * Content
              */
             content: string;
+            /**
+             * Is Read
+             */
+            is_read?: boolean;
+            last_post?: /* PostModelShort */ PostModelShort;
             category: /**
              * ThreadCategory
              * An enumeration.
@@ -3524,7 +3581,7 @@ declare namespace Components {
              * Created
              */
             created: string; // date-time
-            creator: /* UserModelShort */ ModelUserUserUserModelShort;
+            creator?: /* UserModelShort */ ModelUserUserUserModelShort;
             status: /**
              * ThreadStatus
              * An enumeration.
@@ -3562,18 +3619,10 @@ declare namespace Components {
              */
             title: string;
             /**
-             * Content
-             */
-            content: string;
-            /**
              * Created
              */
             created: string; // date-time
-            creator: /* UserModelShort */ ModelUserUserUserModelShort;
-            /**
-             * Read
-             */
-            read: boolean;
+            creator?: /* UserModelShort */ ModelUserUserUserModelShort;
             status: /**
              * ThreadStatus
              * An enumeration.
@@ -3800,6 +3849,31 @@ declare namespace Components {
              * Serverbundle Id
              */
             serverbundle_id?: string; // uuid
+        }
+        /**
+         * UserAttributeModel
+         */
+        export interface UserAttributeModel {
+            /**
+             * Date
+             */
+            date?: string; // date-time
+            /**
+             * Value
+             */
+            value: string;
+            /**
+             * Definition Id
+             */
+            definition_id: string; // uuid
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id?: string; // uuid
+            /**
+             * Id
+             */
+            id: string; // uuid
         }
         /**
          * UserAttributeModelAdd
@@ -4459,15 +4533,25 @@ declare namespace Paths {
              * Size
              */
             export type Size = number;
+            /**
+             * Sort By
+             */
+            export type SortBy = string;
+            /**
+             * Sort Desc
+             */
+            export type SortDesc = boolean;
         }
         export interface QueryParameters {
             query?: /* Query */ Parameters.Query;
+            sort_by?: /* Sort By */ Parameters.SortBy;
+            sort_desc?: /* Sort Desc */ Parameters.SortDesc;
             show_closed?: /* Show Closed */ Parameters.ShowClosed;
             page?: /* Page */ Parameters.Page;
             size?: /* Size */ Parameters.Size;
         }
         namespace Responses {
-            export type $200 = /* Page[ThreadModelShort] */ Components.Schemas.PageThreadModelShort;
+            export type $200 = /* Page[ThreadModel] */ Components.Schemas.PageThreadModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -5069,6 +5153,13 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace PacketAddAppliedReward {
+        export type RequestBody = /* AppliedRewardModelAdd */ Components.Schemas.AppliedRewardModelAdd;
+        namespace Responses {
+            export type $200 = /* AppliedRewardModel */ Components.Schemas.AppliedRewardModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace PacketAddPacket {
         export type RequestBody = /* PacketModelAdd */ Components.Schemas.PacketModelAdd;
         namespace Responses {
@@ -5098,6 +5189,26 @@ declare namespace Paths {
         }
     }
     namespace PacketDeleteAppliedPacket {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace PacketDeleteAppliedReward {
         namespace Parameters {
             /**
              * Uuid
@@ -5409,6 +5520,11 @@ declare namespace Paths {
              */
             export type Active = boolean;
             /**
+             * Applied Packet Id
+             * Filter by Applied Packets
+             */
+            export type AppliedPacketId = string /* uuid */[];
+            /**
              * For Server Id
              * Only return applied rewards that haven't been executed on the given server yet and that are applicable for the servers type.
              */
@@ -5460,6 +5576,11 @@ declare namespace Paths {
              * Index result by foreign user identifier instead of VyHub user id.
              */
             Parameters.ForeignIds;
+            applied_packet_id?: /**
+             * Applied Packet Id
+             * Filter by Applied Packets
+             */
+            Parameters.AppliedPacketId;
         }
         namespace Responses {
             /**
@@ -7210,6 +7331,58 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace UserGetAttributes {
+        namespace Parameters {
+            /**
+             * Begin
+             */
+            export type Begin = string; // date-time
+            /**
+             * Definition Id
+             */
+            export type DefinitionId = string /* uuid */[];
+            /**
+             * End
+             */
+            export type End = string; // date-time
+            /**
+             * Page
+             */
+            export type Page = number;
+            /**
+             * Serverbundle Id
+             */
+            export type ServerbundleId = string /* uuid */[];
+            /**
+             * Size
+             */
+            export type Size = number;
+            /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID or username of the referenced user.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            serverbundle_id?: /* Serverbundle Id */ Parameters.ServerbundleId;
+            definition_id?: /* Definition Id */ Parameters.DefinitionId;
+            begin?: /* Begin */ Parameters.Begin /* date-time */;
+            end?: /* End */ Parameters.End /* date-time */;
+            page?: /* Page */ Parameters.Page;
+            size?: /* Size */ Parameters.Size;
+        }
+        namespace Responses {
+            export type $200 = /* Page[UserAttributeModel] */ Components.Schemas.PageUserAttributeModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace UserGetCurrentProperties {
         namespace Parameters {
             /**
@@ -7556,7 +7729,7 @@ declare namespace Paths {
             /**
              * Serverbundle Id
              */
-            export type ServerbundleId = string[];
+            export type ServerbundleId = string /* uuid */[];
             /**
              * Size
              */
@@ -7913,6 +8086,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200>
+  /**
+   * user_getAttributes - Get Attributes
+   */
+  'user_getAttributes'(
+    parameters?: Parameters<Paths.UserGetAttributes.PathParameters & Paths.UserGetAttributes.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.UserGetAttributes.Responses.$200>
   /**
    * user_getAttributeDefinitions - Get Attribute Definitions
    */
@@ -8838,6 +9019,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketGetAppliedRewards.Responses.$200>
   /**
+   * packet_addAppliedReward - Add Applied Reward
+   */
+  'packet_addAppliedReward'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.PacketAddAppliedReward.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketAddAppliedReward.Responses.$200>
+  /**
    * packet_getAppliedRewardsByUser - Get Applied Rewards By User
    * 
    * Get rewards for a list of users.
@@ -8855,6 +9044,14 @@ export interface OperationMethods {
     data?: Paths.PacketEditAppliedReward.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200>
+  /**
+   * packet_deleteAppliedReward - Delete Applied Reward
+   */
+  'packet_deleteAppliedReward'(
+    parameters?: Parameters<Paths.PacketDeleteAppliedReward.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketDeleteAppliedReward.Responses.$200>
   /**
    * packet_getCategories - Get Categories
    */
@@ -9551,6 +9748,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetAttributeHistory.Responses.$200>
+  }
+  ['/user/{uuid}/attribute/']: {
+    /**
+     * user_getAttributes - Get Attributes
+     */
+    'get'(
+      parameters?: Parameters<Paths.UserGetAttributes.PathParameters & Paths.UserGetAttributes.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.UserGetAttributes.Responses.$200>
   }
   ['/user/attribute/definition']: {
     /**
@@ -10627,6 +10834,14 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketGetAppliedRewards.Responses.$200>
+    /**
+     * packet_addAppliedReward - Add Applied Reward
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.PacketAddAppliedReward.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketAddAppliedReward.Responses.$200>
   }
   ['/packet/reward/applied/user']: {
     /**
@@ -10649,6 +10864,16 @@ export interface PathsDictionary {
       data?: Paths.PacketEditAppliedReward.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200>
+  }
+  ['/packet/rewardapplied/{uuid}']: {
+    /**
+     * packet_deleteAppliedReward - Delete Applied Reward
+     */
+    'post'(
+      parameters?: Parameters<Paths.PacketDeleteAppliedReward.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketDeleteAppliedReward.Responses.$200>
   }
   ['/packet/category']: {
     /**

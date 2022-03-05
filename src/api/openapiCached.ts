@@ -21,6 +21,7 @@ async function api() {
     withServer: 'main',
     axiosConfigDefaults: {
       adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 300 * 1000 }),
+      baseURL: config.backend_url,
       headers,
     },
   }).init<Client>();

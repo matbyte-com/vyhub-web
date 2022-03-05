@@ -48,8 +48,8 @@ export default {
 
     await store.dispatch('logout');
     delete api.http.defaults.headers.common.Authorization;
-    delete (await openapi).defaults.headers.Authorization;
-    delete (await openapiCached).defaults.headers.Authorization;
+    delete (await openapi).defaults.headers.common.Authorization;
+    delete (await openapiCached).defaults.headers.common.Authorization;
     delete api.throttledHttp.defaults.headers.common.Authorization;
     delete axios.defaults.headers.common.Authorization;
 
@@ -59,8 +59,8 @@ export default {
     if (store.getters.accessToken) {
       const header = `Bearer ${store.getters.accessToken}`;
       axios.defaults.headers.common.Authorization = header;
-      (await openapi).defaults.headers.Authorization = header;
-      (await openapiCached).defaults.headers.Authorization = header;
+      (await openapi).defaults.headers.common.Authorization = header;
+      (await openapiCached).defaults.headers.common.Authorization = header;
       api.http.defaults.headers.common.Authorization = header;
       api.throttledHttp.defaults.headers.common.Authorization = header;
     }

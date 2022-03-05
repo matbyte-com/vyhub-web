@@ -15,6 +15,7 @@ function api() {
     withServer: 'main',
     axiosConfigDefaults: {
       withCredentials: true,
+      baseURL: config.backend_url,
       headers,
     },
   }).init<Client>();
