@@ -71,6 +71,7 @@
 
     <Dialog ref="showMemberDialog"
             icon="mdi-account-multiple"
+            :max-width="1000"
             :title="`${$t('_membership.labels.activeMemberships')}:
               ${memberGroup ? memberGroup.name : ''}`">
       <PaginatedDataTable :items="groupMembers" :headers="groupMemberHeaders"
@@ -80,6 +81,12 @@
                  class="mt-3">
         <template v-slot:item.user="{ item }">
           <UserLink :user="item.user" />
+        </template>
+        <template v-slot:item.serverbundle="{ item }">
+          <v-icon v-if="item.serverbundle.icon">
+            {{ item.serverbundle.icon }}
+          </v-icon>
+          {{ item.serverbundle.name }}
         </template>
         <template v-slot:item.begin="{ item }">
           {{ (item.begin != null
@@ -161,6 +168,7 @@ export default {
       ],
       groupMemberHeaders: [
         { text: this.$t('user'), value: 'user', sortable: false },
+        { text: this.$t('serverbundle'), value: 'serverbundle', sortable: false },
         { text: this.$t('begin'), value: 'begin', sortable: false },
         {
           text: this.$t('end'), value: 'end', sortable: false,
