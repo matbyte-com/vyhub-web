@@ -13,7 +13,7 @@
         <strong>
           {{ new Date().getFullYear() }}
           <span v-if="$store.getters.theme != null">
-            — {{ $store.getters.theme.community_name }}
+            — {{ $store.getters.generalConfig.community_name }}
           </span>
           —
           <a class="text-decoration-none white--text" href="http://vyhub.net">

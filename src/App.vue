@@ -164,7 +164,6 @@ export default Vue.extend({
           cachedTheme.error = theme.error;
           cachedTheme.logo = theme.logo;
           cachedTheme.show_community_name = theme.show_community_name;
-          cachedTheme.community_name = theme.community_name;
           cachedTheme.logo_width = theme.logo_width;
           cachedTheme.show_information_fab = theme.show_information_fab;
           cachedTheme.favicon = theme.favicon;

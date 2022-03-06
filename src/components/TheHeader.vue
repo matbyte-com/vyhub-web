@@ -142,7 +142,7 @@ export default {
         this.imgSrc = obj.logo;
         if (obj.logo_width) this.logo_width = obj.logo_width;
         if (obj.show_community_name) {
-          this.communityName = obj.community_name;
+          this.communityName = this.$store.getters.generalConfig.community_name;
         } else {
           this.communityName = null;
         }

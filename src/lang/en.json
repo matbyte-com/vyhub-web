@@ -320,6 +320,7 @@
       "discord": "Discord",
       "server": "Server"
     },
+    "edit": "Edited {name}: {key} = {value}",
     "object_edit": "Edited {classname} with id {id}: {key} = {value}.",
     "object_delete": "Deleted {classname} with id {id}.",
     "object_create": "Created {classname} with id {id}: {params}",
@@ -365,7 +366,6 @@
     "news_edit": "Edited news {newsSubject} {newsId}",
     "news_deleted": "Deleted news message {newsSubject} {newsId}",
     "config_edit": "Edited general config",
-    "shop_config_edit": "Edited shop config",
     "membership_add": "Added to group {group_name} in bundle {serverbundle} until {until}.",
     "membership_deleted": "Deleted Membership: Group: {groupName}, User: {username}",
     "membership_ended": "Ended Membership: Group: {groupName}, User: {username}",
