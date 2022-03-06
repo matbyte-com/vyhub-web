@@ -40,7 +40,7 @@
               mdi-shield-account
             </v-icon>
             {{ $t('_dashboard.labels.admin') }}
-            <v-btn icon color="error" v-if="$store.getters.user.admin"
+            <v-btn icon color="error" v-if="$store.getters.user && $store.getters.user.admin"
                    @click="$refs.adminDeleteConfirmationDialog.show()">
               <v-icon>mdi-close</v-icon>
             </v-btn>
