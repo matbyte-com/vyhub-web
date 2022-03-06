@@ -66,7 +66,7 @@
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-data-table
-                  :headers="groupTableHeaders"
+                  :headers="computedHeaders"
                   :items="memberships"
                   :items-per-page="5"
                   :item-class="membershipRowFormatter"
@@ -94,7 +94,7 @@
                     : '∞') }}
                   </template>
                   <template v-slot:item.actions="{ item }">
-                    <v-btn outlined color="primary" small
+                    <v-btn outlined color="primary" small v-if="$checkProp('user_edit')"
                            @click="openEditMembershipDialog(item)" class="ma-0 pa-0">
                       <v-icon>
                         mdi-pencil
@@ -272,6 +272,12 @@ export default {
   computed: {
     allGroups() {
       return this.userActiveGroups.map((gs) => gs.group);
+    },
+    computedHeaders() {
+      if (this.$checkProp('user_edit')) {
+        return this.groupTableHeaders;
+      }
+      return this.groupTableHeaders.filter((h) => h.value !== 'actions');
     },
   },
 };
