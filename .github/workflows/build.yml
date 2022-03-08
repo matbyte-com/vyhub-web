@@ -9,8 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Push
     steps:
-      - name: git-checkout
+      - name: Checkout vyhub-web
         uses: actions/checkout@v2
+        with:
+          submodules: 'true'
 
       - name: Install all dependencies
         run: npm install
