@@ -13,7 +13,7 @@ export default {
     },
     length: {
       type: 'integer',
-      title: i18n.t('ban.labels.lengthInMinutes'),
+      title: i18n.t('_ban.labels.lengthInMinutes'),
       minimum: 1,
     },
     serverbundle: Common.serverbundleSelectField,

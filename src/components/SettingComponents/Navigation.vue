@@ -13,14 +13,14 @@
             <v-alert
               type="warning" outlined
               dense
-            >{{ $t('settings.contentSanitizationWarning') }}
+            >{{ $t('_settings.contentSanitizationWarning') }}
             </v-alert>
             <v-expansion-panels flat>
               <v-expansion-panel>
                 <v-expansion-panel-header>
                   <v-row>
                     <v-badge :value="htmlInput" inline dot class="float-left">
-                      {{ $t('settings.editor') }}
+                      {{ $t('_settings.editor') }}
                     </v-badge>
                   </v-row>
                 </v-expansion-panel-header>
@@ -32,12 +32,12 @@
                 <v-expansion-panel-header>
                   <v-row>
                     <v-badge :value="rawHtmlInput" inline dot class="float-left">
-                      {{ $t('settings.rawHtml') }}
+                      {{ $t('_settings.rawHtml') }}
                     </v-badge>
                   </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <v-textarea :placeholder="$t('settings.rawHtml')" v-model="rawHtmlInput"/>
+                  <v-textarea :placeholder="$t('_settings.rawHtml')" v-model="rawHtmlInput"/>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -58,14 +58,14 @@
             <v-alert
               type="warning" outlined
               dense
-            >{{ $t('settings.contentSanitizationWarning') }}
+            >{{ $t('_settings.contentSanitizationWarning') }}
             </v-alert>
             <v-expansion-panels flat>
               <v-expansion-panel>
                 <v-expansion-panel-header>
                   <v-row>
                     <v-badge :value="htmlInput" inline dot class="float-left">
-                      {{ $t('settings.editor') }}
+                      {{ $t('_settings.editor') }}
                     </v-badge>
                   </v-row>
                 </v-expansion-panel-header>
@@ -77,12 +77,12 @@
                 <v-expansion-panel-header>
                   <v-row>
                     <v-badge :value="rawHtmlInput" inline dot class="float-left">
-                      {{ $t('settings.rawHtml') }}
+                      {{ $t('_settings.rawHtml') }}
                     </v-badge>
                   </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <v-textarea :placeholder="$t('settings.rawHtml')" v-model="rawHtmlInput"/>
+                  <v-textarea :placeholder="$t('_settings.rawHtml')" v-model="rawHtmlInput"/>
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
@@ -141,7 +141,7 @@
       <v-col cols="12" md="6">
         <v-btn outlined color="success" @click="openNavAddDialog">
           <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t('settings.addLink') }}</span>
+          <span>{{ $t('_settings.addLink') }}</span>
         </v-btn>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs}">
@@ -152,7 +152,7 @@
             </v-btn>
           </template>
           <span>
-            {{ $t('settings.navUpdate') }}
+            {{ $t('_settings.navUpdate') }}
           </span>
         </v-tooltip>
         <v-tooltip bottom>
@@ -164,7 +164,7 @@
             </v-btn>
           </template>
           <span>
-            {{ $t('settings.navReset') }}
+            {{ $t('_settings.navReset') }}
           </span>
         </v-tooltip>
       </v-col>
@@ -173,13 +173,13 @@
           <v-icon disabled>
           mdi-web
         </v-icon>
-        {{ $t('settings.htmlContent') }}
+        {{ $t('_settings.htmlContent') }}
         </span>
         <span>
           <v-icon disabled>
           mdi-link
         </v-icon>
-        {{ $t('settings.externalLink') }}
+        {{ $t('_settings.externalLink') }}
         </span>
       </v-col>
     </v-row>

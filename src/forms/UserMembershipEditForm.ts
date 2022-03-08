@@ -16,7 +16,7 @@ export default {
       type: 'string',
       title: i18n.t('end'),
       format: 'date-time',
-      description: i18n.t('_dashboard.membershipEndDescription'),
+      description: i18n.t('_dashboard.labels.membershipEndDescription'),
     },
   },
 };

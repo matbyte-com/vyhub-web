@@ -47,7 +47,7 @@
         </v-list-item>
         <v-list-item @click="emitLogout">
           <v-icon left>mdi-logout-variant</v-icon>
-          <v-list-item-title>{{ $t('header.labels.logout') }}</v-list-item-title>
+          <v-list-item-title>{{ $t('_header.labels.logout') }}</v-list-item-title>
         </v-list-item>
       </div>
       <div v-else>
@@ -55,7 +55,7 @@
           <v-icon left>
             mdi-login
           </v-icon>
-          <v-list-item-title>{{ $t('header.labels.login') }}</v-list-item-title>
+          <v-list-item-title>{{ $t('_header.labels.login') }}</v-list-item-title>
         </v-list-item>
       </div>
     </v-list>

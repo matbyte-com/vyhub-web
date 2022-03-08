@@ -250,7 +250,7 @@ export default {
         this.fetchData();
         this.$refs.addMembershipDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_membership.membershipSuccessfullyAdded'),
+          title: this.$t('_membership.messages.membershipSuccessfullyAdded'),
           type: 'success',
         });
       }).catch((err) => {

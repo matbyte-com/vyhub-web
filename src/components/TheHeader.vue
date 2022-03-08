@@ -41,7 +41,7 @@
       <div v-else>
         <v-btn outlined class="mr-1 lighten-1 white--text" data-cy="login-button"
                @click="showLoginDialog">
-          {{ $t("header.labels.login") }}
+          {{ $t("_header.labels.login") }}
         </v-btn>
       </div>
     </div>

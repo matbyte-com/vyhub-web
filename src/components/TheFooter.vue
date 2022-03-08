@@ -2,7 +2,7 @@
   <v-footer color="primary lighten-1" padless>
     <v-row justify="center" no-gutters>
       <v-btn color="white" text class="my-2" @click="$refs.languagePicker.dialog = true" disabled>
-        {{ $t("footer.labels.language") }}
+        {{ $t("_footer.labels.language") }}
       </v-btn>
       <v-btn v-for="(link, index) in links" :key="index" color="white"
              text class="no-active my-2" :to="link.link"

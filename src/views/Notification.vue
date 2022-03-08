@@ -1,8 +1,8 @@
 <template>
 <div>
-  <ConfirmationDialog :btn-text="$t('notification.markAllAsRead')"
+  <ConfirmationDialog :btn-text="$t('_notification.markAllAsRead')"
                       @submit="markAllAsRead" ref="markAsReadDialog"/>
-  <PageTitle icon="mdi-bell-outline">{{ $t('notification.notifications') }}</PageTitle>
+  <PageTitle icon="mdi-bell-outline">{{ $t('_notification.notifications') }}</PageTitle>
   <v-card>
     <v-card-text class="mt-0 pt-0">
       <v-fade-transition>
@@ -10,7 +10,7 @@
           <v-icon left>
             mdi-sync
           </v-icon>
-          {{ $t('notification.newNotifications') }}
+          {{ $t('_notification.newNotifications') }}
         </v-btn>
       </v-fade-transition>
       <PaginatedDataTable
@@ -36,14 +36,14 @@
               <v-icon left>
                 mdi-playlist-check
               </v-icon>
-              {{ $t('notification.markAllAsRead') }}
+              {{ $t('_notification.markAllAsRead') }}
             </v-btn>
             <v-spacer />
             <v-checkbox
               :hide-details="true"
               dense
               v-model="showOnlyReadItems"
-              :label="$t('notification.hideReadNotifications')"
+              :label="$t('_notification.hideReadNotifications')"
               @change="fetchData"
               class="mr-3 align-self-center mt-0 pt-0">
             </v-checkbox>
@@ -68,7 +68,7 @@
                 v-for="(category, index) in categories"
                 :key="index"
                 v-model="selectedCat"
-                :label="$t(`notification.type.${category.toLowerCase()}`)"
+                :label="$t(`_notification.type.${category.toLowerCase()}`)"
                 :value="category"
                 @change="fetchData"
               ></v-checkbox>
@@ -83,17 +83,17 @@
         </template>
         <template v-slot:item.message="{ item }">
           <span :class="{ 'font-weight-medium': !item.read }">
-            {{ $t(`notification.${item.message.name}`, { ...item.message.kwargs }) }}
+            {{ $t(`_notification.${item.message.name}`, { ...item.message.kwargs }) }}
           </span>
         </template>
         <template v-slot:item.category="{ item }">
           <span :class="{ 'font-weight-medium': !item.read }">
-             {{ $t(`notification.type.${item.category.toLowerCase()}`) }}
+             {{ $t(`_notification.type.${item.category.toLowerCase()}`) }}
           </span>
         </template>
         <template v-slot:item.time="{ item }" >
           <span :class="{ 'font-weight-medium': !item.read }">
-            {{ $t('notification.timeAgo', {
+            {{ $t('_notification.timeAgo', {
             time: utils.formatElapsedTime((new Date() - new Date(item.created_on)))
           }) }}
           </span>
@@ -107,7 +107,7 @@
                   mdi-open-in-new
                 </v-icon>
               </template>
-              <span>{{ $t('notification.isLink') }}</span>
+              <span>{{ $t('_notification.isLink') }}</span>
             </v-tooltip>
             <v-tooltip left>
               <template v-slot:activator="{ on, attrs }">
@@ -120,8 +120,8 @@
                   </v-icon>
                 </v-btn>
               </template>
-              <span v-if="item.read">{{ $t('notification.markUnRead') }}</span>
-              <span v-else>{{ $t('notification.markRead') }}</span>
+              <span v-if="item.read">{{ $t('_notification.markUnRead') }}</span>
+              <span v-else>{{ $t('_notification.markRead') }}</span>
             </v-tooltip>
           </div>
         </template>
@@ -198,7 +198,7 @@ export default {
         this.$refs.markAsReadDialog.closeAndReset();
         this.fetchData();
         this.$notify({
-          title: this.$t('notification.messages.readSuccess'),
+          title: this.$t('_notification.messages.readSuccess'),
           type: 'success',
         });
       });
@@ -212,7 +212,7 @@ export default {
     async toggleReadStatus(item) {
       (await openapi).notification_markAsRead(null, { id: [item.id] }).then(() => {
         this.$notify({
-          title: this.$t('notification.messages.readSuccess'),
+          title: this.$t('_notification.messages.readSuccess'),
           type: 'success',
         });
       });

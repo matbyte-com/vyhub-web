@@ -17,7 +17,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    meta: { title: i18n.t('pageTitle.dashboard'), requiresAuth: true },
+    meta: { title: i18n.t('_pageTitle.dashboard'), requiresAuth: true },
     redirect(to) {
       if (store.getters.isLoggedIn) {
         return {
@@ -44,55 +44,55 @@ const routes: Array<RouteConfig> = [
     path: '/settings/:component?',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
-    meta: { requiresAuth: true, title: i18n.t('pageTitle.settings') },
+    meta: { requiresAuth: true, title: i18n.t('_pageTitle.settings') },
   },
   {
     path: '/bans/:banId?',
     name: 'Bans',
-    meta: { title: i18n.t('pageTitle.bans') },
+    meta: { title: i18n.t('_pageTitle.bans') },
     component: () => import('@/views/Ban.vue'),
   },
   {
     path: '/warnings/:warningId?',
     name: 'Warnings',
-    meta: { title: i18n.t('pageTitle.warnings') },
+    meta: { title: i18n.t('_pageTitle.warnings') },
     component: () => import('@/views/Warning.vue'),
   },
   {
     path: '/shop',
     name: 'Shop',
     component: () => import('@/views/Shop/Start.vue'),
-    meta: { title: i18n.t('pageTitle.shop') },
+    meta: { title: i18n.t('_pageTitle.shop') },
   },
   {
     path: '/shop/category/:categoryId',
     name: 'ShopCategory',
     component: () => import('@/views/Shop/Category.vue'),
-    meta: { title: i18n.t('pageTitle.shopCategory') },
+    meta: { title: i18n.t('_pageTitle.shopCategory') },
   },
   {
     path: '/shop/packet/:packetId',
     name: 'ShopPacket',
     component: () => import('@/views/Shop/Packet.vue'),
-    meta: { title: i18n.t('pageTitle.shopPacket') },
+    meta: { title: i18n.t('_pageTitle.shopPacket') },
   },
   {
     path: '/shop/cart',
     name: 'ShopCart',
-    meta: { title: i18n.t('pageTitle.shopCart'), requiresAuth: true },
+    meta: { title: i18n.t('_pageTitle.shopCart'), requiresAuth: true },
     component: () => import('../views/Shop/Cart.vue'),
   },
   {
     path: '/shop/checkout/:debitId/:action',
     name: 'ShopCheckout',
-    meta: { title: i18n.t('pageTitle.shopCheckout'), requiresAuth: true },
+    meta: { title: i18n.t('_pageTitle.shopCheckout'), requiresAuth: true },
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
     path: '/shop/admin/:component?',
     name: 'ShopAdmin',
     component: () => import('@/views/Shop/Admin.vue'),
-    meta: { requiresAuth: true, title: i18n.t('pageTitle.shopAdministration') },
+    meta: { requiresAuth: true, title: i18n.t('_pageTitle.shopAdministration') },
   },
   {
     path: '/cms/:title',
@@ -102,37 +102,37 @@ const routes: Array<RouteConfig> = [
   {
     path: '/notification',
     name: 'Notification',
-    meta: { title: i18n.t('pageTitle.notifications'), requiresAuth: true },
+    meta: { title: i18n.t('_pageTitle.notifications'), requiresAuth: true },
     component: () => import('../views/Notification.vue'),
   },
   {
     path: '/log',
     name: 'Log',
-    meta: { title: i18n.t('pageTitle.log'), requiresAuth: true },
+    meta: { title: i18n.t('_pageTitle.log'), requiresAuth: true },
     component: () => import('../views/Log.vue'),
   },
   {
     path: '/legal',
     name: 'Legal',
-    meta: { title: i18n.t('pageTitle.legal') },
+    meta: { title: i18n.t('_pageTitle.legal') },
     component: () => import('../views/Legal.vue'),
   },
   {
     path: '/ticket',
     name: 'Ticket',
-    meta: { title: i18n.t('pageTitle.ticket'), requiresAuth: true },
+    meta: { title: i18n.t('_pageTitle.ticket'), requiresAuth: true },
     component: () => import('../views/Ticket.vue'),
   },
   {
     path: '/thread/:id',
     name: 'Thread',
-    meta: { title: i18n.t('pageTitle.ticket') },
+    meta: { title: i18n.t('_pageTitle.ticket') },
     component: () => import('../views/Thread.vue'),
   },
   {
     path: '/team',
     name: 'Team',
-    meta: { title: i18n.t('pageTitle.team') },
+    meta: { title: i18n.t('_pageTitle.team') },
     component: () => import('../views/Team.vue'),
   },
   {

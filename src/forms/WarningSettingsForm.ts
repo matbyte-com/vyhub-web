@@ -21,7 +21,7 @@ export default {
     ban_length: {
       type: 'integer',
       'x-props': {
-        placeholder: i18n.t('ban.labels.lengthInMinutes'),
+        placeholder: i18n.t('_ban.labels.lengthInMinutes'),
       },
       title: i18n.t('_warning.banLength'),
       minimum: 1,

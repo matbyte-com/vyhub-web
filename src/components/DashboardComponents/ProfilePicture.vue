@@ -50,8 +50,8 @@
       </v-row>
     </v-card-text>
     <confirmation-dialog ref="adminDeleteConfirmationDialog"
-                         :title="$t('_dashboard.removeAdminTitle')"
-                         :text="$t('_dashboard.removeAdminConfirmation')"
+                         :title="$t('_dashboard.labels.removeAdminTitle')"
+                         :text="$t('_dashboard.messages.removeAdminConfirmation')"
                          @submit="removeAdmin"/>
   </v-card>
 </template>

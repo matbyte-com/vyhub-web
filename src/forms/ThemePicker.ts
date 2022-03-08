@@ -22,7 +22,7 @@ export default {
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
-        placeholder: i18n.t('settings.httpPlaceholder'),
+        placeholder: i18n.t('_settings.httpPlaceholder'),
       },
     },
     background: common.colorPicker('_theme.backgroundColor', '_theme.backgroundColorDescription'),
@@ -32,7 +32,7 @@ export default {
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
-        placeholder: i18n.t('settings.httpPlaceholder'),
+        placeholder: i18n.t('_settings.httpPlaceholder'),
       },
       description: i18n.t('_theme.logoDescription'),
     },
@@ -59,7 +59,7 @@ export default {
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
-        placeholder: i18n.t('settings.httpPlaceholder'),
+        placeholder: i18n.t('_settings.httpPlaceholder'),
       },
     },
     show_information_fab: {

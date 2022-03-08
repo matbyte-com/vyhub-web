@@ -8,14 +8,14 @@
                icon="mdi-approximately-equal">
    </DialogForm>
    <DialogForm :form-schema="requirementSetAddForm" ref="requirementSetAddDialog"
-               :title="$t('settings.addRequirementSet')" icon="mdi-greater-than-or-equal"
+               :title="$t('_settings.addRequirementSet')" icon="mdi-greater-than-or-equal"
                @submit="addRequirementSet"/>
    <DeleteConfirmationDialog ref="requirementSetDeleteConfirmationDialog"
                              @submit="deleteRequirementSet" />
    <DeleteConfirmationDialog ref="requirementDeleteConfirmationDialog"
                              @submit="deleteRequirement" />
    <!-- Edit Requirement Sets Dialog -->
-   <Dialog ref="requirementSetEditDialog" :title="$t('settings.editRequirementSet')"
+   <Dialog ref="requirementSetEditDialog" :title="$t('_settings.editRequirementSet')"
            :max-width="1500">
      <h3 class="display-h3 mt-5">{{ $t('general') }}</h3>
      <gen-form ref="requirementSetEditForm" :form-schema="requirementSetAddForm"
@@ -53,20 +53,20 @@
                 @click="openRequirementAddDialog($refs.requirementSetEditDialog.getItem())"
                 outlined>
            <v-icon left>mdi-plus</v-icon>
-           <span>{{ $t('settings.addRequirement') }}</span>
+           <span>{{ $t('_settings.addRequirement') }}</span>
          </v-btn>
        </template>
      </DataTable>
      <v-divider class="mt-5"/>
-     <h3 class="display-h3 mt-5">{{ $t('settings.logicFormula') }}</h3>
+     <h3 class="display-h3 mt-5">{{ $t('_settings.logicFormula') }}</h3>
      <p>{{ $t('example') }} ID & (ID | ID) <br/>
-       {{ $t('settings.formulaSymbolOr') }}<br/>
-       {{ $t('settings.formulaSymbolAnd') }}</p>
+       {{ $t('_settings.formulaSymbolOr') }}<br/>
+       {{ $t('_settings.formulaSymbolAnd') }}</p>
      <v-text-field v-model="formula" label="Formula"></v-text-field>
      <v-btn @click="validateFormula" :disabled="!formula" :loading="formulaBtnLoading"
             class="primary">
        <v-icon v-if="formulaScss" large color="success">mdi-check</v-icon>
-       <span v-else>{{ $t('settings.editFormula') }}</span>
+       <span v-else>{{ $t('_settings.editFormula') }}</span>
      </v-btn>
      <v-row v-if="formulaMsg != null">
        <v-col cols="12" class="mt-4">
@@ -84,7 +84,7 @@
        <v-alert
          type="warning"
        >
-         {{ $t('settings.formulaBeta') }}
+         {{ $t('_settings.formulaBeta') }}
        </v-alert>
      </v-col>
    </v-row>
@@ -109,7 +109,7 @@
      <template v-slot:footer-right>
        <v-btn color="success" @click="$refs.requirementSetAddDialog.show()" outlined>
          <v-icon left>mdi-plus</v-icon>
-         <span>{{ $t('settings.addRequirementSet') }}</span>
+         <span>{{ $t('_settings.addRequirementSet') }}</span>
        </v-btn>
      </template>
    </DataTable>

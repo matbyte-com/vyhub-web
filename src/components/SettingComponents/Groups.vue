@@ -63,7 +63,7 @@
         <template v-slot:footer-right>
           <v-btn color="success" @click="$refs.addGroupDialog.show()" outlined>
             <v-icon left>mdi-plus</v-icon>
-            <span>{{ $t('settings.labels.addGroup') }}</span>
+            <span>{{ $t('_settings.labels.addGroup') }}</span>
           </v-btn>
         </template>
       </DataTable>
@@ -113,14 +113,14 @@
       :form-schema="groupFormSchema"
       icon="mdi-account-multiple"
       @submit="addGroup"
-      :title="$t('settings.labels.addGroup')"/>
+      :title="$t('_settings.labels.addGroup')"/>
     <DialogForm
       ref="editGroupDialog"
       icon="mdi-account-multiple"
       :form-schema="groupFormSchema"
       :max-width="600"
       @submit="editGroup"
-      :title="$t('settings.labels.editGroup')"/>
+      :title="$t('_settings.labels.editGroup')"/>
     <DeleteConfirmationDialog
       ref="deleteGroupDialog"
       @submit="deleteGroup"/>
@@ -160,7 +160,7 @@ export default {
       groups: [],
       headers: [
         { text: this.$t('name'), value: 'name' },
-        { text: this.$t('settings.permissionLevel'), value: 'permission_level' },
+        { text: this.$t('_settings.permissionLevel'), value: 'permission_level' },
         { text: this.$t('properties'), value: 'properties' },
         {
           text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',

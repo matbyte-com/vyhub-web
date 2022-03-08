@@ -49,7 +49,7 @@
               <template v-slot:footer-right>
                 <v-btn color="success" @click="$refs.addBundleDialog.show()" outlined>
                   <v-icon left>mdi-plus</v-icon>
-                  <span>{{ $t('settings.labels.addBundle') }}</span>
+                  <span>{{ $t('_settings.labels.addBundle') }}</span>
                 </v-btn>
               </template>
             </DataTable>
@@ -66,7 +66,7 @@
             >
               <template v-slot:header>
                 <SettingTitle :divider="false">
-                  {{ $t('settings.gameserver') }}
+                  {{ $t('_settings.gameserver') }}
                 </SettingTitle>
               </template>
               <template v-slot:item.serverbundle_id="{ item }">
@@ -88,7 +88,7 @@
               <template v-slot:footer-right>
                 <v-btn color="success" outlined @click="$refs.createServerDialog.show()">
                   <v-icon left>mdi-plus</v-icon>
-                  <span>{{ $t('settings.labels.addServer') }}</span>
+                  <span>{{ $t('_settings.labels.addServer') }}</span>
                 </v-btn>
               </template>
             </DataTable>
@@ -150,7 +150,7 @@
                 :form-schema="addBundleSchema"
                 @submit="addBundle"
                 icon="mdi-server"
-                :title="$t('settings.labels.addBundle')"/>
+                :title="$t('_settings.labels.addBundle')"/>
     <DialogForm ref="createServerDialog"
                 :form-schema="serverSchema"
                 icon="mdi-server"
@@ -170,7 +170,7 @@
                 icon="mdi-server"
                 :form-schema="editBundleSchema"
                 @submit="editBundle"
-                :title="$t('settings.labels.editBundle')"/>
+                :title="$t('_settings.labels.editBundle')"/>
     <DialogForm ref="editServerDialog"
                 :form-schema="serverSchema"
                 icon="mdi-server"
@@ -212,8 +212,8 @@ export default {
       bundleHeaders: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'server_type' },
-        { text: this.$t('settings.multigroup'), value: 'multigroup' },
-        { text: this.$t('settings.defaultGroup'), value: 'default_group.name' },
+        { text: this.$t('_settings.multigroup'), value: 'multigroup' },
+        { text: this.$t('_settings.defaultGroup'), value: 'default_group.name' },
         {
           text: this.$t('actions'), value: 'actions', align: 'right', sortable: false, width: 250,
         },

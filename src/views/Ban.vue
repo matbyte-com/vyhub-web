@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle icon="mdi-account-cancel">{{ $t('ban.labels.title') }}</PageTitle>
+    <PageTitle icon="mdi-account-cancel">{{ $t('_ban.labels.title') }}</PageTitle>
     <v-card>
       <v-card-text>
         <PaginatedDataTable
@@ -46,7 +46,7 @@
                 </v-menu>
                 <v-alert type="info" color="primary" dense v-if="$route.query.user_id"
                          class="mt-4 ml-3">
-                  {{ $t('_ban.showingUserBans', { id: $route.query.user_id }) }}
+                  {{ $t('_ban.messages.showingUserBans', { id: $route.query.user_id }) }}
                 </v-alert>
               </v-col>
             </v-row>
@@ -54,7 +54,7 @@
           <template v-slot:footer-right>
             <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
               <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t("ban.labels.add") }}</span>
+              <span>{{ $t('_ban.labels.add') }}</span>
             </v-btn>
           </template>
           <template v-slot:item.user="{ item }">
@@ -84,14 +84,14 @@
       </v-card-text>
     </v-card>
     <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
-                :title="$t('ban.labels.add')" :submit-text="$t('create')"
+                :title="$t('_ban.labels.add')" :submit-text="$t('create')"
                 icon="mdi-account-cancel"
                 @submit="addBan">
     </DialogForm>
     <Dialog
       ref="banDetailDialog"
       icon="mdi-account-cancel"
-      :title="$t('ban.labels.details')"
+      :title="$t('_ban.labels.details')"
       :max-width="700"
       v-model="banDetailShown">
       <template>
@@ -139,7 +139,7 @@
                     <v-chip color="green">{{ $t('active') }}</v-chip>
                   </td>
                   <td v-else-if="currentBan.status === 'UNBANNED'">
-                    <v-chip color="orange">{{ $t('ban.labels.unbanned') }}</v-chip>
+                    <v-chip color="orange">{{ $t('_ban.labels.unbanned') }}</v-chip>
                   </td>
                   <td v-else>
                     <v-chip color="red">{{ $t('expired') }}</v-chip>
@@ -165,12 +165,12 @@
           <v-btn text color="warning darken-2" @click="unbanBan"
                  v-if="currentBan.status === 'ACTIVE'">
             <v-icon left>mdi-lock-open</v-icon>
-            {{ $t('ban.labels.unban') }}
+            {{ $t('_ban.labels.unban') }}
           </v-btn>
           <v-btn text color="warning" @click="rebanBan"
                  v-if="currentBan.status === 'UNBANNED'">
             <v-icon left>mdi-lock</v-icon>
-            {{ $t('ban.labels.reban') }}
+            {{ $t('_ban.labels.reban') }}
           </v-btn>
           <v-btn text color="error" @click="showDeleteDialog">
             <v-icon left>mdi-delete</v-icon>
@@ -180,7 +180,7 @@
       </template>
     </Dialog>
     <DialogForm :form-schema="banEditFormSchema" ref="banEditDialog"
-                :title="$t('ban.labels.edit')" :submit-text="$t('edit')"
+                :title="$t('_ban.labels.edit')" :submit-text="$t('edit')"
                 icon="mdi-account-cancel"
                 @submit="editBan">
     </DialogForm>

@@ -27,7 +27,7 @@
         <v-list dense max-height="300px" class="overflow-y-auto">
           <v-list-item v-if="notifications.length===0">
             <v-list-item-title>
-              {{ $t('notification.noNotification') }}
+              {{ $t('_notification.noNotification') }}
             </v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -40,7 +40,7 @@
               <v-icon>{{ notification.message.kwargs.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content :class="{ 'font-weight-medium': !notification.read }">
-              {{ $t(`notification.${notification.message.name}`,
+              {{ $t(`_notification.${notification.message.name}`,
               { ...notification.message.kwargs }) }}
             </v-list-item-content>
           </v-list-item>
@@ -48,10 +48,10 @@
         <v-divider />
         <v-card-actions>
           <v-btn color="primary" small outlined to="/notification" class="mr-5">
-            {{ $t('notification.viewAll') }}
+            {{ $t('_notification.viewAll') }}
           </v-btn>
           <v-btn x-small outlined @click="requestPermission" v-if="reqNotificationButton">
-            {{ $t('notification.browserNotifications') }}
+            {{ $t('_notification.browserNotifications') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -170,7 +170,7 @@ export default {
         console.log('This browser does not support desktop notification');
       } else if (Notification.permission === 'granted') {
         this.$notification.show(this.serverName, {
-          body: this.$t(`notification.${data.name}`,
+          body: this.$t(`_notification.${data.name}`,
             { ...data.kwargs }),
         }, {});
       }

@@ -1,15 +1,13 @@
 {
-  "hello": "Hello World",
-  "header": {
+  "_header": {
     "labels": {
       "login": "Login",
-      "linkAccountTooltip": "Please login into an account which is already connected to a central account",
       "register": "Register",
       "logout": "Logout",
       "close": "close"
     }
   },
-  "footer": {
+  "_footer": {
     "labels": {
       "language": "language"
     }
@@ -21,7 +19,9 @@
       "endMembership": "End Membership",
       "activeMemberships": "Active Memberships"
     },
-    "membershipSuccessfullyAdded": "Membership successfully added"
+    "messages": {
+      "membershipSuccessfullyAdded": "Membership successfully added"
+    }
   },
   "_dashboard": {
     "labels": {
@@ -32,17 +32,17 @@
       "groupMemberships":  "Group Memberships",
       "bansAndWarnings": "Bans and Warnings",
       "userLog": "User Log",
-      "admin": "Admin"
+      "admin": "Admin",
+      "registered_on": "Registered on:",
+      "membershipEndDescription": "Leave empty for unlimited duration",
+      "removeAdminTitle": "Remove admin?"
     },
     "messages": {
-      "adminSuccessfullyRemoved": "Admin successfully removed"
-    },
-    "registered_on": "Registered on:",
-    "membershipEndDescription": "Leave empty for unlimited duration",
-    "removeAdminConfirmation": "Do not forget to remove the former admin from the instance in your central instance overview.",
-    "removeAdminTitle": "Remove admin?"
+      "adminSuccessfullyRemoved": "Admin successfully removed",
+      "removeAdminConfirmation": "Do not forget to remove the former admin from the instance in your central instance overview."
+    }
   },
-  "ban":{
+  "_ban": {
     "labels": {
       "title": "Bans",
       "add": "Add Ban",
@@ -54,10 +54,10 @@
       "unbanned": "Unbanned",
       "infiniteBandDescription": "Leave empty for lifetime ban",
       "bundleDescription": "Leave empty for global ban"
+    },
+    "messages": {
+      "showingUserBans": "Showing bans of user with ID: {id}"
     }
-  },
-  "_ban": {
-    "showingUserBans": "Showing bans of user with ID: {id}"
   },
   "_serverbundle":{
     "labels": {
@@ -97,7 +97,7 @@
       "editedTheme": "Theme edited."
     }
   },
-  "settings": {
+  "_settings": {
     "permissionLevel": "Permission Level",
     "membercount": "Members",
     "gameserver": "Gameserver",
@@ -130,6 +130,11 @@
     "formulaSymbolOr": "This Symbol | for OR",
     "formulaSymbolAnd": "This Symbol & for AND",
     "formulaBeta": "This function is in beta phase. Please use with caution.",
+    "documentationLink": "Documentation",
+    "serverAndServerbundle": "Server / Serverbundle",
+    "requirements": "Requirements",
+    "showTicket": "Enable Ticket System",
+    "showTeam": "Enable Team Page",
     "labels": {
       "title": "Settings",
       "groupSettings":  "Groupsettings",
@@ -139,13 +144,6 @@
       "editBundle": "Edit Serverbundle",
       "addServer": "Add Server"
     }
-  },
-  "_settings": {
-    "documentationLink": "Documentation",
-    "serverAndServerbundle": "Server / Serverbundle",
-    "requirements": "Requirements",
-    "showTicket": "Enable Ticket System",
-    "showTeam": "Enable Team Page"
   },
   "_group": {
     "messages": {
@@ -384,8 +382,10 @@
     "group_team_member_edited": "Groups is team member edited",
     "user_admin_status_removed": "Admin status of user {username} - {user_id} edited: admin = {status}"
     },
-  "forms": {
-    "iconDescription": "Available icons"
+  "_forms": {
+    "labels": {
+      "iconDescription": "Available icons"
+    }
   },
   "_address": {
     "labels": {
@@ -658,7 +658,7 @@
   "_userLogEntry": {
     "addLogEntry": "Add Log Entry"
   },
-  "notification": {
+  "_notification": {
     "noNotification": "No notifications",
     "viewAll": "view all",
     "notifications": "Notifications",
@@ -681,8 +681,8 @@
     "messages": {
       "readSuccess": "Successfully toggled read status"
     },
-    "news_new": "News created {newsSubject}.",
-    "ticket_new": "Ticket created {title} by {username}",
+    "news_new": "News created: {newsSubject}.",
+    "ticket_new": "{username} created ticket: {title}",
     "ticket_update": "New post in ticket: {title}",
     "ban_new": "You have been banned. Reason: {reason}",
     "packet_applied": "Packet {packet_title} has been activated!",
@@ -691,7 +691,7 @@
     "warning_new": "A new warning has been created. Reason: {reason}",
     "coupon_purchase_new": "{username} submitted {gateway_name} codes ({amount_total} {currency_symbol}) that need to be approved."
   },
-  "pageTitle": {
+  "_pageTitle": {
     "dashboard": "Dashboard",
     "settings": "Settings",
     "bans": "Bans",

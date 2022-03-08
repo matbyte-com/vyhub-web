@@ -54,7 +54,7 @@ export default {
     },
     async updateLegal() {
       if (this.content === '') {
-        this.errorMsg = i18n.t('settings.contentEmpty');
+        this.errorMsg = i18n.t('_settings.contentEmpty');
         return;
       }
       this.loading = true;

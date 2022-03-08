@@ -70,7 +70,7 @@
         </template>
         <template v-slot:item.time="{ item }" >
           <span>
-            {{ $t('notification.timeAgo', {
+            {{ $t('_notification.timeAgo', {
             time: utils.formatElapsedTime((new Date() - new Date(item.created_on)))
            }) }}
           </span>

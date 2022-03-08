@@ -22,7 +22,7 @@ export default {
         },
         permission_level: {
           type: 'integer',
-          title: i18n.t('settings.permissionLevel'),
+          title: i18n.t('_settings.permissionLevel'),
           minimum: 0,
           maximum: 100000,
         },
