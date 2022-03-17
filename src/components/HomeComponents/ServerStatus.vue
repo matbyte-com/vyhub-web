@@ -99,7 +99,7 @@ export default {
         return '';
       }
 
-      // show as read when last__updated >= 15 minutes
+      // show as red when last__updated >= 15 minutes
       if (new Date() - new Date(server.last_update) >= 900000) {
         return 'error';
       }
@@ -110,6 +110,8 @@ export default {
       switch (server.type) {
         case 'GMOD':
           return `steam://${server.address}:${server.port}`;
+        case 'DISCORD':
+          return server.extra?.inviteLink;
         default:
           console.log('Could not find server type to calculate server-connection-address');
           return '';

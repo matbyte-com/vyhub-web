@@ -26,6 +26,17 @@ function serverTypeFields(serverType: string) {
       },
     };
   }
+  if (serverType === 'DISCORD') {
+    properties = {
+      joinBotLink: {
+        'x-slots': {
+          before: i18n.t('_server.labels.discordEnterIdAsAddress'),
+          // TODO Swap Discord Authentication Link to one by VyHub Account
+          after: `<a target="_blank" href="https://discord.com/api/oauth2/authorize?client_id=890658002967867442&permissions=1099780590592&scope=bot">${i18n.t('_server.labels.addBot')}</a>`,
+        },
+      },
+    };
+  }
 
   return {
     title: serverType,
@@ -62,6 +73,9 @@ export default {
         port: {
           type: 'integer',
           title: i18n.t('port'),
+          default: 1,
+          minimum: 1,
+          maximum: 65535,
         },
       },
     },
@@ -76,10 +90,10 @@ export default {
         },
         {
           ...serverTypeFields('TEAMSPEAK3'),
-        },
+        }, */
         {
           ...serverTypeFields('DISCORD'),
-        }, */
+        },
       ],
     },
     {

@@ -43,11 +43,11 @@ export default {
           name: 'STEAM',
           icon: UserService.userTypeIcons.STEAM,
         },
-        /* {
+        {
           id: 'discord',
           name: 'DISCORD',
           icon: UserService.userTypeIcons.DISCORD,
-        }, */
+        },
       ], // TODO: Fetch backends from API
     };
   },

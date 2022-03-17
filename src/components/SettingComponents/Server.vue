@@ -29,6 +29,7 @@
               </template>
               <template v-slot:item.actions="{ item }">
                 <v-btn outlined color="info" small class="mr-1"
+                       :disabled="item.server_type === 'DISCORD'"
                        @click="showAPIKeysDialog(item)">
                   <v-icon>
                     mdi-key-chain
@@ -155,7 +156,8 @@
                 :form-schema="serverSchema"
                 icon="mdi-server"
                 @submit="createServer"
-                :title="$t('_server.labels.create')"/>
+                :title="$t('_server.labels.create')">
+    </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteBundleDialog"
       @submit="deleteBundle">
@@ -175,7 +177,8 @@
                 :form-schema="serverSchema"
                 icon="mdi-server"
                 @submit="editServer"
-                :title="$t('_server.labels.edit')"/>
+                :title="$t('_server.labels.edit')">
+    </DialogForm>
   </div>
 </template>
 
