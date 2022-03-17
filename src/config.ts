@@ -6,6 +6,7 @@ declare global {
     default_title: string;
     demo_mode: boolean;
     html_max_input_length: number;
+    discord_bot_invite_url: string;
     sentry_dsn: string;
   }
 

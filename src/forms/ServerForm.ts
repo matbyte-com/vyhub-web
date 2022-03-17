@@ -1,5 +1,6 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
+import config from '@/config';
 
 function serverTypeFields(serverType: string) {
   let properties = {};
@@ -31,8 +32,7 @@ function serverTypeFields(serverType: string) {
       joinBotLink: {
         'x-slots': {
           before: i18n.t('_server.labels.discordEnterIdAsAddress'),
-          // TODO Swap Discord Authentication Link to one by VyHub Account
-          after: `<a target="_blank" href="https://discord.com/api/oauth2/authorize?client_id=890658002967867442&permissions=1099780590592&scope=bot">${i18n.t('_server.labels.addBot')}</a>`,
+          after: `<a target="_blank" href="${config.discord_bot_invite_url}">${i18n.t('_server.labels.addBot')}</a>`,
         },
       },
     };
