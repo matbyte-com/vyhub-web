@@ -39,14 +39,14 @@ export default {
       title: i18n.t('_shop.labels.checkoutCheckboxes'),
       items: {
         type: 'object',
-        required: ['text', 'url'],
+        required: ['text'],
         properties: {
           text: {
             type: 'string',
             title: i18n.t('text'),
           },
           url: {
-            type: 'string',
+            type: ['string', 'null'],
             title: i18n.t('url'),
             pattern: '^(http|https)://.+$',
           },

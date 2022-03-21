@@ -62,12 +62,15 @@
             <v-col>
               <v-form v-model="allChecked" ref="checkboxesForm" lazy-validation>
                 <v-checkbox required v-for="checkbox in checkboxes" v-bind:key="checkbox.id"
-                            :rules="[v => !!v || $t('_shop.messages.mustAgree')]">
+                            :rules="[v => !!v || $t('_shop.messages.mustAgree')]" class="mt-0">
                   <template v-slot:label>
-                    <div>
+                    <div v-if="checkbox.url != null">
                       <a :href="checkbox.url" target="_blank" @click.stop>
                         {{ checkbox.text }}
                       </a>
+                    </div>
+                    <div v-else>
+                      {{ checkbox.text }}
                     </div>
                   </template>
                 </v-checkbox>
