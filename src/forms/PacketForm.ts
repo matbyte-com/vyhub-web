@@ -90,7 +90,10 @@ export default {
           'x-cols': 4,
           minimum: 0,
         },
-        currency_code: Common.currency_code,
+        currency_code: {
+          ...Common.currency_code,
+          'x-cols': 4,
+        },
         credits: {
           type: ['integer', 'null'],
           title: i18n.t('_shop.labels.credits'),

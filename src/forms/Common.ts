@@ -164,7 +164,6 @@ export default {
   currency_code: {
     type: 'string',
     title: i18n.t('_packet.labels.currency'),
-    'x-cols': 4,
     enum: cc.codes(),
   },
   apiURL: API_URL,

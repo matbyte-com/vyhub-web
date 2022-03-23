@@ -3,23 +3,24 @@ import Common from '@/forms/Common';
 
 export default {
   type: 'object',
-  required: ['donation_goal_enabled', 'donation_goal_currency_code'],
+  required: ['donation_goal_enabled', 'default_currency'],
   properties: {
+    default_currency: {
+      ...Common.currency_code,
+      title: i18n.t('_shop.labels.defaultCurrency'),
+    },
     donation_goal_enabled: {
       type: 'boolean',
       'x-display': 'switch',
       title: i18n.t('_shop.labels.enableDonationGoal'),
       description: i18n.t('_shop.labels.enableDonationGoalDescription'),
       default: 'true',
+      'x-cols': 6,
     },
     donation_goal: {
       type: 'integer',
       title: i18n.t('_shop.labels.donationGoal'),
       minimum: '0',
-      'x-cols': 6,
-    },
-    donation_goal_currency_code: {
-      ...Common.currency_code,
       'x-cols': 6,
     },
     tax_allow_unknown: {
