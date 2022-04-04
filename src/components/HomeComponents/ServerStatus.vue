@@ -95,15 +95,16 @@ export default {
       return this.servers.filter((s) => s.serverbundle_id === bundleId);
     },
     getStatusColor(server) {
-      if (server.last_update == null) {
-        return '';
+      switch (server.status) {
+        case 'UNKNOWN':
+          return '';
+        case 'ONLINE':
+          return 'success';
+        case 'OFFLINE':
+          return 'error';
+        default:
+          return '';
       }
-
-      // show as red when last__updated >= 15 minutes
-      if (new Date() - new Date(server.last_update) >= 900000) {
-        return 'error';
-      }
-      return 'success';
     },
     getConnectionLink(server) {
       // TODO Add New Servers here for proper functioning of the connection link
