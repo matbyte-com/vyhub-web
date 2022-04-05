@@ -6,7 +6,7 @@
                  :max-width="1000"
                  @submit="addMessage"
     >
-      <template slot="type-after">
+      <template v-slot:type-after>
         <Editor v-model="message"/>
       </template>
     </dialog-form>
@@ -14,7 +14,7 @@
                  :title="$t('_home.editNews')" icon="mdi-newspaper"
                  :max-width="1000"
                  @submit="editMessage">
-      <template slot="type-after">
+      <template v-slot:type-after>
         <Editor v-model="message"/>
       </template>
     </dialog-form>
@@ -247,6 +247,10 @@ export default {
     async addMessage() {
       const data = this.$refs.messageAddDialog.getData();
       data.content = this.message;
+      if (!this.message) {
+        this.$refs.messageAddDialog.setErrorMessage(i18n.t('_home.messages.messageEmpty'));
+        return;
+      }
       if (data.content.length > this.maxInputLength) {
         this.$refs.messageAddDialog.setErrorMessage(i18n.t('maxInputExceeded', { length: config.html_max_input_length }),
           { length: config.html_max_input_length });
@@ -286,6 +290,10 @@ export default {
       this.message = message.content;
     },
     async editMessage(message) {
+      if (!this.message) {
+        this.$refs.messageEditDialog.setErrorMessage(i18n.t('_home.messages.messageEmpty'));
+        return;
+      }
       const data = this.$refs.messageEditDialog.getData();
       data.content = this.message;
       (await openapi).news_editMessage(message.id, data)
