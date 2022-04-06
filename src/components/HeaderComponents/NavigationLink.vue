@@ -27,8 +27,8 @@
     <v-btn
       text dark
       v-if="(link.tabs || []).length === 0"
-      :href="(link.linkType === 'link' ? link.link : null)"
-      :to="(link.linkType !== 'link' ? link.link : null)"
+      :href="(link.linkType === 'link' && !localLink ? link.link : null)"
+      :to="(link.linkType !== 'link' || localLink ? getLocalLink : null)"
     >
       <v-icon left>{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
@@ -45,6 +45,16 @@ export default {
   computed: {
     allowedTabs() {
       return this.link.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
+    },
+    localLink() {
+      if (window) {
+        return !!this.link.link.includes(window.location.hostname);
+      }
+      return false;
+    },
+    getLocalLink() {
+      if (this.localLink) { return this.link.link.substring(window.location.origin.length); }
+      return this.link.link;
     },
   },
   methods: {
