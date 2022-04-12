@@ -32,7 +32,8 @@ function serverTypeFields(serverType: string) {
       joinBotLink: {
         'x-slots': {
           before: i18n.t('_server.labels.discordEnterIdAsAddress'),
-          after: `<a target="_blank" href="${config.discord_bot_invite_url}">${i18n.t('_server.labels.addBot')}</a>`,
+          after: `<a target="_blank" href="https://docs.vyhub.net/latest/game/discord/">${i18n.t('_server.labels.guildIdDocs')}</a>
+                  <a target="_blank" style="float: right" href="${config.discord_bot_invite_url}">${i18n.t('_server.labels.addBot')}</a>`,
         },
       },
     };
