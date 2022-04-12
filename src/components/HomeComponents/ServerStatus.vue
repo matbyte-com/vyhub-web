@@ -12,22 +12,22 @@
         <v-icon v-if="bundle.icon" left small :color="bundle.color">{{ bundle.icon }}</v-icon>
         <span :style="'color:' + bundle.color">{{ bundle.name }}</span>
         <v-divider class="mb-2"/>
-        <v-simple-table dense>
-          <tbody>
-          <tr v-for="server in getServer(bundle.id)" :key="server.id" >
-            <td colspan="10%" style="padding: 0; margin: 0">
-              <v-icon :color="getStatusColor(server)" left>
-                mdi-flash
-              </v-icon>
-              <span v-if="server.users_current != null">
+        <v-row v-for="server in getServer(bundle.id)" :key="server.id" class="mt-0">
+          <v-col>
+            <v-icon :color="getStatusColor(server)" left>
+              mdi-flash
+            </v-icon>
+            <span v-if="server.status !== 'UNKNOWN'">
                 <a>
-                  <span v-if="server.users_current != null">
+                  <span v-if="server.type !== 'DISCORD'">
+                    <span v-if="server.users_current != null">
                     {{ server.users_current }}
                   </span>
                   <span v-else>
                     ?
                   </span>
                   /
+                  </span>
                   <span v-if="server.users_max != null">
                     {{ server.users_max }}
                   </span>
@@ -36,31 +36,28 @@
                   </span>
                 </a>
               </span>
-              <span class="font-italic text--disabled"  v-else>
+            <span class="font-italic text--disabled"  v-if="server.status === 'UNKNOWN'">
                 {{ $t('_server.labels.unknownStatus') }}
               </span>
-            </td>
-            <td style="">{{ server.name }}</td>
-            <td style="padding: 0; margin: 0" class="text-right">
-              <v-tooltip left :disabled="$vuetify.breakpoint.lgAndUp">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn small color="success" depressed v-bind="attrs" v-on="on"
-                         :href="getConnectionLink(server)">
-                    <v-icon :left="$vuetify.breakpoint.lgAndUp">
-                      mdi-connection
-                    </v-icon>
-                    <span v-if="$vuetify.breakpoint.lgAndUp">Connect</span>
-                  </v-btn>
-                </template>
-                <span>{{ $t('connect') }}</span>
-              </v-tooltip>
-            </td>
-            <!--
-            <td>{{ server.address }}:{{ server.port }}</td>
-            -->
-          </tr>
-          </tbody>
-        </v-simple-table>
+          </v-col>
+          <v-col>
+            {{ server.name }}
+          </v-col>
+          <v-col class="text-right">
+            <v-tooltip left :disabled="$vuetify.breakpoint.lgAndUp">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn small color="success" depressed v-bind="attrs" v-on="on"
+                       :href="getConnectionLink(server)">
+                  <v-icon :left="$vuetify.breakpoint.lgAndUp">
+                    mdi-connection
+                  </v-icon>
+                  <span v-if="$vuetify.breakpoint.lgAndUp">Connect</span>
+                </v-btn>
+              </template>
+              <span>{{ $t('connect') }}</span>
+            </v-tooltip>
+          </v-col>
+        </v-row>
       </div>
     </v-card-text>
   </v-card>
