@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="user != null">
     <v-card-title>
       <v-icon left>mdi-email</v-icon>
       {{ $t('_personalSettings.email') }}
@@ -34,7 +34,7 @@ import openapi from '@/api/openapi';
 export default {
   name: 'Email',
   props: {
-    user: {},
+    user: null,
   },
   data() {
     return {
