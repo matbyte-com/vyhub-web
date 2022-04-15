@@ -95,7 +95,10 @@ export default {
       }
       await (await openapi).notification_getPreviewNotifications().then((rsp) => {
         this.notifications = rsp.data;
+      }).catch(() => {
+        this.stopTimer();
       });
+
       if (this.notifications.length >= 1) {
         if (this.notifications.filter((n) => !n.read).length > 0) {
           if (this.notifications[0].id !== lastNotificationId) {
