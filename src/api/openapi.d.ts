@@ -699,19 +699,6 @@ declare namespace Components {
          */
         export type DebitStatus = "STARTED" | "APPROVED" | "FINISHED" | "CANCELLED";
         /**
-         * DiscordRoleModel
-         */
-        export interface DiscordRoleModel {
-            /**
-             * Name
-             */
-            name: string;
-            /**
-             * Id
-             */
-            id: number;
-        }
-        /**
          * DiscountModel
          */
         export interface DiscountModel {
@@ -1157,23 +1144,6 @@ declare namespace Components {
             permission_level: number;
         }
         /**
-         * GuildModel
-         */
-        export interface GuildModel {
-            /**
-             * Name
-             */
-            name: string;
-            /**
-             * Id
-             */
-            id: number;
-            /**
-             * Member Count
-             */
-            member_count: number;
-        }
-        /**
          * HTTPValidationError
          */
         export interface HTTPValidationError {
@@ -1190,6 +1160,21 @@ declare namespace Components {
              * Content
              */
             content: string;
+        }
+        /**
+         * Link
+         */
+        export interface Link {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Kwargs
+             */
+            kwargs: {
+                [key: string]: any;
+            };
         }
         /**
          * LinkType
@@ -1281,6 +1266,7 @@ declare namespace Components {
              */
             end?: string; // date-time
             user: /* UserModelNoLinkedExtraShort */ UserModelNoLinkedExtraShort;
+            serverbundle: /* ServerbundleModelShort */ ModelPydanticServerbundleModelShort;
         }
         /**
          * MembershipModelUserAdd
@@ -1398,9 +1384,9 @@ declare namespace Components {
             avatar: string;
         }
         /**
-         * NavModel
+         * NavConfigModel
          */
-        export interface NavModel {
+        export interface NavConfigModel {
             /**
              * Title
              */
@@ -1412,12 +1398,12 @@ declare namespace Components {
             /**
              * Enabled
              */
-            enabled: boolean;
-            linkType: /**
+            enabled?: boolean;
+            /**
              * LinkType
              * An enumeration.
              */
-            LinkType;
+            linkType?: "default" | "link" | "html";
             /**
              * Reqprop
              */
@@ -1433,7 +1419,40 @@ declare namespace Components {
             /**
              * Tabs
              */
-            tabs?: any;
+            tabs?: /* NavTab */ NavTab[];
+        }
+        /**
+         * NavTab
+         */
+        export interface NavTab {
+            /**
+             * Html
+             */
+            html?: string;
+            /**
+             * Icon
+             */
+            icon: string;
+            /**
+             * Link
+             */
+            link: string;
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Enabled
+             */
+            enabled?: boolean;
+            /**
+             * Reqprop
+             */
+            reqProp?: string;
+            /**
+             * Linktype
+             */
+            linkType?: string;
         }
         /**
          * NewsModel
@@ -1463,6 +1482,24 @@ declare namespace Components {
             creator?: /* UserModelShort */ ModelUserUserUserModelShort;
         }
         /**
+         * NewsModelAdd
+         */
+        export interface NewsModelAdd {
+            /**
+             * Subject
+             */
+            subject: string;
+            /**
+             * Content
+             */
+            content?: string;
+            type: /**
+             * NewsType
+             * An enumeration.
+             */
+            NewsType;
+        }
+        /**
          * NewsModelPatch
          */
         export interface NewsModelPatch {
@@ -1481,24 +1518,6 @@ declare namespace Components {
             NewsType;
         }
         /**
-         * NewsModelPost
-         */
-        export interface NewsModelPost {
-            /**
-             * Subject
-             */
-            subject: string;
-            /**
-             * Content
-             */
-            content?: string;
-            type: /**
-             * NewsType
-             * An enumeration.
-             */
-            NewsType;
-        }
-        /**
          * NewsType
          * An enumeration.
          */
@@ -1511,18 +1530,8 @@ declare namespace Components {
              * Id
              */
             id: string; // uuid
-            /**
-             * Link
-             */
-            link?: {
-                [key: string]: any;
-            };
-            /**
-             * Message
-             */
-            message: {
-                [key: string]: any;
-            };
+            link?: /* Link */ Link;
+            message: /* NotificationMessage */ NotificationMessage;
             /**
              * Created On
              */
@@ -1535,6 +1544,21 @@ declare namespace Components {
              * Read
              */
             read: boolean;
+        }
+        /**
+         * NotificationMessage
+         */
+        export interface NotificationMessage {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Kwargs
+             */
+            kwargs: {
+                [key: string]: any;
+            };
         }
         /**
          * NotificationRead
@@ -3022,33 +3046,6 @@ declare namespace Components {
          */
         export type RewardType = "COMMAND" | "SCRIPT" | "CREDITS" | "MEMBERSHIP";
         /**
-         * RoleGroupRelationModel
-         */
-        export interface RoleGroupRelationModel {
-            /**
-             * Id
-             */
-            id: string; // uuid
-            group: /* GroupModelShort */ GroupModelShort;
-            /**
-             * Role Id
-             */
-            role_id: number;
-        }
-        /**
-         * RoleGroupRelationModelAdd
-         */
-        export interface RoleGroupRelationModelAdd {
-            /**
-             * Group Id
-             */
-            group_id: string; // uuid
-            /**
-             * Role Id
-             */
-            role_id: number;
-        }
-        /**
          * ServerBundleModelPatch
          */
         export interface ServerBundleModelPatch {
@@ -3125,6 +3122,11 @@ declare namespace Components {
              */
             last_update?: string; // date-time
             serverbundle?: /* ServerbundleModelShort */ ModelServerServerbundleServerbundleModelShort;
+            status: /**
+             * ServerStatus
+             * An enumeration.
+             */
+            ServerStatus;
         }
         /**
          * ServerModelAdd
@@ -3230,6 +3232,11 @@ declare namespace Components {
             serverbundle_id?: string; // uuid
         }
         /**
+         * ServerStatus
+         * An enumeration.
+         */
+        export type ServerStatus = "ONLINE" | "OFFLINE" | "UNKNOWN";
+        /**
          * ServerType
          * An enumeration.
          */
@@ -3307,13 +3314,15 @@ declare namespace Components {
              */
             donation_goal?: number;
             /**
-             * Donation Goal Currency Code
+             * Default Currency
              */
-            donation_goal_currency_code?: string; // ^[A-Z]{3}$
+            default_currency?: string; // ^[A-Z]{3}$
             /**
              * Checkout Checkboxes
              */
-            checkout_checkboxes?: any[];
+            checkout_checkboxes?: {
+                [name: string]: string;
+            }[];
             /**
              * Tax Allow Unknown
              */
@@ -3336,13 +3345,15 @@ declare namespace Components {
              */
             donation_goal?: number;
             /**
-             * Donation Goal Currency Code
+             * Default Currency
              */
-            donation_goal_currency_code?: string; // ^[A-Z]{3}$
+            default_currency?: string; // ^[A-Z]{3}$
             /**
              * Checkout Checkboxes
              */
-            checkout_checkboxes?: any[];
+            checkout_checkboxes?: {
+                [name: string]: string;
+            }[];
             /**
              * Tax Allow Unknown
              */
@@ -3351,6 +3362,19 @@ declare namespace Components {
              * Invoice Logo Url
              */
             invoice_logo_url?: string; // uri
+        }
+        /**
+         * SocialConfigModel
+         */
+        export interface SocialConfigModel {
+            /**
+             * Discord Key
+             */
+            discord_key?: string;
+            /**
+             * Discord Secret
+             */
+            discord_secret?: string;
         }
         /**
          * StartPaymentModel
@@ -3433,9 +3457,9 @@ declare namespace Components {
             groups: string /* uuid */[];
         }
         /**
-         * ThemeModel
+         * ThemeConfigModel
          */
-        export interface ThemeModel {
+        export interface ThemeConfigModel {
             /**
              * Dark
              */
@@ -3476,67 +3500,6 @@ declare namespace Components {
              * Show Community Name
              */
             show_community_name?: boolean;
-            /**
-             * Community Name
-             */
-            community_name?: string;
-            /**
-             * Show Information Fab
-             */
-            show_information_fab?: boolean;
-            /**
-             * Favicon
-             */
-            favicon?: string; // uri
-        }
-        /**
-         * ThemeModelPatch
-         */
-        export interface ThemeModelPatch {
-            /**
-             * Dark
-             */
-            dark?: boolean;
-            /**
-             * Image
-             */
-            image?: string; // uri
-            /**
-             * Primary
-             */
-            primary?: string; // color
-            /**
-             * Success
-             */
-            success?: string; // color
-            /**
-             * Warning
-             */
-            warning?: string; // color
-            /**
-             * Error
-             */
-            error?: string; // color
-            /**
-             * Background
-             */
-            background?: string; // color
-            /**
-             * Logo
-             */
-            logo?: string; // uri
-            /**
-             * Logo Width
-             */
-            logo_width?: number;
-            /**
-             * Show Community Name
-             */
-            show_community_name?: boolean;
-            /**
-             * Community Name
-             */
-            community_name?: string;
             /**
              * Show Information Fab
              */
@@ -3605,29 +3568,6 @@ declare namespace Components {
              * An enumeration.
              */
             ThreadCategory;
-        }
-        /**
-         * ThreadModelShort
-         */
-        export interface ThreadModelShort {
-            /**
-             * Id
-             */
-            id: string; // uuid
-            /**
-             * Title
-             */
-            title: string;
-            /**
-             * Created
-             */
-            created: string; // date-time
-            creator?: /* UserModelShort */ ModelUserUserUserModelShort;
-            status: /**
-             * ThreadStatus
-             * An enumeration.
-             */
-            ThreadStatus;
         }
         /**
          * ThreadStatus
@@ -4091,6 +4031,10 @@ declare namespace Components {
              * Email Notification
              */
             email_notification?: boolean;
+            /**
+             * Admin
+             */
+            admin?: boolean;
         }
         /**
          * UserPropertyModel
@@ -4138,15 +4082,15 @@ declare namespace Components {
             /**
              * Time To Live
              */
-            time_to_live: number;
+            time_to_live?: number;
             /**
              * Count Till Ban
              */
-            count_till_ban: number;
+            count_till_ban?: number;
             /**
              * Ban Length
              */
-            ban_length: number;
+            ban_length?: number;
         }
         /**
          * WarningModel
@@ -4196,6 +4140,13 @@ declare namespace Components {
     }
 }
 declare namespace Paths {
+    namespace AuthEditSocialConfig {
+        export type RequestBody = /* SocialConfigModel */ Components.Schemas.SocialConfigModel;
+        namespace Responses {
+            export type $200 = /* SocialConfigModel */ Components.Schemas.SocialConfigModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace AuthFinishSocial {
         namespace Parameters {
             /**
@@ -4209,6 +4160,11 @@ declare namespace Paths {
         namespace Responses {
             export type $200 = any;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace AuthGetSocialConfig {
+        namespace Responses {
+            export type $200 = /* SocialConfigModel */ Components.Schemas.SocialConfigModel;
         }
     }
     namespace AuthGetToken {
@@ -4393,57 +4349,6 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
-    namespace DiscordAddRelation {
-        export type RequestBody = /* RoleGroupRelationModelAdd */ Components.Schemas.RoleGroupRelationModelAdd;
-        namespace Responses {
-            export type $200 = /* RoleGroupRelationModel */ Components.Schemas.RoleGroupRelationModel;
-            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
-        }
-    }
-    namespace DiscordDeleteRelation {
-        namespace Parameters {
-            /**
-             * Uuid
-             * The UUID of the referenced object.
-             */
-            export type Uuid = any;
-        }
-        export interface PathParameters {
-            uuid: /**
-             * Uuid
-             * The UUID of the referenced object.
-             */
-            Parameters.Uuid;
-        }
-        namespace Responses {
-            export type $200 = any;
-            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
-        }
-    }
-    namespace DiscordGetGuild {
-        namespace Responses {
-            /**
-             * Response Get Guild Discord Guild Get
-             */
-            export type $200 = /* GuildModel */ Components.Schemas.GuildModel[];
-        }
-    }
-    namespace DiscordGetGuildRoles {
-        namespace Responses {
-            /**
-             * Response Get Guild Roles Discord Roles Get
-             */
-            export type $200 = /* DiscordRoleModel */ Components.Schemas.DiscordRoleModel[];
-        }
-    }
-    namespace DiscordGetRelations {
-        namespace Responses {
-            /**
-             * Response Get Relations Discord Relation Get
-             */
-            export type $200 = /* RoleGroupRelationModel */ Components.Schemas.RoleGroupRelationModel[];
-        }
-    }
     namespace FinanceGetAccount {
         namespace Parameters {
             /**
@@ -4512,7 +4417,7 @@ declare namespace Paths {
             /**
              * Response Get Threads Forum  Get
              */
-            export type $200 = /* ThreadModelShort */ Components.Schemas.ThreadModelShort[];
+            export type $200 = /* ThreadModel */ Components.Schemas.ThreadModel[];
         }
     }
     namespace ForumGetTickets {
@@ -4652,9 +4557,9 @@ declare namespace Paths {
         }
     }
     namespace GeneralEditTheme {
-        export type RequestBody = /* ThemeModelPatch */ Components.Schemas.ThemeModelPatch;
+        export type RequestBody = /* ThemeConfigModel */ Components.Schemas.ThemeConfigModel;
         namespace Responses {
-            export type $200 = /* ThemeModel */ Components.Schemas.ThemeModel;
+            export type $200 = /* ThemeConfigModel */ Components.Schemas.ThemeConfigModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -4727,7 +4632,7 @@ declare namespace Paths {
             /**
              * Response Get Nav Items General Nav Get
              */
-            export type $200 = /* NavModel */ Components.Schemas.NavModel[];
+            export type $200 = /* NavConfigModel */ Components.Schemas.NavConfigModel[];
         }
     }
     namespace GeneralGetTeamMember {
@@ -4740,7 +4645,7 @@ declare namespace Paths {
     }
     namespace GeneralGetTheme {
         namespace Responses {
-            export type $200 = /* ThemeModel */ Components.Schemas.ThemeModel;
+            export type $200 = /* ThemeConfigModel */ Components.Schemas.ThemeConfigModel;
         }
     }
     namespace GeneralRevokeApiToken {
@@ -4798,12 +4703,12 @@ declare namespace Paths {
         /**
          * Nav Put
          */
-        export type RequestBody = /* NavModel */ Components.Schemas.NavModel[];
+        export type RequestBody = /* NavConfigModel */ Components.Schemas.NavConfigModel[];
         namespace Responses {
             /**
              * Response Update Nav Items General Nav Put
              */
-            export type $200 = /* NavModel */ Components.Schemas.NavModel[];
+            export type $200 = /* NavConfigModel */ Components.Schemas.NavConfigModel[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -5021,7 +4926,7 @@ declare namespace Paths {
         }
     }
     namespace NewsAddMessage {
-        export type RequestBody = /* NewsModelPost */ Components.Schemas.NewsModelPost;
+        export type RequestBody = /* NewsModelAdd */ Components.Schemas.NewsModelAdd;
         namespace Responses {
             export type $200 = /* NewsModel */ Components.Schemas.NewsModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
@@ -5823,7 +5728,7 @@ declare namespace Paths {
             Parameters.Uuid;
         }
         namespace Responses {
-            export type $200 = /* ServerbundleModel */ Components.Schemas.ServerbundleModel;
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -8039,6 +7944,22 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
   /**
+   * auth_getSocialConfig - Get Social Config
+   */
+  'auth_getSocialConfig'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthGetSocialConfig.Responses.$200>
+  /**
+   * auth_editSocialConfig - Edit Social Config
+   */
+  'auth_editSocialConfig'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.AuthEditSocialConfig.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthEditSocialConfig.Responses.$200>
+  /**
    * user_getCurrentUser - Get Current User
    */
   'user_getCurrentUser'(
@@ -9399,46 +9320,6 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumNewPost.Responses.$200>
   /**
-   * discord_getGuild - Get Guild
-   */
-  'discord_getGuild'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DiscordGetGuild.Responses.$200>
-  /**
-   * discord_getGuildRoles - Get Guild Roles
-   */
-  'discord_getGuildRoles'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DiscordGetGuildRoles.Responses.$200>
-  /**
-   * discord_getRelations - Get Relations
-   */
-  'discord_getRelations'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DiscordGetRelations.Responses.$200>
-  /**
-   * discord_addRelation - Add Relation
-   */
-  'discord_addRelation'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: Paths.DiscordAddRelation.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DiscordAddRelation.Responses.$200>
-  /**
-   * discord_deleteRelation - Delete Relation
-   */
-  'discord_deleteRelation'(
-    parameters?: Parameters<Paths.DiscordDeleteRelation.PathParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200>
-  /**
    * import_getGextensionPackets - Get Gextension Packets
    */
   'import_getGextensionPackets'(
@@ -9690,6 +9571,24 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
+  }
+  ['/auth/social/config']: {
+    /**
+     * auth_getSocialConfig - Get Social Config
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthGetSocialConfig.Responses.$200>
+    /**
+     * auth_editSocialConfig - Edit Social Config
+     */
+    'patch'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.AuthEditSocialConfig.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthEditSocialConfig.Responses.$200>
   }
   ['/user/current']: {
     /**
@@ -11274,54 +11173,6 @@ export interface PathsDictionary {
       data?: Paths.ForumNewPost.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumNewPost.Responses.$200>
-  }
-  ['/discord/guild']: {
-    /**
-     * discord_getGuild - Get Guild
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DiscordGetGuild.Responses.$200>
-  }
-  ['/discord/roles']: {
-    /**
-     * discord_getGuildRoles - Get Guild Roles
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DiscordGetGuildRoles.Responses.$200>
-  }
-  ['/discord/relation']: {
-    /**
-     * discord_getRelations - Get Relations
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DiscordGetRelations.Responses.$200>
-    /**
-     * discord_addRelation - Add Relation
-     */
-    'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: Paths.DiscordAddRelation.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DiscordAddRelation.Responses.$200>
-  }
-  ['/discord/relation/{uuid}']: {
-    /**
-     * discord_deleteRelation - Delete Relation
-     */
-    'delete'(
-      parameters?: Parameters<Paths.DiscordDeleteRelation.PathParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DiscordDeleteRelation.Responses.$200>
   }
   ['/import/gextension/packet']: {
     /**
