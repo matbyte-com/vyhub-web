@@ -2,7 +2,7 @@
   <div>
     <SettingTitle doc-path="/guide/authorization">{{ $t('_authorization.title') }}</SettingTitle>
     <span>
-      {{ `${$t('_authorization.redirectUrl')}: ${backend_url}/auth/social/discord/finish` }}
+      {{ `Discord ${$t('_authorization.redirectUrl')}: ${backend_url}/auth/social/discord/finish` }}
     </span>
     <GenForm ref="form" :form-schema="AuthorizationSettingsFormSchema" @submit="patchConfig"
              :cancel-text="null" :submit-text="$t('save')">
