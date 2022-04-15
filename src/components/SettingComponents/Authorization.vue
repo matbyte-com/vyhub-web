@@ -1,7 +1,8 @@
 <template>
   <div>
     <SettingTitle>{{ $t('_authorization.title') }}</SettingTitle>
-    <GenForm ref="form" :form-schema="AuthorizationSettingsFormSchema" @submit="patchConfig">
+    <GenForm ref="form" :form-schema="AuthorizationSettingsFormSchema" @submit="patchConfig"
+             :cancel-text="null" :submit-text="$t('save')">
     </GenForm>
   </div>
 </template>
