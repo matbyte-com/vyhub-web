@@ -61,7 +61,7 @@ export default {
       this.dialog = true;
     },
     async fetchBackends() {
-      (await openapi).auth_getSocialBackends().then((rsp) => {
+      (await openapi).auth_getAuthBackends().then((rsp) => {
         this.backends = rsp.data;
       });
     },

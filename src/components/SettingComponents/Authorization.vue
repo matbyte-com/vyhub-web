@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).auth_getSocialConfig().then((rsp) => {
+      (await openapi).auth_getAuthConfig().then((rsp) => {
         const { data } = rsp;
         if (rsp.data.discord_key) {
           data.discord = true;
@@ -40,7 +40,7 @@ export default {
         data.discord_key = null;
         data.discord_secret = null;
       }
-      (await openapi).auth_editSocialConfig(null, data).then((rsp) => {
+      (await openapi).auth_editAuthConfig(null, data).then((rsp) => {
         EventBus.emit('social_config_edited'); // caught in link account dialog
         this.fetchData();
         this.$notify({
