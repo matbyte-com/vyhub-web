@@ -173,12 +173,11 @@ export default {
           ],
         },
         {
-          name: 'discord',
-          icon: 'mdi-discord',
-          component: 'Discord',
-          reqProp: 'discord_show',
-          title: this.$t('discord'),
-          disabled: true,
+          name: 'authorization',
+          icon: 'mdi-login',
+          component: 'Authorization',
+          reqProp: 'authorization_show',
+          title: this.$t('_authorization.title'),
         },
         {
           name: 'import',
