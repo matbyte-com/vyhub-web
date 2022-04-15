@@ -2,7 +2,7 @@
   <div>
     <!-- Menu when Tabs are existent -->
     <v-menu
-      v-if="(link.tabs || []).length > 0"
+      v-if="(allowedTabs || []).length > 0"
       open-on-hover
       offset-y>
       <template v-slot:activator="{ on, attrs }">
@@ -26,7 +26,7 @@
     <!-- simple button when no tabs are existent -->
     <v-btn
       text dark
-      v-if="(link.tabs || []).length === 0"
+      v-if="(allowedTabs || []).length === 0"
       :href="(link.linkType === 'link' && !localLink ? link.link : null)"
       :to="(link.linkType !== 'link' || localLink ? getLocalLink : null)"
     >
@@ -44,6 +44,10 @@ export default {
   },
   computed: {
     allowedTabs() {
+      if (this.link.tabs == null) {
+        return [];
+      }
+
       return this.link.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
     },
     localLink() {
