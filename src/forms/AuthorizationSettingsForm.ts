@@ -2,9 +2,6 @@ import i18n from '@/plugins/i18n';
 
 export default {
   type: 'object',
-  required: [
-    'name',
-  ],
   allOf: [
     {
       properties: {
@@ -26,6 +23,9 @@ export default {
         },
       },
       then: {
+        required: [
+          'discord_key', 'discord_secret',
+        ],
         properties: {
           discord_key: {
             type: 'string',

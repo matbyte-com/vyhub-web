@@ -11,6 +11,7 @@ import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
 import GenForm from '@/components/GenForm.vue';
 import AuthorizationSettingsForm from '@/forms/AuthorizationSettingsForm';
+import EventBus from '@/services/EventBus';
 
 export default {
   name: 'Discord.vue',
@@ -40,7 +41,12 @@ export default {
         data.discord_secret = '';
       }
       (await openapi).auth_editSocialConfig(null, data).then((rsp) => {
+        EventBus.emit('social_config_edited'); // caught in link account dialog
         this.fetchData();
+        this.$notify({
+          title: this.$t('_authorization.messages.editedConfig'),
+          type: 'success',
+        });
       }).catch((err) => {
         this.$refs.form.setErrorMessage(err.response.data.detail);
       });

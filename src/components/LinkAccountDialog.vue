@@ -6,7 +6,7 @@
         <v-list-item v-for="backend in backends" :key="backend.id"
                      @click="startAuth(backend.id)" :data-cy="backend.id">
           <v-list-item-icon>
-            <v-icon> {{ backend.icon }} </v-icon>
+            <v-icon> {{ getIcon(backend.name) }} </v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ $t(`_user.type.${backend.name}.name`) }}</v-list-item-title>
@@ -25,6 +25,7 @@ import AuthService from '@/services/AuthService';
 import Dialog from '@/components/Dialog.vue';
 import UserService from '@/services/UserService';
 import openapi from '@/api/openapi';
+import EventBus from '@/services/EventBus';
 
 export default {
   name: 'Login.vue',
@@ -33,22 +34,12 @@ export default {
     return {
       dialog: null,
       backends: [
-        {
-          id: 'vyhub_central',
-          name: 'CENTRAL',
-          icon: UserService.userTypeIcons.CENTRAL,
-        },
-        {
-          id: 'steam',
-          name: 'STEAM',
-          icon: UserService.userTypeIcons.STEAM,
-        },
-        {
-          id: 'discord',
-          name: 'DISCORD',
-          icon: UserService.userTypeIcons.DISCORD,
-        },
-      ], // TODO: Fetch backends from API
+        // Backends are fetched from server
+        // {
+        //  id: 'vyhub_central',
+        //  name: 'CENTRAL',
+        // },
+      ],
     };
   },
   watch: {
@@ -61,9 +52,18 @@ export default {
       }
     },
   },
+  beforeMount() {
+    this.fetchBackends();
+    EventBus.on('social_config_edited', this.fetchBackends);
+  },
   methods: {
     show() {
       this.dialog = true;
+    },
+    async fetchBackends() {
+      (await openapi).auth_getSocialBackends().then((rsp) => {
+        this.backends = rsp.data;
+      });
     },
     redirectToSocial(backend) {
       window.location.href = AuthService.getSocialAuthUrl(backend, this.$route.query.return_url);
@@ -79,6 +79,9 @@ export default {
       } else {
         this.redirectToSocial(backend);
       }
+    },
+    getIcon(type) {
+      return UserService.userTypeIcons[type];
     },
   },
 };
