@@ -1,6 +1,9 @@
 <template>
   <div>
     <SettingTitle doc-path="/guide/authorization">{{ $t('_authorization.title') }}</SettingTitle>
+    <span>
+      {{ `${$t('_authorization.redirectUrl')}: ${backend_url}/auth/social/discord/finish` }}
+    </span>
     <GenForm ref="form" :form-schema="AuthorizationSettingsFormSchema" @submit="patchConfig"
              :cancel-text="null" :submit-text="$t('save')">
     </GenForm>
@@ -13,6 +16,7 @@ import openapi from '../../api/openapi';
 import GenForm from '@/components/GenForm.vue';
 import AuthorizationSettingsForm from '@/forms/AuthorizationSettingsForm';
 import EventBus from '@/services/EventBus';
+import config from '../../config';
 
 export default {
   name: 'Discord.vue',
@@ -20,6 +24,7 @@ export default {
   data() {
     return {
       AuthorizationSettingsFormSchema: AuthorizationSettingsForm,
+      backend_url: config.backend_url,
     };
   },
   beforeMount() {
