@@ -37,8 +37,8 @@ export default {
     async patchConfig() {
       const data = this.$refs.form.getData();
       if (data.discord === false) {
-        data.discord_key = '';
-        data.discord_secret = '';
+        data.discord_key = null;
+        data.discord_secret = null;
       }
       (await openapi).auth_editSocialConfig(null, data).then((rsp) => {
         EventBus.emit('social_config_edited'); // caught in link account dialog
