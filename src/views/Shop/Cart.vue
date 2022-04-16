@@ -209,11 +209,8 @@
     </Dialog>
     <v-card>
     </v-card>
-    <confirmation-dialog ref="cancelPurchaseConfirmationDialog"
-                         @submit="cancelPurchase(openPurchase)"
-                         :btn-cancel-text="$t('close')"
-                         :btn-text="$t('_shop.labels.cancelPurchase')"
-                         :text="$t('_shop.messages.cancelPurchaseConfirmation')"/>
+    <cancel-purchase-confirmation-dialog ref="cancelPurchaseConfirmationDialog"
+                         @submit="cancelPurchase(openPurchase)"/>
     <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>
   </div>
 </template>
@@ -231,11 +228,12 @@ import Dialog from '@/components/Dialog.vue';
 import openapi from '../../api/openapi';
 import Email from '@/components/PersonalSettings/Email.vue';
 import AuthService from '@/services/AuthService';
-import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
+import CancelPurchaseConfirmationDialog
+  from '../../components/ShopComponents/CancelPurchaseConfirmationDialog.vue';
 
 export default {
   components: {
-    ConfirmationDialog,
+    CancelPurchaseConfirmationDialog,
     Email,
     Dialog,
     CartTotal,

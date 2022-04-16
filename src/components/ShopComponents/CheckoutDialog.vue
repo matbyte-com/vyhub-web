@@ -133,7 +133,7 @@
     <template v-slot:actions v-if="!loading">
       <v-row class="text-center">
         <v-col>
-          <v-btn text @click="cancel">
+          <v-btn text @click="$refs.cancelPurchaseConfirmationDialog.show()">
             <v-icon left>mdi-close</v-icon>
             {{ $t('cancel') }}
           </v-btn>
@@ -144,6 +144,8 @@
         </v-col>
       </v-row>
     </template>
+    <cancel-purchase-confirmation-dialog ref="cancelPurchaseConfirmationDialog"
+                                         @submit="cancel()"/>
   </Dialog>
 </template>
 
@@ -155,10 +157,12 @@ import ShopService from '@/services/ShopService';
 import Dialog from '../Dialog.vue';
 import openapi from '../../api/openapi';
 import openapiCached from '../../api/openapiCached';
+import CancelPurchaseConfirmationDialog from './CancelPurchaseConfirmationDialog.vue';
 
 export default {
   name: 'CheckoutDialog',
   components: {
+    CancelPurchaseConfirmationDialog,
     Dialog,
     CartTotal,
     CartPacket,
@@ -262,6 +266,7 @@ export default {
     cancel() {
       this.$emit('cancel');
       this.close();
+      this.$refs.cancelPurchaseConfirmationDialog.closeAndReset();
     },
     scrollDown() {
       const { id } = this.$refs.checkoutDialog;
