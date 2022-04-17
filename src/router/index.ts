@@ -106,6 +106,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Notification.vue'),
   },
   {
+    path: '/notification/:id',
+    name: 'Notification Link',
+    meta: { title: i18n.t('_pageTitle.notificationLink') },
+    component: () => import('../views/NotificationLink.vue'),
+  },
+  {
     path: '/log',
     name: 'Log',
     meta: { title: i18n.t('_pageTitle.log'), requiresAuth: true },
