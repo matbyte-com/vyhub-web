@@ -26,7 +26,10 @@
         </v-list-group>
         <!-- if no tabs are existent -->
         <v-list-item v-if="(navLink.tabs || []).length === 0"
-                     :to="navLink.link">
+                     :href="(navLink.linkType === 'link' && !localLink(navLink) ?
+                      navLink.link : null)"
+                     :to="(navLink.linkType !== 'link' || localLink(navLink) ?
+                      getLocalLink(navLink) : null)">
           <v-icon left>{{ navLink.icon }}</v-icon>
           <v-list-item-title>{{ navLink.title }}</v-list-item-title>
         </v-list-item>
@@ -87,6 +90,16 @@ export default {
     },
     emitLogout() {
       this.$emit('logout');
+    },
+    getLocalLink(link) {
+      if (this.localLink(link)) { return link.link.substring(window.location.origin.length); }
+      return link.link;
+    },
+    localLink(link) {
+      if (window) {
+        return !!link.link.includes(window.location.hostname);
+      }
+      return false;
     },
   },
 };
