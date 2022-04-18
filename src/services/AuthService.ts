@@ -65,12 +65,18 @@ export default {
       api.throttledHttp.defaults.headers.common.Authorization = header;
     }
   },
-  getSocialAuthUrl(backend: string, returnUrl: string) {
-    let redirectUrl = `${config.backend_url}/auth/social/${backend}/start`;
+  getSocialAuthUrl(backend: string, returnUrl: string, authRequestId: string) {
+    const step = (authRequestId != null ? 'finish' : 'start');
+
+    const redirectUrl = new URL(`${config.backend_url}/auth/social/${backend}/${step}`);
 
     if (returnUrl != null) {
-      const returnUrlEnc = encodeURIComponent(returnUrl);
-      redirectUrl = redirectUrl.concat(`?return_url=${returnUrlEnc}`);
+      // const returnUrlEnc = encodeURIComponent(returnUrl);
+      redirectUrl.searchParams.append('return_url', returnUrl);
+    }
+
+    if (authRequestId != null) {
+      redirectUrl.searchParams.append('auth_request_id', authRequestId);
     }
 
     return redirectUrl;
@@ -125,5 +131,8 @@ export default {
 
       throw err;
     }
+  },
+  authRequestCommands: {
+    MINECRAFT: '/login {uuid}',
   },
 };

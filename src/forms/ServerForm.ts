@@ -86,10 +86,10 @@ export default {
         {
           ...serverTypeFields('GMOD'),
         },
-        /* {
+        {
           ...serverTypeFields('MINECRAFT'),
         },
-        {
+        /* {
           ...serverTypeFields('TEAMSPEAK3'),
         }, */
         {

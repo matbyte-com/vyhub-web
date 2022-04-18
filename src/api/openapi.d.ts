@@ -246,6 +246,60 @@ declare namespace Components {
             executed_on?: string /* uuid */[];
         }
         /**
+         * AuthRequestModel
+         */
+        export interface AuthRequestModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            user_type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+            /**
+             * Created
+             */
+            created: string; // date-time
+            /**
+             * Identifier
+             */
+            identifier?: string;
+            /**
+             * Valid
+             */
+            valid: boolean;
+            /**
+             * Confirmed
+             */
+            confirmed: boolean;
+        }
+        /**
+         * AuthRequestModelAdd
+         */
+        export interface AuthRequestModelAdd {
+            user_type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+        }
+        /**
+         * AuthRequestModelPatch
+         */
+        export interface AuthRequestModelPatch {
+            user_type: /**
+             * UserType
+             * An enumeration.
+             */
+            UserType;
+            /**
+             * Identifier
+             */
+            identifier: string;
+        }
+        /**
          * BanModel
          */
         export interface BanModel {
@@ -697,7 +751,7 @@ declare namespace Components {
          * DebitStatus
          * An enumeration.
          */
-        export type DebitStatus = "STARTED" | "APPROVED" | "FINISHED" | "CANCELLED";
+        export type DebitStatus = "STARTED" | "APPROVED" | "FINISHED" | "CANCELLED" | "FAILED";
         /**
          * DiscountModel
          */
@@ -1042,6 +1096,40 @@ declare namespace Components {
             group: /* GroupModel */ GroupModel;
         }
         /**
+         * GroupMappingModel
+         */
+        export interface GroupMappingModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id: string; // uuid
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Group Id
+             */
+            group_id: string; // uuid
+        }
+        /**
+         * GroupMappingModelAdd
+         */
+        export interface GroupMappingModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Serverbundle Id
+             */
+            serverbundle_id: string; // uuid
+        }
+        /**
          * GroupModel
          */
         export interface GroupModel {
@@ -1068,6 +1156,10 @@ declare namespace Components {
                 [name: string]: /* PropertyModelGroup */ PropertyModelGroup;
             };
             /**
+             * Mappings
+             */
+            mappings: /* GroupMappingModel */ GroupMappingModel[];
+            /**
              * Is Team
              */
             is_team: boolean;
@@ -1093,6 +1185,10 @@ declare namespace Components {
              */
             properties?: /* PropertyModelAdd */ PropertyModelAdd[];
             /**
+             * Mappings
+             */
+            mappings?: /* GroupMappingModelAdd */ GroupMappingModelAdd[];
+            /**
              * Is Team
              */
             is_team: boolean;
@@ -1117,6 +1213,10 @@ declare namespace Components {
              * Properties
              */
             properties?: /* PropertyModelAdd */ PropertyModelAdd[];
+            /**
+             * Mappings
+             */
+            mappings?: /* GroupMappingModelAdd */ GroupMappingModelAdd[];
             /**
              * Is Team
              */
@@ -3240,7 +3340,7 @@ declare namespace Components {
          * ServerType
          * An enumeration.
          */
-        export type ServerType = "GMOD" | "DISCORD";
+        export type ServerType = "GMOD" | "MINECRAFT" | "DISCORD";
         /**
          * ServerbundleModel
          */
@@ -3364,9 +3464,39 @@ declare namespace Components {
             invoice_logo_url?: string; // uri
         }
         /**
+         * SocialBackendModel
+         */
+        export interface SocialBackendModel {
+            /**
+             * Id
+             */
+            id: string;
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Type
+             */
+            type: string;
+            /**
+             * Auth Request
+             */
+            auth_request?: boolean;
+        }
+        /**
          * SocialConfigModel
          */
         export interface SocialConfigModel {
+            /**
+             * Discord Key
+             */
+            discord_key?: string;
+        }
+        /**
+         * SocialConfigModelPatch
+         */
+        export interface SocialConfigModelPatch {
             /**
              * Discord Key
              */
@@ -4057,7 +4187,7 @@ declare namespace Components {
          * UserType
          * An enumeration.
          */
-        export type UserType = "CENTRAL" | "STEAM" | "DISCORD";
+        export type UserType = "CENTRAL" | "STEAM" | "DISCORD" | "MINECRAFT";
         /**
          * ValidationError
          */
@@ -4140,8 +4270,36 @@ declare namespace Components {
     }
 }
 declare namespace Paths {
-    namespace AuthEditSocialConfig {
-        export type RequestBody = /* SocialConfigModel */ Components.Schemas.SocialConfigModel;
+    namespace AuthConfirmAuthRequest {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* AuthRequestModelPatch */ Components.Schemas.AuthRequestModelPatch;
+        namespace Responses {
+            export type $200 = /* AuthRequestModel */ Components.Schemas.AuthRequestModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace AuthCreateAuthRequest {
+        export type RequestBody = /* AuthRequestModelAdd */ Components.Schemas.AuthRequestModelAdd;
+        namespace Responses {
+            export type $200 = /* AuthRequestModel */ Components.Schemas.AuthRequestModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace AuthEditAuthConfig {
+        export type RequestBody = /* SocialConfigModelPatch */ Components.Schemas.SocialConfigModelPatch;
         namespace Responses {
             export type $200 = /* SocialConfigModel */ Components.Schemas.SocialConfigModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
@@ -4162,9 +4320,37 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
-    namespace AuthGetSocialConfig {
+    namespace AuthGetAuthBackends {
+        namespace Responses {
+            /**
+             * Response Get Auth Backends Auth Social Backends Get
+             */
+            export type $200 = /* SocialBackendModel */ Components.Schemas.SocialBackendModel[];
+        }
+    }
+    namespace AuthGetAuthConfig {
         namespace Responses {
             export type $200 = /* SocialConfigModel */ Components.Schemas.SocialConfigModel;
+        }
+    }
+    namespace AuthGetAuthRequest {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* AuthRequestModel */ Components.Schemas.AuthRequestModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
     namespace AuthGetToken {
@@ -4998,6 +5184,26 @@ declare namespace Paths {
             export type $200 = any;
         }
     }
+    namespace NotificationGetNotification {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* NotificationEntryModel */ Components.Schemas.NotificationEntryModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace NotificationGetNotifications {
         namespace Parameters {
             /**
@@ -5708,7 +5914,7 @@ declare namespace Paths {
     namespace ServerCreateServer {
         export type RequestBody = /* ServerModelAdd */ Components.Schemas.ServerModelAdd;
         namespace Responses {
-            export type $200 = any;
+            export type $200 = /* ServerModel */ Components.Schemas.ServerModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -5748,7 +5954,7 @@ declare namespace Paths {
             Parameters.Uuid;
         }
         namespace Responses {
-            export type $200 = any;
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -5790,7 +5996,7 @@ declare namespace Paths {
         }
         export type RequestBody = /* ServerModelPatch */ Components.Schemas.ServerModelPatch;
         namespace Responses {
-            export type $200 = any;
+            export type $200 = /* ServerModel */ Components.Schemas.ServerModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -6971,6 +7177,10 @@ declare namespace Paths {
              */
             export type MorphUserId = string; // uuid
             /**
+             * Serverbundle Id
+             */
+            export type ServerbundleId = string; // uuid
+            /**
              * Uuid
              * The UUID or username of the referenced user.
              */
@@ -6984,6 +7194,7 @@ declare namespace Paths {
             Parameters.Uuid;
         }
         export interface QueryParameters {
+            serverbundle_id?: /* Serverbundle Id */ Parameters.ServerbundleId /* uuid */;
             morph_user_id?: /**
              * Morph User Id
              * Morph system user into given user. Requires user_morph property.
@@ -6998,6 +7209,11 @@ declare namespace Paths {
     namespace UserEndMembership {
         namespace Parameters {
             /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
              * Uuid
              * The UUID of the referenced object.
              */
@@ -7009,6 +7225,13 @@ declare namespace Paths {
              * The UUID of the referenced object.
              */
             Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
         }
         namespace Responses {
             export type $200 = any;
@@ -7324,10 +7547,10 @@ declare namespace Paths {
              */
             export type Identifier = string;
             /**
-             * Non Central
-             * Set to true if searching a user by its identifier (and not uuid or central username)
+             * UserType
+             * If searching a user by its identifier, search users of this type.
              */
-            export type NonCentral = boolean;
+            export type Type = "CENTRAL" | "STEAM" | "DISCORD" | "MINECRAFT";
         }
         export interface PathParameters {
             identifier: /**
@@ -7337,11 +7560,11 @@ declare namespace Paths {
             Parameters.Identifier;
         }
         export interface QueryParameters {
-            non_central?: /**
-             * Non Central
-             * Set to true if searching a user by its identifier (and not uuid or central username)
+            type?: /**
+             * UserType
+             * If searching a user by its identifier, search users of this type.
              */
-            Parameters.NonCentral;
+            Parameters.Type;
         }
         namespace Responses {
             export type $200 = /* UserModel */ Components.Schemas.UserModel;
@@ -7374,6 +7597,10 @@ declare namespace Paths {
     namespace UserGetMemberships {
         namespace Parameters {
             /**
+             * Serverbundle Id
+             */
+            export type ServerbundleId = string; // uuid
+            /**
              * Uuid
              * The UUID or username of the referenced user.
              */
@@ -7385,6 +7612,9 @@ declare namespace Paths {
              * The UUID or username of the referenced user.
              */
             Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            serverbundle_id?: /* Serverbundle Id */ Parameters.ServerbundleId /* uuid */;
         }
         namespace Responses {
             /**
@@ -7742,6 +7972,108 @@ declare namespace Paths {
 
 export interface OperationMethods {
   /**
+   * auth_getToken - Get Token
+   */
+  'auth_getToken'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthGetToken.Responses.$200>
+  /**
+   * auth_revokeToken - Revoke Token
+   */
+  'auth_revokeToken'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
+  /**
+   * auth_prepareSocial - Prepare Social
+   */
+  'auth_prepareSocial'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthPrepareSocial.Responses.$200>
+  /**
+   * auth_startSocial - Start Social
+   */
+  'auth_startSocial'(
+    parameters?: Parameters<Paths.AuthStartSocial.PathParameters & Paths.AuthStartSocial.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthStartSocial.Responses.$200>
+  /**
+   * auth_finishSocial - Finish Social
+   */
+  'auth_finishSocial'(
+    parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
+  /**
+   * auth_finishSocial - Finish Social
+   */
+  'auth_finishSocial'(
+    parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
+  /**
+   * auth_getAuthConfig - Get Auth Config
+   */
+  'auth_getAuthConfig'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthGetAuthConfig.Responses.$200>
+  /**
+   * auth_editAuthConfig - Edit Auth Config
+   */
+  'auth_editAuthConfig'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.AuthEditAuthConfig.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthEditAuthConfig.Responses.$200>
+  /**
+   * auth_getAuthBackends - Get Auth Backends
+   */
+  'auth_getAuthBackends'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthGetAuthBackends.Responses.$200>
+  /**
+   * auth_createAuthRequest - Create Auth Request
+   * 
+   * Create a VyHub auth request that can be confirmed by a gameserver.
+   */
+  'auth_createAuthRequest'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.AuthCreateAuthRequest.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthCreateAuthRequest.Responses.$200>
+  /**
+   * auth_getAuthRequest - Get Auth Request
+   * 
+   * Check status of VyHub auth request.
+   */
+  'auth_getAuthRequest'(
+    parameters?: Parameters<Paths.AuthGetAuthRequest.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthGetAuthRequest.Responses.$200>
+  /**
+   * auth_confirmAuthRequest - Confirm Auth Request
+   * 
+   * Confirm VyHub auth request.
+   */
+  'auth_confirmAuthRequest'(
+    parameters?: Parameters<Paths.AuthConfirmAuthRequest.PathParameters> | null,
+    data?: Paths.AuthConfirmAuthRequest.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.AuthConfirmAuthRequest.Responses.$200>
+  /**
    * general_getNavItems - Get Nav Items
    */
   'general_getNavItems'(
@@ -7896,70 +8228,6 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GeneralEditTeamMember.Responses.$200>
   /**
-   * auth_getToken - Get Token
-   */
-  'auth_getToken'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthGetToken.Responses.$200>
-  /**
-   * auth_revokeToken - Revoke Token
-   */
-  'auth_revokeToken'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
-  /**
-   * auth_prepareSocial - Prepare Social
-   */
-  'auth_prepareSocial'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthPrepareSocial.Responses.$200>
-  /**
-   * auth_startSocial - Start Social
-   */
-  'auth_startSocial'(
-    parameters?: Parameters<Paths.AuthStartSocial.PathParameters & Paths.AuthStartSocial.QueryParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthStartSocial.Responses.$200>
-  /**
-   * auth_finishSocial - Finish Social
-   */
-  'auth_finishSocial'(
-    parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
-  /**
-   * auth_finishSocial - Finish Social
-   */
-  'auth_finishSocial'(
-    parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
-  /**
-   * auth_getSocialConfig - Get Social Config
-   */
-  'auth_getSocialConfig'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthGetSocialConfig.Responses.$200>
-  /**
-   * auth_editSocialConfig - Edit Social Config
-   */
-  'auth_editSocialConfig'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: Paths.AuthEditSocialConfig.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthEditSocialConfig.Responses.$200>
-  /**
    * user_getCurrentUser - Get Current User
    */
   'user_getCurrentUser'(
@@ -8077,7 +8345,7 @@ export interface OperationMethods {
    * Returns all memberships of the given and all linked users.
    */
   'user_getMemberships'(
-    parameters?: Parameters<Paths.UserGetMemberships.PathParameters> | null,
+    parameters?: Parameters<Paths.UserGetMemberships.PathParameters & Paths.UserGetMemberships.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserGetMemberships.Responses.$200>
@@ -8111,7 +8379,7 @@ export interface OperationMethods {
    * user_endMembership - End Membership
    */
   'user_endMembership'(
-    parameters?: Parameters<Paths.UserEndMembership.PathParameters> | null,
+    parameters?: Parameters<Paths.UserEndMembership.PathParameters & Paths.UserEndMembership.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UserEndMembership.Responses.$200>
@@ -9230,6 +9498,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.NotificationGetCategories.Responses.$200>
   /**
+   * notification_getNotification - Get Notification
+   */
+  'notification_getNotification'(
+    parameters?: Parameters<Paths.NotificationGetNotification.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.NotificationGetNotification.Responses.$200>
+  /**
    * log_getLog - Get Log
    */
   'log_getLog'(
@@ -9338,6 +9614,126 @@ export interface OperationMethods {
 }
 
 export interface PathsDictionary {
+  ['/auth/token']: {
+    /**
+     * auth_getToken - Get Token
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthGetToken.Responses.$200>
+  }
+  ['/auth/revoke']: {
+    /**
+     * auth_revokeToken - Revoke Token
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
+  }
+  ['/auth/social/prepare']: {
+    /**
+     * auth_prepareSocial - Prepare Social
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthPrepareSocial.Responses.$200>
+  }
+  ['/auth/social/{backend}/start']: {
+    /**
+     * auth_startSocial - Start Social
+     */
+    'get'(
+      parameters?: Parameters<Paths.AuthStartSocial.PathParameters & Paths.AuthStartSocial.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthStartSocial.Responses.$200>
+  }
+  ['/auth/social/{backend}/finish']: {
+    /**
+     * auth_finishSocial - Finish Social
+     */
+    'get'(
+      parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
+    /**
+     * auth_finishSocial - Finish Social
+     */
+    'post'(
+      parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
+  }
+  ['/auth/social/config']: {
+    /**
+     * auth_getAuthConfig - Get Auth Config
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthGetAuthConfig.Responses.$200>
+    /**
+     * auth_editAuthConfig - Edit Auth Config
+     */
+    'patch'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.AuthEditAuthConfig.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthEditAuthConfig.Responses.$200>
+  }
+  ['/auth/social/backends']: {
+    /**
+     * auth_getAuthBackends - Get Auth Backends
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthGetAuthBackends.Responses.$200>
+  }
+  ['/auth/request/']: {
+    /**
+     * auth_createAuthRequest - Create Auth Request
+     * 
+     * Create a VyHub auth request that can be confirmed by a gameserver.
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.AuthCreateAuthRequest.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthCreateAuthRequest.Responses.$200>
+  }
+  ['/auth/request/{uuid}']: {
+    /**
+     * auth_getAuthRequest - Get Auth Request
+     * 
+     * Check status of VyHub auth request.
+     */
+    'get'(
+      parameters?: Parameters<Paths.AuthGetAuthRequest.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthGetAuthRequest.Responses.$200>
+    /**
+     * auth_confirmAuthRequest - Confirm Auth Request
+     * 
+     * Confirm VyHub auth request.
+     */
+    'patch'(
+      parameters?: Parameters<Paths.AuthConfirmAuthRequest.PathParameters> | null,
+      data?: Paths.AuthConfirmAuthRequest.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.AuthConfirmAuthRequest.Responses.$200>
+  }
   ['/general/nav']: {
     /**
      * general_getNavItems - Get Nav Items
@@ -9514,82 +9910,6 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GeneralEditTeamMember.Responses.$200>
   }
-  ['/auth/token']: {
-    /**
-     * auth_getToken - Get Token
-     */
-    'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthGetToken.Responses.$200>
-  }
-  ['/auth/revoke']: {
-    /**
-     * auth_revokeToken - Revoke Token
-     */
-    'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
-  }
-  ['/auth/social/prepare']: {
-    /**
-     * auth_prepareSocial - Prepare Social
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthPrepareSocial.Responses.$200>
-  }
-  ['/auth/social/{backend}/start']: {
-    /**
-     * auth_startSocial - Start Social
-     */
-    'get'(
-      parameters?: Parameters<Paths.AuthStartSocial.PathParameters & Paths.AuthStartSocial.QueryParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthStartSocial.Responses.$200>
-  }
-  ['/auth/social/{backend}/finish']: {
-    /**
-     * auth_finishSocial - Finish Social
-     */
-    'get'(
-      parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
-    /**
-     * auth_finishSocial - Finish Social
-     */
-    'post'(
-      parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
-  }
-  ['/auth/social/config']: {
-    /**
-     * auth_getSocialConfig - Get Social Config
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthGetSocialConfig.Responses.$200>
-    /**
-     * auth_editSocialConfig - Edit Social Config
-     */
-    'patch'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: Paths.AuthEditSocialConfig.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthEditSocialConfig.Responses.$200>
-  }
   ['/user/current']: {
     /**
      * user_getCurrentUser - Get Current User
@@ -9731,7 +10051,7 @@ export interface PathsDictionary {
      * Returns all memberships of the given and all linked users.
      */
     'get'(
-      parameters?: Parameters<Paths.UserGetMemberships.PathParameters> | null,
+      parameters?: Parameters<Paths.UserGetMemberships.PathParameters & Paths.UserGetMemberships.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserGetMemberships.Responses.$200>
@@ -9759,7 +10079,7 @@ export interface PathsDictionary {
      * user_endMembership - End Membership
      */
     'delete'(
-      parameters?: Parameters<Paths.UserEndMembership.PathParameters> | null,
+      parameters?: Parameters<Paths.UserEndMembership.PathParameters & Paths.UserEndMembership.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UserEndMembership.Responses.$200>
@@ -11067,6 +11387,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.NotificationGetCategories.Responses.$200>
+  }
+  ['/notification/{uuid}']: {
+    /**
+     * notification_getNotification - Get Notification
+     */
+    'get'(
+      parameters?: Parameters<Paths.NotificationGetNotification.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.NotificationGetNotification.Responses.$200>
   }
   ['/log/']: {
     /**
