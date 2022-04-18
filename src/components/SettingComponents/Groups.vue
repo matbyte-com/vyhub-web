@@ -194,11 +194,11 @@ export default {
           name: p,
           granted: true,
         })),
-        ...Object.entries(data.advanced_properties).map(([key, value]) => ({
+        /* ...Object.entries(data.advanced_properties).map(([key, value]) => ({
           name: key,
           granted: true,
           value,
-        })),
+        })), */
       ];
     },
     async fetchData() {
@@ -230,19 +230,20 @@ export default {
 
       const allProps = Object.keys(item.properties);
       const props = allProps.filter((x) => !this.advancedProps.includes(x));
-      const advPropsKeys = allProps.filter((x) => this.advancedProps.includes(x));
-      const advProps = {};
+      // const advPropsKeys = allProps.filter((x) => this.advancedProps.includes(x));
+      // const advProps = {};
 
-      advPropsKeys.map((key) => {
-        advProps[key] = item.properties[key].value;
-        return null;
-      });
+      // advPropsKeys.map((key) => {
+      //   advProps[key] = item.properties[key].value;
+      //   return null;
+      // });
 
       obj.name = item.name;
       obj.permission_level = item.permission_level;
       obj.color = item.color;
       obj.properties = props;
-      obj.advanced_properties = advProps;
+      obj.mappings = item.mappings;
+      // obj.advanced_properties = advProps;
       obj.is_team = item.is_team;
 
       this.$refs.editGroupDialog.show(item);
@@ -267,7 +268,7 @@ export default {
       const data = this.$refs.editGroupDialog.getData();
 
       data.properties = this.formatProperties(data);
-      delete data.advanced_properties;
+      // delete data.advanced_properties;
 
       (await openapi).group_editGroup(group.id, data)
         .then(() => {

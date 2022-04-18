@@ -44,10 +44,24 @@ export default {
       },
     },
     {
-      title: i18n.t('advancedProperties'),
+      title: i18n.t('mappings'),
       type: 'object',
       properties: {
-        advanced_properties: Common.advancedProperties,
+        mappings: {
+          type: 'array',
+          title: i18n.t('mappings'),
+          items: {
+            type: 'object',
+            required: ['name', 'serverbundle_id'],
+            properties: {
+              serverbundle_id: Common.serverbundleIdSelectField,
+              name: {
+                type: 'string',
+                title: i18n.t('_group.mappings.name'),
+              },
+            },
+          },
+        },
       },
     },
   ],

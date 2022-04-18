@@ -21,6 +21,13 @@ export default {
     'x-itemTitle': 'username',
     'x-itemIcon': 'avatar',
   },
+  serverbundleIdSelectField: {
+    type: 'string',
+    title: i18n.t('serverbundle'),
+    'x-fromUrl': `${API_URL}/server/bundle/`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'name',
+  },
   serverbundleSelectField: {
     type: 'object',
     title: i18n.t('serverbundle'),
