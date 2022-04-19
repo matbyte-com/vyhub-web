@@ -131,6 +131,7 @@ export default Vue.extend({
     },
     async getGeneralConfig() {
       await this.utils.getGeneralConfig();
+      this.setLocale();
     },
     async setTheme() {
       (await openapi).general_getTheme().then((rsp) => {

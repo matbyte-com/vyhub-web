@@ -92,10 +92,12 @@ export default {
       this.$emit('logout');
     },
     getLocalLink(link) {
+      if (!link.link) return '';
       if (this.localLink(link)) { return link.link.substring(window.location.origin.length); }
       return link.link;
     },
     localLink(link) {
+      if (!link.link) return false;
       if (window) {
         return !!link.link.includes(window.location.hostname);
       }

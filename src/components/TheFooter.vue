@@ -9,7 +9,7 @@
       <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
         <strong>
           {{ new Date().getFullYear() }}
-          <span v-if="$store.getters.theme != null">
+          <span v-if="$store.getters.generalConfig != null">
             — {{ $store.getters.generalConfig.community_name }}
           </span>
           —
