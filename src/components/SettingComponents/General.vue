@@ -4,7 +4,12 @@
     <v-row>
       <v-col lg="8" xl="6">
         <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
-                 :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true"/>
+                 :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true">
+          <template v-slot:language-after>
+            {{ $t('_settings.languageNewDescriptionText') }}
+            <a href="https://github.com/matbyte-com/vyhub-lang" target="_blank">{{ $t('here') }}</a>!
+          </template>
+        </GenForm>
       </v-col>
     </v-row>
   </div>
@@ -16,6 +21,7 @@ import SettingsGeneralFormSchema from '@/forms/SettingsGeneralForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
+import i18n from '../../plugins/i18n';
 
 export default {
   name: 'General',
@@ -37,6 +43,9 @@ export default {
     },
     async saveData() {
       const data = this.$refs.form.getData();
+      if (data.language !== i18n.locale) {
+        i18n.locale = data.language;
+      }
       (await openapi).general_editConfig(null, data).then(() => {
         // caught in App.vue to Update Theme + Header
         EventBus.emit('themeUpdated');

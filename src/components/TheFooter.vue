@@ -1,9 +1,6 @@
 <template>
   <v-footer color="primary lighten-1" padless>
     <v-row justify="center" no-gutters>
-      <v-btn color="white" text class="my-2" @click="$refs.languagePicker.dialog = true" disabled>
-        {{ $t("_footer.labels.language") }}
-      </v-btn>
       <v-btn v-for="(link, index) in links" :key="index" color="white"
              text class="no-active my-2" :to="link.link"
              >
@@ -24,19 +21,14 @@
         </strong>
       </v-col>
     </v-row>
-    <LanguagePicker ref="languagePicker" />
   </v-footer>
 </template>
 
 <script>
-import LanguagePicker from '@/components/FooterComponents/LanguagePicker.vue';
 import { version } from '../../package.json';
 
 export default {
-  components: { LanguagePicker },
-  comments: {
-    LanguagePicker,
-  },
+  components: {},
   data() {
     return {
       version,

@@ -88,6 +88,7 @@ import openapi from '@/api/openapi';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 import VueNotification from '@/components/VueNotification.vue';
+import i18n from '@/plugins/i18n';
 
 Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
@@ -117,6 +118,7 @@ export default Vue.extend({
     SessionService.registerSessionService();
     this.setTheme();
     this.getGeneralConfig();
+    this.setLocale();
     this.background = this.$vuetify.theme.currentTheme.background;
     // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
     // and /Components/SettingComponents/General
@@ -200,6 +202,11 @@ export default Vue.extend({
       if (this.$store.getters.theme.favicon) {
         const favicon = document.getElementById('favicon');
         favicon.href = this.$store.getters.theme.favicon;
+      }
+    },
+    setLocale() {
+      if (this.$store.getters.generalConfig) {
+        i18n.locale = this.$store.getters.generalConfig.language;
       }
     },
     async setApiInterceptor() {

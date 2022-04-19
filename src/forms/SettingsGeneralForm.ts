@@ -1,8 +1,16 @@
 import i18n from '@/plugins/i18n';
 
+const oneOf: { const: string, title: string }[] = [];
+i18n.availableLocales.forEach((l) => {
+  oneOf.push({
+    const: l,
+    title: String(i18n.t(`_language.${l}`)),
+  });
+});
+
 export default {
   type: 'object',
-  required: ['community_name', 'show_ticket', 'show_team'],
+  required: ['community_name', 'show_ticket', 'show_team', 'language'],
   properties: {
     community_name: {
       type: 'string',
@@ -19,6 +27,12 @@ export default {
       title: i18n.t('_settings.showTeam'),
       'x-display': 'switch',
       default: false,
+    },
+    language: {
+      type: 'string',
+      title: i18n.t('_settings.language'),
+      oneOf,
+      'x-display': 'autocomplete',
     },
   },
 };

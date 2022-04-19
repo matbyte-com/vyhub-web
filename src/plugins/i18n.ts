@@ -45,8 +45,6 @@ Vue.use(VueI18n);
 export default new VueI18n({
   dateTimeFormats,
   locale: 'en',
-  // TODO use default server language
-  // locale: navigator.language.split('-')[0],
   fallbackLocale: 'en',
   messages: loadLocaleMessages(),
 });
