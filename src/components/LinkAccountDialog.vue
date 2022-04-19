@@ -157,6 +157,9 @@ export default {
               console.log('Auth request became invalid.');
             } else if (this.authRequest.valid && this.authRequest.confirmed) {
               this.startSocial(backend);
+              clearInterval(this.intervalId);
+              this.intervalId = null;
+              this.authCommand = null;
             }
           }).catch(() => {
             errCount += 1;
