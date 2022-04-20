@@ -5,6 +5,9 @@
     </SettingTitle>
     <v-row>
       <v-col cols="12">
+        <v-alert color="error">
+          Discord servers are currently not available and will be available again soon.
+        </v-alert>
         <v-card outlined flat class="fill-height transparent">
           <v-card-text>
             <DataTable

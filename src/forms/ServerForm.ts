@@ -91,10 +91,10 @@ export default {
         },
         {
           ...serverTypeFields('TEAMSPEAK3'),
-        }, */
+        },
         {
           ...serverTypeFields('DISCORD'),
-        },
+        }, */
       ],
     },
     {
