@@ -34,7 +34,7 @@ export default {
     async fetchData() {
       (await openapi).auth_getAuthConfig().then((rsp) => {
         const { data } = rsp;
-        if (rsp.data.discord_key) {
+        if (rsp.data.discord_oauth_client_id) {
           data.discord = true;
         }
         this.$refs.form.setData(data);
@@ -43,8 +43,8 @@ export default {
     async patchConfig() {
       const data = this.$refs.form.getData();
       if (data.discord === false) {
-        data.discord_key = null;
-        data.discord_secret = null;
+        data.discord_oauth_client_id = null;
+        data.discord_oauth_client_secret = null;
       }
       (await openapi).auth_editAuthConfig(null, data).then((rsp) => {
         EventBus.emit('social_config_edited'); // caught in link account dialog

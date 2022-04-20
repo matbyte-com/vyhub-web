@@ -27,14 +27,18 @@ export default {
           'discord_key', 'discord_secret',
         ],
         properties: {
-          discord_key: {
+          discord_oauth_client_id: {
             type: 'string',
-            title: i18n.t('_authorization.discord_key'),
+            title: i18n.t('_authorization.discordOauthClientId'),
             pattern: '^[0-9]*$',
           },
-          discord_secret: {
+          discord_oauth_client_secret: {
             type: 'string',
-            title: i18n.t('_authorization.discord_secret'),
+            title: i18n.t('_authorization.discordOauthClientSecret'),
+          },
+          discord_bot_token: {
+            type: 'string',
+            title: i18n.t('_authorization.discordBotToken'),
           },
         },
       },
