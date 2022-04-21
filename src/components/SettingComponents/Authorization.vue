@@ -45,7 +45,10 @@ export default {
       if (data.discord === false) {
         data.discord_oauth_client_id = null;
         data.discord_oauth_client_secret = null;
+        data.discord_bot_token = null;
       }
+      if (data.discord_oauth_client_secret === '***') delete data.discord_oauth_client_secret;
+      if (data.discord_bot_token === '***') delete data.discord_bot_token;
       (await openapi).auth_editAuthConfig(null, data).then((rsp) => {
         EventBus.emit('social_config_edited'); // caught in link account dialog
         this.fetchData();
