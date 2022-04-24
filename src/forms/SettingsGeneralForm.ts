@@ -1,10 +1,16 @@
 import i18n from '@/plugins/i18n';
 
+const languageTitle: { [key: string]: string; } = {
+  en: 'English',
+  de: 'Deutsch',
+  fr: 'Français',
+};
+
 const oneOf: { const: string, title: string }[] = [];
 i18n.availableLocales.forEach((l) => {
   oneOf.push({
     const: l,
-    title: String(i18n.t(`_language.${l}`)),
+    title: languageTitle[l],
   });
 });
 
