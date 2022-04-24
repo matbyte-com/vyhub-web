@@ -117,8 +117,7 @@ export default {
       errorMessage: null,
       valid: false,
       optionsBase: {
-        // TODO: Maybe use i18n.locale again
-        locale: navigator.language.split('-')[0], // i18n.locale,
+        locale: i18n.locale, // i18n.locale,
         httpLib: axios,
         timePickerProps: {
           format: '24hr',
