@@ -22,6 +22,7 @@
                 <slot :name="name"/>
               </template>
             </v-jsf>
+            <slot name="form-after"></slot>
             <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
               <v-col cols="12" :class="`mt-${actionButtonTopMargin}`">
                 <v-btn v-if="submitText != null" class="mr-4"

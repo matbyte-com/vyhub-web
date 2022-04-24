@@ -156,7 +156,24 @@
                 :form-schema="serverSchema"
                 icon="mdi-server"
                 @submit="createServer"
-                :title="$t('_server.labels.create')">
+                :title="$t('_server.labels.create')"
+                @updated="createServerDataTemp=$refs.createServerDialog.getData()">
+      <template v-slot:form-after
+                v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'">
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/discord/">
+          {{$t('_server.labels.guildIdDocs')}}
+        </a>
+        <span v-if="discordApplicationId">
+          <a target="_blank" style="float: right" :href="getDiscordBotLink">
+            {{$t('_server.labels.addBot')}}
+          </a>
+        </span>
+        <span v-else style="float: right">
+          <a target="_blank" href="https://docs.vyhub.net/latest/guide/authorization">
+            {{$t('_server.labels.discordApplicationIdNeeded')}}
+          </a>
+        </span>
+      </template>
     </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteBundleDialog"
@@ -177,7 +194,23 @@
                 :form-schema="serverSchema"
                 icon="mdi-server"
                 @submit="editServer"
-                :title="$t('_server.labels.edit')">
+                :title="$t('_server.labels.edit')"
+                @updated="createServerDataTemp=$refs.editServerDialog.getData()">
+      <template v-slot:form-after
+                v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'">
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/discord/">
+          {{$t('_server.labels.guildIdDocs')}}
+        </a>
+        <span v-if="discordApplicationId">
+          <a target="_blank" style="float: right"
+             :href="getDiscordBotLink">{{$t('_server.labels.addBot')}}</a>
+        </span>
+        <span v-else style="float: right">
+          <a target="_blank" href="https://docs.vyhub.net/latest/guide/authorization">
+            {{$t('_server.labels.discordApplicationIdNeeded')}}
+          </a>
+        </span>
+      </template>
     </DialogForm>
   </div>
 </template>
@@ -239,6 +272,8 @@ export default {
       activeBundle: null,
       apiKeys: null,
       createdToken: null,
+      createServerDataTemp: null,
+      discordApplicationId: null,
     };
   },
   beforeMount() {
@@ -253,6 +288,9 @@ export default {
       (await openapi).server_getServers().then((rsp) => {
         this.server = rsp.data;
         this.dataFetched += 1;
+      });
+      (await openapi).auth_getAuthConfig().then((rsp) => {
+        this.discordApplicationId = rsp.data.discord_oauth_client_id;
       });
     },
     getBundle(item) {
@@ -280,7 +318,6 @@ export default {
       const api = await openapi;
 
       const data = this.$refs.createServerDialog.getData();
-
       api.server_createServer(null, data).then(() => {
         this.fetchData();
         this.$refs.createServerDialog.closeAndReset();
@@ -392,6 +429,13 @@ export default {
       }).catch((err) => {
         this.$refs.createTokenForm.setErrorMessage(err.response.data.detail);
       });
+    },
+  },
+  computed: {
+    getDiscordBotLink() {
+      // https://discord.com/api/oauth2/authorize?client_id=954086039029420042&permissions=268438529&scope=bot
+      console.log('ABC');
+      return `https://discord.com/api/oauth2/authorize?client_id=${this.discordApplicationId}&permissions=268438529&scope=bot`;
     },
   },
   watch: {

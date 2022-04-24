@@ -2,5 +2,4 @@ window.vyhubConfig = {
   backend_url: 'https://nyx.devapp:5050/v1',
   default_title: 'VyHub',
   demo_mode: false,
-  discord_bot_invite_url: 'https://discord.com/api/oauth2/authorize?client_id=954086039029420042&permissions=268438529&scope=bot',
 };
