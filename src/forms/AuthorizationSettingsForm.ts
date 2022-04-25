@@ -31,14 +31,17 @@ export default {
             type: 'string',
             title: i18n.t('_authorization.discordOauthClientId'),
             pattern: '^[0-9]*$',
+            default: '',
           },
           discord_oauth_client_secret: {
             type: 'string',
             title: i18n.t('_authorization.discordOauthClientSecret'),
+            default: '',
           },
           discord_bot_token: {
             type: 'string',
             title: i18n.t('_authorization.discordBotToken'),
+            default: '',
           },
         },
       },

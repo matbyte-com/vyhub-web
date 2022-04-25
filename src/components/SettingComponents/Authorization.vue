@@ -49,6 +49,13 @@ export default {
       }
       if (data.discord_oauth_client_secret === '***') delete data.discord_oauth_client_secret;
       if (data.discord_bot_token === '***') delete data.discord_bot_token;
+
+      Object.entries(data).forEach(([key, value]) => {
+        if (value === '') {
+          data[key] = null;
+        }
+      });
+
       (await openapi).auth_editAuthConfig(null, data).then((rsp) => {
         EventBus.emit('social_config_edited'); // caught in link account dialog
         this.fetchData();
