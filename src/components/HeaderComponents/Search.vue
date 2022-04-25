@@ -28,7 +28,18 @@
               <img :src="item.avatar" alt="avatar">
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title><h2>{{ item.username }}</h2></v-list-item-title>
+              <v-list-item-title>
+                <h2>
+                  <v-row dense align="center" justify="center">
+                    <v-col cols="1">
+                      <v-icon>{{ userTypeIcons[item.type] }}</v-icon>
+                    </v-col>
+                    <v-col>
+                      {{ item.username }}
+                    </v-col>
+                  </v-row>
+                </h2>
+              </v-list-item-title>
               <v-list-item-subtitle>
                 {{ item.id }}
               </v-list-item-subtitle>
