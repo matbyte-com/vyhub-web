@@ -4,6 +4,7 @@ const languageTitle: { [key: string]: string; } = {
   en: 'English',
   de: 'Deutsch',
   fr: 'Français',
+  es: 'Español',
 };
 
 const oneOf: { const: string, title: string }[] = [];
