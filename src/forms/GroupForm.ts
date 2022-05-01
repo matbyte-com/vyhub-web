@@ -52,7 +52,7 @@ export default {
           title: i18n.t('mappings'),
           items: {
             type: 'object',
-            required: ['name', 'serverbundle_id'],
+            required: ['name'],
             properties: {
               serverbundle_id: Common.serverbundleIdSelectField,
               name: {
