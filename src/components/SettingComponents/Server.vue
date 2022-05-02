@@ -434,7 +434,7 @@ export default {
   computed: {
     getDiscordBotLink() {
       // https://discord.com/api/oauth2/authorize?client_id=954086039029420042&permissions=268438529&scope=bot
-      return `https://discord.com/api/oauth2/authorize?client_id=${this.discordApplicationId}&permissions=268438529&scope=bot`;
+      return `https://discord.com/api/oauth2/authorize?client_id=${this.discordApplicationId}&permissions=268438545&scope=bot`;
     },
   },
   watch: {
