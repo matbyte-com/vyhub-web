@@ -41,6 +41,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 # Docs
 VyHub Web is built using [Vue2](https://v2.vuejs.org/v2/guide/).
 
+## Contributing
+Check the issues for suitable projects.  
+
+> Open a pull request when your feature / bugfix is ready for merging
+
 ## Project Structure
 Vue uses (reusable) components.
 
