@@ -1,17 +1,12 @@
+import ISO6391 from 'iso-639-1';
 import i18n from '@/plugins/i18n';
-
-const languageTitle: { [key: string]: string; } = {
-  en: 'English',
-  de: 'Deutsch',
-  fr: 'Français',
-  es: 'Español',
-};
 
 const oneOf: { const: string, title: string }[] = [];
 i18n.availableLocales.forEach((l) => {
   oneOf.push({
     const: l,
-    title: languageTitle[l],
+    // Cool but too new: new Intl.DisplayNames([l], { type: 'language' }),
+    title: `${ISO6391.getName(l)} (${ISO6391.getNativeName(l)})`,
   });
 });
 
