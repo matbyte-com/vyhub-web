@@ -927,6 +927,53 @@ declare namespace Components {
             current?: number;
         }
         /**
+         * FAQModel
+         */
+        export interface FAQModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Content
+             */
+            content: string;
+            /**
+             * Position
+             */
+            position: number;
+        }
+        /**
+         * FAQModelAdd
+         */
+        export interface FAQModelAdd {
+            /**
+             * Title
+             */
+            title: string;
+            /**
+             * Content
+             */
+            content: string;
+        }
+        /**
+         * FAQModelPatch
+         */
+        export interface FAQModelPatch {
+            /**
+             * Title
+             */
+            title?: string;
+            /**
+             * Content
+             */
+            content?: string;
+        }
+        /**
          * FinanceReportEntry
          */
         export interface FinanceReportEntry {
@@ -1087,6 +1134,10 @@ declare namespace Components {
              * Legal Exists
              */
             legal_exists?: boolean;
+            /**
+             * Language
+             */
+            language?: string;
         }
         /**
          * GroupAndServerbundleModel
@@ -1106,7 +1157,7 @@ declare namespace Components {
             /**
              * Serverbundle Id
              */
-            serverbundle_id: string; // uuid
+            serverbundle_id?: string; // uuid
             /**
              * Id
              */
@@ -1127,7 +1178,7 @@ declare namespace Components {
             /**
              * Serverbundle Id
              */
-            serverbundle_id: string; // uuid
+            serverbundle_id?: string; // uuid
         }
         /**
          * GroupModel
@@ -3489,22 +3540,34 @@ declare namespace Components {
          */
         export interface SocialConfigModel {
             /**
-             * Discord Key
+             * Discord Oauth Client Id
              */
-            discord_key?: string;
+            discord_oauth_client_id?: string;
+            /**
+             * Discord Oauth Client Secret
+             */
+            discord_oauth_client_secret?: string;
+            /**
+             * Discord Bot Token
+             */
+            discord_bot_token?: string;
         }
         /**
          * SocialConfigModelPatch
          */
         export interface SocialConfigModelPatch {
             /**
-             * Discord Key
+             * Discord Oauth Client Id
              */
-            discord_key?: string;
+            discord_oauth_client_id?: string;
             /**
-             * Discord Secret
+             * Discord Oauth Client Secret
              */
-            discord_secret?: string;
+            discord_oauth_client_secret?: string;
+            /**
+             * Discord Bot Token
+             */
+            discord_bot_token?: string;
         }
         /**
          * StartPaymentModel
@@ -4532,6 +4595,72 @@ declare namespace Paths {
              * Response Get Log Ban  Uuid  Log Get
              */
             export type $200 = /* LogEntryModel */ Components.Schemas.LogEntryModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace FaqCreateQuestion {
+        export type RequestBody = /* FAQModelAdd */ Components.Schemas.FAQModelAdd;
+        namespace Responses {
+            export type $200 = /* FAQModel */ Components.Schemas.FAQModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace FaqDeleteQuestion {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace FaqEditQuestion {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* FAQModelPatch */ Components.Schemas.FAQModelPatch;
+        namespace Responses {
+            export type $200 = /* FAQModel */ Components.Schemas.FAQModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace FaqGetFaq {
+        namespace Responses {
+            /**
+             * Response Get Faq Faq  Get
+             */
+            export type $200 = /* FAQModel */ Components.Schemas.FAQModel[];
+        }
+    }
+    namespace FaqUpdateOrder {
+        /**
+         * Ordered List
+         */
+        export type RequestBody = string /* uuid */[];
+        namespace Responses {
+            export type $200 = any;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -9611,6 +9740,46 @@ export interface OperationMethods {
     data?: Paths.ImportImportGextension.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ImportImportGextension.Responses.$200>
+  /**
+   * faq_getFaq - Get Faq
+   */
+  'faq_getFaq'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.FaqGetFaq.Responses.$200>
+  /**
+   * faq_createQuestion - Create Question
+   */
+  'faq_createQuestion'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.FaqCreateQuestion.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.FaqCreateQuestion.Responses.$200>
+  /**
+   * faq_editQuestion - Edit Question
+   */
+  'faq_editQuestion'(
+    parameters?: Parameters<Paths.FaqEditQuestion.PathParameters> | null,
+    data?: Paths.FaqEditQuestion.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.FaqEditQuestion.Responses.$200>
+  /**
+   * faq_deleteQuestion - Delete Question
+   */
+  'faq_deleteQuestion'(
+    parameters?: Parameters<Paths.FaqDeleteQuestion.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.FaqDeleteQuestion.Responses.$200>
+  /**
+   * faq_updateOrder - Update Order
+   */
+  'faq_updateOrder'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.FaqUpdateOrder.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.FaqUpdateOrder.Responses.$200>
 }
 
 export interface PathsDictionary {
@@ -11523,6 +11692,52 @@ export interface PathsDictionary {
       data?: Paths.ImportImportGextension.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ImportImportGextension.Responses.$200>
+  }
+  ['/faq/']: {
+    /**
+     * faq_getFaq - Get Faq
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.FaqGetFaq.Responses.$200>
+    /**
+     * faq_createQuestion - Create Question
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.FaqCreateQuestion.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.FaqCreateQuestion.Responses.$200>
+  }
+  ['/faq/{uuid}']: {
+    /**
+     * faq_deleteQuestion - Delete Question
+     */
+    'delete'(
+      parameters?: Parameters<Paths.FaqDeleteQuestion.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.FaqDeleteQuestion.Responses.$200>
+    /**
+     * faq_editQuestion - Edit Question
+     */
+    'patch'(
+      parameters?: Parameters<Paths.FaqEditQuestion.PathParameters> | null,
+      data?: Paths.FaqEditQuestion.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.FaqEditQuestion.Responses.$200>
+  }
+  ['/faq/order']: {
+    /**
+     * faq_updateOrder - Update Order
+     */
+    'put'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.FaqUpdateOrder.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.FaqUpdateOrder.Responses.$200>
   }
 }
 
