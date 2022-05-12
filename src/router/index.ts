@@ -148,6 +148,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/ServerDashboard.vue'),
   },
   {
+    path: '/faq',
+    name: 'FAQ',
+    meta: { title: i18n.t('_pageTitle.faq') },
+    component: () => import('../views/Faq.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {
