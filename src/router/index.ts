@@ -142,6 +142,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Team.vue'),
   },
   {
+    path: '/server-dashboard/:id',
+    name: 'ServerDashboard',
+    meta: { title: i18n.t('_pageTitle.serverDashboard'), requiresAuth: true },
+    component: () => import('../views/ServerDashboard.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {

@@ -256,7 +256,7 @@ export default {
           { length: config.html_max_input_length });
         return;
       }
-      (await openapi).news_addMessage({}, data).then((rsp) => {
+      (await openapi).news_addMessage(null, data).then((rsp) => {
         this.$refs.messageAddDialog.closeAndReset();
         this.message = null;
         this.news.unshift(rsp.data);

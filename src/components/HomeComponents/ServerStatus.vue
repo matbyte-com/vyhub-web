@@ -41,7 +41,14 @@
               </span>
           </v-col>
           <v-col>
-            {{ server.name }}
+            <router-link v-if="server.type !== 'DISCORD'"
+                         style="text-decoration: none" :disabled="true"
+                         :to="{ name: 'ServerDashboard', params: { id: server.id }}">
+              {{ server.name }}
+            </router-link>
+            <span v-else>
+              {{ server.name }}
+            </span>
           </v-col>
           <v-col class="text-right">
             <v-tooltip left :disabled="$vuetify.breakpoint.lgAndUp">
