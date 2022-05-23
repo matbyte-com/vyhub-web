@@ -1,6 +1,22 @@
 <template>
   <div v-if="server">
-    <PageTitle icon="mdi-server" :title="server.name" />
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <PageTitle icon="mdi-server">
+          <span v-bind="attrs"
+                v-on="on">{{ server.name }} <v-icon>mdi-triangle mdi-rotate-180</v-icon></span>
+        </PageTitle>
+      </template>
+      <v-card>
+        <v-list>
+          <v-list-item v-for="server in availableServerDashboards" :key="server.id"
+                       @click="serverChanged(server)"
+                       :input-value="$route.params.id === server.id">
+            {{ server.name }}
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-menu>
     <v-card>
       <v-row align="center">
         <v-col class="ml-1">
@@ -126,7 +142,7 @@ export default {
   },
   data() {
     return {
-      server: null,
+      servers: null,
       users: null,
       userSearchModel: null,
       currentUser: null,
@@ -144,13 +160,13 @@ export default {
     };
   },
   beforeMount() {
-    this.fetchServer();
+    this.fetchServers();
     this.fetchUserActivity();
   },
   methods: {
-    async fetchServer() {
-      (await openapi).server_getServer(this.$route.params.id).then((rsp) => {
-        this.server = rsp.data;
+    async fetchServers() {
+      (await openapi).server_getServers().then((rsp) => {
+        this.servers = rsp.data;
       });
     },
     async fetchUserActivity() {
@@ -173,6 +189,11 @@ export default {
         this.currentUser.bans = rsp.data.items;
       });
     },
+    serverChanged(server) {
+      this.$router.push({ name: 'ServerDashboard', params: { id: server.id } });
+      this.fetchUserActivity();
+      this.currentUser = null;
+    },
   },
   computed: {
     getStatusColor() {
@@ -193,6 +214,14 @@ export default {
       }
       return this.users.filter((u) => u.username.toLowerCase()
         .includes(this.userSearchModel.toLowerCase()));
+    },
+    server() {
+      if (!this.servers) return null;
+      return this.servers.find((s) => s.id === this.$route.params.id);
+    },
+    availableServerDashboards() {
+      if (!this.servers) return null;
+      return this.servers.filter((s) => s.type !== 'DISCORD');
     },
   },
 };
