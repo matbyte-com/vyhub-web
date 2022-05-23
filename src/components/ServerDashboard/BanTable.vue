@@ -29,24 +29,23 @@
       <span>{{ new Date(item.created_on).toLocaleString() }}</span>
     </template>
     <template v-slot:item.actions="{ item }">
-      <div v-if="$checkProp('ban_edit')">
-        <v-btn text color="primary" @click="showEditDialog(item)">
-          <v-icon left>mdi-pencil</v-icon>
-          {{ $t('edit') }}
-        </v-btn>
-        <v-btn text color="warning darken-2" @click="unbanBan(item)"
+      <div class="d-flex" v-if="$checkProp('ban_edit')">
+        <v-spacer />
+        <v-btn depressed small @click="unbanBan(item)"
                v-if="item.status === 'ACTIVE'">
           <v-icon left>mdi-lock-open</v-icon>
           {{ $t('_ban.labels.unban') }}
         </v-btn>
-        <v-btn text color="warning" @click="rebanBan(item)"
+        <v-btn depressed small @click="rebanBan(item)"
                v-if="item.status === 'UNBANNED'">
           <v-icon left>mdi-lock</v-icon>
           {{ $t('_ban.labels.reban') }}
         </v-btn>
-        <v-btn text color="error" @click="$refs.deleteBanDialog.show(item)">
-          <v-icon left>mdi-delete</v-icon>
-          {{ $t('delete') }}
+        <v-btn small class="ml-1" outlined color="primary" @click="showEditDialog(item)">
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn class="ml-1" small outlined color="error" @click="$refs.deleteBanDialog.show(item)">
+          <v-icon>mdi-delete</v-icon>
         </v-btn>
       </div>
     </template>

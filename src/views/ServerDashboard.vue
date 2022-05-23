@@ -53,7 +53,7 @@
                 {{ $t('_serverDashboard.noUsersFound') }}
               </v-list-item>
               <v-list-item v-for="user in returnUsers" :key="user.id"
-                           @click="userView=user">
+                           @click="currentUser=user" :input-value="listActive(user)">
                 <v-avatar class="mt-1 mb-1" size="40">
                   <v-img v-if="user.avatar" :src="user.avatar"/>
                 </v-avatar>
@@ -91,18 +91,20 @@
       </v-col>
       <v-col class="d-flex">
         <v-card class="flex-grow-1">
-          <v-card-text v-if="!userView">Select user</v-card-text>
+          <v-card-text v-if="!currentUser">Select user</v-card-text>
           <v-card-text v-else>
-            <UserLink :user="userView"/>
-            <WarningTable :warnings="userView.warnings"
-                          :total-items="userView.warnings.length"
-                          :user="userView"
-                          :serverbundle="server.serverbundle"/>
+            <UserLink :user="currentUser"/>
+            <WarningTable :warnings="currentUser.warnings"
+                          :total-items="currentUser.warnings.length"
+                          :user="currentUser"
+                          :serverbundle="server.serverbundle"
+                          @edit="reloadcurrentUserWarnings"/>
             <v-divider />
-            <BanTable :bans="userView.bans"
-                      :total-items="userView.bans.length"
-                      :user="userView"
-                      :serverbundle="server.serverbundle"/>
+            <BanTable :bans="currentUser.bans"
+                      :total-items="currentUser.bans.length"
+                      :user="currentUser"
+                      :serverbundle="server.serverbundle"
+                      @edit="reloadcurrentUserBans"/>
           </v-card-text>
         </v-card>
       </v-col>
@@ -127,7 +129,7 @@ export default {
       server: null,
       users: null,
       userSearchModel: null,
-      userView: null,
+      currentUser: null,
       banHeaders: [
         { text: this.$t('user'), value: 'user', sortable: false },
         { text: this.$t('reason'), value: 'reason' },
@@ -154,6 +156,21 @@ export default {
     async fetchUserActivity() {
       (await openapi).server_getServerUserActivity(this.$route.params.id).then((rsp) => {
         this.users = rsp.data;
+      });
+    },
+    listActive(item) {
+      if (!this.currentUser) return false;
+      return item.id === this.currentUser.id;
+    },
+    async reloadcurrentUserWarnings() {
+      (await openapi).warning_getWarnings({ user_id: this.currentUser.id, size: 100 })
+        .then((rsp) => {
+          this.currentUser.warnings = rsp.data.items;
+        });
+    },
+    async reloadcurrentUserBans() {
+      (await openapi).ban_getBans({ user_id: this.currentUser.id, size: 100 }).then((rsp) => {
+        this.currentUser.bans = rsp.data.items;
       });
     },
   },

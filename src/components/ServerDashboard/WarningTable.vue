@@ -107,7 +107,7 @@ export default {
           title: this.$t('_warning.messages.toggledWarning'),
           type: 'success',
         });
-        this.fetchData();
+        this.$emit('edit');
       });
     },
     openDeleteWarningDialog(item) {
@@ -115,6 +115,7 @@ export default {
     },
     async deleteWarning(item) {
       (await openapi).warning_deleteWarning(item.id).then(() => {
+        this.$emit('edit');
         this.$refs.deleteWarningDialog.closeAndReset();
         this.$notify({
           title: this.$t('_warning.messages.deletedWarning'),
@@ -130,6 +131,7 @@ export default {
       data.reason = form.reason;
       (await openapi).warning_addWarning(null, data).then(() => {
         this.$refs.addWarningDialog.closeAndReset();
+        this.$emit('edit');
         this.$notify({
           title: this.$t('_warning.messages.addedWarning'),
           type: 'success',
