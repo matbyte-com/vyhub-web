@@ -306,6 +306,10 @@ export default {
         length: data.length * 60,
         serverbundle_id: (data.serverbundle ? data.serverbundle.id : null),
       }).then(() => {
+        this.$notify({
+          title: this.$t('_ban.messages.banAdded'),
+          type: 'success',
+        });
         this.fetchData();
         this.$refs.banAddDialog.closeAndReset();
       }).catch((err) => {
@@ -325,6 +329,10 @@ export default {
       ).then(() => {
         this.fetchData();
         this.$refs.banEditDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_ban.messages.banEdited'),
+          type: 'success',
+        });
       }).catch((err) => {
         console.log(err);
         this.$refs.banEditDialog.setErrorMessage(err.response.data.detail);
@@ -335,6 +343,10 @@ export default {
         { uuid: ban.id },
       ).then(() => {
         this.$refs.deleteBanDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_ban.messages.banDeleted'),
+          type: 'success',
+        });
         this.banDetailShown = false;
         this.fetchData();
       }).catch((err) => {
@@ -348,6 +360,10 @@ export default {
         { status: 'UNBANNED' },
       ).then(() => {
         this.fetchData();
+        this.$notify({
+          title: this.$t('_ban.messages.banToggled'),
+          type: 'success',
+        });
       }).catch((err) => {
         console.log(err);
       });
@@ -358,6 +374,10 @@ export default {
         { status: 'ACTIVE' },
       ).then(() => {
         this.fetchData();
+        this.$notify({
+          title: this.$t('_ban.messages.banToggled'),
+          type: 'success',
+        });
       }).catch((err) => {
         console.log(err);
       });

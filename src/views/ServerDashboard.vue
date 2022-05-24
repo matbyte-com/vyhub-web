@@ -1,6 +1,6 @@
 <template>
   <div v-if="server">
-    <v-menu offset-y>
+    <v-menu offset-y max-width="100%">
       <template v-slot:activator="{ on, attrs }">
         <PageTitle icon="mdi-server">
           <span v-bind="attrs"
@@ -12,7 +12,7 @@
           <v-list-item v-for="server in availableServerDashboards" :key="server.id"
                        @click="serverChanged(server)"
                        :input-value="$route.params.id === server.id">
-            {{ server.name }}
+            <v-icon left>{{ server.serverbundle.icon }}</v-icon>{{ server.name }}
           </v-list-item>
         </v-list>
       </v-card>
@@ -134,6 +134,7 @@ import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
 import WarningTable from '@/components/ServerDashboard/WarningTable.vue';
 import BanTable from '@/components/ServerDashboard/BanTable.vue';
+import SessionService from '@/services/SessionService';
 
 export default {
   name: 'ServerDashboard',
@@ -162,8 +163,26 @@ export default {
   beforeMount() {
     this.fetchServers();
     this.fetchUserActivity();
+    this.startTimer();
+  },
+  beforeDestroy() {
+    this.stopTimer();
   },
   methods: {
+    fetchData() {
+      if (!SessionService.lastActiveWindow()) {
+        return;
+      }
+      this.fetchServers();
+      this.fetchUserActivity();
+    },
+    startTimer() {
+      this.fetchData();
+      this.timer = setInterval(this.fetchData, 30000); // 30s
+    },
+    stopTimer() {
+      clearInterval(this.timer);
+    },
     async fetchServers() {
       (await openapi).server_getServers().then((rsp) => {
         this.servers = rsp.data;
