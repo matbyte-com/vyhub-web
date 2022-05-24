@@ -48,7 +48,7 @@
       </v-row>
     </v-card>
     <v-row class="mt-6" no-gutters>
-      <v-col cols="4" class="mr-3 d-flex">
+      <v-col cols="12" lg="4" class="d-flex" :class="$vuetify.breakpoint.lgAndUp ? 'pr-3' : 'mb-3'">
         <v-card class="flex-grow-1">
           <v-card-text>
             <v-text-field
@@ -105,7 +105,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col class="d-flex">
+      <v-col cols="12" lg="8" class="d-flex">
         <v-card class="flex-grow-1">
           <v-card-text v-if="!currentUser">Select user</v-card-text>
           <v-card-text v-else>
