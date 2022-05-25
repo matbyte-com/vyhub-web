@@ -25,6 +25,12 @@ function gatewayFields(gatewayType: string) {
         ],
         title: 'Client Secret',
       },
+      webhook_id: {
+        type: [
+          'string',
+        ],
+        title: 'Webhook ID',
+      },
     };
   }
 

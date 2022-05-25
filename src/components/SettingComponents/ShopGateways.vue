@@ -68,8 +68,8 @@
         </div>
       </template>
       <template slot="attributes-after"
-                v-if="selectedGateway != null && selectedGateway.type === 'STRIPE'">
-        <div class="text-subtitle-2"></div>
+                v-if="selectedGateway != null &&
+                 ['STRIPE', 'PAYPAL'].includes(selectedGateway.type)">
         <v-text-field
           @focus="$event.target.select()"
           :value="getWebhookUrl(selectedGateway)"
