@@ -11,7 +11,7 @@
     defaultSortBy="created_on"
     :defaultSortDesc="true"
     :totalItems="totalItems">
-    <template v-slot:footer-right>
+    <template v-slot:footer-right v-if="$checkProp('ban_add')">
       <v-btn outlined color="success" @click="showAddDialog">
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t('_ban.labels.add') }}</span>

@@ -144,7 +144,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/server-dashboard/:id',
     name: 'ServerDashboard',
-    meta: { title: i18n.t('_pageTitle.serverDashboard'), requiresAuth: true },
+    meta: { title: i18n.t('_pageTitle.serverDashboard') },
     component: () => import('../views/ServerDashboard.vue'),
   },
   {

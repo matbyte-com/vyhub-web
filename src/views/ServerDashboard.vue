@@ -89,6 +89,7 @@
                     </span>
                     {{ $t('warnings') }}
                   </v-chip>
+                  <!-- TODO $checkProp: Elemente verstecken, wenn keine Berechtigungen für Bundle-->
                   <v-chip v-if="user.bans.length > 0"
                           outlined small color="error darken-2">
                     <v-icon left>
@@ -110,13 +111,17 @@
           <v-card-text v-if="!currentUser">Select user</v-card-text>
           <v-card-text v-else>
             <UserLink :user="currentUser"/>
-            <WarningTable :warnings="currentUser.warnings"
+            <WarningTable v-if="$checkProp('warning_show') ||
+             ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.isLoggedIn))"
+                          :warnings="currentUser.warnings"
                           :total-items="currentUser.warnings.length"
                           :user="currentUser"
                           :serverbundle="server.serverbundle"
                           @edit="reloadcurrentUserWarnings"/>
             <v-divider />
-            <BanTable :bans="currentUser.bans"
+            <BanTable v-if="$checkProp('ban_show') ||
+             ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.isLoggedIn))"
+                      :bans="currentUser.bans"
                       :total-items="currentUser.bans.length"
                       :user="currentUser"
                       :serverbundle="server.serverbundle"
