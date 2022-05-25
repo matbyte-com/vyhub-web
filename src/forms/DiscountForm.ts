@@ -16,7 +16,7 @@ export default {
       minimum: 0,
     },
     code: {
-      type: ['string'],
+      type: ['string', 'null'],
       title: i18n.t('code'),
       //  default: uuidv4().substr(0, 18),
     },
