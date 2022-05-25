@@ -117,6 +117,12 @@ export default {
           title: this.$t('servers'),
         },
         {
+          name: 'faq',
+          icon: 'mdi-chat-question',
+          component: 'Faq',
+          title: this.$t('faq'),
+        },
+        {
           name: 'requirements',
           icon: 'mdi-greater-than-or-equal',
           component: 'Requirements',

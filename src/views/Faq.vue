@@ -1,17 +1,17 @@
 <template>
   <div>
-      <v-card>
-        <v-expansion-panels>
-          <v-expansion-panel v-for="question in questions" :key="question.id">
-            <v-expansion-panel-header>
-              {{ question.title }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              {{ question.content }}
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-card>
+    <v-expansion-panels>
+      <v-expansion-panel v-for="question in questions" :key="question.id" class="mt-3">
+        <v-card>
+          <v-expansion-panel-header>
+            {{ question.title }}
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+              <span v-html="question.content" class="ql-editor"></span>
+          </v-expansion-panel-content>
+        </v-card>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
