@@ -133,6 +133,7 @@ function form(gatewayType: string) {
       },
       attributes: {
         type: 'object',
+        required: ['environment', 'client_id', 'client_secret', 'public_key', 'secret_key', 'wh_secret', 'payment_methods'],
         properties: gatewayFields(gatewayType),
       },
     },
