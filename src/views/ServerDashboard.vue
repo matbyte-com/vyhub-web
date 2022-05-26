@@ -73,7 +73,7 @@
                 <v-avatar class="mt-1 mb-1" size="40">
                   <v-img v-if="user.avatar" :src="user.avatar"/>
                 </v-avatar>
-                <span class="ml-3 text-h6">
+                <span class="ml-3 text-h6" :style="{ color: getColor(user) }">
                   {{ user.username }}
                 </span>
                 <v-spacer />
@@ -110,7 +110,17 @@
         <v-card class="flex-grow-1">
           <v-card-text v-if="!currentUser">Select user</v-card-text>
           <v-card-text v-else>
-            <UserLink :user="currentUser"/>
+            <v-row>
+              <v-col>
+                <UserLink :user="currentUser"/>
+              </v-col>
+              <v-col v-if="currentUser.memberships" class="text-right">
+                <v-chip v-for="membership in currentUser.memberships" :key="membership.id"
+                        :color="membership.group.color" class="ml-1">
+                  {{ membership.group.name }}
+                </v-chip>
+              </v-col>
+            </v-row>
             <WarningTable v-if="$checkProp('warning_show') ||
              ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.isLoggedIn))"
                           :warnings="currentUser.warnings"
@@ -217,6 +227,13 @@ export default {
       this.$router.push({ name: 'ServerDashboard', params: { id: server.id } });
       this.fetchUserActivity();
       this.currentUser = null;
+    },
+    getColor(user) {
+      if (!user.memberships) return null;
+      // return color of group with highest permission_level
+      // eslint-disable-next-line max-len
+      const membership = user.memberships.reduce((prev, current) => ((prev.group.permission_level > current.group.permission_level) ? prev : current));
+      return membership.group.color;
     },
   },
   computed: {
