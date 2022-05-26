@@ -229,7 +229,7 @@ export default {
       this.currentUser = null;
     },
     getColor(user) {
-      if (!user.memberships) return null;
+      if (user.memberships.length === 0) return null;
       // return color of group with highest permission_level
       // eslint-disable-next-line max-len
       const membership = user.memberships.reduce((prev, current) => ((prev.group.permission_level > current.group.permission_level) ? prev : current));
