@@ -127,7 +127,7 @@
                           :total-items="currentUser.warnings.length"
                           :user="currentUser"
                           :serverbundle="server.serverbundle"
-                          @edit="reloadcurrentUserWarnings"/>
+                          @edit="reloadcurrentUserWarnings; reloadcurrentUserBans"/>
             <v-divider />
             <BanTable v-if="$checkProp('ban_show') ||
              ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.isLoggedIn))"
