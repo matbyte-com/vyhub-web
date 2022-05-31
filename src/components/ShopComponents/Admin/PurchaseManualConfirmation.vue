@@ -110,7 +110,7 @@ export default {
       return item.extra.coupons;
     },
     async confirmDebit(item) {
-      (await openapi).shop_confirmDebit(item.id).then(() => {
+      (await openapi).shop_confirmCouponDebit(item.id).then(() => {
         this.$refs.debitConfirmationDialog.closeAndReset();
         this.fetchData();
         this.$notify({
