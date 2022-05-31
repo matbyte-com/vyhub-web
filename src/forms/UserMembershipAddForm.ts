@@ -24,6 +24,12 @@ export default {
       format: 'date-time',
       description: i18n.t('_dashboard.labels.membershipEndDescription'),
     },
-    serverbundle: Common.serverbundleSelectField,
+    serverbundle: {
+      ...Common.serverbundleSelectField,
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
   },
 };

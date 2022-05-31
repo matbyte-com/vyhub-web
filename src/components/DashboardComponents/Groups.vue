@@ -238,23 +238,26 @@ export default {
       (await openapiCached).server_getBundles().then((rsp) => { (this.serverBundles = rsp.data); });
     },
     async addUserMembership() {
+      const api = await openapi;
       const data = this.$refs.addMembershipDialog.getData();
       data.group_id = data.group.id;
-      data.serverbundle_id = data.serverbundle.id;
       const userId = this.$route.params.id;
 
       if (new Date(data.begin) > new Date(data.end)) {
         this.$refs.addMembershipDialog.setErrorMessage('Begin date after end date');
       }
-      (await openapi).user_addMembership(userId, data).then(() => {
-        this.fetchData();
-        this.$refs.addMembershipDialog.closeAndReset();
-        this.$notify({
-          title: this.$t('_membership.messages.membershipSuccessfullyAdded'),
-          type: 'success',
+      data.serverbundle.forEach((id) => {
+        data.serverbundle_id = id;
+        api.user_addMembership(userId, data).then(() => {
+          this.fetchData();
+          this.$refs.addMembershipDialog.closeAndReset();
+          this.$notify({
+            title: this.$t('_membership.messages.membershipSuccessfullyAdded'),
+            type: 'success',
+          });
+        }).catch((err) => {
+          this.$refs.addMembershipDialog.setErrorMessage(err.response.data.detail);
         });
-      }).catch((err) => {
-        this.$refs.addMembershipDialog.setErrorMessage(err.response.data.detail);
       });
     },
     openEditMembershipDialog(membership) {
