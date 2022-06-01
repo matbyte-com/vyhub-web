@@ -3,8 +3,6 @@
     <SettingTitle docPath="/guide/faq">
       {{ $t('_faq.title') }}
     </SettingTitle>
-    <v-row no-gutters> <!-- das brauchen wir nicht -->
-    <v-col>  <!-- das brauchen wir nicht -->
     <v-list>
       <draggable
         :list="questions"
@@ -39,8 +37,6 @@
         </div>
       </draggable>
     </v-list>
-    </v-col>  <!-- das brauchen wir nicht -->
-    </v-row>  <!-- das brauchen wir nicht -->
     <v-divider />
     <v-col cols="12" md="6">
       <v-btn @click="$refs.addQuestionDialog.show()" color="success" outlined>
@@ -77,7 +73,7 @@
                 :form-schema="faqAddSchema"
                 @submit="addQuestion">
       <template v-slot:title-after>
-        <Editor v-model="content"/> <!-- Editor für das hinzufügen einer neuen Antwort. -->
+        <Editor v-model="content"/>
       </template>
     </DialogForm>
     <DeleteConfirmationDialog ref="deleteQuestionConfirmationDialog"
@@ -87,7 +83,7 @@
                 :form-schema="faqAddSchema"
                 @submit="editQuestion">
       <template v-slot:title-after>
-        <Editor v-model="content"/> <!-- Editor für das Editieren einer bestehenden Antwort. -->
+        <Editor v-model="content"/>
       </template>
       </DialogForm>
   </div>
@@ -113,7 +109,7 @@ export default {
   data() {
     return {
       questions: null,
-      content: null, // content des Editors
+      content: null,
       faqAddSchema: FaqForm,
       questionAddSchema: null,
       updateFaqEnabled: false,
@@ -181,7 +177,7 @@ export default {
         this.content = null;
         this.$refs.editQuestionDialog.closeAndReset();
       }).catch((err) => {
-        this.$refs.editQuestionDialog.setErrorMessage(err.response.data.details);
+        this.$refs.editQuestionDialog.setErrorMessage(err.response.data.detail);
       });
     },
     async updateLinkOrder() {

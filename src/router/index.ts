@@ -151,7 +151,7 @@ const routes: Array<RouteConfig> = [
     path: '/faq',
     name: 'FAQ',
     meta: { title: i18n.t('_pageTitle.faq') },
-    component: () => import('../views/Faq.vue'),
+    component: () => import('../views/FAQ.vue'),
   },
   {
     path: '*',

@@ -119,7 +119,7 @@ export default {
         {
           name: 'faq',
           icon: 'mdi-chat-question',
-          component: 'Faq',
+          component: 'FAQ',
           title: this.$t('faq'),
         },
         {
