@@ -19,32 +19,32 @@
     </v-menu>
     <v-card>
       <v-row align="center">
-        <v-col class="ml-1">
+        <v-col class="ml-3">
           <v-icon :color="getStatusColor" left>
             mdi-flash
           </v-icon>
           <span v-if="server.status !== 'UNKNOWN'">
-                <a>
-                  <span v-if="server.type !== 'DISCORD'">
-                    <span v-if="server.users_current != null">
-                    {{ server.users_current }}
-                  </span>
-                  <span v-else>
-                    ?
-                  </span>
-                  /
-                  </span>
-                  <span v-if="server.users_max != null">
-                    {{ server.users_max }}
-                  </span>
-                  <span v-else>
-                    ?
-                  </span>
-                </a>
+            <a>
+              <span v-if="server.type !== 'DISCORD'">
+                <span v-if="server.users_current != null">
+                {{ server.users_current }}
               </span>
+              <span v-else>
+                ?
+              </span>
+              /
+              </span>
+              <span v-if="server.users_max != null">
+                {{ server.users_max }}
+              </span>
+              <span v-else>
+                ?
+              </span>
+            </a>
+          </span>
         </v-col>
         <v-col class="text-center text-h6">{{ server.name }}</v-col>
-        <v-col class="text-right mr-1">{{ $t(`_server.type.${server.type}`) }}</v-col>
+        <v-col class="text-right mr-3">{{ $t(`_server.type.${server.type}`) }}</v-col>
       </v-row>
     </v-card>
     <v-row class="mt-6" no-gutters>
@@ -116,26 +116,36 @@
               </v-col>
               <v-col v-if="currentUser.memberships" class="text-right">
                 <v-chip v-for="membership in currentUser.memberships" :key="membership.id"
-                        :color="membership.group.color" class="ml-1">
+                        :color="membership.group.color" class="ml-1" text-color="white">
                   {{ membership.group.name }}
                 </v-chip>
               </v-col>
             </v-row>
-            <WarningTable v-if="$checkProp('warning_show') ||
+            <v-divider class="my-4"></v-divider>
+            <div v-if="extra != null">
+              <v-chip class="mr-2" v-for="(value, key) in extra" v-bind:key="key">
+                {{ key }}: {{ value }}
+              </v-chip>
+              <v-divider class="my-4"></v-divider>
+            </div>
+            <div>
+              <WarningTable v-if="$checkProp('warning_show') ||
              ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.isLoggedIn))"
-                          :warnings="currentUser.warnings"
-                          :total-items="currentUser.warnings.length"
-                          :user="currentUser"
-                          :serverbundle="server.serverbundle"
-                          @edit="reloadcurrentUserWarnings; reloadcurrentUserBans"/>
-            <v-divider />
-            <BanTable v-if="$checkProp('ban_show') ||
+                            :warnings="currentUser.warnings"
+                            :total-items="currentUser.warnings.length"
+                            :user="currentUser"
+                            :serverbundle="server.serverbundle"
+                            @edit="reloadcurrentUserWarnings; reloadcurrentUserBans"/>
+            </div>
+            <div class="mt-4">
+              <BanTable v-if="$checkProp('ban_show') ||
              ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.isLoggedIn))"
-                      :bans="currentUser.bans"
-                      :total-items="currentUser.bans.length"
-                      :user="currentUser"
-                      :serverbundle="server.serverbundle"
-                      @edit="reloadcurrentUserBans"/>
+                        :bans="currentUser.bans"
+                        :total-items="currentUser.bans.length"
+                        :user="currentUser"
+                        :serverbundle="server.serverbundle"
+                        @edit="reloadcurrentUserBans"/>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -263,6 +273,17 @@ export default {
     availableServerDashboards() {
       if (!this.servers) return null;
       return this.servers.filter((s) => s.type !== 'DISCORD');
+    },
+    extra() {
+      if (this.currentUser == null) {
+        return null;
+      }
+
+      if (this.currentUser.activities.length > 0) {
+        return this.currentUser.activities[0].extra;
+      }
+
+      return null;
     },
   },
 };

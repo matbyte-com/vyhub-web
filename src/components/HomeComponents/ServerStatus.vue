@@ -18,7 +18,9 @@
               mdi-flash
             </v-icon>
             <span v-if="server.status !== 'UNKNOWN'">
-                <a>
+                <router-link style="text-decoration: none" :disabled="true"
+                             :to="{ name: (server.type !== 'DISCORD' ? 'ServerDashboard' : null),
+                              params: { id: server.id }}">
                   <span v-if="server.type !== 'DISCORD'">
                     <span v-if="server.users_current != null">
                     {{ server.users_current }}
@@ -34,21 +36,18 @@
                   <span v-else>
                     ?
                   </span>
-                </a>
+                </router-link>
               </span>
             <span class="font-italic text--disabled"  v-if="server.status === 'UNKNOWN'">
                 {{ $t('_server.labels.unknownStatus') }}
               </span>
           </v-col>
           <v-col>
-            <router-link v-if="server.type !== 'DISCORD'"
-                         style="text-decoration: none" :disabled="true"
-                         :to="{ name: 'ServerDashboard', params: { id: server.id }}">
+            <router-link style="text-decoration: none" :disabled="true"
+                         :to="{ name: (server.type !== 'DISCORD' ? 'ServerDashboard' : null),
+                              params: { id: server.id }}">
               {{ server.name }}
             </router-link>
-            <span v-else>
-              {{ server.name }}
-            </span>
           </v-col>
           <v-col class="text-right">
             <v-tooltip left :disabled="$vuetify.breakpoint.lgAndUp">

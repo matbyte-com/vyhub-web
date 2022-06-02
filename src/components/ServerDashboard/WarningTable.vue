@@ -1,7 +1,7 @@
 <template>
 <div>
   <span class="text-h5">
-    {{ $t('warnings') }}:
+    {{ $t('warnings') }}
   </span>
   <DataTable
     ref="warnTable"
