@@ -51,18 +51,25 @@
       <v-col cols="12" lg="4" class="d-flex" :class="$vuetify.breakpoint.lgAndUp ? 'pr-3' : 'mb-3'">
         <v-card class="flex-grow-1">
           <v-card-text>
-            <v-text-field
-              v-model="userSearchModel"
-              :label="$t('search')"
-              hide-details
-              outlined
-              dense>
-              <template v-slot:prepend-inner>
+            <div class="d-flex align-center">
+              <v-text-field
+                v-model="userSearchModel"
+                :label="$t('search')"
+                hide-details
+                outlined
+                dense>
+                <template v-slot:prepend-inner>
+                  <v-icon>
+                    mdi-magnify
+                  </v-icon>
+                </template>
+              </v-text-field>
+              <v-btn text color="info" @click="fetchData" class="ml-2">
                 <v-icon>
-                  mdi-magnify
+                  mdi-sync
                 </v-icon>
-              </template>
-            </v-text-field>
+              </v-btn>
+            </div>
             <v-list dense max-height="60vh" class="overflow-y-auto">
               <v-list-item v-if="!returnUsers ||
                returnUsers.length === 0" class="text--disabled">
@@ -216,6 +223,10 @@ export default {
     async fetchUserActivity() {
       (await openapi).server_getServerUserActivity(this.$route.params.id).then((rsp) => {
         this.users = rsp.data;
+
+        if (this.currentUser != null) {
+          this.currentUser = this.users.find((u) => u.id === this.currentUser.id);
+        }
       });
     },
     listActive(item) {
