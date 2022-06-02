@@ -115,7 +115,7 @@
       </v-col>
       <v-col cols="12" lg="8" class="d-flex">
         <v-card class="flex-grow-1">
-          <v-card-text v-if="!currentUser">Select user</v-card-text>
+          <v-card-text v-if="!currentUser">{{ $t('_serverDashboard.selectAUser') }}</v-card-text>
           <v-card-text v-else>
             <v-row>
               <v-col>
