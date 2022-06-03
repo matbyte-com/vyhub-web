@@ -7,10 +7,12 @@
     hide-default-footer
     v-bind="$attrs" v-on="$listeners"
   >
-    <template v-slot:header v-if="search">
+    <template v-slot:header>
       <v-row justify="end">
-        <v-col lg="3" md="6" sm="12" >
+        <v-col lg="3" md="6" sm="12">
+          <slot name="header" />
           <v-text-field
+            v-if="search"
             v-model="searchVal"
             :label="$t('search')"
             hide-details

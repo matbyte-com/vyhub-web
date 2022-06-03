@@ -10,6 +10,13 @@
               :items-per-page="6"
               :sort-desc="true"
             >
+              <template v-slot:header class="d-flex">
+                <v-spacer />
+                <v-btn color="success" @click="$refs.creditHistoryDialog.show()">
+                  <v-icon left>mdi-circle-multiple</v-icon>
+                  {{ $t('_dashboard.labels.credits') }}
+                </v-btn>
+              </template>
               <template v-slot:default="props">
                 <v-row>
                   <v-col
@@ -152,6 +159,10 @@
       ref="confirmSubCancelDialog"
     >
     </ConfirmationDialog>
+    <Dialog ref="creditHistoryDialog" :title="$t('_dashboard.labels.credits')"
+            icon="mdi-circle-multiple" :max-width="1000">
+      <CreditHistory />
+    </Dialog>
   </div>
 </template>
 
@@ -160,10 +171,14 @@ import openapi from '@/api/openapi';
 import PurchaseStatusChip from '@/components/ShopComponents/PurchaseStatusChip.vue';
 import DataIterator from '../../DataIterator.vue';
 import ConfirmationDialog from '../../ConfirmationDialog.vue';
+import Dialog from '@/components/Dialog.vue';
+import CreditHistory from '@/components/DashboardComponents/CreditHistory.vue';
 
 export default {
   name: 'UserPurchases',
-  components: { ConfirmationDialog, DataIterator, PurchaseStatusChip },
+  components: {
+    CreditHistory, Dialog, ConfirmationDialog, DataIterator, PurchaseStatusChip,
+  },
   data() {
     return {
       purchases: [],
