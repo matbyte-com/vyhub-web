@@ -11,11 +11,12 @@
               :sort-desc="true"
             >
               <template v-slot:header class="d-flex">
-                <v-spacer />
-                <v-btn color="success" @click="$refs.creditHistoryDialog.show()">
-                  <v-icon left>mdi-circle-multiple</v-icon>
-                  {{ $t('_dashboard.labels.credits') }}
-                </v-btn>
+                <div class="text-right">
+                  <v-btn color="success" @click="$refs.creditHistoryDialog.show()">
+                    <v-icon left>mdi-circle-multiple</v-icon>
+                    {{ $t('_dashboard.labels.credits') }}
+                  </v-btn>
+                </div>
               </template>
               <template v-slot:default="props">
                 <v-row>
