@@ -100,6 +100,14 @@ export default {
           enabled: true,
         },
         {
+          title: this.$t('faq'),
+          icon: 'mdi-chat-question',
+          link: '/faq',
+          config: 'enable_faq',
+          loggedIn: false,
+          enabled: true,
+        },
+        {
           title: this.$t('ticket'),
           icon: 'mdi-ticket-confirmation',
           link: '/ticket',
