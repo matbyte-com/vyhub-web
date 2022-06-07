@@ -5,6 +5,7 @@ import i18n from '@/plugins/i18n';
 import UtilService from '@/services/UtilService';
 import AuthService from '@/services/AuthService';
 import config from '@/config';
+import AccessControlService from '@/services/AccessControlService';
 
 Vue.use(VueRouter);
 
@@ -44,7 +45,7 @@ const routes: Array<RouteConfig> = [
     path: '/settings/:component?',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
-    meta: { requiresAuth: true, title: i18n.t('_pageTitle.settings') },
+    meta: { requiresAuth: true, title: i18n.t('_pageTitle.settings'), reqProp: 'admin_menu' },
   },
   {
     path: '/bans/:banId?',
@@ -92,7 +93,7 @@ const routes: Array<RouteConfig> = [
     path: '/shop/admin/:component?',
     name: 'ShopAdmin',
     component: () => import('@/views/Shop/Admin.vue'),
-    meta: { requiresAuth: true, title: i18n.t('_pageTitle.shopAdministration') },
+    meta: { requiresAuth: true, title: i18n.t('_pageTitle.shopAdministration'), reqProp: 'admin_menu' },
   },
   {
     path: '/cms/:title',
@@ -226,6 +227,8 @@ function showLoginDialog(to: Route, from: Route) {
 router.beforeEach((to, from, next) => {
   const refreshToken = to.query.refresh_token;
 
+  let success = false;
+
   if (refreshToken != null && typeof refreshToken === 'string') {
     AuthService.login(refreshToken).then(() => {
       console.log('Successful login!');
@@ -233,7 +236,7 @@ router.beforeEach((to, from, next) => {
         title: i18n.t('_login.messages.loginSuccess'),
         type: 'success',
       });
-      next();
+      success = true;
     }).catch((e) => {
       console.log(e);
       Vue.prototype.$notify({
@@ -249,10 +252,23 @@ router.beforeEach((to, from, next) => {
       console.log('Showing login dialog.');
       showLoginDialog(to, from);
     } else {
-      next();
+      success = true;
     }
   } else {
-    next();
+    success = true;
+  }
+
+  if (success) {
+    const reqProp = to?.meta?.reqProp;
+
+    if (reqProp == null || AccessControlService.methods.$checkProp(reqProp)) {
+      next();
+    } else {
+      console.log(`Property ${reqProp} missing.`);
+      next({
+        path: ('/'),
+      });
+    }
   }
 });
 
