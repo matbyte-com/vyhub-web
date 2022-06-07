@@ -124,7 +124,11 @@
       :form-schema="groupFormSchema"
       :max-width="600"
       @submit="editGroup"
-      :title="$t('_settings.labels.editGroup')"/>
+      :title="$t('_settings.labels.editGroup')">
+      <template v-slot:custom-properties="context">
+        <PropertyPicker v-bind="context"/>
+      </template>
+    </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteGroupDialog"
       @submit="deleteGroup"/>
@@ -251,9 +255,11 @@ export default {
       obj.mappings = item.mappings;
       // obj.advanced_properties = advProps;
       obj.is_team = item.is_team;
-
       this.$refs.editGroupDialog.show(item);
-      this.$refs.editGroupDialog.setData(obj);
+      this.$nextTick(() => {
+        this.$refs.editGroupDialog.setData(obj);
+        console.log(this.$refs.editGroupDialog.getData());
+      });
     },
     openDeleteGroupDialog(item) {
       this.$refs.deleteGroupDialog.show(item);

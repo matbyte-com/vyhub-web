@@ -30,6 +30,12 @@ export default {
       'x-display': 'switch',
       default: false,
     },
+    enable_faq: {
+      type: 'boolean',
+      title: i18n.t('_settings.showFaq'),
+      'x-display': 'switch',
+      default: false,
+    },
     language: {
       type: 'string',
       title: i18n.t('_settings.language'),
