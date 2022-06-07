@@ -113,7 +113,11 @@
       :form-schema="groupFormSchema"
       icon="mdi-account-multiple"
       @submit="addGroup"
-      :title="$t('_settings.labels.addGroup')"/>
+      :title="$t('_settings.labels.addGroup')">
+      <template v-slot:custom-properties="context">
+        <PropertyPicker v-bind="context"/>
+      </template>
+    </DialogForm>
     <DialogForm
       ref="editGroupDialog"
       icon="mdi-account-multiple"
@@ -142,6 +146,7 @@ import UserLink from '@/components/UserLink.vue';
 import SettingTitle from './SettingTitle.vue';
 import MembershipEditDialog from '../DashboardComponents/MembershipEditDialog.vue';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import PropertyPicker from './PropertyPicker.vue';
 
 export default {
   name: 'Groups',
@@ -154,6 +159,7 @@ export default {
     DataTable,
     DeleteConfirmationDialog,
     DialogForm,
+    PropertyPicker,
   },
   data() {
     return {

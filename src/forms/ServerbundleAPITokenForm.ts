@@ -3,7 +3,7 @@ import Common from '@/forms/Common';
 
 const propSel = { ...Common.propertiesSelector };
 delete propSel['x-display'];
-propSel.title = i18n.t('extraProperties');
+propSel.title = String(i18n.t('extraProperties'));
 
 export default {
   type: 'object',
