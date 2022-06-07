@@ -110,6 +110,10 @@ export default {
       this.loading = false;
       return this.$refs.form.setErrorMessage(text);
     },
+    setError(err) {
+      this.loading = false;
+      return this.$refs.form.setError(err);
+    },
     genFormMounted() {
       this.$refs.form.setData(this.dataBeforeMount);
     },

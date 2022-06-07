@@ -33,6 +33,9 @@ export default {
     setErrorMessage(text) {
       this.$refs.deleteConfirmationDialog.setErrorMessage(text);
     },
+    setError(err) {
+      this.$refs.deleteConfirmationDialog.setError(err);
+    },
   },
 };
 </script>

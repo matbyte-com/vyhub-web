@@ -169,7 +169,7 @@ export default {
         this.$refs.createGatewayDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.createGatewayDialog.setErrorMessage(err.response.data);
+        this.$refs.createGatewayDialog.setError(err);
       });
     },
     async editGateway(gateway) {
@@ -186,7 +186,7 @@ export default {
         this.$refs.editGatewayDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.editGatewayDialog.setErrorMessage(err.response.data);
+        this.$refs.editGatewayDialog.setError(err);
       });
     },
     async deleteGateway(gateway) {
@@ -201,7 +201,7 @@ export default {
         this.$refs.deleteGatewayDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.deleteGatewayDialog.setErrorMessage(err.response.data);
+        this.$refs.deleteGatewayDialog.setError(err);
       });
     },
     showEditDialog(gateway) {

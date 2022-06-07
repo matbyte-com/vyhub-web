@@ -72,7 +72,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.transactionAddDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.transactionAddDialog.setError(err);
       });
     },
     transactionRowFormatter(item) {

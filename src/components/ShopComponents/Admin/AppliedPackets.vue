@@ -249,7 +249,7 @@ export default {
         this.currentItem = rsp.data;
       }).catch((err) => {
         console.log(err);
-        this.$refs.editAppliedPacketDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.editAppliedPacketDialog.setError(err);
       });
     },
     showEditDialog(aPacket) {
@@ -270,7 +270,7 @@ export default {
         this.currentItem = null;
       }).catch((err) => {
         console.log(err);
-        this.$refs.deleteAppliedPacketDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.deleteAppliedPacketDialog.setError(err);
       });
     },
     async createAppliedPacket() {
@@ -285,7 +285,7 @@ export default {
         });
         this.fetchData();
       }).catch((err) => {
-        this.$refs.addAppliedPacketDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.addAppliedPacketDialog.setError(err);
       });
     },
     async getAppliedRewards() {
@@ -315,7 +315,7 @@ export default {
         });
         this.getAppliedRewards();
       }).catch((err) => {
-        this.$refs.addAppliedRewardDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.addAppliedRewardDialog.setError(err);
       });
     },
     async deleteAppliedReward(item) {
@@ -328,7 +328,7 @@ export default {
         this.getAppliedRewards();
       }).catch((err) => {
         console.log(err);
-        this.$refs.deleteAppliedPacketDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.deleteAppliedPacketDialog.setError(err);
       });
     },
     async showDetails(item) {

@@ -133,7 +133,7 @@ export default {
         });
         this.$emit('edit');
       }).catch((err) => {
-        this.$refs.banAddDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.banAddDialog.setError(err);
       });
     },
     async editBan(ban) {
@@ -155,7 +155,7 @@ export default {
         this.$emit('edit');
       }).catch((err) => {
         console.log(err);
-        this.$refs.banEditDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.banEditDialog.setError(err);
       });
     },
     async deleteBan(ban) {
@@ -169,7 +169,7 @@ export default {
         });
         this.$emit('edit');
       }).catch((err) => {
-        this.$refs.deleteBanDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.deleteBanDialog.setError(err);
         console.log(err);
       });
     },

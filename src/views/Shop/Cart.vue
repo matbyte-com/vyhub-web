@@ -355,7 +355,7 @@ export default {
         this.fetchData();
       }).catch((err) => {
         console.log(err);
-        this.$refs.addressAddDialog.setErrorMessage(err.response.data);
+        this.$refs.addressAddDialog.setError(err);
       });
     },
     selectAddress(address) {

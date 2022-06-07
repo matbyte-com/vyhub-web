@@ -120,7 +120,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.editForm.setErrorMessage(err.response.data.detail);
+        this.$refs.editForm.setError(err);
       });
     },
     showEditDialog() {

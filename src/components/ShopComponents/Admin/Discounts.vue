@@ -141,7 +141,7 @@ export default {
         this.$refs.createDiscountDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.createDiscountDialog.setErrorMessage(err.response.data);
+        this.$refs.createDiscountDialog.setError(err);
       });
     },
     async editDiscount(discount) {
@@ -163,7 +163,7 @@ export default {
         this.$refs.editDiscountDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.editDiscountDialog.setErrorMessage(err.response.data);
+        this.$refs.editDiscountDialog.setError(err);
       });
     },
     async deleteDiscount(discount) {
@@ -178,7 +178,7 @@ export default {
         this.$refs.deleteDiscountDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.deleteDiscountDialog.setErrorMessage(err.response.data);
+        this.$refs.deleteDiscountDialog.setError(err);
       });
     },
     showEditDialog(discount) {

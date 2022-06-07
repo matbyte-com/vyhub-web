@@ -351,7 +351,7 @@ export default {
             data.html = rsp.data.id;
           })
           .catch((err) => {
-            this.$refs.navEditDialog.setErrorMessage(err);
+            this.$refs.navEditDialog.setError(err);
             throw (err);
           });
       }
@@ -365,7 +365,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.navAddDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.navAddDialog.setError(err);
         this.links.pop();
       });
     },
@@ -443,7 +443,7 @@ export default {
               linkUpdated.html = rsp.data.id;
             })
             .catch((err) => {
-              this.$refs.navEditDialog.setErrorMessage(err);
+              this.$refs.navEditDialog.setError(err);
               throw (err);
             });
         }

@@ -135,7 +135,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.addPostDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.addPostDialog.setError(err);
       });
     },
     async toggleStatus() {

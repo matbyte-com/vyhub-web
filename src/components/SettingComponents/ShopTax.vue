@@ -112,7 +112,7 @@ export default {
         this.$refs.createTaxRuleDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.createTaxRuleDialog.setErrorMessage(err.response.data);
+        this.$refs.createTaxRuleDialog.setError(err);
       });
     },
     async deleteTaxRule(taxRule) {
@@ -127,7 +127,7 @@ export default {
         this.$refs.deleteTaxRuleDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.deleteTaxRuleDialog.setErrorMessage(err.response.data);
+        this.$refs.deleteTaxRuleDialog.setError(err);
       });
     },
   },

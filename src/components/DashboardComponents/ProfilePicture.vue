@@ -112,7 +112,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.adminDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.adminDeleteConfirmationDialog.setError(err);
       });
     },
   },

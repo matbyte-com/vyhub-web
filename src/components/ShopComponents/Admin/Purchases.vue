@@ -427,7 +427,7 @@ export default {
           this.$refs.confirmRefundDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
-          this.$refs.confirmRefundDialog.setErrorMessage(err.response.data);
+          this.$refs.confirmRefundDialog.setError(err);
         });
     },
     async checkPurchase(purchase) {
@@ -461,7 +461,7 @@ export default {
           this.$refs.confirmSubCancelDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
-          this.$refs.confirmSubCancelDialog.setErrorMessage(err.response.data);
+          this.$refs.confirmSubCancelDialog.setError(err);
         });
     },
     newStatus(status) {

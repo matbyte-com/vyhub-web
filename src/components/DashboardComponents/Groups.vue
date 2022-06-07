@@ -256,7 +256,7 @@ export default {
             type: 'success',
           });
         }).catch((err) => {
-          this.$refs.addMembershipDialog.setErrorMessage(err.response.data.detail);
+          this.$refs.addMembershipDialog.setError(err);
         });
       });
     },

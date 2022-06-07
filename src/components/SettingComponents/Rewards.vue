@@ -116,7 +116,7 @@ export default {
         this.$refs.createRewardDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.createRewardDialog.setErrorMessage(err.response.data);
+        this.$refs.createRewardDialog.setError(err);
       });
     },
     async editReward(reward) {
@@ -137,7 +137,7 @@ export default {
         this.$refs.editRewardDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.editRewardDialog.setErrorMessage(err.response.data);
+        this.$refs.editRewardDialog.setError(err);
       });
     },
     async deleteReward(reward) {
@@ -152,7 +152,7 @@ export default {
         this.$refs.deleteRewardDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.deleteRewardDialog.setErrorMessage(err.response.data);
+        this.$refs.deleteRewardDialog.setError(err);
       });
     },
     showEditDialog(reward) {

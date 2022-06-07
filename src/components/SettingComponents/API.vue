@@ -128,7 +128,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.createTokenDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.createTokenDialog.setError(err);
       });
     },
   },

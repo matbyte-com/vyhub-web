@@ -92,6 +92,10 @@ export default {
       this.errorMessage = text;
       this.loading = false;
     },
+    setError(err) {
+      this.errorMessage = this.utils.formatErrorMessage(err).text;
+      this.loading = false;
+    },
   },
 };
 </script>

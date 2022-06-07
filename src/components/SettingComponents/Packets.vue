@@ -180,7 +180,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        this.$refs.addPacketDialog.setErrorMessage(err.response.data);
+        this.$refs.addPacketDialog.setError(err);
       });
     },
     showEditDialog(packet) {
@@ -209,7 +209,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        this.$refs.editPacketDialog.setErrorMessage(err.response.data);
+        this.$refs.editPacketDialog.setError(err);
       });
     },
     prepareDataForSending(data) {
@@ -248,7 +248,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        this.$refs.deletePacketDialog.setErrorMessage(err.response.data);
+        this.$refs.deletePacketDialog.setError(err);
       });
     },
   },

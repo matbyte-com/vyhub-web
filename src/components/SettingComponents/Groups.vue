@@ -232,7 +232,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.addGroupDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.addGroupDialog.setError(err);
       });
     },
     openEditGroupDialog(item) {
@@ -273,7 +273,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.deleteGroupDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.deleteGroupDialog.setError(err);
       });
     },
     async editGroup(group) {
@@ -291,7 +291,7 @@ export default {
             type: 'success',
           });
         }).catch((err) => {
-          this.$refs.editGroupDialog.setErrorMessage(err.response.data.detail);
+          this.$refs.editGroupDialog.setError(err);
         });
     },
     openShowMemberDialog(item) {

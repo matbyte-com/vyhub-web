@@ -315,7 +315,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.addBundleDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.addBundleDialog.setError(err);
       });
     },
     async createServer() {
@@ -330,7 +330,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.createServerDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.createServerDialog.setError(err);
       });
     },
     openDeleteBundleDialog(item) {
@@ -348,7 +348,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.deleteBundleDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.deleteBundleDialog.setError(err);
       });
     },
     async deleteServer(server) {
@@ -360,7 +360,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.deleteServerDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.deleteServerDialog.setError(err);
       });
     },
     openEditBundleDialog(bundle) {
@@ -384,7 +384,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.editBundleDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.editBundleDialog.setError(err);
       });
     },
     async editServer(server) {
@@ -398,7 +398,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.editServerDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.editServerDialog.setError(err);
       });
     },
     showAPIKeysDialog(bundle) {
@@ -431,7 +431,7 @@ export default {
       api.server_createBundleToken({ uuid: this.activeBundle.id }, data).then((rsp) => {
         this.createdToken = rsp.data;
       }).catch((err) => {
-        this.$refs.createTokenForm.setErrorMessage(err.response.data.detail);
+        this.$refs.createTokenForm.setError(err);
       });
     },
   },

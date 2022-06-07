@@ -109,6 +109,10 @@ export default {
       this.loading = false;
       this.errorMessage = text;
     },
+    setError(err) {
+      this.loading = false;
+      this.errorMessage = this.utils.formatErrorMessage(err).text;
+    },
     forceRerender() {
       this.componentKey += 1;
     },

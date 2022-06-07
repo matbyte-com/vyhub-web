@@ -50,7 +50,7 @@ export default {
         this.$refs.editMembershipDialog.closeAndReset();
         this.$emit('submit');
       }).catch((err) => {
-        this.$refs.editMembershipDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.editMembershipDialog.setError(err);
       });
     },
     async endMembership() {
@@ -59,7 +59,7 @@ export default {
         this.$refs.editMembershipDialog.closeAndReset();
         this.$emit('submit');
       }).catch((err) => {
-        this.$refs.endMembershipConfirmation.setErrorMessage(err.response.data.detail);
+        this.$refs.endMembershipConfirmation.setError(err);
       });
     },
   },

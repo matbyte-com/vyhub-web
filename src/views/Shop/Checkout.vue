@@ -254,7 +254,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.couponForm.setErrorMessage(err.response.data.detail);
+        this.$refs.couponForm.setError(err);
       });
     },
     async cancelPayment() {

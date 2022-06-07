@@ -64,7 +64,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.form.setErrorMessage(err.response.data.detail);
+        this.$refs.form.setError(err);
       });
     },
   },

@@ -72,7 +72,7 @@ export default {
           this.success = false;
         }, 3000);
       }).catch((err) => {
-        this.errorMsg = err.response.data.detail;
+        this.errorMsg = this.utils.formatErrorMessage(err).text;
         this.loading = false;
       });
     },

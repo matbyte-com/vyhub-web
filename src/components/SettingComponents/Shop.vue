@@ -92,7 +92,7 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        this.$refs.form.setErrorMessage(err.response.data.detail);
+        this.$refs.form.setError(err);
       });
     },
     async changeAddress() {
@@ -107,7 +107,7 @@ export default {
         this.fetchData();
       }).catch((err) => {
         console.log(err);
-        this.$refs.addressChangeDialog.setErrorMessage(err.response.data);
+        this.$refs.addressChangeDialog.setError(err);
       });
     },
   },

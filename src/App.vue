@@ -214,52 +214,12 @@ export default Vue.extend({
       const client = await openapi;
       client.interceptors.response.use((response) => response,
         (err) => {
-          let errDet = null;
-
-          if (err.response && err.response.data && err.response.data.detail) {
-            errDet = err.response.data.detail;
-          }
-
-          if (err.response.status === 401) {
-            errDet = {
-              code: 'unauthorized',
-              msg: '',
-              detail: { },
-            };
-          }
-
-          if (errDet != null && this.$te(`_errors.${errDet.code}`)) {
-            this.$notify({
-              title: this.$t('error'),
-              text: this.$t(`_errors.${errDet.code}`, { ...errDet.detail, msg: errDet.msg }),
-              type: 'error',
-            });
-          } else if (err.response) {
-            let msg = '';
-
-            if (err.response.data && err.response.data.detail) {
-              if (err.response.data.detail.code) {
-                msg = `${err.response.data.detail.code} - ${err.response.data.detail.msg}`;
-              } else {
-                msg = err.response.data.detail;
-              }
-            } else {
-              msg = err.response.data;
-            }
-
-            this.$notify({
-              title: `${this.$t('unexpectedError')} ${err.response.status}`,
-              text: msg,
-              type: 'error',
-            });
-          } else {
-            this.$notify({
-              title: `${this.$t('unexpectedError')}`,
-              text: '-',
-              type: 'error',
-            });
-          }
-
+          const notificationObject = this.utils.formatErrorMessage(err);
+          this.$notify({
+            title: notificationObject.title,
+            text: notificationObject.text,
+            type: notificationObject.type,
+          });
           return Promise.reject(err);
         });
     },

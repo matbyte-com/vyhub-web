@@ -235,7 +235,7 @@ export default {
           this.$refs.confirmSubCancelDialog.closeAndReset();
         }).catch((err) => {
           console.log(err);
-          this.$refs.confirmSubCancelDialog.setErrorMessage(err.response.data);
+          this.$refs.confirmSubCancelDialog.setError(err);
         });
     },
   },

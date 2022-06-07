@@ -191,7 +191,7 @@ export default {
             type: 'success',
           });
         }).catch((err) => {
-          this.$refs.requirementSetAddDialog.setErrorMessage(err.response.data.detail);
+          this.$refs.requirementSetAddDialog.setError(err);
         });
     },
     async addRequirement() {
@@ -214,7 +214,7 @@ export default {
             type: 'success',
           });
         }).catch((err) => {
-          this.$refs.requirementAddDialog.setErrorMessage(err.response.data.detail);
+          this.$refs.requirementAddDialog.setError(err);
         });
     },
     async openEditRequirementSetDialog(reqSet) {
@@ -241,7 +241,7 @@ export default {
         })
         .catch((err) => {
           this.$refs.requirementSetEditForm
-            .setErrorMessage(err.response.data.detail);
+            .setError(err);
           this.$refs.requirementSetEditForm.loading = false;
         });
     },
@@ -257,7 +257,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.requirementSetDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.requirementSetDeleteConfirmationDialog.setError(err);
       });
     },
     openDeleteRequirementDialog(requirement) {
@@ -272,7 +272,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.requirementDeleteConfirmationDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.requirementDeleteConfirmationDialog.setError(err);
       });
     },
     getValue(item) {

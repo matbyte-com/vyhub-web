@@ -103,7 +103,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.addThreadDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.addThreadDialog.setError(err);
       });
     },
     ticketRowFormatter(item) {

@@ -118,7 +118,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.debitConfirmationDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.debitConfirmationDialog.setError(err);
       });
     },
     async declineDebit(item) {
@@ -130,7 +130,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.debitDeclineDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.debitDeclineDialog.setError(err);
       });
     },
   },

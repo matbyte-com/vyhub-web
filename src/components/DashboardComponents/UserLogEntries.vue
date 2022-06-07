@@ -47,7 +47,7 @@ export default {
         this.$refs.entryAddForm.closeAndReset();
         this.$refs.logTable.fetchData();
       }).catch((err) => {
-        this.$refs.entryAddForm.setErrorMessage(err.response.data.detail);
+        this.$refs.entryAddForm.setError(err);
       });
     },
   },

@@ -264,7 +264,7 @@ export default {
           title: this.$t('_home.messages.addSuccess'),
           type: 'success',
         });
-      }).catch((err) => this.$refs.messageAddDialog.setErrorMessage(err.response.data.detail));
+      }).catch((err) => this.$refs.messageAddDialog.setError(err));
     },
     openDeleteMessageDialog(message) {
       this.$refs.deleteMessageDialog.show(message);
@@ -278,7 +278,7 @@ export default {
             type: 'success',
           });
         })
-        .catch((err) => this.$refs.deleteMessageDialog.setErrorMessage(err.response.data.detail));
+        .catch((err) => this.$refs.deleteMessageDialog.setError(err));
       const index = this.news.findIndex((n) => n.id === message.id);
       if (index > -1) {
         this.news.splice(index, 1);
@@ -307,7 +307,7 @@ export default {
             title: this.$t('_home.messages.editSuccess'),
             type: 'success',
           });
-        }).catch((err) => this.$refs.messageEditDialog.setErrorMessage(err.response.data.detail));
+        }).catch((err) => this.$refs.messageEditDialog.setError(err));
     },
     setWidth() {
       this.statusColumnWidth = this.$refs.StatusCol.clientWidth;

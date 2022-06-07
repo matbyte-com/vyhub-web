@@ -116,7 +116,7 @@ export default {
         this.$refs.createCategoryDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.createCategoryDialog.setErrorMessage(err.response.data);
+        this.$refs.createCategoryDialog.setError(err);
       });
     },
     async editCategory(category) {
@@ -133,7 +133,7 @@ export default {
         this.$refs.editCategoryDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.editCategoryDialog.setErrorMessage(err.response.data);
+        this.$refs.editCategoryDialog.setError(err);
       });
     },
     async deleteCategory(category) {
@@ -148,7 +148,7 @@ export default {
         this.$refs.deleteCategoryDialog.closeAndReset();
       }).catch((err) => {
         console.log(err);
-        this.$refs.deleteCategoryDialog.setErrorMessage(err.response.data);
+        this.$refs.deleteCategoryDialog.setError(err);
       });
     },
     showEditDialog(category) {

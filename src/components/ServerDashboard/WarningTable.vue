@@ -121,7 +121,7 @@ export default {
           title: this.$t('_warning.messages.deletedWarning'),
           type: 'success',
         });
-      }).catch((err) => this.$refs.deleteWarningDialog.setErrorMessage(err.response.data.detail));
+      }).catch((err) => this.$refs.deleteWarningDialog.setError(err));
     },
     async addWarning() {
       const form = this.$refs.addWarningDialog.getData();
@@ -137,7 +137,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.addWarningDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.addWarningDialog.setError(err);
       });
     },
     openAddWarningDialog() {

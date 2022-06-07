@@ -133,7 +133,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.addQuestionDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.addQuestionDialog.setError(err);
       });
     },
     openQuestionEditDialog(question) {
@@ -150,7 +150,7 @@ export default {
         });
         this.$refs.deleteQuestionConfirmationDialog.closeAndReset();
       }).catch((err) => {
-        this.$refs.deleteQuestionConfirmationDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.deleteQuestionConfirmationDialog.setError(err);
       });
     },
     async editQuestion(question) {
@@ -169,7 +169,7 @@ export default {
         this.content = null;
         this.$refs.editQuestionDialog.closeAndReset();
       }).catch((err) => {
-        this.$refs.editQuestionDialog.setErrorMessage(err.response.data.detail);
+        this.$refs.editQuestionDialog.setError(err);
       });
     },
     async updateLinkOrder() {

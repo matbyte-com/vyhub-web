@@ -59,7 +59,7 @@ export default {
           type: 'success',
         });
       }).catch((err) => {
-        this.$refs.themePicker.setErrorMessage(err.response.data.detail);
+        this.$refs.themePicker.setError(err);
       });
     },
   },
