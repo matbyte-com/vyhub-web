@@ -11,8 +11,8 @@
                @updated="$emit('updated')"
                @notValid="loading=false"
       >
-        <template v-for="(index, name) in $slots" v-slot:[name]>
-          <slot :name="name"/>
+        <template v-for="(index, name) in $scopedSlots" v-slot:[name]="scope">
+          <slot v-bind="scope" :name="name"/>
         </template>
       </GenForm>
     </template>
