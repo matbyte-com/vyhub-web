@@ -50,7 +50,11 @@
 
     <DialogForm :cancel-text="null" :submit-text="$t('create')" :form-schema="apiTokenForm"
                 :title="$t('_api.labels.createKey')" icon="mdi-key-chain"
-                @submit="createToken" ref="createTokenDialog"></DialogForm>
+                @submit="createToken" ref="createTokenDialog">
+      <template v-slot:custom-properties="context">
+        <PropertyPicker v-bind="context"/>
+      </template>
+    </DialogForm>
   </div>
 </template>
 
@@ -60,9 +64,12 @@ import DataTable from '@/components/DataTable.vue';
 import openapi from '@/api/openapi';
 import APITokenForm from '@/forms/APITokenForm';
 import DialogForm from '@/components/DialogForm.vue';
+import PropertyPicker from '@/components/SettingComponents/PropertyPicker.vue';
 
 export default {
-  components: { DialogForm, DataTable, SettingTitle },
+  components: {
+    DialogForm, DataTable, SettingTitle, PropertyPicker,
+  },
   data() {
     return {
       activeBundle: null,

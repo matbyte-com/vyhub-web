@@ -144,7 +144,9 @@
       <h6 class="text-h6 mb-2 mt-3">{{ $t('_serverbundle.labels.createApiKey') }}</h6>
       <GenForm :cancel-text="null" :submit-text="$t('create')" :form-schema="createTokenSchema"
                @submit="createToken" ref="createTokenForm">
-
+        <template v-slot:custom-properties="context">
+          <PropertyPicker class="mb-3" v-bind="context"/>
+        </template>
       </GenForm>
     </Dialog>
     <DialogForm ref="addBundleDialog"
@@ -227,6 +229,7 @@ import openapi from '@/api/openapi';
 import BoolIcon from '../BoolIcon.vue';
 import Dialog from '../Dialog.vue';
 import ServerForm from '@/forms/ServerForm';
+import PropertyPicker from '@/components/SettingComponents/PropertyPicker.vue';
 
 export default {
   name: 'Server',
@@ -238,6 +241,7 @@ export default {
     DeleteConfirmationDialog,
     DialogForm,
     DataTable,
+    PropertyPicker,
   },
   data() {
     return {

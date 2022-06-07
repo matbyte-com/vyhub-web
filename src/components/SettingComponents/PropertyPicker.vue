@@ -1,16 +1,16 @@
 <template>
   <div v-if="allProperties">
-    <v-expansion-panels>
+    {{ label }}
+    <v-expansion-panels class="mt-1">
       <v-expansion-panel v-for="(category, index) in allProperties" :key="index">
         <v-expansion-panel-header>
           {{ $t(`_property.categories.${Object.keys(category)[0]}`) }}
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-checkbox v-for="prop in category[Object.keys(category)[0]]" :key="prop.name"
-                      v-model="selectedProperties"
+                      v-model="properties" v-on="{...on, change}"
                       :label="$t(`_property.descriptions.${prop.name}`)" :value="prop.name"
-                      dense hide-details="auto" @change="change"
-          >
+                      dense hide-details="auto">
           </v-checkbox>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -38,7 +38,7 @@ export default {
   },
   data() {
     return {
-      selectedProperties: [],
+      properties: [],
       allProperties: null,
     };
   },
@@ -52,7 +52,7 @@ export default {
       });
     },
     change() {
-      this.on.input(this.selectedProperties);
+      this.on.input(this.properties);
     },
   },
 };
