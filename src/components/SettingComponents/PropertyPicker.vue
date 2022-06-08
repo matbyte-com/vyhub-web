@@ -24,7 +24,7 @@ import openapi from '../../api/openapi';
 export default {
   name: 'PropertyPicker',
   props: {
-    value: { type: String, default: '' },
+    value: { type: Array[String], default: '' },
     options: { type: Object, required: true },
     schema: { type: Object, required: true },
     fullSchema: { type: Object, required: true },
@@ -43,6 +43,7 @@ export default {
     };
   },
   beforeMount() {
+    this.properties = this.value;
     this.fetchData();
   },
   methods: {

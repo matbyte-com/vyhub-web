@@ -132,9 +132,12 @@ export default {
   },
   // PropertyPicker Component needs to be put in the custom properties slot
   propertiesSelector: {
-    type: 'string',
+    type: 'array',
     title: i18n.t('properties'),
     'x-display': 'custom-properties',
+    items: {
+      type: 'string',
+    },
   },
   advancedProperties: {
     type: 'object',
