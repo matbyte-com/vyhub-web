@@ -6,7 +6,11 @@ module.exports = {
     'vuetify', /@koumoul/,
   ],
   devServer: {
-    disableHostCheck: true,
+    allowedHosts: 'all',
+    port: 8050,
+    client: {
+      progress: true,
+    },
   },
   configureWebpack: {
     resolve: {
