@@ -43,7 +43,11 @@
               <v-card-subtitle>
                 {{ $t(`_user.type.${acc.type}.name`).toUpperCase() }}
                 <div class="text--disabled caption">
-                  {{ $t('_dashboard.labels.registered_on') }}
+                  <span v-if="acc.last_activity">
+                    {{ $t('_dashboard.labels.last_online') }}:
+                    {{ $i18n.d(new Date(acc.last_activity.last_online), 'short') }}
+                  </span> <br/>
+                  {{ $t('_dashboard.labels.registered_on') }}:
                   {{ $i18n.d(new Date(acc.registered_on), 'short') }}
                   <br/>
                   {{ acc.identifier }}
