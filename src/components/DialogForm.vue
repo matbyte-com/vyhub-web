@@ -106,6 +106,10 @@ export default {
       this.loading = false;
       return this.$refs.form.cancelForm();
     },
+    setSuccessMessage(text) {
+      this.loading = false;
+      return this.$refs.form.setSuccessMessage(text);
+    },
     setErrorMessage(text) {
       this.loading = false;
       return this.$refs.form.setErrorMessage(text);

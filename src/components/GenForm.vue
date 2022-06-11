@@ -1,12 +1,12 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-row v-if="errorMessage != null">
+      <v-row v-if="alertMessage != null">
         <v-col cols="12" class="mt-4">
           <v-alert
-            type="error"
+            :type="alertType"
           >
-            {{ errorMessage }}
+            {{ alertMessage }}
           </v-alert>
         </v-col>
       </v-row>
@@ -91,7 +91,7 @@ export default {
     },
     cancelForm() {
       this.loading = false;
-      this.errorMessage = null;
+      this.alertMessage = null;
       this.$refs.form.reset();
       this.formModel = null;
       this.$emit('cancel');
@@ -107,11 +107,16 @@ export default {
     },
     setErrorMessage(text) {
       this.loading = false;
-      this.errorMessage = text;
+      this.alertMessage = text;
+      this.alertType = 'error';
     },
     setError(err) {
+      this.setErrorMessage(this.utils.formatErrorMessage(err).text);
+    },
+    setSuccessMessage(text) {
       this.loading = false;
-      this.errorMessage = this.utils.formatErrorMessage(err).text;
+      this.alertMessage = text;
+      this.alertType = 'success';
     },
     forceRerender() {
       this.componentKey += 1;
@@ -119,7 +124,8 @@ export default {
   },
   data() {
     return {
-      errorMessage: null,
+      alertMessage: null,
+      alertType: 'error',
       valid: false,
       optionsBase: {
         locale: i18n.locale, // i18n.locale,
