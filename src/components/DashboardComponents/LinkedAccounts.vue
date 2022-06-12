@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-if="userSelf">
+    <v-row v-if="userSelf && !bundle">
       <v-col>
         <v-card>
           <v-btn color="success" width="100%" :to="{path: $route.path,
@@ -94,9 +94,14 @@ export default {
   name: 'LinkedAccounts',
   props: {
     user: Object,
+    bundle: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
+      serverTypeUserTypeMapping: null,
       userAccounts: null,
       attributeDefinitions: null,
       componentLoaded: false,
@@ -105,6 +110,7 @@ export default {
   },
   beforeMount() {
     this.fetchData();
+    this.fetchServerUserTypeMapping();
   },
   watch: {
     user() {
@@ -115,6 +121,12 @@ export default {
     async fetchData() {
       (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
         this.attributeDefinitions = rsp.data;
+      });
+    },
+    async fetchServerUserTypeMapping() {
+      if (this.bundle == null) return;
+      (await openapiCached).server_getServerTypeToUserType().then((rsp) => {
+        this.serverTypeUserTypeMapping = rsp.data;
       });
     },
     getReturnUrl() {
@@ -130,7 +142,13 @@ export default {
   },
   computed: {
     linkedUsers() {
-      return [this.user, ...this.user.linked_users];
+      const res = [this.user, ...this.user.linked_users];
+      if (this.bundle == null) {
+        return res;
+      }
+      if (this.serverTypeUserTypeMapping == null) return [];
+      const allowedUserType = this.serverTypeUserTypeMapping[this.bundle.server_type];
+      return res.filter((r) => r.type === allowedUserType);
     },
     attributeDefinitionsDict() {
       if (this.attributeDefinitions == null) {
