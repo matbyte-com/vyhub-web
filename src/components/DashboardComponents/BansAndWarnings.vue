@@ -50,6 +50,10 @@ export default {
   },
   props: {
     user: Object,
+    bundle: {
+      type: Object,
+      default: null,
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -61,12 +65,12 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).ban_getBans({ user_id: this.user.id, size: 1 }).then((rsp) => {
-        this.banCount = rsp.data.total;
-      });
-      (await openapi).warning_getWarnings({ user_id: this.user.id, size: 1 }).then((rsp) => {
-        this.warningCount = rsp.data.total;
-      });
+      let bundle_id = [];
+      if (this.bundle !== null) bundle_id = [this.bundle.id];
+      (await openapi).ban_getBans({ user_id: this.user.id, size: 1, bundle_id })
+        .then((rsp) => { this.banCount = rsp.data.total; });
+      (await openapi).warning_getWarnings({ user_id: this.user.id, size: 1, bundle_id })
+        .then((rsp) => { this.warningCount = rsp.data.total; });
     },
   },
 };

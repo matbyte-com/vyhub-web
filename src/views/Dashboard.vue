@@ -15,7 +15,7 @@
               <v-icon left>mdi-cart-check</v-icon>
               <span>{{ $t('purchases') }}</span>
             </v-tab>
-            <v-tab v-for="bundle in bundles" :key="bundle.id" :style="'color:' + bundle.color"
+            <v-tab v-for="bundle in getBundles" :key="bundle.id" :style="'color:' + bundle.color"
                    @click="switchTab('Bundle', bundle)">
               <v-icon v-if="bundle.icon" left :color="bundle.color">{{ bundle.icon }}</v-icon>
               <span>{{ bundle.name }}</span>
@@ -119,6 +119,9 @@ export default {
         return () => import('@/components/DashboardComponents/Dashboards/General.vue');
       }
       return () => import(`@/components/DashboardComponents/Dashboards/${this.activeTab}`);
+    },
+    getBundles() {
+      return this.bundles.filter((b) => b.server_type !== 'DISCORD');
     },
   },
   watch: {
