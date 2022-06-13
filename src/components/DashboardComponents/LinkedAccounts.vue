@@ -54,16 +54,16 @@
                 </div>
               </v-card-subtitle>
               <v-divider/>
-              <v-card-text v-if="unspecificAttributes != null
-              && unspecificAttributes[acc.id] != null
-              && Object.keys(unspecificAttributes[acc.id]).length > 0">
+              <v-card-text v-if="attributes != null
+              && attributes[acc.id] != null
+              && Object.keys(attributes[acc.id]).length > 0">
                 <v-row>
                   <v-col>
                     <v-simple-table
                       dense v-if="attributeDefinitions != null">
                       <tbody>
                         <tr
-                          v-for="(attrVal, attrName) in unspecificAttributes[acc.id]"
+                          v-for="(attrVal, attrName) in attributes[acc.id]"
                           :key="attrName">
                           <td>
                             {{ attributeDefinitionsDict[attrName].title }}
@@ -89,6 +89,7 @@
 import userService from '@/services/UserService';
 import openapiCached from '@/api/openapiCached';
 import UtilService from '@/services/UtilService';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'LinkedAccounts',
@@ -106,28 +107,46 @@ export default {
       attributeDefinitions: null,
       componentLoaded: false,
       userTypeIcons: userService.userTypeIcons,
+      currentAttributes: {},
     };
   },
   beforeMount() {
     this.fetchData();
-    this.fetchServerUserTypeMapping();
   },
   watch: {
     user() {
       this.fetchData();
     },
+    bundle() {
+      this.fetchData();
+    },
   },
   methods: {
     async fetchData() {
-      (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
+      const api = await openapi;
+      const apiCached = await openapiCached;
+
+      apiCached.user_getAttributeDefinitions().then((rsp) => {
         this.attributeDefinitions = rsp.data;
       });
-    },
-    async fetchServerUserTypeMapping() {
-      if (this.bundle == null) return;
-      (await openapiCached).server_getServerTypeToUserType().then((rsp) => {
-        this.serverTypeUserTypeMapping = rsp.data;
-      });
+
+      if (this.bundle != null) {
+        apiCached.server_getServerTypeToUserType().then((rsp) => {
+          this.serverTypeUserTypeMapping = rsp.data;
+
+          const newCurrAttrs = {};
+
+          this.linkedUsers.forEach((user) => {
+            api.user_getCurrentAttributes({
+              uuid: user.id,
+              serverbundle_id: this.bundle.id,
+            }).then((rsp2) => {
+              newCurrAttrs[user.id] = rsp2.data;
+              this.currentAttributes = newCurrAttrs;
+            });
+          });
+        });
+      }
     },
     getReturnUrl() {
       return UtilService.data().utils.getFullUrl(this.$route.path);
@@ -163,24 +182,36 @@ export default {
 
       return defDict;
     },
-    unspecificAttributes() {
+    attributes() {
       if (this.attributeDefinitionsDict == null) {
         return {};
       }
 
-      const unspecificAttributes = {};
+      if (this.bundle == null) {
+        const unspecificAttributes = {};
+
+        this.linkedUsers.forEach((user) => {
+          unspecificAttributes[user.id] = {};
+
+          Object.entries(user.attributes).forEach(([key, value]) => {
+            if (this.attributeDefinitionsDict[key].unspecific) {
+              unspecificAttributes[user.id][key] = value;
+            }
+          });
+        });
+
+        return unspecificAttributes;
+      }
+
+      const attributes = {};
 
       this.linkedUsers.forEach((user) => {
-        unspecificAttributes[user.id] = {};
-
-        Object.entries(user.attributes).forEach(([key, value]) => {
-          if (this.attributeDefinitionsDict[key].unspecific) {
-            unspecificAttributes[user.id][key] = value;
-          }
-        });
+        if (Object.hasOwn(this.currentAttributes, user.id)) {
+          attributes[user.id] = this.currentAttributes[user.id];
+        }
       });
 
-      return unspecificAttributes;
+      return attributes;
     },
     userSelf() {
       if (!this.$store.getters.isLoggedIn) {
