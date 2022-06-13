@@ -62,6 +62,9 @@ export default {
     user() {
       this.fetchData();
     },
+    bundle() {
+      this.fetchData();
+    },
   },
   methods: {
     async fetchData() {
