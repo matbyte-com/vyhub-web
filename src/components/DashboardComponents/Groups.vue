@@ -240,15 +240,15 @@ export default {
     async addUserMembership() {
       const api = await openapi;
       const data = this.$refs.addMembershipDialog.getData();
-      data.group_id = data.group.id;
       const userId = this.$route.params.id;
 
       if (new Date(data.begin) > new Date(data.end)) {
         this.$refs.addMembershipDialog.setErrorMessage('Begin date after end date');
       }
-      data.serverbundle.forEach((id) => {
-        data.serverbundle_id = id;
-        api.user_addMembership(userId, data).then(() => {
+
+      data.serverbundle_id.forEach((id) => {
+        const newData = { ...data, serverbundle_id: id };
+        api.user_addMembership(userId, newData).then(() => {
           this.fetchData();
           this.$refs.addMembershipDialog.closeAndReset();
           this.$notify({

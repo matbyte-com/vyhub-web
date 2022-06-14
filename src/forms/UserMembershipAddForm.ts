@@ -6,12 +6,15 @@ const API_URL = Common.apiURL;
 export default {
   type: 'object',
   required: [
-    'serverbundle',
-    'group',
+    'serverbundle_id',
+    'group_id',
     'begin',
   ],
   properties: {
-    group: Common.groupSelectField,
+    group_id: {
+      ...Common.groupSelectField,
+      type: 'string',
+    },
     begin: {
       type: 'string',
       title: i18n.t('begin'),
@@ -24,7 +27,7 @@ export default {
       format: 'date-time',
       description: i18n.t('_dashboard.labels.membershipEndDescription'),
     },
-    serverbundle: {
+    serverbundle_id: {
       ...Common.serverbundleSelectField,
       type: 'array',
       items: {
