@@ -143,7 +143,7 @@ export default {
   methods: {
     async fetchData(queryParams = null) {
       (await openapi).warning_getWarnings({
-        bundle_ids: this.selectedBundles,
+        serverbundle_id: this.selectedBundles,
         user_id: this.$route.query.user_id,
         ...(queryParams != null ? queryParams : this.$refs.warnTable.getQueryParameters()),
       })

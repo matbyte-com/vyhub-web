@@ -68,11 +68,11 @@ export default {
   },
   methods: {
     async fetchData() {
-      let bundle_id = [];
-      if (this.bundle !== null) bundle_id = [this.bundle.id];
-      (await openapi).ban_getBans({ user_id: this.user.id, size: 1, bundle_id })
+      let serverbundle_id = [];
+      if (this.bundle !== null) serverbundle_id = [this.bundle.id];
+      (await openapi).ban_getBans({ user_id: this.user.id, size: 1, serverbundle_id })
         .then((rsp) => { this.banCount = rsp.data.total; });
-      (await openapi).warning_getWarnings({ user_id: this.user.id, size: 1, bundle_id })
+      (await openapi).warning_getWarnings({ user_id: this.user.id, size: 1, serverbundle_id })
         .then((rsp) => { this.warningCount = rsp.data.total; });
     },
   },

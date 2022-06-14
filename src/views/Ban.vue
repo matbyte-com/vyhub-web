@@ -269,7 +269,7 @@ export default {
   methods: {
     async fetchData(queryParams = null) {
       (await openapi).ban_getBans({
-        bundle_id: this.selectedBundles,
+        serverbundle_id: this.selectedBundles,
         user_id: this.$route.query.user_id,
         ...(queryParams != null ? queryParams : this.$refs.banTable.getQueryParameters()),
       })
