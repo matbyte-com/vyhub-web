@@ -6,13 +6,17 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: Build and Push
     steps:
       - name: Checkout vyhub-web
         uses: actions/checkout@v2
         with:
           submodules: 'true'
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Install all dependencies
         run: npm install

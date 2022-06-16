@@ -6,7 +6,10 @@
     <div class="mt-2">
       <DataTable
         :headers="headers"
-        :items="groups" :items-per-page="15" :sort-by="['permission_level']" :sort-desc="[true]">
+        :items="groups"
+        :items-per-page="10"
+        sort-by="permission_level"
+        :sort-desc="true">
         <template v-slot:item.name="{ item }">
           <v-chip :color="item.color ? item.color : '#000000'"
                   :text-color="$vuetify.theme.dark ? 'white' : 'black'"
