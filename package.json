@@ -33,9 +33,12 @@
     "https-browserify": "^1.0.0",
     "humanize-duration-ts": "^2.1.1",
     "iso-639-1": "^2.1.13",
+    "markdown-it": "^13.0.1",
     "minify-css-string": "^1.0.0",
     "mitt": "^2.1.0",
     "openapi-client-axios": "^4.6.1",
+    "prettier": "^2.7.1",
+    "process": "^0.11.10",
     "qs": "^6.9.4",
     "quill-image-resize-vue": "^1.0.4",
     "semver": "^7.3.5",
@@ -55,7 +58,6 @@
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.5.12",
     "vuex": "^3.4.0",
-    "process": "^0.11.10",
     "vuex-persistedstate": "^4.0.0-beta.1"
   },
   "devDependencies": {
