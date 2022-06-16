@@ -1,6 +1,6 @@
 export default {
   userTypeIcons: {
-    CENTRAL: 'mdi-image-filter-center-focus-strong',
+    CENTRAL: '$vyhub',
     STEAM: 'mdi-steam',
     DISCORD: 'mdi-discord',
     MINECRAFT: 'mdi-minecraft',

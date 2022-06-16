@@ -46,7 +46,8 @@
                   <span v-if="acc.activities.length > 0">
                     {{ $t('_dashboard.labels.last_online') }}:
                     {{ $i18n.d(new Date(acc.activities[0].last_online), 'short') }}
-                  </span> <br/>
+                    <br/>
+                  </span>
                   {{ $t('_dashboard.labels.registered_on') }}:
                   {{ $i18n.d(new Date(acc.registered_on), 'short') }}
                   <br/>

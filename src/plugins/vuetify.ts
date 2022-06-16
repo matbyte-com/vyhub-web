@@ -21,6 +21,7 @@ import {
 } from 'vuetify/lib';
 import minifyTheme from 'minify-css-string';
 import '@mdi/font/css/materialdesignicons.css';
+import VyHubIcon from '@/components/Icons/VyHub.vue';
 
 Vue.use(Vuetify);
 
@@ -45,6 +46,11 @@ Vue.component('v-stepper', VStepper);
 export default new Vuetify({
   icons: {
     iconfont: 'mdi',
+    values: {
+      vyhub: {
+        component: VyHubIcon,
+      },
+    },
   },
   theme: {
     options: {
