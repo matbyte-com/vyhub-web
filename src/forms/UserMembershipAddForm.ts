@@ -33,6 +33,7 @@ export default {
       items: {
         type: 'string',
       },
+      default: null,
     },
   },
 };

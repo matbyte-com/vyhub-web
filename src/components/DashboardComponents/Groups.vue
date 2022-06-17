@@ -67,8 +67,8 @@
               <v-expansion-panel-content>
                 <v-data-table
                   :headers="computedHeaders"
-                  :items="memberships"
-                  :items-per-page="5"
+                  :items="computedMemberships"
+                  :items-per-page="10"
                   :item-class="membershipRowFormatter"
                   :sort-by="membershipSortBy"
                   :sort-desc="membershipSortDesc"
@@ -100,6 +100,12 @@
                         mdi-pencil
                       </v-icon>
                     </v-btn>
+                  </template>
+                  <template v-slot:footer.prepend>
+                    <v-checkbox v-model="showPassedMemberships" dense class="mb-2"
+                                hide-details="auto"
+                                :label="$t('_membership.labels.showPastMemberships')">
+                    </v-checkbox>
                   </template>
                 </v-data-table>
               </v-expansion-panel-content>
@@ -165,6 +171,7 @@ export default {
       userMembershipAddForm: UserMembershipAddForm,
       membershipSortBy: 'begin',
       membershipSortDesc: true,
+      showPassedMemberships: false,
     };
   },
   watch: {
@@ -281,6 +288,12 @@ export default {
         return this.groupTableHeaders;
       }
       return this.groupTableHeaders.filter((h) => h.value !== 'actions');
+    },
+    computedMemberships() {
+      if (this.showPassedMemberships === true) {
+        return this.memberships;
+      }
+      return this.memberships.filter((m) => m.active === true || new Date(m.begin) > new Date());
     },
   },
 };
