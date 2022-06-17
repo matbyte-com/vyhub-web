@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle>{{ $t('apiKeys') }}</SettingTitle>
+    <SettingTitle docPath="/guide/api">{{ $t('apiKeys') }}</SettingTitle>
     <v-alert
       icon="mdi-check-circle"
       type="success"
