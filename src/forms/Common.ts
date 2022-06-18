@@ -87,7 +87,7 @@ export default {
   packetsSelectField: {
     type: 'array',
     title: i18n.t('packets'),
-    'x-fromUrl': `${API_URL}/packet/`,
+    'x-fromUrl': `${API_URL}/shop/packet/`,
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
     items: {
