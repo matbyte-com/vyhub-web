@@ -19,21 +19,7 @@ const routes: Array<RouteConfig> = [
     path: '/dashboard',
     name: 'Dashboard',
     meta: { title: i18n.t('_pageTitle.dashboard'), requiresAuth: true },
-    redirect(to) {
-      if (store.getters.isLoggedIn) {
-        return {
-          path: `/user/${store.getters.user.id}`,
-        };
-      }
-      return {
-        path: '/',
-        query: {
-          login: 'true',
-          return_url: UtilService.data().utils.getFullUrl('/dashboard'),
-          ...to.query,
-        },
-      };
-    },
+    component: () => import('../views/Dashboard.vue'),
   },
   {
     path: '/user/:id/:component?',
@@ -174,12 +160,13 @@ VueRouter.prototype.push = function push(location: RawLocation): Promise<Route> 
     }, (error) => {
       // on abort
 
-      // only ignore NavigationDuplicated error
-      if (error.name === 'NavigationDuplicated') {
+      // only ignore NavigationDuplicated and Redirected error
+      if (VueRouter.isNavigationFailure(error, VueRouter.NavigationFailureType.redirected)
+        || VueRouter.isNavigationFailure(error, VueRouter.NavigationFailureType.duplicated)) {
+        // whatever, we are fine if it's aborted due to navigation redirect
         resolve(this.currentRoute);
-      } else {
-        reject(error);
       }
+      reject(error);
     });
   });
 };
@@ -194,12 +181,13 @@ VueRouter.prototype.replace = function replace(location: RawLocation): Promise<R
     }, (error) => {
       // on abort
 
-      // only ignore NavigationDuplicated error
-      if (error.name === 'NavigationDuplicated') {
+      // only ignore NavigationDuplicated and Redirected error
+      if (VueRouter.isNavigationFailure(error, VueRouter.NavigationFailureType.redirected)
+        || VueRouter.isNavigationFailure(error, VueRouter.NavigationFailureType.duplicated)) {
+        // whatever, we are fine if it's aborted due to navigation redirect
         resolve(this.currentRoute);
-      } else {
-        reject(error);
       }
+      reject(error);
     });
   });
 };
@@ -224,27 +212,30 @@ function showLoginDialog(to: Route, from: Route) {
 }
 
 // Handle Route requires Login
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  console.log(to);
+  console.log(from);
   const refreshToken = to.query.refresh_token;
 
   let success = false;
 
   if (refreshToken != null && typeof refreshToken === 'string') {
-    AuthService.login(refreshToken).then(() => {
-      console.log('Successful login!');
+    try {
+      await AuthService.login(refreshToken);
       Vue.prototype.$notify({
         title: i18n.t('_login.messages.loginSuccess'),
         type: 'success',
       });
       success = true;
-    }).catch((e) => {
+      console.log('Successful login!');
+    } catch (e) {
       console.log(e);
       Vue.prototype.$notify({
         title: i18n.t('_login.messages.loginError'),
         type: 'error',
       });
       showLoginDialog(to, from);
-    });
+    }
   } else if ((to.query.login !== 'true')
     && (to.matched.some((record) => record.meta.requiresAuth))) {
     // this route requires auth
@@ -258,11 +249,22 @@ router.beforeEach((to, from, next) => {
     success = true;
   }
 
+  if (to.name === 'Dashboard' && store.getters.isLoggedIn) {
+    next({
+      name: 'UserDashboard', params: { id: store.getters.user.id },
+    });
+  } else if (to.name === 'Dashboard' && !store.getters.isLoggedIn) {
+    showLoginDialog(to, from);
+  }
+
   if (success) {
     const reqProp = to?.meta?.reqProp;
 
     if (reqProp == null || AccessControlService.methods.$checkProp(reqProp)) {
-      next();
+      const query = { ...to.query };
+      delete query.login;
+      delete query.return_url;
+      next({ query });
     } else {
       console.log(`Property ${reqProp} missing.`);
       next({
