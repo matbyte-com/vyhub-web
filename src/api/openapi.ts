@@ -6,7 +6,7 @@ import config from '@/config';
 let headers = {};
 
 if (store.getters.accessToken) {
-  headers = { Authorization: `Bearer ${store.getters.accessToken}` };
+  headers = { common: { Authorization: `Bearer ${store.getters.accessToken}` } };
 }
 
 function api() {
