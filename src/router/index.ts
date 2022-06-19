@@ -213,8 +213,6 @@ function showLoginDialog(to: Route, from: Route) {
 
 // Handle Route requires Login
 router.beforeEach(async (to, from, next) => {
-  console.log(to);
-  console.log(from);
   const refreshToken = to.query.refresh_token;
 
   let success = false;
