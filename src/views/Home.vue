@@ -67,7 +67,7 @@
               </v-btn>
           </v-col>
         </v-row>
-        <transition-group  enter-active-class="animate__animated animate__fadeIn"
+        <transition-group  enter-active-class="animate__animated animate__fadeIn" class="mb-5"
                            leave-active-class="animate__animated animate__fadeOut">
           <v-card v-for="message in getNewsOfTheDay" :key="message.id" class="mt-3 news-of-day">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
@@ -99,7 +99,7 @@
           </v-card>
         </transition-group>
         <!-- Display News -->
-        <v-row v-if="getNews.length !== 0" class="mt-5">
+        <v-row v-if="getNews.length !== 0" class="mt-3">
           <v-col>
             <PageTitle icon="mdi-newspaper-variant-multiple" :title="$t('_home.news')"/>
           </v-col>
