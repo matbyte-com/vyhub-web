@@ -1,109 +1,112 @@
 <template>
-    <div>
-      <div v-if="currencies != null">
-        <v-row>
-          <v-spacer />
-          <v-col xl="2" lg="3" md="6" sm="12">
-            <v-select item-text="name" item-value="code" :items="currencies"
-                      v-model="currentCurrency"
-                      hide-details
-                      outlined
-                      dense
-                      return-object></v-select>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col xl="8" md="12">
-            <v-card v-if="debitStats != null">
-              <v-card-title>
-                <v-icon left>mdi-currency-usd</v-icon>
-                {{ $t('revenue') }}
-                <v-spacer></v-spacer>
-                <v-select hide-details dense outlined v-model="selectedSalesInterval"
-                          :items="intervalItems" item-text="name" item-value="value"></v-select>
-              </v-card-title>
-              <v-card-text>
-                <DebitChart :data="debitStats" :currency="currentCurrency"></DebitChart>
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col lg="4">
-            <v-row>
-              <v-col xl="6" md="4" sm="6">
-                <v-card v-if="purchaseStats != null">
-                  <v-card-title>
-                    <v-icon left>mdi-numeric</v-icon>
-                    {{ $t('_purchases.labels.salesCount') }}
-                  </v-card-title>
-                  <v-card-text>
-                    <div class="text-h4 text-center">
-                      {{ successfulStats.count }}
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col xl="6" md="4" sm="6">
-                <v-card v-if="purchaseStats != null">
-                  <v-card-title>
-                    <v-icon left>mdi-cash-register</v-icon>
-                    {{ $t('_purchases.labels.totalRevenue') }}
-                  </v-card-title>
-                  <v-card-text>
-                    <div class="text-h4 text-center">
-                      {{ successfulStats.amount_total
-                      .toLocaleString(undefined, { minimumFractionDigits: 2 }) }}
-                      {{ currentCurrency.symbol }}
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col xl="6" md="4" sm="6">
-                <v-card v-if="purchaseStats != null">
-                  <v-card-title>
-                    <v-icon left>mdi-calendar-refresh</v-icon>
-                    {{ $t('_purchases.labels.monthlyRevenue') }}
-                  </v-card-title>
-                  <v-card-text>
-                    <div class="text-h4 text-center">
-                      {{ purchaseStats.monthly_revenue
-                      .toLocaleString(undefined, { minimumFractionDigits: 2 }) }}
-                      {{ currentCurrency.symbol }}
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col xl="6" md="4" sm="6">
-                <v-card v-if="purchaseStats != null">
-                  <v-card-title>
-                    <v-icon left>mdi-circle-multiple</v-icon>
-                    {{ $t('_purchases.labels.creditsSpent') }}
-                  </v-card-title>
-                  <v-card-text>
-                    <div class="text-h4 text-center">
-                      {{ successfulStats.credits }}
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-              <v-col xl="12" md="8" sm="12">
-                <v-card v-if="purchaseStats != null">
-                  <v-card-title>
-                    <v-icon left>mdi-earth</v-icon>
-                    {{ $t('_purchases.labels.revenueByCountry') }}
-                  </v-card-title>
-                  <v-card-text>
-                    <PurchaseCountryChart :currency="currentCurrency" :data="purchaseStats.country">
+  <div>
+    <div v-if="currencies != null">
+      <v-row>
+        <v-spacer/>
+        <v-col xl="2" lg="3" md="6" sm="12">
+          <v-select item-text="name" item-value="code" :items="currencies"
+                    v-model="currentCurrency"
+                    hide-details
+                    outlined
+                    dense
+                    return-object></v-select>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col xl="8" lg="7" sm="12">
+          <v-card v-if="debitStats != null">
+            <v-card-title>
+              <v-icon left>mdi-currency-usd</v-icon>
+              {{ $t('revenue') }}
+              <v-spacer></v-spacer>
+              <v-select hide-details dense outlined v-model="selectedSalesInterval"
+                        :items="intervalItems" item-text="name" item-value="value"></v-select>
+            </v-card-title>
+            <v-card-text>
+              <DebitChart :data="debitStats" :currency="currentCurrency"></DebitChart>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col xl="4" lg="5" sm="12">
+          <v-row>
+            <v-col xl="6" lg="12" md="4" sm="6">
+              <v-card v-if="purchaseStats != null">
+                <v-card-title>
+                  <v-icon left>mdi-numeric</v-icon>
+                  {{ $t('_purchases.labels.salesCount') }}
+                </v-card-title>
+                <v-card-text>
+                  <div class="text-h4 text-center">
+                    {{ successfulStats.count }}
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col xl="6" lg="12" md="4" sm="6">
+              <v-card v-if="purchaseStats != null">
+                <v-card-title>
+                  <v-icon left>mdi-cash-register</v-icon>
+                  {{ $t('_purchases.labels.totalRevenue') }}
+                </v-card-title>
+                <v-card-text>
+                  <div class="text-h4 text-center">
+                    {{
+                      successfulStats.amount_total
+                        .toLocaleString(undefined, {minimumFractionDigits: 2})
+                    }}
+                    {{ currentCurrency.symbol }}
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col xl="6" lg="12" md="4" sm="6">
+              <v-card v-if="purchaseStats != null">
+                <v-card-title>
+                  <v-icon left>mdi-calendar-refresh</v-icon>
+                  {{ $t('_purchases.labels.monthlyRevenue') }}
+                </v-card-title>
+                <v-card-text>
+                  <div class="text-h4 text-center">
+                    {{
+                      purchaseStats.monthly_revenue
+                        .toLocaleString(undefined, {minimumFractionDigits: 2})
+                    }}
+                    {{ currentCurrency.symbol }}
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col xl="6" lg="12" md="4" sm="6">
+              <v-card v-if="purchaseStats != null">
+                <v-card-title>
+                  <v-icon left>mdi-circle-multiple</v-icon>
+                  {{ $t('_purchases.labels.creditsSpent') }}
+                </v-card-title>
+                <v-card-text>
+                  <div class="text-h4 text-center">
+                    {{ successfulStats.credits }}
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col xl="12" lg="12" md="8" sm="12">
+              <v-card v-if="purchaseStats != null">
+                <v-card-title>
+                  <v-icon left>mdi-earth</v-icon>
+                  {{ $t('_purchases.labels.revenueByCountry') }}
+                </v-card-title>
+                <v-card-text>
+                  <PurchaseCountryChart :currency="currentCurrency" :data="purchaseStats.country">
 
-                    </PurchaseCountryChart>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-
-      </div>
+                  </PurchaseCountryChart>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
     </div>
+  </div>
 </template>
 
 <script>
