@@ -51,7 +51,7 @@
               </v-col>
             </v-row>
           </template>
-          <template v-slot:footer-right v-if="$checkProp('ban_add')">
+          <template v-slot:footer-right v-if="$checkProp('ban_edit')">
             <v-btn outlined color="success" @click="$refs.banAddDialog.show()">
               <v-icon left>mdi-plus</v-icon>
               <span>{{ $t('_ban.labels.add') }}</span>
