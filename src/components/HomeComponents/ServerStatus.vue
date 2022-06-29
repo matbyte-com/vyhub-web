@@ -25,6 +25,9 @@
                     <span v-if="server.users_current != null">
                     {{ server.users_current }}
                   </span>
+                    <span v-else-if="server.status === 'OFFLINE'">
+                      0
+                    </span>
                   <span v-else>
                     ?
                   </span>
