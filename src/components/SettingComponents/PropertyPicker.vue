@@ -1,6 +1,6 @@
 <template>
   <div v-if="allProperties">
-    {{ label }}
+    <span class="subtitle-1">{{ label }}</span>
     <v-expansion-panels class="mt-1">
       <v-expansion-panel v-for="(category, index) in allProperties" :key="index">
         <v-expansion-panel-header>

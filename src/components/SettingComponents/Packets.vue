@@ -64,7 +64,11 @@
       :submitText="$t('add')"
       @submit="addPacket"
       :max-width="600"
-      :title="$t('_packet.labels.add')"/>
+      :title="$t('_packet.labels.add')">
+      <template v-slot:custom-editor="context">
+        <EditorForForm v-bind="context"/>
+      </template>
+    </DialogForm>
     <DialogForm
       ref="editPacketDialog"
       :form-schema="packetSchema"
@@ -72,7 +76,11 @@
       :submitText="$t('edit')"
       @submit="editPacket"
       :max-width="600"
-      :title="$t('_packet.labels.edit')"/>
+      :title="$t('_packet.labels.edit')">
+      <template v-slot:custom-editor="context">
+        <EditorForForm v-bind="context"/>
+      </template>
+    </DialogForm>
     <DeleteConfirmationDialog
       ref="deletePacketDialog"
       @submit="deletePacket"/>
@@ -87,11 +95,16 @@ import DataTable from '@/components/DataTable.vue';
 import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
+import EditorForForm from '@/components/EditorForForm.vue';
 
 export default {
   name: 'Packets',
   components: {
-    DeleteConfirmationDialog, SettingTitle, DataTable, DialogForm,
+    EditorForForm,
+    DeleteConfirmationDialog,
+    SettingTitle,
+    DataTable,
+    DialogForm,
   },
   data() {
     return {

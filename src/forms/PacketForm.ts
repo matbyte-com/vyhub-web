@@ -44,7 +44,7 @@ export default {
         description: {
           type: 'string',
           title: i18n.t('description'),
-          'x-display': 'textarea',
+          'x-display': 'custom-editor',
         },
         image_url: {
           ...Common.imageURLField,

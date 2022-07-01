@@ -49,9 +49,8 @@
                 {{ $t('description') }}
               </v-card-title>
               <v-card-text>
-                <div class="body-2">
-                  {{ packet.description }}
-                </div>
+                <span v-html="packet.description" class="ql-editor">
+                </span>
               </v-card-text>
             </v-card>
           </v-col>
