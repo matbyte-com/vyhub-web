@@ -18,7 +18,7 @@ export default {
     },
     image: {
       type: 'string',
-      title: i18n.t('_theme.backgroundUrl'),
+      title: i18n.t('_theme.backgroundImageURL'),
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
@@ -28,7 +28,7 @@ export default {
     background: common.colorPicker('_theme.backgroundColor', '_theme.backgroundColorDescription'),
     logo: {
       type: 'string',
-      title: i18n.t('_theme.logoUrl'),
+      title: i18n.t('_theme.logoURL'),
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
@@ -55,7 +55,7 @@ export default {
     },
     favicon: {
       type: 'string',
-      title: i18n.t('_theme.favicon'),
+      title: i18n.t('_theme.faviconURL'),
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
