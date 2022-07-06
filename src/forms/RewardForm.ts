@@ -10,10 +10,10 @@ const on_event_full = [
     const: 'CONNECT',
     title: i18n.t('_reward.labels._events.connect'),
   },
-  {
+  /* {
     const: 'DISCONNECT',
     title: i18n.t('_reward.labels._events.disconnect'),
-  },
+  }, */
   {
     const: 'SPAWN',
     title: i18n.t('_reward.labels._events.spawn'),
