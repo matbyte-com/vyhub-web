@@ -85,7 +85,7 @@ export default {
     async fetchData() {
       const userId = this.$route.params.id;
       // check if there is a user with the given id
-      (await openapi).user_getData(userId).then((rsp) => {
+      (await openapi).user_getUser(userId).then((rsp) => {
         this.user = rsp.data;
         document.title = `${i18n.t('_pageTitle.dashboard')} ${this.user.username}`;
         if (this.user.type === 'CENTRAL') {

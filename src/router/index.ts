@@ -19,12 +19,18 @@ const routes: Array<RouteConfig> = [
     path: '/dashboard',
     name: 'Dashboard',
     meta: { title: i18n.t('_pageTitle.dashboard'), requiresAuth: true },
-    component: () => import('../views/Dashboard.vue'),
+    component: () => import('../views/Redirect/Dashboard.vue'),
   },
   {
     path: '/user/:id/:component?',
     name: 'UserDashboard',
     component: () => import('../views/Dashboard.vue'),
+    meta: { requiresAuth: false },
+  },
+  {
+    path: '/profile/:type/:id',
+    name: 'UserProfile',
+    component: () => import('../views/Redirect/UserProfile.vue'),
     meta: { requiresAuth: false },
   },
   {
@@ -247,13 +253,13 @@ router.beforeEach(async (to, from, next) => {
     success = true;
   }
 
-  if (to.name === 'Dashboard' && store.getters.isLoggedIn) {
+  /* if (to.name === 'Dashboard' && store.getters.isLoggedIn) {
     next({
       name: 'UserDashboard', params: { id: store.getters.user.id },
     });
   } else if (to.name === 'Dashboard' && !store.getters.isLoggedIn) {
     showLoginDialog(to, from);
-  }
+  } */
 
   if (success) {
     const reqProp = to?.meta?.reqProp;

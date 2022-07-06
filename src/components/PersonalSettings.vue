@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     async refreshUser(fromChange = true) {
-      (await openapi).user_getData(this.user.id).then((rsp) => {
+      (await openapi).user_getUser(this.user.id).then((rsp) => {
         this.userCopy = rsp.data;
       });
 
