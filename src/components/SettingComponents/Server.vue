@@ -12,7 +12,7 @@
               :items="bundles"
               :showSearch="true">
               <template v-slot:header>
-                <SettingTitle :divider="false">
+                <SettingTitle :divider="false" doc-path="/guide/serverbundle">
                   {{ $t('serverbundle') }}
                 </SettingTitle>
               </template>
@@ -66,7 +66,7 @@
               :showSearch="true"
             >
               <template v-slot:header>
-                <SettingTitle :divider="false">
+                <SettingTitle :divider="false" doc-path="/guide/server">
                   {{ $t('_settings.gameserver') }}
                 </SettingTitle>
               </template>
