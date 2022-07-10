@@ -110,7 +110,7 @@ export default {
           title: this.$t('warnings'),
         },
         {
-          name: 'serverbundles',
+          name: 'server',
           icon: 'mdi-server',
           component: 'Server',
           reqProp: 'server_show',
