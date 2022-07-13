@@ -38,7 +38,15 @@
       icon="mdi-star-shooting"
       :submitText="$t('create')"
       @submit="createReward"
-      :title="$t('_reward.labels.create')"/>
+      :title="$t('_reward.labels.create')">
+      <template slot="allOf-0.serverbundle-after">
+        <b>{{ $t('_reward.labels.checkForReplacements') }}:</b>
+        <br/>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/gmod/" class="mr-2"><v-btn small>GMOD</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/minecraft/" class="mr-2"><v-btn small>Minecraft</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/discord/" class="mr-2"><v-btn small>Discord</v-btn></a>
+      </template>
+    </DialogForm>
     <DialogForm
       ref="editRewardDialog"
       :form-schema="rewardSchema"
