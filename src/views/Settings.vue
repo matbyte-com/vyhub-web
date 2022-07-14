@@ -117,6 +117,13 @@ export default {
           title: this.$t('servers'),
         },
         {
+          name: 'adverts',
+          icon: 'mdi-bullhorn-variant',
+          component: 'Adverts',
+          reqProp: 'advert_show',
+          title: this.$t('adverts'),
+        },
+        {
           name: 'requirements',
           icon: 'mdi-greater-than-or-equal',
           component: 'Requirements',
