@@ -101,10 +101,28 @@ export default {
             throw err;
           });
         },
+        setIntervalX(callback: CallableFunction, delay: number, repetitions: number) {
+          let x = 0;
+          const intervalID = window.setInterval(() => {
+            callback();
+
+            x += 1;
+
+            if (x === repetitions) {
+              window.clearInterval(intervalID);
+            }
+          }, delay);
+
+          return intervalID;
+        },
         formatErrorMessage(err: any) {
           let errDet = null;
 
-          const returnObject: { title: string, text: string, type: string } = { title: '', text: '', type: '' };
+          const returnObject: { title: string, text: string, type: string } = {
+            title: '',
+            text: '',
+            type: '',
+          };
 
           if (err.response && err.response.data && err.response.data.detail) {
             errDet = err.response.data.detail;
@@ -114,13 +132,16 @@ export default {
             errDet = {
               code: 'unauthorized',
               msg: '',
-              detail: { },
+              detail: {},
             };
           }
 
           if (errDet != null && i18n.te(`_errors.${errDet.code}`)) {
             returnObject.title = String(i18n.t('error'));
-            returnObject.text = String(i18n.t(`_errors.${errDet.code}`, { ...errDet.detail, msg: errDet.msg }));
+            returnObject.text = String(i18n.t(`_errors.${errDet.code}`, {
+              ...errDet.detail,
+              msg: errDet.msg,
+            }));
             returnObject.type = 'error';
           } else if (err.response) {
             let msg = '';

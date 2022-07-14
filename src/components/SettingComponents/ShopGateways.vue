@@ -80,6 +80,8 @@
     </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteGatewayDialog"
+      :text="$t('_gateway.messages.deleteWarning')"
+      :countdown="true"
       @submit="deleteGateway"/>
   </div>
 </template>

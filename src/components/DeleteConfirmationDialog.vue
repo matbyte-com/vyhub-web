@@ -1,5 +1,6 @@
 <template>
   <ConfirmationDialog btn-icon="mdi-delete" :btn-text="$t('delete')" :text="text" @submit="submit"
+                      :countdown="countdown"
     ref="deleteConfirmationDialog"
   >
     <template v-for="(index, name) in $slots" v-slot:[name]>
@@ -16,6 +17,10 @@ export default {
   components: { ConfirmationDialog },
   props: {
     text: String,
+    countdown: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     cancel() {

@@ -14,12 +14,18 @@
     <template v-slot:actions>
       <v-col>
         <v-btn text
+               :disabled="disabled"
                color="error"
                type="submit"
                :loading="loading"
                @click="submit">
           <v-icon left>{{ btnIcon }}</v-icon>
-          {{ btnText }}
+          <span v-if="disabled">
+            ({{ counter }})
+          </span>
+          <span v-else>
+            {{ btnText }}
+          </span>
         </v-btn>
       </v-col>
       <v-spacer></v-spacer>
@@ -47,6 +53,8 @@ export default {
       errorMessage: null,
       item: null,
       loading: false,
+      counter: 5,
+      intervalID: null,
     };
   },
   props: {
@@ -64,6 +72,10 @@ export default {
     title: {
       type: String,
       default: i18n.t('areYouSure'),
+    },
+    countdown: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
@@ -84,6 +96,18 @@ export default {
       }
     },
     show(item) {
+      if (this.countdown) {
+        if (this.intervalID != null) {
+          window.clearInterval(this.intervalID);
+          this.intervalID = null;
+        }
+
+        this.counter = 5;
+        this.intervalID = this.utils.setIntervalX(() => {
+          this.counter -= 1;
+        }, 1000, 5);
+      }
+
       this.item = item;
       this.dialog = true;
       this.loading = false;
@@ -95,6 +119,11 @@ export default {
     setError(err) {
       this.errorMessage = this.utils.formatErrorMessage(err).text;
       this.loading = false;
+    },
+  },
+  computed: {
+    disabled() {
+      return this.countdown && this.counter > 0;
     },
   },
 };

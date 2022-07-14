@@ -82,6 +82,8 @@
       </template>
     </DialogForm>
     <DeleteConfirmationDialog
+      :countdown="true"
+      :text="$t('_packet.messages.deleteWarning')"
       ref="deletePacketDialog"
       @submit="deletePacket"/>
   </div>
