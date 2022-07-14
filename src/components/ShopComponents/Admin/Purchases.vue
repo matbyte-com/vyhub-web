@@ -259,7 +259,7 @@
           </div>
         </template>
         <template v-slot:actions>
-          <div v-if="currentPurchase != null">
+          <div v-if="currentPurchase != null && $checkProp('purchase_edit')">
             <v-btn text color="green" @click="checkPurchase(currentPurchase)">
               <v-icon left>mdi-credit-card-refresh</v-icon>
               {{ $t('refresh') }}
@@ -284,6 +284,10 @@
               <v-icon left>mdi-cash-refund</v-icon>
               {{ $t('_purchases.labels.refund') }}
             </v-btn>
+            <v-btn text color="error" @click="$refs.confirmDeleteDialog.show(currentPurchase)">
+              <v-icon left>mdi-delete</v-icon>
+              {{ $t('delete') }}
+            </v-btn>
           </div>
         </template>
       </Dialog>
@@ -295,6 +299,15 @@
         ref="confirmRefundDialog"
       >
       </ConfirmationDialog>
+      <DeleteConfirmationDialog
+        :text="$t('_purchases.messages.deleteConfirm')"
+        btn-icon="mdi-delete"
+        :btn-text="$t('delete')"
+        @submit="deletePurchase"
+        :countdown="true"
+        ref="confirmDeleteDialog"
+      >
+      </DeleteConfirmationDialog>
       <ConfirmationDialog
         :text="$t('_purchases.messages.cancelSubscriptionConfirm')"
         btn-icon="mdi-cancel"
@@ -314,10 +327,12 @@ import Dialog from '../../Dialog.vue';
 import PurchaseStatusChip from '../PurchaseStatusChip.vue';
 import ConfirmationDialog from '../../ConfirmationDialog.vue';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
   name: 'AllPurchases',
   components: {
+    DeleteConfirmationDialog,
     PaginatedDataTable,
     ConfirmationDialog,
     PurchaseStatusChip,
@@ -397,6 +412,20 @@ export default {
         }).catch((err) => {
           console.log(err);
           this.utils.notifyUnexpectedError(err.response.data);
+        });
+    },
+    async deletePurchase(purchase) {
+      const api = await openapi;
+
+      api.shop_deletePurchase({ uuid: purchase.id })
+        .then(() => {
+          this.$notify({
+            title: this.$t('_purchases.messages.deleteSuccess'),
+            type: 'success',
+          });
+          this.fetchData();
+          this.$refs.purchaseDetailDialog.close();
+          this.$refs.confirmDeleteDialog.closeAndReset();
         });
     },
     async unrevokePurchase(purchase) {
