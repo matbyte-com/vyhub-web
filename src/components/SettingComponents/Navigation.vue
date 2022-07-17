@@ -60,13 +60,18 @@
               dense
             >{{ $t('_settings.contentSanitizationWarning') }}
             </v-alert>
-            <v-expansion-panels flat>
+            <v-expansion-panels flat v-model="expansionPanels">
               <v-expansion-panel>
                 <v-expansion-panel-header>
                   <v-row>
                     <v-badge :value="htmlInput" inline dot class="float-left">
                       {{ $t('_settings.editor') }}
                     </v-badge>
+                    <v-spacer />
+                    <v-btn icon @click="htmlInput = ''" class="mr-2" color="error"
+                           v-if="expansionPanels === 0">
+                      <v-icon>mdi-format-clear</v-icon>
+                    </v-btn>
                   </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -79,6 +84,11 @@
                     <v-badge :value="rawHtmlInput" inline dot class="float-left">
                       {{ $t('_settings.rawHtml') }}
                     </v-badge>
+                    <v-spacer />
+                    <v-btn icon @click="rawHtmlInput = ''" class="mr-2" color="error"
+                           v-if="expansionPanels === 1">
+                      <v-icon>mdi-format-clear</v-icon>
+                    </v-btn>
                   </v-row>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -86,6 +96,7 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </v-expansion-panels>
+            {{ expansionPanels }}
           </div>
         </v-carousel-transition>
       </template>
@@ -213,6 +224,7 @@ export default {
       rawHtmlInput: '',
       isDefaultLink: false, // Boolean to differentiate between default links or user created ones
       updateLinkEnabled: false,
+      expansionPanels: null,
       links: [
         {
           title: 'News',
