@@ -69,7 +69,7 @@
                     </v-badge>
                     <v-spacer />
                     <v-btn icon @click="htmlInput = ''" class="mr-2" color="error"
-                           v-if="expansionPanels === 0">
+                           v-if="expansionPanels === 0" :disabled="htmlInput === ''">
                       <v-icon>mdi-format-clear</v-icon>
                     </v-btn>
                   </v-row>
@@ -86,7 +86,7 @@
                     </v-badge>
                     <v-spacer />
                     <v-btn icon @click="rawHtmlInput = ''" class="mr-2" color="error"
-                           v-if="expansionPanels === 1">
+                           v-if="expansionPanels === 1" :disabled="rawHtmlInput === ''">
                       <v-icon>mdi-format-clear</v-icon>
                     </v-btn>
                   </v-row>
