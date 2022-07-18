@@ -116,7 +116,7 @@ export default {
       // TODO Add New Servers here for proper functioning of the connection link
       switch (server.type) {
         case 'GMOD':
-          return `steam://${server.address}:${server.port}`;
+          return `steam://connect/${server.address}:${server.port}`;
         case 'DISCORD':
           return server.extra?.inviteLink;
         default:
