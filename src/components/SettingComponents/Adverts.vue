@@ -10,7 +10,7 @@
         <v-expansion-panels
           v-for="advert in adverts"
           :key="advert.id">
-          <v-expansion-panel class="ma-4"
+          <v-expansion-panel class="mt-4"
                              :class="!advert.enabled ? 'text--disabled' : ''"
                              style="border-style: solid; border-width: 1px"
                              :style="{ 'border-color': advert.color }">
@@ -54,37 +54,39 @@
           </v-expansion-panel>
         </v-expansion-panels>
       </draggable>
-    <v-divider />
-    <v-col cols="12" md="6">
-      <v-btn @click="$refs.addAdvertDialog.show()" color="success" outlined>
-        <v-icon left>mdi-plus</v-icon>
-        <span>{{ $t('_advert.add') }}</span>
-      </v-btn>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs}">
-          <v-btn outlined color="primary" class="ml-5" v-on="on" v-bind="attrs"
-                 style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-                 @click="updateLinkOrder" :disabled="!updateAdvertEnabled">
-            <v-icon>mdi-check</v-icon>
-          </v-btn>
-        </template>
-        <span>
-            {{ $t('_advert.update') }}
-          </span>
-      </v-tooltip>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs}">
-          <v-btn outlined color="primary" v-on="on" v-bind="attrs"
-                 style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-                 @click="fetchData" :disabled="!updateAdvertEnabled">
-            <v-icon>mdi-backspace-outline</v-icon>
-          </v-btn>
-        </template>
-        <span>
-            {{ $t('_advert.reset') }}
-          </span>
-      </v-tooltip>
-    </v-col>
+    <v-divider class="my-3" />
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-btn @click="$refs.addAdvertDialog.show()" color="success" outlined>
+          <v-icon left>mdi-plus</v-icon>
+          <span>{{ $t('_advert.add') }}</span>
+        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs}">
+            <v-btn outlined color="primary" class="ml-5" v-on="on" v-bind="attrs"
+                   style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+                   @click="updateLinkOrder" :disabled="!updateAdvertEnabled">
+              <v-icon>mdi-check</v-icon>
+            </v-btn>
+          </template>
+          <span>
+              {{ $t('_advert.update') }}
+            </span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs}">
+            <v-btn outlined color="primary" v-on="on" v-bind="attrs"
+                   style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                   @click="fetchData" :disabled="!updateAdvertEnabled">
+              <v-icon>mdi-backspace-outline</v-icon>
+            </v-btn>
+          </template>
+          <span>
+              {{ $t('_advert.reset') }}
+            </span>
+        </v-tooltip>
+      </v-col>
+    </v-row>
     <DialogForm :title="$t('_advert.addAdvertDialog')" icon="mdi-chat-question"
                 ref="addAdvertDialog"
                 :form-schema="advertAddSchema"
