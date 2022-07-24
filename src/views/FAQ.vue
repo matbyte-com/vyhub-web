@@ -115,6 +115,7 @@ export default {
     async fetchData() {
       (await openapi).faq_getFaq().then((rsp) => {
         this.questions = rsp.data;
+        this.updateFaqEnabled = false;
       });
     },
     async addQuestion() {
