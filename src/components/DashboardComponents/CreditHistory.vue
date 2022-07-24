@@ -42,6 +42,12 @@ export default {
   beforeMount() {
     this.fetchData();
   },
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       account: null,
@@ -57,7 +63,7 @@ export default {
   methods: {
     async fetchData() {
       if (!this.$store.getters.user) return;
-      const id = this.$store.getters.user.credit_account_id;
+      const id = this.user.credit_account_id;
       (await openapi).finance_getAccount(id).then((rsp) => {
         this.account = rsp.data;
       });

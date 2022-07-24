@@ -162,7 +162,7 @@
     </ConfirmationDialog>
     <Dialog ref="creditHistoryDialog" :title="$t('_dashboard.labels.credits')"
             icon="mdi-circle-multiple" :max-width="1000">
-      <CreditHistory />
+      <CreditHistory :user="user"/>
     </Dialog>
   </div>
 </template>
