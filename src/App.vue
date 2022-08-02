@@ -252,4 +252,9 @@ export default Vue.extend({
 
 .theme--dark
   @import "assets/css/dark.sass"
+
+.img-fluid
+  max-width: 100%
+  height: auto
+
 </style>

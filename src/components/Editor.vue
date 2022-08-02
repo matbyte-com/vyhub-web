@@ -9,6 +9,10 @@
 import { VueEditor, Quill } from 'vue2-editor';
 import ImageResize from 'quill-image-resize-vue';
 
+const Image = Quill.import('formats/image');
+Image.className = 'img-fluid';
+Quill.register(Image, true);
+
 Quill.register('modules/imageResize', ImageResize);
 
 export default {
