@@ -7,13 +7,13 @@
             <v-icon color="primary" x-large v-if="icon != null" class="mr-1">{{ icon }}</v-icon>
             <v-sheet vertical color="primary" width="5" :height="dividerHeight" class="">
             </v-sheet>
-            <span class="ml-4">
+            <div class="ml-4">
               <h1 class="text-h4">{{ title }}<slot></slot></h1>
               <div class="subtitle-1" v-if="subtitle != null || showSubtitle">
                 {{ subtitle }}
                 <slot name="subtitle"></slot>
               </div>
-            </span>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>

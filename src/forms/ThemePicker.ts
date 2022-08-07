@@ -7,6 +7,7 @@ export default {
     'dark',
   ],
   properties: {
+    header: common.colorPicker('_theme.headerColor'),
     primary: common.colorPicker('_theme.primaryColor'),
     success: common.colorPicker('_theme.successColor'),
     warning: common.colorPicker('_theme.warningColor'),

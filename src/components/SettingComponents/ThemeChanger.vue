@@ -58,6 +58,8 @@ export default {
           title: this.$t('_theme.messages.editedTheme'),
           type: 'success',
         });
+        // Emit second time for proper updating of header / footer colors
+        emitter.emit('themeUpdated');
       }).catch((err) => {
         this.$refs.themePicker.setError(err);
       });

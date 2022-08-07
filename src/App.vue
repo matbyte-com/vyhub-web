@@ -160,11 +160,13 @@ export default Vue.extend({
           this.$vuetify.theme.currentTheme.success = theme.success;
           this.$vuetify.theme.currentTheme.warning = theme.warning;
           this.$vuetify.theme.currentTheme.error = theme.error;
+          this.$vuetify.theme.currentTheme.header = theme.header;
           this.showInformationFab = theme.show_information_fab;
           cachedTheme.primary = theme.primary;
           cachedTheme.success = theme.success;
           cachedTheme.warning = theme.warning;
           cachedTheme.error = theme.error;
+          cachedTheme.header = theme.header;
           cachedTheme.logo = theme.logo;
           cachedTheme.show_community_name = theme.show_community_name;
           cachedTheme.logo_width = theme.logo_width;
@@ -196,6 +198,7 @@ export default Vue.extend({
         this.$vuetify.theme.currentTheme.success = obj.success;
         this.$vuetify.theme.currentTheme.warning = obj.warning;
         this.$vuetify.theme.currentTheme.error = obj.error;
+        this.$vuetify.theme.currentTheme.header = obj.header;
         this.showInformationFab = obj.show_information_fab;
       }
     },

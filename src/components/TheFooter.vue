@@ -1,19 +1,19 @@
 <template>
-  <v-footer color="primary lighten-1" padless>
+  <v-footer color="header lighten-1" padless>
     <v-row justify="center" no-gutters>
       <v-btn v-for="(link, index) in links" :key="index" color="white"
              text class="no-active my-2" :to="link.link"
              >
         {{ link.title }}
       </v-btn>
-      <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
+      <v-col class="header lighten-2 py-4 text-center white--text" cols="12">
         <strong>
           {{ new Date().getFullYear() }}
           <span v-if="$store.getters.generalConfig != null">
             — {{ $store.getters.generalConfig.community_name }}
           </span>
           —
-          <a class="text-decoration-none white--text" href="http://vyhub.net">
+          <a class="text-decoration-none white--text" href="https://vyhub.net">
             Powered by VyHub
           </a>
           —
