@@ -132,6 +132,7 @@ export default Vue.extend({
     async getGeneralConfig() {
       await this.utils.getGeneralConfig();
       this.setLocale();
+      this.setDescriptionMetaTag();
     },
     async setTheme() {
       (await openapi).general_getTheme().then((rsp) => {
@@ -225,6 +226,11 @@ export default Vue.extend({
           });
           return Promise.reject(err);
         });
+    },
+    setDescriptionMetaTag() {
+      const description = this.$store.getters.generalConfig.community_description;
+      document.querySelector('meta[name="description"]')
+        .setAttribute('content', description);
     },
   },
   computed: {

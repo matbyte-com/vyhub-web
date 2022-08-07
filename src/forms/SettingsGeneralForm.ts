@@ -18,6 +18,12 @@ export default {
       type: 'string',
       title: i18n.t('communityName'),
     },
+    community_description: {
+      type: 'string',
+      'x-display': 'textarea',
+      title: i18n.t('_settings.communityDescription'),
+      description: i18n.t('_settings.communityDescriptionDescr'),
+    },
     enable_ticket: {
       type: 'boolean',
       title: i18n.t('_settings.showTicket'),
