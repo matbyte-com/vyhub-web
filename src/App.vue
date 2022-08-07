@@ -260,4 +260,13 @@ export default Vue.extend({
   max-width: 100%
   height: auto
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scroll-x::-webkit-scrollbar
+  display: none
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scroll-x
+  -ms-overflow-style: none /* IE and Edge */
+  scrollbar-width: none  /* Firefox */
+
 </style>

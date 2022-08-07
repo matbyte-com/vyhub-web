@@ -16,12 +16,14 @@
       <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
     <!-- navigation links-->
-    <NavigationLink
-      class="hidden-sm-and-down"
-      :link="link"
-      v-for="(link, index) in allowedLinks"
-      :key="index">
-    </NavigationLink>
+    <div style="overflow-x: auto;" class="d-flex hide-scroll-x">
+      <NavigationLink
+        class="hidden-sm-and-down"
+        :link="link"
+        v-for="(link, index) in allowedLinks"
+        :key="index">
+      </NavigationLink>
+    </div>
 
     <v-spacer></v-spacer>
     <Search class="mr-2"/>
