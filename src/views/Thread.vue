@@ -64,6 +64,11 @@
       <v-row>
         <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
         <v-col class="text-right ml-sm-5 mr-sm-5">
+          <v-btn v-if="thread.ban" color="primary" :to="{ name: 'Bans',
+           params: {banId: thread.ban.id} }" class="mr-3">
+            <v-icon left>mdi-eye</v-icon>
+            {{ $t('_ticket.showBan') }}
+          </v-btn>
           <v-btn v-if="$checkProp('ticket_edit')"
                  :color="thread.status === 'CLOSED' ? 'success' : 'error'"
                  @click="toggleStatus">

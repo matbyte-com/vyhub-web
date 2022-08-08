@@ -5,7 +5,7 @@
         <v-alert
           type="error"
         >
-          {{ errorMessage }}
+          {{ errorMsg }}
         </v-alert>
       </v-col>
     </v-row>
@@ -73,6 +73,10 @@ export default {
     },
     setErrorMessage(msg) {
       this.errorMsg = msg;
+      this.loading = false;
+    },
+    setError(err) {
+      this.errorMsg = this.utils.formatErrorMessage(err);
       this.loading = false;
     },
   },

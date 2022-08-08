@@ -157,6 +157,11 @@
         </div>
       </template>
       <template v-slot:actions>
+        <v-btn v-if="currentBan != null && $checkLinked($store.getters.user, currentBan.user)"
+               text color="primary" @click="showProtestBanDialog">
+          <v-icon left>mdi-fencing</v-icon>
+          {{ $t('_ban.labels.protestBan') }}
+        </v-btn>
         <div v-if="currentBan != null && $checkProp('ban_edit')">
           <v-btn text color="primary" @click="showEditDialog">
             <v-icon left>mdi-pencil</v-icon>
@@ -187,6 +192,8 @@
     <DeleteConfirmationDialog
       ref="deleteBanDialog"
       @submit="deleteBan"/>
+    <ThreadAddDialog ref="protestBanDialog" :dialog-title="$t('_ban.labels.protestBan')"
+                     :hide-title-input="true" @submit="protestBan"/>
   </div>
 </template>
 
@@ -202,10 +209,12 @@ import Dialog from '../components/Dialog.vue';
 import openapi from '../api/openapi';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import openapiCached from '@/api/openapiCached';
+import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 
 export default {
   name: 'Ban.vue',
   components: {
+    ThreadAddDialog,
     PaginatedDataTable,
     Dialog,
     LogTable,
@@ -396,6 +405,25 @@ export default {
     },
     showDetails(item) {
       this.$router.push({ name: 'Bans', params: { banId: item.id } });
+    },
+    showProtestBanDialog() {
+      this.$refs.protestBanDialog.show(this.currentBan);
+    },
+    async protestBan() {
+      const data = this.$refs.protestBanDialog.getData();
+      data.category = 'TICKET';
+      data.ban_id = this.currentBan.id;
+      data.title = `${this.$t('_ticket.banProtest')}: ${this.currentBan.user.username}`;
+      (await openapi).forum_newThread(null, data).then(() => {
+        this.$refs.protestBanDialog.close();
+        this.fetchData();
+        this.$notify({
+          title: this.$t('_ticket.messages.addedThread'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.protestBanDialog.setError(err);
+      });
     },
   },
 };
