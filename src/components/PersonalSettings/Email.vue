@@ -64,12 +64,6 @@ export default {
             type: 'success',
           });
           this.$emit('user-changed');
-        }).catch((err) => {
-          this.$notify({
-            title: `${this.$t('unexpectedError')} ${err.response.status}`,
-            text: err.response.data.detail,
-            type: 'error',
-          });
         });
     },
   },

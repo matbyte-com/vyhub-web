@@ -40,8 +40,6 @@ export default {
             type: 'success',
           });
           this.$emit('user-changed');
-        }).catch((err) => {
-          this.utils.notifyUnexpectedError(err.response.data);
         });
     },
   },
