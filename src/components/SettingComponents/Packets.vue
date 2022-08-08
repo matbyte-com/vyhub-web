@@ -52,7 +52,7 @@
     </DataTable>
     <v-divider class="mb-3"/>
     <div>
-      <v-btn outlined color="success" @click="$refs.addPacketDialog.show()">
+      <v-btn outlined color="success" @click="showAddPacketDialog">
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t('_packet.labels.add') }}</span>
       </v-btn>
@@ -98,6 +98,7 @@ import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import EditorForForm from '@/components/EditorForForm.vue';
+import ShopService from '@/services/ShopService';
 
 export default {
   name: 'Packets',
@@ -174,6 +175,13 @@ export default {
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
+      });
+    },
+    async showAddPacketDialog() {
+      this.$refs.addPacketDialog.show();
+
+      ShopService.getConfig().then((cfg) => {
+        this.$refs.addPacketDialog.setData({ currency_code: cfg.default_currency });
       });
     },
     async addPacket() {

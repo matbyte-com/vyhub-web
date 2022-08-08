@@ -3,6 +3,7 @@ import store from '@/store';
 import router from '@/router';
 import openapi from '@/api/openapi';
 import UtilService from '@/services/UtilService';
+import openapiCached from '@/api/openapiCached';
 
 export default {
   async refreshCartPacketCount() {
@@ -62,5 +63,13 @@ export default {
     }
 
     throw new Error('Payment action failed.');
+  },
+
+  async getConfig() {
+    const apiCached = await openapiCached;
+
+    const rsp = await apiCached.shop_getConfig();
+
+    return rsp.data;
   },
 };
