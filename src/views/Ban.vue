@@ -149,6 +149,25 @@
             </template>
           </v-simple-table>
           <br/>
+          <div style="width: 100%" v-if="currentBan.protests && ($checkProp('ban_edit') ||
+           $checkLinked($store.getters.user, currentBan.user))">
+            <h6 class="text-h6 mb-2  mt-3">{{ $t('_ban.labels.banProtests') }}</h6>
+            <v-simple-table>
+              <tbody>
+                <tr v-for="protest in currentBan.protests"
+                    :key="protest.id" style="cursor: pointer;"
+                    @click="$router.push({ name: 'Thread', params: { id: protest.id } })">
+                  <td>{{ utils.formatDate(protest.created) }}</td>
+                  <td class="text-right text-uppercase">
+                    <v-chip :color="protest.status === 'OPEN' ? 'success' : 'error'">
+                    {{ $t(`_ticket.status.${protest.status.toLowerCase()}`) }}
+                    </v-chip>
+                  </td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+          </div>
+          <br/>
           <div v-if="$checkProp('ban_edit')">
             <h6 class="text-h6 mb-2">{{ $t('log') }}</h6>
             <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
