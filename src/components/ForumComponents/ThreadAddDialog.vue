@@ -76,7 +76,7 @@ export default {
       this.loading = false;
     },
     setError(err) {
-      this.errorMsg = this.utils.formatErrorMessage(err);
+      this.errorMsg = this.utils.formatErrorMessage(err).text;
       this.loading = false;
     },
   },

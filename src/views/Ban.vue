@@ -149,7 +149,8 @@
             </template>
           </v-simple-table>
           <br/>
-          <div style="width: 100%" v-if="currentBan.protests && ($checkProp('ban_edit') ||
+          <div style="width: 100%" v-if="currentBan.protests && currentBan.protests.length > 0
+          && ($checkProp('ban_edit') ||
            $checkLinked($store.getters.user, currentBan.user))">
             <h6 class="text-h6 mb-2  mt-3">{{ $t('_ban.labels.banProtests') }}</h6>
             <v-simple-table>
@@ -176,7 +177,8 @@
         </div>
       </template>
       <template v-slot:actions>
-        <v-btn v-if="currentBan != null && $checkLinked($store.getters.user, currentBan.user)"
+        <v-btn v-if="currentBan != null && $checkLinked($store.getters.user, currentBan.user)
+                     && currentBan.active"
                text color="primary" @click="showProtestBanDialog">
           <v-icon left>mdi-fencing</v-icon>
           {{ $t('_ban.labels.protestBan') }}
