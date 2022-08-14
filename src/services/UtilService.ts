@@ -115,6 +115,9 @@ export default {
 
           return intervalID;
         },
+        textToClipboard(text: string) {
+          navigator.clipboard.writeText(text);
+        },
         formatErrorMessage(err: any) {
           let errDet = null;
 

@@ -98,15 +98,28 @@
       </v-col>
     </v-row>
     <Dialog icon="mdi-key-chain" :title="$t('_serverbundle.labels.apiKeys')" :max-width="500"
-            ref="bundleApiKeysDialog">
+            ref="bundleApiKeysDialog" :with-id="true">
       <v-card class="mt-2" v-if="createdToken != null" color="success">
         <v-card-subtitle>
-          <div class="font-weight-bold">{{ createdToken.access_token }}</div>
+          <div class="subtitle-2">
+            {{ $t('_api.labels.createdKey') }}:
+          </div>
+          <div class="font-weight-bold">
+            <v-text-field
+              @focus="$event.target.select()"
+              append-icon="mdi-content-copy"
+              @click:append="utils.textToClipboard(createdToken.access_token);"
+              readonly :value="createdToken.access_token">
+            </v-text-field>
+          </div>
           <div>
             {{ createdToken.name }}
           </div>
         </v-card-subtitle>
         <v-card-text>
+          <div class="subtitle-2">
+            {{ $t('properties') }}:
+          </div>
           <div>
             {{ createdToken.scope }}
           </div>
@@ -136,6 +149,9 @@
           </span>
         </v-card-subtitle>
         <v-card-text>
+          <div class="subtitle-2">
+            {{ $t('properties') }}:
+          </div>
           <div>
             {{ token.scope }}
           </div>
@@ -417,8 +433,8 @@ export default {
     async revokeToken(token) {
       const api = await openapi;
 
-      api.server_revokeBundleToken(
-        { uuid: token.serverbundle.id, token_id: token.id },
+      api.general_revokeApiToken(
+        { uuid: token.id },
       ).then(() => {
         this.refreshKeys();
       });
@@ -427,11 +443,20 @@ export default {
       const api = await openapi;
 
       const data = this.$refs.createTokenForm.getData();
+      const reqData = {
+        serverbundle_id: this.activeBundle.id,
+        properties: data.properties.concat(['integration_token']),
+        name: data.name,
+      };
 
-      api.server_createBundleToken({ uuid: this.activeBundle.id }, data).then((rsp) => {
+      api.general_createApiToken(null, reqData).then((rsp) => {
         this.createdToken = rsp.data;
+        const { id } = this.$refs.bundleApiKeysDialog;
+        const container = document.querySelector(`#${id}`);
+        container.scrollTop = 0;
       }).catch((err) => {
-        this.$refs.createTokenForm.setError(err);
+        throw err;
+        // this.$refs.createTokenForm.setError(err);
       });
     },
   },

@@ -8,7 +8,7 @@ export default {
       type: 'string',
       title: i18n.t('name'),
     },
-    extra_properties: {
+    properties: {
       ...Common.propertiesSelector,
       title: i18n.t('extraProperties'),
     },
