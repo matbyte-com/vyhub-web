@@ -455,8 +455,7 @@ export default {
         const container = document.querySelector(`#${id}`);
         container.scrollTop = 0;
       }).catch((err) => {
-        throw err;
-        // this.$refs.createTokenForm.setError(err);
+        this.$refs.createTokenForm.setError(err);
       });
     },
   },
