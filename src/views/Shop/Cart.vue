@@ -94,7 +94,7 @@
                 {{ $t('_shop.labels.billingAddress') }}
               </v-card-title>
               <v-card-text class="body-1">
-                <Address v-if="currentAddress != null" :address="currentAddress"></Address>
+                <Address hidden v-if="currentAddress != null" :address="currentAddress"></Address>
                 <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
               </v-card-text>
               <v-card-actions>

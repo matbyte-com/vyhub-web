@@ -45,7 +45,7 @@
                     {{ $t('_shop.labels.billingAddress') }}
                   </v-card-title>
                   <v-card-text class="body-1">
-                    <Address :address="purchase.address"></Address>
+                    <Address hidden :address="purchase.address"></Address>
                   </v-card-text>
                 </v-card>
               </v-col>
