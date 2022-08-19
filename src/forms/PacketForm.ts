@@ -26,6 +26,12 @@ export default {
           title: i18n.t('subtitle'),
         },
         category: Common.packetCategorySelectField,
+        subcategory: {
+          'x-display': 'combobox',
+          type: 'string',
+          title: i18n.t('subcategory'),
+          'x-fromUrl': `${API_URL}/packet/category/{category.id}/subcategory`,
+        },
         enabled: {
           type: 'boolean',
           title: i18n.t('enabled'),
