@@ -87,7 +87,7 @@
                 </v-btn>
               </template>
               <template v-slot:footer-right>
-                <v-tooltip bottom>
+                <v-tooltip bottom :disabled="bundles !== null && bundles.length !== 0">
                   <template v-slot:activator="{ on, attrs }">
                     <div v-bind="attrs"
                          v-on="on">
