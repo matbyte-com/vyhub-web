@@ -10,13 +10,8 @@
       </v-btn>
     </div>
     <v-card>
-      <v-tabs
-        v-model="tab"
-      >
-        <v-tab
-          v-for="bundle in serverbundles"
-          :key="bundle.id"
-        >
+      <v-tabs v-model="tab">
+        <v-tab v-for="bundle in serverbundles" :key="bundle.id">
           <v-icon left :color="bundle.color">
             {{ bundle.icon }}
           </v-icon>
@@ -27,23 +22,20 @@
       </v-tabs>
     </v-card>
 
-    <v-row v-for="group in getCurrentTabGroups" :key="group.id" class="justify-center mt-10">
+    <v-row v-for="group in getCurrentTabGroups" :key="group.id" class="justify-center mt-10 mb-3">
       <v-col class="text-center" cols="12">
         <v-chip :color="group.color ? group.color : '#000000'" large
                 :text-color="$vuetify.theme.dark ? 'black' : 'white'" label>
           <h2 class="display-h5">{{ group.name }}</h2>
         </v-chip>
       </v-col>
-      <v-col cols="4" sm="3" lg="1"
+      <v-col cols="6" sm="4" lg="2"
              v-for="user in getUsersByGroup(group.id)" :key="user.id" class="text-center">
         <div style="position:relative;">
           <router-link :to="{ name: 'UserDashboard', params: { id: user.id } }">
             <v-avatar size="100%" style="border-style: solid;"
                       :style="{ borderColor: group.color }">
-              <img
-                :src="user.avatar"
-                alt="User Avatar"
-              >
+              <img :src="user.avatar" alt="User Avatar">
             </v-avatar>
           </router-link>
           <div style="position: absolute; top: 92%; width: 100%; text-align: center;">
