@@ -16,7 +16,7 @@
       <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
     <!-- navigation links-->
-    <div style="overflow-x: auto;" class="d-flex hide-scroll-x">
+    <div style="overflow-x: auto;" class="d-flex">
       <NavigationLink
         class="hidden-sm-and-down"
         :link="link"
