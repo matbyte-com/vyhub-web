@@ -87,10 +87,21 @@
                 </v-btn>
               </template>
               <template v-slot:footer-right>
-                <v-btn color="success" outlined @click="$refs.createServerDialog.show()">
-                  <v-icon left>mdi-plus</v-icon>
-                  <span>{{ $t('_settings.labels.addServer') }}</span>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <div v-bind="attrs"
+                         v-on="on">
+                      <v-btn color="success" outlined @click="$refs.createServerDialog.show()"
+                             :disabled="bundles === null || bundles.length === 0">
+                        <v-icon left>mdi-plus</v-icon>
+                        <span>{{ $t('_settings.labels.addServer') }}</span>
+                      </v-btn>
+                    </div>
+                  </template>
+                  <span>
+                    {{ $t('_settings.addServerTooltip') }}
+                  </span>
+                </v-tooltip>
               </template>
             </DataTable>
           </v-card-text>
@@ -262,8 +273,8 @@ export default {
   data() {
     return {
       icon: 'mdi-access-point',
-      bundles: [],
-      server: [],
+      bundles: null,
+      server: null,
       dataFetched: 0,
       bundleHeaders: [
         { text: this.$t('name'), value: 'name' },
