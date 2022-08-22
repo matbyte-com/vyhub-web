@@ -16,7 +16,7 @@
       <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
     <!-- navigation links-->
-    <div style="overflow-x: auto;" class="d-flex">
+    <div style="overflow-x: auto;" class="d-flex top-scrollbar">
       <NavigationLink
         class="hidden-sm-and-down"
         :link="link"
@@ -211,3 +211,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+div.top-scrollbar {
+  transform: rotateX(180deg);
+}
+div.top-scrollbar * {
+  transform: rotateX(180deg);
+}
+</style>
