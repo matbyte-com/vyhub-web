@@ -74,6 +74,15 @@
                 {{ getBundle(item) }}
               </template>
               <template v-slot:item.actions="{ item }">
+                <v-btn depressed color="success" small class="mr-1"
+                       @click="showServerSetupDialog(item);" :outlined="item.status === 'ONLINE'">
+                  <v-icon :left="item.status !== 'ONLINE'">
+                    mdi-download-network
+                  </v-icon>
+                  <span v-if="item.status !== 'ONLINE'">
+                    {{ $t('setup') }}
+                  </span>
+                </v-btn>
                 <v-btn outlined color="primary" small class="mr-1"
                        @click="$refs.editServerDialog.show(item, item);">
                   <v-icon>
@@ -108,6 +117,12 @@
         </v-card>
       </v-col>
     </v-row>
+    <Dialog icon="mdi-download-network" :title="$t('_server.labels.setup')" :max-width="700"
+            ref="serverSetupDialog">
+      <div v-if="serverSetupServer != null">
+        <ServerSetup ref="serverSetup" :server="serverSetupServer"></ServerSetup>
+      </div>
+    </Dialog>
     <Dialog icon="mdi-key-chain" :title="$t('_serverbundle.labels.apiKeys')" :max-width="500"
             ref="bundleApiKeysDialog" :with-id="true">
       <v-card class="mt-2" v-if="createdToken != null" color="success">
@@ -228,17 +243,13 @@
       <template v-slot:form-after
                 v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'">
         <a target="_blank" href="https://docs.vyhub.net/latest/game/discord/">
-          {{$t('_server.labels.guildIdDocs')}}
+          <v-btn small color="info">
+            <v-icon left>
+              mdi-magnify
+            </v-icon>
+            {{$t('_server.labels.guildIdDocs')}}
+          </v-btn>
         </a>
-        <span v-if="discordApplicationId">
-          <a target="_blank" style="float: right"
-             :href="getDiscordBotLink">{{$t('_server.labels.addBot')}}</a>
-        </span>
-        <span v-else style="float: right">
-          <a target="_blank" href="https://docs.vyhub.net/latest/guide/authorization">
-            {{$t('_server.labels.discordApplicationIdNeeded')}}
-          </a>
-        </span>
       </template>
     </DialogForm>
   </div>
@@ -257,10 +268,12 @@ import BoolIcon from '../BoolIcon.vue';
 import Dialog from '../Dialog.vue';
 import ServerForm from '@/forms/ServerForm';
 import PropertyPicker from '@/components/SettingComponents/PropertyPicker.vue';
+import ServerSetup from '@/components/SettingComponents/ServerSetup.vue';
 
 export default {
   name: 'Server',
   components: {
+    ServerSetup,
     GenForm,
     Dialog,
     SettingTitle,
@@ -293,7 +306,7 @@ export default {
         { text: this.$t('port'), value: 'port' },
         { text: this.$t('bundle'), value: 'serverbundle.name' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right', width: 150,
+          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right', width: 250,
         },
       ],
       addBundleSchema: ServerbundleForm.returnForm(),
@@ -302,9 +315,9 @@ export default {
       createTokenSchema: ServerbundleAPITokenForm,
       activeBundle: null,
       apiKeys: null,
+      serverSetupServer: null,
       createdToken: null,
       createServerDataTemp: null,
-      discordApplicationId: null,
     };
   },
   beforeMount() {
@@ -320,9 +333,11 @@ export default {
         this.server = rsp.data;
         this.dataFetched += 1;
       });
-      (await openapi).auth_getAuthConfig().then((rsp) => {
-        this.discordApplicationId = rsp.data.discord_oauth_client_id;
-      });
+    },
+    showServerSetupDialog(server) {
+      this.serverSetupServer = server;
+      this.$refs.serverSetupDialog.show();
+      this.$refs.serverSetup.init();
     },
     getBundle(item) {
       if (this.dataFetched !== 2) { return ''; }
@@ -468,12 +483,6 @@ export default {
       }).catch((err) => {
         this.$refs.createTokenForm.setError(err);
       });
-    },
-  },
-  computed: {
-    getDiscordBotLink() {
-      // https://discord.com/api/oauth2/authorize?client_id=954086039029420042&permissions=268438529&scope=bot
-      return `https://discord.com/api/oauth2/authorize?client_id=${this.discordApplicationId}&permissions=268438545&scope=bot`;
     },
   },
   watch: {
