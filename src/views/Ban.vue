@@ -432,7 +432,6 @@ export default {
     },
     async protestBan() {
       const data = this.$refs.protestBanDialog.getData();
-      data.category = 'TICKET';
       data.ban_id = this.currentBan.id;
       data.title = `${this.$t('_ticket.banProtest')}: ${this.currentBan.user.username}`;
       (await openapi).forum_newThread(null, data).then(() => {
