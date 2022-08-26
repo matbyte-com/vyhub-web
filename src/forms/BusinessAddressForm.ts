@@ -1,7 +1,7 @@
 import i18n from '@/plugins/i18n';
 import AddressForm from '@/forms/AddressForm';
 
-const form = { ...AddressForm };
+const form = JSON.parse(JSON.stringify(AddressForm));
 
 form.properties.vat_number = {
   type: 'string',
