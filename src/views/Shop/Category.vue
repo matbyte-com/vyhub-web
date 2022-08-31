@@ -179,7 +179,16 @@ export default {
         cats[subcat].push(packet);
       });
 
-      return cats;
+      const ordered_cats = Object.keys(cats).sort().reduce(
+        (obj, key) => {
+          const newobj = obj;
+          newobj[key] = cats[key];
+          return newobj;
+        },
+        {},
+      );
+
+      return ordered_cats;
     },
   },
 };
