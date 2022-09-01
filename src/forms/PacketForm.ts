@@ -111,7 +111,6 @@ export default {
           title: i18n.t('_packet.labels.customPrice'),
           description: i18n.t('_packet.labels.customPriceDetail'),
           default: false,
-          readOnly: true,
         },
         payment_gateways: {
           title: i18n.t('_packet.labels.limitPaymentMethods'),

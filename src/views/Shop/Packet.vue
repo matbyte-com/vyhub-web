@@ -6,7 +6,7 @@
         </PageTitle>
 
         <v-row>
-          <v-col md="3" lg="3" cols="12" class="d-flex flex-column">
+          <v-col md="4" lg="3" xl="3" cols="12" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-archive-star</v-icon>
@@ -42,7 +42,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col md="6" lg="6" cols="12" class="d-flex flex-column">
+          <v-col md="8" lg="5" xl="6" cols="12" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-image-text</v-icon>
@@ -54,7 +54,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col md="3" lg="3" cols="12" class="d-flex flex-column">
+          <v-col md="4" lg="4" xl="3" cols="12" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-currency-usd</v-icon>
@@ -63,7 +63,8 @@
               <v-card-text class="text-center">
                 <v-row>
                   <v-col>
-                    <div class="text-h2 d-flex align-center justify-center">
+                    <div class="text-h2 d-flex align-center justify-center"
+                         v-if="!packet.custom_price">
                       <span class="text-h5 strikethrough-diagonal mr-2 text--disabled"
                             v-if="packet.discount != null">
                         {{ utils.formatDecimal(packet.price_without_discount.total) }}
@@ -71,6 +72,22 @@
                       </span>
                       {{ utils.formatDecimal(packet.price_with_discount.total) }}
                       {{ packet.currency.symbol }}
+                    </div>
+                    <div v-else>
+                      <v-chip label class="font-weight-bold" color="primary">
+                        {{ $t('_packet.messages.customPricePossible') }}
+                      </v-chip>
+                      <v-row justify="center" class="text-center mt-2">
+                        <v-col cols="12" xl="4" lg="6">
+                          <v-text-field
+                            :label="$t('price')"
+                            v-model="customPrice"
+                            type="number"
+                            :min="packet.price_with_discount.total"
+                            :prefix="packet.currency.symbol"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
                     </div>
                     <div v-if="packet.recurring" class="text-h6 mt-2">
                       <v-icon>mdi-calendar-sync</v-icon>
@@ -91,9 +108,22 @@
                 </v-row>
                 <v-row v-if="packet.price_with_discount.credits != null">
                   <v-col>
-                    <div class="text-h5">
+                    <div class="text-h5" v-if="!packet.custom_price">
                       {{ packet.price_with_discount.credits }}
                       {{ $t('_shop.labels.credits') }}
+                    </div>
+                    <div v-else>
+                      <v-row justify="center" class="text-center">
+                        <v-col cols="12" xl="5" lg="7">
+                          <v-text-field
+                            v-model="customCredits"
+                            :label="$t('_shop.labels.credits')"
+                            type="number"
+                            :min="packet.price_with_discount.credits"
+                            :suffix="$t('_shop.labels.credits')"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
                     </div>
                   </v-col>
                 </v-row>
@@ -137,6 +167,8 @@ export default {
       loading: false,
       addSuccess: false,
       addFail: false,
+      customPrice: null,
+      customCredits: null,
     };
   },
   beforeMount() {
@@ -165,6 +197,11 @@ export default {
       apiCached.shop_getPackets(packetsData)
         .then((rsp) => {
           this.packet = rsp.data.find((p) => p.id === this.$route.params.packetId);
+
+          if (this.packet != null && this.packet.custom_price) {
+            this.customPrice = this.packet.price_with_discount.total;
+            this.customCredits = this.packet.price_with_discount.credits;
+          }
         });
     },
     async addToCart() {
@@ -174,7 +211,18 @@ export default {
       this.addFail = false;
       this.addSuccess = false;
 
-      api.shop_addPacketToCart(undefined, { packet_id: this.packet.id }).then(() => {
+      const data = {
+        packet_id: this.packet.id,
+        custom_price: this.customPrice,
+        custom_credits: this.customCredits,
+      };
+
+      if (!this.packet.custom_price) {
+        data.custom_credits = null;
+        data.custom_price = null;
+      }
+
+      api.shop_addPacketToCart(undefined, data).then(() => {
         this.loading = false;
         this.addSuccess = true;
 
