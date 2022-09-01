@@ -29,6 +29,12 @@ export default {
       description: i18n.t('_shop.labels.taxAllowUnknownDescription'),
       default: 'true',
     },
+    tax_included_in_packet_price: {
+      type: 'boolean',
+      title: i18n.t('_shop.labels.taxIncludedInPacketPrice'),
+      description: i18n.t('_shop.labels.taxIncludedInPacketPriceDescription'),
+      default: 'false',
+    },
     invoice_logo_url: {
       type: 'string',
       title: i18n.t('_shop.labels.invoiceLogoURL'),
