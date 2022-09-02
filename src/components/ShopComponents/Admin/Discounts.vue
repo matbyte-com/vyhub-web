@@ -38,6 +38,27 @@
         </div>
         <div v-else>{{ item.code }}</div>
       </template>
+      <template v-slot:item.max_usages="{ item }">
+        <span class="d-flex align-center">
+          <v-chip small class="mr-2" color="primary">
+            {{ item.usages }}
+            /
+            &nbsp;
+            <span v-if="item.max_usages != null">
+              {{ item.max_usages }}
+            </span>
+            <span v-else>
+              ∞
+            </span>
+          </v-chip>
+          <v-chip v-if="item.max_usages_per_user" color="info" small>
+            {{ item.max_usages_per_user }} /
+            <v-icon small>
+              mdi-account
+            </v-icon>
+          </v-chip>
+        </span>
+      </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
           <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">

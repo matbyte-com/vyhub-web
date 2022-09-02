@@ -40,6 +40,11 @@ export default {
       type: 'integer',
       title: i18n.t('maxUsages'),
     },
+    max_usages_per_user: {
+      type: ['integer', 'null'],
+      title: i18n.t('_discount.labels.maxUsagesPerUser'),
+      minimum: 1,
+    },
     all_packets: {
       type: 'boolean',
       title: i18n.t('_discount.labels.allPackets'),

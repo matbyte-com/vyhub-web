@@ -175,6 +175,9 @@
                           <th>
                             {{ $t('price') }}
                           </th>
+                          <th>
+                            {{ $t('discount') }}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -189,6 +192,14 @@
                           <td v-else>
                             {{ cp.credits }}
                             {{ $t('_shop.labels.credits') }}
+                          </td>
+                          <td>
+                            <div v-if="cp.discount != null">
+                              {{ cp.discount.name }} (-{{ cp.discount.percentage }}%)
+                            </div>
+                            <div v-else>
+                              -
+                            </div>
                           </td>
                         </tr>
                       </tbody>
