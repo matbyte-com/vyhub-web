@@ -194,9 +194,9 @@
                             {{ $t('_shop.labels.credits') }}
                           </td>
                           <td>
-                            <div v-if="cp.discount != null">
-                              {{ cp.discount.name }} (-{{ cp.discount.percentage }}%)
-                            </div>
+                            <v-chip v-if="cp.discount != null" color="info" small>
+                              -{{ cp.discount.percentage }}% {{ cp.discount.name }}
+                            </v-chip>
                             <div v-else>
                               -
                             </div>
