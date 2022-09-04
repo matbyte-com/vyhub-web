@@ -185,9 +185,15 @@
                           v-for="cp in currentPurchase.cart_packets" v-bind:key="cp.id"
                         >
                           <td>{{ cp.packet_title }}</td>
-                          <td v-if="!currentPurchase.credits_used">
+                          <td v-if="!currentPurchase.credits_used && cp.price_net != null">
                             {{ cp.price_net.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                             {{ cp.currency.symbol }}
+                          </td>
+                          <td v-else-if="!currentPurchase.credits_used">
+                            {{ cp.price_total
+                            .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                            {{ cp.currency.symbol }}
+                            ({{ $t('_shop.labels.net') }})
                           </td>
                           <td v-else>
                             {{ cp.credits }}
