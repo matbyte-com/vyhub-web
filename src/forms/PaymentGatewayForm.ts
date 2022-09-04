@@ -80,6 +80,21 @@ function gatewayFields(gatewayType: string) {
           ],
         },
       },
+      accept_pending: {
+        type: 'string',
+        title: i18n.t('_gateway.labels.acceptPending'),
+        description: i18n.t('_gateway.labels.acceptPendingDescription'),
+        oneOf: [
+          {
+            const: 'true',
+            title: i18n.t('_gateway.labels.acceptPending'),
+          },
+          {
+            const: 'false',
+            title: i18n.t('_gateway.labels.doNotAcceptPending'),
+          },
+        ],
+      },
     };
   }
 

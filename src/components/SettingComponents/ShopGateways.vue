@@ -179,6 +179,13 @@ export default {
 
       const api = await openapi;
 
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [name, attr] of Object.entries(data.attributes)) {
+        if (Array.isArray(attr) && attr.length === 0) {
+          delete data.attributes[name];
+        }
+      }
+
       api.shop_editGateway({ uuid: gateway.id }, data).then(() => {
         this.fetchData();
         this.$notify({
