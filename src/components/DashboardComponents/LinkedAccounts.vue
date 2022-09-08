@@ -52,6 +52,10 @@
                   {{ $i18n.d(new Date(acc.registered_on), 'short') }}
                   <br/>
                   {{ acc.identifier }}
+                  <span v-if="$t(`_user.type.${acc.type}.name`).toUpperCase() === 'STEAM'">
+                    <br/>
+                    {{ steamid32 }}
+                  </span>
                 </div>
               </v-card-subtitle>
               <v-divider/>
@@ -149,6 +153,7 @@ export default {
         });
       }
     },
+
     getReturnUrl() {
       return UtilService.data().utils.getFullUrl(this.$route.path);
     },
@@ -228,6 +233,19 @@ export default {
       }
 
       return false;
+    },
+    steamid32() {
+      if (!this.user) return ''; // Eigentlich unnötig, daher oben bereits überprüft wird, ob es der Steam Account ist. (Zeile 55 - 58)
+      const v = BigInt('76561197960265728');
+      const steamid64 = this.user.identifier;
+      let w = BigInt(steamid64);
+      const y = /*w.mod(2).toString()*/'0';
+
+      w = w.minus(y).minus(v);
+      if (w < 1) {
+        return false;
+      }
+      return `STEAM_0:${y}:${w.divide(2).toString()}`;
     },
   },
 };
