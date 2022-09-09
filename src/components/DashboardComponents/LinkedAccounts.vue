@@ -23,7 +23,8 @@
           <template v-slot:default="{ items }">
             <v-card class="mb-2" v-for="acc in items"
                     :key="acc.id"
-                    @click="openExternalProfileLink(acc.type, acc.identifier)">
+                    target="_blank"
+                    :href="openExternalProfileLink(acc.type, acc.identifier)">
               <v-card-title>
                 <v-row>
                   <v-col>
@@ -42,7 +43,8 @@
               </v-card-title>
               <v-card-subtitle>
                 {{ $t(`_user.type.${acc.type}.name`).toUpperCase() }}
-                <div class="text--disabled caption">
+                <div class="text--disabled caption" style="
+                 pointer-events: initial;">
                   <span v-if="acc.activities.length > 0">
                     {{ $t('_dashboard.labels.last_online') }}:
                     {{ $i18n.d(new Date(acc.activities[0].last_online), 'short') }}
@@ -54,7 +56,7 @@
                   {{ acc.identifier }}
                   <span v-if="$t(`_user.type.${acc.type}.name`).toUpperCase() === 'STEAM'">
                     <br/>
-                    {{ steamid32 }}
+                    {{ getSteamid32(acc.identifier) }}
                   </span>
                 </div>
               </v-card-subtitle>
@@ -158,11 +160,19 @@ export default {
       return UtilService.data().utils.getFullUrl(this.$route.path);
     },
     openExternalProfileLink(type, id) {
-      const link = userService.userExternalLink(type, id);
+      return userService.userExternalLink(type, id);
+    },
+    getSteamid32(steamid64) {
+      if (!this.user) return '';
+      const v = BigInt('76561197960265728');
+      let w = BigInt(steamid64);
+      const y = (w % 2n).toString();
 
-      if (link != null) {
-        window.open(link, '_blank').focus();
+      w = w - BigInt(y) - v;
+      if (w < 1n) {
+        return false;
       }
+      return `STEAM_0:${y}:${(w / 2n).toString()}`;
     },
   },
   computed: {
@@ -233,19 +243,6 @@ export default {
       }
 
       return false;
-    },
-    steamid32() {
-      if (!this.user) return ''; // Eigentlich unnötig, daher oben bereits überprüft wird, ob es der Steam Account ist. (Zeile 55 - 58)
-      const v = BigInt('76561197960265728');
-      const steamid64 = this.user.identifier;
-      let w = BigInt(steamid64);
-      const y = /*w.mod(2).toString()*/'0';
-
-      w = w.minus(y).minus(v);
-      if (w < 1) {
-        return false;
-      }
-      return `STEAM_0:${y}:${w.divide(2).toString()}`;
     },
   },
 };
