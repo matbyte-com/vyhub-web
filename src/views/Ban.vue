@@ -177,8 +177,11 @@
         </div>
       </template>
       <template v-slot:actions>
-        <v-btn v-if="currentBan != null && $checkLinked($store.getters.user, currentBan.user)
-                     && currentBan.active"
+        <v-btn v-if="currentBan != null
+                     && $checkLinked($store.getters.user, currentBan.user)
+                     && currentBan.active
+                     && $store.getters.generalConfig
+                     && $store.getters.generalConfig['enable_ticket']"
                text color="primary" @click="showProtestBanDialog">
           <v-icon left>mdi-fencing</v-icon>
           {{ $t('_ban.labels.protestBan') }}
@@ -434,7 +437,7 @@ export default {
       const data = this.$refs.protestBanDialog.getData();
       data.ban_id = this.currentBan.id;
       data.title = `${this.$t('_ticket.banProtest')}: ${this.currentBan.user.username}`;
-      (await openapi).forum_newThread(null, data).then(() => {
+      (await openapi).forum_createThread(null, data).then(() => {
         this.$refs.protestBanDialog.close();
         this.fetchData();
         this.$notify({

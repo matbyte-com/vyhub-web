@@ -94,7 +94,7 @@ export default {
     },
     async newThread() {
       const data = this.$refs.addThreadDialog.getData();
-      (await openapi).forum_newThread(null, data).then(() => {
+      (await openapi).forum_createThread(null, data).then(() => {
         this.$refs.addThreadDialog.close();
         this.fetchData();
         this.$notify({
