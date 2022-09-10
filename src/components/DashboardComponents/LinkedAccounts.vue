@@ -23,25 +23,27 @@
           <template v-slot:default="{ items }">
             <v-card class="mb-2" v-for="acc in items"
                     :key="acc.id"
-                    target="_blank"
-                    :href="openExternalProfileLink(acc.type, acc.identifier)">
-              <v-card-title>
-                <v-row>
-                  <v-col>
-                    <v-icon class="mr-2">
-                      {{ userTypeIcons[acc.type] }}
-                    </v-icon>
-                    {{ acc.username }}
-                  </v-col>
-                  <v-col cols="3" lg="4" xl="3" class="justify-center">
-                    <v-avatar>
-                      <v-img :src="acc.avatar" contain
-                             alt="avatar"/>
-                    </v-avatar>
-                  </v-col>
-                </v-row>
-              </v-card-title>
-              <v-card-subtitle>
+                    >
+                <v-card-title>
+                  <v-card :href="openExternalProfileLink(acc.type, acc.identifier)" target="_blank"
+                          width="100%" flat color="transparent">
+                    <v-row class="align-center">
+                      <v-col>
+                        <v-icon class="mr-2">
+                          {{ userTypeIcons[acc.type] }}
+                        </v-icon>
+                        {{ acc.username }}
+                      </v-col>
+                      <v-col cols="3" lg="4" xl="3" class="justify-center">
+                        <v-avatar>
+                          <v-img :src="acc.avatar" contain
+                                 alt="avatar"/>
+                        </v-avatar>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-card-title>
+              <v-card-subtitle class="mt-0 pt-0">
                 {{ $t(`_user.type.${acc.type}.name`).toUpperCase() }}
                 <div class="text--disabled caption" style="
                  pointer-events: initial;">
