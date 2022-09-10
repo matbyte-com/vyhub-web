@@ -132,7 +132,7 @@ export default {
     async newPost() {
       const data = this.$refs.addPostDialog.getData();
       delete data.title;
-      (await openapi).forum_newPost(this.threadId, data).then(() => {
+      (await openapi).forum_createPost(this.threadId, data).then(() => {
         this.$refs.addPostDialog.close();
         this.fetchData();
         this.$notify({

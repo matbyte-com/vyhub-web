@@ -30,6 +30,12 @@ export default {
       'x-display': 'switch',
       default: false,
     },
+    enable_forum: {
+      type: 'boolean',
+      title: i18n.t('_settings.showForum'),
+      'x-display': 'switch',
+      default: false,
+    },
     enable_team: {
       type: 'boolean',
       title: i18n.t('_settings.showTeam'),
