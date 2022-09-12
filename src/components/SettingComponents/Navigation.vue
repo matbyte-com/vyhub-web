@@ -204,8 +204,8 @@ import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import SettingTitle from './SettingTitle.vue';
 import Editor from '@/components/Editor.vue';
+import SettingTitle from './SettingTitle.vue';
 
 export default {
   name: 'Navigation',

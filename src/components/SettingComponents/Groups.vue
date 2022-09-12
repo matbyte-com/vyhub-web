@@ -150,9 +150,9 @@ import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue'
 import DataTable from '@/components/DataTable.vue';
 import Dialog from '@/components/Dialog.vue';
 import UserLink from '@/components/UserLink.vue';
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import SettingTitle from './SettingTitle.vue';
 import MembershipEditDialog from '../DashboardComponents/MembershipEditDialog.vue';
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import PropertyPicker from './PropertyPicker.vue';
 
 export default {

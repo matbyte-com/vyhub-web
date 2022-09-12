@@ -61,10 +61,10 @@
 </template>
 
 <script>
+import openapi from '@/api/openapi';
 import DataIterator from '../DataIterator.vue';
 import Dialog from '../Dialog.vue';
 import BoolIcon from '../BoolIcon.vue';
-import openapi from '@/api/openapi';
 
 export default {
   name: 'Packets.vue',

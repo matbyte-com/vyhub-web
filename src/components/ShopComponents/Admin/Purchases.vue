@@ -321,13 +321,13 @@
 </template>
 
 <script>
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import openapi from '../../../api/openapi';
 import UserLink from '../../UserLink.vue';
 import Dialog from '../../Dialog.vue';
 import PurchaseStatusChip from '../PurchaseStatusChip.vue';
 import ConfirmationDialog from '../../ConfirmationDialog.vue';
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
   name: 'AllPurchases',

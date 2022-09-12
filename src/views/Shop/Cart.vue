@@ -225,9 +225,9 @@ import CartPacket from '@/components/ShopComponents/CartPacket.vue';
 import CheckoutDialog from '@/components/ShopComponents/CheckoutDialog.vue';
 import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import Dialog from '@/components/Dialog.vue';
-import openapi from '../../api/openapi';
 import Email from '@/components/PersonalSettings/Email.vue';
 import AuthService from '@/services/AuthService';
+import openapi from '../../api/openapi';
 import CancelPurchaseConfirmationDialog
   from '../../components/ShopComponents/CancelPurchaseConfirmationDialog.vue';
 

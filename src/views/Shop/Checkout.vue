@@ -142,10 +142,10 @@
 </template>
 
 <script>
-import openapi from '../../api/openapi';
-import ShopService from '../../services/ShopService';
 import GenForm from '@/components/GenForm.vue';
 import CheckoutCouponCodeForm from '@/forms/CheckoutCouponCodeForm';
+import openapi from '../../api/openapi';
+import ShopService from '../../services/ShopService';
 
 export default {
   name: 'Checkout',

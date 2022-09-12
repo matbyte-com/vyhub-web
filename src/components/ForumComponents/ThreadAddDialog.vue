@@ -29,10 +29,10 @@
 </template>
 
 <script>
+import Editor from '@/components/Editor.vue';
 import Dialog from '../Dialog.vue';
 import config from '../../config';
 import i18n from '../../plugins/i18n';
-import Editor from '@/components/Editor.vue';
 
 export default {
   name: 'ThreadAddDialog',

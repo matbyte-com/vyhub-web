@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import Common from '@/forms/Common';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
@@ -94,7 +95,6 @@ import DialogForm from '../DialogForm.vue';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import GatewayForm from '../../forms/PaymentGatewayForm';
 import BoolIcon from '../BoolIcon.vue';
-import Common from '@/forms/Common';
 
 export default {
   name: 'ShopGateways',

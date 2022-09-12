@@ -123,11 +123,11 @@
 </template>
 
 <script>
+import UtilService from '@/services/UtilService';
 import ShopService from '../../services/ShopService';
 import PageTitle from '../../components/PageTitle.vue';
 import openapi from '../../api/openapi';
 import openapiCached from '../../api/openapiCached';
-import UtilService from '@/services/UtilService';
 
 export default {
   components: { PageTitle },

@@ -264,11 +264,11 @@ import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
 import GenForm from '@/components/GenForm.vue';
 import ServerbundleAPITokenForm from '@/forms/ServerbundleAPITokenForm';
 import openapi from '@/api/openapi';
-import BoolIcon from '../BoolIcon.vue';
-import Dialog from '../Dialog.vue';
 import ServerForm from '@/forms/ServerForm';
 import PropertyPicker from '@/components/SettingComponents/PropertyPicker.vue';
 import ServerSetup from '@/components/SettingComponents/ServerSetup.vue';
+import Dialog from '../Dialog.vue';
+import BoolIcon from '../BoolIcon.vue';
 
 export default {
   name: 'Server',

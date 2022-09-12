@@ -162,14 +162,14 @@
 </template>
 
 <script>
+import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
 import UserLink from '../../UserLink.vue';
 import openapi from '../../../api/openapi';
 import BoolIcon from '../../BoolIcon.vue';
 import AppliedPacketEditForm from '../../../forms/AppliedPacketEditForm';
 import DialogForm from '../../DialogForm.vue';
 import DeleteConfirmationDialog from '../../DeleteConfirmationDialog.vue';
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
 import AppliedRewardAddForm from '../../../forms/AppliedRewardAddForm';
 import Dialog from '../../Dialog.vue';
 import DataTable from '../../DataTable.vue';

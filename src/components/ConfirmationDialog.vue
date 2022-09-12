@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import Dialog from './Dialog.vue';
 import i18n from '@/plugins/i18n';
+import Dialog from './Dialog.vue';
 
 export default {
   name: 'ConfirmationDialog',

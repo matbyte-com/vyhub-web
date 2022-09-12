@@ -170,10 +170,10 @@
 <script>
 import openapi from '@/api/openapi';
 import PurchaseStatusChip from '@/components/ShopComponents/PurchaseStatusChip.vue';
-import DataIterator from '../../DataIterator.vue';
-import ConfirmationDialog from '../../ConfirmationDialog.vue';
 import Dialog from '@/components/Dialog.vue';
 import CreditHistory from '@/components/DashboardComponents/CreditHistory.vue';
+import DataIterator from '../../DataIterator.vue';
+import ConfirmationDialog from '../../ConfirmationDialog.vue';
 
 export default {
   name: 'UserPurchases',

@@ -106,8 +106,8 @@
 import DialogForm from '@/components/DialogForm.vue';
 import openapi from '@/api/openapi';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import SettingTitle from './SettingTitle.vue';
 import AdvertsForm from '@/forms/AdvertsForm';
+import SettingTitle from './SettingTitle.vue';
 
 export default {
   name: 'Adverts',

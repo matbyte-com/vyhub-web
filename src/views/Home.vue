@@ -184,10 +184,10 @@ import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue'
 import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
 import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
 import PageTitle from '@/components/PageTitle.vue';
+import Editor from '@/components/Editor.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';
 import config from '../config';
 import i18n from '../plugins/i18n';
-import Editor from '@/components/Editor.vue';
 
 export default {
   components: {

@@ -226,10 +226,10 @@ import LogTable from '@/components/LogTable.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
-import Dialog from '../components/Dialog.vue';
-import openapi from '../api/openapi';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import openapiCached from '@/api/openapiCached';
+import Dialog from '../components/Dialog.vue';
+import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 
 export default {
