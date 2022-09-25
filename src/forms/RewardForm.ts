@@ -44,7 +44,7 @@ function rewardTypeFields(rewardType: string) {
   let required: Array<string> = [];
   const requiredTop: Array<string> = [];
   let on_event_set = 'full';
-  let onceSelectors: Object = {
+  let otherOptions: Object = {
     once: {
       type: 'boolean',
       title: i18n.t('_reward.labels.once'),
@@ -53,6 +53,11 @@ function rewardTypeFields(rewardType: string) {
     once_from_all: {
       type: 'boolean',
       title: i18n.t('_reward.labels.onceFromAll'),
+      default: false,
+    },
+    reactivate_on_extend: {
+      type: 'boolean',
+      title: i18n.t('_reward.labels.reactivateOnExtend'),
       default: false,
     },
   };
@@ -76,7 +81,7 @@ function rewardTypeFields(rewardType: string) {
     };
   } else if (rewardType === 'CREDITS') {
     on_event_set = 'reduced';
-    onceSelectors = {};
+    otherOptions = {};
     required = ['credits'];
     properties = {
       credits: {
@@ -87,7 +92,7 @@ function rewardTypeFields(rewardType: string) {
     };
   } else if (rewardType === 'MEMBERSHIP') {
     on_event_set = 'reduced';
-    onceSelectors = {};
+    otherOptions = {};
     required = ['group'];
     properties = {
       group_id: {
@@ -101,7 +106,7 @@ function rewardTypeFields(rewardType: string) {
   }
 
   requiredTop.push('on_event');
-  requiredTop.push(...Object.keys(onceSelectors));
+  requiredTop.push(...Object.keys(otherOptions));
 
   return {
     required: requiredTop,
@@ -116,7 +121,7 @@ function rewardTypeFields(rewardType: string) {
         title: i18n.t('_reward.labels.onEvent'),
         oneOf: (on_event_set === 'full' ? on_event_full : on_event_reduced),
       },
-      ...onceSelectors,
+      ...otherOptions,
       data: {
         type: 'object',
         required,
