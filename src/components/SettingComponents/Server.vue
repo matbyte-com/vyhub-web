@@ -385,7 +385,7 @@ export default {
         this.$refs.deleteBundleDialog.closeAndReset();
         this.fetchData();
         this.$notify({
-          title: this.$t('_serverbundle.messages.createSuccess'),
+          title: this.$t('_serverbundle.messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => {
