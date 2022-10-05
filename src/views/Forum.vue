@@ -1,0 +1,330 @@
+<template>
+  <div>
+    <PageTitle icon="mdi-ticket-confirmation">{{ $t('__forum.TopicCategories') }}</PageTitle>
+    <v-card>
+      <v-list subheader two-line>
+        <v-list-group
+            sub-group
+          :value="true"
+          v-for="category in topicCategories" :key="category.id"
+        >
+          <template v-slot:activator>
+            <v-list-item-title>{{ category.title }}</v-list-item-title>
+          </template>
+          <v-list-item
+            v-for="topic in category.topics" :key="topic.id"
+            link
+          >
+            <v-list-item-title>{{ topic.title }}</v-list-item-title>
+            <v-list-item-icon>
+              <v-icon :v-text="topic.icon"></v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+
+        </v-list-group>
+        <!--
+        <v-subheader inset>Forum is WIP</v-subheader>
+        <v-list-item v-for="item in topicCategories" :key="item.id">
+          <v-list-item-avatar>
+            <v-icon>
+              {{ item.icon }}
+            </v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content @click="showTopicCategory" items="topicCategory">
+            <template class="cursor">
+              <v-list-item-title>
+                {{ item.title }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                {{ item.content }}
+              </v-list-item-subtitle>
+            </template>
+          </v-list-item-content>
+        </v-list-item>-->
+        <template>
+          <div class="text-right">
+            <v-btn class="mr-3 mt-3" color="success" outlined
+                   @click="$refs.editTopicCategoriesDialog.show()">
+              <v-icon left>mdi-plus</v-icon>
+              <span>{{ $t('__forum.addTopicCategory') }}</span>
+            </v-btn>
+            <v-btn class="mr-3 mt-3" color="success" outlined
+                   @click="$refs.editTopicsDialog.show()">
+              <v-icon left>mdi-minus</v-icon>
+              <span>{{ $t('__forum.addTopic') }}</span>
+            </v-btn>
+          </div>
+        </template>
+      </v-list>
+    </v-card>
+    <!-- TopicCategoryDialog -->
+    <Dialog ref="editTopicCategoriesDialog"
+            :title="$t('__forum.editTopicCategory')">
+      <template>
+        <v-list>
+          <draggable :list="topicCategories">
+            <v-list-item v-for="category in topicCategories" :key="category.id">
+              <v-row>
+                <v-col>
+                  {{ category.title }}
+                </v-col>
+                <v-col class="text-right">
+                  <v-btn class="mr-1" @click.stop="$refs.editTopicCategoryDialog.show(category)"
+                         color="primary" outlined small>
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn @click.stop="$refs.deleteTopicCategoryConfirmationDialog.show(category);
+                $refs.deleteTopicCategoryConfirmationDialog.confirmationTextField = category.title;"
+                         color="red" outlined small>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-list-item>
+          </draggable>
+        </v-list>
+      </template>
+      <template v-slot:actions>
+        <v-btn @click="$refs.addTopicCategoryDialog.show()">Add Category</v-btn>
+        <v-btn @click="updateCategoryOrder">save</v-btn>
+      </template>
+    </Dialog>
+    <!-- TopicDialog -->
+    <Dialog ref="editTopicsDialog" v-if="topicCategories">
+      <template>
+        <v-select :items="topicCategories.map(category =>
+        ({text: category.title, value: category.id}))"
+                  v-model="selectedTopicCategory"/>
+        <v-list v-if="getSelectedCategory">
+          <draggable>
+            <v-list-item v-for="topic in getSelectedCategory.topics" :key="topic.id">
+              <v-row>
+                <v-col>
+                  {{ topic.title }}
+                </v-col>
+                <v-col class="text-right">
+                  <v-btn @click.stop="$refs.editTopicDialog.show(topic)"
+                         color="primary" outlined small>
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn @click.stop="$refs.deleteTopicConfirmationDialog.show(topic);
+                $refs.deleteTopicConfirmationDialog.confirmationTextField = topic.title;"
+                         color="red" outlined small>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-list-item>
+          </draggable>
+        </v-list>
+      </template>
+      <template v-slot:actions>
+        <v-btn @click="$refs.addTopicDialog.show()">Add Topic</v-btn>
+      </template>
+    </Dialog>
+    <!--
+    <DeleteTopicCategoryDialog ref="deleteTopicCategoryConfirmationDialog"
+                              @submit="deleteTopicCategory"/>-->
+    <ConfirmationDialog ref="deleteTopicCategoryConfirmationDialog"
+                        @submit="deleteTopicCategory"
+                        :confirmation-text-field-label="$t('__forum.deleteCategory')"/>
+    <ConfirmationDialog ref="deleteTopicConfirmationDialog"
+                        @submit="deleteTopic"
+                        :confirmation-text-field-label="$t('__forum.deleteTopic')"/>
+    <DialogForm :form-schema="TopicCategoryForm"
+              @submit="newTopicCategory"
+              ref="addTopicCategoryDialog"/>
+    <DialogForm :form-schema="TopicForm"
+                @submit="newTopic"
+                ref="addTopicDialog"/>
+    <DialogForm :form-schema="TopicCategoryForm"
+                @submit="editTopicCategory"
+                ref="editTopicCategoryDialog"/>
+    <DialogForm :form-schema="TopicForm"
+                @submit="editTopic"
+                ref="editTopicDialog"/>
+    <!-- OLD
+    <TopicAddDialog ref="addTopicDialog" :dialog-title="$t('__forum.addTopic')"
+                     @submit="newTopicCategory"/>-->
+  </div>
+</template>
+
+<script>
+import ForumAddTopicCategory from '@/forms/ForumAddTopicCategoryForm';
+import ForumAddTopicForm from '@/forms/ForumAddTopicForm';
+import Dialog from '@/components/Dialog.vue';
+import DialogForm from '@/components/DialogForm.vue';
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
+import PageTitle from '../components/PageTitle.vue';
+import openapi from '../api/openapi';
+
+export default {
+  components: {
+    DialogForm,
+    Dialog,
+    PageTitle,
+    ConfirmationDialog,
+  },
+  name: 'Forum.vue',
+  data() {
+    return {
+      topicCategories: null,
+      selectedTopicCategory: null,
+      TopicCategoryForm: ForumAddTopicCategory,
+      TopicForm: ForumAddTopicForm,
+    };
+  },
+  beforeMount() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      (await openapi).forum_getTopicCategories().then((rsp) => {
+        this.topicCategories = rsp.data;
+      });
+    },
+    /* OLD
+    async newTopicCategory() {
+      const data = this.$refs.addTopicDialog.getData();
+      (await openapi).forum_createTopicCategory(null, data).then(() => {
+        this.$refs.addTopicDialog.close();
+        this.fetchData();
+        this.$notify({
+          title: this.$t('__forum.TopicCategoryCreated'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.addTopicDialog.setError(err);
+      });
+    },
+    */
+    /*
+    ticketRowFormatter(item) {
+      const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
+
+      if (item.status === 'CLOSED') {
+        return `red ${add}`;
+      }
+
+      return `green ${add}`;
+    },
+    */
+    // Hinzufügen
+    async newTopicCategory() {
+      const data = this.$refs.addTopicCategoryDialog.getData();
+      (await openapi).forum_createTopicCategory(null, data).then(() => {
+        this.fetchData();
+        this.$refs.addTopicCategoryDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('__forum.TopicCategoryCreated'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.addTopicCategoryDialog.setError(err);
+      });
+    },
+    async newTopic() {
+      const data = this.$refs.addTopicDialog.getData();
+      (await openapi).forum_createTopic(null, data).then(() => {
+        this.fetchData();
+        this.$refs.addTopicDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('__forum.TopicCreated'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.addTopicDialog.setError(err);
+      });
+    },
+    // Bearbeiten
+    async editTopicCategory(item) {
+      const data = this.$refs.editTopicCategoryDialog.getData();
+      (await openapi).forum_editTopicCategory(item.id, data).then(() => {
+        this.fetchData();
+        this.$notify({
+          title: this.$t('__forum.TopicCategoryEdited'),
+          type: 'success',
+        });
+        this.$refs.editTopicCategoryDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.editTopicCategoryDialog.setError(err);
+      });
+    },
+    async editTopic(item) {
+      const data = this.$refs.editTopicDialog.getData();
+      (await openapi).forum_editTopic(item.id, data).then(() => {
+        this.fetchData();
+        this.$notify({
+          title: this.$t('__forum.TopicEdited'),
+          type: 'success',
+        });
+        this.$refs.editTopicDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.editTopicDialog.setError(err);
+      });
+    },
+    // Löschen
+    async deleteTopicCategory(item) {
+      (await openapi).forum_deleteTopicCategory(item.id).then(() => {
+        this.fetchData();
+        this.$notify({
+          title: this.$t('__forum.messages.deleteSuccess'),
+          type: 'success',
+        });
+        this.$refs.deleteTopicCategoryConfirmationDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.deleteTopicCategoryConfirmationDialog.setError(err);
+      });
+    },
+    async deleteTopic(item) {
+      (await openapi).forum_deleteTopic(item.id).then(() => {
+        this.fetchData();
+        this.$notify({
+          title: this.$t('__forum.messages.deleteSuccess'),
+          type: 'success',
+        });
+        this.$refs.deleteTopicConfirmationDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.deleteTopicConfirmationDialog.setError(err);
+      });
+    },
+    // Update
+    async updateCategoryOrder() {
+      const res = [];
+      this.topicCategories.forEach((item) => {
+        res.push(item.id);
+      });
+      (await openapi).forum_updateTopicCategoryOrder(null, res).then(() => {
+        this.fetchData();
+        this.$notify({
+          title: this.$t('__forum.messages.updatedOrder'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        console.log(`${err}`);
+      });
+    },
+    /*
+    showTopicCategory(item) {
+      if (item.title === undefined) {
+        this.$notify({
+          title: this.$t('Topic nicht gefunden. [item.title undefined]'), // Debug
+          type: 'error',
+        });
+        return; // Verhindert die Fehlerausgabe in der Konsole!
+      }
+      this.$router.push({ name: 'ForumThread', params: { threadname: item.title } });
+    },
+    */
+  },
+  computed: {
+    getSelectedCategory() {
+      if (!this.topicCategories) return {};
+      return this.topicCategories.find((category) => category.id === this.selectedTopicCategory);
+    },
+  },
+};
+</script>
+
+<style scoped>
+</style>
