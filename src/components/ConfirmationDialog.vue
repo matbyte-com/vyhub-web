@@ -1,11 +1,16 @@
 <template>
   <Dialog v-model="dialog" :max-width="width" :title="title" icon="mdi-help-circle">
-    <template v-if="errorMessage != null || text != null">
+    <template v-if="errorMessage != null || text != null || confirmationTextField != null">
       <v-alert type="error" v-if="errorMessage != null" class="mt-2">
         {{ errorMessage }}
       </v-alert>
       <div class="body-1 mt-2 text-center">
         {{ text }}
+      </div>
+      <div v-if="confirmationTextField">
+        <v-text-field v-model="confirmationTextFieldInput" :label="confirmationTextFieldLabel"/>
+        {{ confirmationTextField }}
+        {{ confirmationTextFieldInput }}
       </div>
     </template>
     <template v-for="(index, name) in $slots" v-slot:[name]>
@@ -55,10 +60,13 @@ export default {
       loading: false,
       counter: 5,
       intervalID: null,
+      confirmationTextFieldInput: null,
     };
   },
   props: {
     text: String,
+    confirmationTextField: String,
+    confirmationTextFieldLabel: String,
     btnIcon: {
       type: String,
       default: 'mdi-check',
@@ -123,7 +131,14 @@ export default {
   },
   computed: {
     disabled() {
-      return this.countdown && this.counter > 0;
+      if (this.countdown) {
+        return this.countdown && this.counter > 0;
+      }
+      if (this.confirmationTextField) {
+        if (this.confirmationTextField === this.confirmationTextFieldInput) return false;
+        return true;
+      }
+      return false;
     },
   },
 };
