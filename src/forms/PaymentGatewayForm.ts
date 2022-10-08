@@ -116,6 +116,22 @@ function gatewayFields(gatewayType: string) {
           'PRODUCTION',
         ],
       },
+      client_cert: {
+        type: [
+          'string',
+        ],
+        title: i18n.t('clientCert'),
+        description: i18n.t('_gateway.labels.clientCertDescription'),
+        'x-display': 'textarea',
+      },
+      client_key: {
+        type: [
+          'string',
+        ],
+        title: i18n.t('clientKey'),
+        description: i18n.t('_gateway.labels.clientCertDescription'),
+        'x-display': 'textarea',
+      },
     };
   }
 
