@@ -154,14 +154,14 @@ export default {
                     const: 'NOT_COMPATIBLE',
                     title: i18n.t('_packet.labels.relationNotCompatible'),
                   },
-                  /* {
+                  {
                     const: 'DISABLES',
                     title: i18n.t('_packet.labels.relationDisables'),
                   },
-                   {
+                  {
                     const: 'UPGRADES',
                     title: i18n.t('_packet.labels.relationUpgrades'),
-                  }, */
+                  },
                 ],
               },
               packet_right: Common.packetSelectField,
