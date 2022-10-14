@@ -12,15 +12,17 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col lg="3" md="6" sm="12" v-for="packet in _packets" :key="packet.id" class="d-flex">
+          <v-col xl="3" lg="4" md="6" sm="6" xs="12"  v-for="packet in _packets" :key="packet.id"
+                 class="d-flex align-content-space-between">
             <v-hover v-slot:default="{ hover }">
               <v-card @click="$router.push({ name: 'ShopPacket', params: { packetId: packet.id }})"
-                      class="flex-grow-1">
+                      class="flex-grow-1 flex-column d-flex">
                 <v-img
                   :src="packet.image_url"
                   class="white--text"
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                  height="200px"
+                  max-height="400px"
+                  min-height="150px"
                 >
                   <div v-if="packet.abstract != null && packet.abstract.length > 0">
                     <v-expand-transition>
@@ -44,75 +46,79 @@
                     </div>
                   </v-chip>
                 </v-img>
-                <v-card-title>
-                  <v-row>
-                    <v-col>
-                      <div>
-                        {{ packet.title }}
-                      </div>
-                    </v-col>
-                  </v-row>
-                </v-card-title>
-                <v-card-subtitle v-if="packet.subtitle != null" class="pb-1">
-                  <div>
-                    {{ packet.subtitle }}
-                  </div>
-                </v-card-subtitle>
                 <v-card-text>
-                  <div class="d-flex justify-space-between">
-                    <div>
-                      <v-chip v-if="packet.credits != null">
-                        <div class="d-flex align-center">
-                          <v-icon left>mdi-circle-multiple</v-icon>
-                          {{ packet.credits }}
-                        </div>
-                      </v-chip>
-                    </div>
-                    <div>
-                      <div v-if="packet.price_with_discount != null
-                    && packet.price_with_discount.total !== packet.price_without_discount.total">
-                        <v-chip
-                          color="green lighten-2"
-                          text-color="white"
-                        >
-                          <span class="strikethrough-diagonal">
-                            {{ utils.formatDecimal(packet.price_without_discount.total) }}
-                            {{ packet.currency.symbol }}
-                          </span>
-                        </v-chip>
-                        <v-chip
-                          class="ml-2"
-                          color="orange"
-                          text-color="white"
-                        >
-                          {{ packet.price_with_discount.total
-                          .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                          {{ packet.currency.symbol }}
-                          <div v-if="packet.recurring" class="pl-1">
-                            / {{ utils.formatLength(packet.active_for) }}
-                          </div>
-                        </v-chip>
+                  <div>
+                    <div class="text-center">
+                      <div>
+                        <h6 class="text-h6">
+                          {{ packet.title }}
+                        </h6>
                       </div>
-                      <v-chip
-                        color="green"
-                        text-color="white"
-                        v-else-if="packet.price_with_discount != null"
-                      >
-                        {{ packet.price_with_discount.total
-                        .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                        {{ packet.currency.symbol }}
-                        <div v-if="packet.recurring" class="pl-1">
-                          / {{ utils.formatLength(packet.active_for) }}
+                      <div v-if="packet.subtitle != null" class="pb-1">
+                        <div class="text-subtitle-2">
+                          {{ packet.subtitle }}
                         </div>
-                      </v-chip>
-                      <v-chip
-                        class="l-2"
-                        color="red"
-                        text-color="white"
-                        v-else
-                      >
-                        {{ $t('not_available') }}
-                      </v-chip>
+                      </div>
+                    </div>
+                    <v-spacer></v-spacer>
+                    <div>
+                      <div class="d-flex justify-space-between">
+                        <div>
+                          <v-chip v-if="packet.credits != null">
+                            <div class="d-flex align-center">
+                              <v-icon left>mdi-circle-multiple</v-icon>
+                              {{ packet.credits }}
+                            </div>
+                          </v-chip>
+                        </div>
+                        <div>
+                          <div v-if="packet.price_with_discount != null
+                        && packet.price_with_discount.total !==
+                         packet.price_without_discount.total">
+                            <v-chip
+                              color="green lighten-2"
+                              text-color="white"
+                            >
+                              <span class="strikethrough-diagonal">
+                                {{ utils.formatDecimal(packet.price_without_discount.total) }}
+                                {{ packet.currency.symbol }}
+                              </span>
+                            </v-chip>
+                            <v-chip
+                              class="ml-2"
+                              color="orange"
+                              text-color="white"
+                            >
+                              {{ packet.price_with_discount.total
+                              .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                              {{ packet.currency.symbol }}
+                              <div v-if="packet.recurring" class="pl-1">
+                                / {{ utils.formatLength(packet.active_for) }}
+                              </div>
+                            </v-chip>
+                          </div>
+                          <v-chip
+                            color="green"
+                            text-color="white"
+                            v-else-if="packet.price_with_discount != null"
+                          >
+                            {{ packet.price_with_discount.total
+                            .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                            {{ packet.currency.symbol }}
+                            <div v-if="packet.recurring" class="pl-1">
+                              / {{ utils.formatLength(packet.active_for) }}
+                            </div>
+                          </v-chip>
+                          <v-chip
+                            class="l-2"
+                            color="red"
+                            text-color="white"
+                            v-else
+                          >
+                            {{ $t('not_available') }}
+                          </v-chip>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </v-card-text>
