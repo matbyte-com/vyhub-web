@@ -9,7 +9,7 @@
         </v-row>
       </v-card-title>
       <v-card-text>
-        <div v-for="bundle in bundles" :key="bundle.id" class="mt-3">
+        <div v-for="bundle in nonEmptyBundles" :key="bundle.id" class="mt-3">
           <v-icon v-if="bundle.icon" left small :color="bundle.color">{{ bundle.icon }}</v-icon>
           <span :style="'color:' + bundle.color">{{ bundle.name }}</span>
           <v-divider class="mb-2"/>
@@ -164,6 +164,11 @@ export default {
           console.log('Could not find server type to calculate server-connection-address');
           return null;
       }
+    },
+  },
+  computed: {
+    nonEmptyBundles() {
+      return this.bundles.filter((b) => this.getServer(b.id).length > 0);
     },
   },
 };
