@@ -4,14 +4,48 @@
       {{ $t('_navigation.title') }}
     </SettingTitle>
     <dialog-form ref="cmsAddDialog" :form-schema="cmsPageAddSchema"
-                 icon="mdi-navigation-outline"
+                 icon="mdi-navigation-outline" :max-width="1000"
                  :title="$t('_navigation.addCmsPage')"
-                 @submit="createCmsPage" />
+                 @submit="createCmsPage">
+      <template slot="title-after">
+        <v-alert
+          type="warning" outlined
+          dense
+        >{{ $t('_settings.contentSanitizationWarning') }}
+        </v-alert>
+        <v-expansion-panels flat>
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-row>
+                <v-badge :value="htmlInput" inline dot class="float-left">
+                  {{ $t('_settings.editor') }}
+                </v-badge>
+              </v-row>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <editor v-model="htmlInput"/>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-row>
+                <v-badge :value="rawHtmlInput" inline dot class="float-left">
+                  {{ $t('_settings.rawHtml') }}
+                </v-badge>
+              </v-row>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-textarea :placeholder="$t('_settings.rawHtml')" v-model="rawHtmlInput"/>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </template>
+    </dialog-form>
     <dialog-form ref="cmsEditDialog" :form-schema="cmsPageAddSchema"
                  icon="mdi-navigation-outline"
                  :title="$t('_navigation.editCmsPage')"
-                 @submit="editCmsPage" />
-    <delete-confirmation-dialog ref="cmsDeleteDialog" @submit="deleteCmsPage" />
+                 @submit="editCmsPage"/>
+    <delete-confirmation-dialog ref="cmsDeleteDialog" @submit="deleteCmsPage"/>
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
                  icon="mdi-navigation-outline"
                  :title="$t('_navigation.addNavLink')"
@@ -21,48 +55,6 @@
                  :title="$t('_navigation.editNavLink')"
                  @submit="editLink"/>
     <delete-confirmation-dialog ref="deleteNavConfirmationDialog" @submit="deleteNav"/>
-    <dialog-form ref="cmsAddDialog" :form-schema="cmsAddForm" icon="mdi-navigation-outline"
-                 title="$t('_navigation.addCms" @submit="addCmsPage" :max-width="1000"
-    >
-      <template slot="linkType-after">
-        <!--
-        <v-carousel-transition>
-          <div v-if="!isExternalLink">
-            <v-alert
-              type="warning" outlined
-              dense
-            >{{ $t('_settings.contentSanitizationWarning') }}
-            </v-alert>
-            <v-expansion-panels flat>
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  <v-row>
-                    <v-badge :value="htmlInput" inline dot class="float-left">
-                      {{ $t('_settings.editor') }}
-                    </v-badge>
-                  </v-row>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <editor v-model="htmlInput"/>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  <v-row>
-                    <v-badge :value="rawHtmlInput" inline dot class="float-left">
-                      {{ $t('_settings.rawHtml') }}
-                    </v-badge>
-                  </v-row>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-textarea :placeholder="$t('_settings.rawHtml')" v-model="rawHtmlInput"/>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </div>
-        </v-carousel-transition>-->
-      </template>
-    </dialog-form>
     <!-- real Component -->
     <v-list>
       <draggable
@@ -156,7 +148,8 @@
         </span>
       </v-col>
     </v-row>
-    <v-divider />
+    <!-- CMS Page Component-->
+    <v-divider class="mt-3"/>
     <SettingTitle docPath="/guide/navigation">
       {{ $t('_navigation.cmsPageTitle') }}
     </SettingTitle>
@@ -205,15 +198,14 @@ export default {
     SettingTitle,
     DialogForm,
     draggable,
+    Editor,
   },
   data() {
     return {
       navlinkAddSchema: NavlinkAddForm,
       cmsPageAddSchema: CmsPageAddForm,
-      isExternalLink: false, // Boolean to differentiate between Link and HTML (CMS Page)
       htmlInput: '',
       rawHtmlInput: '',
-      isDefaultLink: false, // Boolean to differentiate between default links or user created ones
       updateLinkEnabled: false,
       expansionPanels: null,
       links: null,
@@ -251,20 +243,6 @@ export default {
       this.rawHtmlInput = '';
       this.htmlInput = '';
       this.isExternalLink = item.linkType === 'link';
-      if (item.linkType === 'default') {
-        this.navlinkAddSchema = NavlinkAddForm.returnForm(true);
-        this.isDefaultLink = true;
-      } else {
-        this.navlinkAddSchema = NavlinkAddForm.returnForm();
-        this.isDefaultLink = false;
-      }
-      if (item.linkType === 'html' && item.html) {
-        (await openapi).general_getCmsHtml(item.html)
-          .then((rsp) => {
-            this.rawHtmlInput = rsp.data.content;
-            this.htmlInput = rsp.data.content;
-          });
-      }
       this.$refs.navEditDialog.show(item);
       this.$refs.navEditDialog.setData(item);
     },
@@ -287,24 +265,35 @@ export default {
         this.$refs.navAddDialog.setError(err);
       });
     },
-    async createCmsPage(data) {
-      await (await openapi).general_createCmsHtml(null, data)
-        .then((rsp) => {
-          this.$refs.cmsAddDialog.close();
-          this.getCmsPages();
-        })
-        .catch((err) => {
-          this.$refs.cmsAddDialog.setError(err);
-        });
-    },
-    async deleteCmsPage(id) {
-      await (await openapi).general_deleteCmsHtml(id).then(() => {
+    async createCmsPage() {
+      const data = this.$refs.cmsAddDialog.getData();
+      if (this.htmlInput && this.rawHtmlInput) {
+        this.$refs.cmsAddDialog.setErrorMessage(this.$t('_navigation.bothHtmlInputsUsed'));
+      }
+      if (this.htmlInput !== null && this.htmlInput.length !== 0) data.content = this.htmlInput;
+      if (this.rawHtmlInput !== null && this.rawHtmlInput.length !== 0) {
+        data.content = this.rawHtmlInput;
+      }
+      (await openapi).general_createCmsHtml(null, data).then(() => {
+        this.$refs.cmsAddDialog.closeAndReset();
+        this.getCmsPages();
         this.$notify({
-          title: this.$t('_navigation.messages.updatedLinkOrder'),
+          title: this.$t('_navigation.messages.cmdAdded'),
           type: 'success',
         });
       }).catch((err) => {
-        // set err
+        this.$refs.cmsAddDialog.setError(err);
+      });
+    },
+    async deleteCmsPage(page) {
+      await (await openapi).general_deleteCmsHtml(page.id).then(() => {
+        this.$refs.cmsDeleteDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_navigation.messages.cmsDeleted'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.cmsDeleteDialog.setError(err);
       });
     },
     async editCmsPage(data) {

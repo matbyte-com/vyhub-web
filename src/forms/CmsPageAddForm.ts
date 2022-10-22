@@ -6,7 +6,7 @@ export default {
   properties: {
     title: {
       type: 'string',
-      title: i18n.t('name'),
+      title: i18n.t('title'),
     },
   },
 };
