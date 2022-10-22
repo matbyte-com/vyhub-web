@@ -16,7 +16,7 @@
               lg="6"
             >
               <v-card @click="showUserPacketDetails(userPacket)">
-                <v-img height="90" :src="userPacket.packet.image_url"
+                <v-img contain height="90" :src="userPacket.packet.image_url"
                        :style="(userPacket.active ? '' : 'filter: grayscale(100%)')">
                   <v-chip
                     small
