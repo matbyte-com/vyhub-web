@@ -44,7 +44,42 @@
     <dialog-form ref="cmsEditDialog" :form-schema="cmsPageAddSchema"
                  icon="mdi-navigation-outline"
                  :title="$t('_navigation.editCmsPage')"
-                 @submit="editCmsPage"/>
+                 @submit="editCmsPage">
+
+      <template slot="title-after">
+        <v-alert
+          type="warning" outlined
+          dense
+        >{{ $t('_settings.contentSanitizationWarning') }}
+        </v-alert>
+        <v-expansion-panels flat>
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-row>
+                <v-badge :value="htmlInput" inline dot class="float-left">
+                  {{ $t('_settings.editor') }}
+                </v-badge>
+              </v-row>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <editor v-model="htmlInput"/>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-row>
+                <v-badge :value="rawHtmlInput" inline dot class="float-left">
+                  {{ $t('_settings.rawHtml') }}
+                </v-badge>
+              </v-row>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-textarea :placeholder="$t('_settings.rawHtml')" v-model="rawHtmlInput"/>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </template>
+    </dialog-form>
     <delete-confirmation-dialog ref="cmsDeleteDialog" @submit="deleteCmsPage"/>
     <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
                  icon="mdi-navigation-outline"
@@ -53,7 +88,7 @@
     <dialog-form ref="navEditDialog" :form-schema="navlinkAddSchema"
                  icon="mdi-navigation-outline"
                  :title="$t('_navigation.editNavLink')"
-                 @submit="editLink"/>
+                 @submit="editNavLink"/>
     <delete-confirmation-dialog ref="deleteNavConfirmationDialog" @submit="deleteNav"/>
     <!-- real Component -->
     <v-list>
@@ -90,7 +125,8 @@
                   </v-icon>
                 </v-btn>
                 <v-btn :disabled="link.linkType==='default'"
-                       outlined color="error" small @click="openDeleteConfirmationDialog(link)">
+                       outlined color="error" small
+                       @click="$refs.deleteNavConfirmationDialog.show(link)">
                   <v-icon>
                     mdi-delete
                   </v-icon>
@@ -104,7 +140,7 @@
     <v-divider class="mb-3"/>
     <v-row>
       <v-col cols="12" md="6">
-        <v-btn outlined color="success" @click="$refs.navAddDialog.show()">
+        <v-btn outlined color="success" @click="openNavAddDialog">
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t('_settings.addLink') }}</span>
         </v-btn>
@@ -163,7 +199,7 @@
           <v-col>{{ page.title }}</v-col>
           <v-col class="text-right">
             <v-btn outlined color="primary" small
-                   @click="$refs.cmsEditDialog.show(page)" class="mr-1">
+                   @click="openCmsEditDialog(page)" class="mr-1">
               <v-icon>
                 mdi-pencil
               </v-icon>
@@ -202,7 +238,7 @@ export default {
   },
   data() {
     return {
-      navlinkAddSchema: NavlinkAddForm,
+      navlinkAddSchema: null,
       cmsPageAddSchema: CmsPageAddForm,
       htmlInput: '',
       rawHtmlInput: '',
@@ -236,22 +272,10 @@ export default {
         this.cmsPages = rsp.data;
       });
     },
-    openDeleteConfirmationDialog(link) {
-      this.$refs.deleteConfirmationDialog.show(link);
-    },
-    async openNavEditDialog(item) {
-      this.rawHtmlInput = '';
-      this.htmlInput = '';
-      this.isExternalLink = item.linkType === 'link';
-      this.$refs.navEditDialog.show(item);
-      this.$refs.navEditDialog.setData(item);
-    },
     async addLink() {
       const data = this.$refs.navAddDialog.getData();
-      // handle html content
       if (data.linkType === 'html') {
-        // set link
-        // data.link = `/cms/${data.title.toLowerCase()}`;
+        data.link = `/cms/${data.title.toLowerCase()}`;
       }
       (await openapi).navigation_createNavigationLink(null, data).then(() => {
         this.$refs.navAddDialog.closeAndReset();
@@ -269,6 +293,7 @@ export default {
       const data = this.$refs.cmsAddDialog.getData();
       if (this.htmlInput && this.rawHtmlInput) {
         this.$refs.cmsAddDialog.setErrorMessage(this.$t('_navigation.bothHtmlInputsUsed'));
+        return;
       }
       if (this.htmlInput !== null && this.htmlInput.length !== 0) data.content = this.htmlInput;
       if (this.rawHtmlInput !== null && this.rawHtmlInput.length !== 0) {
@@ -276,6 +301,8 @@ export default {
       }
       (await openapi).general_createCmsHtml(null, data).then(() => {
         this.$refs.cmsAddDialog.closeAndReset();
+        this.htmlInput = null;
+        this.rawHtmlInput = null;
         this.getCmsPages();
         this.$notify({
           title: this.$t('_navigation.messages.cmdAdded'),
@@ -287,6 +314,7 @@ export default {
     },
     async deleteCmsPage(page) {
       await (await openapi).general_deleteCmsHtml(page.id).then(() => {
+        this.getCmsPages();
         this.$refs.cmsDeleteDialog.closeAndReset();
         this.$notify({
           title: this.$t('_navigation.messages.cmsDeleted'),
@@ -296,11 +324,28 @@ export default {
         this.$refs.cmsDeleteDialog.setError(err);
       });
     },
-    async editCmsPage(data) {
-      // check for html content and return if both are not null
-      if (this.htmlInput && this.rawHtmlInput && !this.isExternalLink) {
-        this.$refs.navEditDialog.setErrorMessage(this.$t('_navigation.bothHtmlInputsUsed'));
+    async editCmsPage(page) {
+      const data = this.$refs.cmsEditDialog.getData();
+      if (this.htmlInput && this.rawHtmlInput) {
+        this.$refs.cmsEditDialog.setErrorMessage(this.$t('_navigation.bothHtmlInputsUsed'));
+        return;
       }
+      if (this.htmlInput !== null && this.htmlInput.length !== 0) data.content = this.htmlInput;
+      if (this.rawHtmlInput !== null && this.rawHtmlInput.length !== 0) {
+        data.content = this.rawHtmlInput;
+      }
+      (await openapi).general_editCmsHtml(page.id, data).then(() => {
+        this.$refs.cmsEditDialog.closeAndReset();
+        this.htmlInput = null;
+        this.rawHtmlInput = null;
+        this.getCmsPages();
+        this.$notify({
+          title: this.$t('_navigation.messages.cmdEdited'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.cmsEditDialog.setError(err);
+      });
     },
     async updateLinkOrder() {
       (await openapi).general_updateNavItems(null, this.links).then(() => {
@@ -322,6 +367,7 @@ export default {
       }
       (await openapi).navigation_deleteNavigationLink(nav.id).then(() => {
         this.$refs.deleteNavConfirmationDialog.closeAndReset();
+        EventBus.emit('navUpdated');
         this.$notify({
           title: this.$t('_navigation.messages.removedLink'),
           type: 'success',
@@ -331,12 +377,41 @@ export default {
         this.$refs.deleteNavConfirmationDialog.setError(err);
       });
     },
-    async editNavItem(nav) {
-      this.$refs.navEditDialog.closeAndReset();
-      this.$notify({
-        title: this.$t('_navigation.messages.editedLink'),
-        type: 'success',
+    async editNavLink(nav) {
+      const data = this.$refs.navEditDialog.getData();
+      (await openapi).navigation_editNavigationLink(nav.id, data).then(() => {
+        this.$refs.navEditDialog.closeAndReset();
+        EventBus.emit('navUpdated');
+        this.getNavItems();
+        this.$notify({
+          title: this.$t('_navigation.messages.editedLink'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        this.$refs.navEditDialog.setError(err);
       });
+    },
+    async openCmsEditDialog(page) {
+      (await openapi).general_getCmsHtml(page.id).then((rsp) => {
+        this.htmlInput = rsp.data.content;
+        this.rawHtmlInput = rsp.data.content;
+      });
+      this.$refs.cmsEditDialog.show(page);
+      this.$refs.cmsEditDialog.setData(page);
+    },
+    async openNavEditDialog(item) {
+      if (item.default === true) this.navlinkAddSchema = NavlinkAddForm.returnForm(true);
+      else this.navlinkAddSchema = NavlinkAddForm.returnForm();
+      this.rawHtmlInput = '';
+      this.htmlInput = '';
+      this.$refs.navEditDialog.show(item);
+      this.$refs.navEditDialog.setData(item);
+    },
+    async openNavAddDialog() {
+      this.navlinkAddSchema = NavlinkAddForm.returnForm();
+      this.rawHtmlInput = '';
+      this.htmlInput = '';
+      this.$refs.navAddDialog.show();
     },
   },
 };
