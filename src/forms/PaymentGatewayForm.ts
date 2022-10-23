@@ -104,7 +104,7 @@ function gatewayFields(gatewayType: string) {
         type: [
           'string',
         ],
-        title: 'Secret Key',
+        title: 'API Key',
       },
       environment: {
         type: [
