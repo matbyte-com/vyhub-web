@@ -44,11 +44,11 @@ export default {
   },
   computed: {
     allowedTabs() {
-      if (this.link.tabs == null) {
+      if (this.link.sublinks == null) {
         return [];
       }
 
-      return this.link.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
+      return this.link.sublinks.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
     },
     localLink() {
       if (window) {

@@ -98,7 +98,73 @@
         <div
           v-for="link in links"
           :key="link.title">
-          <v-list-item>
+          <v-list-group v-if="link.sublinks.length !== 0" :append-icon="null"
+                        prepend-icon="$expand">
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>
+                  <v-row>
+                    <v-col cols="3">
+                      {{ link.title }}
+                    </v-col>
+                    <v-col class="text-right">
+                      <v-btn outlined color="primary" small
+                             @click="openNavEditDialog(link)" class="mr-1">
+                        <v-icon>
+                          mdi-pencil
+                        </v-icon>
+                      </v-btn>
+                      <v-btn :disabled="link.linkType==='default'"
+                             outlined color="error" small
+                             @click="$refs.deleteNavConfirmationDialog.show(link)">
+                        <v-icon>
+                          mdi-delete
+                        </v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item v-for="sublink in link.sublinks" :key="sublink.id">
+              <v-row :class="!link.enabled ? 'text--disabled' : ''">
+                <v-col class="ml-3" cols="1">
+                  <v-icon>
+                    {{ sublink.icon }}
+                  </v-icon>
+                </v-col>
+                <v-col cols="3">
+                  {{ sublink.title }}
+                </v-col>
+                <v-col cols="3">
+                  {{ sublink.link }}
+                </v-col>
+                <v-col class="text-right">
+                  <v-icon v-if="link.cms_page_id" class="mr-1">
+                    mdi-web
+                  </v-icon>
+                  <v-icon v-else class="mr-1">
+                    mdi-link
+                  </v-icon>
+                  <v-btn outlined color="primary" small
+                         @click="openNavEditDialog(link)" class="mr-1">
+                    <v-icon>
+                      mdi-pencil
+                    </v-icon>
+                  </v-btn>
+                  <v-btn :disabled="link.linkType==='default'"
+                         outlined color="error" small
+                         @click="$refs.deleteNavConfirmationDialog.show(link)">
+                    <v-icon>
+                      mdi-delete
+                    </v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-list-item>
+          </v-list-group>
+
+          <v-list-item v-else>
             <v-row :class="!link.enabled ? 'text--disabled' : ''">
               <v-col cols="1">
                 <v-icon>
@@ -112,10 +178,10 @@
                 {{ link.link }}
               </v-col>
               <v-col class="text-right">
-                <v-icon v-if="link.linkType === 'html'" class="mr-1">
+                <v-icon v-if="link.cms_page_id" class="mr-1">
                   mdi-web
                 </v-icon>
-                <v-icon v-if="link.linkType === 'link'" class="mr-1">
+                <v-icon v-else class="mr-1">
                   mdi-link
                 </v-icon>
                 <v-btn outlined color="primary" small

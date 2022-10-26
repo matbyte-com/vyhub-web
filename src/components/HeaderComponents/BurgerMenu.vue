@@ -8,13 +8,13 @@
       <div v-for="(navLink, index) in navLinks" :key="index">
         <!-- if tabs are existent -->
         <v-list-group
-          v-if="(navLink.tabs || []).length > 0"
+          v-if="(navLink.sublinks || []).length > 0"
           v-on:click.stop="">
           <template v-slot:activator>
               <v-icon left>{{ navLink.icon }}</v-icon>
               <v-list-item-title>{{ navLink.title }}</v-list-item-title>
           </template>
-          <div v-for="(tab, index) in navLink.tabs" :key="index">
+          <div v-for="(tab, index) in navLink.sublinks" :key="index">
             <v-list-item class="ml-3"
             v-if="tab.enabled === true && $checkProp(tab.reqProp)"
             :to="tab.link"
@@ -25,7 +25,7 @@
           </div>
         </v-list-group>
         <!-- if no tabs are existent -->
-        <v-list-item v-if="(navLink.tabs || []).length === 0"
+        <v-list-item v-if="(navLink.sublinks || []).length === 0"
                      :href="(navLink.linkType === 'link' && !localLink(navLink) ?
                       navLink.link : null)"
                      :to="(navLink.linkType !== 'link' || localLink(navLink) ?

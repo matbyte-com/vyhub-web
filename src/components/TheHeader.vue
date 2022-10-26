@@ -166,7 +166,7 @@ export default {
   computed: {
     allowedLinks() {
       return this.links
-        .filter((l) => l.enabled && (!l.reqProp || this.$checkProp(l.reqProp) === true));
+        .filter((l) => l.enabled && l.location === 'HEADER' && (!l.reqProp || this.$checkProp(l.reqProp) === true));
     },
     allowedBurgerMenuLinks() {
       const helpCircle = {};
