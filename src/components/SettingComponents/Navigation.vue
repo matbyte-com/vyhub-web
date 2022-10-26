@@ -379,6 +379,9 @@ export default {
     },
     async editNavLink(nav) {
       const data = this.$refs.navEditDialog.getData();
+      if (data.linkType === 'html') {
+        data.link = `/cms/${data.title.toLowerCase()}`;
+      }
       (await openapi).navigation_editNavigationLink(nav.id, data).then(() => {
         this.$refs.navEditDialog.closeAndReset();
         EventBus.emit('navUpdated');
@@ -400,18 +403,29 @@ export default {
       this.$refs.cmsEditDialog.setData(page);
     },
     async openNavEditDialog(item) {
-      if (item.default === true) this.navlinkAddSchema = NavlinkAddForm.returnForm(true);
-      else this.navlinkAddSchema = NavlinkAddForm.returnForm();
+      const data = item;
+      if (item.default === true) {
+        this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject(), true);
+      } else this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject());
+      if (item.cms_page_id) { data.linkType = 'html'; }
+      if (item.parent_navigation_id) { data.sublink = true; }
       this.rawHtmlInput = '';
       this.htmlInput = '';
-      this.$refs.navEditDialog.show(item);
-      this.$refs.navEditDialog.setData(item);
+      this.$refs.navEditDialog.show(data);
+      this.$refs.navEditDialog.setData(data);
     },
     async openNavAddDialog() {
-      this.navlinkAddSchema = NavlinkAddForm.returnForm();
+      this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject());
       this.rawHtmlInput = '';
       this.htmlInput = '';
       this.$refs.navAddDialog.show();
+    },
+    transformLinkObject() {
+      const array = [];
+      this.links.filter((l) => l.parent_link_id === null).forEach((l) => {
+        array.push({ const: l.id, title: l.title });
+      });
+      return array;
     },
   },
 };
