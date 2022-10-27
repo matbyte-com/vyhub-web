@@ -126,42 +126,45 @@
                 </v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="sublink in link.sublinks" :key="sublink.id">
-              <v-row :class="!link.enabled ? 'text--disabled' : ''">
-                <v-col class="ml-3" cols="1">
-                  <v-icon>
-                    {{ sublink.icon }}
-                  </v-icon>
-                </v-col>
-                <v-col cols="3">
-                  {{ sublink.title }}
-                </v-col>
-                <v-col cols="3">
-                  {{ sublink.link }}
-                </v-col>
-                <v-col class="text-right">
-                  <v-icon v-if="link.cms_page_id" class="mr-1">
-                    mdi-web
-                  </v-icon>
-                  <v-icon v-else class="mr-1">
-                    mdi-link
-                  </v-icon>
-                  <v-btn outlined color="primary" small
-                         @click="openNavEditDialog(link)" class="mr-1">
+            <draggable :list="link.sublinks"
+                       @change="updateLinkEnabled = true">
+              <v-list-item v-for="sublink in link.sublinks" :key="sublink.id">
+                <v-row :class="!link.enabled ? 'text--disabled' : ''">
+                  <v-col class="ml-3" cols="1">
                     <v-icon>
-                      mdi-pencil
+                      {{ sublink.icon }}
                     </v-icon>
-                  </v-btn>
-                  <v-btn :disabled="link.linkType==='default'"
-                         outlined color="error" small
-                         @click="$refs.deleteNavConfirmationDialog.show(link)">
-                    <v-icon>
-                      mdi-delete
+                  </v-col>
+                  <v-col cols="3">
+                    {{ sublink.title }}
+                  </v-col>
+                  <v-col cols="3">
+                    {{ sublink.link }}
+                  </v-col>
+                  <v-col class="text-right">
+                    <v-icon v-if="link.cms_page_id" class="mr-1">
+                      mdi-web
                     </v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-list-item>
+                    <v-icon v-else class="mr-1">
+                      mdi-link
+                    </v-icon>
+                    <v-btn outlined color="primary" small
+                           @click="openNavEditDialog(link)" class="mr-1">
+                      <v-icon>
+                        mdi-pencil
+                      </v-icon>
+                    </v-btn>
+                    <v-btn :disabled="link.linkType==='default'"
+                           outlined color="error" small
+                           @click="$refs.deleteNavConfirmationDialog.show(link)">
+                      <v-icon>
+                        mdi-delete
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-list-item>
+            </draggable>
           </v-list-group>
 
           <v-list-item v-else>
@@ -414,7 +417,16 @@ export default {
       });
     },
     async updateLinkOrder() {
-      (await openapi).general_updateNavItems(null, this.links).then(() => {
+      const array = [];
+      this.links.forEach((l) => {
+        array.push(l.id);
+        if (l.sublinks.length !== 0) {
+          l.sublinks.forEach((sl) => {
+            array.push(sl.id);
+          });
+        }
+      });
+      (await openapi).navigation_updateOrder(null, array).then(() => {
         this.updateLinkEnabled = false;
         this.getNavItems();
         EventBus.emit('navUpdated'); // Event caught in Header to Update Navlinks

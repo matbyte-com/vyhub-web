@@ -1,11 +1,13 @@
 <template>
   <v-footer color="header lighten-1" padless>
     <v-row justify="center" no-gutters>
-      <v-btn v-for="(link, index) in links" :key="index" color="white"
-             text class="no-active my-2" :to="link.link"
-             >
-        {{ link.title }}
-      </v-btn>
+      <div class="d-flex my-2">
+        <NavigationLink
+          :link="link"
+          v-for="(link, index) in getNavlinks"
+          :key="index">
+        </NavigationLink>
+      </div>
       <v-col class="header lighten-2 py-4 text-center white--text" cols="12">
         <strong>
           {{ new Date().getFullYear() }}
@@ -25,10 +27,11 @@
 </template>
 
 <script>
+import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
 import { version } from '../../package.json';
 
 export default {
-  components: {},
+  components: { NavigationLink },
   data() {
     return {
       version,
@@ -37,6 +40,13 @@ export default {
         { title: 'Legal', link: '/legal' },
       ],
     };
+  },
+  computed: {
+    getNavlinks() {
+      const links = this.$store.getters.navItems;
+      return links
+        .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.reqProp || this.$checkProp(l.reqProp) === true));
+    },
   },
 };
 </script>

@@ -27,8 +27,8 @@
     <v-btn
       text dark
       v-if="(allowedTabs || []).length === 0"
-      :href="(link.linkType === 'link' && !localLink ? link.link : null)"
-      :to="(link.linkType !== 'link' || localLink ? getLocalLink : null)"
+      :href="(link.linkType === 'link' && localLink ? link.link : null)"
+      :to="(link.linkType !== 'link' || !localLink ? getLocalLink : null)"
     >
       <v-icon left>{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
