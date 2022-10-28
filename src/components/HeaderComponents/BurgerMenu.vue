@@ -17,18 +17,20 @@
           <div v-for="(tab, index) in navLink.sublinks" :key="index">
             <v-list-item class="ml-3"
             v-if="tab.enabled === true && $checkProp(tab.reqProp)"
-            :to="tab.link"
+            :href="tab.cms_page_id === null && !localLink(tab) ? tab.link : null"
+            :to="tab.cms_page_id || localLink(tab) ? getLocalLink(tab) : null"
             link>
               <v-icon left>{{ tab.icon }}</v-icon>
               <v-list-item-title>{{ tab.title }}</v-list-item-title>
+              {{ localLink(tab) }}
             </v-list-item>
           </div>
         </v-list-group>
         <!-- if no tabs are existent -->
         <v-list-item v-if="(navLink.sublinks || []).length === 0"
-                     :href="(navLink.linkType === 'link' && !localLink(navLink) ?
+                     :href="(navLink.cms_page_id === null && !localLink(navLink) ?
                       navLink.link : null)"
-                     :to="(navLink.linkType !== 'link' || localLink(navLink) ?
+                     :to="(navLink.cms_page_id || localLink(navLink) ?
                       getLocalLink(navLink) : null)">
           <v-icon left>{{ navLink.icon }}</v-icon>
           <v-list-item-title>{{ navLink.title }}</v-list-item-title>

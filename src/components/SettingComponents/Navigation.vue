@@ -97,7 +97,7 @@
         @change="updateLinkEnabled = true">
         <div
           v-for="link in links"
-          :key="link.title">
+          :key="link.id">
           <v-list-group v-if="link.sublinks.length !== 0" :append-icon="null"
                         prepend-icon="$expand">
             <template v-slot:activator>
@@ -149,7 +149,7 @@
                       mdi-link
                     </v-icon>
                     <v-btn outlined color="primary" small
-                           @click="openNavEditDialog(link)" class="mr-1">
+                           @click="openNavEditDialog(sublink)" class="mr-1">
                       <v-icon>
                         mdi-pencil
                       </v-icon>
@@ -490,7 +490,9 @@ export default {
       this.rawHtmlInput = '';
       this.htmlInput = '';
       this.$refs.navEditDialog.show(data);
-      this.$refs.navEditDialog.setData(data);
+      this.$nextTick(() => {
+        this.$refs.navEditDialog.setData(data);
+      });
     },
     async openNavAddDialog() {
       this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject());

@@ -15,7 +15,9 @@
       <v-list dense class="text-uppercase">
         <v-list-item v-for="(tab, index) in allowedTabs || []"
                      :key="index"
-                     :to="tab.link">
+                     :href="(tab.cms_page_id === null && !localLink(tab) ? tab.link : null)"
+                     :to="(tab.cms_page_id || localLink(tab) ?
+                      getLocalLink(tab) : null)">
           <v-list-item-title>
             <v-icon left>{{ tab.icon}}</v-icon>
             <span>{{ tab.title }}</span>
@@ -27,8 +29,8 @@
     <v-btn
       text dark
       v-if="(allowedTabs || []).length === 0"
-      :href="(link.linkType === 'link' && localLink ? link.link : null)"
-      :to="(link.linkType !== 'link' || !localLink ? getLocalLink : null)"
+      :href="(link.cms_page_id === null && !localLink(link) ? link.link : null)"
+      :to="(link.cms_page_id || localLink(link) ? getLocalLink(link) : null)"
     >
       <v-icon left>{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
@@ -50,18 +52,20 @@ export default {
 
       return this.link.sublinks.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
     },
-    localLink() {
+  },
+  methods: {
+    getLocalLink(link) {
+      if (!link.link) return '';
+      if (this.localLink(link)) { return link.link.substring(window.location.origin.length); }
+      return link.link;
+    },
+    localLink(link) {
+      if (!link.link) return false;
       if (window) {
-        return !!this.link.link.includes(window.location.hostname);
+        return !!link.link.includes(window.location.hostname);
       }
       return false;
     },
-    getLocalLink() {
-      if (this.localLink) { return this.link.link.substring(window.location.origin.length); }
-      return this.link.link;
-    },
-  },
-  methods: {
   },
 };
 </script>
