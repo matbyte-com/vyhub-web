@@ -29,14 +29,11 @@ export default {
   },
   methods: {
     async getLinks() {
-      (await openapi).general_getNavItems().then((rsp) => {
-        this.links = rsp.data;
-      })
-        .catch((err) => console.log(err.data));
+      this.links = this.$store.getters.navItems;
     },
     async getHtml() {
       const htmlId = this.links
-        .find((l) => l.title.toLowerCase() === this.$route.params.title).html;
+        .find((l) => l.title.toLowerCase() === this.$route.params.title).cms_page_id;
       (await openapi).general_getCmsHtml(htmlId).then((rsp) => { this.html = rsp.data.content; })
         .catch((err) => {
           this.html = `Error while fetching HTML ${err}`;
