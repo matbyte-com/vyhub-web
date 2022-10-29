@@ -4,21 +4,21 @@
       {{ $t('_navigation.title') }}
     </SettingTitle>
     <dialog-form ref="cmsAddDialog" :form-schema="cmsPageAddSchema"
-                 icon="mdi-navigation-outline" :max-width="1000"
+                 icon="mdi-content-save" :max-width="1000"
                  :title="$t('_navigation.addCmsPage')"
                  @submit="createCmsPage">
       <template slot="title-after">
         <v-alert
           type="warning" outlined
           dense
-        >{{ $t('_settings.contentSanitizationWarning') }}
+        >{{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
         <v-expansion-panels flat>
           <v-expansion-panel>
             <v-expansion-panel-header>
               <v-row>
                 <v-badge :value="htmlInput" inline dot class="float-left">
-                  {{ $t('_settings.editor') }}
+                  {{ $t('_navigation.editor') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-header>
@@ -30,19 +30,19 @@
             <v-expansion-panel-header>
               <v-row>
                 <v-badge :value="rawHtmlInput" inline dot class="float-left">
-                  {{ $t('_settings.rawHtml') }}
+                  {{ $t('_navigation.rawHtml') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-textarea :placeholder="$t('_settings.rawHtml')" v-model="rawHtmlInput"/>
+              <v-textarea :placeholder="$t('_navigation.rawHtml')" v-model="rawHtmlInput"/>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </template>
     </dialog-form>
     <dialog-form ref="cmsEditDialog" :form-schema="cmsPageAddSchema"
-                 icon="mdi-navigation-outline"
+                 icon="mdi-content-save-cog"
                  :title="$t('_navigation.editCmsPage')"
                  @submit="editCmsPage">
 
@@ -50,14 +50,14 @@
         <v-alert
           type="warning" outlined
           dense
-        >{{ $t('_settings.contentSanitizationWarning') }}
+        >{{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
         <v-expansion-panels flat>
           <v-expansion-panel>
             <v-expansion-panel-header>
               <v-row>
                 <v-badge :value="htmlInput" inline dot class="float-left">
-                  {{ $t('_settings.editor') }}
+                  {{ $t('_navigation.editor') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-header>
@@ -69,12 +69,12 @@
             <v-expansion-panel-header>
               <v-row>
                 <v-badge :value="rawHtmlInput" inline dot class="float-left">
-                  {{ $t('_settings.rawHtml') }}
+                  {{ $t('_navigation.rawHtml') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-textarea :placeholder="$t('_settings.rawHtml')" v-model="rawHtmlInput"/>
+              <v-textarea :placeholder="$t('_navigation.rawHtml')" v-model="rawHtmlInput"/>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -206,12 +206,11 @@
         </div>
       </draggable>
     </v-list>
-    <v-divider class="mb-3"/>
     <v-row>
       <v-col cols="12" md="6">
         <v-btn outlined color="success" @click="openNavAddDialog">
           <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t('_settings.addLink') }}</span>
+          <span>{{ $t('_navigation.addNavLink') }}</span>
         </v-btn>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs}">
@@ -222,7 +221,7 @@
             </v-btn>
           </template>
           <span>
-            {{ $t('_settings.navUpdate') }}
+            {{ $t('_navigation.navUpdate') }}
           </span>
         </v-tooltip>
         <v-tooltip bottom>
@@ -234,34 +233,29 @@
             </v-btn>
           </template>
           <span>
-            {{ $t('_settings.navReset') }}
+            {{ $t('_navigation.navReset') }}
           </span>
         </v-tooltip>
       </v-col>
-      <v-col class="text--disabled" :class="$vuetify.breakpoint.mdAndDown ? '' : 'text-right'">
+      <v-col class="text--disabled mr-5" :class="$vuetify.breakpoint.mdAndDown ? '' : 'text-right'">
         <span class="mr-3">
           <v-icon disabled>
           mdi-web
         </v-icon>
-        {{ $t('_settings.htmlContent') }}
+        {{ $t('_navigation.htmlContent') }}
         </span>
         <span>
           <v-icon disabled>
           mdi-link
         </v-icon>
-        {{ $t('_settings.externalLink') }}
+        {{ $t('_navigation.link') }}
         </span>
       </v-col>
     </v-row>
     <!-- CMS Page Component-->
-    <v-divider class="mt-3"/>
-    <SettingTitle docPath="/guide/navigation">
+    <SettingTitle docPath="/guide/navigation" class="mt-10">
       {{ $t('_navigation.cmsPageTitle') }}
     </SettingTitle>
-    <v-btn outlined color="success" @click="$refs.cmsAddDialog.show()">
-      <v-icon left>mdi-plus</v-icon>
-      <span>{{ $t('_settings.addCmsPage') }}</span>
-    </v-btn>
     <v-list>
       <v-list-item v-for="page in cmsPages" :key="page.id">
         <v-row>
@@ -282,6 +276,10 @@
         </v-row>
       </v-list-item>
     </v-list>
+    <v-btn outlined color="success" @click="$refs.cmsAddDialog.show()">
+      <v-icon left>mdi-plus</v-icon>
+      <span>{{ $t('_navigation.addCmsPage') }}</span>
+    </v-btn>
   </div>
 </template>
 
@@ -459,6 +457,9 @@ export default {
       const data = this.$refs.navEditDialog.getData();
       if (data.linkType === 'html') {
         data.link = `/cms/${data.title.toLowerCase()}`;
+      }
+      if (data.linkType === 'link') {
+        data.cms_page_id = null;
       }
       (await openapi).navigation_editNavigationLink(nav.id, data).then(() => {
         this.$refs.navEditDialog.closeAndReset();

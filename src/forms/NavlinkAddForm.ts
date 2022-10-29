@@ -19,7 +19,7 @@ function returnForm(links: {}[], disabled?: false) {
           },
           subLink: {
             type: 'boolean',
-            title: i18n.t('_navigation.is_sublink'),
+            title: i18n.t('_navigation.sublink'),
           },
         },
         if: {
@@ -34,7 +34,7 @@ function returnForm(links: {}[], disabled?: false) {
           properties: {
             parent_navigation_link_id: {
               type: 'string',
-              title: i18n.t('_navigation.parent_navigation_link'),
+              title: i18n.t('_navigation.parentNavigationLink'),
               oneOf: links,
             },
           },
@@ -47,11 +47,11 @@ function returnForm(links: {}[], disabled?: false) {
               oneOf: [
                 {
                   const: 'HEADER',
-                  title: i18n.t('_navigation.header'),
+                  title: i18n.t('_navigation._location.header'),
                 },
                 {
                   const: 'FOOTER',
-                  title: i18n.t('_navigation.footer'),
+                  title: i18n.t('_navigation._location.footer'),
                 },
               ],
             },
@@ -77,11 +77,11 @@ function returnForm(links: {}[], disabled?: false) {
           icon: Common.iconPicker,
           linkType: {
             type: 'string',
-            title: i18n.t('_navigation.type'),
+            title: i18n.t('type'),
             oneOf: [
               {
                 const: 'link',
-                title: i18n.t('_navigation.externalLink'),
+                title: i18n.t('_navigation.link'),
               },
               {
                 const: 'html',
@@ -127,9 +127,6 @@ function returnForm(links: {}[], disabled?: false) {
     ],
   };
 }
-
-// function getParentLinks(links: { id: string, title: string}[]) {
-// }
 
 export default {
   returnForm,
