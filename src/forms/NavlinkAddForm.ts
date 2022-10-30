@@ -20,6 +20,8 @@ function returnForm(links: {}[], disabled?: false) {
           subLink: {
             type: 'boolean',
             title: i18n.t('_navigation.sublink'),
+            'x-cols': 4,
+            'x-class': 'mt-4',
           },
         },
         if: {
@@ -36,6 +38,11 @@ function returnForm(links: {}[], disabled?: false) {
               type: 'string',
               title: i18n.t('_navigation.parentNavigationLink'),
               oneOf: links,
+              'x-options': {
+                fieldColProps: {
+                  cols: 8,
+                },
+              },
             },
           },
         },
@@ -44,6 +51,11 @@ function returnForm(links: {}[], disabled?: false) {
             location: {
               type: 'string',
               title: i18n.t('_navigation.location'),
+              'x-options': {
+                fieldColProps: {
+                  cols: 8,
+                },
+              },
               oneOf: [
                 {
                   const: 'HEADER',
@@ -62,17 +74,23 @@ function returnForm(links: {}[], disabled?: false) {
         required: [
           'enabled',
           'linkType',
-          'icon',
         ],
         properties: {
           enabled: {
             type: 'boolean',
-            default: false,
+            default: true,
             title: i18n.t('_navigation.enabled'),
+            'x-cols': 4,
+            'x-class': 'mt-4',
           },
           req_prop: {
             type: 'string',
             title: i18n.t('_navigation.reqProp'),
+            'x-options': {
+              fieldColProps: {
+                cols: 8,
+              },
+            },
           },
           icon: Common.iconPicker,
           linkType: {
@@ -89,6 +107,8 @@ function returnForm(links: {}[], disabled?: false) {
               },
             ],
             default: 'link',
+            'x-class': 'mr-3, pr-3',
+            'x-cols': 4,
           },
         },
         if: {
@@ -109,6 +129,11 @@ function returnForm(links: {}[], disabled?: false) {
               'x-props': {
                 placeholder: 'https://vhyub.net',
               },
+              'x-options': {
+                fieldColProps: {
+                  cols: 8,
+                },
+              },
             },
           },
         },
@@ -120,6 +145,11 @@ function returnForm(links: {}[], disabled?: false) {
               'x-fromUrl': `${API_URL}/general/html`,
               'x-itemTitle': 'title',
               'x-itemKey': 'id',
+              'x-options': {
+                fieldColProps: {
+                  cols: 8,
+                },
+              },
             },
           },
         },
