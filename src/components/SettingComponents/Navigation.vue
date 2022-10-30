@@ -98,14 +98,16 @@
         <div
           v-for="link in links"
           :key="link.id">
-          <v-list-group v-if="link.sublinks.length !== 0" :append-icon="null"
-                        prepend-icon="$expand">
+          <v-list-group v-if="link.sublinks.length !== 0" :append-icon="null">
             <template v-slot:activator>
               <v-list-item-content>
                 <v-list-item-title>
                   <v-row>
+                    <v-col cols="1">
+                      <v-icon>mdi-chevron-down</v-icon>
+                    </v-col>
                     <v-col cols="3">
-                      {{ link.title }}
+                      <span>{{ link.title }}</span>
                     </v-col>
                     <v-col class="text-right">
                       <v-btn outlined color="primary" small
@@ -170,8 +172,11 @@
           <v-list-item v-else>
             <v-row :class="!link.enabled ? 'text--disabled' : ''">
               <v-col cols="1">
-                <v-icon>
+                <v-icon v-if="link.icon">
                   {{ link.icon }}
+                </v-icon>
+                <v-icon v-else>
+                  mdi-dots-square
                 </v-icon>
               </v-col>
               <v-col cols="3">

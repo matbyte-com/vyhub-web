@@ -117,7 +117,8 @@ export default {
     'x-slots': {
       'append-outer': `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.t('_forms.labels.iconDescription')}</a>`,
     },
-    'x-itemIcon': 'query',
+    'x-itemIcon': 'icon',
+    'x-itemTitle': 'icon',
     'x-fromUrl': `${API_URL}/general/icons?query={q}`,
   },
   countryCodeField: {
