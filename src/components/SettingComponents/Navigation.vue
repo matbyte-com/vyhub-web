@@ -492,9 +492,8 @@ export default {
         this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject(), true);
       } else this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject());
       if (item.cms_page_id) { data.linkType = 'html'; }
-      if (item.parent_navigation_id) { data.sublink = true; }
-      this.rawHtmlInput = '';
-      this.htmlInput = '';
+      if (!item.cms_page_id) { data.linkType = 'link'; }
+      if (item.parent_navigation_link_id) { data.subLink = true; }
       this.$refs.navEditDialog.show(data);
       this.$nextTick(() => {
         this.$refs.navEditDialog.setData(data);
