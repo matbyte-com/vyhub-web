@@ -3,7 +3,8 @@
     <!-- burger menu on the left-->
     <div class="hidden-md-and-up">
       <BurgerMenu
-        :nav-links="allowedBurgerMenuLinks"
+        :nav-links="allowedLinks"
+        :help-links="allowedHelpCircleLinks"
         :menu-links="linksRight"
         @logout="logout"
         @login="showLoginDialog()"/>
@@ -92,32 +93,6 @@ export default {
       communityName: null,
       logo_width: 50,
       linksRight: [],
-      helpCircleLinks: [
-        {
-          title: this.$t('team'),
-          icon: 'mdi-account-group',
-          link: '/team',
-          config: 'enable_team',
-          loggedIn: false,
-          enabled: true,
-        },
-        {
-          title: this.$t('faq'),
-          icon: 'mdi-chat-question',
-          link: '/faq',
-          config: 'enable_faq',
-          loggedIn: false,
-          enabled: true,
-        },
-        {
-          title: this.$t('ticket'),
-          icon: 'mdi-ticket-confirmation',
-          link: '/ticket',
-          config: 'enable_ticket',
-          loggedIn: true,
-          enabled: true,
-        },
-      ],
     };
   },
   methods: {
@@ -168,23 +143,9 @@ export default {
       return this.links
         .filter((l) => l.enabled && l.location === 'HEADER' && (!l.reqProp || this.$checkProp(l.reqProp) === true));
     },
-    allowedBurgerMenuLinks() {
-      const helpCircle = {};
-      helpCircle.title = this.$t('help');
-      helpCircle.icon = 'mdi-help-circle';
-      helpCircle.tabs = this.allowedHelpCircleLinks;
-      helpCircle.enabled = true;
-      return this.allowedLinks.concat([helpCircle]).concat(this.linksRight);
-    },
     allowedHelpCircleLinks() {
-      const res = [];
-      this.helpCircleLinks.forEach((m) => {
-        if (this.$store.getters.generalConfig != null && this.$store.getters.generalConfig[m.config]
-          && (this.$store.getters.isLoggedIn || this.$store.getters.isLoggedIn === m.loggedIn)) {
-          res.push(m);
-        }
-      });
-      return res;
+      return this.links
+        .filter((l) => l.enabled && l.location === 'HELP' && (!l.reqProp || this.$checkProp(l.reqProp) === true));
     },
   },
   watch: {

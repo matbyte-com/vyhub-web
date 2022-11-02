@@ -56,11 +56,13 @@ export default {
   methods: {
     getLocalLink(link) {
       if (!link.link) return '';
+      if (link.default) return link.link;
       if (this.localLink(link)) { return link.link.substring(window.location.origin.length); }
       return link.link;
     },
     localLink(link) {
       if (!link.link) return false;
+      if (link.default) return true;
       if (window) {
         return !!link.link.includes(window.location.hostname);
       }

@@ -6,36 +6,18 @@
     <v-list dense>
       <!-- render navlinks -->
       <div v-for="(navLink, index) in navLinks" :key="index">
-        <!-- if tabs are existent -->
-        <v-list-group
-          v-if="(navLink.sublinks || []).length > 0"
-          v-on:click.stop="">
-          <template v-slot:activator>
-              <v-icon left>{{ navLink.icon }}</v-icon>
-              <v-list-item-title>{{ navLink.title }}</v-list-item-title>
-          </template>
-          <div v-for="(tab, index) in navLink.sublinks" :key="index">
-            <v-list-item class="ml-3"
-            v-if="tab.enabled === true && $checkProp(tab.reqProp)"
-            :href="tab.cms_page_id === null && !localLink(tab) ? tab.link : null"
-            :to="tab.cms_page_id || localLink(tab) ? getLocalLink(tab) : null"
-            link>
-              <v-icon left>{{ tab.icon }}</v-icon>
-              <v-list-item-title>{{ tab.title }}</v-list-item-title>
-              {{ localLink(tab) }}
-            </v-list-item>
-          </div>
-        </v-list-group>
-        <!-- if no tabs are existent -->
-        <v-list-item v-if="(navLink.sublinks || []).length === 0"
-                     :href="(navLink.cms_page_id === null && !localLink(navLink) ?
-                      navLink.link : null)"
-                     :to="(navLink.cms_page_id || localLink(navLink) ?
-                      getLocalLink(navLink) : null)">
-          <v-icon left>{{ navLink.icon }}</v-icon>
-          <v-list-item-title>{{ navLink.title }}</v-list-item-title>
-        </v-list-item>
+        <ListItemLink :link="navLink"/>
       </div>
+      <!-- render helpMenu -->
+      <v-list-group v-on:click.stop="">
+        <template v-slot:activator>
+          <v-icon left>mdi-account-circle</v-icon>
+          <v-list-item-title>{{$t('help')}}</v-list-item-title>
+        </template>
+        <div v-for="helpLink in helpLinks" :key="helpLink.id">
+          <ListItemLink :sub-sub-link="true" :link="helpLink" />
+        </div>
+      </v-list-group>
       <v-divider />
       <div v-if="$store.getters.isLoggedIn">
         <ShoppingCart :list-item="true"/>
@@ -71,12 +53,16 @@
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 import Credits from '@/components/HeaderComponents/Credits.vue';
 import LinkAccountListItem from '@/components/HeaderComponents/LinkAccountListItem.vue';
+import ListItemLink from '@/components/HeaderComponents/ListItemLink.vue';
 
 export default {
   name: 'BurgerMenu.vue',
-  components: { LinkAccountListItem, Credits, ShoppingCart },
+  components: {
+    LinkAccountListItem, Credits, ShoppingCart, ListItemLink,
+  },
   props: {
     navLinks: Array,
+    helpLinks: Array,
     menuLinks: Array,
   },
   data() {
@@ -92,18 +78,6 @@ export default {
     },
     emitLogout() {
       this.$emit('logout');
-    },
-    getLocalLink(link) {
-      if (!link.link) return '';
-      if (this.localLink(link)) { return link.link.substring(window.location.origin.length); }
-      return link.link;
-    },
-    localLink(link) {
-      if (!link.link) return false;
-      if (window) {
-        return !!link.link.includes(window.location.hostname);
-      }
-      return false;
     },
   },
 };

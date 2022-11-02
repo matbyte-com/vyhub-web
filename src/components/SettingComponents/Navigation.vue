@@ -377,7 +377,7 @@ export default {
         this.rawHtmlInput = null;
         this.getCmsPages();
         this.$notify({
-          title: this.$t('_navigation.messages.cmdAdded'),
+          title: this.$t('_navigation.messages.cmsAdded'),
           type: 'success',
         });
       }).catch((err) => {
@@ -412,7 +412,7 @@ export default {
         this.rawHtmlInput = null;
         this.getCmsPages();
         this.$notify({
-          title: this.$t('_navigation.messages.cmdEdited'),
+          title: this.$t('_navigation.messages.cmsEdited'),
           type: 'success',
         });
       }).catch((err) => {
@@ -508,7 +508,7 @@ export default {
     },
     transformLinkObject() {
       const array = [];
-      this.links.filter((l) => l.parent_link_id === null).forEach((l) => {
+      this.links.filter((l) => l.parent_navigation_link_id === null).forEach((l) => {
         array.push({ const: l.id, title: l.title });
       });
       return array;

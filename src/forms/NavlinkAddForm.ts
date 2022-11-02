@@ -65,6 +65,10 @@ function returnForm(links: {}[], disabled?: false) {
                   const: 'FOOTER',
                   title: i18n.t('_navigation._location.footer'),
                 },
+                {
+                  const: 'HELP',
+                  title: i18n.t('_navigation._location.help'),
+                },
               ],
             },
           },

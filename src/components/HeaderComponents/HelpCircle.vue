@@ -5,23 +5,21 @@
         <v-icon>mdi-help-circle</v-icon>
       </v-btn>
     </template>
-    <v-list dense>
+    <v-list dense class="ml-3">
       <div v-for="(link, index) in menuLinks"
            :key="index">
-        <v-list-item :to="link.link">
-          <v-icon left>{{ link.icon }}</v-icon>
-          <v-list-item-title>
-            {{ link.title }}
-          </v-list-item-title>
-        </v-list-item>
+       <ListItemLink :link="link"/>
       </div>
     </v-list>
   </v-menu>
 </template>
 
 <script>
+import ListItemLink from '@/components/HeaderComponents/ListItemLink.vue';
+
 export default {
   name: 'HelpCircle',
+  components: { ListItemLink },
   data() {
     return {
     };
@@ -30,8 +28,6 @@ export default {
     menuLinks: {
       type: Array,
     },
-  },
-  computed: {
   },
 };
 </script>
