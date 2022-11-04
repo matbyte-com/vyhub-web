@@ -100,6 +100,7 @@ function returnForm(links: {}[], disabled?: false) {
           linkType: {
             type: 'string',
             title: i18n.t('type'),
+            readOnly: disabled,
             oneOf: [
               {
                 const: 'link',
@@ -128,7 +129,7 @@ function returnForm(links: {}[], disabled?: false) {
             link: {
               type: 'string',
               title: i18n.t('_navigation.link'),
-              pattern: '^https?://.+$',
+              pattern: '(^https?://.+$)|(/.+)',
               readOnly: disabled,
               'x-props': {
                 placeholder: 'https://vhyub.net',

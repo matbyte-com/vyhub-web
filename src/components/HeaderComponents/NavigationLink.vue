@@ -7,7 +7,7 @@
       offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn text dark v-bind="attrs" v-on="on">
-          <v-icon left>{{ link.icon }}</v-icon>
+          <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
           <span>{{ link.title }}</span>
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
@@ -19,7 +19,7 @@
                      :to="(tab.cms_page_id || localLink(tab) ?
                       getLocalLink(tab) : null)">
           <v-list-item-title>
-            <v-icon left>{{ tab.icon}}</v-icon>
+            <v-icon left v-if="tab.icon">{{ tab.icon}}</v-icon>
             <span>{{ tab.title }}</span>
           </v-list-item-title>
         </v-list-item>
@@ -32,7 +32,7 @@
       :href="(link.cms_page_id === null && !localLink(link) ? link.link : null)"
       :to="(link.cms_page_id || localLink(link) ? getLocalLink(link) : null)"
     >
-      <v-icon left>{{ link.icon }}</v-icon>
+      <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
     </v-btn>
   </div>

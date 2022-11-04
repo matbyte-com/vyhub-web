@@ -92,16 +92,14 @@
     <delete-confirmation-dialog ref="deleteNavConfirmationDialog" @submit="deleteNav"/>
     <!-- real Component -->
     <v-select outlined hide-details dense
-              return-object
               :label="$t('_navigation.location')"
               clearable
-              v-model="currentLocation"
+              v-model="currentLocation" @change="categoryUpdated"
               :items="navigationLocations" item-value="value" item-text="title">
-
     </v-select>
     <v-list>
       <draggable
-        :list="sortList"
+        :list="linksByLocation"
         @change="updateLinkEnabled = true">
         <div
           v-for="link in linksByLocation"
@@ -328,7 +326,7 @@ export default {
       links: null,
       cmsPages: null,
       currentLocation: 'HEADER',
-      sortList: [],
+      linksByLocation: [],
       navigationLocations: [
         {
           value: 'HEADER',
@@ -362,6 +360,7 @@ export default {
       (await openapi).navigation_getNavigationLinks().then((rsp) => {
         this.updateLinkEnabled = false;
         this.links = rsp.data;
+        this.linksByLocation = this.links.filter((l) => l.location === this.currentLocation);
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
     async getCmsPages() {
@@ -447,7 +446,7 @@ export default {
     },
     async updateLinkOrder() {
       const array = [];
-      this.links.forEach((l) => {
+      this.linksByLocation.forEach((l) => {
         array.push(l.id);
         if (l.sublinks.length !== 0) {
           l.sublinks.forEach((sl) => {
@@ -509,7 +508,6 @@ export default {
         this.htmlInput = rsp.data.content;
         this.rawHtmlInput = rsp.data.content;
       });
-      console.log(page);
       this.$refs.cmsEditDialog.show(page);
       this.$refs.cmsEditDialog.setData(page);
     },
@@ -539,11 +537,8 @@ export default {
       });
       return array;
     },
-  },
-  computed: {
-    linksByLocation() {
-      if (!this.links) return [];
-      return this.links.filter((l) => l.location === this.currentLocation);
+    categoryUpdated() {
+      this.linksByLocation = this.links.filter((l) => l.location === this.currentLocation);
     },
   },
 };
