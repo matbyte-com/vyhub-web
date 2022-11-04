@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle icon="mdi-ticket-confirmation">{{ $t('__forum.TopicCategories') }}</PageTitle>
+    <PageTitle icon="mdi-ticket-confirmation">{{ $t('_forum.TopicCategories') }}</PageTitle>
     <v-card>
       <v-list subheader two-line>
         <v-list-group
@@ -14,6 +14,7 @@
           <v-list-item
             v-for="topic in category.topics" :key="topic.id"
             link
+            :to="{ name: 'ForumTopic', params: { id: topic.id } }"
           >
             <v-list-item-title>{{ topic.title }}</v-list-item-title>
             <v-list-item-icon>
@@ -46,12 +47,12 @@
             <v-btn class="mr-3 mt-3" color="success" outlined
                    @click="$refs.editTopicCategoriesDialog.show()">
               <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('__forum.addTopicCategory') }}</span>
+              <span>{{ $t('_forum.addTopicCategory') }}</span>
             </v-btn>
             <v-btn class="mr-3 mt-3" color="success" outlined
                    @click="$refs.editTopicsDialog.show()">
               <v-icon left>mdi-minus</v-icon>
-              <span>{{ $t('__forum.addTopic') }}</span>
+              <span>{{ $t('_forum.addTopic') }}</span>
             </v-btn>
           </div>
         </template>
@@ -59,7 +60,7 @@
     </v-card>
     <!-- TopicCategoryDialog -->
     <Dialog ref="editTopicCategoriesDialog"
-            :title="$t('__forum.editTopicCategory')">
+            :title="$t('_forum.editTopicCategory')">
       <template>
         <v-list>
           <draggable :list="topicCategories">
@@ -85,8 +86,8 @@
         </v-list>
       </template>
       <template v-slot:actions>
-        <v-btn @click="$refs.addTopicCategoryDialog.show()">Add Category</v-btn>
-        <v-btn @click="updateCategoryOrder">save</v-btn>
+        <v-btn @click="$refs.addTopicCategoryDialog.show()">{{ $t('_forum.addCategory') }}</v-btn>
+        <v-btn @click="updateCategoryOrder">{{ $t('_forum.save') }}</v-btn>
       </template>
     </Dialog>
     <!-- TopicDialog -->
@@ -99,6 +100,9 @@
           <draggable>
             <v-list-item v-for="topic in getSelectedCategory.topics" :key="topic.id">
               <v-row>
+                <v-icon>
+                  {{ topic.icon }}
+                </v-icon>
                 <v-col>
                   {{ topic.title }}
                 </v-col>
@@ -127,10 +131,10 @@
                               @submit="deleteTopicCategory"/>-->
     <ConfirmationDialog ref="deleteTopicCategoryConfirmationDialog"
                         @submit="deleteTopicCategory"
-                        :confirmation-text-field-label="$t('__forum.deleteCategory')"/>
+                        :confirmation-text-field-label="$t('_forum.deleteCategory')"/>
     <ConfirmationDialog ref="deleteTopicConfirmationDialog"
                         @submit="deleteTopic"
-                        :confirmation-text-field-label="$t('__forum.deleteTopic')"/>
+                        :confirmation-text-field-label="$t('_forum.deleteTopic')"/>
     <DialogForm :form-schema="TopicCategoryForm"
               @submit="newTopicCategory"
               ref="addTopicCategoryDialog"/>
@@ -155,6 +159,7 @@ import ForumAddTopicForm from '@/forms/ForumAddTopicForm';
 import Dialog from '@/components/Dialog.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
+import router from '@/router';
 import PageTitle from '../components/PageTitle.vue';
 import openapi from '../api/openapi';
 
@@ -216,7 +221,7 @@ export default {
         this.fetchData();
         this.$refs.addTopicCategoryDialog.closeAndReset();
         this.$notify({
-          title: this.$t('__forum.TopicCategoryCreated'),
+          title: this.$t('_forum.messages.TopicCategoryCreated'),
           type: 'success',
         });
       }).catch((err) => {
@@ -229,7 +234,7 @@ export default {
         this.fetchData();
         this.$refs.addTopicDialog.closeAndReset();
         this.$notify({
-          title: this.$t('__forum.TopicCreated'),
+          title: this.$t('_forum.messages.TopicCreated'),
           type: 'success',
         });
       }).catch((err) => {
@@ -242,7 +247,7 @@ export default {
       (await openapi).forum_editTopicCategory(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('__forum.TopicCategoryEdited'),
+          title: this.$t('_forum.messages.TopicCategoryEdited'),
           type: 'success',
         });
         this.$refs.editTopicCategoryDialog.closeAndReset();
@@ -255,7 +260,7 @@ export default {
       (await openapi).forum_editTopic(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('__forum.TopicEdited'),
+          title: this.$t('_forum.messages.TopicEdited'),
           type: 'success',
         });
         this.$refs.editTopicDialog.closeAndReset();
@@ -268,7 +273,7 @@ export default {
       (await openapi).forum_deleteTopicCategory(item.id).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('__forum.messages.deleteSuccess'),
+          title: this.$t('_forum.messages.categoryDeleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteTopicCategoryConfirmationDialog.closeAndReset();
@@ -280,7 +285,7 @@ export default {
       (await openapi).forum_deleteTopic(item.id).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('__forum.messages.deleteSuccess'),
+          title: this.$t('_forum.messages.topicDeleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteTopicConfirmationDialog.closeAndReset();
@@ -297,25 +302,19 @@ export default {
       (await openapi).forum_updateTopicCategoryOrder(null, res).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('__forum.messages.updatedOrder'),
+          title: this.$t('_forum.messages.updatedOrder'),
           type: 'success',
         });
       }).catch((err) => {
         console.log(`${err}`);
       });
     },
-    /*
-    showTopicCategory(item) {
-      if (item.title === undefined) {
-        this.$notify({
-          title: this.$t('Topic nicht gefunden. [item.title undefined]'), // Debug
-          type: 'error',
-        });
-        return; // Verhindert die Fehlerausgabe in der Konsole!
-      }
-      this.$router.push({ name: 'ForumThread', params: { threadname: item.title } });
+    goToTopic(item) {
+      // const id = item.id.substring(0, 8);
+      // const title = item.title.replace(/\s/g, '_');
+      // const router_id = id + title;
+      // this.$router.push({ name: 'ForumTopic', params: { id: router_id.toLowerCase() } });
     },
-    */
   },
   computed: {
     getSelectedCategory() {
