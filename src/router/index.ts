@@ -123,10 +123,28 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Ticket.vue'),
   },
   {
-    path: '/thread/:id',
-    name: 'Thread',
+    path: '/ticket/:id',
+    name: 'TicketThread',
     meta: { title: i18n.t('_pageTitle.ticket') },
     component: () => import('../views/Thread.vue'),
+  },
+  {
+    path: '/forum/',
+    name: 'Forum',
+    meta: { title: i18n.t('_pageTitle.forum') },
+    component: () => import('../views/Forum.vue'),
+  },
+  {
+    path: '/forum/topic/:id',
+    name: 'ForumTopic',
+    meta: { title: i18n.t('_pageTitle.forum') },
+    component: () => import('../views/ForumTopic.vue'),
+  },
+  {
+    path: '/forum/:thread?/:id',
+    name: 'ForumThread',
+    meta: { title: i18n.t('_pageTitle.forum') },
+    component: () => import('../views/ForumThread.vue'),
   },
   {
     path: '/team',
