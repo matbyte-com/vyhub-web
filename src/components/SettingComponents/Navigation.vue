@@ -91,12 +91,20 @@
                  @submit="editNavLink"/>
     <delete-confirmation-dialog ref="deleteNavConfirmationDialog" @submit="deleteNav"/>
     <!-- real Component -->
+    <v-select outlined hide-details dense
+              return-object
+              :label="$t('_navigation.location')"
+              clearable
+              v-model="currentLocation"
+              :items="navigationLocations" item-value="value" item-text="title">
+
+    </v-select>
     <v-list>
       <draggable
-        :list="links"
+        :list="sortList"
         @change="updateLinkEnabled = true">
         <div
-          v-for="link in links"
+          v-for="link in linksByLocation"
           :key="link.id">
           <v-list-group v-if="link.sublinks.length !== 0" :append-icon="null">
             <template v-slot:activator>
@@ -298,6 +306,7 @@ import EventBus from '@/services/EventBus';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import Editor from '@/components/Editor.vue';
 import SettingTitle from './SettingTitle.vue';
+import i18n from '../../plugins/i18n';
 
 export default {
   name: 'Navigation',
@@ -318,6 +327,22 @@ export default {
       expansionPanels: null,
       links: null,
       cmsPages: null,
+      currentLocation: 'HEADER',
+      sortList: [],
+      navigationLocations: [
+        {
+          value: 'HEADER',
+          title: i18n.t('_navigation._location.header'),
+        },
+        {
+          value: 'FOOTER',
+          title: i18n.t('_navigation._location.footer'),
+        },
+        {
+          value: 'HELP',
+          title: i18n.t('_navigation._location.help'),
+        },
+      ],
       linksRight: [
         {
           title: 'Profil', icon: 'mdi-account-circle', link: '/',
@@ -406,6 +431,7 @@ export default {
       if (this.rawHtmlInput !== null && this.rawHtmlInput.length !== 0) {
         data.content = this.rawHtmlInput;
       }
+      if (!data.requirement_set_id) data.requirement_set_id = null;
       (await openapi).general_editCmsHtml(page.id, data).then(() => {
         this.$refs.cmsEditDialog.closeAndReset();
         this.htmlInput = null;
@@ -483,6 +509,7 @@ export default {
         this.htmlInput = rsp.data.content;
         this.rawHtmlInput = rsp.data.content;
       });
+      console.log(page);
       this.$refs.cmsEditDialog.show(page);
       this.$refs.cmsEditDialog.setData(page);
     },
@@ -511,6 +538,12 @@ export default {
         array.push({ const: l.id, title: l.title });
       });
       return array;
+    },
+  },
+  computed: {
+    linksByLocation() {
+      if (!this.links) return [];
+      return this.links.filter((l) => l.location === this.currentLocation);
     },
   },
 };
