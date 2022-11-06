@@ -93,7 +93,7 @@
     <!-- real Component -->
     <v-select outlined hide-details dense
               :label="$t('_navigation.location')"
-              clearable
+              clearable class="mt-3"
               v-model="currentLocation" @change="categoryUpdated"
               :items="navigationLocations" item-value="value" item-text="title">
     </v-select>
