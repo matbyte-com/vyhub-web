@@ -87,7 +87,7 @@
     "openapi-client-axios-typegen": "^4.6.1",
     "release-it": "^14.8.0",
     "sass": "~1.32.13",
-    "sass-loader": "^13.0.2",
+    "sass-loader": "^13.2.0",
     "stream-http": "^3.2.0",
     "typescript": "^3.9.10",
     "vue-cli-plugin-vuetify": "~2.5.5",

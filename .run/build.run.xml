@@ -6,6 +6,7 @@
       <script value="build" />
     </scripts>
     <node-interpreter value="project" />
+    <node-options value="--openssl-legacy-provider" />
     <envs>
       <env name="NODE_ENV" value="production" />
     </envs>
