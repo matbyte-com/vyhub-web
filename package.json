@@ -83,7 +83,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-vue": "^7.16.0",
     "json-schema-ref-parser": "^9.0.9",
-    "node-sass": "^7.0.3",
+    "node-sass": "^8.0.0",
     "openapi-client-axios-typegen": "^4.6.1",
     "release-it": "^14.8.0",
     "sass": "~1.32.13",
