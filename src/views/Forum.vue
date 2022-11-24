@@ -15,11 +15,11 @@
             v-for="topic in category.topics" :key="topic.id"
             link
             :to="{ name: 'ForumTopic', params: { id: topic.id } }"
+            class="ml-9 cat mr-3"
           >
-            <v-list-item-title>{{ topic.title }}</v-list-item-title>
-            <v-list-item-icon>
-              <v-icon :v-text="topic.icon"></v-icon>
-            </v-list-item-icon>
+            <v-icon>{{ topic.icon }}</v-icon>
+            <v-list-item-title class="ml-3">{{ topic.title }}</v-list-item-title>
+            <v-list-item-subtitle>{{ topic.description }}</v-list-item-subtitle>
           </v-list-item>
 
         </v-list-group>
@@ -51,7 +51,7 @@
             </v-btn>
             <v-btn class="mr-3 mt-3" color="success" outlined
                    @click="$refs.editTopicsDialog.show()">
-              <v-icon left>mdi-minus</v-icon>
+              <v-icon left>mdi-plus</v-icon>
               <span>{{ $t('_forum.addTopic') }}</span>
             </v-btn>
           </div>
@@ -100,14 +100,11 @@
           <draggable>
             <v-list-item v-for="topic in getSelectedCategory.topics" :key="topic.id">
               <v-row>
-                <v-icon>
-                  {{ topic.icon }}
-                </v-icon>
                 <v-col>
                   {{ topic.title }}
                 </v-col>
                 <v-col class="text-right">
-                  <v-btn @click.stop="$refs.editTopicDialog.show(topic)"
+                  <v-btn @click.stop="openTopicEditDialog(topic)"
                          color="primary" outlined small>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
@@ -159,7 +156,6 @@ import ForumAddTopicForm from '@/forms/ForumAddTopicForm';
 import Dialog from '@/components/Dialog.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
-import router from '@/router';
 import PageTitle from '../components/PageTitle.vue';
 import openapi from '../api/openapi';
 
@@ -230,6 +226,11 @@ export default {
     },
     async newTopic() {
       const data = this.$refs.addTopicDialog.getData();
+      data.topic_category_id = data.category.id; // Okay, es funktioniert...
+      if (data.description.length > 75) {
+        this.$refs.addTopicDialog.setErrorMessage(this.$t('_forum.messages.TopicDescriptionTooLong'));
+        return;
+      }
       (await openapi).forum_createTopic(null, data).then(() => {
         this.fetchData();
         this.$refs.addTopicDialog.closeAndReset();
@@ -255,8 +256,17 @@ export default {
         this.$refs.editTopicCategoryDialog.setError(err);
       });
     },
+    openTopicEditDialog(item) {
+      this.$refs.editTopicDialog.show(item);
+      console.log(item);
+      this.$refs.editTopicDialog.setData(item);
+    },
     async editTopic(item) {
       const data = this.$refs.editTopicDialog.getData();
+      if (data.description.length > 75) {
+        this.$refs.editTopicDialog.setErrorMessage(this.$t('_forum.messages.TopicDescriptionTooLong'));
+        return;
+      }
       (await openapi).forum_editTopic(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
@@ -326,4 +336,15 @@ export default {
 </script>
 
 <style scoped>
+.cursor >>> td{
+  cursor: pointer !important;
+}
+
+.cat {
+  transition: transform 0.7s ease-in-out;
+}
+.cat:hover {
+  transform: scale(1.01);
+  box-shadow: #545454 0px 0px 5px 0px;
+}
 </style>

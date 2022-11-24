@@ -9,9 +9,10 @@
         </v-alert>
       </v-col>
     </v-row>
-    <v-text-field v-if="!hideTitleInput" :label="$t('_ticket.title')"
-                  v-model="title"></v-text-field>
-    <editor v-model="content" label="test" :class="hideTitleInput ? 'mt-3' : ''"/>
+    <v-text-field v-if="!hideTitleInput" :label="$t('__forum.title')"
+                  v-model="title"/>
+    <!--<v-text-field v-model="category" :label="'Category ID'"></v-text-field>-->
+    <v-text-field :label="$t('__forum.description')"/>
     <template v-slot:actions>
       <v-btn text color="primary" @click="$emit('submit')">
         <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
@@ -35,7 +36,7 @@ import config from '../../config';
 import i18n from '../../plugins/i18n';
 
 export default {
-  name: 'ThreadAddDialog',
+  name: 'TopicAddDialog',
   components: {
     Editor,
     Dialog,
@@ -45,8 +46,7 @@ export default {
     return {
       title: '',
       content: '',
-      ban_id: '',
-      topic_id: '',
+      // category: '',
       loading: false,
       errorMsg: null,
     };
@@ -61,6 +61,7 @@ export default {
       return {
         title: this.title,
         content: this.content,
+        // category: this.category,
       };
     },
     show() {
@@ -70,6 +71,7 @@ export default {
       this.$refs.dialog.close();
       this.title = '';
       this.content = '';
+      // this.category = '';
       this.errorMsg = null;
       this.loading = false;
     },
