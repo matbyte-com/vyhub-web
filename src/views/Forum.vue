@@ -226,7 +226,6 @@ export default {
     },
     async newTopic() {
       const data = this.$refs.addTopicDialog.getData();
-      data.topic_category_id = data.category.id; // Okay, es funktioniert...
       if (data.description.length > 75) {
         this.$refs.addTopicDialog.setErrorMessage(this.$t('_forum.messages.TopicDescriptionTooLong'));
         return;
@@ -257,9 +256,11 @@ export default {
       });
     },
     openTopicEditDialog(item) {
-      this.$refs.editTopicDialog.show(item);
+      const data = item;
+      this.$refs.editTopicDialog.show(data);
+      data.admin_ids = data.admins;
       console.log(item);
-      this.$refs.editTopicDialog.setData(item);
+      this.$refs.editTopicDialog.setData(data);
     },
     async editTopic(item) {
       const data = this.$refs.editTopicDialog.getData();
