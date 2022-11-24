@@ -54,6 +54,13 @@ export default {
     };
     return form;
   },
+  forumSelectCategory: {
+    type: 'object',
+    title: i18n.t('category'),
+    'x-fromUrl': `${API_URL}/forum/topic/category/`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'title',
+  },
   colorPicker(title = 'color', description?: string) {
     const form = {
       type: 'string',
