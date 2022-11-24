@@ -8,12 +8,9 @@ export default {
     'title',
   ],
   properties: {
-    category: {
+    topic_category_id: {
       ...Common.forumSelectCategory,
-      type: 'object',
-      items: {
-        type: 'object',
-      },
+      type: 'string',
     },
     title: {
       type: 'string',
@@ -23,7 +20,7 @@ export default {
       type: 'string',
       title: i18n.t('description'),
     },
-    admins: {
+    admin_ids: {
       ...Common.userSelectField,
       title: i18n.t('__forum.topicAdminUser'),
       type: 'array',
