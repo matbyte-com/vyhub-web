@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle title="__forum.threads"/> <!-- TODO: ggf. Topic Namen anzeigen -->
+    <PageTitle :title="topic.title" />
     <v-card>
       <v-card-text>
         <PaginatedDataTable
@@ -12,7 +12,7 @@
           :default-sort-desc="true"
           @reload="fetchThreads"
           :item-class="ticketRowFormatter"
-          @click:row="showTicket"
+          @click:row="showThread"
           class="cursor"
         >
           <template v-slot:item.created="{ item }">
@@ -60,7 +60,7 @@ export default {
     PageTitle,
     UserLink,
   },
-  name: 'ForumThread.vue',
+  name: 'ForumTopic.vue',
   data() {
     return {
       threads: null,
@@ -88,6 +88,7 @@ export default {
       })
         .then((rsp) => {
           this.threads = rsp.data.items; this.totalItems = rsp.data.total;
+          console.log(rsp.data.total);
         });
     },
     async fetchTopic() {
@@ -98,9 +99,12 @@ export default {
     },
     async newThread() {
       const data = this.$refs.addThreadDialog.getData();
+      data.topic_id = this.$route.params.id;
+      console.log(data);
       (await openapi).forum_createThread(null, data).then(() => {
         this.$refs.addThreadDialog.close();
         this.fetchThreads();
+        console.log('Thread created in topic', this.topic.title);
         this.$notify({
           title: this.$t('_ticket.messages.addedThread'),
           type: 'success',
@@ -113,17 +117,17 @@ export default {
       const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
 
       if (item.status === 'CLOSED') {
-        return `green ${add}`;
+        return `red ${add}`; // Farbe wenn Thread geschlossen
       }
 
       if (item.is_read) {
-        return `grey ${add}`;
+        return `orange ${add}`; // Farbe wenn man den Thread schon gelesen hat
       }
 
-      return `orange ${add}`;
+      return `green ${add}`; // Farbe wenn man den Thread noch nicht gelesen hat
     },
-    showTicket(item) {
-      this.$router.push({ name: 'ForumThread', params: { topic: this.topic.title, id: item.id } });
+    showThread(item) {
+      this.$router.push({ name: 'ForumThread', params: { id: item.id } });
     },
   },
 };

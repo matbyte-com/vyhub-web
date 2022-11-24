@@ -141,7 +141,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/ForumTopic.vue'),
   },
   {
-    path: '/forum/:thread?/:id',
+    path: '/forum/thread/:id',
     name: 'ForumThread',
     meta: { title: i18n.t('_pageTitle.forum') },
     component: () => import('../views/ForumThread.vue'),
