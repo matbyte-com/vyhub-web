@@ -143,11 +143,16 @@
                       {{ sublink.icon }}
                     </v-icon>
                   </v-col>
-                  <v-col cols="3">
+                  <v-col cols="11" sm="2">
                     {{ sublink.title }}
                   </v-col>
-                  <v-col cols="3">
+                  <v-col cols="5" sm="3">
                     {{ sublink.link }}
+                  </v-col>
+                  <v-col cols="5" sm="3">
+                    <v-chip color="error" v-if="sublink.req_prop">
+                      {{ sublink.req_prop }}
+                    </v-chip>
                   </v-col>
                   <v-col class="text-right">
                     <v-icon v-if="link.cms_page_id" class="mr-1">
@@ -185,11 +190,16 @@
                   mdi-dots-square
                 </v-icon>
               </v-col>
-              <v-col cols="3">
+              <v-col cols="11" sm="2">
                 {{ link.title }}
               </v-col>
-              <v-col cols="3">
+              <v-col cols="5" sm="3">
                 {{ link.link }}
+              </v-col>
+              <v-col cols="5" sm="3">
+                <v-chip color="error" v-if="link.req_prop">
+                  {{ link.req_prop }}
+                </v-chip>
               </v-col>
               <v-col class="text-right">
                 <v-icon v-if="link.cms_page_id" class="mr-1">
