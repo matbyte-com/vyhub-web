@@ -10,7 +10,7 @@
       </template>
       <div v-for="(tab, index) in link.sublinks" :key="index">
         <v-list-item class="ml-3"
-                     v-if="tab.enabled === true && $checkProp(tab.reqProp)"
+                     v-if="tab.enabled === true && $checkProp(tab.req_prop)"
                      :href="tab.cms_page_id === null && !localLink(tab) ? tab.link : null"
                      :to="tab.cms_page_id || localLink(tab) ? getLocalLink(tab) : null"
                      link>
@@ -44,7 +44,7 @@ export default {
         return [];
       }
 
-      return this.link.sublinks.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
+      return this.link.sublinks.filter((t) => !t.req_prop || this.$checkProp(t.req_prop) === true);
     },
   },
   methods: {

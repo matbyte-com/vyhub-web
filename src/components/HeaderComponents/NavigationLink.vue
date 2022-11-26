@@ -50,7 +50,7 @@ export default {
         return [];
       }
 
-      return this.link.sublinks.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
+      return this.link.sublinks.filter((t) => !t.req_prop || this.$checkProp(t.req_prop) === true);
     },
   },
   methods: {

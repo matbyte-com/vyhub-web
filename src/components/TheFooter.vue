@@ -45,7 +45,7 @@ export default {
     getNavlinks() {
       const links = this.$store.getters.navItems;
       return links
-        .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.reqProp || this.$checkProp(l.reqProp) === true));
+        .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || this.$checkProp(l.req_prop) === true));
     },
   },
 };

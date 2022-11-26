@@ -141,11 +141,11 @@ export default {
   computed: {
     allowedLinks() {
       return this.links
-        .filter((l) => l.enabled && l.location === 'HEADER' && (!l.reqProp || this.$checkProp(l.reqProp) === true));
+        .filter((l) => l.enabled && l.location === 'HEADER' && (!l.req_prop || this.$checkProp(l.req_prop)));
     },
     allowedHelpCircleLinks() {
       return this.links
-        .filter((l) => l.enabled && l.location === 'HELP' && (!l.reqProp || this.$checkProp(l.reqProp) === true));
+        .filter((l) => l.enabled && l.location === 'HELP' && (!l.req_prop || this.$checkProp(l.req_prop)));
     },
   },
   watch: {
