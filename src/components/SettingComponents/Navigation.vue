@@ -112,10 +112,16 @@
                     <v-col cols="1">
                       <v-icon>mdi-chevron-down</v-icon>
                     </v-col>
-                    <v-col cols="3">
+                    <v-col cols="6" sm="5">
                       <span>{{ link.title }}</span>
                     </v-col>
-                    <v-col class="text-right">
+                    <v-col cols="5" sm="3">
+                      <v-chip color="error" v-if="link.req_prop">
+                        <v-icon left>mdi-security</v-icon>
+                        {{ link.req_prop }}
+                      </v-chip>
+                    </v-col>
+                    <v-col class="text-right"  cols="12" sm="3">
                       <v-btn outlined color="primary" small
                              @click="openNavEditDialog(link)" class="mr-1">
                         <v-icon>
@@ -138,8 +144,8 @@
                        @change="updateLinkEnabled = true">
               <v-list-item v-for="sublink in link.sublinks" :key="sublink.id">
                 <v-row :class="!link.enabled ? 'text--disabled' : ''">
-                  <v-col class="ml-3" cols="1">
-                    <v-icon>
+                  <v-col cols="1" sm="1">
+                    <v-icon class="ml-3">
                       {{ sublink.icon }}
                     </v-icon>
                   </v-col>
@@ -151,10 +157,11 @@
                   </v-col>
                   <v-col cols="5" sm="3">
                     <v-chip color="error" v-if="sublink.req_prop">
+                      <v-icon left>mdi-security</v-icon>
                       {{ sublink.req_prop }}
                     </v-chip>
                   </v-col>
-                  <v-col class="text-right">
+                  <v-col class="text-right" cols="12" sm="3">
                     <v-icon v-if="link.cms_page_id" class="mr-1">
                       mdi-web
                     </v-icon>
@@ -198,10 +205,11 @@
               </v-col>
               <v-col cols="5" sm="3">
                 <v-chip color="error" v-if="link.req_prop">
+                  <v-icon left>mdi-security</v-icon>
                   {{ link.req_prop }}
                 </v-chip>
               </v-col>
-              <v-col class="text-right">
+              <v-col class="text-right"  cols="12" sm="3">
                 <v-icon v-if="link.cms_page_id" class="mr-1">
                   mdi-web
                 </v-icon>
