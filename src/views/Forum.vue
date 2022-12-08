@@ -15,11 +15,17 @@
             v-for="topic in category.topics" :key="topic.id"
             link
             :to="{ name: 'ForumTopic', params: { id: topic.id } }"
-            class="ml-9 cat mr-3"
+            class="ml-9 topic mr-3"
           >
-            <v-icon>{{ topic.icon }}</v-icon>
-            <v-list-item-title class="ml-3">{{ topic.title }}</v-list-item-title>
-            <v-list-item-subtitle>{{ topic.description }}</v-list-item-subtitle>
+            <v-list-item-content>
+              <v-list-item-title>
+                <v-icon class="mr-3">{{ topic.icon }}</v-icon>
+                {{ topic.title }}
+              </v-list-item-title>
+              <v-list-item-subtitle style="white-space: normal; overflow-wrap: break-word;">
+                {{ topic.description }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
           </v-list-item>
 
         </v-list-group>
@@ -43,16 +49,16 @@
           </v-list-item-content>
         </v-list-item>-->
         <template>
-          <div class="text-right">
+          <div class="text-right" v-if="$checkProp('forum_edit')">
             <v-btn class="mr-3 mt-3" color="success" outlined
                    @click="$refs.editTopicCategoriesDialog.show()">
               <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('_forum.addTopicCategory') }}</span>
+              <span>{{ $t('_forum.manageTopicCategories') }}</span>
             </v-btn>
             <v-btn class="mr-3 mt-3" color="success" outlined
                    @click="$refs.editTopicsDialog.show()">
               <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('_forum.addTopic') }}</span>
+              <span>{{ $t('_forum.manageTopics') }}</span>
             </v-btn>
           </div>
         </template>
@@ -60,10 +66,10 @@
     </v-card>
     <!-- TopicCategoryDialog -->
     <Dialog ref="editTopicCategoriesDialog"
-            :title="$t('_forum.editTopicCategory')">
+            :title="$t('_forum.manageTopicCategories')">
       <template>
         <v-list>
-          <draggable :list="topicCategories">
+          <draggable :list="topicCategories" @change="updateForum = true">
             <v-list-item v-for="category in topicCategories" :key="category.id">
               <v-row>
                 <v-col>
@@ -87,17 +93,26 @@
       </template>
       <template v-slot:actions>
         <v-btn @click="$refs.addTopicCategoryDialog.show()">{{ $t('_forum.addCategory') }}</v-btn>
-        <v-btn @click="updateCategoryOrder">{{ $t('_forum.save') }}</v-btn>
+          <v-btn color="primary"
+                 style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+                 @click="updateCategoryOrder" :disabled="!updateForum">
+            <v-icon>mdi-check</v-icon>
+          </v-btn>
+        <v-btn color="primary"
+               style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+               @click="fetchData" :disabled="!updateForum">
+          <v-icon>mdi-backspace-outline</v-icon>
+        </v-btn>
       </template>
     </Dialog>
     <!-- TopicDialog -->
-    <Dialog ref="editTopicsDialog" v-if="topicCategories">
+    <Dialog ref="editTopicsDialog" v-if="topicCategories" :title="$t('_forum.manageTopics')">
       <template>
         <v-select :items="topicCategories.map(category =>
         ({text: category.title, value: category.id}))"
                   v-model="selectedTopicCategory"/>
         <v-list v-if="getSelectedCategory">
-          <draggable>
+          <draggable @change="updateForum = true">
             <v-list-item v-for="topic in getSelectedCategory.topics" :key="topic.id">
               <v-row>
                 <v-col>
@@ -120,7 +135,7 @@
         </v-list>
       </template>
       <template v-slot:actions>
-        <v-btn @click="$refs.addTopicDialog.show()">Add Topic</v-btn>
+        <v-btn @click="$refs.addTopicDialog.show()">{{ $t('_forum.addTopic') }}</v-btn>
       </template>
     </Dialog>
     <!--
@@ -171,6 +186,7 @@ export default {
     return {
       topicCategories: null,
       selectedTopicCategory: null,
+      updateForum: false,
       TopicCategoryForm: ForumAddTopicCategory,
       TopicForm: ForumAddTopicForm,
     };
@@ -182,6 +198,9 @@ export default {
     async fetchData() {
       (await openapi).forum_getTopicCategories().then((rsp) => {
         this.topicCategories = rsp.data;
+        if (this.updateForum === true) {
+          this.updateForum = false;
+        }
       });
     },
     /* OLD
@@ -341,10 +360,10 @@ export default {
   cursor: pointer !important;
 }
 
-.cat {
+.topic {
   transition: transform 0.7s ease-in-out;
 }
-.cat:hover {
+.topic:hover {
   transform: scale(1.01);
   box-shadow: #545454 0px 0px 5px 0px;
 }
