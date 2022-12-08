@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle :title="topic.title" />
+    <PageTitle :title="topic.title" :subtitle='topic.topic_category.title + "/" + topic.title'/>
     <v-card>
       <v-card-text>
         <PaginatedDataTable
@@ -10,13 +10,17 @@
           :totalItems="totalItems"
           default-sort-by="created"
           :default-sort-desc="true"
-          @reload="fetchThreads"
-          :item-class="ticketRowFormatter"
+          @reload="fetchTopic"
           @click:row="showThread"
           class="cursor"
         >
+          <template v-slot:header>
+            <v-checkbox v-model="show_closed" :label="$t('_ticket.showClosed')"
+                        @change="fetchThreads" class="text-capitalize"/>
+          </template>
           <template v-slot:item.created="{ item }">
             {{ utils.formatDate(item.created) }}
+            <v-icon v-if="item.status === 'CLOSED'" color="red">mdi-lock</v-icon>
           </template>
           <template v-slot:item.creator="{ item }">
             <v-avatar class="ma-1">
@@ -35,13 +39,13 @@
             <v-btn color="success" outlined
                    @click="$refs.addThreadDialog.show()">
               <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('__forum.addThread') }}</span>
+              <span>{{ $t('_forum.addThread') }}</span>
             </v-btn>
           </template>
         </PaginatedDataTable>
       </v-card-text>
     </v-card>
-    <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('__forum.addThread')"
+    <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_forum.addThread')"
                      @submit="newThread"/>
   </div>
 </template>
@@ -69,33 +73,43 @@ export default {
         { text: this.$t('_ticket.title'), value: 'title', sortable: false },
         { text: this.$t('_ticket.created'), value: 'created' },
         {
-          text: this.$t('_ticket.last_post'), value: 'last_post', sortable: false, align: 'right',
+          text: this.$t('_ticket.last_post'), value: 'last_post', align: 'right', sortable: false,
         },
       ],
       page: 1,
       totalItems: 0,
-      topic: null,
+      show_closed: true,
+      topic: {
+        title: '',
+        topic_category: {
+          title: '',
+        },
+      },
     };
   },
   beforeMount() {
     this.fetchTopic();
   },
   methods: {
+    async fetchTopic() {
+      const topicId = this.$route.params.id;
+      (await openapi).forum_getTopic(topicId).then((rsp) => {
+        if (rsp.data) {
+          this.topic = rsp.data;
+          this.fetchThreads();
+        }
+      });
+    },
     async fetchThreads(queryParams = null) {
       const topicId = this.$route.params.id;
-      (await openapi).forum_getThreads(topicId, {
+      (await openapi).forum_getThreads({
+        uuid: topicId,
+        show_closed: this.show_closed,
         ...(queryParams != null ? queryParams : this.$refs.threadTable.getQueryParameters()),
       })
         .then((rsp) => {
           this.threads = rsp.data.items; this.totalItems = rsp.data.total;
-          console.log(rsp.data.total);
         });
-    },
-    async fetchTopic() {
-      const topicId = this.$route.params.id;
-      (await openapi).forum_getTopic(topicId).then((rsp) => {
-        this.topic = rsp.data;
-      });
     },
     async newThread() {
       const data = this.$refs.addThreadDialog.getData();
@@ -104,7 +118,6 @@ export default {
       (await openapi).forum_createThread(null, data).then(() => {
         this.$refs.addThreadDialog.close();
         this.fetchThreads();
-        console.log('Thread created in topic', this.topic.title);
         this.$notify({
           title: this.$t('_ticket.messages.addedThread'),
           type: 'success',
@@ -113,11 +126,11 @@ export default {
         this.$refs.addThreadDialog.setError(err);
       });
     },
-    ticketRowFormatter(item) {
+    /* ticketRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
 
       if (item.status === 'CLOSED') {
-        return `red ${add}`; // Farbe wenn Thread geschlossen
+        return `transparent ${add}`; // Farbe wenn Thread geschlossen
       }
 
       if (item.is_read) {
@@ -125,7 +138,7 @@ export default {
       }
 
       return `green ${add}`; // Farbe wenn man den Thread noch nicht gelesen hat
-    },
+    }, */
     showThread(item) {
       this.$router.push({ name: 'ForumThread', params: { id: item.id } });
     },

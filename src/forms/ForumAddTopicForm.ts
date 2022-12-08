@@ -22,7 +22,7 @@ export default {
     },
     admin_ids: {
       ...Common.userSelectField,
-      title: i18n.t('__forum.topicAdminUser'),
+      title: i18n.t('_forum.topicAdminUser'),
       type: 'array',
       items: {
         type: 'string',
