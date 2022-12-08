@@ -4,7 +4,8 @@
                icon="mdi-forum"
                class="mb-5"
                show-subtitle
-               :title="thread.title">
+               :title="thread.title"
+               :subtitle='topic.topic_category.title + "/" + topic.title + "/" + thread.title'>
       <template v-slot:subtitle>
         <v-row>
           <v-col cols="12" sm="9" align-self="center" style="white-space: nowrap">
@@ -12,12 +13,8 @@
             {{ utils.formatDate(posts[0].created) }}
           </v-col>
           <v-col cols="12" sm="3">
-            <v-chip v-if="thread.status === 'OPEN'" color="success" class="text-uppercase"
-                    @click="toggleStatus()">
-              {{ $t('_ticket.open') }}
-            </v-chip>
-            <v-chip v-else color="error" class="text-uppercase" @click="toggleStatus()">
-              {{ $t('_ticket.closed') }}
+            <v-chip v-if="thread.status === 'CLOSED'" color="error" class="text-uppercase">
+              {{ $t('forum.locked') }}
             </v-chip>
           </v-col>
         </v-row>
@@ -60,25 +57,20 @@
       <v-row>
         <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
         <v-col class="text-right ml-sm-5 mr-sm-5">
-          <v-btn v-if="thread.ban" color="primary" :to="{ name: 'Bans',
-           params: {banId: thread.ban.id} }" class="mr-3">
-            <v-icon left>mdi-eye</v-icon>
-            {{ $t('_ticket.showBan') }}
-          </v-btn>
           <v-btn v-if="$checkProp('forum_edit')"
                  :color="thread.status === 'CLOSED' ? 'success' : 'error'"
                  @click="toggleStatus">
             <div v-if="thread.status === 'CLOSED'">
               <v-icon left>mdi-lock-open-variant</v-icon>
-              <span>{{ $t('_ticket.open') }}</span>
+              <span>{{ $t('_forum.unlock') }}</span>
             </div>
             <div v-else>
               <v-icon left>mdi-lock</v-icon>
-              <span>{{ $t('_ticket.close') }}</span>
+              <span>{{ $t('_forum.lock') }}</span>
             </div>
           </v-btn>
           <v-btn :disabled="thread.status === 'CLOSED'"
-                 color="primary" @click="$refs.addPostDialog.show()">
+                 color="success" @click="$refs.addPostDialog.show()">
             <v-icon left>mdi-plus</v-icon>
             {{ $t('_ticket.addPost') }}
           </v-btn>
@@ -111,6 +103,12 @@ export default {
       posts: [],
       avatarWidth: '100px',
       thread: { creator: {} },
+      topic: {
+        title: '',
+        topic_category: {
+          title: '',
+        },
+      },
     };
   },
   beforeMount() {
@@ -122,12 +120,18 @@ export default {
     async fetchData() {
       (await openapi).forum_getThreadPosts(this.threadId).then((rsp) => {
         this.posts = rsp.data.items;
-        console.log(rsp.data);
       });
     },
     async getThread() {
       (await openapi).forum_getThread(this.threadId).then((rsp) => {
         this.thread = rsp.data;
+        this.fetchTopic();
+      });
+    },
+    async fetchTopic() {
+      const topicid = this.thread.topic.id;
+      (await openapi).forum_getTopic(topicid).then((rsp) => {
+        this.topic = rsp.data;
       });
     },
     async newPost() {
