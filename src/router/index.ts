@@ -278,16 +278,19 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
+const title = (store.getters.generalConfig?.community_name
+  ? store.getters.generalConfig?.community_name : 'VyHub');
+
 router.afterEach((to) => {
   Vue.nextTick(() => {
     if (to != null && to.meta != null && to.meta.title != null) {
       if (store.getters.generalConfig) {
-        document.title = `${to.meta.title} - ${store.getters.generalConfig.community_name}`;
+        document.title = `${to.meta.title} - ${title}`;
       } else {
         document.title = to.meta.title;
       }
-    } else if (store.getters.generalConfig) {
-      document.title = store.getters.generalConfig.community_name;
+    } else {
+      document.title = title;
     }
   });
 });

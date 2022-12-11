@@ -228,7 +228,8 @@ export default Vue.extend({
         });
     },
     setDescriptionMetaTag() {
-      const description = this.$store.getters.generalConfig.community_description;
+      const description = this.$store.getters.generalConfig?.community_description;
+
       document.querySelector('meta[name="description"]')
         .setAttribute('content', description);
     },

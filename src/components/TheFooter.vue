@@ -4,7 +4,7 @@
       <div class="d-flex my-2">
         <NavigationLink
           :link="link"
-          v-for="(link, index) in getNavlinks"
+          v-for="(link, index) in navLinks"
           :key="index">
         </NavigationLink>
       </div>
@@ -35,16 +35,18 @@ export default {
   data() {
     return {
       version,
-      links: [
-        { title: 'Home', link: '/' },
-        { title: 'Legal', link: '/legal' },
-      ],
     };
   },
   computed: {
-    getNavlinks() {
-      const links = this.$store.getters.navItems;
-      return links
+    links() {
+      return this.$store.getters.navItems;
+    },
+    navLinks() {
+      if (this.links == null) {
+        return [];
+      }
+
+      return this.links
         .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || this.$checkProp(l.req_prop) === true));
     },
   },
