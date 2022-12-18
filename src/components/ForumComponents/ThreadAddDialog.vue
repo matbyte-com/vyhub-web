@@ -13,7 +13,7 @@
                   v-model="title"></v-text-field>
     <editor v-model="content" label="test" :class="hideTitleInput ? 'mt-3' : ''"/>
     <template v-slot:actions>
-      <v-btn text color="primary" @click="$emit('submit')">
+      <v-btn text color="primary" @click="$emit('submit', obj)">
         <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
         <v-icon v-if="!loading" left>mdi-check</v-icon>
         <div v-if="!loading">
@@ -49,6 +49,7 @@ export default {
       topic_id: '',
       loading: false,
       errorMsg: null,
+      obj: null,
     };
   },
   methods: {
@@ -63,8 +64,9 @@ export default {
         content: this.content,
       };
     },
-    show() {
+    show(obj) {
       this.$refs.dialog.show();
+      this.obj = obj;
     },
     close() {
       this.$refs.dialog.close();
