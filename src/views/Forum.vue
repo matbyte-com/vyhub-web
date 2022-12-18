@@ -29,25 +29,6 @@
           </v-list-item>
 
         </v-list-group>
-        <!--
-        <v-subheader inset>Forum is WIP</v-subheader>
-        <v-list-item v-for="item in topicCategories" :key="item.id">
-          <v-list-item-avatar>
-            <v-icon>
-              {{ item.icon }}
-            </v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content @click="showTopicCategory" items="topicCategory">
-            <template class="cursor">
-              <v-list-item-title>
-                {{ item.title }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{ item.content }}
-              </v-list-item-subtitle>
-            </template>
-          </v-list-item-content>
-        </v-list-item>-->
         <template>
           <div class="text-right" v-if="$checkProp('forum_edit')">
             <v-btn class="mr-3 mt-3" color="success" outlined
@@ -93,12 +74,12 @@
       </template>
       <template v-slot:actions>
         <v-btn @click="$refs.addTopicCategoryDialog.show()">{{ $t('_forum.addCategory') }}</v-btn>
-          <v-btn color="primary"
-                 style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-                 @click="updateCategoryOrder" :disabled="!updateForum">
-            <v-icon>mdi-check</v-icon>
-          </v-btn>
-        <v-btn color="primary"
+        <v-btn color="primary" class="mr-0"
+               style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+               @click="updateCategoryOrder" :disabled="!updateForum">
+          <v-icon>mdi-check</v-icon>
+        </v-btn>
+        <v-btn color="primary" class="ma-0"
                style="border-bottom-left-radius: 0; border-top-left-radius: 0"
                @click="fetchData" :disabled="!updateForum">
           <v-icon>mdi-backspace-outline</v-icon>
@@ -138,9 +119,6 @@
         <v-btn @click="$refs.addTopicDialog.show()">{{ $t('_forum.addTopic') }}</v-btn>
       </template>
     </Dialog>
-    <!--
-    <DeleteTopicCategoryDialog ref="deleteTopicCategoryConfirmationDialog"
-                              @submit="deleteTopicCategory"/>-->
     <ConfirmationDialog ref="deleteTopicCategoryConfirmationDialog"
                         @submit="deleteTopicCategory"
                         :confirmation-text-field-label="$t('_forum.deleteCategory')"/>
@@ -159,9 +137,6 @@
     <DialogForm :form-schema="TopicForm"
                 @submit="editTopic"
                 ref="editTopicDialog"/>
-    <!-- OLD
-    <TopicAddDialog ref="addTopicDialog" :dialog-title="$t('__forum.addTopic')"
-                     @submit="newTopicCategory"/>-->
   </div>
 </template>
 
@@ -203,32 +178,6 @@ export default {
         }
       });
     },
-    /* OLD
-    async newTopicCategory() {
-      const data = this.$refs.addTopicDialog.getData();
-      (await openapi).forum_createTopicCategory(null, data).then(() => {
-        this.$refs.addTopicDialog.close();
-        this.fetchData();
-        this.$notify({
-          title: this.$t('__forum.TopicCategoryCreated'),
-          type: 'success',
-        });
-      }).catch((err) => {
-        this.$refs.addTopicDialog.setError(err);
-      });
-    },
-    */
-    /*
-    ticketRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
-
-      if (item.status === 'CLOSED') {
-        return `red ${add}`;
-      }
-
-      return `green ${add}`;
-    },
-    */
     // Hinzufügen
     async newTopicCategory() {
       const data = this.$refs.addTopicCategoryDialog.getData();
