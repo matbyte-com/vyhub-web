@@ -87,11 +87,13 @@ import UtilService from '@/services/UtilService';
 import openapi from '@/api/openapi';
 import VueNotification from '@/components/VueNotification.vue';
 import i18n from '@/plugins/i18n';
+import ForumService from '@/services/ForumService';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
 Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
+Vue.mixin(ForumService);
 
 export default Vue.extend({
   name: 'App',
