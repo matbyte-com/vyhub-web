@@ -2,4 +2,5 @@ window.vyhubConfig = {
   backend_url: 'https://nyx.devapp:5050/v1',
   default_title: 'VyHub',
   demo_mode: false,
+  branding: true,
 };

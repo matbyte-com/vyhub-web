@@ -14,10 +14,12 @@
           <span v-if="$store.getters.generalConfig != null">
             — {{ $store.getters.generalConfig.community_name }}
           </span>
-          —
-          <a class="text-decoration-none white--text" href="https://vyhub.net">
-            Powered by VyHub
-          </a>
+          <span v-if="config.branding == null || config.branding">
+            —
+            <a class="text-decoration-none white--text" href="https://vyhub.net">
+              Powered by VyHub
+            </a>
+          </span>
           —
           {{ version }}
         </strong>
@@ -28,6 +30,7 @@
 
 <script>
 import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
+import config from '@/config';
 import { version } from '../../package.json';
 
 export default {
@@ -35,6 +38,7 @@ export default {
   data() {
     return {
       version,
+      config,
     };
   },
   computed: {

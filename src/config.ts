@@ -8,6 +8,7 @@ declare global {
     html_max_input_length: number;
     discord_bot_invite_url: string;
     sentry_dsn: string;
+    branding: boolean;
   }
 
   interface Window {
