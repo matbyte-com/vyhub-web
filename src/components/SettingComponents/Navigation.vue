@@ -176,7 +176,7 @@
                     </v-btn>
                     <v-btn :disabled="link.linkType==='default'"
                            outlined color="error" small
-                           @click="$refs.deleteNavConfirmationDialog.show(link)">
+                           @click="$refs.deleteNavConfirmationDialog.show(sublink)">
                       <v-icon>
                         mdi-delete
                       </v-icon>
