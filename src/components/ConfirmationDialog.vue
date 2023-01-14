@@ -7,10 +7,9 @@
       <div class="body-1 mt-2 text-center">
         {{ text }}
       </div>
-      <div v-if="confirmationTextField">
+      <div v-if="useTextField && !countdown">
         <v-text-field v-model="confirmationTextFieldInput" :label="confirmationTextFieldLabel"/>
-        {{ confirmationTextField }}
-        {{ confirmationTextFieldInput }}
+        {{ $t('writeToConfirm') }} {{ confirmationTextField }}
       </div>
     </template>
     <template v-for="(index, name) in $slots" v-slot:[name]>
@@ -25,7 +24,7 @@
                :loading="loading"
                @click="submit">
           <v-icon left>{{ btnIcon }}</v-icon>
-          <span v-if="disabled">
+          <span v-if="disabled && !useTextField">
             ({{ counter }})
           </span>
           <span v-else>
@@ -67,6 +66,10 @@ export default {
     text: String,
     confirmationTextField: String,
     confirmationTextFieldLabel: String,
+    useTextField: {
+      type: Boolean,
+      default: false,
+    },
     btnIcon: {
       type: String,
       default: 'mdi-check',
