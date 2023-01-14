@@ -50,7 +50,7 @@
             :title="$t('_forum.manageTopicCategories')">
       <template>
         <v-list>
-          <draggable :list="topicCategories" @change="updateForum = true">
+          <draggable :list="topicCategories" @change="updateForumCategories = true">
             <v-list-item v-for="category in topicCategories" :key="category.id">
               <v-row>
                 <v-col>
@@ -76,12 +76,12 @@
         <v-btn @click="$refs.addTopicCategoryDialog.show()">{{ $t('_forum.addCategory') }}</v-btn>
         <v-btn color="primary" class="mr-0"
                style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-               @click="updateCategoryOrder" :disabled="!updateForum">
+               @click="updateCategoryOrder" :disabled="!updateForumCategories">
           <v-icon>mdi-check</v-icon>
         </v-btn>
         <v-btn color="primary" class="ma-0"
                style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-               @click="fetchData" :disabled="!updateForum">
+               @click="fetchData" :disabled="!updateForumCategories">
           <v-icon>mdi-backspace-outline</v-icon>
         </v-btn>
       </template>
@@ -89,18 +89,18 @@
     <!-- TopicDialog -->
     <Dialog ref="editTopicsDialog" v-if="topicCategories" :title="$t('_forum.manageTopics')">
       <template>
-        <v-select :items="topicCategories.map(category =>
+        <v-select :label="$t('_forum.selectTopicCategory')" :items="topicCategories.map(category =>
         ({text: category.title, value: category.id}))"
-                  v-model="selectedTopicCategory"/>
+                  v-model="selectedTopicCategory" />
         <v-list v-if="getSelectedCategory">
-          <draggable @change="updateForum = true">
+          <draggable :list="getSelectedCategory.topics" @change="updateForumTopics = true">
             <v-list-item v-for="topic in getSelectedCategory.topics" :key="topic.id">
               <v-row>
                 <v-col>
                   {{ topic.title }}
                 </v-col>
                 <v-col class="text-right">
-                  <v-btn @click.stop="openTopicEditDialog(topic)"
+                  <v-btn @click.stop="openTopicEditDialog(topic, getSelectedCategory.id)"
                          color="primary" outlined small>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
@@ -117,21 +117,29 @@
       </template>
       <template v-slot:actions>
         <v-btn @click="$refs.addTopicDialog.show()">{{ $t('_forum.addTopic') }}</v-btn>
+        <v-btn color="primary" class="mr-0"
+               style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+               @click="updateTopicOrder()" :disabled="!updateForumTopics">
+          <v-icon>mdi-check</v-icon>
+        </v-btn>
+        <v-btn color="primary" class="ma-0"
+               style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+               @click="fetchData" :disabled="!updateForumTopics">
+          <v-icon>mdi-backspace-outline</v-icon>
+        </v-btn>
       </template>
     </Dialog>
     <ConfirmationDialog ref="deleteTopicCategoryConfirmationDialog"
-                        @submit="deleteTopicCategory"
-                        :confirmation-text-field-label="$t('_forum.deleteCategory')"/>
+                        @submit="deleteTopicCategory" :countdown="true"/>
     <ConfirmationDialog ref="deleteTopicConfirmationDialog"
-                        @submit="deleteTopic"
-                        :confirmation-text-field-label="$t('_forum.deleteTopic')"/>
-    <DialogForm :form-schema="TopicCategoryForm"
+                        @submit="deleteTopic" :countdown="true"/>
+    <DialogForm :form-schema="topicCategoryForm"
               @submit="newTopicCategory"
               ref="addTopicCategoryDialog"/>
     <DialogForm :form-schema="TopicForm"
                 @submit="newTopic"
                 ref="addTopicDialog"/>
-    <DialogForm :form-schema="TopicCategoryForm"
+    <DialogForm :form-schema="topicCategoryForm"
                 @submit="editTopicCategory"
                 ref="editTopicCategoryDialog"/>
     <DialogForm :form-schema="TopicForm"
@@ -161,9 +169,11 @@ export default {
     return {
       topicCategories: null,
       selectedTopicCategory: null,
-      updateForum: false,
-      TopicCategoryForm: ForumAddTopicCategory,
+      updateForumCategories: false,
+      updateForumTopics: false,
+      topicCategoryForm: ForumAddTopicCategory,
       TopicForm: ForumAddTopicForm,
+      TopicDescriptionLimit: 75, // Hardcoded um probleme auf kleinere Bildschirme zu vermeiden :/
     };
   },
   beforeMount() {
@@ -173,8 +183,11 @@ export default {
     async fetchData() {
       (await openapi).forum_getTopicCategories().then((rsp) => {
         this.topicCategories = rsp.data;
-        if (this.updateForum === true) {
-          this.updateForum = false;
+        if (this.updateForumCategories === true) {
+          this.updateForumCategories = false;
+        }
+        if (this.updateForumTopics === true) {
+          this.updateForumTopics = false;
         }
       });
     },
@@ -185,7 +198,7 @@ export default {
         this.fetchData();
         this.$refs.addTopicCategoryDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_forum.messages.TopicCategoryCreated'),
+          title: this.$t('_forum.messages.topicCategoryCreated'),
           type: 'success',
         });
       }).catch((err) => {
@@ -194,15 +207,15 @@ export default {
     },
     async newTopic() {
       const data = this.$refs.addTopicDialog.getData();
-      if (data.description.length > 75) {
-        this.$refs.addTopicDialog.setErrorMessage(this.$t('_forum.messages.TopicDescriptionTooLong'));
+      if (data.description.length > this.TopicDescriptionLimit) {
+        this.$refs.addTopicDialog.setErrorMessage(this.$t('_forum.messages.topicDescriptionTooLong'));
         return;
       }
       (await openapi).forum_createTopic(null, data).then(() => {
         this.fetchData();
         this.$refs.addTopicDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_forum.messages.TopicCreated'),
+          title: this.$t('_forum.messages.topicCreated'),
           type: 'success',
         });
       }).catch((err) => {
@@ -215,7 +228,7 @@ export default {
       (await openapi).forum_editTopicCategory(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.TopicCategoryEdited'),
+          title: this.$t('_forum.messages.topicCategoryEdited'),
           type: 'success',
         });
         this.$refs.editTopicCategoryDialog.closeAndReset();
@@ -223,23 +236,23 @@ export default {
         this.$refs.editTopicCategoryDialog.setError(err);
       });
     },
-    openTopicEditDialog(item) {
+    openTopicEditDialog(item, categoryId) {
       const data = item;
       this.$refs.editTopicDialog.show(data);
       data.admin_ids = data.admins;
-      console.log(item);
+      data.topic_category_id = categoryId;
       this.$refs.editTopicDialog.setData(data);
     },
     async editTopic(item) {
       const data = this.$refs.editTopicDialog.getData();
-      if (data.description.length > 75) {
-        this.$refs.editTopicDialog.setErrorMessage(this.$t('_forum.messages.TopicDescriptionTooLong'));
+      if (data.description.length > this.TopicDescriptionLimit) {
+        this.$refs.editTopicDialog.setErrorMessage(this.$t('_forum.messages.topicDescriptionTooLong'));
         return;
       }
       (await openapi).forum_editTopic(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.TopicEdited'),
+          title: this.$t('_forum.messages.topicEdited'),
           type: 'success',
         });
         this.$refs.editTopicDialog.closeAndReset();
@@ -288,11 +301,21 @@ export default {
         console.log(`${err}`);
       });
     },
-    goToTopic(item) {
-      // const id = item.id.substring(0, 8);
-      // const title = item.title.replace(/\s/g, '_');
-      // const router_id = id + title;
-      // this.$router.push({ name: 'ForumTopic', params: { id: router_id.toLowerCase() } });
+    async updateTopicOrder() {
+      const category = this.topicCategories.find((item) => item.id === this.selectedTopicCategory);
+      const res = [];
+      category.topics.forEach((item) => {
+        res.push(item.id);
+      });
+      (await openapi).forum_updateTopicOrder(null, res).then(() => {
+        this.fetchData();
+        this.$notify({
+          title: this.$t('_forum.messages.updatedOrder'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        console.log(`${err}`);
+      });
     },
   },
   computed: {
