@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="topic">
     <PageTitle :title="topic.title" :subtitle='topic.topic_category.title + "/" + topic.title'/>
     <v-card>
       <v-card-text>
@@ -15,12 +16,17 @@
           class="cursor"
         >
           <template v-slot:header>
-            <v-checkbox v-model="show_closed" :label="$t('_ticket.showClosed')"
+            <v-checkbox v-model="show_closed" :label="$t('_ticket.showClosed') + ' (Dont work)'"
                         @change="fetchThreads" class="text-capitalize"/>
           </template>
           <template v-slot:item.created="{ item }">
             {{ utils.formatDate(item.created) }}
-            <v-icon v-if="item.status === 'CLOSED'" color="red">mdi-lock</v-icon>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on" v-if="item.status === 'CLOSED'" color="red">mdi-lock</v-icon>
+              </template>
+              <span> {{ $t('_forum.threadLocked') }} </span>
+            </v-tooltip>
           </template>
           <template v-slot:item.creator="{ item }">
             <v-avatar class="ma-1">
@@ -47,6 +53,8 @@
     </v-card>
     <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_forum.addThread')"
                      @submit="newThread"/>
+    </div>
+    <v-skeleton-loader v-else type="article@2" />
   </div>
 </template>
 
@@ -79,12 +87,7 @@ export default {
       page: 1,
       totalItems: 0,
       show_closed: true,
-      topic: {
-        title: '',
-        topic_category: {
-          title: '',
-        },
-      },
+      topic: null,
     };
   },
   beforeMount() {

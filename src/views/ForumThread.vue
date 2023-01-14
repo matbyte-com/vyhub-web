@@ -4,16 +4,27 @@
       <PageTitle
           icon="mdi-forum"
           class="mb-5"
-          show-subtitle
           :title="thread.title"
           :subtitle='topic.topic_category.title + "/" + topic.title + "/" + thread.title'>
+        <template v-slot:default v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
+          <v-btn color="success" outlined x-small class="ml-5"
+                 @click="openThreadTitleEditDialog(thread)">
+            <v-icon left>mdi-pencil</v-icon>
+            <span>{{ $t('_forum.rename') }}</span>
+          </v-btn>
+        </template>
         <template v-slot:subtitle>
           <v-row>
-            <v-col cols="12" sm="9" align-self="center" style="white-space: nowrap">
+            <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
               <user-link simple class="ml-1" v-if="thread.creator" :user="thread.creator"/>
               {{ utils.formatDate(posts[0].created) }}
             </v-col>
-            <v-col cols="12" sm="3">
+            <v-col v-if="lang === 'de'" cols="12" sm="5">
+              <v-chip v-if="thread.status === 'CLOSED'" color="error" class="text-uppercase">
+                {{ $t('_forum.locked') }}
+              </v-chip>
+            </v-col>
+            <v-col v-else cols="12" sm="5">
               <v-chip v-if="thread.status === 'CLOSED'" color="error" class="text-uppercase">
                 {{ $t('_forum.locked') }}
               </v-chip>
@@ -43,15 +54,15 @@
                   <user-link small v-if="post.creator" :user="post.creator"/>
                   <span class="ml-3">{{ utils.formatDate(post.created) }}</span>
                   <v-col class="text-right"
-                         v-if="post.creator.id === user.id || $checkProp('forum_edit')">
+                         v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
                     <v-btn small outlined
                            @click.stop="openEditPostDialog(post)" color="primary"
-                           class="ml-3 btn-manage"> <!-- Edit Post js benötigt -->
+                           class="btn-manage">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn small outlined
                            @click.stop="$refs.deletePostConfirmationDialog.show(post)" color="error"
-                           class="ml-3 btn-manage">
+                           class="ml-2 btn-manage">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
@@ -77,7 +88,7 @@
               <v-icon left>mdi-delete</v-icon>
               {{ $t('_forum.deleteThread') }}
             </v-btn>
-            <v-btn v-if="$checkProp('forum_edit')"
+            <v-btn v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)" class="ml-1"
                    :color="thread.status === 'CLOSED' ? 'success' : 'error'"
                    @click="toggleStatus">
               <div v-if="thread.status === 'CLOSED'">
@@ -89,7 +100,7 @@
                 <span>{{ $t('_forum.lock') }}</span>
               </div>
             </v-btn>
-            <v-btn :disabled="thread.status === 'CLOSED'"
+            <v-btn :disabled="thread.status === 'CLOSED'" class="ml-1"
                    color="success" @click="$refs.addPostDialog.show()">
               <v-icon left>mdi-plus</v-icon>
               {{ $t('_ticket.addPost') }}
@@ -104,6 +115,10 @@
       <ThreadAddDialog ref="editPostDialog"
                        :dialog-title="`${$t('_ticket.editPost')}`"
                        @submit="editPost" :hide-title-input="true"/>
+      <DialogForm :title="`${$t('_forum.renameThread')}`" :form-schema="ThreadTitleForm"
+                  ref="editThreadTitleDialog" :icon="`mdi-pencil`"
+                  :dialog-title="`${$t('_ticket.editThreadTitle')}`"
+                  @submit="editThreadTitle" :hide-editor="true"/>
       <DeleteConfirmationDialog ref="deletePostConfirmationDialog"
                                 @submit="deletePost" />
       <DeleteConfirmationDialog ref="deleteThreadConfirmationDialog"
@@ -115,6 +130,8 @@
 
 <script>
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
+import DialogForm from '@/components/DialogForm.vue';
+import FaqForm from '@/forms/FaqForm';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 import UserLink from '../components/UserLink.vue';
@@ -128,6 +145,7 @@ export default {
     PageTitle,
     ThreadAddDialog,
     UserLink,
+    DialogForm,
   },
   data() {
     return {
@@ -138,6 +156,8 @@ export default {
       thread: null,
       topic: null,
       user: null,
+      lang: this.$i18n.locale,
+      ThreadTitleForm: FaqForm,
     };
   },
   beforeMount() {
@@ -207,6 +227,25 @@ export default {
         this.$refs.editPostDialog.setError(err);
       });
     },
+    openThreadTitleEditDialog(thread) {
+      const data = thread;
+      this.$refs.editThreadTitleDialog.show(data);
+      data.title = thread.title;
+      this.$refs.editThreadTitleDialog.setData(data);
+    },
+    async editThreadTitle() {
+      const data = this.$refs.editThreadTitleDialog.getData();
+      (await openapi).forum_editThread(this.threadId, data).then(() => {
+        this.$notify({
+          title: this.$t('_forum.editSuccess'),
+          type: 'success',
+        });
+        this.getThread();
+        this.$refs.editThreadTitleDialog.closeAndReset();
+      }).catch((err) => {
+        this.$refs.editThreadTitleDialog.setError(err);
+      });
+    },
     async deleteThread() {
       (await openapi).forum_deleteThread(this.threadId).then(() => {
         this.$notify({
@@ -245,5 +284,10 @@ export default {
 
 .onhover:hover .btn-manage {
   display: inline-block;
+}
+
+.really-small {
+  padding: 0;
+  min-width: 0;
 }
 </style>
