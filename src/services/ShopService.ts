@@ -19,6 +19,10 @@ export default {
   async refreshCreditAccount() {
     const api = await openapi;
 
+    if (store.getters.user == null) {
+      return;
+    }
+
     api.finance_getAccount({ uuid: store.getters.user.credit_account_id })
       .then((rsp) => {
         store.dispatch('setCreditAccount', {
