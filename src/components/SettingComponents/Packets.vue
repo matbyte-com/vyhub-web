@@ -274,6 +274,14 @@ export default {
         this.$refs.deletePacketDialog.setError(err);
       });
     },
+    async saveOrder() {
+      const api = await openapi;
+      const order = this.packets.map((p) => p.id);
+
+      console.log(this.packets);
+
+      await api.packet_updateOrder(null, order);
+    },
   },
   mounted() {
     const table = document.querySelector('#packets-table tbody');
@@ -290,16 +298,7 @@ export default {
         const rowSelected = this.packets.splice(oldIndex, 1)[0];
         this.packets.splice(newIndex, 0, rowSelected);
 
-        openapi.then((api) => {
-          for (let i = newIndex; i < this.packets.length; i += 1) {
-            const packet = this.packets[i];
-            api.packet_editPacket({ uuid: packet.id }, { sort_id: i })
-              .catch((err) => {
-                console.log(err);
-                this.utils.notifyUnexpectedError(err.response.data);
-              });
-          }
-        });
+        this.saveOrder();
       },
     });
   },
