@@ -1,7 +1,16 @@
 <template>
   <div>
     <div v-if="topic">
-    <PageTitle :title="topic.title" :subtitle='topic.topic_category.title + "/" + topic.title'/>
+    <PageTitle :title="topic.title"
+               :subtitle='topic.topic_category.title + "/" + topic.title'>
+      <template v-slot:subtitle>
+        <v-row>
+          <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
+            {{ $t('description') }}: {{ topic.description }}
+          </v-col>
+        </v-row>
+      </template>
+    </PageTitle>
     <v-card>
       <v-card-text>
         <PaginatedDataTable
@@ -9,15 +18,15 @@
           :headers="headers"
           :items="threads"
           :totalItems="totalItems"
-          default-sort-by="created"
+          default-sort-by="last_post"
           :default-sort-desc="true"
           @reload="fetchTopic"
           @click:row="showThread"
           class="cursor"
         >
           <template v-slot:header>
-            <v-checkbox v-model="show_closed" :label="$t('_ticket.showClosed') + ' (Dont work)'"
-                        @change="fetchThreads" class="text-capitalize"/>
+            <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
+                        @change="fetchTopic" class="text-capitalize" />
           </template>
           <template v-slot:item.created="{ item }">
             {{ utils.formatDate(item.created) }}
@@ -80,13 +89,11 @@ export default {
         { text: this.$t('_ticket.creator'), value: 'creator', sortable: false },
         { text: this.$t('_ticket.title'), value: 'title', sortable: false },
         { text: this.$t('_ticket.created'), value: 'created' },
-        {
-          text: this.$t('_ticket.last_post'), value: 'last_post', align: 'right', sortable: false,
-        },
+        { text: this.$t('_ticket.last_post'), value: 'last_post', align: 'right' },
       ],
       page: 1,
       totalItems: 0,
-      show_closed: true,
+      hide_closed: false,
       topic: null,
     };
   },
@@ -107,7 +114,7 @@ export default {
       const topicId = this.$route.params.id;
       (await openapi).forum_getThreads({
         uuid: topicId,
-        show_closed: this.show_closed,
+        hide_closed: this.hide_closed,
         ...(queryParams != null ? queryParams : this.$refs.threadTable.getQueryParameters()),
       })
         .then((rsp) => {

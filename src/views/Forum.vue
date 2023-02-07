@@ -33,12 +33,12 @@
           <div class="text-right" v-if="$checkProp('forum_edit')">
             <v-btn class="mr-3 mt-3" color="success" outlined
                    @click="$refs.editTopicCategoriesDialog.show()">
-              <v-icon left>mdi-plus</v-icon>
+              <v-icon left>mdi-card-multiple</v-icon>
               <span>{{ $t('_forum.manageTopicCategories') }}</span>
             </v-btn>
             <v-btn class="mr-3 mt-3" color="success" outlined
                    @click="$refs.editTopicsDialog.show()">
-              <v-icon left>mdi-plus</v-icon>
+              <v-icon left>mdi-card-multiple</v-icon>
               <span>{{ $t('_forum.manageTopics') }}</span>
             </v-btn>
           </div>
@@ -47,7 +47,7 @@
     </v-card>
     <!-- TopicCategoryDialog -->
     <Dialog ref="editTopicCategoriesDialog"
-            :title="$t('_forum.manageTopicCategories')">
+            :title="$t('_forum.manageTopicCategories')" :icon="'mdi-card-multiple'">
       <template>
         <v-list>
           <draggable :list="topicCategories" @change="updateForumCategories = true">
@@ -57,7 +57,7 @@
                   {{ category.title }}
                 </v-col>
                 <v-col class="text-right">
-                  <v-btn class="mr-1" @click.stop="$refs.editTopicCategoryDialog.show(category)"
+                  <v-btn class="mr-1" @click.stop="openTopicCategoryEditDialog(category)"
                          color="primary" outlined small>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
@@ -73,7 +73,10 @@
         </v-list>
       </template>
       <template v-slot:actions>
-        <v-btn @click="$refs.addTopicCategoryDialog.show()">{{ $t('_forum.addCategory') }}</v-btn>
+        <v-btn @click="$refs.addTopicCategoryDialog.show()">
+          <v-icon>mdi-plus</v-icon>
+          {{ $t('_forum.addCategory') }}
+        </v-btn>
         <v-btn color="primary" class="mr-0"
                style="border-top-right-radius: 0; border-bottom-right-radius: 0"
                @click="updateCategoryOrder" :disabled="!updateForumCategories">
@@ -87,11 +90,12 @@
       </template>
     </Dialog>
     <!-- TopicDialog -->
-    <Dialog ref="editTopicsDialog" v-if="topicCategories" :title="$t('_forum.manageTopics')">
+    <Dialog ref="editTopicsDialog" v-if="topicCategories"
+            :title="$t('_forum.manageTopics')" :icon="'mdi-card-multiple'">
       <template>
         <v-select :label="$t('_forum.selectTopicCategory')" :items="topicCategories.map(category =>
         ({text: category.title, value: category.id}))"
-                  v-model="selectedTopicCategory" />
+                  v-model="selectedTopicCategory"/>
         <v-list v-if="getSelectedCategory">
           <draggable :list="getSelectedCategory.topics" @change="updateForumTopics = true">
             <v-list-item v-for="topic in getSelectedCategory.topics" :key="topic.id">
@@ -100,7 +104,8 @@
                   {{ topic.title }}
                 </v-col>
                 <v-col class="text-right">
-                  <v-btn @click.stop="openTopicEditDialog(topic, getSelectedCategory.id)"
+                  <v-btn class="mr-1"
+                         @click.stop="openTopicEditDialog(topic, getSelectedCategory.id)"
                          color="primary" outlined small>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
@@ -116,7 +121,10 @@
         </v-list>
       </template>
       <template v-slot:actions>
-        <v-btn @click="$refs.addTopicDialog.show()">{{ $t('_forum.addTopic') }}</v-btn>
+        <v-btn @click="$refs.addTopicDialog.show()">
+          <v-icon>mdi-plus</v-icon>
+          {{ $t('_forum.addTopic') }}
+        </v-btn>
         <v-btn color="primary" class="mr-0"
                style="border-top-right-radius: 0; border-bottom-right-radius: 0"
                @click="updateTopicOrder()" :disabled="!updateForumTopics">
@@ -130,21 +138,21 @@
       </template>
     </Dialog>
     <ConfirmationDialog ref="deleteTopicCategoryConfirmationDialog"
-                        @submit="deleteTopicCategory" :countdown="true"/>
+                        @submit="deleteTopicCategory" :use-text-field="true"/>
     <ConfirmationDialog ref="deleteTopicConfirmationDialog"
                         @submit="deleteTopic" :countdown="true"/>
     <DialogForm :form-schema="topicCategoryForm"
-              @submit="newTopicCategory"
-              ref="addTopicCategoryDialog"/>
+              @submit="newTopicCategory" :title="$t('_forum.addTopicCategory')"
+              ref="addTopicCategoryDialog" :icon="'mdi-plus'"/>
     <DialogForm :form-schema="TopicForm"
-                @submit="newTopic"
-                ref="addTopicDialog"/>
+                @submit="newTopic" :title="$t('_forum.addTopic')"
+                ref="addTopicDialog" :icon="'mdi-plus'"/>
     <DialogForm :form-schema="topicCategoryForm"
-                @submit="editTopicCategory"
-                ref="editTopicCategoryDialog"/>
+                @submit="editTopicCategory" :title="$t('_forum.editTopicCategory')"
+                ref="editTopicCategoryDialog" :icon="'mdi-pencil'"/>
     <DialogForm :form-schema="TopicForm"
-                @submit="editTopic"
-                ref="editTopicDialog"/>
+                @submit="editTopic" :title="$t('_forum.editTopic')"
+                ref="editTopicDialog" :icon="'mdi-pencil'"/>
   </div>
 </template>
 
@@ -173,7 +181,7 @@ export default {
       updateForumTopics: false,
       topicCategoryForm: ForumAddTopicCategory,
       TopicForm: ForumAddTopicForm,
-      TopicDescriptionLimit: 75, // Hardcoded um probleme auf kleinere Bildschirme zu vermeiden :/
+      TopicDescriptionLimit: 75, // Hardcoded to solve some problems on small screens
     };
   },
   beforeMount() {
@@ -183,6 +191,7 @@ export default {
     async fetchData() {
       (await openapi).forum_getTopicCategories().then((rsp) => {
         this.topicCategories = rsp.data;
+        this.selectedTopicCategory = this.topicCategories[0].id;
         if (this.updateForumCategories === true) {
           this.updateForumCategories = false;
         }
@@ -223,6 +232,11 @@ export default {
       });
     },
     // Bearbeiten
+    openTopicCategoryEditDialog(item) {
+      const data = item;
+      this.$refs.editTopicCategoryDialog.show(data);
+      this.$refs.editTopicCategoryDialog.setData(data);
+    },
     async editTopicCategory(item) {
       const data = this.$refs.editTopicCategoryDialog.getData();
       (await openapi).forum_editTopicCategory(item.id, data).then(() => {
@@ -332,11 +346,7 @@ export default {
   cursor: pointer !important;
 }
 
-.topic {
-  transition: transform 0.7s ease-in-out;
-}
 .topic:hover {
-  transform: scale(1.01);
   box-shadow: #545454 0px 0px 5px 0px;
 }
 </style>
