@@ -94,11 +94,13 @@ export default {
       this.loading = false;
       this.dialog = false;
       this.errorMessage = null;
+      this.confirmationTextFieldInput = null;
     },
     closeAndReset() {
       this.loading = false;
       this.dialog = false;
       this.errorMessage = null;
+      this.confirmationTextFieldInput = null;
     },
     submit() {
       if (!this.loading) {

@@ -7,10 +7,29 @@
           :title="thread.title"
           :subtitle='topic.topic_category.title + "/" + topic.title + "/" + thread.title'>
         <template v-slot:default v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
-          <v-btn color="success" outlined x-small class="ml-5"
+          <v-btn color="success" outlined x-small class="ml-5 mr-1"
                  @click="openThreadTitleEditDialog(thread)">
             <v-icon left>mdi-pencil</v-icon>
             <span>{{ $t('_forum.rename') }}</span>
+          </v-btn>
+          <v-btn v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
+                 class="mr-1" x-small outlined
+                 :color="thread.status === 'CLOSED' ? 'success' : 'error'"
+                 @click="toggleStatus">
+            <div v-if="thread.status === 'CLOSED'">
+              <v-icon left>mdi-lock-open-variant</v-icon>
+              <span>{{ $t('_forum.unlock') }}</span>
+            </div>
+            <div v-else>
+              <v-icon left>mdi-lock</v-icon>
+              <span>{{ $t('_forum.lock') }}</span>
+            </div>
+          </v-btn>
+          <v-btn v-if="($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))
+             && thread.status === 'CLOSED'" outlined x-small
+             color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
+            <v-icon left>mdi-delete</v-icon>
+            {{ $t('_forum.deleteThread') }}
           </v-btn>
         </template>
         <template v-slot:subtitle>
@@ -41,10 +60,11 @@
             </v-avatar>
           </v-col>
           <v-col class="ml-sm-5 mr-sm-5">
-            <v-card flat outlined class="onhover">
+            <v-card flat outlined>
               <v-card-text>
-              <span v-html="post.content" class="ql-editor pa-0">
-              </span>
+                <v-col>
+                  <span v-html="post.content" class="ql-editor pa-0"/>
+                </v-col>
                 <div class="text--disabled mt-3 d-flex align-center">
                   <v-avatar v-if="post.creator.id === thread.creator.id"
                             class="hidden-sm-and-up mr-3"
@@ -52,17 +72,28 @@
                     <v-img :src="post.creator.avatar"/>
                   </v-avatar>
                   <user-link small v-if="post.creator" :user="post.creator"/>
+                  <span v-for="admin in topic.admins" :key="admin.id">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-chip round v-if="post.creator.id === admin.id"
+                                outlined color="red" small class="ml-1"
+                                v-on="on">
+                          <v-icon small>mdi-shield-sword-outline</v-icon>
+                        </v-chip>
+                      </template>
+                      <span>{{ $t('_forum.admin') }}</span>
+                    </v-tooltip>
+                  </span>
                   <span class="ml-3">{{ utils.formatDate(post.created) }}</span>
                   <v-col class="text-right"
                          v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
                     <v-btn small outlined
-                           @click.stop="openEditPostDialog(post)" color="primary"
-                           class="btn-manage">
+                           @click.stop="openEditPostDialog(post)" color="primary">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn small outlined
                            @click.stop="$refs.deletePostConfirmationDialog.show(post)" color="error"
-                           class="ml-2 btn-manage">
+                           class="ml-2">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
@@ -82,24 +113,6 @@
         <v-row>
           <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
           <v-col class="text-right ml-sm-5 mr-sm-5">
-            <v-btn v-if="($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))
-             && thread.status === 'CLOSED' "
-                   color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
-              <v-icon left>mdi-delete</v-icon>
-              {{ $t('_forum.deleteThread') }}
-            </v-btn>
-            <v-btn v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)" class="ml-1"
-                   :color="thread.status === 'CLOSED' ? 'success' : 'error'"
-                   @click="toggleStatus">
-              <div v-if="thread.status === 'CLOSED'">
-                <v-icon left>mdi-lock-open-variant</v-icon>
-                <span>{{ $t('_forum.unlock') }}</span>
-              </div>
-              <div v-else>
-                <v-icon left>mdi-lock</v-icon>
-                <span>{{ $t('_forum.lock') }}</span>
-              </div>
-            </v-btn>
             <v-btn :disabled="thread.status === 'CLOSED'" class="ml-1"
                    color="success" @click="$refs.addPostDialog.show()">
               <v-icon left>mdi-plus</v-icon>
@@ -158,9 +171,13 @@ export default {
       user: null,
       lang: this.$i18n.locale,
       ThreadTitleForm: FaqForm,
+      admins: [],
+      loadingTime: 0, // DEBUG ONLY
+      showSnackbar: false, // DEBUG ONLY
     };
   },
   beforeMount() {
+    this.loadingTime = new Date().getTime(); // DEBUG ONLY
     this.threadId = this.$route.params.id;
     this.fetchData();
     this.getThread();
@@ -182,6 +199,11 @@ export default {
       const topicid = this.thread.topic.id;
       (await openapi).forum_getTopic(topicid).then((rsp) => {
         this.topic = rsp.data;
+        this.admins = this.topic.admins;
+        this.loadingTime = new Date().getTime() - this.loadingTime; // DEBUG ONLY
+        if (this.loadingTime < 1000) { // DEBUG ONLY
+          this.showSnackbar = true; // DEBUG ONLY
+        } // DEBUG ONLY
       });
     },
     openEditPostDialog(post) {
@@ -191,6 +213,10 @@ export default {
     async newPost() {
       const data = this.$refs.addPostDialog.getData();
       delete data.title;
+      if (data.content === '') {
+        this.$refs.addPostDialog.setError(this.$t('_ticket.messages.emptyPost'));
+        return;
+      }
       (await openapi).forum_createPost(this.threadId, data).then(() => {
         this.$refs.addPostDialog.close();
         this.fetchData();
@@ -284,6 +310,19 @@ export default {
 
 .onhover:hover .btn-manage {
   display: inline-block;
+}
+
+.topcenter {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.better-width {
+  width: 80%;
+  margin-left: 10%;
 }
 
 .really-small {
