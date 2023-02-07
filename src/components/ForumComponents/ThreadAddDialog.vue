@@ -11,7 +11,7 @@
     </v-row>
     <v-text-field v-if="!hideTitleInput" :label="$t('_ticket.title')"
                   v-model="title"></v-text-field>
-    <editor v-model="content" label="test" :class="hideTitleInput ? 'mt-3' : ''"/>
+    <editor v-model="content" :class="hideTitleInput ? 'mt-3' : ''"/>
     <template v-slot:actions>
       <v-btn text color="primary" @click="$emit('submit', obj)">
         <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
