@@ -1,9 +1,15 @@
 <template>
   <div>
     <div v-if="topic">
-    <PageTitle :title="topic.title"
-               :subtitle='topic.topic_category.title + "/" + topic.title'>
-      <template v-slot:subtitle>
+    <PageTitle :title="topic.title" subtitle>
+      <template #subtitle>
+        <!-- Make the title of the category clickable -->
+        <router-link :to="{ name: 'Forum' }"
+                     class="hidelinkstyle">
+          {{ topic.topic_category.title }}
+        </router-link>
+        / {{ topic.title }}
+        <!---->
         <v-row>
           <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
             {{ $t('description') }}: {{ topic.description }}
@@ -27,6 +33,13 @@
           <template v-slot:header>
             <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
                         @change="fetchTopic" class="text-capitalize" />
+            <v-row>
+              <v-col cols="12" sm="6" align-self="center">
+                {{ $t('_forum.topicAdmins') }}
+                <UserLink v-for="admin in topic.admins" small
+                          :key="admin.id" :user="admin" />
+              </v-col>
+            </v-row>
           </template>
           <template v-slot:item.created="{ item }">
             {{ utils.formatDate(item.created) }}
@@ -158,5 +171,10 @@ export default {
 <style scoped>
 .cursor >>> td{
   cursor: pointer !important;
+}
+
+.hidelinkstyle{
+  color: inherit;
+  text-decoration: none;
 }
 </style>

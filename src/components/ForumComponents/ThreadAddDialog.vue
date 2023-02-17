@@ -13,7 +13,7 @@
                   v-model="title"></v-text-field>
     <editor v-model="content" :class="hideTitleInput ? 'mt-3' : ''"/>
     <template v-slot:actions>
-      <v-btn text color="primary" @click="$emit('submit', obj)">
+      <v-btn text color="primary" @click="$emit('submit', obj)" v-if="content !== ''">
         <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
         <v-icon v-if="!loading" left>mdi-check</v-icon>
         <div v-if="!loading">
