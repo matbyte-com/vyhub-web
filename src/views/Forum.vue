@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle icon="mdi-ticket-confirmation">{{ $t('_forum.TopicCategories') }}</PageTitle>
+    <PageTitle icon="mdi-ticket-confirmation">{{ $t('_forum.title') }}</PageTitle>
     <v-card>
       <v-list subheader two-line>
         <v-list-group
@@ -73,7 +73,7 @@
         </v-list>
       </template>
       <template v-slot:actions>
-        <v-btn @click="$refs.addTopicCategoryDialog.show()">
+        <v-btn color="primary" @click="$refs.addTopicCategoryDialog.show()">
           <v-icon>mdi-plus</v-icon>
           {{ $t('_forum.addCategory') }}
         </v-btn>
@@ -121,7 +121,7 @@
         </v-list>
       </template>
       <template v-slot:actions>
-        <v-btn @click="$refs.addTopicDialog.show()">
+        <v-btn color="primary" @click="$refs.addTopicDialog.show()">
           <v-icon>mdi-plus</v-icon>
           {{ $t('_forum.addTopic') }}
         </v-btn>

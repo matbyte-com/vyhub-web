@@ -5,7 +5,7 @@
           icon="mdi-forum"
           class="mb-5"
           :title="thread.title"
-          :subtitle='topic.topic_category.title + "/" + topic.title + "/" + thread.title'>
+          subtitle>
         <template v-slot:default v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
           <v-btn color="success" outlined x-small class="ml-5 mr-1"
                  @click="openThreadTitleEditDialog(thread)">
@@ -33,24 +33,38 @@
           </v-btn>
         </template>
         <template v-slot:subtitle>
+          <!-- Make the titles of the category and topic clickable -->
+          <router-link :to="{ name: 'Forum' }"
+                       class="hidelinkstyle">
+            {{ topic.topic_category.title }}
+          </router-link>
+          / <router-link :to="{ name: 'ForumTopic', params: { id: topic.id } }"
+                         class="hidelinkstyle">
+            {{ topic.title }}
+          </router-link>
+          / {{ thread.title }}
+          <!---->
           <v-row>
             <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
               <user-link simple class="ml-1" v-if="thread.creator" :user="thread.creator"/>
               {{ utils.formatDate(posts[0].created) }}
             </v-col>
-            <v-col v-if="lang === 'de'" cols="12" sm="5">
-              <v-chip v-if="thread.status === 'CLOSED'" color="error" class="text-uppercase">
-                {{ $t('_forum.locked') }}
-              </v-chip>
-            </v-col>
-            <v-col v-else cols="12" sm="5">
-              <v-chip v-if="thread.status === 'CLOSED'" color="error" class="text-uppercase">
-                {{ $t('_forum.locked') }}
-              </v-chip>
-            </v-col>
           </v-row>
         </template>
       </PageTitle>
+      <div class="mt-3">
+        <v-row>
+          <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
+          <v-col class="text-right ml-sm-5 mr-sm-5">
+            <v-btn v-if="thread.status !== 'CLOSED'" class="ml-1"
+                   color="success" @click="$refs.addPostDialog.show()">
+              <v-icon left>mdi-plus</v-icon>
+              {{ $t('_ticket.addPost') }}
+            </v-btn>
+          </v-col>
+          <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
+        </v-row>
+      </div>
       <div class="mt-3" v-for="post in posts" :key="post.id">
         <v-row>
           <v-col class="hidden-xs-only" cols="2" lg="1">
@@ -109,17 +123,28 @@
           </v-col>
         </v-row>
       </div>
-      <div class="mt-3">
-        <v-row>
-          <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
-          <v-col class="text-right ml-sm-5 mr-sm-5">
-            <v-btn :disabled="thread.status === 'CLOSED'" class="ml-1"
-                   color="success" @click="$refs.addPostDialog.show()">
-              <v-icon left>mdi-plus</v-icon>
-              {{ $t('_ticket.addPost') }}
-            </v-btn>
+      <div class="mt-3" v-if="thread.status !== 'CLOSED'">
+        <v-row class="justify-center">
+            <v-col cols="9" lg="10" sm="8">
+              <v-card flat outlined>
+                <editor v-model="message.content"/>
+                <v-card-actions>
+                  <v-btn color="success" @click="sendpost($refs.editor)">
+                    <v-icon left>mdi-plus</v-icon>
+                    {{ $t('_ticket.addPost') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+        </v-row>
+      </div>
+      <div v-else>
+        <v-row class="justify-center mt-3">
+          <v-col cols="4" lg="2" sm="3">
+            <v-alert outlined color="red" class="text-center">
+              {{ $t('_forum.locked') }}
+            </v-alert>
           </v-col>
-          <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
         </v-row>
       </div>
       <ThreadAddDialog ref="addPostDialog"
@@ -145,6 +170,7 @@
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import FaqForm from '@/forms/FaqForm';
+import editor from '@/components/Editor.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 import UserLink from '../components/UserLink.vue';
@@ -159,6 +185,7 @@ export default {
     ThreadAddDialog,
     UserLink,
     DialogForm,
+    editor,
   },
   data() {
     return {
@@ -169,15 +196,13 @@ export default {
       thread: null,
       topic: null,
       user: null,
+      message: {},
       lang: this.$i18n.locale,
       ThreadTitleForm: FaqForm,
       admins: [],
-      loadingTime: 0, // DEBUG ONLY
-      showSnackbar: false, // DEBUG ONLY
     };
   },
   beforeMount() {
-    this.loadingTime = new Date().getTime(); // DEBUG ONLY
     this.threadId = this.$route.params.id;
     this.fetchData();
     this.getThread();
@@ -200,10 +225,6 @@ export default {
       (await openapi).forum_getTopic(topicid).then((rsp) => {
         this.topic = rsp.data;
         this.admins = this.topic.admins;
-        this.loadingTime = new Date().getTime() - this.loadingTime; // DEBUG ONLY
-        if (this.loadingTime < 1000) { // DEBUG ONLY
-          this.showSnackbar = true; // DEBUG ONLY
-        } // DEBUG ONLY
       });
     },
     openEditPostDialog(post) {
@@ -226,6 +247,17 @@ export default {
         });
       }).catch((err) => {
         this.$refs.addPostDialog.setError(err);
+      });
+    },
+    async sendpost() {
+      await this.converter();
+      (await openapi).forum_createPost(this.threadId, this.message).then(() => {
+        this.message.content = '';
+        this.fetchData();
+        this.$notify({
+          title: this.$t('_ticket.messages.addedPost'),
+          type: 'success',
+        });
       });
     },
     async deletePost(item) {
@@ -284,6 +316,22 @@ export default {
         this.$refs.deleteThreadConfirmationDialog.setError(err);
       });
     },
+    async converter() {
+      const regex = /<@([\w-]+)>/;
+      const unescapedText = this.message.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+      const matches = unescapedText.match(regex);
+      console.log(matches, unescapedText);
+      if (matches) {
+        const id = matches[1];
+        try {
+          const user = await (await openapi).user_getUser(id);
+          this.message.content = unescapedText.replace(matches[0], `<a color="primary">${user.data.username}</a>`);
+        } catch (e) {
+          this.message.content = unescapedText.replace(matches[0], '');
+        }
+      }
+      return this.message.content;
+    },
     async toggleStatus() {
       if (this.$checkProp('ticket_edit') === false) {
         this.$notify({
@@ -304,29 +352,12 @@ export default {
 </script>
 
 <style scoped>
-.btn-manage {
-  display: none;
+.hidelinkstyle{
+  color: inherit;
+  text-decoration: none;
 }
 
 .onhover:hover .btn-manage {
   display: inline-block;
-}
-
-.topcenter {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-}
-
-.better-width {
-  width: 80%;
-  margin-left: 10%;
-}
-
-.really-small {
-  padding: 0;
-  min-width: 0;
 }
 </style>
