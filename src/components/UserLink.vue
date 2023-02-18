@@ -1,7 +1,7 @@
 <template>
   <span>
     <v-chip v-if="!disabledLink && !simple" :small="small"
-            @click="$router.push({ name: 'UserDashboard', params: {id: user.id}})"
+            :to="{ name: 'UserDashboard', params: {id: user.id}}"
             :outlined="isOutlined" color="primary">
       <v-icon small>mdi-account</v-icon>
       {{ user.username }}
