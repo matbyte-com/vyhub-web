@@ -84,53 +84,35 @@
                             <div class="subtitle-1">
                               {{ $t('payments') }}
                             </div>
-                            <v-simple-table>
-                              <template>
-                                <thead>
-                                <tr>
-                                  <th>
-                                    {{ $t('date') }}
-                                  </th>
-                                  <th>
-                                    {{ $t('gateway') }}
-                                  </th>
-                                  <th >
-                                    {{ $t('amount') }}
-                                  </th>
-                                  <th>
-                                    {{ $t('invoice') }}
-                                  </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr
-                                  v-for="debit in filterFinishedDebits(purchase.debits)"
-                                  :key="debit.id"
-                                >
-                                  <td>{{ new Date(debit.date).toLocaleString() }}</td>
-                                  <td>{{ debit.payment_gateway.name }}</td>
-                                  <td v-if="debit.amount_total != null">
-                                    {{ debit.amount_total
-                                    .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                                    {{ purchase.currency.symbol }}
-                                  </td>
-                                  <td v-else>
-                                    {{ debit.credits }}
-                                    {{ $t('credits') }}
-                                  </td>
-                                  <td>
-                                    <v-btn color="primary" outlined small
-                                           :disabled="!debit.invoice_available"
-                                           @click="downloadInvoice(debit)">
-                                      <v-icon>
-                                        mdi-file-download
-                                      </v-icon>
-                                    </v-btn>
-                                  </td>
-                                </tr>
-                                </tbody>
+                            <DataTable :items="filterFinishedDebits(purchase.debits)"
+                                       :headers="headers"
+                                       :totalItems="purchase.debits ? purchase.debits.length : 0"
+                                       :items-per-page="5"
+                            >
+                              <template v-slot:item.date="{ item }">
+                                {{ utils.formatDate(item.date) }}
                               </template>
-                            </v-simple-table>
+                              <template v-slot:item.invoice="{ item }">
+                                <v-btn color="primary" outlined small
+                                       :disabled="!item.invoice_available"
+                                       @click="downloadInvoice(item)">
+                                  <v-icon>
+                                    mdi-file-download
+                                  </v-icon>
+                                </v-btn>
+                              </template>
+                              <template v-slot:item.amount="{ item }">
+                                <div v-if="item.amount_total != null">
+                                  {{ item.amount_total
+                                  .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                                  {{ purchase.currency.symbol }}
+                                </div>
+                                <div v-else>
+                                  {{ item.credits }}
+                                  {{ $t('credits') }}
+                                </div>
+                              </template>
+                            </DataTable>
                           </v-col>
                         </v-row>
                       </v-card-text>
@@ -172,17 +154,29 @@ import openapi from '@/api/openapi';
 import PurchaseStatusChip from '@/components/ShopComponents/PurchaseStatusChip.vue';
 import Dialog from '@/components/Dialog.vue';
 import CreditHistory from '@/components/DashboardComponents/CreditHistory.vue';
+import DataTable from '@/components/DataTable.vue';
 import DataIterator from '../../DataIterator.vue';
 import ConfirmationDialog from '../../ConfirmationDialog.vue';
 
 export default {
   name: 'UserPurchases',
   components: {
-    CreditHistory, Dialog, ConfirmationDialog, DataIterator, PurchaseStatusChip,
+    DataTable,
+    CreditHistory,
+    Dialog,
+    ConfirmationDialog,
+    DataIterator,
+    PurchaseStatusChip,
   },
   data() {
     return {
       purchases: [],
+      headers: [
+        { text: this.$t('date'), value: 'date' },
+        { text: this.$t('gateway'), value: 'payment_gateway.name' },
+        { text: this.$t('amount'), value: 'amount' },
+        { text: this.$t('invoice'), value: 'invoice', sortable: false },
+      ],
     };
   },
   props: {
