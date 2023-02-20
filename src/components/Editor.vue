@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative">
     <vue-editor :editor-toolbar="toolbar" :editorOptions="editorSettings"
                 @ready="ready" v-model="content"></vue-editor>
   </div>
@@ -97,3 +97,9 @@ export default {
   },
 };
 </script>
+
+<style lang="sass">
+#quill-container
+  overflow-y: auto
+  max-height: 60vh
+</style>
