@@ -1,4 +1,4 @@
-# nyx-web
+# vyhub-web
 
 ## Project setup
 ```

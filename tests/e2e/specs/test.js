@@ -2,7 +2,7 @@
 
 describe('My First Test', () => {
   it('Visits Homepage', () => {
-    cy.visit('http://nyx.devapp:8050');
+    cy.visit('http://localhost:8050');
     cy.contains('h1', 'Welcome to Your Vue.js + TypeScript App');
   });
 });

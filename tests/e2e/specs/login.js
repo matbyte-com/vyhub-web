@@ -1,6 +1,6 @@
 describe('Check if login is working', () => {
   it('Visits Homepage', () => {
-    cy.visit('http://nyx.devapp:8050');
+    cy.visit('http://localhost:8050');
 
     cy.get('[data-cy=login-button]').click();
     cy.url().should('include', '?login');

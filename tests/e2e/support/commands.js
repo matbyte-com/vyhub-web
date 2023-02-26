@@ -11,7 +11,7 @@
 //
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
-  cy.visit('http://nyx.devapp:8050');
+  cy.visit('http://localhost:8050');
 
   cy.get('[data-cy=login-button]').click();
   cy.url().should('include', '?login');
