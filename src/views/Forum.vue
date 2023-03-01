@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle icon="mdi-ticket-confirmation">{{ $t('_forum.title') }}</PageTitle>
+    <PageTitle icon="mdi-forum">{{ $t('_forum.title') }}</PageTitle>
     <v-card>
       <v-list subheader two-line>
         <v-list-group
@@ -19,13 +19,58 @@
           >
             <v-list-item-content>
               <v-list-item-title>
-                <v-icon class="mr-3">{{ topic.icon }}</v-icon>
+                <v-icon>{{ topic.icon }}</v-icon>
                 {{ topic.title }}
               </v-list-item-title>
-              <v-list-item-subtitle style="white-space: normal; overflow-wrap: break-word;">
-                {{ topic.description }}
+              <v-list-item-subtitle style="white-space: normal; overflow-wrap: break-word;"
+                                    class="ml-1">
+                <v-col cols="auto" sm="3" md="6" lg="9">{{ topic.description }}</v-col>
               </v-list-item-subtitle>
             </v-list-item-content>
+            <div v-if="topic.last_post !== null" class="mr-8">
+              <v-col>
+                <v-row>
+                  <v-avatar class="ma-1 mr-2">
+                    <v-img :src="topic.last_post.creator.avatar"/>
+                  </v-avatar>
+                  <div>
+                    <div><router-link
+                        :to="{ name: 'ForumThread', params: { id: topic.last_post.thread.id } }"
+                        class="hidelinkstyle ml-1">
+                      {{ topic.last_post.thread.title }}
+                    </router-link></div>
+                    <div>
+                      <UserLink small @click.stop :user="topic.last_post.creator"></UserLink>
+                      •
+                      {{ utils.formatDate(topic.last_post.created) }}
+                    </div>
+                  </div>
+                </v-row>
+              </v-col>
+            </div>
+
+            <div class="mr-7 ml-3">
+              <v-row>
+                <v-col cols="12" sm="3" md="6" align-self="center">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon v-on="on">mdi-comment-multiple</v-icon>
+                    </template>
+                    <span> {{ $t('_forum.numberOfThreads') }} </span>
+                  </v-tooltip>
+                  {{ topic.threads_total }}
+                </v-col>
+                <v-col cols="12" sm="3" md="6" align-self="center">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon v-on="on">mdi-comment</v-icon>
+                    </template>
+                    <span> {{ $t('_forum.numberOfPosts') }} </span>
+                  </v-tooltip>
+                  {{ topic.posts_total }}
+                </v-col>
+              </v-row>
+            </div>
           </v-list-item>
 
         </v-list-group>
@@ -37,7 +82,8 @@
               <span>{{ $t('_forum.manageTopicCategories') }}</span>
             </v-btn>
             <v-btn class="mr-3 mt-3" color="success" outlined
-                   @click="$refs.editTopicsDialog.show()">
+                   @click="$refs.editTopicsDialog.show()"
+                   :disabled="selectedTopicCategory === null">
               <v-icon left>mdi-card-multiple</v-icon>
               <span>{{ $t('_forum.manageTopics') }}</span>
             </v-btn>
@@ -162,11 +208,13 @@ import ForumAddTopicForm from '@/forms/ForumAddTopicForm';
 import Dialog from '@/components/Dialog.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
+import UserLink from '@/components/UserLink.vue';
 import PageTitle from '../components/PageTitle.vue';
 import openapi from '../api/openapi';
 
 export default {
   components: {
+    UserLink,
     DialogForm,
     Dialog,
     PageTitle,
@@ -181,7 +229,7 @@ export default {
       updateForumTopics: false,
       topicCategoryForm: ForumAddTopicCategory,
       TopicForm: ForumAddTopicForm,
-      TopicDescriptionLimit: 75, // Hardcoded to solve some problems on small screens
+      last_post: null,
     };
   },
   beforeMount() {
@@ -191,7 +239,9 @@ export default {
     async fetchData() {
       (await openapi).forum_getTopicCategories().then((rsp) => {
         this.topicCategories = rsp.data;
-        this.selectedTopicCategory = this.topicCategories[0].id;
+        if (this.topicCategories.length > 0) {
+          this.selectedTopicCategory = this.topicCategories[0].id;
+        }
         if (this.updateForumCategories === true) {
           this.updateForumCategories = false;
         }
@@ -216,10 +266,6 @@ export default {
     },
     async newTopic() {
       const data = this.$refs.addTopicDialog.getData();
-      if (data.description.length > this.TopicDescriptionLimit) {
-        this.$refs.addTopicDialog.setErrorMessage(this.$t('_forum.messages.topicDescriptionTooLong'));
-        return;
-      }
       (await openapi).forum_createTopic(null, data).then(() => {
         this.fetchData();
         this.$refs.addTopicDialog.closeAndReset();
@@ -253,16 +299,12 @@ export default {
     openTopicEditDialog(item, categoryId) {
       const data = item;
       this.$refs.editTopicDialog.show(data);
-      data.admin_ids = data.admins;
+      data.admin_ids = data.admins.map((admin) => admin.id);
       data.topic_category_id = categoryId;
       this.$refs.editTopicDialog.setData(data);
     },
     async editTopic(item) {
       const data = this.$refs.editTopicDialog.getData();
-      if (data.description.length > this.TopicDescriptionLimit) {
-        this.$refs.editTopicDialog.setErrorMessage(this.$t('_forum.messages.topicDescriptionTooLong'));
-        return;
-      }
       (await openapi).forum_editTopic(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
@@ -348,5 +390,9 @@ export default {
 
 .topic:hover {
   box-shadow: #545454 0px 0px 5px 0px;
+}
+
+.hidelinkstyle{
+  text-decoration: none;
 }
 </style>

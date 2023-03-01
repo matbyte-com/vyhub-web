@@ -47,6 +47,7 @@ export default {
       content: '',
       ban_id: '',
       topic_id: '',
+      pinned: false,
       loading: false,
       errorMsg: null,
       obj: null,
@@ -62,6 +63,7 @@ export default {
       return {
         title: this.title,
         content: this.content,
+        pinned: this.pinned,
       };
     },
     show(obj) {
@@ -72,6 +74,7 @@ export default {
       this.$refs.dialog.close();
       this.title = '';
       this.content = '';
+      this.pinned = false;
       this.errorMsg = null;
       this.loading = false;
     },

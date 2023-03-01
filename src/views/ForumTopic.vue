@@ -1,8 +1,13 @@
 <template>
   <div>
     <div v-if="topic">
-    <PageTitle :title="topic.title" subtitle>
+    <PageTitle icon="mdi-comment-multiple" :title="topic.title" subtitle>
       <template #subtitle>
+        <v-row>
+          <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
+            {{ $t('description') }}: {{ topic.description }}
+          </v-col>
+        </v-row>
         <!-- Make the title of the category clickable -->
         <router-link :to="{ name: 'Forum' }"
                      class="hidelinkstyle">
@@ -10,11 +15,6 @@
         </router-link>
         / {{ topic.title }}
         <!---->
-        <v-row>
-          <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
-            {{ $t('description') }}: {{ topic.description }}
-          </v-col>
-        </v-row>
       </template>
     </PageTitle>
     <v-card>
@@ -43,6 +43,12 @@
           </template>
           <template v-slot:item.created="{ item }">
             {{ utils.formatDate(item.created) }}
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on" v-if="item.pinned === true">mdi-pin</v-icon>
+              </template>
+              <span> {{ $t('_forum.threadPinned') }} </span>
+            </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-icon v-on="on" v-if="item.status === 'CLOSED'" color="red">mdi-lock</v-icon>
@@ -108,6 +114,7 @@ export default {
       totalItems: 0,
       hide_closed: false,
       topic: null,
+      breadcrumbs: [],
     };
   },
   beforeMount() {
@@ -119,6 +126,11 @@ export default {
       (await openapi).forum_getTopic(topicId).then((rsp) => {
         if (rsp.data) {
           this.topic = rsp.data;
+          this.breadcrumbs = [
+            { text: this.$t('_forum.forum'), to: { name: 'Forum' } },
+            { text: this.topic.topic_category.title, to: { name: 'ForumCategory', params: { id: this.topic.topic_category.id } } },
+            { text: this.topic.title },
+          ];
           this.fetchThreads();
         }
       });
@@ -174,7 +186,6 @@ export default {
 }
 
 .hidelinkstyle{
-  color: inherit;
   text-decoration: none;
 }
 </style>

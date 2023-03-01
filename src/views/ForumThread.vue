@@ -2,7 +2,7 @@
   <div>
     <div v-if="thread && posts && topic">
       <PageTitle
-          icon="mdi-forum"
+          icon="mdi-comment"
           class="mb-5"
           :title="thread.title"
           subtitle>
@@ -11,6 +11,19 @@
                  @click="openThreadTitleEditDialog(thread)">
             <v-icon left>mdi-pencil</v-icon>
             <span>{{ $t('_forum.rename') }}</span>
+          </v-btn>
+          <v-btn v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
+                 class="mr-1" x-small outlined
+                 :color="thread.pinned === false ? 'success' : 'error'"
+                 @click="togglePin">
+            <div v-if="thread.pinned === false">
+              <v-icon left>mdi-pin</v-icon>
+              <span>{{ $t('_forum.pin') }}</span>
+            </div>
+            <div v-else>
+              <v-icon left>mdi-pin-off</v-icon>
+              <span>{{ $t('_forum.unpin') }}</span>
+            </div>
           </v-btn>
           <v-btn v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
                  class="mr-1" x-small outlined
@@ -333,12 +346,6 @@ export default {
       return this.message.content;
     },
     async toggleStatus() {
-      if (this.$checkProp('ticket_edit') === false) {
-        this.$notify({
-          title: this.$t('_ticket.messages.toggleStatus'),
-          type: 'success',
-        });
-      }
       (await openapi).forum_toggleStatus(this.threadId).then((rsp) => {
         this.thread = rsp.data;
         this.$notify({
@@ -347,13 +354,29 @@ export default {
         });
       });
     },
+    async togglePin() {
+      this.thread.pinned = !this.thread.pinned;
+      (await openapi).forum_editThread(this.threadId, this.thread).then((rsp) => {
+        this.thread = rsp.data;
+        if (this.thread.pinned) {
+          this.$notify({
+            title: this.$t('_forum.messages.pinned'),
+            type: 'success',
+          });
+        } else {
+          this.$notify({
+            title: this.$t('_forum.messages.unpinned'),
+            type: 'success',
+          });
+        }
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
 .hidelinkstyle{
-  color: inherit;
   text-decoration: none;
 }
 

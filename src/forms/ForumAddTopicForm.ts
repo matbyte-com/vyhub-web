@@ -19,6 +19,7 @@ export default {
     description: {
       type: 'string',
       title: i18n.t('description'),
+      maxLength: 75,
     },
     admin_ids: {
       ...Common.userSelectField,
