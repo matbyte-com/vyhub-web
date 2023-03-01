@@ -3,20 +3,15 @@
     <PageTitle icon="mdi-forum">{{ $t('_forum.title') }}</PageTitle>
     <v-card>
       <v-list subheader two-line>
-        <v-list-group
-            sub-group
-          :value="true"
-          v-for="category in topicCategories" :key="category.id"
-        >
+        <v-list-group :value="true" v-for="category in topicCategories" :key="category.id"
+                      class="topicCategory">
+          <template v-slot:actions><v-icon class="icon ml-0 pl-0">$expand</v-icon></template>
           <template v-slot:activator>
-            <v-list-item-title>{{ category.title }}</v-list-item-title>
+            <v-list-item-title class="ml-5 headerListItem">{{ category.title }}</v-list-item-title>
           </template>
-          <v-list-item
-            v-for="topic in category.topics" :key="topic.id"
-            link
-            :to="{ name: 'ForumTopic', params: { id: topic.id } }"
-            class="ml-9 topic mr-3"
-          >
+          <v-divider style="border-width: 1px;"/>
+          <div v-for="topic in category.topics" :key="topic.id" class="ml-9 topic mr-3">
+            <v-list-item link :to="{ name: 'ForumTopic', params: { id: topic.id } }">
             <v-list-item-content>
               <v-list-item-title>
                 <v-icon>{{ topic.icon }}</v-icon>
@@ -24,29 +19,29 @@
               </v-list-item-title>
               <v-list-item-subtitle style="white-space: normal; overflow-wrap: break-word;"
                                     class="ml-1">
-                <v-col cols="auto" sm="3" md="6" lg="9">{{ topic.description }}</v-col>
+                {{ topic.description }}
               </v-list-item-subtitle>
             </v-list-item-content>
-            <div v-if="topic.last_post !== null" class="mr-8">
-              <v-col>
-                <v-row>
-                  <v-avatar class="ma-1 mr-2">
-                    <v-img :src="topic.last_post.creator.avatar"/>
-                  </v-avatar>
-                  <div>
-                    <div><router-link
-                        :to="{ name: 'ForumThread', params: { id: topic.last_post.thread.id } }"
-                        class="hidelinkstyle ml-1">
-                      {{ topic.last_post.thread.title }}
-                    </router-link></div>
-                    <div>
-                      <UserLink small @click.stop :user="topic.last_post.creator"></UserLink>
-                      •
-                      {{ utils.formatDate(topic.last_post.created) }}
-                    </div>
-                  </div>
-                </v-row>
-              </v-col>
+            <div v-if="topic.last_post !== null" class="mr-8 d-flex">
+              <router-link
+                :to="{ name: 'UserDashboard', params: { id: topic.last_post.creator.id } }">
+                <v-avatar class="ma-1 mr-2">
+                  <v-img :src="topic.last_post.creator.avatar"/>
+                </v-avatar>
+              </router-link>
+              <div class="align-self-center">
+                <router-link
+                    :to="{ name: 'ForumThread', params: { id: topic.last_post.thread.id } }"
+                    class="hidelinkstyle ml-1">
+                  {{ topic.last_post.thread.title }}
+                </router-link>
+                <div class="d-flex align-center">
+                  <UserLink :simple="true"
+                            :user="topic.last_post.creator" class="mr-1"></UserLink>
+                  •
+                  {{ utils.formatTimeForForum(topic.last_post.created) }}
+                </div>
+              </div>
             </div>
 
             <div class="mr-7 ml-3">
@@ -71,7 +66,9 @@
                 </v-col>
               </v-row>
             </div>
-          </v-list-item>
+            </v-list-item>
+            <v-divider style="border-width: 0.5px;"/>
+          </div>
 
         </v-list-group>
         <template>
@@ -167,7 +164,7 @@
         </v-list>
       </template>
       <template v-slot:actions>
-        <v-btn color="primary" @click="$refs.addTopicDialog.show()">
+        <v-btn color="primary" @click="openAddTopicDialog">
           <v-icon>mdi-plus</v-icon>
           {{ $t('_forum.addTopic') }}
         </v-btn>
@@ -373,6 +370,10 @@ export default {
         console.log(`${err}`);
       });
     },
+    openAddTopicDialog() {
+      this.$refs.addTopicDialog.show();
+      this.$refs.addTopicDialog.setData({ topic_category_id: this.selectedTopicCategory });
+    },
   },
   computed: {
     getSelectedCategory() {
@@ -388,11 +389,23 @@ export default {
   cursor: pointer !important;
 }
 
+.icon {
+  order: 0;
+}
+
+.headerListItem {
+  order: 1;
+}
+
 .topic:hover {
   box-shadow: #545454 0px 0px 5px 0px;
 }
 
-.hidelinkstyle{
+.hidelinkstyle {
   text-decoration: none;
+}
+
+.hidelinkstyle:hover {
+  color: var(--v-secondary-darken1) !important;
 }
 </style>

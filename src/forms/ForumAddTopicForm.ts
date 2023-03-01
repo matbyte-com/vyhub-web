@@ -6,6 +6,7 @@ export default {
   required: [
     'category',
     'title',
+    'topic_category_id',
   ],
   properties: {
     topic_category_id: {

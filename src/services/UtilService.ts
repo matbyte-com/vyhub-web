@@ -83,6 +83,15 @@ export default {
 
           return (new Date(datetime)).toLocaleString();
         },
+        formatTimeForForum(datetime: string) {
+          if (datetime == null) {
+            return '-';
+          }
+          if (new Date(datetime).getTime() > new Date().getTime() - unitMeasures.d) {
+            return i18n.t('_notification.timeAgo', { time: this.formatElapsedTime(new Date().getTime() - new Date(datetime).getTime()) });
+          }
+          return new Date(datetime).toLocaleDateString();
+        },
         random_string(length: number) {
           let result = '';
           const characters = 'abcdefghijklmnopqrstuvwxyz';

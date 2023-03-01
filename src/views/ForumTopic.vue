@@ -5,7 +5,7 @@
       <template #subtitle>
         <v-row>
           <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
-            {{ $t('description') }}: {{ topic.description }}
+            {{ topic.description }}
           </v-col>
         </v-row>
         <!-- Make the title of the category clickable -->
