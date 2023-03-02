@@ -2,6 +2,7 @@
   <div>
     <PageTitle icon="mdi-forum">{{ $t('_forum.title') }}</PageTitle>
     <v-card>
+      <v-skeleton-loader v-if="topicCategories === null" type="card-heading@2"/>
       <v-list subheader two-line>
         <v-list-group :value="true" v-for="category in topicCategories" :key="category.id"
                       class="topicCategory">
