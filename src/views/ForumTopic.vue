@@ -1,88 +1,149 @@
 <template>
   <div>
     <div v-if="topic">
-    <PageTitle icon="mdi-comment-multiple" :title="topic.title" subtitle>
-      <template #subtitle>
-        <v-row>
-          <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
-            {{ topic.description }}
-          </v-col>
-        </v-row>
-        <!-- Make the title of the category clickable -->
-        <router-link :to="{ name: 'Forum' }"
-                     class="hidelinkstyle">
-          {{ topic.topic_category.title }}
-        </router-link>
-        / {{ topic.title }}
-        <!---->
-      </template>
-    </PageTitle>
-    <v-card>
-      <v-card-text>
-        <PaginatedDataTable
-          ref="threadTable"
-          :headers="headers"
-          :items="threads"
-          :totalItems="totalItems"
-          default-sort-by="last_post"
-          :default-sort-desc="true"
-          @reload="fetchTopic"
-          @click:row="showThread"
-          class="cursor"
-        >
-          <template v-slot:header>
-            <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
-                        @change="fetchTopic" class="text-capitalize" />
-            <v-row>
-              <v-col cols="12" sm="6" align-self="center">
-                {{ $t('_forum.topicAdmins') }}
-                <UserLink v-for="admin in topic.admins" small
-                          :key="admin.id" :user="admin" />
-              </v-col>
-            </v-row>
-          </template>
-          <template v-slot:item.created="{ item }">
-            {{ utils.formatDate(item.created) }}
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-icon v-on="on" v-if="item.pinned === true">mdi-pin</v-icon>
-              </template>
-              <span> {{ $t('_forum.threadPinned') }} </span>
-            </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-icon v-on="on" v-if="item.status === 'CLOSED'" color="red">mdi-lock</v-icon>
-              </template>
-              <span> {{ $t('_forum.threadLocked') }} </span>
-            </v-tooltip>
-          </template>
-          <template v-slot:item.creator="{ item }">
-            <v-avatar class="ma-1">
-              <v-img v-if="item.creator" :src="item.creator.avatar"/>
-              <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
-            </v-avatar>
-            <UserLink v-if="item.creator" @click.prevent :user="item.creator"></UserLink>
-          </template>
-          <template v-slot:item.last_post="{ item }">
-            <span v-if="item.last_post" class="text-right">
-              {{ utils.formatDate(item.last_post.created) }}
-              <UserLink @click.prevent :user="item.last_post.creator"></UserLink>
-            </span>
-          </template>
-          <template v-slot:footer-right>
-            <v-btn color="success" outlined
-                   @click="$refs.addThreadDialog.show()">
-              <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('_forum.addThread') }}</span>
-            </v-btn>
-          </template>
-        </PaginatedDataTable>
-      </v-card-text>
-    </v-card>
-    <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_forum.addThread')"
-                     @submit="newThread"/>
+      <PageTitle :icon="topic.icon" :title="topic.title" subtitle>
+        <template #subtitle>
+          <v-row>
+            <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
+              {{ topic.description }}
+            </v-col>
+          </v-row>
+          <router-link :to="{ name: 'Forum' }"
+                       class="hidelinkstyle">
+            {{ topic.topic_category.title }}
+          </router-link>
+          / {{ topic.title }}
+        </template>
+      </PageTitle>
+      <v-card>
+        <v-card-text>
+          <PaginatedDataTable
+            ref="threadTable"
+            :headers="headers"
+            :items="threads"
+            :totalItems="totalItems"
+            default-sort-by="last_post"
+            :default-sort-desc="true"
+            @reload="fetchTopic"
+            @click:row="showThread"
+            class="cursor"
+          >
+            <template v-slot:header>
+              <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
+                          @change="fetchTopic" class="text-capitalize"/>
+              <v-row>
+                <v-col cols="12" sm="6" align-self="center">
+                  {{ $t('_forum.topicAdmins') }}
+                  <UserLink v-for="admin in topic.admins" small
+                            :key="admin.id" :user="admin"/>
+                </v-col>
+              </v-row>
+            </template>
+            <template v-slot:item.created="{ item }">
+              {{ utils.formatDate(item.created) }}
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" v-if="item.status === 'CLOSED'" color="red">mdi-lock</v-icon>
+                </template>
+                <span> {{ $t('_forum.threadLocked') }} </span>
+              </v-tooltip>
+            </template>
+            <template v-slot:item.creator="{ item }">
+              <v-avatar class="ma-1">
+                <v-img v-if="item.creator" :src="item.creator.avatar"/>
+                <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
+              </v-avatar>
+              <UserLink v-if="item.creator" @click.prevent :user="item.creator"></UserLink>
+            </template>
+            <template v-slot:item.title="{ item }">
+              <router-link :to="{ name: 'ForumThread', params: { id: item.id } }"
+                           class="" style="color: inherit; text-decoration: none">
+                {{ item.title }}
+              </router-link>
+            </template>
+            <template v-slot:item.last_post="{ item }">
+              <div v-if="item.last_post" class="d-flex">
+                <v-spacer/>
+                <div class="mr-3 align-self-center">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon v-on="on" v-if="item.pinned === true" class="mr-1 mdi-rotate-45">
+                        mdi-pin
+                      </v-icon>
+                    </template>
+                    <span> {{ $t('_forum.threadPinned') }} </span>
+                  </v-tooltip>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon v-on="on">mdi-comment</v-icon>
+                    </template>
+                    <span> {{ $t('_forum.numberOfPosts') }} </span>
+                  </v-tooltip>
+                  {{ item.posts_total }}
+                </div>
+                <router-link
+                  :to="{ name: 'UserDashboard', params: { id: item.last_post.creator.id } }">
+                  <v-avatar class="ma-1 mr-2">
+                    <v-img :src="item.last_post.creator.avatar"/>
+                  </v-avatar>
+                </router-link>
+                <div class="align-self-center d-flex flex-column">
+                  <UserLink @click.prevent :small="true" :user="item.last_post.creator"></UserLink>
+                  {{ utils.formatTimeForForum(item.last_post.created) }}
+                </div>
+              </div>
+            </template>
+            <!-- For mobile devices -->
+            <template v-slot:item.title_sm="{ item }">
+              <div class="d-flex">
+                <router-link
+                  :to="{ name: 'UserDashboard', params: { id: topic.last_post.creator.id } }">
+                  <v-avatar class="ma-1 mr-2">
+                    <v-img :src="item.last_post.creator.avatar"/>
+                  </v-avatar>
+                </router-link>
+                <div class="align-self-center">
+                  <div>
+                    <router-link
+                      :to="{ name: 'ForumThread', params: { id: item.id } }"
+                      class="hidelinkstyle ml-1">
+                      {{ item.title }}
+                    </router-link>
+                  </div>
+                  <user-link :user="item.creator" :simple="true"/>
+                </div>
+              </div>
+            </template>
+            <template v-slot:item.last_post_sm="{ item }">
+              <div class="d-flex">
+                <v-spacer />
+                <v-icon v-if="item.pinned === true" class="mr-3 mdi-rotate-45">
+                  mdi-pin
+                </v-icon>
+                <div v-if="item.last_post">
+                  <div>
+                    {{ topic.posts_total }} {{ $t('_forum.posts') }}
+                  </div>
+                  <span v-if="topic.last_post">
+                {{ utils.formatTimeForForum(topic.last_post.created) }}
+              </span>
+                </div>
+              </div>
+            </template>
+            <template v-slot:footer-right>
+              <v-btn color="success" outlined
+                     @click="$refs.addThreadDialog.show()">
+                <v-icon left>mdi-plus</v-icon>
+                <span>{{ $t('_forum.addThread') }}</span>
+              </v-btn>
+            </template>
+          </PaginatedDataTable>
+        </v-card-text>
+      </v-card>
+      <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_forum.addThread')"
+                       @submit="newThread"/>
     </div>
-    <v-skeleton-loader v-else type="article@2" />
+    <v-skeleton-loader v-else type="article@2"/>
   </div>
 </template>
 
@@ -104,12 +165,6 @@ export default {
   data() {
     return {
       threads: null,
-      headers: [
-        { text: this.$t('_ticket.creator'), value: 'creator', sortable: false },
-        { text: this.$t('_ticket.title'), value: 'title', sortable: false },
-        { text: this.$t('_ticket.created'), value: 'created' },
-        { text: this.$t('_ticket.last_post'), value: 'last_post', align: 'right' },
-      ],
       page: 1,
       totalItems: 0,
       hide_closed: false,
@@ -120,6 +175,23 @@ export default {
   beforeMount() {
     this.fetchTopic();
   },
+  computed: {
+    headers() {
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        return [
+          { text: this.$t('_ticket.creator'), value: 'creator', sortable: false },
+          { text: this.$t('_ticket.title'), value: 'title', sortable: false },
+          { text: this.$t('_ticket.created'), value: 'created' },
+          { value: 'total_posts', sortable: false },
+          { text: this.$t('_ticket.last_post'), value: 'last_post', align: 'right' },
+        ];
+      }
+      return [
+        { text: this.$t('_ticket.title'), value: 'title_sm', sortable: false },
+        { text: this.$t('_ticket.last_post'), value: 'last_post_sm', align: 'right' },
+      ];
+    },
+  },
   methods: {
     async fetchTopic() {
       const topicId = this.$route.params.id;
@@ -128,7 +200,10 @@ export default {
           this.topic = rsp.data;
           this.breadcrumbs = [
             { text: this.$t('_forum.forum'), to: { name: 'Forum' } },
-            { text: this.topic.topic_category.title, to: { name: 'ForumCategory', params: { id: this.topic.topic_category.id } } },
+            {
+              text: this.topic.topic_category.title,
+              to: { name: 'ForumCategory', params: { id: this.topic.topic_category.id } },
+            },
             { text: this.topic.title },
           ];
           this.fetchThreads();
@@ -143,7 +218,8 @@ export default {
         ...(queryParams != null ? queryParams : this.$refs.threadTable.getQueryParameters()),
       })
         .then((rsp) => {
-          this.threads = rsp.data.items; this.totalItems = rsp.data.total;
+          this.threads = rsp.data.items;
+          this.totalItems = rsp.data.total;
         });
     },
     async newThread() {
@@ -160,19 +236,6 @@ export default {
         this.$refs.addThreadDialog.setError(err);
       });
     },
-    /* ticketRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
-
-      if (item.status === 'CLOSED') {
-        return `transparent ${add}`; // Farbe wenn Thread geschlossen
-      }
-
-      if (item.is_read) {
-        return `orange ${add}`; // Farbe wenn man den Thread schon gelesen hat
-      }
-
-      return `green ${add}`; // Farbe wenn man den Thread noch nicht gelesen hat
-    }, */
     showThread(item) {
       this.$router.push({ name: 'ForumThread', params: { id: item.id } });
     },
@@ -181,11 +244,15 @@ export default {
 </script>
 
 <style scoped>
-.cursor >>> td{
+.cursor >>> td {
   cursor: pointer !important;
 }
 
-.hidelinkstyle{
+.hidelinkstyle {
   text-decoration: none;
+}
+
+.hidelinkstyle:hover {
+  color: var(--v-secondary-darken1) !important;
 }
 </style>

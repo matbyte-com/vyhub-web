@@ -22,7 +22,7 @@
                 {{ topic.description }}
               </v-list-item-subtitle>
             </v-list-item-content>
-            <div v-if="topic.last_post !== null" class="mr-8 d-flex">
+            <div v-if="topic.last_post !== null && $vuetify.breakpoint.mdAndUp" class="mr-8 d-flex">
               <router-link
                 :to="{ name: 'UserDashboard', params: { id: topic.last_post.creator.id } }">
                 <v-avatar class="ma-1 mr-2">
@@ -44,7 +44,7 @@
               </div>
             </div>
 
-            <div class="mr-7 ml-3">
+            <div class="mr-7 ml-3" v-if="$vuetify.breakpoint.mdAndUp">
               <v-row>
                 <v-col cols="12" sm="3" md="6" align-self="center">
                   <v-tooltip bottom>
@@ -65,6 +65,15 @@
                   {{ topic.posts_total }}
                 </v-col>
               </v-row>
+            </div>
+
+            <div v-if="$vuetify.breakpoint.smAndDown">
+              <div>
+                {{ topic.posts_total }} {{ $t('_forum.posts') }}
+              </div>
+              <span v-if="topic.last_post">
+                {{ utils.formatTimeForForum(topic.last_post.created) }}
+              </span>
             </div>
             </v-list-item>
             <v-divider style="border-width: 0.5px;"/>

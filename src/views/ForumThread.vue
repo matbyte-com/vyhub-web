@@ -2,7 +2,7 @@
   <div>
     <div v-if="thread && posts && topic">
       <PageTitle
-          icon="mdi-comment"
+          :icon="thread.pinned ? 'mdi-pin' : 'mdi-comment'"
           class="mb-5"
           :title="thread.title"
           subtitle>
@@ -136,7 +136,7 @@
           </v-col>
         </v-row>
       </div>
-      <div class="mt-3" v-if="thread.status !== 'CLOSED'">
+      <div class="mt-3" v-if="thread.status !== 'CLOSED' && posts.left > 3">
         <v-row class="justify-center">
             <v-col cols="9" lg="10" sm="8">
               <v-card flat outlined>
@@ -151,7 +151,7 @@
             </v-col>
         </v-row>
       </div>
-      <div v-else>
+      <div v-if="thread.status === 'CLOSED'">
         <v-row class="justify-center mt-3">
           <v-col cols="4" lg="2" sm="3">
             <v-alert outlined color="red" class="text-center">
