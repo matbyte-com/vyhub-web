@@ -126,7 +126,7 @@ const routes: Array<RouteConfig> = [
     path: '/ticket/:id',
     name: 'TicketThread',
     meta: { title: i18n.t('_pageTitle.ticket') },
-    component: () => import('../views/Thread.vue'),
+    component: () => import('../views/TicketThread.vue'),
   },
   {
     path: '/forum/',

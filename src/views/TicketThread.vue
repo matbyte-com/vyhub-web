@@ -3,7 +3,7 @@
     <ThreadAddDialog ref="addPostDialog"
                      :dialog-title="`${$t('_ticket.addPost')}`"
                      @submit="newPost" :hide-title-input="true"/>
-    <PageTitle v-if="posts[0]"
+    <PageTitle v-if="thread && posts"
                icon="mdi-forum"
                class="mb-5"
                show-subtitle
@@ -26,6 +26,10 @@
         </v-row>
       </template>
     </PageTitle>
+    <div v-if="!posts" class="mr-15 ml-15">
+      <v-skeleton-loader type="article"/>
+      <v-skeleton-loader class="mt-3" type="article"/>
+    </div>
     <div class="mt-3" v-for="post in posts" :key="post.id">
       <v-row>
         <v-col class="hidden-xs-only" cols="2" lg="1">
@@ -108,7 +112,7 @@ export default {
   data() {
     return {
       threadId: '',
-      posts: [],
+      posts: null,
       avatarWidth: '100px',
       thread: { creator: {} },
     };
@@ -121,7 +125,7 @@ export default {
   methods: {
     async fetchData() {
       (await openapi).forum_getThreadPosts(this.threadId).then((rsp) => {
-        this.posts = rsp.data;
+        this.posts = rsp.data.items;
       });
     },
     async getThread() {

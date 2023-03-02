@@ -119,7 +119,7 @@ export default {
       return `orange ${add}`;
     },
     showTicket(item) {
-      this.$router.push({ name: 'Thread', params: { id: item.id } });
+      this.$router.push({ name: 'TicketThread', params: { id: item.id } });
     },
   },
 };
