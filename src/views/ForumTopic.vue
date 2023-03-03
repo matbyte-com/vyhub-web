@@ -40,13 +40,9 @@
               </v-row>
             </template>
             <template v-slot:item.created="{ item }">
-              {{ utils.formatDate(item.created) }}
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <v-icon v-on="on" v-if="item.status === 'CLOSED'" color="red">mdi-lock</v-icon>
-                </template>
-                <span> {{ $t('_forum.threadLocked') }} </span>
-              </v-tooltip>
+              <span :class="{ 'font-weight-bold' : !item.is_read }">
+                {{ utils.formatDate(item.created) }}
+              </span>
             </template>
             <template v-slot:item.creator="{ item }">
               <v-avatar class="ma-1">
@@ -57,7 +53,8 @@
             </template>
             <template v-slot:item.title="{ item }">
               <router-link :to="{ name: 'ForumThread', params: { id: item.id } }"
-                           class="" style="color: inherit; text-decoration: none">
+                           :class="{ 'font-weight-bold' : !item.is_read }"
+                           style="color: inherit; text-decoration: none">
                 {{ item.title }}
               </router-link>
             </template>
@@ -65,6 +62,12 @@
               <div v-if="item.last_post" class="d-flex">
                 <v-spacer/>
                 <div class="mr-3 align-self-center">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon v-on="on" v-if="item.status === 'CLOSED'">mdi-lock</v-icon>
+                    </template>
+                    <span> {{ $t('_forum.threadLocked') }} </span>
+                  </v-tooltip>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-icon v-on="on" v-if="item.pinned === true" class="mr-1 mdi-rotate-45">
@@ -120,11 +123,12 @@
                 <v-icon v-if="item.pinned === true" class="mr-3 mdi-rotate-45">
                   mdi-pin
                 </v-icon>
+                <v-icon v-on="on" v-if="item.status === 'CLOSED'">mdi-lock</v-icon>
                 <div v-if="item.last_post">
-                  <div>
+                  <div :class="{ 'font-weight-bold' : !item.is_read }">
                     {{ topic.posts_total }} {{ $t('_forum.posts') }}
                   </div>
-                  <span v-if="topic.last_post">
+                  <span v-if="topic.last_post" :class="{ 'font-weight-bold' : !item.is_read }">
                 {{ utils.formatTimeForForum(topic.last_post.created) }}
               </span>
                 </div>
