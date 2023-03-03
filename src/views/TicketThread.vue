@@ -12,7 +12,7 @@
         <v-row>
           <v-col cols="12" sm="9" align-self="center" style="white-space: nowrap">
             <user-link simple class="ml-1" v-if="thread.creator" :user="thread.creator"/>
-            {{ utils.formatDate(posts[0].created) }}
+            {{ utils.formatDate(thread.created) }}
           </v-col>
           <v-col cols="12" sm="3">
             <v-chip v-if="thread.status === 'OPEN'" color="success" class="text-uppercase"
@@ -30,8 +30,8 @@
       <v-skeleton-loader type="article"/>
       <v-skeleton-loader class="mt-3" type="article"/>
     </div>
-    <div class="mt-3" v-for="post in posts" :key="post.id">
-      <v-row>
+    <div class="mt-3" v-if="thread">
+      <v-row  v-for="post in posts" :key="post.id">
         <v-col class="hidden-xs-only" cols="2" lg="1">
           <v-avatar :size="avatarWidth">
             <v-img v-if="post.creator" :src="post.creator.avatar"/>
@@ -64,10 +64,20 @@
         </v-col>
       </v-row>
     </div>
-    <div class="mt-3">
+    <div>
+    </div>
+    <div class="mt-3" v-if="thread">
       <v-row>
-        <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
-        <v-col class="text-right ml-sm-5 mr-sm-5">
+        <v-col class="hidden-md-and-down" cols="2" lg="1"></v-col>
+        <v-col>
+          <v-pagination v-if="totalPages > 1"
+                        v-model="page"
+                        :length="totalPages"
+                        :total-visible="5"
+                        @input="fetchData"/>
+        </v-col>
+        <v-col cols="12" lg="6" class="d-flex align-center">
+          <v-spacer/>
           <v-btn v-if="thread.ban" color="primary" :to="{ name: 'Bans',
            params: {banId: thread.ban.id} }" class="mr-3">
             <v-icon left>mdi-eye</v-icon>
@@ -89,8 +99,9 @@
             <v-icon left>mdi-plus</v-icon>
             <span>{{ $t('_ticket.addPost') }}</span>
           </v-btn>
+          <v-spacer v-if="$vuetify.breakpoint.mdAndDown"/>
         </v-col>
-        <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
+        <v-col class="hidden-sm-and-down" cols="2" lg="1"></v-col>
       </v-row>
     </div>
   </div>
@@ -114,19 +125,31 @@ export default {
       threadId: '',
       posts: null,
       avatarWidth: '100px',
-      thread: { creator: {} },
+      thread: null,
+      page: 1,
+      totalPages: 1,
     };
   },
   beforeMount() {
     this.threadId = this.$route.params.id;
+    if (this.$route.query.page) {
+      this.page = this.$route.query.page;
+    }
     this.fetchData();
     this.getThread();
   },
+  watch: {
+    page(newVal) {
+      this.$router.replace({ query: { page: newVal } });
+    },
+  },
   methods: {
     async fetchData() {
-      (await openapi).forum_getThreadPosts(this.threadId).then((rsp) => {
-        this.posts = rsp.data.items;
-      });
+      (await openapi)
+        .forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 1 }).then((rsp) => {
+          this.posts = rsp.data.items;
+          this.totalPages = Math.ceil(rsp.data.total / rsp.data.size);
+        });
     },
     async getThread() {
       (await openapi).forum_getThread(this.threadId).then((rsp) => {

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="$t('link_account')"
-            >
+    <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="$t('link_account')">
       <v-list tile v-if="backends != null">
         <v-list-item v-for="backend in backends" :key="backend.id"
                      @click="startAuth(backend)" :data-cy="backend.id">
@@ -36,10 +35,7 @@
           </v-text-field>
         </div>
         <div v-else class="mt-2">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
+          <v-progress-circular indeterminate color="primary"></v-progress-circular>
         </div>
       </div>
     </Dialog>
@@ -72,7 +68,7 @@ export default {
     },
     dialog() {
       if (this.dialog === false) {
-        this.$router.replace(this.$route.path);
+        this.$router.replace({ path: this.$route.path, query: this.$route.query });
       } else {
         this.fetchBackends();
       }
