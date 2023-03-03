@@ -147,7 +147,7 @@
               <v-card flat outlined>
                 <editor v-model="message.content"/>
                 <v-card-actions>
-                  <v-btn color="success" @click="newPost($refs.editor)">
+                  <v-btn color="success" @click="newPost(message.content)">
                     <v-icon left>mdi-plus</v-icon>
                     {{ $t('_ticket.addPost') }}
                   </v-btn>
@@ -261,9 +261,9 @@ export default {
       this.$refs.editPostDialog.show(post);
       this.$refs.editPostDialog.content = post.content;
     },
-    async newPost() {
+    async newPost(content) {
       const data = this.$refs.addPostDialog.getData();
-      delete data.title;
+      if (content) { data.content = content; }
       if (data.content === '') {
         this.$refs.addPostDialog.setError(this.$t('_ticket.messages.emptyPost'));
         return;
