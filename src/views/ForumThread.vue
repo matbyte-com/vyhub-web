@@ -60,7 +60,7 @@
           <v-row>
             <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
               <user-link simple class="ml-1" v-if="thread.creator" :user="thread.creator"/>
-              {{ utils.formatDate(posts[0].created) }}
+              {{ utils.formatDate(thread.created) }}
             </v-col>
           </v-row>
         </template>
@@ -136,13 +136,18 @@
           </v-col>
         </v-row>
       </div>
-      <div class="mt-3" v-if="thread.status !== 'CLOSED' && posts.left > 3">
+      <v-pagination v-if="totalPages > 1"
+                    v-model="page"
+                    :length="totalPages"
+                    :total-visible="5"
+                    @input="fetchData"/>
+      <div class="mt-3" v-if="thread.status !== 'CLOSED' && posts.length > 3">
         <v-row class="justify-center">
             <v-col cols="9" lg="10" sm="8">
               <v-card flat outlined>
                 <editor v-model="message.content"/>
                 <v-card-actions>
-                  <v-btn color="success" @click="sendpost($refs.editor)">
+                  <v-btn color="success" @click="newPost($refs.editor)">
                     <v-icon left>mdi-plus</v-icon>
                     {{ $t('_ticket.addPost') }}
                   </v-btn>
@@ -213,19 +218,31 @@ export default {
       lang: this.$i18n.locale,
       ThreadTitleForm: FaqForm,
       admins: [],
+      page: 1,
+      totalPages: 1,
     };
   },
   beforeMount() {
+    if (this.$route.query.page) {
+      this.page = parseInt(this.$route.query.page, 10);
+    }
     this.threadId = this.$route.params.id;
     this.fetchData();
     this.getThread();
     this.user = this.$store.getters.user;
   },
+  watch: {
+    page(newVal) {
+      this.$router.replace({ query: { page: newVal } });
+    },
+  },
   methods: {
     async fetchData() {
-      (await openapi).forum_getThreadPosts(this.threadId).then((rsp) => {
-        this.posts = rsp.data.items;
-      });
+      (await openapi).forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 25 })
+        .then((rsp) => {
+          this.posts = rsp.data.items;
+          this.totalPages = Math.ceil(rsp.data.total / rsp.data.size);
+        });
     },
     async getThread() {
       (await openapi).forum_getThread(this.threadId).then((rsp) => {
@@ -260,17 +277,6 @@ export default {
         });
       }).catch((err) => {
         this.$refs.addPostDialog.setError(err);
-      });
-    },
-    async sendpost() {
-      await this.converter();
-      (await openapi).forum_createPost(this.threadId, this.message).then(() => {
-        this.message.content = '';
-        this.fetchData();
-        this.$notify({
-          title: this.$t('_ticket.messages.addedPost'),
-          type: 'success',
-        });
       });
     },
     async deletePost(item) {
@@ -328,22 +334,6 @@ export default {
       }).catch((err) => {
         this.$refs.deleteThreadConfirmationDialog.setError(err);
       });
-    },
-    async converter() {
-      const regex = /<@([\w-]+)>/;
-      const unescapedText = this.message.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-      const matches = unescapedText.match(regex);
-      console.log(matches, unescapedText);
-      if (matches) {
-        const id = matches[1];
-        try {
-          const user = await (await openapi).user_getUser(id);
-          this.message.content = unescapedText.replace(matches[0], `<a color="primary">${user.data.username}</a>`);
-        } catch (e) {
-          this.message.content = unescapedText.replace(matches[0], '');
-        }
-      }
-      return this.message.content;
     },
     async toggleStatus() {
       (await openapi).forum_toggleStatus(this.threadId).then((rsp) => {

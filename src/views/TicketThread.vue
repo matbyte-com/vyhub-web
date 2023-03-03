@@ -133,7 +133,7 @@ export default {
   beforeMount() {
     this.threadId = this.$route.params.id;
     if (this.$route.query.page) {
-      this.page = this.$route.query.page;
+      this.page = parseInt(this.$route.query.page, 10);
     }
     this.fetchData();
     this.getThread();
@@ -146,7 +146,7 @@ export default {
   methods: {
     async fetchData() {
       (await openapi)
-        .forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 1 }).then((rsp) => {
+        .forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 25 }).then((rsp) => {
           this.posts = rsp.data.items;
           this.totalPages = Math.ceil(rsp.data.total / rsp.data.size);
         });
