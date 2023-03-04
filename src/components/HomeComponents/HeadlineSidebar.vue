@@ -1,7 +1,7 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex align-center">
       <v-icon color="primary" class="mr-1">{{ icon }}</v-icon>
-      <v-sheet vertical color="primary" width="2" height="25" class="mt-1">
+      <v-sheet vertical color="primary" width="2" height="25">
       </v-sheet>
       <span class="ml-2 mr-1">
             {{ title }}

@@ -31,13 +31,11 @@
             <template v-slot:header>
               <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
                           @change="fetchTopic" class="text-capitalize"/>
-              <v-row>
-                <v-col cols="12" sm="6" align-self="center">
-                  {{ $t('_forum.topicAdmins') }}
-                  <UserLink v-for="admin in topic.admins" small
-                            :key="admin.id" :user="admin"/>
-                </v-col>
-              </v-row>
+              <div>
+                {{ $t('_forum.topicAdmins') }}
+                <UserLink v-for="admin in topic.admins" small
+                          :key="admin.id" :user="admin" class="mr-1"/>
+              </div>
             </template>
             <template v-slot:item.created="{ item }">
               <span :class="{ 'font-weight-bold' : !item.is_read }">
@@ -120,10 +118,10 @@
             <template v-slot:item.last_post_sm="{ item }">
               <div class="d-flex">
                 <v-spacer />
-                <v-icon v-if="item.pinned === true" class="mr-3 mdi-rotate-45">
+                <v-icon v-if="item.pinned === true" class="mr-1 mdi-rotate-45">
                   mdi-pin
                 </v-icon>
-                <v-icon v-on="on" v-if="item.status === 'CLOSED'">mdi-lock</v-icon>
+                <v-icon v-if="item.status === 'CLOSED'" class="mr-3">mdi-lock</v-icon>
                 <div v-if="item.last_post">
                   <div :class="{ 'font-weight-bold' : !item.is_read }">
                     {{ topic.posts_total }} {{ $t('_forum.posts') }}
@@ -216,7 +214,7 @@ export default {
     },
     async fetchThreads(queryParams = null) {
       const topicId = this.$route.params.id;
-      (await openapi).forum_getThreads({
+      (await openapi).forum_getTopicThreads({
         uuid: topicId,
         hide_closed: this.hide_closed,
         ...(queryParams != null ? queryParams : this.$refs.threadTable.getQueryParameters()),

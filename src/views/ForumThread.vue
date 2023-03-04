@@ -92,7 +92,7 @@
                 <v-col>
                   <span v-html="post.content" class="ql-editor pa-0"/>
                 </v-col>
-                <div class="text--disabled mt-3 d-flex align-center">
+                <div class="text--disabled mt-3 d-flex align-center mb-0 pb-0">
                   <v-avatar v-if="post.creator.id === thread.creator.id"
                             class="hidden-sm-and-up mr-3"
                             size="30">
@@ -112,18 +112,24 @@
                     </v-tooltip>
                   </span>
                   <span class="ml-3">{{ utils.formatDate(post.created) }}</span>
-                  <v-col class="text-right"
-                         v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
-                    <v-btn small outlined
-                           @click.stop="openEditPostDialog(post)" color="primary">
+                  <v-col class="text-right pa-0">
+                    <v-btn small outlined @click.stop="openEditPostDialog(post)" color="primary"
+                           v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins) ||
+                           ( $store.getters.user.id === post.creator.id && topic.edit_post)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn small outlined
+                           v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
                            @click.stop="$refs.deletePostConfirmationDialog.show(post)" color="error"
                            class="ml-2">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
+                </div>
+                <div v-if="post.last_edit" class="text--disabled pt-0 mt-0"
+                     style="font-size: 0.9em">
+                  <span>{{ $t('_forum.edited') }}:
+                    {{ utils.formatTimeForForum(post.last_edit) }}</span>
                 </div>
               </v-card-text>
             </v-card>
@@ -282,7 +288,7 @@ export default {
     async deletePost(item) {
       (await openapi).forum_deletePost(item.id).then(() => {
         this.$notify({
-          title: this.$t('_forum.deleteSuccess'),
+          title: this.$t('_forum.messages.deleteSuccess'),
           type: 'success',
         });
         this.fetchData();
@@ -295,7 +301,7 @@ export default {
       const data = this.$refs.editPostDialog.getData();
       (await openapi).forum_editPost(post.id, data).then(() => {
         this.$notify({
-          title: this.$t('_forum.editSuccess'),
+          title: this.$t('_forum.messages.editSuccess'),
           type: 'success',
         });
         this.fetchData();
@@ -314,7 +320,7 @@ export default {
       const data = this.$refs.editThreadTitleDialog.getData();
       (await openapi).forum_editThread(this.threadId, data).then(() => {
         this.$notify({
-          title: this.$t('_forum.editSuccess'),
+          title: this.$t('_forum.messages.editSuccess'),
           type: 'success',
         });
         this.getThread();
@@ -326,7 +332,7 @@ export default {
     async deleteThread() {
       (await openapi).forum_deleteThread(this.threadId).then(() => {
         this.$notify({
-          title: this.$t('_forum.deleteSuccess'),
+          title: this.$t('_forum.messages.deleteSuccess'),
           type: 'success',
         });
         this.$router.push({ name: 'ForumTopic', params: { id: this.topic.id } });

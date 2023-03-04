@@ -7,6 +7,7 @@ export default {
     'category',
     'title',
     'topic_category_id',
+    'edit_post',
   ],
   properties: {
     topic_category_id: {
@@ -31,5 +32,12 @@ export default {
       },
     },
     icon: Common.iconPicker,
+    edit_post: {
+      type: 'boolean',
+      'x-display': 'switch',
+      title: i18n.t('_forum.editPost'),
+      description: i18n.t('_forum.editPostDescription'),
+      default: false,
+    },
   },
 };
