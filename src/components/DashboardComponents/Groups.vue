@@ -90,7 +90,7 @@
                   </template>
                   <template v-slot:item.end="{ item }">
                     {{ (item.end != null
-                    ? utils.formatDate(item.begin)
+                    ? utils.formatDate(item.end)
                     : '∞') }}
                   </template>
                   <template v-slot:item.actions="{ item }">
