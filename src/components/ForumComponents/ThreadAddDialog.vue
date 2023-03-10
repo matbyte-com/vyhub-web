@@ -9,7 +9,7 @@
         </v-alert>
       </v-col>
     </v-row>
-    <v-text-field v-if="!hideTitleInput" :label="$t('_ticket.title')"
+    <v-text-field v-if="!hideTitleInput" :label="$t('_forum.title')"
                   v-model="title"></v-text-field>
     <editor v-model="content" :class="hideTitleInput ? 'mt-3' : ''"/>
     <template v-slot:actions>

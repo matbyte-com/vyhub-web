@@ -72,7 +72,7 @@
             <v-btn v-if="thread.status !== 'CLOSED'" class="ml-1"
                    color="success" @click="$refs.addPostDialog.show()">
               <v-icon left>mdi-plus</v-icon>
-              {{ $t('_ticket.addPost') }}
+              {{ $t('_forum.addPost') }}
             </v-btn>
           </v-col>
           <v-col class="hidden-xs-only" cols="2" lg="1"></v-col>
@@ -155,7 +155,7 @@
                 <v-card-actions>
                   <v-btn color="success" @click="newPost(message.content)">
                     <v-icon left>mdi-plus</v-icon>
-                    {{ $t('_ticket.addPost') }}
+                    {{ $t('_forum.addPost') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -172,14 +172,14 @@
         </v-row>
       </div>
       <ThreadAddDialog ref="addPostDialog"
-                       :dialog-title="`${$t('_ticket.addPost')}`"
+                       :dialog-title="`${$t('_forum.addPost')}`"
                        @submit="newPost" :hide-title-input="true"/>
       <ThreadAddDialog ref="editPostDialog"
-                       :dialog-title="`${$t('_ticket.editPost')}`"
+                       :dialog-title="`${$t('_forum.editPost')}`"
                        @submit="editPost" :hide-title-input="true"/>
       <DialogForm :title="`${$t('_forum.renameThread')}`" :form-schema="ThreadTitleForm"
                   ref="editThreadTitleDialog" :icon="`mdi-pencil`"
-                  :dialog-title="`${$t('_ticket.editThreadTitle')}`"
+                  :dialog-title="`${$t('_forum.editThreadTitle')}`"
                   @submit="editThreadTitle" :hide-editor="true"/>
       <DeleteConfirmationDialog ref="deletePostConfirmationDialog"
                                 @submit="deletePost" />
@@ -221,7 +221,6 @@ export default {
       topic: null,
       user: null,
       message: {},
-      lang: this.$i18n.locale,
       ThreadTitleForm: FaqForm,
       admins: [],
       page: 1,
@@ -231,6 +230,9 @@ export default {
   beforeMount() {
     if (this.$route.query.page) {
       this.page = parseInt(this.$route.query.page, 10);
+    }
+    if (this.$route.query.lastPage) {
+      this.lastPage = true;
     }
     this.threadId = this.$route.params.id;
     this.fetchData();
@@ -244,10 +246,15 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 25 })
+      (await openapi).forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 20 })
         .then((rsp) => {
-          this.posts = rsp.data.items;
           this.totalPages = Math.ceil(rsp.data.total / rsp.data.size);
+          if (!this.lastPage) this.posts = rsp.data.items;
+          else {
+            this.page = this.totalPages;
+            this.lastPage = false;
+            this.fetchData();
+          }
         });
     },
     async getThread() {
@@ -271,14 +278,14 @@ export default {
       const data = this.$refs.addPostDialog.getData();
       if (content) { data.content = content; }
       if (data.content === '') {
-        this.$refs.addPostDialog.setError(this.$t('_ticket.messages.emptyPost'));
+        this.$refs.addPostDialog.setError(this.$t('_forum.messages.emptyPost'));
         return;
       }
       (await openapi).forum_createPost(this.threadId, data).then(() => {
         this.$refs.addPostDialog.close();
         this.fetchData();
         this.$notify({
-          title: this.$t('_ticket.messages.addedPost'),
+          title: this.$t('_forum.messages.addedPost'),
           type: 'success',
         });
       }).catch((err) => {
@@ -345,7 +352,7 @@ export default {
       (await openapi).forum_toggleStatus(this.threadId).then((rsp) => {
         this.thread = rsp.data;
         this.$notify({
-          title: this.$t('_ticket.messages.toggleStatus'),
+          title: this.$t('_forum.messages.toggleStatus'),
           type: 'success',
         });
       });

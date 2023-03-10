@@ -181,16 +181,16 @@ export default {
     headers() {
       if (this.$vuetify.breakpoint.mdAndUp) {
         return [
-          { text: this.$t('_ticket.creator'), value: 'creator', sortable: false },
-          { text: this.$t('_ticket.title'), value: 'title', sortable: false },
-          { text: this.$t('_ticket.created'), value: 'created' },
+          { text: this.$t('_forum.creator'), value: 'creator', sortable: false },
+          { text: this.$t('_forum.title'), value: 'title', sortable: false },
+          { text: this.$t('_forum.created'), value: 'created' },
           { value: 'total_posts', sortable: false },
-          { text: this.$t('_ticket.last_post'), value: 'last_post', align: 'right' },
+          { text: this.$t('_forum.last_post'), value: 'last_post', align: 'right' },
         ];
       }
       return [
-        { text: this.$t('_ticket.title'), value: 'title_sm', sortable: false },
-        { text: this.$t('_ticket.last_post'), value: 'last_post_sm', align: 'right' },
+        { text: this.$t('_forum.title'), value: 'title_sm', sortable: false },
+        { text: this.$t('_forum.last_post'), value: 'last_post_sm', align: 'right' },
       ];
     },
   },
@@ -231,7 +231,7 @@ export default {
         this.$refs.addThreadDialog.close();
         this.fetchThreads();
         this.$notify({
-          title: this.$t('_ticket.messages.addedThread'),
+          title: this.$t('_forum.messages.addedThread'),
           type: 'success',
         });
       }).catch((err) => {

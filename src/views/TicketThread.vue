@@ -1,7 +1,7 @@
 <template>
   <div>
     <ThreadAddDialog ref="addPostDialog"
-                     :dialog-title="`${$t('_ticket.addPost')}`"
+                     :dialog-title="`${$t('_forum.addPost')}`"
                      @submit="newPost" :hide-title-input="true"/>
     <PageTitle v-if="thread && posts"
                icon="mdi-forum"
@@ -17,10 +17,10 @@
           <v-col cols="12" sm="3">
             <v-chip v-if="thread.status === 'OPEN'" color="success" class="text-uppercase"
                     @click="toggleStatus()">
-              {{ $t('_ticket.open') }}
+              {{ $t('_forum.open') }}
             </v-chip>
             <v-chip v-else color="error" class="text-uppercase" @click="toggleStatus()">
-              {{ $t('_ticket.closed') }}
+              {{ $t('_forum.closed') }}
             </v-chip>
           </v-col>
         </v-row>
@@ -81,23 +81,23 @@
           <v-btn v-if="thread.ban" color="primary" :to="{ name: 'Bans',
            params: {banId: thread.ban.id} }" class="mr-3">
             <v-icon left>mdi-eye</v-icon>
-            {{ $t('_ticket.showBan') }}
+            {{ $t('_forum.showBan') }}
           </v-btn>
           <v-btn v-if="$checkProp('ticket_edit')"
                  :color="thread.status === 'CLOSED' ? 'success' : 'error'"
                  @click="toggleStatus">
             <div v-if="thread.status === 'CLOSED'">
               <v-icon left>mdi-lock-open-variant</v-icon>
-              <span>{{ $t('_ticket.open') }}</span>
+              <span>{{ $t('_forum.open') }}</span>
             </div>
             <div v-else>
               <v-icon left>mdi-lock</v-icon>
-              <span>{{ $t('_ticket.close') }}</span>
+              <span>{{ $t('_forum.close') }}</span>
             </div>
           </v-btn>
           <v-btn color="success" class="ml-3" @click="$refs.addPostDialog.show()">
             <v-icon left>mdi-plus</v-icon>
-            <span>{{ $t('_ticket.addPost') }}</span>
+            <span>{{ $t('_forum.addPost') }}</span>
           </v-btn>
           <v-spacer v-if="$vuetify.breakpoint.mdAndDown"/>
         </v-col>

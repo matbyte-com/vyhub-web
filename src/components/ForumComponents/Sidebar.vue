@@ -7,7 +7,8 @@
     <v-divider class="ml-3 mr-3"/>
     <v-list dense>
       <v-list-item v-for="post in latestPosts" :key="post.id" class="listItem pt-0 pb-0"
-                   :to="{ name: 'ForumThread', params: { id: post.thread.id } }">
+                   :to="{ name: 'ForumThread', params: { id: post.thread.id },
+                    query: {lastPage: true}}">
         <v-list-item-content>
           <div class="d-flex">
             <router-link
@@ -19,7 +20,8 @@
             </router-link>
             <div class="align-self-center">
               <div>
-                <router-link :to="{ name: 'ForumThread', params: { id: post.thread.id } }"
+                <router-link :to="{ name: 'ForumThread', params: { id: post.thread.id },
+                 query: {lastPage: true} }"
                              style="font-size: 1em; white-space: nowrap;
                                       text-overflow: ellipsis; color: inherit;
                                        text-decoration: none">

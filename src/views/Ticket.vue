@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle icon="mdi-ticket-confirmation">{{ $t('_ticket.tickets') }}</PageTitle>
+    <PageTitle icon="mdi-ticket-confirmation">{{ $t('_forum.tickets') }}</PageTitle>
     <v-card>
       <v-card-text>
         <PaginatedDataTable
@@ -16,7 +16,7 @@
           class="cursor"
         >
           <template v-slot:header>
-            <v-checkbox v-model="show_closed" :label="$t('_ticket.showClosed')" @change="fetchData"
+            <v-checkbox v-model="show_closed" :label="$t('_forum.showClosed')" @change="fetchData"
                         class="text-capitalize">
             </v-checkbox>
           </template>
@@ -40,13 +40,13 @@
             <v-btn color="success" outlined
                    @click="$refs.addThreadDialog.show()">
               <v-icon left>mdi-plus</v-icon>
-              <span>{{ $t('_ticket.addTicket') }}</span>
+              <span>{{ $t('_forum.addTicket') }}</span>
             </v-btn>
           </template>
         </PaginatedDataTable>
       </v-card-text>
     </v-card>
-    <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_ticket.addTicket')"
+    <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_forum.addTicket')"
                      @submit="newThread"/>
   </div>
 </template>
@@ -71,11 +71,11 @@ export default {
       tickets: null,
       show_closed: false,
       headers: [
-        { text: this.$t('_ticket.creator'), value: 'creator', sortable: false },
-        { text: this.$t('_ticket.title'), value: 'title', sortable: false },
-        { text: this.$t('_ticket.created'), value: 'created' },
+        { text: this.$t('_forum.creator'), value: 'creator', sortable: false },
+        { text: this.$t('_forum.title'), value: 'title', sortable: false },
+        { text: this.$t('_forum.created'), value: 'created' },
         {
-          text: this.$t('_ticket.last_post'), value: 'last_post', sortable: false, align: 'right',
+          text: this.$t('_forum.last_post'), value: 'last_post', sortable: false, align: 'right',
         },
       ],
       page: 1,
@@ -98,7 +98,7 @@ export default {
         this.$refs.addThreadDialog.close();
         this.fetchData();
         this.$notify({
-          title: this.$t('_ticket.messages.addedThread'),
+          title: this.$t('_forum.messages.addedThread'),
           type: 'success',
         });
       }).catch((err) => {
