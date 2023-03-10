@@ -43,8 +43,8 @@ export default {
   props: ['dialogTitle', 'hideTitleInput'],
   data() {
     return {
-      title: '',
-      content: '',
+      title: null,
+      content: null,
       ban_id: '',
       topic_id: '',
       pinned: false,
