@@ -322,11 +322,13 @@ export default {
     // Bearbeiten
     openTopicCategoryEditDialog(item) {
       const data = item;
+      if (data.requirement_set) data.requirement_set_id = data.requirement_set.id;
       this.$refs.editTopicCategoryDialog.show(data);
       this.$refs.editTopicCategoryDialog.setData(data);
     },
     async editTopicCategory(item) {
       const data = this.$refs.editTopicCategoryDialog.getData();
+      if (!data.requirement_set_id) data.requirement_set_id = null;
       (await openapi).forum_editTopicCategory(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
