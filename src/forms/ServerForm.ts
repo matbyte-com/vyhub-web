@@ -35,6 +35,19 @@ function serverTypeFields(serverType: string) {
       },
     };
   }
+  if (serverType === 'TEAMSPEAK3') {
+    required = ['username', 'password'];
+    properties = {
+      username: {
+        type: 'string',
+        title: i18n.t('username'),
+      },
+      password: {
+        type: 'string',
+        title: i18n.t('password'),
+      },
+    };
+  }
 
   return {
     title: serverType,
@@ -86,9 +99,9 @@ export default {
         {
           ...serverTypeFields('MINECRAFT'),
         },
-        /* {
+        {
           ...serverTypeFields('TEAMSPEAK3'),
-        }, */
+        },
         {
           ...serverTypeFields('DISCORD'),
         },
