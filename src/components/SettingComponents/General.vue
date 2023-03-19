@@ -9,6 +9,9 @@
             {{ $t('_settings.languageNewDescriptionText') }}
             <a href="https://github.com/matbyte-com/vyhub-lang" target="_blank">{{ $t('here') }}</a>!
           </template>
+          <template v-slot:enable_forum-before>
+            <AddOnChip />
+          </template>
         </GenForm>
       </v-col>
     </v-row>
@@ -20,12 +23,13 @@ import GenForm from '@/components/GenForm.vue';
 import SettingsGeneralFormSchema from '@/forms/SettingsGeneralForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
+import AddOnChip from '@/components/SettingComponents/AddOnChip.vue';
 import SettingTitle from './SettingTitle.vue';
 import i18n from '../../plugins/i18n';
 
 export default {
   name: 'General',
-  components: { SettingTitle, GenForm },
+  components: { AddOnChip, SettingTitle, GenForm },
   data() {
     return {
       formSchema: SettingsGeneralFormSchema,
