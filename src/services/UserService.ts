@@ -4,7 +4,7 @@ export default {
     STEAM: 'mdi-steam',
     DISCORD: 'mdi-discord',
     MINECRAFT: 'mdi-minecraft',
-    TEAMSPEAK3: 'mdi-alphabetical',
+    TEAMSPEAK3: '$teamspeak',
   },
   userExternalLink(type: string, id: string) {
     switch (type) {
