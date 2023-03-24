@@ -121,7 +121,7 @@ export default {
       return () => import(`@/components/DashboardComponents/Dashboards/${this.activeTab}`);
     },
     getBundles() {
-      return this.bundles.filter((b) => b.server_type !== 'DISCORD');
+      return this.bundles.filter((b) => b.server_type !== 'DISCORD' && b.server_type !== 'TEAMSPEAK3');
     },
   },
   watch: {
