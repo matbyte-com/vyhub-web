@@ -29,7 +29,8 @@
               </template>
               <template v-slot:item.actions="{ item }">
                 <v-btn outlined color="info" small class="mr-1"
-                       :disabled="item.server_type === 'DISCORD'"
+                       :disabled="item.server_type === 'DISCORD' ||
+                        item.server_type === 'TEAMSPEAK3'"
                        @click="showAPIKeysDialog(item)">
                   <v-icon>
                     mdi-key-chain
@@ -84,7 +85,7 @@
                   </span>
                 </v-btn>
                 <v-btn outlined color="primary" small class="mr-1"
-                       @click="$refs.editServerDialog.show(item, item);">
+                       @click="openEditServerDialog(item)">
                   <v-icon>
                     mdi-pencil
                   </v-icon>
@@ -430,6 +431,14 @@ export default {
     },
     async editServer(server) {
       const data = this.$refs.editServerDialog.getData();
+      if (server.type === 'TEAMSPEAK3') {
+        if (data.extra?.username === '***') {
+          delete data.extra.username;
+        }
+        if (data.extra?.password === '***') {
+          delete data.extra.password;
+        }
+      }
 
       (await openapi).server_editServer(server.id, data).then(() => {
         this.fetchData();
@@ -482,6 +491,16 @@ export default {
       }).catch((err) => {
         this.$refs.createTokenForm.setError(err);
       });
+    },
+    openEditServerDialog(item) {
+      this.$refs.editServerDialog.show(item);
+      const data = { ...item };
+      if (data.type === 'TEAMSPEAK3') {
+        data.extra = {};
+        data.extra.password = '***';
+        data.extra.username = '***';
+      }
+      this.$refs.editServerDialog.setData(data);
     },
   },
   watch: {

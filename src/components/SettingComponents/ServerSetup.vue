@@ -109,6 +109,22 @@
         </v-btn>
       </div>
     </div>
+
+    <!-- Teamspeak -->
+    <div v-else-if="server.type === 'TEAMSPEAK3'">
+      <div class="font-weight-bold">{{ $t('_server.instructions.TEAMSPEAK3.headline') }}</div>
+      {{ $t('_server.instructions.TEAMSPEAK3.botNotConnected') }}
+      <div class="mt-1 text-center">
+        <v-btn color="primary" href="https://docs.vyhub.net/latest/game/teamspeak" target="_blank">
+          <v-icon left>mdi-book-open-variant</v-icon>
+          {{ $t('documentation') }}
+        </v-btn>
+        <v-btn color="primary" class="ml-3" :to="{ name: 'Log' }">
+          <v-icon left>mdi-format-list-bulleted</v-icon>
+          {{ $t('logs') }}
+        </v-btn>
+      </div>
+    </div>
   </div>
 </template>
 

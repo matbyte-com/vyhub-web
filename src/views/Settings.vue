@@ -1,9 +1,8 @@
 <template>
   <div>
     <PageTitle icon="mdi-cog" :title="$t('_settings.labels.title')" />
-    <v-row
-    no-gutters>
-      <v-col cols="12" xs="12" sm="12" md="12" lg="3" class="mb-2 mb-lg-0 mr-xl-2 mr-lg-2">
+    <v-row dense>
+      <v-col cols="12" lg="3" class="mb-2 mb-lg-0">
         <v-card flat class="fill-height">
           <v-card-text>
             <v-list shaped>
@@ -46,9 +45,8 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-divider :vertical="$vuetify.breakpoint.lgAndUp"/>
-      <v-col>
-        <v-card class="fill-height" flat>
+      <v-col cols="12" lg="9">
+        <v-card class="fill-height" flat width="100%">
           <v-card-text>
             <keep-alive>
               <component :is="componentInstance"></component>
