@@ -40,7 +40,7 @@
                       <span>{{ $t(`_user.type.${acc.type}.name`).toUpperCase() }}</span>
                     </v-tooltip>
                     <div>
-                      <v-avatar>
+                      <v-avatar v-if="acc.type !== 'TEAMSPEAK3'">
                         <v-img :src="acc.avatar" contain
                                alt="avatar"/>
                       </v-avatar>
