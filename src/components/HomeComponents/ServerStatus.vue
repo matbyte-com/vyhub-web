@@ -49,7 +49,8 @@
             </v-col>
             <v-col>
               <router-link style="text-decoration: none" :disabled="true"
-                           :to="{ name: (server.type !== 'DISCORD' ? 'ServerDashboard' : null),
+                           :to="{ name: (server.type !== 'DISCORD' && server.type !== 'TEAMSPEAK3'
+                            ? 'ServerDashboard' : null),
                                 params: { id: server.id }}">
                 {{ server.name }}
               </router-link>

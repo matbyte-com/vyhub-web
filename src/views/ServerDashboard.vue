@@ -283,7 +283,7 @@ export default {
     },
     availableServerDashboards() {
       if (!this.servers) return null;
-      return this.servers.filter((s) => s.type !== 'DISCORD');
+      return this.servers.filter((s) => s.type !== 'DISCORD' && s.type !== 'TEAMSPEAK3');
     },
     extra() {
       if (this.currentUser == null) {
