@@ -36,6 +36,11 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
+          <v-btn icon color="accent" small @click="copyPacket(item)" class="mr-1">
+            <v-icon small>
+              mdi-content-copy
+            </v-icon>
+          </v-btn>
           <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
             <v-icon>
               mdi-pencil
@@ -184,13 +189,17 @@ export default {
         this.$refs.addPacketDialog.setData({ currency_code: cfg.default_currency });
       });
     },
-    async addPacket() {
+    async addPacket(data) {
       const api = await openapi;
 
-      let packet = this.$refs.addPacketDialog.getData();
-
-      packet.enabled = true;
-      packet.buyable = true;
+      let packet = null;
+      if (!data) {
+        packet = this.$refs.addPacketDialog.getData();
+        packet.enabled = true;
+        packet.buyable = true;
+      } else {
+        packet = data;
+      }
 
       packet = this.prepareDataForSending(packet);
 
@@ -205,6 +214,12 @@ export default {
         console.log(err);
         this.$refs.addPacketDialog.setError(err);
       });
+    },
+    async copyPacket(packet) {
+      const data = { ...packet };
+      data.buyable = false;
+      data.currency_code = data.currency.code;
+      await this.addPacket(data);
     },
     showEditDialog(packet) {
       const data = { ...packet };
