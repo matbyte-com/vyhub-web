@@ -50,6 +50,30 @@
                 </v-card>
               </v-col>
             </v-row>
+            <v-row v-if="purchase.cart_packets.some((cp) => cp.target_user)">
+              <v-col>
+                <v-card>
+                  <v-card-title>
+                    <v-icon left>mdi-account-switch</v-icon>
+                    {{ $t('_shop.labels.changeTargetUser') }}
+                  </v-card-title>
+                  <v-card-text class="d-flex">
+                    <v-row>
+                      <v-col>
+                        <v-img :src="require('@/assets/img/icons/gift-box.png')" max-width="100px"/>
+                      </v-col>
+                      <v-col>
+                        <ul>
+                          <li v-for="user in targetedUsers" :key="user.id">
+                            <UserLink :user="user" :small="true" />
+                          </li>
+                        </ul>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
         <v-row class="mt-2">
@@ -154,6 +178,7 @@ import CartPacket from '@/components/ShopComponents/CartPacket.vue';
 import Address from '@/components/Address.vue';
 import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import ShopService from '@/services/ShopService';
+import UserLink from '@/components/UserLink.vue';
 import Dialog from '../Dialog.vue';
 import openapi from '../../api/openapi';
 import openapiCached from '../../api/openapiCached';
@@ -162,6 +187,7 @@ import CancelPurchaseConfirmationDialog from './CancelPurchaseConfirmationDialog
 export default {
   name: 'CheckoutDialog',
   components: {
+    UserLink,
     CancelPurchaseConfirmationDialog,
     Dialog,
     CartTotal,
@@ -308,6 +334,16 @@ export default {
         return cbo;
       });
     },
+    targetedUsers() {
+      const res = new Set();
+      this.purchase.cart_packets.forEach((cp) => {
+        if (cp.target_user != null) {
+          res.add(cp.target_user);
+        }
+      });
+      console.log(res);
+      return res;
+    },
   },
   watch: {
   },
@@ -315,5 +351,16 @@ export default {
 </script>
 
 <style scoped>
+ul {
+  list-style: none; /* Remove default bullets */
+}
 
+ul li::before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: var(--v-primary-base); /* Change the color */
+  font-weight: bold; /* If you want it to be bold */
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
 </style>

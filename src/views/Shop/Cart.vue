@@ -33,7 +33,8 @@
           <v-col>
             <CartPacket :cart-packet="cartPacket" show-outline show-remove
                         @remove="removeCartPacket(cartPacket.id)"
-                        @removeDiscount="removeDiscount(cartPacket.discount.id)">
+                        @removeDiscount="removeDiscount(cartPacket.discount.id)"
+                        @targetUserChanged="fetchData">
             </CartPacket>
           </v-col>
         </v-row>

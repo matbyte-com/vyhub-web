@@ -137,30 +137,44 @@
                   <v-icon left>mdi-lock</v-icon>
                   {{ $t('_shop.labels.loginToBuy') }}
                 </v-btn>
-                <v-btn block color="success" @click="addToCart" v-else>
-                  <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
-                  <div v-else>
-                    <v-icon left>mdi-cart-arrow-down</v-icon>
-                    {{ $t('_shop.labels.addToCart') }}
-                  </div>
-                </v-btn>
+                <div v-else class="d-flex" style="width: 100%">
+                  <v-btn color="success" @click="addToCart()" class="flex-grow-1">
+                    <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
+                    <div v-else>
+                      <v-icon left>mdi-cart-arrow-down</v-icon>
+                      {{ $t('_shop.labels.addToCart') }}
+                    </div>
+                  </v-btn>
+                  <v-btn color="secondary" class="ml-1" @click="$refs.giftPacketDialog.show()">
+                    <v-icon>
+                      mdi-gift-open
+                    </v-icon>
+                  </v-btn>
+                </div>
               </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
       </div>
+      <DialogForm :title="$t('_shop.labels.changeTargetUser')"
+                  :form-schema="cartPacketTargetUserForm"
+                  @submit="buyForAnotherUser"
+                  icon="mdi-account-switch"
+                  ref="giftPacketDialog" />
     </div>
 </template>
 
 <script>
 import UtilService from '@/services/UtilService';
+import DialogForm from '@/components/DialogForm.vue';
+import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 import ShopService from '../../services/ShopService';
 import PageTitle from '../../components/PageTitle.vue';
 import openapi from '../../api/openapi';
 import openapiCached from '../../api/openapiCached';
 
 export default {
-  components: { PageTitle },
+  components: { DialogForm, PageTitle },
   data() {
     return {
       packet: null,
@@ -169,6 +183,7 @@ export default {
       addFail: false,
       customPrice: null,
       customCredits: null,
+      cartPacketTargetUserForm,
     };
   },
   beforeMount() {
@@ -204,7 +219,7 @@ export default {
           }
         });
     },
-    async addToCart() {
+    async addToCart(target_user_id = null) {
       const api = await openapi;
 
       this.loading = true;
@@ -215,7 +230,10 @@ export default {
         packet_id: this.packet.id,
         custom_price: this.customPrice,
         custom_credits: this.customCredits,
+        target_user_id,
       };
+
+      console.log(data);
 
       if (!this.packet.custom_price) {
         data.custom_credits = null;
@@ -251,6 +269,12 @@ export default {
           text: this.$t(`_errors.${errDet.code}`, errDet.detail),
           type: 'error',
         }); */
+      });
+    },
+    async buyForAnotherUser() {
+      const data = this.$refs.giftPacketDialog.getData();
+      await this.addToCart(data.target_user_id).then(() => {
+        this.$refs.giftPacketDialog.closeAndReset();
       });
     },
   },
