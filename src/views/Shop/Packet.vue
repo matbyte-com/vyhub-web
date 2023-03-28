@@ -233,8 +233,6 @@ export default {
         target_user_id,
       };
 
-      console.log(data);
-
       if (!this.packet.custom_price) {
         data.custom_credits = null;
         data.custom_price = null;

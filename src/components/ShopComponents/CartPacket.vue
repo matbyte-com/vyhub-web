@@ -57,11 +57,11 @@
                 </v-col>
               </v-row>
             </div>
-            <div class="d-flex align-center ml-5" v-if="showRemove">
+            <div class="d-flex align-center ml-5" v-if="showRemove && cartPacket">
               <v-btn outlined :small="!cartPacket.target_user"
                      color="secondary" class="mr-1" :fab="!cartPacket.target_user"
                      @click="openTargetUserEditDialog">
-                <v-icon :left="cartPacket.target_user">mdi-gift-open</v-icon>
+                <v-icon :left="cartPacket.hasOwnProperty(target_user)">mdi-gift-open</v-icon>
                 <span v-if="cartPacket.target_user">{{ cartPacket.target_user.username }}</span>
               </v-btn>
               <v-btn fab outlined small color="error"
@@ -71,6 +71,10 @@
             </div>
           </v-col>
         </v-row>
+        <div v-if="cartPacket.target_user && !showRemove">
+          <v-icon color="secondary" left>mdi-gift-open</v-icon>
+          <UserLink :small="true" :user="cartPacket.target_user" />
+        </div>
       </v-card-text>
     </v-card>
     <DialogForm :title="$t('_shop.labels.changeTargetUser')"
@@ -114,7 +118,7 @@ export default {
     },
     async changeTargetUser() {
       const data = this.$refs.targetUserEditDialog.getData();
-      (await openapi).shop_changeCartPacketTargetUser(this.cartPacket.id, data)
+      (await openapi).shop_editCartPacket(this.cartPacket.id, data)
         .then(() => {
           this.$emit('targetUserChanged');
           this.$notify({

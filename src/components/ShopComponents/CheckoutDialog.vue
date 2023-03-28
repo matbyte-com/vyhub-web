@@ -64,7 +64,7 @@
                       </v-col>
                       <v-col>
                         <ul>
-                          <li v-for="user in targetedUsers" :key="user.id">
+                          <li v-for="user in targetedUsers" :key="user.id" class="mt-1">
                             <UserLink :user="user" :small="true" />
                           </li>
                         </ul>
@@ -335,14 +335,13 @@ export default {
       });
     },
     targetedUsers() {
-      const res = new Set();
+      const res = [];
       this.purchase.cart_packets.forEach((cp) => {
         if (cp.target_user != null) {
-          res.add(cp.target_user);
+          res.push(cp.target_user);
         }
       });
-      console.log(res);
-      return res;
+      return res.filter((cp, index, self) => index === self.findIndex((t) => t.id === cp.id));
     },
   },
   watch: {
