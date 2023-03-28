@@ -61,7 +61,7 @@
               <v-btn outlined :small="!cartPacket.target_user"
                      color="secondary" class="mr-1" :fab="!cartPacket.target_user"
                      @click="openTargetUserEditDialog">
-                <v-icon :left="cartPacket.hasOwnProperty(target_user)">mdi-gift-open</v-icon>
+                <v-icon :left="cartPacket.target_user !== null">mdi-gift-open</v-icon>
                 <span v-if="cartPacket.target_user">{{ cartPacket.target_user.username }}</span>
               </v-btn>
               <v-btn fab outlined small color="error"
