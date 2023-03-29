@@ -432,11 +432,11 @@ export default {
     async editServer(server) {
       const data = this.$refs.editServerDialog.getData();
       if (server.type === 'TEAMSPEAK3') {
-        if (data.extra?.username === '***') {
-          delete data.extra.username;
+        if (data.secrets?.username === '***') {
+          delete data.secrets.username;
         }
-        if (data.extra?.password === '***') {
-          delete data.extra.password;
+        if (data.secrets?.password === '***') {
+          delete data.secrets.password;
         }
       }
 
@@ -496,9 +496,9 @@ export default {
       this.$refs.editServerDialog.show(item);
       const data = { ...item };
       if (data.type === 'TEAMSPEAK3') {
-        data.extra = {};
-        data.extra.password = '***';
-        data.extra.username = '***';
+        data.secrets = {};
+        data.secrets.password = '***';
+        data.secrets.username = '***';
       }
       this.$refs.editServerDialog.setData(data);
     },

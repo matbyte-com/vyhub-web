@@ -4,6 +4,8 @@ import Common from '@/forms/Common';
 function serverTypeFields(serverType: string) {
   let properties = {};
   let required: Array<string> = [];
+  let properties_secrets = {};
+  let required_secrets: Array<string> = [];
 
   if (serverType === 'GMOD') {
     required = [];
@@ -36,8 +38,8 @@ function serverTypeFields(serverType: string) {
     };
   }
   if (serverType === 'TEAMSPEAK3') {
-    required = ['username', 'password'];
-    properties = {
+    required_secrets = ['username', 'password'];
+    properties_secrets = {
       username: {
         type: 'string',
         title: i18n.t('username'),
@@ -62,6 +64,11 @@ function serverTypeFields(serverType: string) {
         type: 'object',
         required,
         properties,
+      },
+      secrets: {
+        type: 'object',
+        required: required_secrets,
+        properties: properties_secrets,
       },
     },
   };
