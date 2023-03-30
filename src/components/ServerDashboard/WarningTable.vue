@@ -7,7 +7,6 @@
     ref="warnTable"
     :headers="headers"
     :items="warnings"
-    :item-class="warningRowFormatter"
     :totalItems="totalItems"
     default-sort-by="created_on"
     :default-sort-desc="true"
@@ -17,6 +16,11 @@
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t("_warning.add") }}</span>
       </v-btn>
+    </template>
+    <template v-slot:item.color-status="{ item }">
+      <v-sheet :color="warningRowFormatter(item)"
+               height="95%" width="10px"
+               style="margin-left: -15px"/>
     </template>
     <template v-slot:item.created_on="{ item }">
       <span>{{ new Date(item.created_on).toLocaleString() }}</span>
@@ -73,6 +77,7 @@ export default {
   data() {
     return {
       headers: [
+        { value: 'color-status', sortable: false, width: '1px' },
         { text: this.$t('reason'), value: 'reason' },
         { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
         { text: this.$t('creator'), value: 'creator', sortable: false },

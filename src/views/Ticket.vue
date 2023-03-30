@@ -11,7 +11,6 @@
           default-sort-by="created"
           :default-sort-desc="true"
           @reload="fetchData"
-          :item-class="ticketRowFormatter"
           @click:row="showTicket"
           class="cursor"
         >
@@ -19,6 +18,11 @@
             <v-checkbox v-model="show_closed" :label="$t('_forum.showClosed')" @change="fetchData"
                         class="text-capitalize">
             </v-checkbox>
+          </template>
+          <template v-slot:item.color-status="{ item }">
+            <v-sheet :color="ticketRowFormatter(item)"
+                     height="110%" width="10px"
+                     style="margin-left: -15px"/>
           </template>
           <template v-slot:item.created="{ item }">
             {{ utils.formatDate(item.created) }}
@@ -28,7 +32,13 @@
               <v-img v-if="item.creator" :src="item.creator.avatar"/>
               <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
             </v-avatar>
-            <UserLink v-if="item.creator" @click.prevent :user="item.creator"></UserLink>
+            <span v-if="$vuetify.breakpoint.xsOnly">
+              <UserLink v-if="item.creator" :user="item.creator"
+                        :color="ticketRowFormatter(item)" />
+            </span>
+            <span v-else>
+              <UserLink v-if="item.creator" :user="item.creator"/>
+            </span>
           </template>
           <template v-slot:item.last_post="{ item }">
             <span v-if="item.last_post" class="text-right">
@@ -71,6 +81,7 @@ export default {
       tickets: null,
       show_closed: false,
       headers: [
+        { value: 'color-status', sortable: false, width: '1px' },
         { text: this.$t('_forum.creator'), value: 'creator', sortable: false },
         { text: this.$t('_forum.title'), value: 'title', sortable: false },
         { text: this.$t('_forum.created'), value: 'created' },

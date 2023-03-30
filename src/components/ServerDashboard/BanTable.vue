@@ -7,7 +7,6 @@
     ref="banTable"
     :headers="headers"
     :items="bans"
-    :item-class="banRowFormatter"
     defaultSortBy="created_on"
     :defaultSortDesc="true"
     :totalItems="totalItems">
@@ -16,6 +15,11 @@
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t('_ban.labels.add') }}</span>
       </v-btn>
+    </template>
+    <template v-slot:item.color-status="{ item }">
+      <v-sheet :color="banRowFormatter(item)"
+               height="95%" width="10px"
+               style="margin-left: -15px"/>
     </template>
     <template v-slot:item.length="{ item }">
   <span>
@@ -86,6 +90,7 @@ export default {
   data() {
     return {
       headers: [
+        { value: 'color-status', sortable: false, width: '1px' },
         { text: this.$t('reason'), value: 'reason' },
         { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
         { text: this.$t('length'), value: 'length' },

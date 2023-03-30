@@ -7,7 +7,6 @@
           ref="banTable"
           :headers="headers"
           :items="bans"
-          :item-class="banRowFormatter"
           defaultSortBy="created_on"
           :defaultSortDesc="true"
           :totalItems="totalItems"
@@ -57,8 +56,19 @@
               <span>{{ $t('_ban.labels.add') }}</span>
             </v-btn>
           </template>
+          <template v-slot:item.color-status="{ item }">
+            <v-sheet :color="banRowFormatter(item)"
+                     height="95%" width="10px"
+            style="margin-left: -15px"/>
+          </template>
           <template v-slot:item.user="{ item }">
-            <UserLink :user="item.user"></UserLink>
+            <span v-if="$vuetify.breakpoint.xsOnly">
+              <UserLink :user="item.user"
+                        :color="banRowFormatter(item)" />
+            </span>
+            <span v-else>
+              <UserLink :user="item.user"/>
+            </span>
           </template>
           <template v-slot:item.length="{ item }">
         <span>
@@ -231,6 +241,7 @@ import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import openapiCached from '@/api/openapiCached';
+import { left } from 'core-js/internals/array-reduce';
 import Dialog from '../components/Dialog.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
@@ -250,6 +261,7 @@ export default {
   data() {
     return {
       headers: [
+        { value: 'color-status', sortable: false, width: '1px' },
         { text: this.$t('user'), value: 'user', sortable: false },
         { text: this.$t('reason'), value: 'reason' },
         { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },

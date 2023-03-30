@@ -2,12 +2,12 @@
   <span>
     <v-chip v-if="!disabledLink && !simple" :small="small"
             :to="{ name: 'UserDashboard', params: {id: user.id}}"
-            :outlined="isOutlined" color="primary">
+            :outlined="isOutlined" :color="color">
       <v-icon small>mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
     <v-chip v-if="disabledLink && !simple" :small="small"
-            :outlined="outline" color="primary">
+            :outlined="outline" :color="color">
       <v-icon small>mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
@@ -39,6 +39,10 @@ export default {
     small: {
       type: Boolean,
       default: false,
+    },
+    color: {
+      type: String,
+      default: 'primary',
     },
   },
   computed: {
