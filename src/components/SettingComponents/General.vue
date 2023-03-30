@@ -3,14 +3,17 @@
     <SettingTitle>{{ $t('general') }}</SettingTitle>
     <v-row>
       <v-col lg="8" xl="6">
-        <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
+        <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')" v-if="formSchema"
                  :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true">
           <template v-slot:language-after>
             {{ $t('_settings.languageNewDescriptionText') }}
             <a href="https://github.com/matbyte-com/vyhub-lang" target="_blank">{{ $t('here') }}</a>!
           </template>
-          <template v-slot:enable_forum-before>
-            <AddOnChip />
+          <template v-slot:enable_forum-before v-if="!forumEnabled">
+            <AddOnChip :addonTitle="$t('_forum.forum')"/>
+          </template>
+          <template v-slot:enable_forum-after v-if="!forumEnabled">
+            <div class="mt-6" />
           </template>
         </GenForm>
       </v-col>
@@ -32,17 +35,22 @@ export default {
   components: { AddOnChip, SettingTitle, GenForm },
   data() {
     return {
-      formSchema: SettingsGeneralFormSchema,
+      formSchema: null,
+      data: null,
     };
   },
-  mounted() {
+  beforeMount() {
     this.fetchData();
   },
   methods: {
     async fetchData() {
       (await openapi).general_getConfig().then((rsp) => {
         const { data } = rsp;
-        this.$refs.form.setData(data);
+        this.data = rsp.data;
+        this.formSchema = SettingsGeneralFormSchema.form(this.forumEnabled);
+        this.$nextTick(() => {
+          this.$refs.form.setData(data);
+        });
       });
     },
     async saveData() {
@@ -57,9 +65,19 @@ export default {
           title: this.$t('settingsSaveSuccess'),
           type: 'success',
         });
+        this.formSchema = SettingsGeneralFormSchema.form(this.forumEnabled);
+        this.$nextTick(() => {
+          this.$refs.form.setData(data);
+        });
       }).catch((err) => {
         this.$refs.form.setError(err);
       });
+    },
+  },
+  computed: {
+    forumEnabled() {
+      if (!this.data) return false;
+      return this.data.addons.includes('forum');
     },
   },
 };
