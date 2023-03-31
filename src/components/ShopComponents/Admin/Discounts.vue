@@ -80,14 +80,42 @@
       icon="mdi-ticket-percent"
       :submitText="$t('create')"
       @submit="createDiscount"
-      :title="$t('_discount.labels.create')"/>
+      :title="$t('_discount.labels.create')">
+      <!-- TODO: Try to connect the buttons together as with the Save / Reset buttons. -->
+      <template v-slot:code-after>
+        <v-btn class="mb-4 higher"
+          outlined small color="secondary" @click="generateCode(true)">
+          <v-icon left>mdi-code-greater-than</v-icon>
+          <span>{{ $t('generate') }}</span>
+        </v-btn>
+        <v-btn class="mb-4 higher"
+               :disabled="!hasNameAndPercentage"
+               outlined small color="secondary" @click="generateCode(false)">
+          <v-icon>mdi-code-greater-than-or-equal</v-icon>
+        </v-btn>
+      </template>
+    </DialogForm>
     <DialogForm
       ref="editDiscountDialog"
       :form-schema="discountSchema"
       icon="mdi-ticket-percent"
       :submitText="$t('edit')"
       @submit="editDiscount"
-      :title="$t('_discount.labels.edit')"/>
+      :title="$t('_discount.labels.edit')">
+      <!-- TODO: Try to connect the buttons together as with the Save / Reset buttons. -->
+      <template v-slot:code-after>
+        <v-btn class="mb-4 higher"
+               outlined small color="secondary" @click="generateCode(true)">
+          <v-icon left>mdi-code-greater-than</v-icon>
+          <span>{{ $t('generate') }}</span>
+        </v-btn>
+        <v-btn class="mb-4 higher"
+               :disabled="!hasNameAndPercentage"
+               outlined small color="secondary" @click="generateCode(false)">
+          <v-icon>mdi-code-greater-than-or-equal</v-icon>
+        </v-btn>
+      </template>
+    </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteDiscountDialog"
       @submit="deleteDiscount"/>
@@ -202,6 +230,17 @@ export default {
         this.$refs.deleteDiscountDialog.setError(err);
       });
     },
+    generateCode(random) {
+      const data = this.$refs.createDiscountDialog.getData();
+      let code = null;
+      if (random) {
+        code = Array.from({ length: 4 }, () => Math.random().toString(36).substring(2, 6)).join('-');
+      } else {
+        code = `${data.name}-${Math.random().toString(36).substring(2, 6)}-${data.percentage}`;
+      }
+      data.code = code;
+      this.$refs.createDiscountDialog.setData(data);
+    },
     showEditDialog(discount) {
       const data = { ...discount };
 
@@ -209,9 +248,20 @@ export default {
       this.$refs.editDiscountDialog.show(discount);
     },
   },
+  computed: {
+    hasNameAndPercentage() {
+      const data = this.$refs.createDiscountDialog.getData();
+      if (data.name && data.percentage) {
+        return true;
+      }
+      return false;
+    },
+  },
 };
 </script>
 
 <style scoped>
-
+.higher {
+  margin-top: -0.75rem;
+}
 </style>
