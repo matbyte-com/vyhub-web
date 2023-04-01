@@ -161,11 +161,13 @@ export default Vue.extend({
           // set colors, logo and more
           this.$vuetify.theme.currentTheme.primary = theme.primary;
           this.$vuetify.theme.currentTheme.success = theme.success;
+          this.$vuetify.theme.currentTheme.secondary = theme.secondary;
           this.$vuetify.theme.currentTheme.warning = theme.warning;
           this.$vuetify.theme.currentTheme.error = theme.error;
           this.$vuetify.theme.currentTheme.header = theme.header;
           this.showInformationFab = theme.show_information_fab;
           cachedTheme.primary = theme.primary;
+          cachedTheme.secondary = theme.secondary;
           cachedTheme.success = theme.success;
           cachedTheme.warning = theme.warning;
           cachedTheme.error = theme.error;
@@ -202,6 +204,7 @@ export default Vue.extend({
         this.$vuetify.theme.currentTheme.warning = obj.warning;
         this.$vuetify.theme.currentTheme.error = obj.error;
         this.$vuetify.theme.currentTheme.header = obj.header;
+        this.$vuetify.theme.currentTheme.secondary = obj.secondary;
         this.showInformationFab = obj.show_information_fab;
       }
     },

@@ -36,7 +36,7 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
-          <v-btn icon color="accent" small @click="copyPacket(item)" class="mr-1">
+          <v-btn icon color="secondary" small @click="copyPacket(item)" class="mr-1">
             <v-icon small>
               mdi-content-copy
             </v-icon>

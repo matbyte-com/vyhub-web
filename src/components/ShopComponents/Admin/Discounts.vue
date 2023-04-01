@@ -81,14 +81,14 @@
       :submitText="$t('create')"
       @submit="createDiscount"
       :title="$t('_discount.labels.create')">
-      <!-- TODO: Try to connect the buttons together as with the Save / Reset buttons. -->
       <template v-slot:code-after>
         <v-btn class="mb-4 higher"
+               style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
           outlined small color="secondary" @click="generateCode(true)">
           <v-icon left>mdi-code-greater-than</v-icon>
           <span>{{ $t('generate') }}</span>
         </v-btn>
-        <v-btn class="mb-4 higher"
+        <v-btn class="mb-4 higher" style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
                :disabled="!hasNameAndPercentage"
                outlined small color="secondary" @click="generateCode(false)">
           <v-icon>mdi-code-greater-than-or-equal</v-icon>
@@ -102,14 +102,14 @@
       :submitText="$t('edit')"
       @submit="editDiscount"
       :title="$t('_discount.labels.edit')">
-      <!-- TODO: Try to connect the buttons together as with the Save / Reset buttons. -->
       <template v-slot:code-after>
         <v-btn class="mb-4 higher"
+               style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
                outlined small color="secondary" @click="generateCode(true)">
           <v-icon left>mdi-code-greater-than</v-icon>
           <span>{{ $t('generate') }}</span>
         </v-btn>
-        <v-btn class="mb-4 higher"
+        <v-btn class="mb-4 higher" style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
                :disabled="!hasNameAndPercentage"
                outlined small color="secondary" @click="generateCode(false)">
           <v-icon>mdi-code-greater-than-or-equal</v-icon>
