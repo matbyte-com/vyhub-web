@@ -112,7 +112,7 @@ export default {
       window.location.href = AuthService.getSocialAuthUrl(
         backend.id,
         this.$route.query.return_url,
-        (this.authRequest != null ? this.authRequest.id : null),
+        (this.authRequest != null ? this.authRequest.validation_uuid : null),
       );
     },
     async startSocial(backend) {
@@ -144,7 +144,7 @@ export default {
 
         let errCount = 0;
         this.intervalId = setInterval(() => {
-          api.auth_getAuthRequest({ uuid: this.authRequest.id }).then((rsp2) => {
+          api.auth_getAuthRequest({ uuid: this.authRequest.validation_uuid }).then((rsp2) => {
             this.authRequest = rsp2.data;
             errCount = 0;
 
