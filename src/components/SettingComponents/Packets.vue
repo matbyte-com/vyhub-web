@@ -217,6 +217,7 @@ export default {
     },
     async copyPacket(packet) {
       const data = { ...packet };
+      data.enabled = false;
       data.buyable = false;
       data.currency_code = data.currency.code;
       await this.addPacket(data);
