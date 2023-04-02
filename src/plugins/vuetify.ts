@@ -22,8 +22,6 @@ import {
 import minifyTheme from 'minify-css-string';
 import '@mdi/font/css/materialdesignicons.css';
 import VyHubIcon from '@/components/Icons/VyHub.vue';
-import DiscordIcon from '@/components/Icons/Discord.vue';
-import SteamIcon from '@/components/Icons/Steam.vue';
 import TeamspeakIcon from '@/components/Icons/Teamspeak.vue';
 
 Vue.use(Vuetify);
