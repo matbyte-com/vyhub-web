@@ -364,6 +364,11 @@ export default {
       const api = await openapi;
 
       const data = this.$refs.createServerDialog.getData();
+
+      if (Object.keys(data.secrets).length === 0) {
+        delete data.secrets;
+      }
+
       api.server_createServer(null, data).then(() => {
         this.fetchData();
         this.$refs.createServerDialog.closeAndReset();
@@ -438,6 +443,10 @@ export default {
         if (data.secrets?.password === '***') {
           delete data.secrets.password;
         }
+      }
+
+      if (Object.keys(data.secrets).length === 0) {
+        delete data.secrets;
       }
 
       (await openapi).server_editServer(server.id, data).then(() => {
