@@ -1,6 +1,13 @@
 <template>
   <div v-if="allProperties">
-    <span class="subtitle-1">{{ label }}</span>
+    <div class="d-flex align-center">
+      <span class="subtitle-1">{{ label }}</span>
+      <v-spacer />
+      <v-btn @click="selectAll()" outlined color="secondary" small>
+        <v-icon left>mdi-expand-all</v-icon>
+          {{ $t('selectAll') }}
+      </v-btn>
+    </div>
     <v-expansion-panels class="mt-1">
       <v-expansion-panel v-for="(category, index) in allProperties" :key="index">
         <v-expansion-panel-header>
@@ -54,6 +61,15 @@ export default {
     },
     change() {
       this.on.input(this.properties);
+    },
+    selectAll() {
+      const res = [];
+      this.allProperties.forEach((category) => {
+        category[Object.keys(category)[0]].forEach((prop) => {
+          res.push(prop.name);
+        });
+      });
+      this.properties = res;
     },
   },
 };
