@@ -201,7 +201,7 @@ export default {
         if (rsp.data) {
           this.topic = rsp.data;
           this.breadcrumbs = [
-            { text: this.$t('_forum.forum'), to: { name: 'Forum' } },
+            { text: this.$t('_forum.title'), to: { name: 'Forum' } },
             {
               text: this.topic.topic_category.title,
               to: { name: 'ForumCategory', params: { id: this.topic.topic_category.id } },
