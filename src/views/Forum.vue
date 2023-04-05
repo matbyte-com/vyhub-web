@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex">
-      <PageTitle icon="mdi-forum">{{ $t('_forum.title') }}</PageTitle>
+      <PageTitle icon="mdi-forum">{{ $t('_forum.forum') }}</PageTitle>
       <v-spacer/>
       <div v-if="$checkProp('forum_edit')" class="d-flex flex-column">
         <v-btn class="" color="success" small
