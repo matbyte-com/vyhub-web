@@ -167,11 +167,11 @@
               <tbody>
                 <tr v-for="protest in currentBan.protests"
                     :key="protest.id" style="cursor: pointer;"
-                    @click="$router.push({ name: 'Thread', params: { id: protest.id } })">
+                    @click="$router.push({ name: 'TicketThread', params: { id: protest.id } })">
                   <td>{{ utils.formatDate(protest.created) }}</td>
                   <td class="text-right text-uppercase">
                     <v-chip :color="protest.status === 'OPEN' ? 'success' : 'error'">
-                    {{ $t(`_ticket.status.${protest.status.toLowerCase()}`) }}
+                    {{ $t(`_forum.status.${protest.status.toLowerCase()}`) }}
                     </v-chip>
                   </td>
                 </tr>
@@ -327,7 +327,7 @@ export default {
       (await openapiCached).server_getBundles().then((rsp) => { this.bundles = rsp.data; });
     },
     banRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
+      const add = (this.$vuetify.theme.dark ? 'darken-4' : '');
 
       if (item.active) {
         if (item.serverbundle == null) {

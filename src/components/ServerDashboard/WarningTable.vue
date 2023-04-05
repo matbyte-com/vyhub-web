@@ -92,7 +92,7 @@ export default {
   props: ['warnings', 'totalItems', 'user', 'serverbundle'],
   methods: {
     warningRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
+      const add = (this.$vuetify.theme.dark ? 'darken-4' : '');
 
       if (item.disabled) {
         return `gray ${add}`;
