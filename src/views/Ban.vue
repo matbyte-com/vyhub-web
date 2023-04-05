@@ -448,12 +448,12 @@ export default {
     async protestBan() {
       const data = this.$refs.protestBanDialog.getData();
       data.ban_id = this.currentBan.id;
-      data.title = `${this.$t('_ticket.banProtest')}: ${this.currentBan.user.username}`;
+      data.title = `${this.$t('_forum.banProtest')}: ${this.currentBan.user.username}`;
       (await openapi).forum_createThread(null, data).then(() => {
         this.$refs.protestBanDialog.close();
         this.fetchData();
         this.$notify({
-          title: this.$t('_ticket.messages.addedThread'),
+          title: this.$t('_forum.messages.addedThread'),
           type: 'success',
         });
       }).catch((err) => {
