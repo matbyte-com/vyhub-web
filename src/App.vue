@@ -18,6 +18,7 @@
             </transition>
           </v-card-text>
         </v-card>
+        <Chat />
       </v-container>
     </v-main>
 
@@ -88,6 +89,7 @@ import openapi from '@/api/openapi';
 import VueNotification from '@/components/VueNotification.vue';
 import i18n from '@/plugins/i18n';
 import ForumService from '@/services/ForumService';
+import Chat from '@/components/Chat.vue';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
@@ -102,6 +104,7 @@ export default Vue.extend({
     VueNotification,
     TheHeader,
     TheFooter,
+    Chat,
   },
 
   data: () => ({
