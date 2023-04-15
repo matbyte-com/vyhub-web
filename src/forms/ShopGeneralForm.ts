@@ -23,6 +23,13 @@ export default {
       minimum: '0',
       'x-cols': 6,
     },
+    top_donators_enabled: {
+      type: 'boolean',
+      'x-display': 'switch',
+      title: i18n.t('_shop.labels.enableTopDonators'),
+      description: i18n.t('_shop.labels.enableTopDonatorsDescription'),
+      default: 'true',
+    },
     tax_allow_unknown: {
       type: 'boolean',
       title: i18n.t('_shop.labels.taxAllowUnknown'),

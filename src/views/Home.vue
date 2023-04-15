@@ -41,6 +41,15 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
 
+          <v-expansion-panel v-if="topDonators.length > 0">
+            <v-expansion-panel-header>
+              {{ $t('_shop.labels.topDonators') }}
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <TopDonators :topDonators="topDonators" :currency="donationGoal.currency" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+
           <v-expansion-panel>
             <v-expansion-panel-header>
               {{ $t('_user.labels.newUsers') }}
@@ -164,6 +173,11 @@
               <DonationGoal :donationGoal="donationGoal" />
             </v-col>
           </v-row>
+          <v-row v-if="topDonators.length > 0">
+            <v-col>
+              <TopDonators :topDonators="topDonators" :currency="donationGoal.currency" />
+            </v-col>
+          </v-row>
           <v-row>
             <v-col>
               <NewUsers></NewUsers>
@@ -185,12 +199,14 @@ import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
 import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
 import PageTitle from '@/components/PageTitle.vue';
 import Editor from '@/components/Editor.vue';
+import TopDonators from '@/components/HomeComponents/TopDonators.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';
 import config from '../config';
 import i18n from '../plugins/i18n';
 
 export default {
   components: {
+    TopDonators,
     Editor,
     PageTitle,
     NewUsers,
@@ -209,6 +225,7 @@ export default {
       messageAddSchema: NewsAddForm,
       statusColumnWidth: 250,
       donationGoal: {},
+      topDonators: {},
       maxInputLength: 10000,
       message: '',
     };
@@ -218,6 +235,7 @@ export default {
     this.scroll();
     this.setWidth();
     this.getDonationGoalStatus();
+    this.getTopDonators();
   },
   methods: {
     async fetchNews(page) {
@@ -315,6 +333,11 @@ export default {
     async getDonationGoalStatus() {
       (await openapi).shop_getDonationGoal().then((rsp) => {
         this.donationGoal = rsp.data;
+      });
+    },
+    async getTopDonators() {
+      (await openapi).shop_getTopDonators().then((rsp) => {
+        this.topDonators = rsp.data;
       });
     },
   },
