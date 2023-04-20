@@ -102,6 +102,18 @@
                 </v-card-text>
               </v-card>
             </v-col>
+            <v-col xl="12" lg="12" md="8" sm="12">
+              <v-card v-if="purchaseStats != null">
+                <v-card-title>
+                  <v-icon left>mdi-gift-open</v-icon>
+                  {{ $t('_purchases.labels.revenueByCategory') }}
+                </v-card-title>
+                <v-card-text>
+                  <PurchaseCategoryChart :currency="currentCurrency" :data="categoryStats"
+                  />
+                </v-card-text>
+              </v-card>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -110,6 +122,7 @@
 </template>
 
 <script>
+import PurchaseCategoryChart from '@/components/Charts/PurchaseCategoryChart.vue';
 import DebitChart from '../../Charts/DebitChart.vue';
 import openapi from '../../../api/openapi';
 import openapiCached from '../../../api/openapiCached';
@@ -117,13 +130,14 @@ import PurchaseCountryChart from '../../Charts/PurchaseCountryChart.vue';
 
 export default {
   name: 'Statistics',
-  components: { PurchaseCountryChart, DebitChart },
+  components: { PurchaseCategoryChart, PurchaseCountryChart, DebitChart },
   data() {
     return {
       debitStats: null,
       purchaseStats: null,
       currencies: null,
       currentCurrency: null,
+      categoryStats: null,
       intervalItems: [
         {
           name: this.$t('perDay'),
@@ -194,6 +208,13 @@ export default {
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
+      });
+      api.shop_getPacketCategoryStatistic({
+        currency_code: this.currentCurrency.code,
+      }).then((rsp) => {
+        this.categoryStats = rsp.data;
+      }).catch((err) => {
+        console.log(err);
       });
     },
   },
