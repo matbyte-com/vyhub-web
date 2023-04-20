@@ -66,7 +66,7 @@
       </v-menu>
     </v-fade-transition>
 
-    <!-- floating button to show help-->
+    <!-- floating reminder to set-up legal-->
     <router-link to="settings/legal" class="text-center" v-if="showLegalReminder">
       <v-alert dark style="left: 50%; top: 10%; margin-left: -150px; position: fixed"
                width="300px" class="red darken-2"
