@@ -30,21 +30,24 @@
                 <span class="ml-2 mr-2">{{ value }}</span>
                 <v-divider/>
               </v-list-item>
-              <v-list-item v-for="message in messages[value]" :key="message.id"
-                           class="text-sm-body-1">
-                <v-row no-gutters>
-                  <v-col cols="5" class="d-flex align-center" style="overflow: hidden">
-                    <div>
-                      {{
-                        new Date(message.created_on).toLocaleTimeString([],
-                          {hour: '2-digit', minute: '2-digit'})
-                      }}
-                    </div>
-                    <UserLink class="ml-1" :small="true" :user="message.user"/>
-                  </v-col>
-                  <v-col class="ml-3">{{ message.message }}</v-col>
-                </v-row>
-              </v-list-item>
+              <div v-for="(message, key) in messages[value]" :key="message.id">
+                <v-divider v-if="key !== 0"/>
+                <v-list-item
+                             class="text-sm-body-1">
+                  <v-row no-gutters>
+                    <v-col cols="5" class="d-flex align-center" style="overflow: hidden">
+                      <div>
+                        {{
+                          new Date(message.created_on).toLocaleTimeString([],
+                            {hour: '2-digit', minute: '2-digit'})
+                        }}
+                      </div>
+                      <UserLink class="ml-1" :small="true" :user="message.user"/>
+                    </v-col>
+                    <v-col class="ml-3">{{ message.message }}</v-col>
+                  </v-row>
+                </v-list-item>
+              </div>
             </div>
           </v-list>
           <div v-if="$store.getters.isLoggedIn">
