@@ -20,7 +20,7 @@
                          params: {id: donator.user.id}}">
                 <v-avatar size="55" v-bind="attrs"
                           v-on="on" :style="`margin-right: -10px; z-index: ${100-index}`">
-                  <v-img src="donator.user.avatar"
+                  <v-img :src="donator.user.avatar"
                          lazy-src="https://vyhub.b-cdn.net/vyhub/avatars/default.png"
                          alt="Avatar" />
                 </v-avatar>
