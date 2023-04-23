@@ -168,19 +168,21 @@
               <ServerStatus ref="ServerStatus"/>
             </v-col>
           </v-row>
-          <v-row v-if="donationGoal.enabled">
+          <v-row v-if="$store.getters.shopConfig &&
+           $store.getters.shopConfig.donation_goal_enabled">
             <v-col>
-              <DonationGoal :donationGoal="donationGoal" />
+              <DonationGoal />
             </v-col>
           </v-row>
-          <v-row v-if="topDonators.length > 0">
+          <v-row v-if="$store.getters.shopConfig &&
+           $store.getters.shopConfig.top_donators_enabled">
             <v-col>
-              <TopDonators :topDonators="topDonators" :currency="donationGoal.currency" />
+              <TopDonators />
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <NewUsers></NewUsers>
+              <NewUsers />
             </v-col>
           </v-row>
         </div>
@@ -234,8 +236,6 @@ export default {
     this.fetchNews();
     this.scroll();
     this.setWidth();
-    this.getDonationGoalStatus();
-    this.getTopDonators();
   },
   methods: {
     async fetchNews(page) {
@@ -329,16 +329,6 @@ export default {
     },
     setWidth() {
       this.statusColumnWidth = this.$refs.StatusCol.clientWidth;
-    },
-    async getDonationGoalStatus() {
-      (await openapi).shop_getDonationGoal().then((rsp) => {
-        this.donationGoal = rsp.data;
-      });
-    },
-    async getTopDonators() {
-      (await openapi).shop_getTopDonators().then((rsp) => {
-        this.topDonators = rsp.data;
-      });
     },
   },
   computed: {

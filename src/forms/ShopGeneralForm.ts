@@ -30,6 +30,19 @@ export default {
       description: i18n.t('_shop.labels.enableTopDonatorsDescription'),
       default: 'true',
     },
+    donation_goal_display_title: {
+      type: 'string',
+      title: i18n.t('_shop.labels.donationGoalDisplayTitle'),
+      default: 'Donation Goal',
+      'x-cols': 5,
+    },
+    top_donators_display_title: {
+      type: 'string',
+      title: i18n.t('_shop.labels.topDonatorDisplayTitle'),
+      default: 'Donation Goal',
+      'x-cols': 5,
+      'x-style': 'margin-left: auto; margin-right: 0px;',
+    },
     tax_allow_unknown: {
       type: 'boolean',
       title: i18n.t('_shop.labels.taxAllowUnknown'),
