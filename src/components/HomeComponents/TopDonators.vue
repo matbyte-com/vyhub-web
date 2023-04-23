@@ -20,9 +20,9 @@
                          params: {id: donator.user.id}}">
                 <v-avatar size="55" v-bind="attrs"
                           v-on="on" :style="`margin-right: -10px; z-index: ${100-index}`">
-                  <img :src="donator.user.avatar"
-                       v-on:error="donator.user.avatar='https://vyhub.b-cdn.net/vyhub/avatars/default.png'"
-                       alt="Avatar">
+                  <v-img src="donator.user.avatar"
+                         lazy-src="https://vyhub.b-cdn.net/vyhub/avatars/default.png"
+                         alt="Avatar" />
                 </v-avatar>
               </router-link>
             </template>
@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       topDonators: null,
+      key: 0,
     };
   },
   beforeMount() {

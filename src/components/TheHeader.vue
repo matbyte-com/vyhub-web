@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="header" dark>
+  <v-app-bar app color="header" dark style="z-index: 999;">
     <!-- burger menu on the left-->
     <div class="hidden-md-and-up">
       <BurgerMenu
