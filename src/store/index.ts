@@ -14,6 +14,7 @@ const getDefaultState = () => ({
   cartPacketCount: 0,
   creditAccount: null,
   generalConfig: null,
+  shopConfig: null,
   navItems: null,
   theme: null,
 });
@@ -33,6 +34,7 @@ export default new Vuex.Store({
     cartPacketCount: (state) => state.cartPacketCount,
     creditAccount: (state) => state.creditAccount,
     generalConfig: (state) => state.generalConfig,
+    shopConfig: (state) => state.shopConfig,
     navItems: (state) => state.navItems,
     theme: (state) => state.theme,
   },
@@ -62,6 +64,9 @@ export default new Vuex.Store({
     },
     SET_GENERAL_CONFIG: (state, general_config) => {
       state.generalConfig = general_config;
+    },
+    SET_SHOP_CONFIG: (state, shop_config) => {
+      state.shopConfig = shop_config;
     },
     SET_NAV_ITEMS: (state, nav_items) => {
       state.navItems = nav_items;

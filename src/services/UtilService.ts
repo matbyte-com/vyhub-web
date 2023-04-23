@@ -110,6 +110,14 @@ export default {
             throw err;
           });
         },
+        async getShopConfig() {
+          (await openapi).shop_getConfig().then((rsp) => {
+            store.commit('SET_SHOP_CONFIG', rsp.data);
+          }).catch((err) => {
+            console.log('Could not get Shop Settings');
+            throw err;
+          });
+        },
         setIntervalX(callback: CallableFunction, delay: number, repetitions: number) {
           let x = 0;
           const intervalID = window.setInterval(() => {

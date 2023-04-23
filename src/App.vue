@@ -120,6 +120,7 @@ export default Vue.extend({
     SessionService.registerSessionService();
     this.setTheme();
     this.getGeneralConfig();
+    this.getShopConfig();
     this.setLocale();
     this.background = this.$vuetify.theme.currentTheme.background;
     // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
@@ -135,6 +136,9 @@ export default Vue.extend({
       await this.utils.getGeneralConfig();
       this.setLocale();
       this.setDescriptionMetaTag();
+    },
+    async getShopConfig() {
+      await this.utils.getShopConfig();
     },
     async setTheme() {
       (await openapi).general_getTheme().then((rsp) => {
