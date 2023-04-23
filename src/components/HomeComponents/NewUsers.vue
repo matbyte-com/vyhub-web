@@ -12,7 +12,7 @@
         <v-col cols="3" md="6" lg="6" xl="3" v-for="u in newUsers" v-bind:key="u.id">
           <v-card
             class="mt-2" @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })">
-            <v-img :src="u.avatar"></v-img>
+            <v-img :src="u.avatar" v-on:error="u.avatar='https://vyhub.b-cdn.net/vyhub/avatars/default.png'" />
             <v-card-subtitle class="pa-2 text-center">
               {{ u.username }}
             </v-card-subtitle>

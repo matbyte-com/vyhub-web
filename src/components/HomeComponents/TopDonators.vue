@@ -20,7 +20,9 @@
                          params: {id: donator.user.id}}">
                 <v-avatar size="55" v-bind="attrs"
                           v-on="on" :style="`margin-right: -10px; z-index: ${100-index}`">
-                  <img :src="donator.user.avatar" alt="Avatar">
+                  <img :src="donator.user.avatar"
+                       v-on:error="donator.user.avatar='https://vyhub.b-cdn.net/vyhub/avatars/default.png'"
+                       alt="Avatar">
                 </v-avatar>
               </router-link>
             </template>
