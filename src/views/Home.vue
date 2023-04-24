@@ -32,21 +32,23 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
 
-          <v-expansion-panel v-if="donationGoal.enabled">
+          <v-expansion-panel v-if="$store.getters.shopConfig &&
+           $store.getters.shopConfig.donation_goal_enabled">
             <v-expansion-panel-header>
-              {{ $t('_shop.labels.donationGoal') }}
+              {{ shopConfig.donation_goal_display_title }}
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <DonationGoal :donationGoal="donationGoal" />
+              <DonationGoal />
             </v-expansion-panel-content>
           </v-expansion-panel>
 
-          <v-expansion-panel v-if="topDonators.length > 0">
+          <v-expansion-panel v-if="$store.getters.shopConfig &&
+           $store.getters.shopConfig.top_donators_enabled">
             <v-expansion-panel-header>
-              {{ $t('_shop.labels.topDonators') }}
+              {{ shopConfig.top_donators_display_title }}
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <TopDonators :topDonators="topDonators" :currency="donationGoal.currency" />
+              <TopDonators />
             </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -226,8 +228,6 @@ export default {
       fetching: false,
       messageAddSchema: NewsAddForm,
       statusColumnWidth: 250,
-      donationGoal: {},
-      topDonators: {},
       maxInputLength: 10000,
       message: '',
     };
@@ -337,6 +337,9 @@ export default {
     },
     getNewsOfTheDay() {
       return this.news.filter((n) => n.type === 'PINNED');
+    },
+    shopConfig() {
+      return this.$store.getters.shopConfig;
     },
   },
   created() {

@@ -29,11 +29,11 @@
     <v-spacer></v-spacer>
     <Search class="mr-2"/>
     <Notification v-if="$store.getters.isLoggedIn"/>
-    <div class="hidden-xs-only">
+    <div class="hidden-sm-and-down">
       <HelpCircle :menu-links="allowedHelpCircleLinks"/>
     </div>
     <!-- profile icon with dropdown or login-->
-    <div class="hidden-xs-only">
+    <div class="hidden-sm-and-down">
       <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
         <Credits/>
         <ShoppingCart/>

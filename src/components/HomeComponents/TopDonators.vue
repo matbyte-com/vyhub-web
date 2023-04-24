@@ -10,9 +10,10 @@
         </v-row>
       </v-card-title>
       <v-card-text v-if="topDonators.donators.length > 0">
-        <div class="d-flex align-center overflow-hidden mt-3">
-        <span class="mr-2 subtitle-1">
-          {{ topDonators.donators[0].purchases_total }} {{ currencySymbol }}
+        <div class="d-flex align-center mt-3" style="overflow-x: auto">
+          <v-spacer/>
+          <span class="mr-2 subtitle-1 text-no-wrap">
+          {{ Math.round(topDonators.donators[0].purchases_total) }} {{ currencySymbol }}
         </span>
           <v-tooltip bottom v-for="(donator, index) in topDonators.donators" :key="donator.user.id">
             <template v-slot:activator="{ on, attrs }">
@@ -21,8 +22,8 @@
                 <v-avatar size="55" v-bind="attrs"
                           v-on="on" :style="`margin-right: -10px; z-index: ${100-index}`">
                   <v-img :src="donator.user.avatar"
-                         lazy-src="https://vyhub.b-cdn.net/vyhub/avatars/default.png"
-                         alt="Avatar" />
+                         lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
+                         alt="Avatar"/>
                 </v-avatar>
               </router-link>
             </template>
@@ -30,15 +31,16 @@
             {{ donator.user.username }} {{ donator.purchases_total }} {{ currencySymbol }}
           </span>
           </v-tooltip>
-          <span style="margin-left: 18px" class="subtitle-1">
-          {{ topDonators.donators[topDonators.donators.length -1].purchases_total }}
+          <span style="margin-left: 18px" class="subtitle-1 text-no-wrap">
+          {{ Math.round(topDonators.donators[topDonators.donators.length - 1].purchases_total) }}
            {{ currencySymbol }}
-        </span>
+          </span>
+          <v-spacer/>
         </div>
       </v-card-text>
-      <v-card-text v-else />
+      <v-card-text v-else/>
     </v-card>
-    <v-skeleton-loader v-else type="card" />
+    <v-skeleton-loader v-else type="card"/>
   </div>
 </template>
 
