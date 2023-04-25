@@ -32,6 +32,13 @@ function form(forum_enabled = false) {
         readOnly: !forum_enabled,
         default: false,
       },
+      enable_chat: {
+        type: 'boolean',
+        title: i18n.t('_settings.showChat'),
+        'x-display': 'switch',
+        readOnly: !forum_enabled,
+        default: false,
+      },
       enable_team: {
         type: 'boolean',
         title: i18n.t('_settings.showTeam'),

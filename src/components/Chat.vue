@@ -6,7 +6,7 @@
           <div style="position: fixed; left: 0; bottom: 0; z-index: 150">
             <v-badge v-if="!menu" overlap :content="newMessages" :value="newMessages">
               <v-btn v-bind="attrs" v-on="on" class="ml-3 mb-3" @click="newMessages = 0">
-                <v-icon left>mdi-chat</v-icon>
+                <v-icon left :color="connected ? '' : 'error'">mdi-chat</v-icon>
                 {{ $t('chat') }}
               </v-btn>
             </v-badge>
@@ -15,8 +15,11 @@
       </template>
       <v-card width="500px" @click.stop flat>
         <v-card-title class="primary white--text" >
-          <v-icon color="white" left>mdi-chat</v-icon>
+          <v-icon :color="iconColor" left>mdi-chat</v-icon>
           {{ $t('chat') }}
+          <v-btn v-if="!connected" outlined small class="ml-3" color="error" @click="connect">
+            {{ $t('_chat.reconnect') }}
+          </v-btn>
           <v-spacer />
           <v-icon large color="white" @click="menu = false">mdi-close</v-icon>
         </v-card-title>
@@ -46,6 +49,8 @@
                     </v-col>
                     <v-col class="ml-3">{{ message.message }}</v-col>
                   </v-row>
+                  <v-icon v-if="$checkProp('chat_edit')"
+                          color="error" @click="deleteMessage(message.id)">mdi-delete</v-icon>
                 </v-list-item>
               </div>
             </div>
@@ -55,7 +60,7 @@
               @click.stop
               v-model="message"
               @keydown.space.stop
-              label="Message"
+              :label="$t('message')"
               single-line
               hide-details
               @keydown.enter="sendMessage">
@@ -65,6 +70,9 @@
                 </v-icon>
               </template>
             </v-text-field>
+          </div>
+          <div v-else>
+            <v-text-field disabled hide-details single-line :label="$t('_chat.loginRequired')"/>
           </div>
         </v-card-text>
       </v-card>
@@ -85,16 +93,22 @@ export default {
     return {
       messages: null,
       message: '',
-      connection: '',
+      connection: null,
       menu: false,
       newMessages: 0,
+      connected: false,
     };
   },
   mounted() {
     this.connect();
-    this.fetchData();
+    this.timer();
   },
   methods: {
+    timer() {
+      // fetch Messages every five minutes, to sync chat when messages get deleted
+      this.fetchData();
+      setTimeout(() => this.timer(), 1000 * 60 * 5);
+    },
     connect() {
       const backendURL = config.backend_url;
       this.connection = new WebSocket('ws://localhost:5050/v1/chat/ws');
@@ -110,6 +124,12 @@ export default {
 
       this.connection.onopen = (event) => {
         console.log('Chat Connected');
+        this.connected = true;
+      };
+
+      this.connection.onclose = (event) => {
+        console.log('Chat Disconnected');
+        this.connected = false;
       };
     },
     async sendMessage() {
@@ -120,6 +140,17 @@ export default {
         message: this.message,
       }).then(() => {
         this.message = '';
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    async deleteMessage(id) {
+      (await openapi).chat_deleteMessage(id).then(() => {
+        this.fetchData();
+        this.$notify({
+          type: 'success',
+          text: this.$t('_chat.messages.messageDeleted'),
+        });
       }).catch((err) => {
         console.log(err);
       });
@@ -140,6 +171,11 @@ export default {
         res[key] = value.reverse();
       });
       this.messages = res;
+    },
+  },
+  computed: {
+    iconColor() {
+      return this.connected ? 'success' : 'error';
     },
   },
 };

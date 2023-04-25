@@ -18,7 +18,7 @@
             </transition>
           </v-card-text>
         </v-card>
-        <Chat />
+        <Chat v-if="$store.getters.generalConfig && $store.getters.generalConfig.enable_chat"/>
       </v-container>
     </v-main>
 
