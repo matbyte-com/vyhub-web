@@ -26,7 +26,7 @@
         <v-card-text>
           <v-skeleton-loader v-if="!messages" type="list-item@3"/>
           <v-list dense class="pt-0 d-flex flex-column-reverse" style="overflow: auto"
-                  max-height="300px">
+                  height="300px">
             <div v-for="(key, value) in messages" :key="key+1">
               <v-list-item>
                 <v-divider/>
@@ -35,19 +35,25 @@
               </v-list-item>
               <div v-for="(message, key) in messages[value]" :key="message.id">
                 <v-divider v-if="key !== 0"/>
-                <v-list-item
-                             class="text-sm-body-1">
+                <v-list-item dense class="text-sm-body-1 pl-1 pr-1">
                   <v-row no-gutters>
-                    <v-col cols="5" class="d-flex align-center" style="overflow: hidden">
-                      <div>
+                    <v-col cols="4" class="d-flex align-center" style="overflow: hidden">
+                      <router-link :to="{ name: 'UserDashboard', params: { id: message.user.id } }">
+                        <v-avatar size="40" class="mt-1 mb-1">
+                          <v-img :src="message.user.avatar" :alt="message.user.username"
+                                 lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"/>
+                        </v-avatar>
+                      </router-link>
+                      <div class="ml-1">
                         {{
                           new Date(message.created_on).toLocaleTimeString([],
                             {hour: '2-digit', minute: '2-digit'})
                         }}
                       </div>
-                      <UserLink class="ml-1" :small="true" :user="message.user"/>
                     </v-col>
-                    <v-col class="ml-3">{{ message.message }}</v-col>
+                    <v-col class="d-flex align-center mt-1 mb-1">
+                      {{ message.message }}
+                    </v-col>
                   </v-row>
                   <v-icon v-if="$checkProp('chat_edit')"
                           color="error" @click="deleteMessage(message.id)">mdi-delete</v-icon>
@@ -83,11 +89,9 @@
 <script>
 import config from '@/config';
 import openapi from '@/api/openapi';
-import UserLink from '@/components/UserLink.vue';
 
 export default {
   name: 'Chat.vue',
-  components: { UserLink },
   data() {
     return {
       messages: null,
