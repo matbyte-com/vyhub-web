@@ -82,7 +82,6 @@
 
 <script>
 import config from '@/config';
-import store from '@/store';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
 
@@ -110,8 +109,9 @@ export default {
       setTimeout(() => this.timer(), 1000 * 60 * 5);
     },
     connect() {
-      const backendURL = config.backend_url;
-      this.connection = new WebSocket('ws://localhost:5050/v1/chat/ws');
+      // remove protocol from url to replace it with ws://
+      const backendURL = config.backend_url.replace(/(^\w+:|^)\/\//, '');
+      this.connection = new WebSocket(`ws://${backendURL}/chat/ws`);
 
       this.connection.onmessage = (event) => {
         const date = new Date().toLocaleDateString();
