@@ -170,15 +170,7 @@ export default {
     },
     getSteamid32(steamid64) {
       if (!this.user) return '';
-      const v = BigInt('76561197960265728');
-      let w = BigInt(steamid64);
-      const y = (w % 2n).toString();
-
-      w = w - BigInt(y) - v;
-      if (w < 1n) {
-        return false;
-      }
-      return `STEAM_0:${y}:${(w / 2n).toString()}`;
+      return this.utils.getSteamid32(steamid64);
     },
   },
   computed: {

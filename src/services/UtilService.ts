@@ -185,6 +185,27 @@ export default {
           }
           return returnObject;
         },
+        getSteamid32(steamid64: string) {
+          const v = BigInt('76561197960265728');
+          let w = BigInt(steamid64);
+          const y = (w % 2n).toString();
+
+          w = w - BigInt(y) - v;
+          if (w < 1n) {
+            return false;
+          }
+          return `STEAM_0:${y}:${(w / 2n).toString()}`;
+        },
+        getSteamid64(steamid32: string) {
+          const re = /^\s*STEAM_[0-5]:([01]):(\d+)\s*$/;
+          const matches = steamid32.match(re);
+          if (!matches) {
+            console.log('Invalid SteamID32');
+            return steamid32;
+          }
+          return BigInt(matches[2]) * 2n + BigInt(matches[1])
+            + BigInt('76561197960265728');
+        },
       },
     };
   },

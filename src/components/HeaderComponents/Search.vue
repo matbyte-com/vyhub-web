@@ -57,9 +57,6 @@
           </v-list-item>
         </v-list>
       </template>
-      <div ref="element12">
-        123
-      </div>
     </v-autocomplete>
 </template>
 
@@ -76,10 +73,12 @@ export default {
       isLoading: false,
       search: null,
       userTypeIcons: userService.userTypeIcons,
+      isSteam32: false,
     };
   },
   watch: {
-    async search(query) {
+    async search(query_input) {
+      let query = query_input;
       const api = await openapi;
 
       // Items have already been requested
@@ -91,6 +90,13 @@ export default {
         this.items = [];
         return;
       }
+      if (query.match(/^\s*STEAM_[0-5]:[01]:\d+\s*$/)) {
+        this.isSteam32 = true;
+        const steam32 = query.replace(/\s/g, '');
+        query = this.utils.getSteamid64(steam32);
+        console.log(`Converted STEAM ID: ${query}`);
+      }
+
       this.isLoading = true;
 
       // Lazily load input items
@@ -100,6 +106,7 @@ export default {
         console.log(reason);
       }).finally(() => {
         this.isLoading = false;
+        this.isSteam32 = false;
       });
     },
   },
