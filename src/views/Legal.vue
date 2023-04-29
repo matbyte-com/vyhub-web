@@ -2,6 +2,8 @@
   <div>
     <v-card>
       <v-card-text>
+        <!-- Do not remove or alter the following disclaimer.
+         This is against the terms of service of VyHub.-->
         <span class="text--disabled">
           This website is built using the <a target="_blank" href="https://vyhub.net">VyHub</a>
           gameserver and community management system by Matbyte.
@@ -9,6 +11,7 @@
           Only the owner of this VyHub instance (and not Matbyte) is responsible for the
           contents of this webpage.
         </span>
+        <!-- Only the text above -->
         <div class="mt-2 ql-editor" v-html="content"></div>
       </v-card-text>
     </v-card>
