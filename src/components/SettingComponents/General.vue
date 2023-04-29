@@ -2,12 +2,12 @@
   <div>
     <SettingTitle>{{ $t('general') }}</SettingTitle>
     <v-row>
-      <v-col lg="8" xl="6">
+      <v-col cols="12" lg="6">
         <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')" v-if="formSchema"
                  :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true">
           <template v-slot:language-after>
             {{ $t('_settings.languageNewDescriptionText') }}
-            <a href="https://github.com/matbyte-com/vyhub-lang" target="_blank">{{ $t('here') }}</a>!
+            <a href="https://translate.matbyte.com" target="_blank">{{ $t('here') }}</a>!
           </template>
           <template v-slot:enable_forum-before v-if="!forumEnabled">
             <AddOnChip :addonTitle="$t('_forum.forum')"/>
@@ -17,6 +17,12 @@
           </template>
         </GenForm>
       </v-col>
+      <v-col cols="12" lg="6">
+        <GenForm :form-schema="htmlTagSchema" :cancel-text="$t('cancel')"
+                 :submit-text="$t('submit')" ref="htmlTagForm" @submit="saveHtmlTags"
+                 :settings-mode="true">
+        </GenForm>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -24,6 +30,7 @@
 <script>
 import GenForm from '@/components/GenForm.vue';
 import SettingsGeneralFormSchema from '@/forms/SettingsGeneralForm';
+import HtmlTagsForm from '@/forms/HtmlTagsForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import AddOnChip from '@/components/SettingComponents/AddOnChip.vue';
@@ -37,6 +44,7 @@ export default {
     return {
       formSchema: null,
       data: null,
+      htmlTagSchema: HtmlTagsForm,
     };
   },
   beforeMount() {
@@ -51,6 +59,9 @@ export default {
         this.$nextTick(() => {
           this.$refs.form.setData(data);
         });
+      });
+      (await openapi).general_getHtmlMetaTags().then((rsp) => {
+        this.$refs.htmlTagForm.setData(rsp.data);
       });
     },
     async saveData() {
@@ -71,6 +82,18 @@ export default {
         });
       }).catch((err) => {
         this.$refs.form.setError(err);
+      });
+    },
+    async saveHtmlTags() {
+      const data = this.$refs.htmlTagForm.getData();
+      (await openapi).general_editHtmlMetaTags(null, data).then(() => {
+        this.$notify({
+          title: this.$t('settingsSaveSuccess'),
+          type: 'success',
+        });
+        this.$refs.htmlTagForm.setData(data);
+      }).catch((err) => {
+        this.$refs.htmlTagForm.setError(err);
       });
     },
   },
