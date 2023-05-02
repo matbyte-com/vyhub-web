@@ -83,7 +83,7 @@ export default {
       headers: [
         { value: 'color-status', sortable: false, width: '1px' },
         { text: this.$t('_forum.creator'), value: 'creator', sortable: false },
-        { text: this.$t('_forum.title'), value: 'title', sortable: false },
+        { text: this.$t('title'), value: 'title', sortable: false },
         { text: this.$t('_forum.created'), value: 'created' },
         {
           text: this.$t('_forum.last_post'), value: 'last_post', sortable: false, align: 'right',

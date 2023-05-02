@@ -14,8 +14,8 @@ export default {
       title: i18n.t('_settings.communityDescription'),
       description: i18n.t('_settings.communityDescriptionDescr'),
     },
-    favicon: {
-      type: ['string', null],
+    favicon_url: {
+      type: ['string', 'null'],
       title: 'Favicon',
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
@@ -24,9 +24,9 @@ export default {
       },
       description: i18n.t('_settings.communityDescriptionDescr'),
     },
-    image: {
-      type: ['string', null],
-      title: i18n.t('image'),
+    image_url: {
+      type: ['string', 'null'],
+      title: i18n.t('_settings.imageUrl'),
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,

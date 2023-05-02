@@ -182,14 +182,14 @@ export default {
       if (this.$vuetify.breakpoint.mdAndUp) {
         return [
           { text: this.$t('_forum.creator'), value: 'creator', sortable: false },
-          { text: this.$t('_forum.title'), value: 'title', sortable: false },
+          { text: this.$t('title'), value: 'title', sortable: false },
           { text: this.$t('_forum.created'), value: 'created' },
           { value: 'total_posts', sortable: false },
           { text: this.$t('_forum.last_post'), value: 'last_post', align: 'right' },
         ];
       }
       return [
-        { text: this.$t('_forum.title'), value: 'title_sm', sortable: false },
+        { text: this.$t('title'), value: 'title_sm', sortable: false },
         { text: this.$t('_forum.last_post'), value: 'last_post_sm', align: 'right' },
       ];
     },
@@ -201,7 +201,7 @@ export default {
         if (rsp.data) {
           this.topic = rsp.data;
           this.breadcrumbs = [
-            { text: this.$t('_forum.title'), to: { name: 'Forum' } },
+            { text: this.$t('title'), to: { name: 'Forum' } },
             {
               text: this.topic.topic_category.title,
               to: { name: 'ForumCategory', params: { id: this.topic.topic_category.id } },
