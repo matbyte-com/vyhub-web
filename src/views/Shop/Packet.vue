@@ -13,17 +13,23 @@
                 {{ $t('summary') }}
               </v-card-title>
               <v-card-text>
-                <v-img
-                  :src="packet.image_url"
-                ></v-img>
+                <v-img :src="packet.image_url">
+                  <div class="d-flex" style="height: 100%">
+                    <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2
+                           font-weight-bold white--text"
+                           style="text-shadow: #000000 2px 2px 2px;"
+                           v-if="packet.title_in_image">
+                      {{ packet.title_in_image }}
+                    </v-row>
+                  </div>
+                </v-img>
                 <v-alert
                   dense
                   text
                   color="info"
                   outlined
                   class="font-weight-bold text-center mt-2"
-                  v-if="packet.active_for != null"
-                >
+                  v-if="packet.active_for != null">
                   <v-icon color="info" left>
                     mdi-clock-end
                   </v-icon>

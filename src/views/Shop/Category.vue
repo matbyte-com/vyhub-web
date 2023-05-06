@@ -23,8 +23,27 @@
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                   contain
                   max-height="300px"
-                  min-height="150px"
-                >
+                  min-height="150px">
+                  <div class="d-flex flex-column" style="height: 100%">
+                    <div>
+                      <v-chip
+                        v-if="packet.active_for != null && (!hover || packet.abstract == null ||
+                    packet.abstract.length === 0)"
+                        class="ma-4" style="float: right;">
+                        {{ utils.formatLength(packet.active_for) }}
+                        <div v-if="packet.recurring" class="pl-1">
+                          <v-icon>mdi-calendar-sync</v-icon>
+                        </div>
+                      </v-chip>
+                    </div>
+                    <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2
+                           font-weight-bold"
+                           style="margin-bottom: 30px; text-shadow: #000000 2px 2px 2px;"
+                           v-if="packet.title_in_image
+                            && (!hover || packet.abstract == null || packet.abstract.length === 0)">
+                      {{ packet.title_in_image }}
+                    </v-row>
+                  </div>
                   <div v-if="packet.abstract != null && packet.abstract.length > 0">
                     <v-expand-transition>
                       <div v-if="hover"
@@ -37,15 +56,6 @@
                       </div>
                     </v-expand-transition>
                   </div>
-                  <v-chip
-                    v-if="packet.active_for != null && (!hover || packet.abstract == null ||
-                    packet.abstract.length === 0)"
-                    class="ma-4" style="float: right;">
-                    {{ utils.formatLength(packet.active_for) }}
-                    <div v-if="packet.recurring" class="pl-1">
-                      <v-icon>mdi-calendar-sync</v-icon>
-                    </div>
-                  </v-chip>
                 </v-img>
                 <v-card-text>
                   <div>

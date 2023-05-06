@@ -21,6 +21,10 @@ export default {
           type: 'string',
           title: i18n.t('title'),
         },
+        title_in_image: {
+          type: 'string',
+          title: i18n.t('_packet.labels.titleInImage'),
+        },
         subtitle: {
           type: 'string',
           title: i18n.t('subtitle'),
