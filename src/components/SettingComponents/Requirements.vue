@@ -1,6 +1,6 @@
 <template>
  <div>
-   <SettingTitle docPath="/guide/requirements">
+   <SettingTitle docPath="/guide/requirement_set">
      {{ $t('_settings.requirements') }}
    </SettingTitle>
    <DialogForm :form-schema="requirementAddForm" ref="requirementAddDialog"

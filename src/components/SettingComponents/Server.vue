@@ -7,12 +7,10 @@
       <v-col cols="12">
         <v-card outlined flat class="fill-height transparent">
           <v-card-text>
+            <SettingTitle :divider="false" doc-path="/guide/serverbundle" class="black--text">
+              {{ $t('serverbundle') }}
+            </SettingTitle>
             <v-simple-table>
-              <template v-slot:header>
-                <SettingTitle :divider="false" doc-path="/guide/serverbundle">
-                  {{ $t('serverbundle') }}
-                </SettingTitle>
-              </template>
               <thead>
               <tr>
                 <th>{{ $t('name') }}</th>
@@ -69,7 +67,7 @@
               </draggable>
             </v-simple-table>
             <v-divider />
-            <div class="text-right mt-2">
+            <div class="text-right mt-3">
               <v-btn color="success" @click="$refs.addBundleDialog.show()" outlined>
                 <v-icon left>mdi-plus</v-icon>
                 <span>{{ $t('_settings.labels.addBundle') }}</span>
