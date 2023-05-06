@@ -17,7 +17,7 @@
             </v-btn>
           </template>
           <span>
-          {{ $t('_faq.update') }}
+          {{ $t('_settings.labels.updateOrder') }}
         </span>
         </v-tooltip>
         <v-tooltip bottom>
@@ -29,7 +29,7 @@
             </v-btn>
           </template>
           <span>
-          {{ $t('_faq.reset') }}
+          {{ $t('_settings.labels.resetOrder') }}
         </span>
         </v-tooltip>
       </v-card>
@@ -182,7 +182,7 @@ export default {
         this.fetchData();
         this.updateFaqEnabled = false;
         this.$notify({
-          title: this.$t('_faq.messages.updatedOrder'),
+          title: this.$t('_settings.messages.orderUpdated'),
           type: 'success',
         });
       }).catch((err) => {

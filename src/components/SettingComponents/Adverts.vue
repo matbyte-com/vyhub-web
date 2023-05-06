@@ -70,7 +70,7 @@
             </v-btn>
           </template>
           <span>
-              {{ $t('_advert.update') }}
+              {{ $t('_settings.labels.updateOrder') }}
             </span>
         </v-tooltip>
         <v-tooltip bottom>
@@ -82,7 +82,7 @@
             </v-btn>
           </template>
           <span>
-              {{ $t('_advert.reset') }}
+              {{ $t('_settings.labels.resetOrder') }}
             </span>
         </v-tooltip>
       </v-col>
@@ -191,7 +191,7 @@ export default {
         this.fetchData();
         this.updateAdvertEnabled = false;
         this.$notify({
-          title: this.$t('_advert.messages.updatedOrder'),
+          title: this.$t('_settings.messages.orderUpdated'),
           type: 'success',
         });
       }).catch((err) => {

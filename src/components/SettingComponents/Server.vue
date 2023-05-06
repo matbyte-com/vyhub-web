@@ -7,57 +7,102 @@
       <v-col cols="12">
         <v-card outlined flat class="fill-height transparent">
           <v-card-text>
-            <DataTable
-              :headers="bundleHeaders"
-              :items="bundles"
-              :showSearch="true">
+            <v-simple-table>
               <template v-slot:header>
                 <SettingTitle :divider="false" doc-path="/guide/serverbundle">
                   {{ $t('serverbundle') }}
                 </SettingTitle>
               </template>
-              <template v-slot:item.name="{ item }">
-                <v-chip :color="item.color ? item.color : '#000000'"
-                        :text-color="$vuetify.theme.dark ? 'white' : 'black'"
-                        outlined>
-                  <v-icon left>{{ item.icon }}</v-icon>
-                  {{ item.name }}
-                </v-chip>
-              </template>
-              <template v-slot:item.multigroup="{ item }">
-                <BoolIcon :value="item.multigroup" />
-              </template>
-              <template v-slot:item.actions="{ item }">
-                <v-btn outlined color="info" small class="mr-1"
-                       :disabled="item.server_type === 'DISCORD' ||
-                        item.server_type === 'TEAMSPEAK3'"
-                       @click="showAPIKeysDialog(item)">
-                  <v-icon>
-                    mdi-key-chain
-                  </v-icon>
-                </v-btn>
-                <v-btn outlined color="primary" small
-                       @click="openEditBundleDialog(item)" class="mr-1">
-                  <v-icon>
-                    mdi-pencil
-                  </v-icon>
-                </v-btn>
-                <v-btn outlined color="error" small @click="openDeleteBundleDialog(item)">
-                  <v-icon>
-                    mdi-delete
-                  </v-icon>
-                </v-btn>
-              </template>
-              <template v-slot:footer-right>
-                <v-btn color="success" @click="$refs.addBundleDialog.show()" outlined>
-                  <v-icon left>mdi-plus</v-icon>
-                  <span>{{ $t('_settings.labels.addBundle') }}</span>
-                </v-btn>
-              </template>
-            </DataTable>
+              <thead>
+              <tr>
+                <th>{{ $t('name') }}</th>
+                <th>{{ $t('type') }}</th>
+                <th>{{ $t('_settings.multigroup') }}</th>
+                <th>{{ $t('_settings.defaultGroup') }}</th>
+                <th style="width: 200px" class="text-right">{{ $t('actions') }}</th>
+              </tr>
+              </thead>
+              <draggable :list="bundles" tag="tbody"
+                         @change="updateBundleEnabled = true">
+                <tr v-for="bundle in bundles" :key="bundle.id">
+                  <td>
+                    <v-chip :color="bundle.color ? bundle.color : '#000000'"
+                            :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                            outlined>
+                      <v-icon left>{{ bundle.icon }}</v-icon>
+                      {{ bundle.name }}
+                    </v-chip>
+                  </td>
+                  <td>
+                    {{ bundle.server_type }}
+                  </td>
+                  <td>
+                    <BoolIcon :value="bundle.multigroup" />
+                  </td>
+                  <td>
+                  <span v-if="bundle.default_group">
+                    {{ bundle.default_group.name }}
+                  </span>
+                  </td>
+                  <td class="text-right">
+                    <v-btn outlined color="info" small class="mr-1"
+                           :disabled="bundle.server_type === 'DISCORD' ||
+                        bundle.server_type === 'TEAMSPEAK3'"
+                           @click="showAPIKeysDialog(bundle)">
+                      <v-icon>
+                        mdi-key-chain
+                      </v-icon>
+                    </v-btn>
+                    <v-btn outlined color="primary" small
+                           @click="openEditBundleDialog(bundle)" class="mr-1">
+                      <v-icon>
+                        mdi-pencil
+                      </v-icon>
+                    </v-btn>
+                    <v-btn outlined color="error" small @click="openDeleteBundleDialog(bundle)">
+                      <v-icon>
+                        mdi-delete
+                      </v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
+              </draggable>
+            </v-simple-table>
+            <v-divider />
+            <div class="text-right mt-2">
+              <v-btn color="success" @click="$refs.addBundleDialog.show()" outlined>
+                <v-icon left>mdi-plus</v-icon>
+                <span>{{ $t('_settings.labels.addBundle') }}</span>
+              </v-btn>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs}">
+                  <v-btn outlined color="primary" class="ml-5" v-on="on" v-bind="attrs"
+                         style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+                         @click="updateBundleOrder" :disabled="!updateBundleEnabled">
+                    <v-icon>mdi-check</v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                    {{ $t('_settings.labels.updateOrder') }}
+                  </span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs}">
+                  <v-btn outlined color="primary" v-on="on" v-bind="attrs"
+                         style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                         @click="fetchData" :disabled="!updateBundleEnabled">
+                    <v-icon>mdi-backspace-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                {{ $t('_settings.labels.resetOrder') }}
+              </span>
+              </v-tooltip>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
+      <!-- Server -->
       <v-col>
         <v-card outlined flat class="fill-height transparent">
           <v-card-text>
@@ -290,15 +335,6 @@ export default {
       bundles: null,
       server: null,
       dataFetched: 0,
-      bundleHeaders: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('type'), value: 'server_type' },
-        { text: this.$t('_settings.multigroup'), value: 'multigroup' },
-        { text: this.$t('_settings.defaultGroup'), value: 'default_group.name' },
-        {
-          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false, width: 250,
-        },
-      ],
       gameserverHeaders: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('type'), value: 'type' },
@@ -318,6 +354,7 @@ export default {
       serverSetupServer: null,
       createdToken: null,
       createServerDataTemp: null,
+      updateBundleEnabled: false,
     };
   },
   beforeMount() {
@@ -511,6 +548,23 @@ export default {
       }
       this.$refs.editServerDialog.setData(data);
     },
+    async updateBundleOrder() {
+      const res = [];
+      this.bundles.forEach((item) => {
+        res.push(item.id);
+      });
+      (await openapi).server_updateBundleOrder(null, res).then(() => {
+        this.fetchData();
+        this.updateBundleEnabled = false;
+        this.$notify({
+          title: this.$t('_settings.messages.orderUpdated'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        console.log(`${err}`);
+      });
+    },
+
   },
   watch: {
     async activeBundle() {
