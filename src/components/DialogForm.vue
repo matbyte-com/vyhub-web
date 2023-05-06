@@ -5,7 +5,7 @@
       <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
                :error-message="errorMessage" :hide-buttons="true"
                :cancel-text="cancelText" :submit-text="submitText" :options-extra="optionsExtra"
-               @cancel="$refs.dialog.open = false"
+               @cancel="$refs.dialog.open = false; $emit('cancel');"
                ref="form"
                @mounted="genFormMounted"
                @updated="$emit('updated')"
@@ -81,6 +81,10 @@ export default {
       if (data != null) {
         this.setData(data);
       }
+    },
+    close() {
+      this.loading = false;
+      this.$refs.dialog.close();
     },
     closeAndReset() {
       this.loading = false;
