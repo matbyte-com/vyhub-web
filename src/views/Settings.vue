@@ -101,6 +101,13 @@ export default {
           title: this.$t('groups'),
         },
         {
+          name: 'bans',
+          icon: 'mdi-account-cancel',
+          component: 'Bans',
+          reqProp: 'ban_config_edit',
+          title: this.$t('bans'),
+        },
+        {
           name: 'warnings',
           icon: 'mdi-account-alert',
           component: 'Warnings',

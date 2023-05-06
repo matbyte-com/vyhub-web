@@ -187,15 +187,21 @@
         </div>
       </template>
       <template v-slot:actions>
-        <v-btn v-if="currentBan != null
-                     && $checkLinked($store.getters.user, currentBan.user)
-                     && currentBan.active
-                     && $store.getters.generalConfig
-                     && $store.getters.generalConfig['enable_ticket']"
-               text color="primary" @click="showProtestBanDialog">
-          <v-icon left>mdi-fencing</v-icon>
-          {{ $t('_ban.labels.protestBan') }}
-        </v-btn>
+        <div v-if="currentBan != null
+                   && $checkLinked($store.getters.user, currentBan.user)
+                   && currentBan.active">
+          <v-btn v-if="config && config.ban_protest_url" :href="config.ban_protest_url"
+                 text color="primary">
+            <v-icon left>mdi-fencing</v-icon>
+            {{ $t('_ban.labels.protestBan') }}
+          </v-btn>
+          <v-btn v-else-if="$store.getters.generalConfig
+                            && $store.getters.generalConfig['enable_ticket']"
+                 text color="primary" @click="showProtestBanDialog" target="_blank">
+            <v-icon left>mdi-fencing</v-icon>
+            {{ $t('_ban.labels.protestBan') }}
+          </v-btn>
+        </div>
         <div v-if="currentBan != null && $checkProp('ban_edit')">
           <v-btn text color="primary" @click="showEditDialog">
             <v-icon left>mdi-pencil</v-icon>
@@ -278,10 +284,12 @@ export default {
       banEditFormSchema,
       selectedBundles: [],
       totalItems: 0,
+      config: null,
     };
   },
   beforeMount() {
     this.getBundles();
+    this.getConfig();
   },
   computed: {
     banDetailShown: {
@@ -322,6 +330,11 @@ export default {
           this.bans = rsp.data.items;
           this.totalItems = rsp.data.total;
         });
+    },
+    async getConfig() {
+      (await openapi).ban_getConfig().then((rsp) => {
+        this.config = rsp.data;
+      });
     },
     async getBundles() {
       (await openapiCached).server_getBundles().then((rsp) => { this.bundles = rsp.data; });
