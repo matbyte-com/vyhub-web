@@ -6,7 +6,7 @@
         </PageTitle>
 
         <v-row>
-          <v-col md="4" lg="3" xl="3" cols="12" class="d-flex flex-column">
+          <v-col cols="12" md="6" xl="3" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-archive-star</v-icon>
@@ -48,7 +48,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col md="8" lg="5" xl="6" cols="12" class="d-flex flex-column">
+          <v-col cols="12" md="12" xl="6" order-md="3" order-xl="2" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-image-text</v-icon>
@@ -60,7 +60,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col md="4" lg="4" xl="3" cols="12" class="d-flex flex-column">
+          <v-col cols="12" md="6" xl="3" order-md="2" order-xl="3" class="d-flex flex-column">
             <v-card class="flex d-flex flex-column">
               <v-card-title>
                 <v-icon left>mdi-currency-usd</v-icon>
