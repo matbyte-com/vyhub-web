@@ -123,6 +123,9 @@ export default {
         {
           ...serverTypeFields('DISCORD'),
         },
+        {
+          ...serverTypeFields('FIVEM'),
+        },
       ],
     },
     {

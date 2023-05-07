@@ -5,6 +5,7 @@ export default {
     DISCORD: '$discord',
     MINECRAFT: 'mdi-minecraft',
     TEAMSPEAK3: '$teamspeak',
+    FIVEM: 'mdi-alpha-v-circle',
   },
   userExternalLink(type: string, id: string) {
     switch (type) {
