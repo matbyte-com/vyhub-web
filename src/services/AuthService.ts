@@ -135,5 +135,6 @@ export default {
   authRequestCommands: {
     MINECRAFT: '/login {uuid}',
     TEAMSPEAK3: '!login {uuid}',
+    FIVEM: '/login {uuid}',
   },
 };
