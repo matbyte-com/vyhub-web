@@ -18,7 +18,8 @@
                       <v-icon>{{ tab.icon }}</v-icon>
                     </v-list-item-icon>
 
-                    <v-list-item-title>
+                    <v-list-item-title :class="$store.getters.generalConfig.shop_only
+                     && tab.hideOnShopOnly ? 'text--disabled' : ''">
                       {{ tab.title }}
                     </v-list-item-title>
                   </v-list-item>
@@ -114,6 +115,7 @@ export default {
           component: 'Bans',
           reqProp: 'ban_config_edit',
           title: this.$t('bans'),
+          hideOnShopOnly: true,
         },
         {
           name: 'warnings',
@@ -121,6 +123,7 @@ export default {
           component: 'Warnings',
           reqProp: 'warning_config_show',
           title: this.$t('warnings'),
+          hideOnShopOnly: true,
         },
         {
           name: 'server',
@@ -136,6 +139,7 @@ export default {
           component: 'Adverts',
           reqProp: 'advert_show',
           title: this.$t('adverts'),
+          hideOnShopOnly: true,
         },
         {
           name: 'requirements',
@@ -143,6 +147,7 @@ export default {
           component: 'Requirements',
           reqProp: 'requirement_show',
           title: this.$t('requirements'),
+          hideOnShopOnly: true,
         },
         {
           icon: 'mdi-cart',
@@ -211,6 +216,7 @@ export default {
           component: 'Import',
           reqProp: 'admin',
           title: this.$t('import'),
+          hideOnShopOnly: true,
         },
         {
           name: 'api',
@@ -218,6 +224,7 @@ export default {
           component: 'API',
           reqProp: 'apikey_edit',
           title: this.$t('api'),
+          hideOnShopOnly: true,
         },
         {
           name: 'legal',
@@ -287,6 +294,17 @@ export default {
         }
       });
 
+      if (this.$store && this.$store.getters.generalConfig.shop_only) {
+        return allowed.sort((a, b) => {
+          if (a.hideOnShopOnly && !b.hideOnShopOnly) {
+            return 1;
+          }
+          if (!a.hideOnShopOnly && b.hideOnShopOnly) {
+            return -1;
+          }
+          return 0;
+        });
+      }
       return allowed;
     },
     activeTab() {

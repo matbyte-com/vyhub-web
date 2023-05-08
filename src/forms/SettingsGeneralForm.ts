@@ -19,6 +19,13 @@ function form(forum_enabled = false) {
         type: 'string',
         title: i18n.t('communityName'),
       },
+      shop_only: {
+        type: 'boolean',
+        title: i18n.t('_settings.shopOnly'),
+        description: i18n.t('_settings.shopOnlyDescription'),
+        'x-display': 'switch',
+        default: false,
+      },
       enable_ticket: {
         type: 'boolean',
         title: i18n.t('_settings.showTicket'),
