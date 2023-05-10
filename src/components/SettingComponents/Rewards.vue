@@ -13,6 +13,10 @@
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t('_reward.labels.create') }}</span>
         </v-btn>
+        <v-btn class="ml-1" outlined color="success" @click="$refs.appliedRewardSyncDialog.show()"
+               v-if="$checkProp('applied_packet_edit')">
+          <v-icon>mdi-sync</v-icon>
+        </v-btn>
       </template>
       <template v-slot:item.once="{ item }">
         <BoolIcon :value="item.once"></BoolIcon>
@@ -57,10 +61,13 @@
     <DeleteConfirmationDialog
       ref="deleteRewardDialog"
       @submit="deleteReward"/>
+    <SyncAppliedRewardsPacketsDialog @success="fetchData" ref="appliedRewardSyncDialog"/>
   </div>
 </template>
 
 <script>
+import SyncAppliedRewardsPacketsDialog
+  from '@/components/ShopComponents/Admin/SyncAppliedRewardsPacketsDialog.vue';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
@@ -72,6 +79,7 @@ import BoolIcon from '../BoolIcon.vue';
 export default {
   name: 'Rewards',
   components: {
+    SyncAppliedRewardsPacketsDialog,
     BoolIcon,
     DeleteConfirmationDialog,
     DialogForm,

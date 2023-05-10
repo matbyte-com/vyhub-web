@@ -101,6 +101,13 @@ export default {
       type: 'object',
     },
   },
+  rewardSelectField: {
+    type: 'object',
+    title: i18n.t('_purchases.labels.reward'),
+    'x-fromUrl': `${API_URL}/packet/reward/?query={q}`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'name',
+  },
   rewardsSelectField: {
     type: 'array',
     title: i18n.t('rewards'),

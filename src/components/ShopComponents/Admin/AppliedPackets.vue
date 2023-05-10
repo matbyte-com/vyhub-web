@@ -41,6 +41,10 @@
             <v-icon left>mdi-plus</v-icon>
             {{ $t('_purchases.labels.addAppliedPacket') }}
           </v-btn>
+          <v-btn class="ml-1" outlined color="success" @click="$refs.appliedRewardSyncDialog.show()"
+                 v-if="$checkProp('applied_packet_edit')">
+            <v-icon>mdi-sync</v-icon>
+          </v-btn>
         </template>
         <template v-slot:item.packet_title="{ item }">
           {{ item.packet.title }}
@@ -95,6 +99,7 @@
         icon="mdi-star"
         @submit="addAppliedReward"
         :title="$t('_reward.labels.addAppliedReward')" />
+      <SyncAppliedRewardsPacketsDialog @success="fetchData" ref="appliedRewardSyncDialog"/>
       <Dialog
         ref="packetDetailDialog"
         icon="mdi-gift-open" :title="getDetailDialogTitle" :max-width="1000">
@@ -164,6 +169,8 @@
 <script>
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
+import SyncAppliedRewardsPacketsDialog
+  from '@/components/ShopComponents/Admin/SyncAppliedRewardsPacketsDialog.vue';
 import UserLink from '../../UserLink.vue';
 import openapi from '../../../api/openapi';
 import BoolIcon from '../../BoolIcon.vue';
@@ -177,6 +184,7 @@ import DataTable from '../../DataTable.vue';
 export default {
   name: 'UserPackets',
   components: {
+    SyncAppliedRewardsPacketsDialog,
     DataTable,
     Dialog,
     PaginatedDataTable,
