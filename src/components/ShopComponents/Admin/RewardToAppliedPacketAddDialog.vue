@@ -45,7 +45,7 @@ export default {
       if (this.amount_to_add != null) {
         data.commit = true;
       }
-      (await openapi).packet_syncAppliedRewardToPackets(null, data).then((rsp) => {
+      (await openapi).packet_addRewardToAppliedPackets(null, data).then((rsp) => {
         if (rsp.data.amount_to_add != null) {
           this.amount_to_add = rsp.data.amount_to_add;
           return;

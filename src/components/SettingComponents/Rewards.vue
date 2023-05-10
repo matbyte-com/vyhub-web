@@ -67,7 +67,7 @@
 
 <script>
 import SyncAppliedRewardsPacketsDialog
-  from '@/components/ShopComponents/Admin/SyncAppliedRewardsPacketsDialog.vue';
+  from '@/components/ShopComponents/Admin/RewardToAppliedPacketAddDialog.vue';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';

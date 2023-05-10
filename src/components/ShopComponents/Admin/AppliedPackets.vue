@@ -170,7 +170,7 @@
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
 import SyncAppliedRewardsPacketsDialog
-  from '@/components/ShopComponents/Admin/SyncAppliedRewardsPacketsDialog.vue';
+  from '@/components/ShopComponents/Admin/RewardToAppliedPacketAddDialog.vue';
 import UserLink from '../../UserLink.vue';
 import openapi from '../../../api/openapi';
 import BoolIcon from '../../BoolIcon.vue';
