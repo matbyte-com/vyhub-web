@@ -13,9 +13,15 @@ export default {
       ...Common.rewardSelectField,
       type: 'string',
     },
-    limit: {
+    begin: {
       type: 'string',
-      title: i18n.t('_reward.labels.packetSyncLimit'),
+      title: i18n.t('begin'),
+      description: i18n.t('_reward.labels.packetSyncLimitDescription'),
+      format: 'date-time',
+    },
+    end: {
+      type: 'string',
+      title: i18n.t('end'),
       description: i18n.t('_reward.labels.packetSyncLimitDescription'),
       format: 'date-time',
     },
