@@ -38,7 +38,7 @@ export default {
         [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
         [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
         [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-        ['link', 'image'],
+        ['link', 'image', 'video'],
         ['clean'], // remove formatting button
       ],
       editorSettings: {
