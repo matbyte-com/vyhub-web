@@ -44,7 +44,7 @@
                     :color="group.color ? group.color : '#000000'"
                     :text-color="$vuetify.theme.dark ? 'white' : 'black'"
                     outlined
-                    class="ml-1 mb-1 a"
+                    class="ml-1 mb-1 a mt-1"
                     :class="checkGroups(group)"
                     v-for="group in getUserActiveGroupsByBundle(bundle)" :key="group.id"
                   >
@@ -69,10 +69,14 @@
                   :headers="computedHeaders"
                   :items="computedMemberships"
                   :items-per-page="10"
-                  :item-class="membershipRowFormatter"
                   :sort-by="membershipSortBy"
                   :sort-desc="membershipSortDesc"
                 >
+                  <template v-slot:item.color-status="{ item }">
+                    <v-sheet :color="membershipRowFormatter(item)"
+                             height="95%" width="10px"
+                             style="margin-left: -15px"/>
+                  </template>
                   <template v-slot:item.group.name="{ item }">
                     <v-chip
                       :color="item.group.color ? item.group.color : '#000000'"
@@ -160,6 +164,7 @@ export default {
       props: [],
       serverBundles: null,
       groupTableHeaders: [
+        { value: 'color-status', sortable: false, width: '1px' },
         { text: this.$t('groupname'), align: 'start', value: 'group.name' },
         { text: this.$t('bundle'), value: 'serverbundle.name' },
         { text: this.$t('begin'), value: 'begin' },

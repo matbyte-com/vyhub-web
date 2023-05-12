@@ -134,9 +134,12 @@ export default {
     oneOf: countryOptions,
   },
   imageURLField: {
-    type: 'string',
+    type: ['string', 'null'],
     title: i18n.t('imageURL'),
     pattern: '^https?://.+$',
+    'x-props': {
+      clearable: true,
+    },
   },
   // PropertyPicker Component needs to be put in the custom properties slot
   propertiesSelector: {
