@@ -7,6 +7,7 @@
                :cancel-text="cancelText" :submit-text="submitText" :options-extra="optionsExtra"
                @cancel="$refs.dialog.open = false; $emit('cancel');"
                ref="form"
+               class="mt-1"
                @mounted="genFormMounted"
                @updated="$emit('updated')"
                @notValid="loading=false"

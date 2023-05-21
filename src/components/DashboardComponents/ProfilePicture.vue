@@ -1,7 +1,7 @@
 <template>
   <v-card class="text-center">
     <v-card-text>
-      <v-row justify="center">
+      <v-row justify="center" class="my-1">
         <v-hover v-if="activeUser != null">
           <template v-slot:default="{ hover }">
             <v-fade-transition mode="out-in">

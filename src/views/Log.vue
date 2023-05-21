@@ -196,7 +196,7 @@
         >
           <template v-slot:item.message="{ item }">
             <div class="text-truncate"
-                 :style="{'max-width': $vuetify.breakpoint.width / 2.2 + 'px'}">
+                 :style="{'max-width': $vuetify.breakpoint.width / 2 + 'px'}">
               {{ item.message }}
             </div>
           </template>
@@ -302,7 +302,7 @@ export default {
           text: this.$t('date'), value: 'time', sortable: false, width: '8%',
         },
         {
-          text: this.$t('message'), value: 'message', sortable: false, width: '50%',
+          text: this.$t('message'), value: 'message', sortable: false,
         },
         { text: this.$t('user'), value: 'author', sortable: false },
         { text: this.$t('category'), value: 'category', sortable: false },
@@ -325,7 +325,7 @@ export default {
       let query = null;
 
       if (Object.keys(this.filteredLabels).length > 0) {
-        const labels = Object.entries(this.filteredLabels).map(([key, value]) => `${key}=${JSON.stringify(value)}`);
+        const labels = Object.entries(this.filteredLabels).map(([key, value]) => `${key}=${JSON.stringify(value.trim())}`);
         query = `{${labels}}`;
       }
 
@@ -408,8 +408,8 @@ export default {
         form.properties[key] = {
           type: ['string', 'null'],
           title: key,
-          'x-display': 'combobox',
-          examples: value,
+          // 'x-display': 'combobox',
+          // examples: value,
         };
       });
 

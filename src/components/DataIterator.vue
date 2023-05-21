@@ -1,18 +1,17 @@
 <template>
   <v-data-iterator
     :items="items"
-    :items-per-page.sync="itemsPerPage"
+    :items-per-page.sync="currentItemsPerPage"
     :page.sync="page"
     :search="searchVal"
     hide-default-footer
     v-bind="$attrs" v-on="$listeners"
   >
     <template v-slot:header>
-      <v-row justify="end">
+      <v-row justify="end" v-if="search">
         <v-col lg="3" md="6" sm="12">
           <slot name="header" />
           <v-text-field
-            v-if="search"
             v-model="searchVal"
             :label="$t('search')"
             hide-details
@@ -33,18 +32,17 @@
       <slot :name="slot" v-bind="scope" />
     </template>
 
-    <template v-slot:footer v-if="numberOfPages > 1">
-      <v-row
-        class="mt-2"
-        align="center"
-        justify="center"
-      >
-        <v-col v-if="showPageSelector">
+    <template v-slot:footer>
+      <div class="d-flex justify-space-between align-center mt-3 mr-1">
+        <div>
+          <slot name="footer-left"></slot>
+        </div>
+        <div v-if="showPageSelector && numberOfPages > 1">
           <span class="grey--text">Items per page</span>
           <v-menu offset-y >
             <template v-slot:activator="{ on, attrs }">
               <v-btn dark text color="primary" class="ml-2" v-bind="attrs" v-on="on">
-                {{ itemsPerPage }}
+                {{ currentItemsPerPage }}
                 <v-icon>mdi-chevron-down</v-icon>
               </v-btn>
             </template>
@@ -58,22 +56,20 @@
               </v-list-item>
             </v-list>
           </v-menu>
-        </v-col>
+        </div>
 
-        <v-spacer></v-spacer>
-
-        <v-col class="text-right">
-                    <span class="mr-4 grey--text">
-                      Page {{ page }} of {{ numberOfPages }}
-                    </span>
-          <v-btn small fab dark color="blue darken-3" class="mr-1" @click="formerPage">
+        <div class="text-right" v-if="numberOfPages > 1">
+          <span class="mr-4 grey--text">
+            {{ page }} of {{ numberOfPages }}
+          </span>
+          <v-btn small fab dark color="primary" class="mr-1" @click="formerPage">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn small fab dark color="blue darken-3" class="ml-1" @click="nextPage" >
+          <v-btn small fab dark color="primary" class="ml-1" @click="nextPage" >
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
-        </v-col>
-      </v-row>
+        </div>
+      </div>
     </template>
   </v-data-iterator>
 </template>
@@ -86,7 +82,7 @@ export default {
       searchVal: '',
       filter: {},
       page: 1,
-      itemsPerPage: 0,
+      currentItemsPerPage: 0,
     };
   },
   props: {
@@ -99,7 +95,7 @@ export default {
       type: String,
       default: 'id',
     },
-    startItemsPerPage: {
+    itemsPerPage: {
       type: Number,
       default: 4,
     },
@@ -128,14 +124,14 @@ export default {
 
       const arr = [];
 
-      for (let i = 1; i <= Math.ceil(this.items.length / this.itemsPerPage); i += 1) {
-        arr.push(i * this.itemsPerPage);
+      for (let i = 1; i <= Math.ceil(this.items.length / this.currentItemsPerPage); i += 1) {
+        arr.push(i * this.currentItemsPerPage);
       }
 
       return arr;
     },
     numberOfPages() {
-      return Math.ceil(this.items.length / this.itemsPerPage);
+      return Math.ceil(this.items.length / this.currentItemsPerPage);
     },
   },
   methods: {
@@ -146,11 +142,11 @@ export default {
       if (this.page - 1 >= 1) this.page -= 1;
     },
     updateItemsPerPage(number) {
-      this.itemsPerPage = number;
+      this.currentItemsPerPage = number;
     },
   },
   beforeMount() {
-    this.itemsPerPage = this.startItemsPerPage;
+    this.currentItemsPerPage = this.itemsPerPage;
   },
 };
 </script>
