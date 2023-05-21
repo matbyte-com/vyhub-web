@@ -61,7 +61,7 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
-  colorPicker(title = 'color', description?: string) {
+  colorPicker(title = 'color', description?: string, colors?: string[][], inputs = true) {
     const form = {
       type: 'string',
       title: i18n.t(title),
@@ -73,6 +73,8 @@ export default {
         showSwatches: true,
         hideCanvas: true,
         hideSliders: true,
+        hideInputs: !inputs,
+        swatches: colors,
       },
     };
     return form;

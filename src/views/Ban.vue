@@ -102,7 +102,7 @@
       ref="banDetailDialog"
       icon="mdi-account-cancel"
       :title="$t('_ban.labels.details')"
-      :max-width="700"
+      :max-width="800"
       v-model="banDetailShown">
       <template>
         <h6 class="text-h6 mb-2  mt-3">{{ $t('details') }}</h6>
@@ -179,6 +179,13 @@
             </v-simple-table>
           </div>
           <br/>
+          <div v-if="$checkProp('ban_comment_show')">
+            <h6 class="text-h6 mb-2">{{ $t('comments') }}</h6>
+            <CommentsTable type="ban" :obj-id="currentBan.id" :show-search="false"
+                           ref="banCommentsTable">
+            </CommentsTable>
+          </div>
+          <br/>
           <div v-if="$checkProp('ban_edit')">
             <h6 class="text-h6 mb-2">{{ $t('log') }}</h6>
             <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
@@ -248,6 +255,7 @@ import banEditFormSchema from '@/forms/BanEditForm';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import openapiCached from '@/api/openapiCached';
 import { left } from 'core-js/internals/array-reduce';
+import CommentsTable from '@/components/Comments/CommentsTable.vue';
 import Dialog from '../components/Dialog.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
@@ -255,6 +263,7 @@ import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 export default {
   name: 'Ban.vue',
   components: {
+    CommentsTable,
     ThreadAddDialog,
     PaginatedDataTable,
     Dialog,
@@ -285,11 +294,18 @@ export default {
       selectedBundles: [],
       totalItems: 0,
       config: null,
+      currentBan: null,
     };
   },
   beforeMount() {
     this.getBundles();
     this.getConfig();
+    this.updateCurrentBan();
+  },
+  watch: {
+    $route() {
+      this.updateCurrentBan();
+    },
   },
   computed: {
     banDetailShown: {
@@ -303,24 +319,43 @@ export default {
         }
       },
     },
-    currentBan() {
-      if (this.bans && this.bans.length > 0) {
-        const bans = this.bans.filter((ban) => ban.id === this.$route.params.banId);
-
-        if (bans.length > 0) {
-          if (this.$refs.banLogTable) {
-            this.$refs.banLogTable.fetchData();
-          }
-
-          return bans[0];
-        }
-      }
-
-      return null;
-    },
+    // currentBan() {
+    //   if (this.bans && this.bans.length > 0) {
+    //     let ban = this.bans.find((b) => b.id === this.$route.params.banId);
+    //
+    //     if (!ban) {
+    //
+    //     }
+    //
+    //     if (bans.length > 0) {
+    //       if (this.$refs.banLogTable) {
+    //         this.$refs.banLogTable.fetchData();
+    //       }
+    //
+    //       return bans[0];
+    //     }
+    //   }
+    //
+    //   return null;
+    // },
   },
   methods: {
+    async updateCurrentBan() {
+      const api = await openapi;
+
+      if (this.$route.params.banId != null) {
+        api.ban_getBan({ uuid: this.$route.params.banId }).then((rsp) => {
+          this.currentBan = rsp.data;
+        }).catch(() => {
+          this.currentBan = null;
+        });
+      } else {
+        this.currentBan = null;
+      }
+    },
     async fetchData(queryParams = null) {
+      this.updateCurrentBan();
+
       (await openapi).ban_getBans({
         serverbundle_id: this.selectedBundles,
         user_id: this.$route.query.user_id,

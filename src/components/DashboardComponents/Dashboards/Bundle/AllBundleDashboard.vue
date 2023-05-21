@@ -3,13 +3,13 @@
     <v-row>
       <v-col cols="12">
         <v-row>
-          <v-col cols="12" xl="8" class="d-flex">
-            <AttributeGraph :user="user" :bundle="bundle" class="flex-md-grow-1" />
-          </v-col>
-          <v-col>
+          <v-col lg="3">
             <LinkedAccounts :user="user" :bundle="bundle" class="flex-md-grow-1" />
           </v-col>
-          <v-col cols="12" xl="6">
+          <v-col cols="12" lg="6" class="d-flex">
+            <AttributeGraph :user="user" :bundle="bundle" class="flex-md-grow-1" />
+          </v-col>
+          <v-col cols="12" lg="3">
             <v-row v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
                 ($checkProp('ban_show') && $checkProp('warning_show'))">
               <v-col>
