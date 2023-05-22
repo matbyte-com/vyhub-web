@@ -68,7 +68,7 @@ export default {
     },
     dialog() {
       if (this.dialog === false) {
-        this.$router.replace({ path: this.$route.path, query: this.$route.query });
+        this.$router.replace({ path: this.$route.path, query: null });
       } else {
         this.fetchBackends();
       }

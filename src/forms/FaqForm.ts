@@ -1,4 +1,5 @@
 import i18n from '@/plugins/i18n';
+import Common from '@/forms/Common';
 
 export default {
   type: 'object',
@@ -10,5 +11,6 @@ export default {
       type: 'string',
       title: i18n.t('_faq.formTitle'),
     },
+    icon: Common.iconPicker,
   },
 };

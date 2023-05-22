@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right" v-if="$checkProp('faq_edit')">
-        <v-btn color="success" @click="$refs.addQuestionDialog.show()">
+        <v-btn color="success" small @click="$refs.addQuestionDialog.show()">
           <v-icon left>
             mdi-plus
           </v-icon>
@@ -11,7 +11,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs}">
             <v-btn color="primary" v-on="on" v-bind="attrs"
-                   style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+                   style="border-top-right-radius: 0; border-bottom-right-radius: 0" small
                    @click="updateLinkOrder" :disabled="!updateFaqEnabled">
               <v-icon>mdi-check</v-icon>
             </v-btn>
@@ -23,7 +23,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs}">
             <v-btn color="primary" v-on="on" v-bind="attrs"
-                   style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                   style="border-bottom-left-radius: 0; border-top-left-radius: 0" small
                    @click="fetchData" :disabled="!updateFaqEnabled">
               <v-icon>mdi-backspace-outline</v-icon>
             </v-btn>
@@ -40,27 +40,27 @@
         <v-expansion-panel v-for="question in questions" :key="question.id" class="mt-3">
           <v-card>
             <v-expansion-panel-header>
-              <v-row align="center">
-                <v-col>
-                  {{ question.title }}
+              <v-row>
+                <v-col cols="1" class="d-flex align-center">
+                  <v-icon v-if="question.icon" class="mr-2">{{ question.icon }}</v-icon>
+                  <b>
+                    {{ question.title }}
+                  </b>
                 </v-col>
                 <v-col class="text-right mr-1" v-if="$checkProp('faq_edit')">
                   <v-btn outlined color="primary" small
                          @click.stop="openQuestionEditDialog(question)" class="mr-1">
-                    <v-icon>
-                      mdi-pencil
-                    </v-icon>
+                    <v-icon>mdi-pencil</v-icon>
                   </v-btn>
                   <v-btn outlined color="error" small
                          @click.stop="$refs.deleteQuestionConfirmationDialog.show(question)">
-                    <v-icon>
-                      mdi-delete
-                    </v-icon>
+                    <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </v-col>
               </v-row>
             </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            <v-expansion-panel-content :style="{ background: 'rgba(19,19,19,0.2)' }">
+              <v-divider />
               <span v-html="question.content" class="ql-editor"></span>
             </v-expansion-panel-content>
           </v-card>

@@ -36,6 +36,11 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <v-textarea :placeholder="$t('_navigation.rawHtml')" v-model="rawHtmlInput"/>
+              <input type="file" :accept="acceptedFileTypes.join(',')" @change="readFile"
+                     style="display: none" ref="fileInput">
+              <v-btn color="secondary" @click="$refs.fileInput.click()" small>
+                {{ $t('_navigation.uploadFile') }}
+              </v-btn>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -75,6 +80,11 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <v-textarea :placeholder="$t('_navigation.rawHtml')" v-model="rawHtmlInput"/>
+              <input type="file" :accept="acceptedFileTypes.join(',')" @change="readFile"
+                     style="display: none" ref="fileInput">
+              <v-btn color="secondary" @click="$refs.fileInput.click()" small>
+                {{ $t('_navigation.uploadFile') }}
+              </v-btn>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -344,6 +354,7 @@ export default {
       links: null,
       cmsPages: null,
       currentLocation: 'HEADER',
+      acceptedFileTypes: ['.txt', '.html', '.htm'],
       linksByLocation: [],
       navigationLocations: [
         {
@@ -557,6 +568,25 @@ export default {
     },
     categoryUpdated() {
       this.linksByLocation = this.links.filter((l) => l.location === this.currentLocation);
+    },
+    readFile(event) {
+      const file = event.target.files[0];
+      const fileName = file.name;
+      const fileExtension = fileName.substr(fileName.lastIndexOf('.')).toLowerCase();
+
+      if (!this.acceptedFileTypes.includes(fileExtension)) {
+        this.$notify({
+          title: this.$t('_navigation.messages.invalidFileType'),
+          type: 'error',
+        });
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.rawHtmlInput = e.target.result;
+      };
+      reader.readAsText(file);
     },
   },
 };

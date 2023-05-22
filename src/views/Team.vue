@@ -3,7 +3,7 @@
     <div class="d-flex">
       <PageTitle icon="mdi-account-group">{{ $t('_team.title') }}</PageTitle>
       <v-spacer/>
-      <v-btn v-if="$checkProp('edit_team')" color="success"
+      <v-btn v-if="$checkProp('edit_team')" color="success" small
              @click="showEditDialog">
         <v-icon left>mdi-pencil</v-icon>
         {{ $t('edit') }}
