@@ -186,10 +186,18 @@
             </CommentsTable>
           </div>
           <br/>
-          <div v-if="$checkProp('ban_edit')">
+          <div v-if="$checkProp('ban_log_show')">
             <h6 class="text-h6 mb-2">{{ $t('log') }}</h6>
-            <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
-            </LogTable>
+            <div v-if="logsShown">
+              <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
+              </LogTable>
+            </div>
+            <div v-else>
+              <v-btn text color="primary" @click="logsShown = true">
+                <v-icon left>mdi-eye</v-icon>
+                {{ $t('show') }}
+              </v-btn>
+            </div>
           </div>
         </div>
       </template>
@@ -295,6 +303,7 @@ export default {
       totalItems: 0,
       config: null,
       currentBan: null,
+      logsShown: false,
     };
   },
   beforeMount() {
@@ -316,6 +325,7 @@ export default {
       set(newValue) {
         if (!newValue && !this.$refs.banEditDialog.open) {
           this.$router.push({ name: 'Bans' });
+          this.logsShown = false;
         }
       },
     },
@@ -373,6 +383,9 @@ export default {
     },
     async getBundles() {
       (await openapiCached).server_getBundles().then((rsp) => { this.bundles = rsp.data; });
+    },
+    loadLogs() {
+      this.$refs.banLogTable.fetchData();
     },
     banRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-4' : '');

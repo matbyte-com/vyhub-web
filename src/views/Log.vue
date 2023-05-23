@@ -178,6 +178,12 @@
                 mdi-filter
               </v-icon>
             </v-btn>
+            <v-btn class="ml-3" outlined color="primary" icon
+                   @click="fetchData">
+              <v-icon>
+                mdi-refresh
+              </v-icon>
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -270,6 +276,7 @@ import UserLink from '@/components/UserLink.vue';
 import DataTable from '@/components/DataTable.vue';
 import LogLabel from '@/components/LogLabel.vue';
 import DialogForm from '@/components/DialogForm.vue';
+import Common from '@/forms/Common';
 
 export default {
   components: {
@@ -402,7 +409,12 @@ export default {
       return labels;
     },
     advancedFiltersFormSchema() {
-      const form = { type: 'object', properties: {} };
+      const form = {
+        type: 'object',
+        properties: {
+          author_id: Common.userIdSelectField,
+        },
+      };
 
       Object.entries(this.cleanedLabels(this.labels)).forEach(([key, value]) => {
         form.properties[key] = {

@@ -24,7 +24,16 @@
         </v-row>
         <v-row>
           <v-col cols="12" xl="6">
-            <Groups :user="user"/>
+            <v-row v-if="$checkProp('user_log')">
+              <v-col>
+                <Groups :user="user"/>
+              </v-col>
+            </v-row>
+            <v-row v-if="$checkProp('user_log')">
+              <v-col>
+                <UserLogEntries :user="user"/>
+              </v-col>
+            </v-row>
           </v-col>
           <v-col cols="12" xl="6">
             <v-row v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
@@ -36,11 +45,6 @@
             <v-row v-if="$checkProp('user_comment_show')">
               <v-col>
                 <UserComments :user="user"/>
-              </v-col>
-            </v-row>
-            <v-row v-if="$checkProp('user_log')">
-              <v-col>
-                <UserLogEntries :user="user"/>
               </v-col>
             </v-row>
           </v-col>

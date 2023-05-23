@@ -39,7 +39,7 @@
     <DialogForm
       ref="commentAddDialog"
       @submit="addComment"
-      max-width="600px"
+      :max-width="600"
       :form-schema="CommentForm"
       :title="$t('comment')" icon="mdi-comment-plus"
     ></DialogForm>
