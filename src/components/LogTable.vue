@@ -1,5 +1,5 @@
 <template>
-  <v-data-table
+  <DataTable
     :headers="headers"
     :items="entries"
     :search="search"
@@ -21,32 +21,33 @@
       <UserLink :user="item.author" v-if="item.author != null"></UserLink>
     </template>
     <template v-slot:item.message="{ item }">
-      {{ $t(`_log.${item.message.name}`, item.message.kwargs) }}
+      {{ item.message }}
     </template>
     <template v-slot:item.created_on="{ item }">
-      <span>{{ new Date(item.created_on).toLocaleString() }}</span>
+      <span>{{ new Date(item.date).toLocaleString() }}</span>
     </template>
-  </v-data-table>
+  </DataTable>
 </template>
 
 <script>
 import UserLink from '@/components/UserLink.vue';
 import openapi from '@/api/openapi';
+import DataTable from '@/components/DataTable.vue';
 
 export default {
   name: 'LogTable',
   components: {
+    DataTable,
     UserLink,
   },
   data() {
     return {
-      entries: [],
+      entries: null,
       search: null,
     };
   },
   props: {
     type: String,
-    categories: Array,
     objId: String,
     showSearch: Boolean,
     showCategory: {
@@ -61,17 +62,17 @@ export default {
     async fetchData() {
       const api = await openapi;
 
-      let logFn = api.log_getLog;
+      let logFn = null;
       let params = [];
 
       if (this.type === 'user') {
-        logFn = api.user_getLog;
+        logFn = api.user_getLogs;
         params = [{ uuid: this.objId }];
       } else if (this.type === 'ban') {
-        logFn = api.ban_getLog;
+        logFn = api.ban_getLogs;
         params = [{ uuid: this.objId }];
       } else {
-        params = [{ category: this.categories }];
+        return;
       }
 
       logFn(...params).then((rsp) => {

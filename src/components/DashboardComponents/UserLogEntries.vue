@@ -5,50 +5,49 @@
         <v-icon left>
           mdi-format-list-bulleted
         </v-icon>
-        {{ $t('_dashboard.labels.userLog') }}
-        <v-spacer />
-        <v-btn outlined color="success" @click="$refs.entryAddForm.show()">
-          <v-icon left>
-            mdi-plus
-          </v-icon>
-          {{ $t('add') }}
+        {{ $t('logs') }}
+        <v-spacer></v-spacer>
+        <v-btn :icon="logsShown" outlined color="primary" @click="showLogs">
+          <v-icon v-if="logsShown">mdi-refresh</v-icon>
+          <span v-else>
+            <v-icon left>mdi-eye</v-icon>
+            {{ $t('show') }}
+          </span>
         </v-btn>
       </v-card-title>
       <v-card-text>
         <LogTable ref="logTable" type="user" :obj-id="user.id" :show-search="false"
-                  v-if="user != null" />
+                  v-if="user != null && logsShown" />
         <v-skeleton-loader v-else></v-skeleton-loader>
       </v-card-text>
     </v-card>
-    <DialogForm icon="mdi-format-list-bulleted" @submit="addUserLogEntry()"
-                :title="$t('_userLogEntry.addLogEntry')" ref="entryAddForm" :form-schema="schema" />
   </div>
 </template>
 
 <script>
 import LogTable from '../LogTable.vue';
-import DialogForm from '../DialogForm.vue';
-import UserLogEntryAdd from '../../forms/UserLogEntryAdd';
-import openapi from '../../api/openapi';
 
 export default {
   name: 'UserLogEntries',
-  components: { DialogForm, LogTable },
+  components: { LogTable },
   props: { user: Object },
   data() {
     return {
-      schema: UserLogEntryAdd,
+      logsShown: false,
     };
   },
   methods: {
-    async addUserLogEntry() {
-      const data = this.$refs.entryAddForm.getData();
-      (await openapi).user_createLogEntry(this.user.id, data).then(() => {
-        this.$refs.entryAddForm.closeAndReset();
-        this.$refs.logTable.fetchData();
-      }).catch((err) => {
-        this.$refs.entryAddForm.setError(err);
-      });
+    showLogs() {
+      if (this.logsShown) {
+        this.$refs.logTable.refresh();
+      } else {
+        this.logsShown = true;
+      }
+    },
+  },
+  watch: {
+    user() {
+      this.logsShown = false;
     },
   },
 };

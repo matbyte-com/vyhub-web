@@ -13,6 +13,14 @@ const countryOptions = Object.entries(countries.getCodeList())
   }));
 
 export default {
+  userIdSelectField: {
+    type: 'string',
+    title: i18n.t('user'),
+    'x-fromUrl': `${API_URL}/user/?query={q}&max=10`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'username',
+    'x-itemIcon': 'avatar',
+  },
   userSelectField: {
     type: 'object',
     title: i18n.t('user'),
