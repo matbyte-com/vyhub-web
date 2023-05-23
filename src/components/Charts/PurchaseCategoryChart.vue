@@ -10,7 +10,7 @@
 export default {
   name: 'PurchaseCategoryChart',
   props: {
-    data: Object,
+    data: Array,
     currency: Object,
   },
   data() {
@@ -28,7 +28,7 @@ export default {
 
       this.data.forEach((s) => {
         labels.push(s.category.name);
-        data.push(s.amount_net);
+        data.push(s.amount);
       });
 
       return {

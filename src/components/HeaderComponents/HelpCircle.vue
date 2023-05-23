@@ -5,10 +5,10 @@
         <v-icon>mdi-help-circle</v-icon>
       </v-btn>
     </template>
-    <v-list dense class="ml-3">
+    <v-list dense>
       <div v-for="(link, index) in menuLinks"
            :key="index">
-       <ListItemLink :link="link"/>
+       <ListItemLink :sub-sub-link="false" :link="link"/>
       </div>
     </v-list>
   </v-menu>

@@ -20,10 +20,24 @@
               {{ $t('revenue') }}
               <v-spacer></v-spacer>
               <v-select hide-details dense outlined v-model="selectedSalesInterval"
+                        style="z-index: 20"
                         :items="intervalItems" item-text="name" item-value="value"></v-select>
             </v-card-title>
             <v-card-text>
               <DebitChart :data="debitStats" :currency="currentCurrency"></DebitChart>
+            </v-card-text>
+          </v-card>
+          <v-card v-if="purchaseCountIntervalItems != null" class="mt-6">
+            <v-card-title>
+              <v-icon left>mdi-counter</v-icon>
+              {{ $t('_purchases.labels.salesCount') }}
+              <v-spacer></v-spacer>
+              <v-select hide-details dense outlined v-model="selectedSalesInterval"
+                        style="z-index: 20"
+                        :items="intervalItems" item-text="name" item-value="value"></v-select>
+            </v-card-title>
+            <v-card-text>
+              <PurchaseNumberChart :data="purchaseCountIntervalItems"></PurchaseNumberChart>
             </v-card-text>
           </v-card>
         </v-col>
@@ -123,6 +137,7 @@
 
 <script>
 import PurchaseCategoryChart from '@/components/Charts/PurchaseCategoryChart.vue';
+import PurchaseNumberChart from '@/components/Charts/PurchaseNumberChart.vue';
 import DebitChart from '../../Charts/DebitChart.vue';
 import openapi from '../../../api/openapi';
 import openapiCached from '../../../api/openapiCached';
@@ -130,7 +145,9 @@ import PurchaseCountryChart from '../../Charts/PurchaseCountryChart.vue';
 
 export default {
   name: 'Statistics',
-  components: { PurchaseCategoryChart, PurchaseCountryChart, DebitChart },
+  components: {
+    PurchaseNumberChart, PurchaseCategoryChart, PurchaseCountryChart, DebitChart,
+  },
   data() {
     return {
       debitStats: null,
@@ -138,6 +155,7 @@ export default {
       currencies: null,
       currentCurrency: null,
       categoryStats: null,
+      purchaseCountIntervalItems: null,
       intervalItems: [
         {
           name: this.$t('perDay'),
@@ -213,6 +231,13 @@ export default {
         currency_code: this.currentCurrency.code,
       }).then((rsp) => {
         this.categoryStats = rsp.data;
+      }).catch((err) => {
+        console.log(err);
+      });
+      api.shop_getPurchasesByDateStatistics({
+        interval: this.selectedSalesInterval,
+      }).then((rsp) => {
+        this.purchaseCountIntervalItems = rsp.data;
       }).catch((err) => {
         console.log(err);
       });
