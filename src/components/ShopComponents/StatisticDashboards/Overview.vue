@@ -48,7 +48,7 @@
           </v-card>
         </v-col>
         <v-col cols="4" lg="12" xl="6">
-          <v-car>
+          <v-card>
             <v-card-title>
               <v-icon left>mdi-cash</v-icon>
               {{ $t('_purchases.labels.activeSubscriptions') }}
@@ -70,7 +70,7 @@
                 {{ purchaseStats.active_subscriptions }}
               </div>
             </v-card-text>
-          </v-car>
+          </v-card>
         </v-col>
         <v-col cols="4" lg="12" xl="6">
           <v-card>
