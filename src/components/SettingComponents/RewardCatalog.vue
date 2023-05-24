@@ -6,7 +6,8 @@
     </v-tab>
     <v-tab-item v-for="tab in tabs.items" :key="tab.title">
       <v-select :items="serverbundles" dense v-model="serverbundle_id" validate-on-blur
-                item-value="id" :error="serverbundleSelectError" :rules="[v => !!v || 'Required']"
+                item-value="id"
+                :error="serverbundleSelectError" :rules="[v => !!v || $t('required')]"
                 item-text="name" hide-details="auto" :label="$t('serverbundle')" class="mt-3"/>
       <v-text-field outlined dense hide-details :label="$t('search')" v-model="search"
                prepend-inner-icon="mdi-magnify" class="mt-3" />
@@ -33,6 +34,8 @@
                             <div
                               v-if="property.multi === false || property.multi === undefined">
                               <v-text-field
+                                :error="missingInput"
+                                :rules="[v => !!v || $t('required')]"
                                 :key="key"
                                 :label="property.name"
                                 v-model="tabs.values[key]"
@@ -43,6 +46,8 @@
                             </div>
                             <div v-else>
                               <v-combobox
+                                :error="missingInput"
+                                :rules="[v => !!v || $t('required')]"
                                 :key="key"
                                 :label="property.name"
                                 v-model="tabs.values[key]"
@@ -90,6 +95,7 @@ export default {
       serverbundle_id: null,
       serverbundles: null,
       serverbundleSelectError: false,
+      missingInput: false,
       // All property settings: name (string), type ('text', 'number'), multi (bool)(Default: false)
       tabs: {
         values: {},
@@ -556,7 +562,7 @@ export default {
     },
     async createTemplateReward(reward) {
       const data = { ...reward };
-      console.log(this.tabs.values);
+      this.missingInput = false;
 
       if (!this.serverbundle_id) {
         this.serverbundleSelectError = true;
@@ -581,6 +587,11 @@ export default {
       if (inputs) {
         inputs.forEach((input) => {
           const replace = input.replace(/{{|}}/g, '');
+          // check for missing fields
+          if (!(replace in this.tabs.values)) {
+            this.missingInput = true;
+            return;
+          }
           if (Array.isArray(this.tabs.values[replace])) {
             const startAt = data[type].indexOf('(');
             const command = data[type].substring(0, startAt + 1);
@@ -594,6 +605,9 @@ export default {
             data[type] = data[type].replace(input, this.tabs.values[replace]);
           }
         });
+      }
+      if (this.missingInput) {
+        return;
       }
 
       if (data.script) {

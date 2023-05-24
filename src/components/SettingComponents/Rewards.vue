@@ -13,6 +13,7 @@
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t('_reward.labels.create') }}</span>
         </v-btn>
+        <v-btn outlined color="primary" @click="$refs.useTemplateDialog.show()"
         <v-btn class="ml-1" outlined color="success" @click="$refs.appliedRewardSyncDialog.show()"
                v-if="$checkProp('applied_packet_edit')">
           <v-icon>mdi-sync</v-icon>
@@ -20,7 +21,7 @@
         <v-btn outlined color="success" @click="$refs.useTemplateDialog.show()">
         <v-btn outlined color="success" @click="$refs.useTemplateDialog.show()"
                style="border-bottom-left-radius: 0; border-top-left-radius: 0;">
-          <v-icon left>mdi-plus</v-icon>
+          <v-icon left>mdi-bookshelf</v-icon>
           <span>{{ $t('_reward.labels.templates') }}</span>
         </v-btn>
       </template>
