@@ -8,7 +8,8 @@
       :items="rewards"
       :showSearch="true">
       <template v-slot:footer-right>
-        <v-btn outlined color="success" @click="$refs.createRewardDialog.show()">
+        <v-btn outlined color="success" @click="$refs.createRewardDialog.show()"
+               style="border-bottom-right-radius: 0; border-top-right-radius: 0;">
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t('_reward.labels.create') }}</span>
         </v-btn>
@@ -17,8 +18,10 @@
           <v-icon>mdi-sync</v-icon>
         </v-btn>
         <v-btn outlined color="success" @click="$refs.useTemplateDialog.show()">
+        <v-btn outlined color="success" @click="$refs.useTemplateDialog.show()"
+               style="border-bottom-left-radius: 0; border-top-left-radius: 0;">
           <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t('_reward.labels.Templates') }}</span>
+          <span>{{ $t('_reward.labels.templates') }}</span>
         </v-btn>
       </template>
       <template v-slot:item.once="{ item }">
@@ -62,8 +65,9 @@
       @submit="editReward"
       :title="$t('_reward.labels.edit')">
     </DialogForm>
-    <Dialog title="Templates (WIP)" ref="useTemplateDialog" icon="mdi-star-shooting">
-      <RewardCatalog @success="$refs.useTemplateDialog.close()"/>
+    <Dialog :title="$t('_reward.labels.templates')"
+            ref="useTemplateDialog" icon="mdi-star-shooting">
+      <RewardCatalog @success="$refs.useTemplateDialog.close(); fetchData()"/>
     </Dialog>
     <DeleteConfirmationDialog
       ref="deleteRewardDialog"

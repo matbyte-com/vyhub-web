@@ -10,7 +10,7 @@
                 item-text="name" hide-details="auto" :label="$t('serverbundle')" class="mt-3"/>
       <v-text-field outlined dense hide-details :label="$t('search')" v-model="search"
                prepend-inner-icon="mdi-magnify" class="mt-3" />
-      <v-expansion-panels>
+      <v-expansion-panels class="mb-5">
         <v-expansion-panel v-for="item in searchedRewards" :key="item.name">
           <v-expansion-panel-header>
             {{ item.name }}
@@ -22,8 +22,7 @@
                   {{ script.name }}
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <div class="mb-1 ml-3">
-                    {{ script.description }}
+                  <div class="mb-1 ml-3" v-html="script.description">
                   </div>
                   <v-divider class="mb-4" />
                   <v-row>
@@ -59,8 +58,8 @@
                       </v-row>
                     </v-col>
                   </v-row>
-                  <v-btn small outlined color="success" @click="createTemplateReward(script)"
-                         :disabled="!script.script">
+                  <v-btn v-if="script.script || script.command"
+                         small outlined color="success" @click="createTemplateReward(script)">
                     <v-icon left>mdi-plus</v-icon>
                     <span>{{ $t('_reward.labels.create') }}</span>
                   </v-btn>
@@ -70,7 +69,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-      <span class="mt-3">
+      <span v-if="tab.title !== 'Discord' && tab.title !== 'Teamspeak 3 (TS3)'">
         Unlimited other rewards are possible by simply executing any command on the server.
         There is no limit but your creativity.
       </span>
@@ -95,6 +94,21 @@ export default {
       tabs: {
         values: {},
         items: [
+          {
+            title: 'Discord',
+            items: [
+              {
+                name: 'Groups',
+                scripts: [
+                  {
+                    name: 'Add User to Group',
+                    description: 'Adds the user to a Discord group. Use the VyHub group sync feature for this. Create a membership reward and add a group-mapping between VyHub group and Discord role. Find a guide in the <a href="https://docs.vyhub.net/latest/guide/group" target="_blank">documentation</a>.',
+                  },
+                ],
+              },
+            ],
+          },
+          /*
           {
             title: 'FiveM',
             items: [
@@ -187,6 +201,22 @@ export default {
                 ],
               },
               {
+                name: 'Point Shop (Dimbo Scripts)',
+                scripts: [
+                  {
+                    name: 'Give Points',
+                    description: 'Gives the player points',
+                    script: 'givepoints PLAYER {{amount}}',
+                    properties: {
+                      amount: {
+                        name: 'Amount',
+                        type: 'number',
+                      },
+                    },
+                  },
+                ],
+              },
+              {
                 name: 'QBCore',
                 scripts: [
                   {
@@ -211,7 +241,9 @@ export default {
                 scripts: [
                   {
                     name: 'Access to reserved slots',
-                    description: 'Allow the player to join when the server is full. Add the player to a donator group which is then whitelisted to use reserved slots using plugins like ULX or Proper Reserved Slots',
+                    description: 'Allow the player to join when the server is full. Add the player
+                     to a donator group which is then whitelisted to use reserved slots using
+                      plugins like ULX or Proper Reserved Slots',
                   },
                   {
                     name: 'Ability to change phone number',
@@ -224,7 +256,7 @@ export default {
                 ],
               },
             ],
-          },
+          }, */
           {
             title: 'Garry\'s Mod',
             items: [
@@ -391,7 +423,7 @@ export default {
                   {
                     name: 'Give money',
                     description: 'Give money to player.',
-                    script: 'balance add PLAYER {{amount}}',
+                    command: 'balance add %nick% {{amount}}',
                     properties: {
                       amount: {
                         name: 'Amount',
@@ -407,7 +439,7 @@ export default {
                   {
                     name: 'Give Enderbag to player',
                     description: 'Players will get a portable enderchest.',
-                    script: 'enderbag give PLAYER',
+                    command: 'enderbag give %nick%',
                   },
                 ],
               },
@@ -417,7 +449,7 @@ export default {
                   {
                     name: 'Add user to group',
                     description: 'Add user to given group.',
-                    script: 'lp user PLAYER parent add {{group}}',
+                    command: 'lp user %nick% parent add {{group}}',
                     properties: {
                       group: {
                         name: 'Group',
@@ -428,7 +460,7 @@ export default {
                   {
                     name: 'Promote user on given track',
                     description: 'Promote user on given track.',
-                    script: 'lp user PLAYER promote {{track}}',
+                    command: 'lp user %nick% promote {{track}}',
                     properties: {
                       track: {
                         name: 'Track',
@@ -439,7 +471,7 @@ export default {
                   {
                     name: 'Remove group from user',
                     description: 'Remove group from user.',
-                    script: 'lp user PLAYER parent remove {{group}}',
+                    command: 'lp user %nick% parent remove {{group}}',
                     properties: {
                       group: {
                         name: 'Group',
@@ -455,7 +487,7 @@ export default {
                   {
                     name: 'Give pet to player',
                     description: 'Give pet to player.',
-                    script: 'mcpets spawn {{petId}} PLAYER',
+                    command: 'mcpets spawn {{petId}} %nick%',
                     properties: {
                       petId: {
                         name: 'Pet',
@@ -471,7 +503,7 @@ export default {
                   {
                     name: 'Give portable crafting table',
                     description: 'Give portable crafting table to player.',
-                    script: '/craftingtable give PLAYER',
+                    command: '/craftingtable give %nick%',
                   },
                 ],
               },
@@ -489,6 +521,21 @@ export default {
                   {
                     name: 'Access to a player specific plot',
                     description: 'Give the player his own plot where they can build safely without the fear of destruction by other players. A Plugin could be WorldGuard.',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title: 'Teamspeak 3 (TS3)',
+            items: [
+              {
+                name: 'Groups',
+                scripts: [
+                  {
+                    name: 'Add User to Group',
+                    description: 'Adds the user to a Teamspeak group. Use the VyHub group sync feature for this. Create a membership reward and add a group-mapping between VyHub group and Teamspeak group. Find a guide in the\n'
+                      + '        <a href="https://docs.vyhub.net/latest/guide/group" target="_blank">documentation</a>.',
                   },
                 ],
               },
@@ -520,31 +567,46 @@ export default {
       data.name = `${data.name}-Template-${Math.random().toString(36).substring(2, 5)}`;
       data.serverbundle_id = this.serverbundle_id;
       data.on_event = data.on_event ? data.on_event : 'DIRECT';
-      data.type = 'SCRIPT';
 
-      const inputs = data.script.match(/{{.*?}}/g);
+      let type;
+      if (data.script) {
+        data.type = 'SCRIPT';
+        type = 'script';
+      } else if (data.command) {
+        data.type = 'COMMAND';
+        type = 'command';
+      }
+
+      const inputs = data[type].match(/{{.*?}}/g);
       if (inputs) {
         inputs.forEach((input) => {
           const replace = input.replace(/{{|}}/g, '');
           if (Array.isArray(this.tabs.values[replace])) {
-            const startAt = data.script.indexOf('(');
-            const command = data.script.substring(0, startAt + 1);
+            const startAt = data[type].indexOf('(');
+            const command = data[type].substring(0, startAt + 1);
             const itemArray = this.tabs.values[replace];
             const newScriptArray = [];
             itemArray.forEach((item) => {
               newScriptArray.push(`${command}${item})`);
             });
-            data.script = newScriptArray.join(' ');
+            data[type] = newScriptArray.join(' ');
           } else if (this.tabs.values[replace]) {
-            data.script = data.script.replace(input, this.tabs.values[replace]);
+            data[type] = data[type].replace(input, this.tabs.values[replace]);
           }
         });
       }
 
-      data.data = {
-        script: data.script,
-      };
+      if (data.script) {
+        data.data = {
+          script: data.script,
+        };
+      } else if (data.command) {
+        data.data = {
+          command: data.command,
+        };
+      }
       delete data.script;
+      delete data.command;
       delete data.run;
       delete data.description;
       delete data.properties;
