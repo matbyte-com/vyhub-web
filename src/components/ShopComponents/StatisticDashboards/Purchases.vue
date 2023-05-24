@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12" lg="6">
-        <v-card v-if="purchaseCountIntervalItems != null" class="mt-6">
+      <v-col v-if="purchaseCountIntervalItems != null" cols="12" lg="6">
+        <v-card class="mt-6">
           <v-card-title>
             <v-icon left>mdi-counter</v-icon>
             {{ $t('_purchases.labels.salesCount') }}
@@ -16,8 +16,8 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" lg="6">
-        <v-card v-if="purchaseCountIntervalItems != null" class="mt-6">
+      <v-col v-if="heatmapItems != null" cols="12" lg="6">
+        <v-card class="mt-6">
           <v-card-title>
             <v-icon left>mdi-counter</v-icon>
             {{ $t('_purchases.labels.salesCount') }}
@@ -26,6 +26,12 @@
             <PurchaseTimeHeatmap :data="heatmapItems"></PurchaseTimeHeatmap>
           </v-card-text>
         </v-card>
+      </v-col>
+      <v-col cols="12" lg="6" v-if="purchaseCountIntervalItems == null">
+        <v-skeleton-loader type="card"/>
+      </v-col>
+      <v-col cols="12" lg="6" v-if="heatmapItems == null">
+        <v-skeleton-loader type="card"/>
       </v-col>
     </v-row>
   </div>

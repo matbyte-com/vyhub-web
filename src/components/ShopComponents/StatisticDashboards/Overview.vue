@@ -15,10 +15,10 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="12" lg="4">
+    <v-col cols="12" lg="4" v-if="purchaseStats != null">
       <v-row>
         <v-col cols="4" lg="12" xl="6">
-          <v-card v-if="purchaseStats != null">
+          <v-card>
             <v-card-title>
               <v-icon left>mdi-numeric</v-icon>
               {{ $t('_purchases.labels.salesCount') }}
@@ -31,7 +31,7 @@
           </v-card>
         </v-col>
         <v-col cols="4" lg="12" xl="6">
-          <v-card v-if="purchaseStats != null">
+          <v-card>
             <v-card-title>
               <v-icon left>mdi-cash-register</v-icon>
               {{ $t('_purchases.labels.totalRevenue') }}
@@ -48,7 +48,7 @@
           </v-card>
         </v-col>
         <v-col cols="4" lg="12" xl="6">
-          <v-card v-if="purchaseStats != null">
+          <v-car>
             <v-card-title>
               <v-icon left>mdi-cash</v-icon>
               {{ $t('_purchases.labels.activeSubscriptions') }}
@@ -70,10 +70,10 @@
                 {{ purchaseStats.active_subscriptions }}
               </div>
             </v-card-text>
-          </v-card>
+          </v-car>
         </v-col>
         <v-col cols="4" lg="12" xl="6">
-          <v-card v-if="purchaseStats != null">
+          <v-card>
             <v-card-title>
               <v-icon left>mdi-calendar-refresh</v-icon>
               {{ $t('_purchases.labels.monthlyRevenue') }}
@@ -102,7 +102,7 @@
           </v-card>
         </v-col>
         <v-col cols="4" lg="12" xl="6">
-          <v-card v-if="purchaseStats != null">
+          <v-card>
             <v-card-title>
               <v-icon left>mdi-circle-multiple</v-icon>
               {{ $t('_purchases.labels.creditsSpent') }}
@@ -115,7 +115,7 @@
           </v-card>
         </v-col>
         <v-col cols="4" lg="12" xl="6">
-          <v-card v-if="purchaseStats != null">
+          <v-card>
             <v-card-title>
               <v-icon left>mdi-percent</v-icon>
               {{ $t('_purchases.labels.averagePurchaseAmount') }}
@@ -128,7 +128,7 @@
           </v-card>
         </v-col>
         <v-col cols="12" md="6" lg="12">
-          <v-card v-if="purchaseStats != null">
+          <v-card>
             <v-card-title>
               <v-icon left>mdi-earth</v-icon>
               {{ $t('_purchases.labels.revenueByCountry') }}
@@ -141,7 +141,7 @@
           </v-card>
         </v-col>
         <v-col cols="12" md="6" lg="12">
-          <v-card v-if="purchaseStats != null">
+          <v-card>
             <v-card-title>
               <v-icon left>mdi-gift-open</v-icon>
               {{ $t('_purchases.labels.revenueByCategory') }}
@@ -153,6 +153,12 @@
           </v-card>
         </v-col>
       </v-row>
+    </v-col>
+    <v-col cols="12" lg="8" v-if="debitStats == null">
+      <v-skeleton-loader type="card"/>
+    </v-col>
+    <v-col cols="12" lg="4" v-if="purchaseStats == null">
+      <v-skeleton-loader type="card"/>
     </v-col>
   </v-row>
 </template>
