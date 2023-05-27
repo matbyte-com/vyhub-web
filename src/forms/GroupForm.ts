@@ -26,6 +26,13 @@ export default {
           minimum: 0,
           maximum: 100000,
         },
+        max_ban_length: {
+          type: 'integer',
+          title: i18n.t('_group.maxBanLengthInDays'),
+          description: i18n.t('_group.maxBanLengthInDaysDescription'),
+          minimum: 1,
+          maximum: 365,
+        },
         color: Common.colorPicker(),
         is_team: {
           type: 'boolean',

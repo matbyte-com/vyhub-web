@@ -224,6 +224,7 @@ export default {
 
       data.properties = this.formatProperties(data);
       delete data.advanced_properties;
+      data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
 
       (await openapi).group_addGroup(
         null, data,
@@ -254,6 +255,7 @@ export default {
       obj.name = item.name;
       obj.permission_level = item.permission_level;
       obj.color = item.color;
+      obj.max_ban_length = item.max_ban_length / 60 / 60 / 24;
       obj.properties = props;
       obj.mappings = item.mappings;
       // obj.advanced_properties = advProps;
@@ -284,6 +286,7 @@ export default {
 
       data.properties = this.formatProperties(data);
       // delete data.advanced_properties;
+      data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
 
       (await openapi).group_editGroup(group.id, data)
         .then(() => {
