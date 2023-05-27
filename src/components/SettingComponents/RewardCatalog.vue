@@ -25,7 +25,7 @@
                 <v-expansion-panel-content>
                   <div class="mb-1 ml-3" v-html="script.description">
                   </div>
-                  <v-divider class="mb-4" />
+                  <v-divider v-if="script.script || script.command" class="mb-4" />
                   <v-row>
                     <v-col cols="12" md="6">
                       <v-row>
@@ -64,7 +64,7 @@
                     </v-col>
                   </v-row>
                   <v-btn v-if="script.script || script.command"
-                         small outlined color="success" @click="createTemplateReward(script)">
+                         small outlined color="success" @click="createTemplateReward(script, item)">
                     <v-icon left>mdi-plus</v-icon>
                     <span>{{ $t('_reward.labels.create') }}</span>
                   </v-btn>
@@ -96,7 +96,10 @@ export default {
       serverbundles: null,
       serverbundleSelectError: false,
       missingInput: false,
-      // All property settings: name (string), type ('text', 'number'), multi (bool)(Default: false)
+      /*
+      * All possible property settings:
+      * name (string), type ('text', 'number'), multi (bool)(Default: false)
+       */
       tabs: {
         values: {},
         items: [
@@ -108,7 +111,7 @@ export default {
                 scripts: [
                   {
                     name: 'Add User to Group',
-                    description: 'Adds the user to a Discord group. Use the VyHub group sync feature for this. Create a membership reward and add a group-mapping between VyHub group and Discord role. Find a guide in the <a href="https://docs.vyhub.net/latest/guide/group" target="_blank">documentation</a>.',
+                    description: 'Adds the user to a Discord group. Use the <b>VyHub group sync feature</b> for this. Create a membership reward and add a group-mapping between VyHub group and Discord role. Find a guide in the <a href="https://docs.vyhub.net/latest/guide/group" target="_blank">documentation</a>.',
                   },
                 ],
               },
@@ -346,12 +349,28 @@ export default {
                 ],
               },
               {
+                name: 'SAM',
+                scripts: [
+                  {
+                    name: 'Add user to group',
+                    description: 'Add user to given group.',
+                    script: 'sam setrank PLAYER:Nick() {{group}}',
+                    properties: {
+                      group: {
+                        name: 'Group',
+                        type: 'text',
+                      },
+                    },
+                  },
+                ],
+              },
+              {
                 name: 'ULX',
                 scripts: [
                   {
                     name: 'Add user to group',
                     description: 'Add user to given group.',
-                    script: 'ulx adduser PLAYER {{group}}',
+                    script: 'ulx adduser PLAYER:Nick() {{group}}',
                     properties: {
                       group: {
                         name: 'Group',
@@ -407,7 +426,7 @@ export default {
                     name: 'Give Weapons (Permanent)',
                     description: 'Give weapons permanently to a player. (give on spawn)',
                     script: 'PLAYER:Give({{weapon}})',
-                    event: 'SPAWN',
+                    on_event: 'SPAWN',
                     properties: {
                       weapon: {
                         name: 'weapon',
@@ -540,7 +559,7 @@ export default {
                 scripts: [
                   {
                     name: 'Add User to Group',
-                    description: 'Adds the user to a Teamspeak group. Use the VyHub group sync feature for this. Create a membership reward and add a group-mapping between VyHub group and Teamspeak group. Find a guide in the\n'
+                    description: 'Adds the user to a Teamspeak group. Use the <b>VyHub group sync feature</b> for this. Create a membership reward and add a group-mapping between VyHub group and Teamspeak group. Find a guide in the\n'
                       + '        <a href="https://docs.vyhub.net/latest/guide/group" target="_blank">documentation</a>.',
                   },
                 ],
@@ -560,7 +579,7 @@ export default {
         this.serverbundles = rsp.data;
       });
     },
-    async createTemplateReward(reward) {
+    async createTemplateReward(reward, cat) {
       const data = { ...reward };
       this.missingInput = false;
 
@@ -570,7 +589,7 @@ export default {
       }
       this.serverbundleSelectError = false;
 
-      data.name = `${data.name}-Template-${Math.random().toString(36).substring(2, 5)}`;
+      data.name = `${data.name} (${cat.name})`;
       data.serverbundle_id = this.serverbundle_id;
       data.on_event = data.on_event ? data.on_event : 'DIRECT';
 
