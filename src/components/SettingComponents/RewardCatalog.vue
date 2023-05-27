@@ -354,7 +354,7 @@ export default {
                   {
                     name: 'Add user to group',
                     description: 'Add user to given group.',
-                    script: 'sam setrank PLAYER:Nick() {{group}}',
+                    command: 'sam setrank %nick% {{group}}',
                     properties: {
                       group: {
                         name: 'Group',
@@ -370,7 +370,7 @@ export default {
                   {
                     name: 'Add user to group',
                     description: 'Add user to given group.',
-                    script: 'ulx adduser PLAYER:Nick() {{group}}',
+                    command: 'ulx adduser %nick% {{group}}',
                     properties: {
                       group: {
                         name: 'Group',
