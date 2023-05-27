@@ -178,6 +178,12 @@
                 mdi-filter
               </v-icon>
             </v-btn>
+            <v-btn class="ml-3" outlined color="error" icon
+                   @click="resetFilters" :disabled="Object.keys(this.filteredLabels).length === 0">
+              <v-icon>
+                mdi-filter-off
+              </v-icon>
+            </v-btn>
             <v-btn class="ml-3" outlined color="primary" icon
                    @click="fetchData">
               <v-icon>
@@ -188,6 +194,10 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <v-alert color="error" icon="mdi-information-outline"  v-if="logs && logs.length >= 1000"
+             class="mt-2">
+      {{ $t('_log.messages.limitReachedFilter') }}
+    </v-alert>
     <v-card>
       <v-card-text class="mt-0 pt-0">
         <DataTable
@@ -220,6 +230,7 @@
                 <span class="subtitle-1">{{ $t('labels') }}:</span>
                 <br/>
                 <LogLabel :label="label" :value="value"
+                          @click="selectedFilters = {}; selectedFilters[label] = value;"
                           v-for="(value, label) in cleanedLabels(item.labels)" v-bind:key="label"
                           class="mr-2">
                 </LogLabel>
@@ -279,6 +290,7 @@ import DialogForm from '@/components/DialogForm.vue';
 import Common from '@/forms/Common';
 
 export default {
+  name: 'Log',
   components: {
     DialogForm,
     LogLabel,
@@ -293,6 +305,7 @@ export default {
       selectedCat: null,
       selectedSeverity: null,
       search: null,
+      maxIntervalDays: 89,
       logs: null,
       totalItems: 0,
       startDate: new Date(Date.now() - 86400000 * 7).toISOString().split('T')[0],
@@ -369,6 +382,13 @@ export default {
     datediff(first, second) {
       return Math.round((second - first) / (1000 * 60 * 60 * 24));
     },
+    resetFilters() {
+      this.selectedCat = null;
+      this.selectedSeverity = null;
+      this.selectedFilters = {};
+      this.search = null;
+      this.fetchData();
+    },
   },
   computed: {
     start() {
@@ -431,6 +451,7 @@ export default {
   watch: {
     filteredLabels() {
       this.fetchLogs();
+      this.$refs.labelFilterDialog.setData(this.selectedFilters);
     },
     endDate() {
       if (new Date(this.startDate) > new Date(this.endDate)) {
@@ -438,9 +459,9 @@ export default {
         return;
       }
 
-      if (this.datediff(new Date(this.startDate), new Date(this.endDate)) > 29) {
+      if (this.datediff(new Date(this.startDate), new Date(this.endDate)) > this.maxIntervalDays) {
         const newDate = new Date(this.endDate);
-        newDate.setDate(newDate.getDate() - 29);
+        newDate.setDate(newDate.getDate() - this.maxIntervalDays);
         [this.startDate] = newDate.toISOString().split('T');
       }
     },
@@ -450,9 +471,9 @@ export default {
         return;
       }
 
-      if (this.datediff(new Date(this.startDate), new Date(this.endDate)) > 29) {
+      if (this.datediff(new Date(this.startDate), new Date(this.endDate)) > this.maxIntervalDays) {
         const newDate = new Date(this.startDate);
-        newDate.setDate(newDate.getDate() + 29);
+        newDate.setDate(newDate.getDate() + this.maxIntervalDays);
         [this.endDate] = newDate.toISOString().split('T');
       }
     },

@@ -39,7 +39,7 @@ export default {
   methods: {
     showLogs() {
       if (this.logsShown) {
-        this.$refs.logTable.refresh();
+        this.$refs.logTable.fetchData();
       } else {
         this.logsShown = true;
       }

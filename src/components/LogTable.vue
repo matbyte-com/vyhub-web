@@ -1,32 +1,37 @@
 <template>
-  <DataTable
-    :headers="headers"
-    :items="entries"
-    :search="search"
-    :sort-by="['created_on']"
-    :items-per-page="5"
-    :sort-desc="[true]">
-    <template v-slot:top v-if="showSearch">
-      <v-row>
-        <v-spacer/>
-        <v-col lg="2" md="4" sm="12">
-          <v-text-field
-            v-model="search"
-            label="Search"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-    </template>
-    <template v-slot:item.author="{ item }">
-      <UserLink :user="item.author" v-if="item.author != null"></UserLink>
-    </template>
-    <template v-slot:item.message="{ item }">
-      {{ item.message }}
-    </template>
-    <template v-slot:item.created_on="{ item }">
-      <span>{{ new Date(item.date).toLocaleString() }}</span>
-    </template>
-  </DataTable>
+  <div>
+    <v-alert color="error" icon="mdi-information-outline" v-if="entries && entries.length >= 500">
+      {{ $t('_log.messages.limitReached') }}
+    </v-alert>
+    <DataTable
+      :headers="headers"
+      :items="entries"
+      :search="search"
+      :sort-by="['created_on']"
+      :items-per-page="5"
+      :sort-desc="[true]">
+      <template v-slot:top v-if="showSearch">
+        <v-row>
+          <v-spacer/>
+          <v-col lg="2" md="4" sm="12">
+            <v-text-field
+              v-model="search"
+              label="Search"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </template>
+      <template v-slot:item.author="{ item }">
+        <UserLink :user="item.author" v-if="item.author != null"></UserLink>
+      </template>
+      <template v-slot:item.message="{ item }">
+        {{ item.message }}
+      </template>
+      <template v-slot:item.created_on="{ item }">
+        <span>{{ new Date(item.date).toLocaleString() }}</span>
+      </template>
+    </DataTable>
+  </div>
 </template>
 
 <script>
