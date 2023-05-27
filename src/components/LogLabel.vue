@@ -1,5 +1,5 @@
 <template>
-  <v-chip>
+  <v-chip @click="$emit('click')">
     {{ label }}: {{ value }}
   </v-chip>
 </template>
