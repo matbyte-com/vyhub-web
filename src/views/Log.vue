@@ -175,7 +175,7 @@
             <v-btn class="ml-3" outlined color="primary" icon
                    @click="$refs.labelFilterDialog.show()">
               <v-icon>
-                mdi-filter
+                mdi-filter-plus
               </v-icon>
             </v-btn>
             <v-btn class="ml-3" outlined color="error" icon
@@ -273,7 +273,8 @@
         </DataTable>
       </v-card-text>
     </v-card>
-    <DialogForm ref="labelFilterDialog" :max-width="500" :title="$t('filter')" icon="mdi-filter"
+    <DialogForm ref="labelFilterDialog" :max-width="500" :title="$t('filter')"
+                icon="mdi-filter-plus"
                 @submit="applyAdvancedFilters" @cancel="selectedFilters = {}"
                 :form-schema="advancedFiltersFormSchema">
     </DialogForm>
@@ -372,6 +373,7 @@ export default {
       delete newLabels.author_id;
       delete newLabels.logger;
       delete newLabels.severity;
+      delete newLabels.log_entry_id;
 
       return newLabels;
     },
