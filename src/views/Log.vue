@@ -259,16 +259,13 @@
             </v-tooltip>
           </template>
           <template v-slot:item.time="{ item }">
-          <span>
-            {{
-              $t('_notification.timeAgo', {
-                time: utils.formatElapsedTime((new Date() - new Date(item.date)))
-              })
-            }}
-          </span>
-          </template>
-          <template v-slot:item.category="{ item }">
-            {{ $t(`_log.type.${item.category.toLowerCase()}`) }}
+            <span>
+              {{
+                $t('_notification.timeAgo', {
+                  time: utils.formatElapsedTime((new Date() - new Date(item.date)))
+                })
+              }}
+            </span>
           </template>
         </DataTable>
       </v-card-text>
