@@ -151,7 +151,7 @@
                   hide-details
                   v-for="(category, index) in categories"
                   :key="index"
-                  :label="$t(`_log.type.${category.toLowerCase()}`)"
+                  :label="category"
                   :value="category"
                 ></v-radio>
               </v-radio-group>
