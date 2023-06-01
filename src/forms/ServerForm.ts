@@ -38,7 +38,18 @@ function serverTypeFields(serverType: string) {
     };
   }
   if (serverType === 'TEAMSPEAK3') {
+    required = ['query_port'];
     required_secrets = ['username', 'password'];
+    properties = {
+      query_port: {
+        type: 'integer',
+        title: i18n.t('_server.labels.sshQueryPort'),
+        description: i18n.t('_server.labels.queryPortDescription'),
+        default: 1,
+        minimum: 1,
+        maximum: 65535,
+      },
+    };
     properties_secrets = {
       username: {
         type: 'string',
