@@ -31,11 +31,13 @@ export default {
           },
           labels: {
             formatter: (y) => (this.convertTimeRange(y)),
+            // formatter: (y) => (y),
           },
         },
         yaxis: {
           labels: {
             formatter: (y) => (this.getLocalizedWeekday(y)),
+            // formatter: (y) => (y),
           },
         },
         tooltip: {
@@ -56,8 +58,11 @@ export default {
   },
   methods: {
     getLocalizedWeekday(day) {
+      if (!day) {
+        return '';
+      }
       const date = new Date();
-      date.setDate(date.getDate() + day - 2);
+      date.setDate(date.getDate() + 4 + day);
       return date.toLocaleString(this.$i18n.locale, { weekday: 'long' });
     },
     convertTimeRange(timeRange) {
@@ -74,7 +79,7 @@ export default {
   },
   computed: {
     series() {
-      if (this.data == null) {
+      if (this.data == null || this.data === 0) {
         return null;
       }
 
@@ -93,7 +98,7 @@ export default {
       });
 
       // Add missing values for days and purchase counts
-      for (let day = 1; day <= 7; day += 1) {
+      for (let day = 0; day <= 6; day += 1) {
         // eslint-disable-next-line no-prototype-builtins
         if (!series.hasOwnProperty(day)) {
           series[day] = {};
