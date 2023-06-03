@@ -7,7 +7,7 @@
       <v-col cols="12">
         <v-card outlined flat class="fill-height transparent">
           <v-card-text>
-            <SettingTitle :divider="false" doc-path="/guide/serverbundle" class="black--text">
+            <SettingTitle :divider="false" doc-path="/guide/serverbundle">
               {{ $t('serverbundle') }}
             </SettingTitle>
             <v-simple-table>
