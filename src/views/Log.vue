@@ -275,6 +275,12 @@
                 @submit="applyAdvancedFilters" @cancel="selectedFilters = {}"
                 :form-schema="advancedFiltersFormSchema">
     </DialogForm>
+    <div class="mt-4 text-right">
+      <v-btn @click="downloadOldLogs">
+        <v-icon left>mdi-download</v-icon>
+        {{ $t('_log.labels.downloadOldLogs') }}
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -387,6 +393,11 @@ export default {
       this.selectedFilters = {};
       this.search = null;
       this.fetchData();
+    },
+    async downloadOldLogs() {
+      (await openapi).log_getOldLogCsv().then((rsp) => {
+        this.utils.showFile(rsp.data, 'vyhub_old_logs.csv', 'text/csv');
+      });
     },
   },
   computed: {
