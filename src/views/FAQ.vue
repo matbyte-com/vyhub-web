@@ -41,7 +41,7 @@
           <v-card>
             <v-expansion-panel-header>
               <v-row>
-                <v-col cols="1" class="d-flex align-center">
+                <v-col cols="11" class="d-flex align-center">
                   <v-icon v-if="question.icon" class="mr-2">{{ question.icon }}</v-icon>
                   <b>
                     {{ question.title }}
