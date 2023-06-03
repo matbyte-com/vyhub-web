@@ -4,6 +4,7 @@
     v-bind="$attrs"
     v-model="open"
     :max-width="maxWidth"
+    style="z-index: 1000"
     :fullscreen="$vuetify.breakpoint.xsOnly">
     <v-card>
       <v-card-title class="primary white--text">
