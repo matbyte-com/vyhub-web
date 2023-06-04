@@ -212,7 +212,7 @@
         >
           <template v-slot:item.message="{ item }">
             <div class="text-truncate"
-                 :style="{'max-width': $vuetify.breakpoint.width / 2 + 'px'}">
+                 :style="{'max-width': $vuetify.breakpoint.width / 2.2 + 'px'}">
               {{ item.message }}
             </div>
           </template>
@@ -323,7 +323,7 @@ export default {
           text: '', value: 'severity', sortable: false, width: '1%',
         },
         {
-          text: this.$t('date'), value: 'time', sortable: false, width: '8%',
+          text: this.$t('date'), value: 'time', sortable: false, width: '10%',
         },
         {
           text: this.$t('message'), value: 'message', sortable: false,
