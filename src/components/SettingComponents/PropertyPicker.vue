@@ -70,6 +70,7 @@ export default {
         });
       });
       this.properties = res;
+      this.on.input(this.properties);
     },
   },
 };
