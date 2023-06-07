@@ -255,7 +255,9 @@ export default {
       obj.name = item.name;
       obj.permission_level = item.permission_level;
       obj.color = item.color;
-      obj.max_ban_length = item.max_ban_length / 60 / 60 / 24;
+      if (item.max_ban_length != null) {
+        obj.max_ban_length = item.max_ban_length / 60 / 60 / 24;
+      }
       obj.properties = props;
       obj.mappings = item.mappings;
       // obj.advanced_properties = advProps;
