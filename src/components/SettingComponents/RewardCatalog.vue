@@ -270,6 +270,16 @@ export default {
             title: 'Garry\'s Mod',
             items: [
               {
+                name: 'Chat',
+                scripts: [
+                  {
+                    name: 'Server-wide Purchase Message',
+                    description: 'Sends a chat message to all players that informs about a purchase',
+                    script: 'VyHub.Util:print_chat_all("<green>%nick%</green> just purchased <red>%packet_title%</red> for <green>%purchase_amount%</green>")',
+                  },
+                ],
+              },
+              {
                 name: 'DarkRP',
                 scripts: [
                   {
