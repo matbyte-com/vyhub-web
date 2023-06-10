@@ -24,7 +24,7 @@
         </v-row>
         <v-row>
           <v-col cols="12" xl="6">
-            <v-row v-if="$checkProp('user_log')">
+            <v-row>
               <v-col>
                 <Groups :user="user"/>
               </v-col>
