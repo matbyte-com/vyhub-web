@@ -146,13 +146,15 @@
                 <tr>
                   <td>{{ $t('status') }}</td>
                   <td v-if="currentBan.active">
-                    <v-chip color="green">{{ $t('active') }}</v-chip>
+                    <v-chip class="white--text" color="green">{{ $t('active') }}</v-chip>
                   </td>
                   <td v-else-if="currentBan.status === 'UNBANNED'">
-                    <v-chip color="orange">{{ $t('_ban.labels.unbanned') }}</v-chip>
+                    <v-chip class="white--text" color="orange">
+                      {{ $t('_ban.labels.unbanned') }}
+                    </v-chip>
                   </td>
                   <td v-else>
-                    <v-chip color="red">{{ $t('expired') }}</v-chip>
+                    <v-chip class="white--text" color="red">{{ $t('expired') }}</v-chip>
                   </td>
                 </tr>
               </tbody>
@@ -203,6 +205,7 @@
       </template>
       <template v-slot:actions>
         <div v-if="currentBan != null
+                   && $store.getters.isLoggedIn
                    && $checkLinked($store.getters.user, currentBan.user)
                    && currentBan.active">
           <v-btn v-if="config && config.ban_protest_url" :href="config.ban_protest_url"
