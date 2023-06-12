@@ -163,7 +163,7 @@
     </v-row>
     <Dialog icon="mdi-download-network" :title="$t('_server.labels.setup')" :max-width="700"
             ref="serverSetupDialog">
-      <div v-if="serverSetupServer != null">
+      <div>
         <ServerSetup ref="serverSetup" :server="serverSetupServer"></ServerSetup>
       </div>
     </Dialog>
@@ -372,7 +372,9 @@ export default {
     showServerSetupDialog(server) {
       this.serverSetupServer = server;
       this.$refs.serverSetupDialog.show();
-      this.$refs.serverSetup.init();
+      this.$nextTick(() => {
+        this.$refs.serverSetup.init();
+      });
     },
     getBundle(item) {
       if (this.dataFetched !== 2) { return ''; }

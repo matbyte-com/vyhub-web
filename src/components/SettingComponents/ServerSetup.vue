@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2">
+  <div class="mt-2" v-if="server">
     <!-- GMOD -->
     <div v-if="server.type === 'GMOD'">
       <div class="font-weight-bold">1. {{ $t('_server.instructions.GMOD.download') }}</div>
@@ -99,13 +99,24 @@
       </div>
       <div class="mt-1 text-center">
         <a :href="discordBotLink" target="_blank">
-          <v-btn color="primary" @click="openDiscordBotLink">
+          <v-btn color="primary">
             <v-icon left>mdi-plus</v-icon>
             {{ $t('add') }}
           </v-btn>
         </a>
         <v-btn text icon @click="generateDiscordBotLink" color="primary" class="ml-1">
           <v-icon>mdi-reload</v-icon>
+        </v-btn>
+      </div>
+      <div class="font-weight-bold mt-4">
+        4. {{ $t('_server.instructions.DISCORD.restartBot') }}
+      </div>
+      <div class="text-center">
+        <v-btn @click="restartDiscordBot" color="primary" class="ml-1"
+               :disabled="botRestarted > 0">
+          <v-icon left>mdi-reload</v-icon>
+          <div v-if="botRestarted === 0">{{ $t('_server.instructions.DISCORD.restart') }}</div>
+          <div v-else>{{ botRestarted }}</div>
         </v-btn>
       </div>
     </div>
@@ -142,6 +153,7 @@ export default {
       gmodCommands: null,
       mcCommands: null,
       discordBotLink: '#',
+      botRestarted: 0,
     };
   },
   methods: {
@@ -195,6 +207,27 @@ export default {
       this.discordBotLink = `https://discord.com/api/oauth2/authorize?client_id=${client_id}&permissions=268438545&scope=bot`;
 
       return null;
+    },
+    async restartDiscordBot() {
+      const api = (await openapi);
+      await api.server_restartDiscordBot().then(() => {
+        this.botRestarted = 10;
+        this.timer();
+        this.$notify({
+          type: 'success',
+          title: this.$t('settingsSaveSuccess'),
+        });
+      });
+    },
+    async timer() {
+      if (this.botRestarted === 0) {
+        this.botRestarted = 0;
+        return;
+      }
+      setTimeout(() => {
+        this.botRestarted -= 1;
+        this.timer();
+      }, 1000);
     },
   },
 };
