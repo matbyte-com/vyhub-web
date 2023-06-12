@@ -8,9 +8,8 @@
     v-bind="$attrs" v-on="$listeners"
   >
     <template v-slot:header>
-      <v-row justify="end" v-if="search">
-        <v-col lg="3" md="6" sm="12">
-          <slot name="header" />
+      <v-row justify="end">
+        <v-col lg="3" md="6" sm="12" v-if="search">
           <v-text-field
             v-model="searchVal"
             :label="$t('search')"
@@ -26,6 +25,7 @@
           </v-text-field>
         </v-col>
       </v-row>
+      <slot name="header" />
     </template>
 
     <template v-for="(_, slot) of inheritSlots" v-slot:[slot]="scope">
