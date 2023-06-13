@@ -9,7 +9,7 @@
     </v-card-title>
     <v-card-text>
       <v-row v-if="newUsers != null">
-        <v-col cols="3" md="6" lg="6" xl="3" v-for="u in newUsers" v-bind:key="u.id">
+        <v-col cols="6" md="6" lg="6" xl="3" v-for="u in newUsers" v-bind:key="u.id">
           <v-card
             class="mt-2" @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })">
             <v-img :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
