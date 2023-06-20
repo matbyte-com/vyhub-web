@@ -1,6 +1,19 @@
 <template>
   <div>
-    <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="$t('link_account')">
+    <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="title">
+      <v-card outlined
+              type="info" dense v-if="$store.getters.isLoggedIn" class="mt-3 description-card">
+        <v-card-text>
+          <v-row no-gutters>
+            <v-col cols="10">
+              {{ $t('_user.userLinkDescription') }}
+            </v-col>
+            <v-col class="d-flex align-center justify-end">
+              <v-icon color="secondary" large>mdi-exclamation</v-icon>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
       <v-list tile v-if="backends != null">
         <v-list-item v-for="backend in backends" :key="backend.id"
                      @click="startAuth(backend)" :data-cy="backend.id">
@@ -30,8 +43,7 @@
         </div>
         <div v-if="authCommand != null" class="mt-2">
           <v-text-field readonly :value="authCommand"
-                        @focus="$event.target.select()"
-          >
+                        @focus="$event.target.select()">
           </v-text-field>
         </div>
         <div v-else class="mt-2">
@@ -94,6 +106,12 @@ export default {
           this.authDialogType = null;
         }
       },
+    },
+    title() {
+      if (this.$store.getters.isLoggedIn) {
+        return this.$t('link_account');
+      }
+      return this.$t('_header.labels.login');
     },
   },
   beforeMount() {
@@ -186,5 +204,7 @@ export default {
 </script>
 
 <style scoped>
-
+.description-card {
+  border-color: var(--v-secondary-base);
+}
 </style>
