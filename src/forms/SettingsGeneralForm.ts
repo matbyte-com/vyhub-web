@@ -50,6 +50,13 @@ function form(forum_enabled = false) {
         oneOf,
         'x-display': 'autocomplete',
       },
+      enable_customer_journey: {
+        type: 'boolean',
+        title: i18n.t('_settings.showFirstSteps'),
+        'x-display': 'switch',
+        description: i18n.t('_settings.showFirstStepsDescription'),
+      },
+
     },
   };
 }

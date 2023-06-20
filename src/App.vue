@@ -6,13 +6,10 @@
 
     <v-main :style="backgroundColor">
       <v-container>
-        <v-card class="transparent" flat
-          min-height="70vh"
-        >
+        <v-card class="transparent" flat min-height="70vh">
           <v-card-text>
             <transition mode="out-in"
-                        enter-active-class="animate__animated animate__fadeIn animate__faster"
-                        >
+                        enter-active-class="animate__animated animate__fadeIn animate__faster">
               <router-view>
               </router-view>
             </transition>
@@ -22,9 +19,42 @@
     </v-main>
 
     <TheFooter/>
-    <!-- floating button to show help-->
-    <v-fade-transition v-if="showInformationFab">
-      <v-menu top>
+
+    <!-- Welcome Overlay -->
+    <v-overlay v-if="welcomeOverlay" light>
+      <div class="d-flex align-center justify-center"
+           style="width: 100vw; height: 100vh; position: relative">
+        <v-card light class="getStartedCard"
+                :class="{ 'get-started-animation': welcomeAnimation }">
+          <v-card-text style="background-color: #FFFFFF" class="text-center">
+            <video loop autoplay muted width="200px">
+              <source src="https://cdn.vyhub.net/central/welcome-img/server-animated.mp4" type="video/mp4">
+              <img src="https://cdn.vyhub.net/central/welcome-img/server-fallback.png"
+                   alt="Fallback Server img"/>
+            </video>
+            <div>
+              Welcome to your new VyHub instance! <br>
+              Follow the tutorial in the bottom right to get started. <br>
+            </div>
+            <v-btn @click="closeOverlay()" class="mt-5"
+                   x-large color="success">
+              Get Started
+              <v-icon large>
+                mdi-chevron-right
+              </v-icon>
+            </v-btn>
+          </v-card-text>
+        </v-card>
+        <v-img class="arrowBottomRight animate__animated animate__pulse animate__infinite
+         animate__delay-2s"
+               max-width="100px" max-height="100px"
+               src="https://cdn.vyhub.net/central/welcome-img/arrow-right.png"/>
+      </div>
+    </v-overlay>
+
+    <!-- floating first steps button -->
+    <v-fade-transition v-if="showCustomerJourney">
+      <v-menu top :close-on-content-click="false" :close-on-click="false" v-model="firstSteps">
         <template v-slot:activator="{ on, attrs }">
           <v-btn fab dark x-large style="background-color: rgba(255,255,255,0.7)"
                  fixed right bottom v-bind="attrs" v-on="on">
@@ -33,39 +63,11 @@
             </v-btn>
           </v-btn>
         </template>
-        <v-card>
-          <v-card-title class="red lighten-1">
-            Question, Bugs, Feature Requests?
-          </v-card-title>
-          <v-card-text class="mt-4">
-            Please check the documentation or contact us!
-          </v-card-text>
-          <v-card-actions>
-            <v-btn class="red lighten-2" href="https://docs.vyhub.net" target="_blank">
-              <v-icon left>
-                mdi-help-circle-outline
-              </v-icon>
-              <span>Docs</span>
-            </v-btn>
-            <v-btn class="red lighten-2" href="https://discord.gg/QycQpd2AQP" target="_blank">
-              <v-icon left>
-                mdi-discord
-              </v-icon>
-              <span>Discord</span>
-            </v-btn>
-            <v-btn class="red lighten-2"
-                   :href="`mailto:support@matbyte.com?subject=Feedback Demo Route: ${$route.path}`">
-              <v-icon left>
-                mdi-email
-              </v-icon>
-              <span>Contact</span>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+        <CustomerJourney @close="firstSteps = false" />
       </v-menu>
     </v-fade-transition>
 
-    <!-- floating button to show help-->
+    <!-- Floating Alert to remember to set legal -->
     <router-link to="settings/legal" class="text-center" v-if="showLegalReminder">
       <v-alert dark style="left: 50%; top: 10%; margin-left: -150px; position: fixed"
                width="300px" class="red darken-2"
@@ -88,6 +90,7 @@ import openapi from '@/api/openapi';
 import VueNotification from '@/components/VueNotification.vue';
 import i18n from '@/plugins/i18n';
 import ForumService from '@/services/ForumService';
+import CustomerJourney from '@/components/CustomerJourney.vue';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
@@ -99,6 +102,7 @@ export default Vue.extend({
   name: 'App',
 
   components: {
+    CustomerJourney,
     VueNotification,
     TheHeader,
     TheFooter,
@@ -107,8 +111,9 @@ export default Vue.extend({
   data: () => ({
     background: '#FAFAFA',
     backgroundImage: null,
-    showInformationFab: false,
     showLegalReminder1: false,
+    firstSteps: false,
+    welcomeAnimation: false,
   }),
   created() {
     this.setThemeFromCache();
@@ -168,7 +173,6 @@ export default Vue.extend({
           this.$vuetify.theme.currentTheme.warning = theme.warning;
           this.$vuetify.theme.currentTheme.error = theme.error;
           this.$vuetify.theme.currentTheme.header = theme.header;
-          this.showInformationFab = theme.show_information_fab;
           cachedTheme.primary = theme.primary;
           cachedTheme.secondary = theme.secondary;
           cachedTheme.success = theme.success;
@@ -205,7 +209,6 @@ export default Vue.extend({
         this.$vuetify.theme.currentTheme.error = obj.error;
         this.$vuetify.theme.currentTheme.header = obj.header;
         this.$vuetify.theme.currentTheme.secondary = obj.secondary;
-        this.showInformationFab = obj.show_information_fab;
       }
     },
     setLocale() {
@@ -226,6 +229,13 @@ export default Vue.extend({
           return Promise.reject(err);
         });
     },
+    closeOverlay() {
+      this.welcomeAnimation = true;
+      setTimeout(() => {
+        this.$store.dispatch('setHideWelcomeOverlay', { hideWelcomeOverlay: true });
+        this.firstSteps = true;
+      }, 350);
+    },
   },
   computed: {
     backgroundColor() {
@@ -244,6 +254,22 @@ export default Vue.extend({
       }
       return false;
     },
+    showCustomerJourney() {
+      const { user } = this.$store.getters;
+      const general = this.$store.getters.generalConfig;
+      if (user && general) {
+        if (user.admin && general.enable_customer_journey) {
+          return true;
+        }
+      }
+      return false;
+    },
+    welcomeOverlay() {
+      if (this.showCustomerJourney && !this.$store.getters.hideWelcomeOverlay) {
+        return true;
+      }
+      return false;
+    },
   },
 });
 </script>
@@ -259,4 +285,25 @@ export default Vue.extend({
 .img-fluid
   max-width: 100%
   height: auto
+
+@keyframes closeAnimation
+  0%
+    background-color: #FFFFFF
+  100%
+    scale: 30%
+    opacity: 10%
+
+.get-started-animation
+  animation: closeAnimation 0.5s ease-in-out
+
+.getStartedCard
+  position: absolute
+  top: 30%
+  left: 40%
+
+.arrowBottomRight
+  position: absolute
+  bottom: 25px
+  right: 120px
+
 </style>

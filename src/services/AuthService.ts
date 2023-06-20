@@ -28,6 +28,8 @@ export default {
     await this.setProperties();
 
     EventBus.emit('login');
+    // Event caught in CustomerJourney.vue
+    EventBus.emit('customerJourneyUpdate');
   },
   async getToken(refreshToken: string): Promise<authGetTokenResponse> {
     const sndQuery = {

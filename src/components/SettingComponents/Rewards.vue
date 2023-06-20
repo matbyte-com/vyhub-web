@@ -9,12 +9,15 @@
       :showSearch="true">
       <template v-slot:footer-right>
         <v-btn outlined color="success" @click="$refs.createRewardDialog.show()"
-               style="border-bottom-right-radius: 0; border-top-right-radius: 0;">
+               style="border-bottom-right-radius: 0; border-top-right-radius: 0;"
+               :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }">
           <v-icon left>mdi-plus</v-icon>
           <span>{{ $t('_reward.labels.create') }}</span>
         </v-btn>
         <v-btn outlined color="primary" @click="$refs.useTemplateDialog.show()"
-               style="border-bottom-left-radius: 0; border-top-left-radius: 0;">
+               style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
+               :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }"
+        >
           <v-icon left>mdi-bookshelf</v-icon>
           <span>{{ $t('_reward.labels.templates') }}</span>
         </v-btn>
@@ -82,6 +85,7 @@ import Dialog from '@/components/Dialog.vue';
 import admin from '@/views/Shop/Admin.vue';
 import GMOD from '@/components/DashboardComponents/Dashboards/Bundle/GMOD.vue';
 import RewardCatalog from '@/components/SettingComponents/RewardCatalog.vue';
+import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
@@ -161,6 +165,8 @@ export default {
           type: 'success',
         });
         this.$refs.createRewardDialog.closeAndReset();
+        // Event caught in CustomerJourney.vue
+        EventBus.emit('customerJourneyUpdate');
       }).catch((err) => {
         console.log(err);
         this.$refs.createRewardDialog.setError(err);

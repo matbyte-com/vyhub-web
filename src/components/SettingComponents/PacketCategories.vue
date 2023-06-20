@@ -31,7 +31,8 @@
     </DataTable>
     <v-divider class="mb-3"/>
     <div>
-      <v-btn outlined color="success" @click="$refs.createCategoryDialog.show()">
+      <v-btn outlined color="success" @click="$refs.createCategoryDialog.show()"
+             :class="{ 'glow-effect':utils.customerJourneyActive('add-category') }">
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t('_packetCategory.labels.create') }}</span>
       </v-btn>
@@ -58,6 +59,7 @@
 
 <script>
 import Sortable from 'sortablejs';
+import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
@@ -114,6 +116,8 @@ export default {
           type: 'success',
         });
         this.$refs.createCategoryDialog.closeAndReset();
+        // Event caught in CustomerJourney.vue
+        EventBus.emit('customerJourneyUpdate');
       }).catch((err) => {
         console.log(err);
         this.$refs.createCategoryDialog.setError(err);

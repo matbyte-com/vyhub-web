@@ -64,7 +64,8 @@
           </div>
         </template>
         <template v-slot:footer-right>
-          <v-btn color="success" @click="$refs.addGroupDialog.show()" outlined>
+          <v-btn color="success" @click="$refs.addGroupDialog.show()" outlined
+                 :class="{ 'glow-effect':utils.customerJourneyActive('add-group') }">
             <v-icon left>mdi-plus</v-icon>
             <span>{{ $t('_settings.labels.addGroup') }}</span>
           </v-btn>
@@ -151,6 +152,7 @@ import DataTable from '@/components/DataTable.vue';
 import Dialog from '@/components/Dialog.vue';
 import UserLink from '@/components/UserLink.vue';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
 import MembershipEditDialog from '../DashboardComponents/MembershipEditDialog.vue';
 import PropertyPicker from './PropertyPicker.vue';
@@ -235,6 +237,8 @@ export default {
           title: this.$t('_group.messages.addedGroup'),
           type: 'success',
         });
+        // Event caught in CustomerJourney.vue
+        EventBus.emit('customerJourneyUpdate');
       }).catch((err) => {
         this.$refs.addGroupDialog.setError(err);
       });

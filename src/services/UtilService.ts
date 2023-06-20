@@ -206,6 +206,21 @@ export default {
           return BigInt(matches[2]) * 2n + BigInt(matches[1])
             + BigInt('76561197960265728');
         },
+        customerJourneyActive(step: string | string[]) {
+          if (!step) {
+            return false;
+          }
+          if (Array.isArray(step)) {
+            if (step.includes(store.getters.activeCustomerJourneyStep)) {
+              return true;
+            }
+            return false;
+          }
+          if (store.getters.activeCustomerJourneyStep === step) {
+            return true;
+          }
+          return false;
+        },
       },
     };
   },

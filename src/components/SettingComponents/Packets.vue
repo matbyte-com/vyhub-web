@@ -57,7 +57,8 @@
     </DataTable>
     <v-divider class="mb-3"/>
     <div>
-      <v-btn outlined color="success" @click="showAddPacketDialog">
+      <v-btn outlined color="success" @click="showAddPacketDialog"
+             :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }">
         <v-icon left>mdi-plus</v-icon>
         <span>{{ $t('_packet.labels.add') }}</span>
       </v-btn>
@@ -101,6 +102,7 @@ import PacketForm from '@/forms/PacketForm';
 import DataTable from '@/components/DataTable.vue';
 import EditorForForm from '@/components/EditorForForm.vue';
 import ShopService from '@/services/ShopService';
+import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
@@ -210,6 +212,8 @@ export default {
           title: this.$t('_packet.messages.addSuccess'),
           type: 'success',
         });
+        // Event caught in CustomerJourney.vue
+        EventBus.emit('customerJourneyUpdate');
       }).catch((err) => {
         console.log(err);
         this.$refs.addPacketDialog.setError(err);

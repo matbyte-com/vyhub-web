@@ -17,6 +17,8 @@ const getDefaultState = () => ({
   shopConfig: null,
   navItems: null,
   theme: null,
+  activeCustomerJourneyStep: null,
+  hideWelcomeOverlay: null,
 });
 
 export default new Vuex.Store({
@@ -37,6 +39,8 @@ export default new Vuex.Store({
     shopConfig: (state) => state.shopConfig,
     navItems: (state) => state.navItems,
     theme: (state) => state.theme,
+    activeCustomerJourneyStep: (state) => state.activeCustomerJourneyStep,
+    hideWelcomeOverlay: (state) => state.hideWelcomeOverlay,
   },
   mutations: {
     RESET: (state) => {
@@ -74,6 +78,12 @@ export default new Vuex.Store({
     SET_THEME: (state, theme) => {
       state.theme = theme;
     },
+    SET_ACTIVE_CUSTOMER_JOURNEY_STEP: (state, active_customer_journey_step) => {
+      state.activeCustomerJourneyStep = active_customer_journey_step;
+    },
+    SET_HIDE_WELCOME_OVERLAY: (state, hide_welcome_overlay) => {
+      state.hideWelcomeOverlay = hide_welcome_overlay;
+    },
     LOGOUT: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -108,6 +118,12 @@ export default new Vuex.Store({
     },
     setCreditAccount: ({ commit }, { creditAccount }) => {
       commit('SET_CREDIT_ACCOUNT', creditAccount);
+    },
+    setActiveCustomerJourneyStep: ({ commit }, { activeCustomerJourneyStep }) => {
+      commit('SET_ACTIVE_CUSTOMER_JOURNEY_STEP', activeCustomerJourneyStep);
+    },
+    setHideWelcomeOverlay: ({ commit }, { hideWelcomeOverlay }) => {
+      commit('SET_HIDE_WELCOME_OVERLAY', hideWelcomeOverlay);
     },
   },
   modules: {

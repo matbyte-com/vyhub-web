@@ -11,6 +11,7 @@
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn outlined color="success"
+                   :class="{ 'glow-effect':utils.customerJourneyActive('add-pm-gateway') }"
                    v-bind="attrs"
                    v-on="on">
               <v-icon left>mdi-plus</v-icon>
@@ -88,6 +89,7 @@
 
 <script>
 import Common from '@/forms/Common';
+import EventBus from '@/services/EventBus';
 import SettingTitle from './SettingTitle.vue';
 import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
@@ -169,6 +171,8 @@ export default {
           type: 'success',
         });
         this.$refs.createGatewayDialog.closeAndReset();
+        // Event caught in CustomerJourney.vue
+        EventBus.emit('customerJourneyUpdate');
       }).catch((err) => {
         console.log(err);
         this.$refs.createGatewayDialog.setError(err);

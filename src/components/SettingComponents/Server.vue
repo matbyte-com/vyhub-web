@@ -68,7 +68,8 @@
             </v-simple-table>
             <v-divider />
             <div class="text-right mt-3">
-              <v-btn color="success" @click="$refs.addBundleDialog.show()" outlined>
+              <v-btn color="success" @click="$refs.addBundleDialog.show()" outlined
+                     :class="{ 'glow-effect':utils.customerJourneyActive('add-bundle') }">
                 <v-icon left>mdi-plus</v-icon>
                 <span>{{ $t('_settings.labels.addBundle') }}</span>
               </v-btn>
@@ -119,6 +120,7 @@
               </template>
               <template v-slot:item.actions="{ item }">
                 <v-btn depressed color="success" small class="mr-1"
+                       :class="{ 'glow-effect':utils.customerJourneyActive('connect-server') }"
                        @click="showServerSetupDialog(item);" :outlined="item.status === 'ONLINE'">
                   <v-icon :left="item.status !== 'ONLINE'">
                     mdi-download-network
@@ -145,7 +147,9 @@
                     <div v-bind="attrs"
                          v-on="on">
                       <v-btn color="success" outlined @click="$refs.createServerDialog.show()"
-                             :disabled="bundles === null || bundles.length === 0">
+                             :disabled="bundles === null || bundles.length === 0"
+                             :class="{ 'glow-effect':
+                             utils.customerJourneyActive('add-server') }">
                         <v-icon left>mdi-plus</v-icon>
                         <span>{{ $t('_settings.labels.addServer') }}</span>
                       </v-btn>
@@ -311,6 +315,7 @@ import openapi from '@/api/openapi';
 import ServerForm from '@/forms/ServerForm';
 import PropertyPicker from '@/components/SettingComponents/PropertyPicker.vue';
 import ServerSetup from '@/components/SettingComponents/ServerSetup.vue';
+import EventBus from '@/services/EventBus';
 import Dialog from '../Dialog.vue';
 import BoolIcon from '../BoolIcon.vue';
 
@@ -393,6 +398,8 @@ export default {
           title: this.$t('_serverbundle.messages.createSuccess'),
           type: 'success',
         });
+        // Event caught in CustomerJourney.vue
+        EventBus.emit('customerJourneyUpdate');
       }).catch((err) => {
         this.$refs.addBundleDialog.setError(err);
       });
@@ -413,6 +420,8 @@ export default {
           title: this.$t('_server.messages.createSuccess'),
           type: 'success',
         });
+        // Event caught in CustomerJourney.vue
+        EventBus.emit('customerJourneyUpdate');
       }).catch((err) => {
         this.$refs.createServerDialog.setError(err);
       });

@@ -55,11 +55,5 @@ export default {
       'x-display': 'switch',
       description: i18n.t('_theme.communityNameDescription'),
     },
-    show_information_fab: {
-      type: 'boolean',
-      title: i18n.t('_theme.showInformationFab'),
-      'x-display': 'switch',
-      description: i18n.t('_theme.showInformationFabDescription'),
-    },
   },
 };

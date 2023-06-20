@@ -10,27 +10,33 @@
                 <span v-for="tab in allowedTabs" :key="tab.id">
                   <v-list-item v-if="!('tabs' in tab)"
                                link :disabled="tab.disabled"
-                               :class="tab.name === activeTab.name
-                               ? 'active v-list-item--active' : ''"
+                               :class="{ 'active v-list-item--active' :
+                                tab.name === activeTab.name,
+                                 'glow-effect': utils.customerJourneyActive(tab.customerJourney) }"
                                :to="{ name: 'Settings',  params: { component: tab.name} }">
                     <v-list-item-icon>
                       <v-icon>{{ tab.icon }}</v-icon>
                     </v-list-item-icon>
 
-                    <v-list-item-title>{{ tab.title }}</v-list-item-title>
+                    <v-list-item-title>
+                      {{ tab.title }}
+                    </v-list-item-title>
                   </v-list-item>
                   <v-list-group no-action :prepend-icon="tab.icon" v-else
                                 :value="$vuetify.breakpoint.lgAndUp">
                     <template v-slot:activator>
-                      <v-list-item-content>
+                      <v-list-item-content :class="{'glow-effect':
+                                 utils.customerJourneyActive(tab.customerJourney)}">
                         <v-list-item-title>{{ tab.title }}</v-list-item-title>
                       </v-list-item-content>
                     </template>
 
                     <v-list-item v-for="subtab in tab.tabs" :key="subtab.id"
                                  link
-                                 :class="subtab.name === activeTab.name
-                                 ? 'active v-list-item--active' : ''"
+                                 :class="{ 'active v-list-item--active':
+                                  subtab.name === activeTab.name,
+                                   'glow-effect':
+                                    utils.customerJourneyActive(subtab.customerJourney) }"
                                  :to="{ name: 'Settings', params: { component: subtab.name} }">
                       <v-list-item-icon>
                         <v-icon>{{ subtab.icon }}</v-icon>
@@ -78,6 +84,7 @@ export default {
           icon: 'mdi-cog',
           component: 'General',
           title: this.$t('general'),
+          customerJourney: 'set-community-name',
         },
         {
           name: 'navigation',
@@ -99,6 +106,7 @@ export default {
           component: 'Groups',
           reqProp: 'group_edit',
           title: this.$t('groups'),
+          customerJourney: 'add-group',
         },
         {
           name: 'bans',
@@ -120,6 +128,7 @@ export default {
           component: 'Server',
           reqProp: 'server_show',
           title: this.$t('servers'),
+          customerJourney: ['add-server', 'add-bundle', 'connect-server'],
         },
         {
           name: 'adverts',
@@ -139,6 +148,7 @@ export default {
           icon: 'mdi-cart',
           reqProp: 'shop_show',
           title: this.$t('shop'),
+          customerJourney: ['add-packet', 'add-category', 'add-pm-gateway', 'add-reward'],
           tabs: [
             {
               name: 'shop-general',
@@ -160,6 +170,7 @@ export default {
               component: 'ShopGateways',
               reqProp: 'gateway_show',
               title: this.$t('paymentGateways'),
+              customerJourney: 'add-pm-gateway',
             },
             {
               name: 'packet-categories',
@@ -167,6 +178,7 @@ export default {
               component: 'PacketCategories',
               reqProp: 'packet_show',
               title: this.$t('categories'),
+              customerJourney: 'add-category',
             },
             {
               name: 'packets',
@@ -174,6 +186,7 @@ export default {
               component: 'Packets',
               reqProp: 'packet_show',
               title: this.$t('packets'),
+              customerJourney: 'add-packet',
             },
             {
               name: 'rewards',
@@ -181,6 +194,7 @@ export default {
               component: 'Rewards',
               reqProp: 'packet_show',
               title: this.$t('rewards'),
+              customerJourney: 'add-reward',
             },
           ],
         },

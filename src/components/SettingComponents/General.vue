@@ -76,6 +76,8 @@ export default {
           title: this.$t('settingsSaveSuccess'),
           type: 'success',
         });
+        // Event caught in CustomerJourney.vue
+        EventBus.emit('customerJourneyUpdate');
         this.formSchema = SettingsGeneralFormSchema.form(this.forumEnabled);
         this.$nextTick(() => {
           this.$refs.form.setData(data);
