@@ -7,6 +7,11 @@
     hide-default-footer
     v-bind="$attrs" v-on="$listeners"
   >
+    <template v-slot:no-data>
+      <div class="text-center mt-2 subtitle-2 text--disabled">
+        {{ $t('noDataAvailable') }}
+      </div>
+    </template>
     <template v-slot:header>
       <v-row justify="end">
         <v-col lg="3" md="6" sm="12" v-if="search">
