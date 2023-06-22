@@ -207,7 +207,7 @@ export default {
             + BigInt('76561197960265728');
         },
         customerJourneyActive(step: string | string[]) {
-          if (!step) {
+          if (!step || !store.getters.generalConfig?.enable_customer_journey) {
             return false;
           }
           if (Array.isArray(step)) {
