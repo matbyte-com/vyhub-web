@@ -114,8 +114,7 @@
                   <span class="ml-3">{{ utils.formatDate(post.created) }}</span>
                   <v-col class="text-right pa-0">
                     <v-btn small outlined @click.stop="openEditPostDialog(post)" color="primary"
-                           v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins) ||
-                           ( $store.getters.user.id === post.creator.id && topic.edit_post)">
+                           v-if="postEditable">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn small outlined
@@ -373,6 +372,13 @@ export default {
           });
         }
       });
+    },
+  },
+  computed: {
+    postEditable() {
+      if (!this.topic || !this.$store.getters.user) return false;
+      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.topic.admins)
+        || (this.$store.getters.user.id === this.post.creator.id && this.topic.edit_post));
     },
   },
 };
