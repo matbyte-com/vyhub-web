@@ -1,6 +1,9 @@
 <template>
 <div>
   <span class="text-h5">
+    <v-icon left>
+      mdi-account-alert
+    </v-icon>
     {{ $t('warnings') }}
   </span>
   <DataTable

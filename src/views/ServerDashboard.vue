@@ -86,8 +86,9 @@
                 <v-spacer />
                 <div class="d-flex flex-column mt-1 mb-1">
                   <v-chip v-if="user.warnings.length > 0"
-                          color="warning darken-2"
-                          outlined small :class="user.bans.length > 0 ? 'mb-1' : ''">
+                          class="white--text"
+                          color="warning darken-1"
+                          small :class="user.bans.length > 0 ? 'mb-1' : ''">
                     <v-icon left>
                       mdi-account-alert
                     </v-icon>
@@ -98,7 +99,8 @@
                   </v-chip>
                   <!-- TODO $checkProp: Elemente verstecken, wenn keine Berechtigungen für Bundle-->
                   <v-chip v-if="user.bans.length > 0"
-                          outlined small color="error darken-2">
+                          class="white--text"
+                          small color="error darken-2">
                     <v-icon left>
                       mdi-account-cancel
                     </v-icon>
@@ -142,7 +144,7 @@
                             :total-items="currentUser.warnings.length"
                             :user="currentUser"
                             :serverbundle="server.serverbundle"
-                            @edit="reloadcurrentUserWarnings; reloadcurrentUserBans"/>
+                            @edit="reloadcurrentUserWarnings(); reloadcurrentUserBans()"/>
             </div>
             <div class="mt-4">
               <BanTable v-if="$checkProp('ban_show') ||
