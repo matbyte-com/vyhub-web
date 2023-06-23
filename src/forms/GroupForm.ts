@@ -27,9 +27,10 @@ export default {
           maximum: 100000,
         },
         max_ban_length: {
-          type: ['integer', 'null'],
+          type: ['integer'],
           title: i18n.t('_group.maxBanLengthInDays'),
           description: i18n.t('_group.maxBanLengthInDaysDescription'),
+          default: null,
           minimum: 0,
           maximum: 365,
           'x-props': {
