@@ -182,7 +182,7 @@
           </div>
           <br/>
           <div v-if="$checkProp('ban_comment_show')">
-            <h6 class="text-h6 mb-3">{{ $t('comments') }}</h6>
+            <h6 class="text-h6 mb-4">{{ $t('comments') }}</h6>
             <CommentsTable type="ban" :obj-id="currentBan.id" :show-search="false"
                            ref="banCommentsTable">
             </CommentsTable>
