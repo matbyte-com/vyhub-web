@@ -71,8 +71,15 @@
               </v-btn>
             </div>
             <v-list dense max-height="60vh" class="overflow-y-auto">
-              <v-list-item v-if="!returnUsers ||
-               returnUsers.length === 0" class="text--disabled">
+              <div v-if="returnUsers == null">
+                <v-skeleton-loader type="list-item-avatar"
+                                   :key="i"
+                                   v-for="i in Array(5)"
+                >
+                </v-skeleton-loader>
+              </div>
+              <v-list-item v-else-if="returnUsers.length === 0"
+                           class="text--disabled">
                 {{ $t('_serverDashboard.noUsersFound') }}
               </v-list-item>
               <v-list-item v-for="user in returnUsers" :key="user.id"
@@ -144,7 +151,7 @@
                             :total-items="currentUser.warnings.length"
                             :user="currentUser"
                             :serverbundle="server.serverbundle"
-                            @edit="reloadcurrentUserWarnings(); reloadcurrentUserBans()"/>
+                            @edit="reloadCurrentUserWarnings(); reloadCurrentUserBans()"/>
             </div>
             <div class="mt-4">
               <BanTable v-if="$checkProp('ban_show') ||
@@ -153,7 +160,7 @@
                         :total-items="currentUser.bans.length"
                         :user="currentUser"
                         :serverbundle="server.serverbundle"
-                        @edit="reloadcurrentUserBans"/>
+                        @edit="reloadCurrentUserBans"/>
             </div>
           </v-card-text>
         </v-card>
@@ -235,13 +242,13 @@ export default {
       if (!this.currentUser) return false;
       return item.id === this.currentUser.id;
     },
-    async reloadcurrentUserWarnings() {
+    async reloadCurrentUserWarnings() {
       (await openapi).warning_getWarnings({ user_id: this.currentUser.id, size: 100 })
         .then((rsp) => {
           this.currentUser.warnings = rsp.data.items;
         });
     },
-    async reloadcurrentUserBans() {
+    async reloadCurrentUserBans() {
       (await openapi).ban_getBans({ user_id: this.currentUser.id, size: 100 }).then((rsp) => {
         this.currentUser.bans = rsp.data.items;
       });
