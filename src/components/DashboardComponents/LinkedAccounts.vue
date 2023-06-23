@@ -1,17 +1,24 @@
 <template>
   <div>
-    <v-row v-if="userSelf && !bundle">
+    <v-row v-if="(userSelf || ($store.getters.user && $store.getters.user.admin))
+     && !bundle" no-gutters>
       <v-col>
         <v-card>
-          <v-btn color="success" width="100%" :to="{path: $route.path,
+          <v-btn color="success" :to="{path: $route.path,
         query: { login: 'true', return_url: getReturnUrl() } }"
-                block>
+                 block width="100%" :disabled="!userSelf">
             <v-icon left>
               mdi-account-plus
             </v-icon>
             {{ $t("_dashboard.labels.linkNewAccount") }}
           </v-btn>
         </v-card>
+      </v-col>
+      <v-col cols="2" v-if="$store.getters.user &&
+             $store.getters.user.admin" class="mr-1">
+        <v-btn class="ml-1" @click="showExistingUserLinkDialog" width="100%">
+          <v-icon>mdi-link-variant</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -22,8 +29,7 @@
           hide-default-footer>
           <template v-slot:default="{ items }">
             <v-card class="mb-2" v-for="acc in items"
-                    :key="acc.id"
-                    >
+                    :key="acc.id">
               <v-card-title class="pb-0">
                 <v-card :href="openExternalProfileLink(acc.type, acc.identifier)" target="_blank"
                         width="100%" flat color="transparent">
@@ -95,6 +101,41 @@
         </v-data-iterator>
       </v-col>
     </v-row>
+    <Dialog ref="existingUserLinkDialog" :title="$t('_dashboard.labels.unlinkAccount')"
+            icon="mdi-link-variant-remove" :max-width="1000">
+      <v-alert type="warning" class="mt-3">
+        {{ $t('_dashboard.labels.unlinkAccountWarning') }}
+      </v-alert>
+      <div v-if="userLinks">
+        <v-list dense v-for="link in userLinks" :key="link.id">
+          <v-list-item>
+            <v-row class="d-flex align-center">
+              <v-avatar>
+                <v-img :src="link.user_1.avatar" contain
+                       alt="avatar" class="mr-2"/>
+              </v-avatar>
+              {{ link.user_1.type }} - {{ link.user_1.username }}
+              <v-spacer/>
+              <div><v-icon>mdi-link-variant</v-icon></div>
+              <v-spacer/>
+              <v-avatar>
+                <v-img :src="link.user_2.avatar" contain
+                       alt="avatar" class="mr-2"/>
+              </v-avatar>
+              {{ link.user_2.type }} - {{ link.user_2.username }}
+              <v-btn outlined small color="error" class="ml-3"
+                     @click="$refs.linkDeleteConfirmationDialog.show(link)">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-row>
+          </v-list-item>
+        </v-list>
+      </div>
+      <div v-if="!userLinks || userLinks.length === 0">
+        {{ $t('noDataAvailable') }}
+      </div>
+    </Dialog>
+    <ConfirmationDialog ref="linkDeleteConfirmationDialog" @submit="deleteLink" />
   </div>
 </template>
 
@@ -103,9 +144,12 @@ import userService from '@/services/UserService';
 import openapiCached from '@/api/openapiCached';
 import UtilService from '@/services/UtilService';
 import openapi from '@/api/openapi';
+import Dialog from '@/components/Dialog.vue';
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 
 export default {
   name: 'LinkedAccounts',
+  components: { ConfirmationDialog, Dialog },
   props: {
     user: Object,
     bundle: {
@@ -121,6 +165,7 @@ export default {
       componentLoaded: false,
       userTypeIcons: userService.userTypeIcons,
       currentAttributes: {},
+      userLinks: null,
     };
   },
   beforeMount() {
@@ -161,7 +206,11 @@ export default {
         });
       }
     },
-
+    async fetchUserLinks() {
+      (await openapi).user_getUserLinks(this.user.id).then((rsp) => {
+        this.userLinks = rsp.data;
+      });
+    },
     getReturnUrl() {
       return UtilService.data().utils.getFullUrl(this.$route.path);
     },
@@ -171,6 +220,23 @@ export default {
     getSteamid32(steamid64) {
       if (!this.user) return '';
       return this.utils.getSteamid32(steamid64);
+    },
+    showExistingUserLinkDialog() {
+      this.fetchUserLinks();
+      this.$refs.existingUserLinkDialog.show();
+    },
+    async deleteLink(link) {
+      (await openapi).user_deleteUserLink(link.id).then(() => {
+        this.$refs.linkDeleteConfirmationDialog.closeAndReset();
+        this.fetchData();
+        this.$notify({
+          type: 'success',
+          text: this.$t('_messages.deleteSuccess'),
+        });
+        this.fetchUserLinks();
+      }).catch((err) => {
+        this.$refs.linkDeleteConfirmationDialog.setError(err);
+      });
     },
   },
   computed: {
