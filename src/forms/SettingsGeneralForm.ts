@@ -56,7 +56,16 @@ function form(forum_enabled = false) {
         'x-display': 'switch',
         description: i18n.t('_settings.showFirstStepsDescription'),
       },
-
+      google_analytics_tag: {
+        type: ['string', 'null'],
+        title: 'Google Analytics Tag',
+        description: i18n.t('_settings.googleAnalyticsTagDescription'),
+        // pattern: 'UA-\\d{4,10}-\\d{1,4}',
+        'x-props': {
+          clearable: true,
+          placeholder: 'UA-00000000-0',
+        },
+      },
     },
   };
 }

@@ -91,13 +91,16 @@ import VueNotification from '@/components/VueNotification.vue';
 import i18n from '@/plugins/i18n';
 import ForumService from '@/services/ForumService';
 import CustomerJourney from '@/components/CustomerJourney.vue';
+import VueGtag from 'vue-gtag';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
 Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
 Vue.mixin(ForumService);
-
+Vue.use(VueGtag, {
+  bootstrap: false,
+});
 export default Vue.extend({
   name: 'App',
 
@@ -138,7 +141,9 @@ export default Vue.extend({
       await this.getGeneralConfig();
     },
     async getGeneralConfig() {
-      await this.utils.getGeneralConfig();
+      await this.utils.getGeneralConfig().then(() => {
+        this.utils.enableGTag();
+      });
       this.setLocale();
     },
     async getShopConfig() {

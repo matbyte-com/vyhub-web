@@ -3,6 +3,7 @@ import Vue from 'vue';
 import i18n from '@/plugins/i18n';
 import openapi from '@/api/openapi';
 import store from '@/store';
+import { setOptions, bootstrap } from 'vue-gtag';
 
 const langService: HumanizeDurationLanguage = new HumanizeDurationLanguage();
 const humanizeDuration: HumanizeDuration = new HumanizeDuration(langService);
@@ -220,6 +221,17 @@ export default {
             return true;
           }
           return false;
+        },
+        enableGTag() {
+          if (!store.getters.generalConfig?.google_analytics_tag) {
+            return;
+          }
+          setOptions({
+            config: { id: store.getters.generalConfig?.google_analytics_tag },
+          });
+          bootstrap().then(() => {
+            // console.log('Analytics is ready');
+          });
         },
       },
     };
