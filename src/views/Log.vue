@@ -3,8 +3,8 @@
     <PageTitle icon="mdi-format-list-bulleted">{{ $t('log') }}</PageTitle>
     <v-card>
       <v-card-text>
-        <v-row>
-          <v-col class="d-flex align-center justify-center">
+        <v-row dense align="center">
+          <v-col cols="12" sm="6" md="4" xl="2">
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
@@ -29,6 +29,8 @@
                 @input="fetchData">
               </v-date-picker>
             </v-menu>
+          </v-col>
+          <v-col cols="12" sm="6" md="4" xl="1">
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
@@ -54,6 +56,8 @@
                 @input="fetchData">
               </v-time-picker>
             </v-menu>
+          </v-col>
+          <v-col cols="12" sm="6" md="4" xl="2">
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
@@ -78,6 +82,8 @@
                 @input="fetchData"
               ></v-date-picker>
             </v-menu>
+          </v-col>
+          <v-col cols="12" sm="6" md="4" xl="1">
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
@@ -103,6 +109,8 @@
                 @input="fetchData">
               </v-time-picker>
             </v-menu>
+          </v-col>
+          <v-col cols="6" md="4" xl="2">
             <v-menu offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -157,6 +165,8 @@
               </v-radio-group>
               <a class="ma-1" @click="selectedCat = null;">{{ $t('reset') }}</a>
             </v-menu>
+          </v-col>
+          <v-col cols="12" sm="6" md="4" xl="2">
             <v-text-field
               v-model="search"
               :label="$t('search')"
@@ -172,6 +182,8 @@
                 </v-icon>
               </template>
             </v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6" md="4" xl="2" class="text-center">
             <v-btn class="ml-3" outlined color="primary" icon
                    @click="$refs.labelFilterDialog.show()">
               <v-icon>
@@ -194,7 +206,7 @@
         </v-row>
       </v-card-text>
     </v-card>
-    <v-alert color="error" icon="mdi-information-outline"  v-if="logs && logs.length >= 1000"
+    <v-alert color="error" icon="mdi-information-outline" v-if="logs && logs.length >= 1000"
              class="mt-2">
       {{ $t('_log.messages.limitReachedFilter') }}
     </v-alert>
