@@ -65,7 +65,7 @@
                 </template>
               </v-text-field>
               <v-btn text color="info" @click="fetchData" class="ml-2">
-                <v-icon>
+                <v-icon :class="{ 'mdi-spin': reloading }">
                   mdi-sync
                 </v-icon>
               </v-btn>
@@ -188,6 +188,7 @@ export default {
       users: null,
       userSearchModel: null,
       currentUser: null,
+      reloading: false,
       banHeaders: [
         { text: this.$t('user'), value: 'user', sortable: false },
         { text: this.$t('reason'), value: 'reason' },
@@ -211,6 +212,7 @@ export default {
   },
   methods: {
     fetchData() {
+      this.reloading = true;
       if (!SessionService.lastActiveWindow()) {
         return;
       }
@@ -232,6 +234,9 @@ export default {
     async fetchUserActivity() {
       (await openapi).server_getServerUserActivity(this.$route.params.id).then((rsp) => {
         this.users = rsp.data;
+        setTimeout(() => {
+          this.reloading = false;
+        }, 1000);
 
         if (this.currentUser != null) {
           this.currentUser = this.users.find((u) => u.id === this.currentUser.id);
