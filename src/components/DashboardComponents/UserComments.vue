@@ -9,6 +9,7 @@
       </v-card-title>
       <v-card-text>
         <CommentsTable type="user" :obj-id="user.id" :show-search="false"
+                       class="mt-2"
                        ref="userCommentsTable">
         </CommentsTable>
       </v-card-text>
