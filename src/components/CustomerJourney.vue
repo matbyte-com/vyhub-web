@@ -9,7 +9,8 @@
     <v-card-text>
       <v-list dense>
         <v-list-item v-for="(step, index) in steps" :key="step.id" style="cursor:pointer;"
-                     :class="{ 'list-item-active': selectedStep === index }">
+                     :class="{ 'list-item-active': selectedStep === index,
+                               'black--text': selectedStep === index}">
           <v-list-item-content @click="selectJourney(index)">
             <v-list-item-title class="d-flex align-center">
               <v-icon left v-if="!stepIsFulfilled(index)">mdi-circle-outline</v-icon>
@@ -18,7 +19,7 @@
               </v-icon>
               {{ step.title }}
               <v-spacer/>
-              <v-icon>mdi-chevron-right</v-icon>
+              <v-icon :class="{ 'black--text': selectedStep === index}">mdi-chevron-right</v-icon>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
