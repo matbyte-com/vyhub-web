@@ -107,39 +107,47 @@
         {{ $t('_dashboard.labels.unlinkAccountWarning') }}
       </v-alert>
       <div v-if="userLinks">
-        <v-list dense v-for="link in userLinks" :key="link.id">
+        <v-list v-for="link in userLinks" :key="link.id">
           <v-list-item>
-            <v-row class="d-flex align-center">
-              <v-avatar>
-                <v-img :src="link.user_1.avatar" contain
-                       alt="avatar"/>
-              </v-avatar>
-              <div class="ml-2">
-                {{ link.user_1.username }}
-                <br/>
-                {{ link.user_1.type }}
-                <br/>
-                {{ link.user_1.id }}
-              </div>
-              <v-spacer/>
-              <div><v-icon>mdi-link-variant</v-icon></div>
-              <v-btn outlined small color="error" class="ml-3"
-                     @click="$refs.linkDeleteConfirmationDialog.show(link)">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-              <v-spacer/>
-              <div class="mr-2 text-right">
-                {{ link.user_2.username }}
-                <br/>
-                {{ link.user_2.type }}
-                <br/>
-                {{ link.user_2.id }}
-              </div>
-              <v-avatar>
-                <v-img :src="link.user_2.avatar" contain
-                       alt="avatar"/>
-              </v-avatar>
-            </v-row>
+            <v-card width="100%">
+              <v-card-text>
+                <v-row cols="12" sm="5">
+                  <v-col class="d-flex align-center">
+                    <v-avatar>
+                      <v-img :src="link.user_1.avatar" contain
+                             alt="avatar"/>
+                    </v-avatar>
+                    <div class="ml-2">
+                      {{ link.user_1.username }}
+                      <br/>
+                      {{ link.user_1.type }}
+                      <br/>
+                      {{ link.user_1.id }}
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="2" class="d-flex text-center justify-center align-center">
+                    <div><v-icon>mdi-link-variant</v-icon></div>
+                    <v-btn outlined small color="error" class="ml-3"
+                           @click="$refs.linkDeleteConfirmationDialog.show(link)">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="12" sm="5" class="d-flex text-right justify-end align-center">
+                    <div class="mr-2">
+                      {{ link.user_2.username }}
+                      <br/>
+                      {{ link.user_2.type }}
+                      <br/>
+                      {{ link.user_2.id }}
+                    </div>
+                    <v-avatar>
+                      <v-img :src="link.user_2.avatar" contain
+                             alt="avatar"/>
+                    </v-avatar>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
           </v-list-item>
         </v-list>
       </div>
