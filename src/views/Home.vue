@@ -66,8 +66,9 @@
       <v-col cols="12" md="8">
         <!-- News of the Day -->
         <v-row class="pa-0">
-          <v-col order="2" order-sm="1" cols="12" sm="8" v-if="getNewsOfTheDay.length !== 0">
-            <PageTitle icon="mdi-newspaper" :title="$t('_home.newsOfTheDay')"/>
+          <v-col order="2" order-sm="1" cols="12" sm="8">
+            <PageTitle icon="mdi-newspaper" :title="$t('_home.newsOfTheDay')"
+                       v-if="getNewsOfTheDay.length !== 0" />
           </v-col>
           <!-- Add News Button -->
           <v-col order="1" order-sm="2" cols="12" sm="4" v-if="$checkProp('news_edit')"
