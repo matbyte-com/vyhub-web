@@ -1,5 +1,6 @@
 <template>
   <div>
+    <PageTitle icon="mdi-chat-question">{{ $t('faq') }}</PageTitle>
     <div class="text-right" v-if="$checkProp('faq_edit')">
         <v-btn color="success" small @click="$refs.addQuestionDialog.show()">
           <v-icon left>
@@ -89,6 +90,7 @@
 </template>
 
 <script>
+import PageTitle from '@/components/PageTitle.vue';
 import openapi from '../api/openapi';
 import DialogForm from '../components/DialogForm.vue';
 import Editor from '../components/Editor.vue';
@@ -98,7 +100,10 @@ import FaqForm from '../forms/FaqForm';
 export default {
   name: 'FAQ',
   components: {
-    DialogForm, Editor, DeleteConfirmationDialog,
+    PageTitle,
+    DialogForm,
+    Editor,
+    DeleteConfirmationDialog,
   },
   data() {
     return {
