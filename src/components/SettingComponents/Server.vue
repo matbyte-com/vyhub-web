@@ -269,9 +269,10 @@
     </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteBundleDialog"
+      :countdown="true"
       @submit="deleteBundle">
-      <v-alert type="warning" class="mt-3">
-        {{ $t('_server.deleteBundleConfirmationText') }}
+      <v-alert type="error" class="mt-3">
+        {{ $t('_server.deleteServerbundleConfirmationText') }}
       </v-alert>
     </DeleteConfirmationDialog>
     <DeleteConfirmationDialog
