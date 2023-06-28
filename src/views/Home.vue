@@ -281,7 +281,7 @@ export default {
         this.message = null;
         this.news.unshift(rsp.data);
         this.$notify({
-          title: this.$t('_home.messages.addSuccess'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => this.$refs.messageAddDialog.setError(err));
@@ -294,7 +294,7 @@ export default {
         .then(() => {
           this.$refs.deleteMessageDialog.closeAndReset();
           this.$notify({
-            title: this.$t('_home.messages.deleteSuccess'),
+            title: this.$t('_messages.deleteSuccess'),
             type: 'success',
           });
         })
@@ -324,7 +324,7 @@ export default {
           }
           this.$refs.messageEditDialog.closeAndReset();
           this.$notify({
-            title: this.$t('_home.messages.editSuccess'),
+            title: this.$t('_messages.editSuccess'),
             type: 'success',
           });
         }).catch((err) => this.$refs.messageEditDialog.setError(err));

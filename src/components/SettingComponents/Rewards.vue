@@ -161,7 +161,7 @@ export default {
       api.packet_addReward(null, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_reward.messages.createSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         this.$refs.createRewardDialog.closeAndReset();
@@ -184,7 +184,7 @@ export default {
       api.packet_editReward({ uuid: reward.id }, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_reward.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.editRewardDialog.closeAndReset();
@@ -199,7 +199,7 @@ export default {
       api.packet_deleteReward({ uuid: reward.id }).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_reward.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteRewardDialog.closeAndReset();

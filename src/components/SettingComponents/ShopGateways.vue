@@ -167,7 +167,7 @@ export default {
       api.shop_createGateway(null, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_gateway.messages.createSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         this.$refs.createGatewayDialog.closeAndReset();
@@ -193,7 +193,7 @@ export default {
       api.shop_editGateway({ uuid: gateway.id }, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_gateway.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.editGatewayDialog.closeAndReset();
@@ -208,7 +208,7 @@ export default {
       api.shop_deleteGateway({ uuid: gateway.id }).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_gateway.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteGatewayDialog.closeAndReset();

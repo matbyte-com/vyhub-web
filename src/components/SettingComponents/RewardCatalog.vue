@@ -656,7 +656,7 @@ export default {
       (await openapi).packet_addReward(null, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_reward.messages.createSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         this.$emit('success');

@@ -209,7 +209,7 @@ export default {
         this.fetchData();
         this.$refs.addPacketDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_packet.messages.addSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         // Event caught in CustomerJourney.vue
@@ -247,7 +247,7 @@ export default {
         this.fetchData();
         this.$refs.editPacketDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_packet.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -286,7 +286,7 @@ export default {
         this.fetchData();
         this.$refs.deletePacketDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_packet.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => {

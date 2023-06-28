@@ -112,7 +112,7 @@ export default {
       api.packet_createCategory(null, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_packetCategory.messages.createSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         this.$refs.createCategoryDialog.closeAndReset();
@@ -131,7 +131,7 @@ export default {
       api.packet_editCategory({ uuid: category.id }, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_packetCategory.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.editCategoryDialog.closeAndReset();
@@ -146,7 +146,7 @@ export default {
       api.packet_deleteCategory({ uuid: category.id }).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_packetCategory.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteCategoryDialog.closeAndReset();

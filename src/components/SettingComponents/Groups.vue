@@ -44,6 +44,11 @@
         </template>
         <template v-slot:item.actions="{ item }">
           <div class="text-right">
+            <v-btn icon color="secondary" small @click="copyGroup(item)" class="mr-1">
+              <v-icon small>
+                mdi-content-copy
+              </v-icon>
+            </v-btn>
             <v-btn outlined color="success" small
                    @click="openShowMemberDialog(item)" class="mr-1">
               <v-icon>
@@ -221,18 +226,25 @@ export default {
         this.groups = rsp.data;
       });
     },
-    async addGroup() {
-      const data = this.$refs.addGroupDialog.getData();
+    async addGroup(copy) {
+      let data = null;
+      if (copy == null) {
+        data = this.$refs.addGroupDialog.getData();
 
-      data.properties = this.formatProperties(data);
-      delete data.advanced_properties;
-      data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
+        data.properties = this.formatProperties(data);
+        delete data.advanced_properties;
+        data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
+      } else {
+        data = copy;
+      }
 
       (await openapi).group_addGroup(
         null, data,
       ).then(() => {
         this.fetchData();
-        this.$refs.addGroupDialog.closeAndReset();
+        if (copy == null) {
+          this.$refs.addGroupDialog.closeAndReset();
+        }
         this.$notify({
           title: this.$t('_group.messages.addedGroup'),
           type: 'success',
@@ -269,7 +281,7 @@ export default {
       this.$refs.editGroupDialog.show(item);
       this.$nextTick(() => {
         this.$refs.editGroupDialog.setData(obj);
-        console.log(this.$refs.editGroupDialog.getData());
+        // console.log(this.$refs.editGroupDialog.getData());
       });
     },
     openDeleteGroupDialog(item) {
@@ -326,6 +338,16 @@ export default {
       const mship = item;
       mship.active = true;
       this.$refs.editMembershipDialog.show(mship);
+    },
+    async copyGroup(group) {
+      const data = { ...group };
+      delete data.id;
+      data.name = `${data.name} (Copy)`;
+      const allProps = Object.keys(group.properties);
+      data.properties = allProps.filter((x) => !this.advancedProps.includes(x));
+      data.properties = this.formatProperties(data);
+      this.addGroup(data);
+      this.fetchData();
     },
   },
 };

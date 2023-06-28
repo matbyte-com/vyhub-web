@@ -437,7 +437,7 @@ export default {
       api.shop_deletePurchase({ uuid: purchase.id })
         .then(() => {
           this.$notify({
-            title: this.$t('_purchases.messages.deleteSuccess'),
+            title: this.$t('_messages.deleteSuccess'),
             type: 'success',
           });
           this.fetchData();

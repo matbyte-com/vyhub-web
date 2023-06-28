@@ -349,7 +349,7 @@ export default {
       api.user_addAddress(undefined, address).then((rsp) => {
         ShopService.selectAddress(rsp.data);
         this.$notify({
-          title: this.$t('_address.messages.addSuccess'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
         this.$refs.addressAddDialog.closeAndReset();

@@ -140,7 +140,7 @@ export default {
         this.$refs.addAdvertDialog.closeAndReset();
         this.fetchData();
         this.$notify({
-          title: this.$t('_advert.messages.addSuccess'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -161,7 +161,7 @@ export default {
       (await openapi).advert_deleteAdvert(advert.id).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_advert.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteAdvertConfirmationDialog.closeAndReset();
@@ -174,7 +174,7 @@ export default {
       (await openapi).advert_editAdvert(advert.id, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_advert.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.editAdvertDialog.closeAndReset();

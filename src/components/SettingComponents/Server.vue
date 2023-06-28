@@ -396,7 +396,7 @@ export default {
         this.fetchData();
         this.$refs.addBundleDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_serverbundle.messages.createSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         // Event caught in CustomerJourney.vue
@@ -418,7 +418,7 @@ export default {
         this.fetchData();
         this.$refs.createServerDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_server.messages.createSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         // Event caught in CustomerJourney.vue
@@ -438,7 +438,7 @@ export default {
         this.$refs.deleteBundleDialog.closeAndReset();
         this.fetchData();
         this.$notify({
-          title: this.$t('_serverbundle.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -450,7 +450,7 @@ export default {
         this.$refs.deleteServerDialog.closeAndReset();
         this.fetchData();
         this.$notify({
-          title: this.$t('_server.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -474,7 +474,7 @@ export default {
         this.fetchData();
         this.$refs.editBundleDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_serverbundle.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -500,7 +500,7 @@ export default {
         this.fetchData();
         this.$refs.editServerDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_server.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {

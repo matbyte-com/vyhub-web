@@ -294,7 +294,7 @@ export default {
     async deletePost(item) {
       (await openapi).forum_deletePost(item.id).then(() => {
         this.$notify({
-          title: this.$t('_forum.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.fetchData();
@@ -307,7 +307,7 @@ export default {
       const data = this.$refs.editPostDialog.getData();
       (await openapi).forum_editPost(post.id, data).then(() => {
         this.$notify({
-          title: this.$t('_forum.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.fetchData();
@@ -326,7 +326,7 @@ export default {
       const data = this.$refs.editThreadTitleDialog.getData();
       (await openapi).forum_editThread(this.threadId, data).then(() => {
         this.$notify({
-          title: this.$t('_forum.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.getThread();
@@ -338,7 +338,7 @@ export default {
     async deleteThread() {
       (await openapi).forum_deleteThread(this.threadId).then(() => {
         this.$notify({
-          title: this.$t('_forum.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$router.push({ name: 'ForumTopic', params: { id: this.topic.id } });

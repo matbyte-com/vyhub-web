@@ -135,7 +135,7 @@ export default {
         this.content = null;
         this.fetchData();
         this.$notify({
-          title: this.$t('_faq.messages.addSuccess'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -151,7 +151,7 @@ export default {
       (await openapi).faq_deleteQuestion(question.id).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_faq.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteQuestionConfirmationDialog.closeAndReset();
@@ -169,7 +169,7 @@ export default {
       (await openapi).faq_editQuestion(question.id, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_faq.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.content = null;

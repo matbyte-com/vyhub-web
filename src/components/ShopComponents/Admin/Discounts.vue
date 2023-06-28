@@ -184,7 +184,7 @@ export default {
       api.shop_createDiscount(null, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_discount.messages.createSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         this.$refs.createDiscountDialog.closeAndReset();
@@ -206,7 +206,7 @@ export default {
       api.shop_editDiscount({ uuid: discount.id }, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_discount.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.editDiscountDialog.closeAndReset();
@@ -221,7 +221,7 @@ export default {
       api.shop_deleteDiscount({ uuid: discount.id }).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_discount.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteDiscountDialog.closeAndReset();

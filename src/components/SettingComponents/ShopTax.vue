@@ -121,7 +121,7 @@ export default {
       api.shop_deleteTaxRule({ uuid: taxRule.id }).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_taxRule.messages.deleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteTaxRuleDialog.closeAndReset();
