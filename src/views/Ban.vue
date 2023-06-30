@@ -416,7 +416,7 @@ export default {
         serverbundle_id: (data.serverbundle ? data.serverbundle.id : null),
       }).then(() => {
         this.$notify({
-          title: this.$t('_ban.messages.banAdded'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
         this.fetchData();
@@ -439,7 +439,7 @@ export default {
         this.fetchData();
         this.$refs.banEditDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_ban.messages.banEdited'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -453,7 +453,7 @@ export default {
       ).then(() => {
         this.$refs.deleteBanDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_ban.messages.banDeleted'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.banDetailShown = false;
@@ -470,7 +470,7 @@ export default {
       ).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_ban.messages.banToggled'),
+          title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -484,7 +484,7 @@ export default {
       ).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_ban.messages.banToggled'),
+          title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -517,7 +517,7 @@ export default {
         this.$refs.protestBanDialog.close();
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.addedThread'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {

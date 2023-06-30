@@ -55,7 +55,7 @@ export default {
         this.errorMessage = null;
         emitter.emit('themeUpdated');
         this.$notify({
-          title: this.$t('_theme.messages.editedTheme'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         // Emit second time for proper updating of header / footer colors

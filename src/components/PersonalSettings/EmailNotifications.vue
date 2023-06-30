@@ -36,7 +36,7 @@ export default {
         .then((rsp) => {
           this.notificationSwitch = rsp.data.email_notification;
           this.$notify({
-            title: this.$t('_personalSettings.messages.emailNotificationSettingsToggled'),
+            title: this.$t('_messages.toggleSuccess'),
             type: 'success',
           });
           this.$emit('user-changed');

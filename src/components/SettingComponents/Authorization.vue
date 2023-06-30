@@ -60,7 +60,7 @@ export default {
         EventBus.emit('social_config_edited'); // caught in link account dialog
         this.fetchData();
         this.$notify({
-          title: this.$t('_authorization.messages.editedConfig'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {

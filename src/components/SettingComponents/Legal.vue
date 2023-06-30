@@ -64,7 +64,7 @@ export default {
         this.loading = false;
         this.success = true;
         this.$notify({
-          title: this.$t('_legal.messages.editedLegal'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.utils.getGeneralConfig();

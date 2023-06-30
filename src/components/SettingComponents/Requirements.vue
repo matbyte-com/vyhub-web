@@ -187,7 +187,7 @@ export default {
           this.fetchData();
           this.$refs.requirementSetAddDialog.closeAndReset();
           this.$notify({
-            title: this.$t('_requirement.messages.addedSet'),
+            title: this.$t('_messages.addSuccess'),
             type: 'success',
           });
         }).catch((err) => {
@@ -210,7 +210,7 @@ export default {
           this.fetchRequirements();
           this.$refs.requirementAddDialog.closeAndReset();
           this.$notify({
-            title: this.$t('_requirement.messages.addedRequirement'),
+            title: this.$t('_messages.addSuccess'),
             type: 'success',
           });
         }).catch((err) => {
@@ -235,7 +235,7 @@ export default {
           this.fetchData();
           this.$refs.requirementSetEditForm.loading = false;
           this.$notify({
-            title: this.$t('_requirement.messages.editedRequirement'),
+            title: this.$t('_messages.editSuccess'),
             type: 'success',
           });
         })
@@ -253,7 +253,7 @@ export default {
         this.fetchData();
         this.$refs.requirementSetDeleteConfirmationDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_requirement.messages.deletedSet'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -268,7 +268,7 @@ export default {
         this.fetchRequirements();
         this.$refs.requirementDeleteConfirmationDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_requirement.messages.deletedRequirement'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -288,7 +288,7 @@ export default {
           this.formulaScss = true;
           setTimeout(() => { this.formulaScss = false; }, 5000);
           this.$notify({
-            title: this.$t('_requirement.messages.editedFormula'),
+            title: this.$t('_messages.editSuccess'),
             type: 'success',
           });
         }).catch((err) => {

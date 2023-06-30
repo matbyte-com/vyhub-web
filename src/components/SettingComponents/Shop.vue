@@ -87,7 +87,7 @@ export default {
       const data = this.$refs.form.getData();
       (await openapi).shop_editConfig(null, data).then(() => {
         this.$notify({
-          title: this.$t('settingsSaveSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -100,7 +100,7 @@ export default {
 
       (await openapi).shop_changeBusinessAddress(undefined, address).then(() => {
         this.$notify({
-          title: this.$t('_address.messages.changeSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.addressChangeDialog.closeAndReset();

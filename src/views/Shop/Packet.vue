@@ -249,7 +249,7 @@ export default {
         this.addSuccess = true;
 
         this.$notify({
-          title: this.$t('_shop.messages.addToCartSuccess'),
+          title: this.$t('_shop.messages.addSuccess'),
           type: 'success',
         });
         ShopService.refreshCartPacketCount();

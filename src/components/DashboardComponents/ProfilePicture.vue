@@ -117,7 +117,7 @@ export default {
       (await openapi).user_editUser(this.user.id, { admin: false }).then(() => {
         this.$refs.adminDeleteConfirmationDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_dashboard.messages.adminSuccessfullyRemoved'),
+          title: this.$t('_messages.removeSuccess'),
           type: 'success',
         });
       }).catch((err) => {

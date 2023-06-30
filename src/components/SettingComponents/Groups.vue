@@ -246,7 +246,7 @@ export default {
           this.$refs.addGroupDialog.closeAndReset();
         }
         this.$notify({
-          title: this.$t('_group.messages.addedGroup'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
         // Event caught in CustomerJourney.vue
@@ -292,7 +292,7 @@ export default {
         this.$refs.deleteGroupDialog.cancel();
         this.fetchData();
         this.$notify({
-          title: this.$t('_group.messages.deletedGroup'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -311,7 +311,7 @@ export default {
           this.fetchData();
           this.$refs.editGroupDialog.closeAndReset();
           this.$notify({
-            title: this.$t('_group.messages.editedGroup'),
+            title: this.$t('_messages.editSuccess'),
             type: 'success',
           });
         }).catch((err) => {

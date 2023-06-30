@@ -198,7 +198,7 @@ export default {
         this.$refs.markAsReadDialog.closeAndReset();
         this.fetchData();
         this.$notify({
-          title: this.$t('_notification.messages.readSuccess'),
+          title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
       });
@@ -212,7 +212,7 @@ export default {
     async toggleReadStatus(item) {
       (await openapi).notification_markAsRead(null, { id: [item.id] }).then(() => {
         this.$notify({
-          title: this.$t('_notification.messages.readSuccess'),
+          title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
       });

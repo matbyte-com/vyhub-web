@@ -319,7 +319,7 @@ export default {
       api.shop_removePacketFromCart({ uuid: cartPacketId }).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_shop.messages.removeFromCartSuccess'),
+          title: this.$t('_shop.messages.removeSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -333,7 +333,7 @@ export default {
       api.shop_removePacketsFromCart().then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_shop.messages.clearCartSuccess'),
+          title: this.$t('_messages.removeSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -404,7 +404,7 @@ export default {
         this.fetchData();
         this.$refs.cancelPurchaseConfirmationDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_shop.messages.purchaseCancelledSuccess'),
+          title: this.$t('_messages.cancelSuccess'),
           type: 'success',
         });
       }).catch((err) => {

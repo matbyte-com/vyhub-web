@@ -73,7 +73,7 @@ export default {
         // caught in App.vue to Update Theme + Header
         EventBus.emit('themeUpdated');
         this.$notify({
-          title: this.$t('settingsSaveSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         // Event caught in CustomerJourney.vue
@@ -90,7 +90,7 @@ export default {
       const data = this.$refs.htmlTagForm.getData();
       (await openapi).general_editHtmlMetaTags(null, data).then(() => {
         this.$notify({
-          title: this.$t('settingsSaveSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.htmlTagForm.setData(data);

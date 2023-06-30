@@ -52,7 +52,7 @@ export default {
         }
         this.$refs.dialog.cancel();
         this.$notify({
-          title: this.$t('_reward.messages.createAppliedRewardSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         this.$emit('success');

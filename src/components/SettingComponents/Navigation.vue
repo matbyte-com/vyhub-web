@@ -407,7 +407,7 @@ export default {
         this.getNavItems();
         EventBus.emit('navUpdated');
         this.$notify({
-          title: this.$t('_navigation.messages.addedLink'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -430,7 +430,7 @@ export default {
         this.rawHtmlInput = null;
         this.getCmsPages();
         this.$notify({
-          title: this.$t('_navigation.messages.cmsAdded'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -442,7 +442,7 @@ export default {
         this.getCmsPages();
         this.$refs.cmsDeleteDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_navigation.messages.cmsDeleted'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -466,7 +466,7 @@ export default {
         this.rawHtmlInput = null;
         this.getCmsPages();
         this.$notify({
-          title: this.$t('_navigation.messages.cmsEdited'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -488,7 +488,7 @@ export default {
         this.getNavItems();
         EventBus.emit('navUpdated'); // Event caught in Header to Update Navlinks
         this.$notify({
-          title: this.$t('_navigation.messages.updatedLinkOrder'),
+          title: this.$t('_messages.updateOrderSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -504,7 +504,7 @@ export default {
         this.$refs.deleteNavConfirmationDialog.closeAndReset();
         EventBus.emit('navUpdated');
         this.$notify({
-          title: this.$t('_navigation.messages.removedLink'),
+          title: this.$t('_messages.removeSuccess'),
           type: 'success',
         });
         this.getNavItems();
@@ -525,7 +525,7 @@ export default {
         EventBus.emit('navUpdated');
         this.getNavItems();
         this.$notify({
-          title: this.$t('_navigation.messages.editedLink'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {

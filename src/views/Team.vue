@@ -108,7 +108,7 @@ export default {
         this.$refs.editForm.closeAndReset();
         this.fetchData();
         this.$notify({
-          title: this.$t('_team.teamGroupsSuccessfullyEdited'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {

@@ -299,7 +299,7 @@ export default {
         this.fetchData();
         this.$refs.addTopicCategoryDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_forum.messages.topicCategoryCreated'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -312,7 +312,7 @@ export default {
         this.fetchData();
         this.$refs.addTopicDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_forum.messages.topicCreated'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -332,7 +332,7 @@ export default {
       (await openapi).forum_editTopicCategory(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.topicCategoryEdited'),
+          title: this.$t('_.messages.editSuccess'),
           type: 'success',
         });
         this.$refs.editTopicCategoryDialog.closeAndReset();
@@ -352,7 +352,7 @@ export default {
       (await openapi).forum_editTopic(item.id, data).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.topicEdited'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.editTopicDialog.closeAndReset();
@@ -365,7 +365,7 @@ export default {
       (await openapi).forum_deleteTopicCategory(item.id).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.categoryDeleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteTopicCategoryConfirmationDialog.closeAndReset();
@@ -377,7 +377,7 @@ export default {
       (await openapi).forum_deleteTopic(item.id).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.topicDeleteSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteTopicConfirmationDialog.closeAndReset();
@@ -394,7 +394,7 @@ export default {
       (await openapi).forum_updateTopicCategoryOrder(null, res).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.updatedOrder'),
+          title: this.$t('_messages.updateOrderSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -410,7 +410,7 @@ export default {
       (await openapi).forum_updateTopicOrder(null, res).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.updatedOrder'),
+          title: this.$t('_messages.updateOrderSuccess'),
           type: 'success',
         });
       }).catch((err) => {

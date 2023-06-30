@@ -106,7 +106,7 @@ export default {
       ).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_api.messages.keyRevokeSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       });
@@ -124,7 +124,7 @@ export default {
         this.fetchData();
         this.$refs.createTokenDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_api.messages.keyCreateSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
       }).catch((err) => {

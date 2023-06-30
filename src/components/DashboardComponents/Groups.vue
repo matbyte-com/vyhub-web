@@ -264,7 +264,7 @@ export default {
           this.fetchData();
           this.$refs.addMembershipDialog.closeAndReset();
           this.$notify({
-            title: this.$t('_membership.messages.membershipSuccessfullyAdded'),
+            title: this.$t('_messages.addSuccess'),
             type: 'success',
           });
         }).catch((err) => {

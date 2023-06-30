@@ -215,7 +215,7 @@ export default {
         this.timer();
         this.$notify({
           type: 'success',
-          title: this.$t('settingsSaveSuccess'),
+          title: this.$t('_messages.editSuccess'),
         });
       });
     },

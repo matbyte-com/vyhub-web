@@ -42,7 +42,7 @@ export default {
       const data = this.$refs.form.getData();
       (await openapi).ban_updateConfig(null, data).then(() => {
         this.$notify({
-          title: this.$t('settingsSaveSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {

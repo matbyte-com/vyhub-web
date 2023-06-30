@@ -109,7 +109,7 @@ export default {
         this.$refs.addThreadDialog.close();
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.addedThread'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {

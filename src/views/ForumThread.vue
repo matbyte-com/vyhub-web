@@ -284,7 +284,7 @@ export default {
         this.$refs.addPostDialog.close();
         this.fetchData();
         this.$notify({
-          title: this.$t('_forum.messages.addedPost'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -351,7 +351,7 @@ export default {
       (await openapi).forum_toggleStatus(this.threadId).then((rsp) => {
         this.thread = rsp.data;
         this.$notify({
-          title: this.$t('_forum.messages.toggleStatus'),
+          title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
       });

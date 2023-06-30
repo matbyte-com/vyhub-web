@@ -112,7 +112,7 @@ export default {
         // eslint-disable-next-line no-param-reassign
         item.disabled = !item.disabled;
         this.$notify({
-          title: this.$t('_warning.messages.toggledWarning'),
+          title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
         this.$emit('edit');
@@ -126,7 +126,7 @@ export default {
         this.$emit('edit');
         this.$refs.deleteWarningDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_warning.messages.deletedWarning'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       }).catch((err) => this.$refs.deleteWarningDialog.setError(err));
@@ -141,7 +141,7 @@ export default {
         this.$refs.addWarningDialog.closeAndReset();
         this.$emit('edit');
         this.$notify({
-          title: this.$t('_warning.messages.addedWarning'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {

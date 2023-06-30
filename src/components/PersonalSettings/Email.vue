@@ -60,7 +60,7 @@ export default {
         .then(() => {
           this.showInput = false;
           this.$notify({
-            title: this.$t('_personalSettings.messages.emailUpdated'),
+            title: this.$t('_messages.updateSuccess'),
             type: 'success',
           });
           this.$emit('user-changed');

@@ -136,7 +136,7 @@ export default {
       }).then(() => {
         this.$refs.banAddDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_ban.messages.banAdded'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
         this.$emit('edit');
@@ -157,7 +157,7 @@ export default {
       ).then(() => {
         this.$refs.banEditDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_ban.messages.banEdited'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$emit('edit');
@@ -172,7 +172,7 @@ export default {
       ).then(() => {
         this.$refs.deleteBanDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_ban.messages.banDeleted'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$emit('edit');
@@ -188,7 +188,7 @@ export default {
       ).then(() => {
         this.$emit('edit');
         this.$notify({
-          title: this.$t('_ban.messages.banToggled'),
+          title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
       }).catch((err) => {
@@ -202,7 +202,7 @@ export default {
       ).then(() => {
         this.$emit('edit');
         this.$notify({
-          title: this.$t('_ban.messages.banToggled'),
+          title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
       }).catch((err) => {

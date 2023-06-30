@@ -187,7 +187,7 @@ export default {
         this.fetchData();
         this.updateFaqEnabled = false;
         this.$notify({
-          title: this.$t('_settings.messages.orderUpdated'),
+          title: this.$t('_messages.updateOrderSuccess'),
           type: 'success',
         });
       }).catch((err) => {

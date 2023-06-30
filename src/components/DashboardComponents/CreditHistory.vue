@@ -74,7 +74,7 @@ export default {
         this.$refs.transactionAddDialog.closeAndReset();
         this.fetchData();
         this.$notify({
-          title: this.$t('_creditHistory.messages.addedTransaction'),
+          title: this.$t('_messages.addSuccess'),
           type: 'success',
         });
       }).catch((err) => {

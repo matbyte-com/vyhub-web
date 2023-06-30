@@ -226,7 +226,7 @@ export default {
       api.shop_editPurchase({ uuid: purchase.id }, { status: 'FINISHED' })
         .then(() => {
           this.$notify({
-            title: this.$t('_purchases.messages.cancelSubscriptionSuccess'),
+            title: this.$t('_messages.cancelSuccess'),
             type: 'success',
           });
           this.fetchData();

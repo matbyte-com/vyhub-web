@@ -249,7 +249,7 @@ export default {
 
       api.packet_editAppliedPacket({ uuid: aPacket.id }, data).then((rsp) => {
         this.$notify({
-          title: this.$t('_purchases.messages.editAppliedPacketSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.$refs.editAppliedPacketDialog.closeAndReset();
@@ -269,7 +269,7 @@ export default {
     async deleteAppliedPacket(ePacket) {
       (await openapi).packet_deleteAppliedPacket({ uuid: ePacket.id }).then(() => {
         this.$notify({
-          title: this.$t('_purchases.messages.deleteAppliedPacketSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteAppliedPacketDialog.closeAndReset();
@@ -288,7 +288,7 @@ export default {
       (await openapi).packet_createAppliedPacket(null, data).then(() => {
         this.$refs.addAppliedPacketDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_purchases.messages.createAppliedPacketSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         this.fetchData();
@@ -318,7 +318,7 @@ export default {
       (await openapi).packet_addAppliedReward(null, data).then(() => {
         this.$refs.addAppliedRewardDialog.closeAndReset();
         this.$notify({
-          title: this.$t('_reward.messages.createAppliedRewardSuccess'),
+          title: this.$t('_messages.createSuccess'),
           type: 'success',
         });
         this.getAppliedRewards();
@@ -329,7 +329,7 @@ export default {
     async deleteAppliedReward(item) {
       (await openapi).packet_deleteAppliedReward({ uuid: item.id }).then(() => {
         this.$notify({
-          title: this.$t('_reward.messages.deleteAppliedRewardSuccess'),
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
         this.$refs.deleteAppliedRewardDialog.closeAndReset();

@@ -47,7 +47,7 @@ export default {
       data.ban_length *= 60;
       (await openapi).warning_updateConfig(null, data).then(() => {
         this.$notify({
-          title: this.$t('_warning.messages.editedSettings'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {
