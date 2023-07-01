@@ -70,10 +70,8 @@
      </v-btn>
      <v-row v-if="formulaMsg != null">
        <v-col cols="12" class="mt-4">
-         <v-alert
-           type="error"
-         >
-           {{ $t(formulaMsg) }}
+         <v-alert type="error">
+           {{ formulaMsg }}
          </v-alert>
        </v-col>
      </v-row>
@@ -81,9 +79,7 @@
    <!-- Real Component -->
    <v-row>
      <v-col cols="12" class="mt-4">
-       <v-alert
-         type="warning"
-       >
+       <v-alert type="warning">
          {{ $t('_settings.formulaBeta') }}
        </v-alert>
      </v-col>
@@ -95,14 +91,10 @@
        <div class="text-right">
          <v-btn outlined color="primary" small
                 @click="openEditRequirementSetDialog(item)" class="mr-1">
-           <v-icon>
-             mdi-pencil
-           </v-icon>
+           <v-icon>mdi-pencil</v-icon>
          </v-btn>
          <v-btn outlined color="error" small @click="openDeleteRequirementSetDialog(item)">
-           <v-icon>
-             mdi-delete
-           </v-icon>
+           <v-icon>mdi-delete</v-icon>
          </v-btn>
        </div>
      </template>
@@ -219,6 +211,7 @@ export default {
     },
     async openEditRequirementSetDialog(reqSet) {
       await this.$refs.requirementSetEditDialog.show(reqSet);
+      this.$refs.requirementSetEditForm.setData(reqSet);
       this.requirement_set_id = reqSet.id;
       await this.fetchRequirements();
     },
@@ -304,9 +297,9 @@ export default {
         this.editFormula(res);
       } catch (e) {
         if (e instanceof TypeError) {
-          this.formulaMsg = 'settings.formulaTypeError';
+          this.formulaMsg = this.$t('_settings.formulaTypeError');
         } else {
-          this.formulaMsg = 'settings.formulaError';
+          this.formulaMsg = this.$t('_settings.formulaError');
         }
         console.log(e);
         this.formulaBtnLoading = false;
