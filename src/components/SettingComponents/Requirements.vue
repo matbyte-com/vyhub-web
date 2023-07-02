@@ -64,7 +64,7 @@
        {{ $t('_settings.formulaSymbolAnd') }}</p>
      <v-text-field v-model="formula" label="Formula"></v-text-field>
      <v-btn @click="validateFormula" :disabled="!formula" :loading="formulaBtnLoading"
-            class="primary">
+            class="primary" depressed>
        <v-icon v-if="formulaScss" large color="success">mdi-check</v-icon>
        <span v-else>{{ $t('_settings.editFormula') }}</span>
      </v-btn>
@@ -74,6 +74,16 @@
            {{ formulaMsg }}
          </v-alert>
        </v-col>
+     </v-row>
+     <v-divider class="mt-5"/>
+     <h3 class="display-h3 mt-5">{{ $t('_settings.requirementSetTest') }}</h3>
+     <v-row class="align-center px-3 mt-1">
+       <UserSelect v-model="testUser"/>
+       <v-btn color="primary" @click="testRequirementSetAgainstUser" :disabled="!testUser"
+              class="ml-3" depressed>{{ $t('test') }}</v-btn>
+       <bool-icon class="animate__animated animate__heartBeat ml-3"
+                  v-if="testResult !== null" :value="testResult"/>
+       <div class="ml-1">{{ testResult }}</div>
      </v-row>
    </Dialog>
    <!-- Real Component -->
@@ -118,16 +128,20 @@ import GenForm from '@/components/GenForm.vue';
 import openapi from '@/api/openapi';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
+import UserSelect from '@/components/Miscellaneous/UserSelect.vue';
+import BoolIcon from '@/components/BoolIcon.vue';
 
 export default {
   name: 'Requirements',
   components: {
+    BoolIcon,
     SettingTitle,
     DeleteConfirmationDialog,
     GenForm,
     DialogForm,
     DataTable,
     Dialog,
+    UserSelect,
   },
   data() {
     return {
@@ -156,6 +170,8 @@ export default {
       formulaMsg: null,
       formulaBtnLoading: null,
       formulaScss: null,
+      testUser: null,
+      testResult: null,
     };
   },
   beforeMount() {
@@ -168,7 +184,7 @@ export default {
       });
     },
     async fetchRequirements() {
-      (await openapi).requirements_getRequirementSet(this.requirement_set_id).then((rsp) => {
+      await (await openapi).requirements_getRequirementSet(this.requirement_set_id).then((rsp) => {
         this.requirements = rsp.data.requirements;
       });
     },
@@ -213,7 +229,9 @@ export default {
       await this.$refs.requirementSetEditDialog.show(reqSet);
       this.$refs.requirementSetEditForm.setData(reqSet);
       this.requirement_set_id = reqSet.id;
-      await this.fetchRequirements();
+      await this.fetchRequirements().then(() => {
+        this.formula = this.apiFormulaToReadable(reqSet.formula);
+      });
     },
     async openRequirementAddDialog(reqSet) {
       await this.$refs.requirementAddDialog.setData({});
@@ -355,6 +373,45 @@ export default {
         }
       });
       return res;
+    },
+    apiFormulaToReadable(apiFormula) {
+      if (apiFormula == null) return '';
+      const formula = [];
+      apiFormula.forEach((item) => {
+        if (Array.isArray(item)) {
+          if (item.length === 1 && (item[0] === '&' || item[0] === '|')) {
+            formula.push(item[0]);
+          } else if (item.length === 1) {
+            const requirementId = item[0];
+            const requirement = this.requirements
+              .find((req) => req.id === requirementId);
+            if (requirement) {
+              formula.push(this.requirements.findIndex((i) => i.id === requirement.id));
+            } else {
+              throw new Error(`Invalid requirement ID: ${requirementId}`);
+            }
+          } else {
+            formula.push(this.apiFormulaToReadable(item));
+          }
+        } else {
+          throw new Error(`Invalid result item: ${item}`);
+        }
+      });
+      return formula.join('');
+    },
+    async testRequirementSetAgainstUser() {
+      this.testResult = null;
+      (await openapi).requirements_testRequirementSet(
+        {
+          user_id: this.testUser, uuid: this.requirement_set_id,
+        },
+      )
+        .then((res) => {
+          this.testResult = res.data;
+          this.formulaMsg = null;
+        }).catch((err) => {
+          this.formulaMsg = this.utils.formatErrorMessage(err);
+        });
     },
   },
 };
