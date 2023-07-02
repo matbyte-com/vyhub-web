@@ -93,7 +93,8 @@
                   <span v-html="post.content" class="ql-editor pa-0"/>
                 </v-col>
                 <div class="text--disabled mt-3 d-flex align-center mb-0 pb-0">
-                  <v-avatar v-if="post.creator.id === thread.creator.id"
+                  <v-avatar v-if="post.creator && thread.creator &&
+                  post.creator.id === thread.creator.id"
                             class="hidden-sm-and-up mr-3"
                             size="30">
                     <v-img :src="post.creator.avatar"/>
@@ -134,7 +135,7 @@
             </v-card>
           </v-col>
           <v-col class="hidden-xs-only" cols="2" lg="1">
-            <v-avatar v-if="post.creator.id !== thread.creator.id"
+            <v-avatar v-if="post.creator && thread.creator && post.creator.id !== thread.creator.id"
                       :size="avatarWidth">
               <v-img :src="post.creator.avatar"/>
             </v-avatar>
@@ -376,7 +377,7 @@ export default {
   },
   computed: {
     postEditable() {
-      if (!this.topic || !this.$store.getters.user) return false;
+      if (!this.topic || !this.$store.getters.user || !this.post) return false;
       return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.topic.admins)
         || (this.$store.getters.user.id === this.post.creator.id && this.topic.edit_post));
     },
