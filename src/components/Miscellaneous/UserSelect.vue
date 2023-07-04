@@ -36,7 +36,7 @@ export default {
   methods: {
     async fetchUsers() {
       this.loadingUsers = true;
-      (await openapi).user_getUsers(null, { query: this.searchInput }).then((rsp) => {
+      (await openapi).user_getUsers({ query: this.searchInput }).then((rsp) => {
         this.userOptions = rsp.data;
         this.loadingUsers = false;
       });
