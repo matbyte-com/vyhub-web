@@ -39,5 +39,12 @@ export default {
       description: i18n.t('_forum.editPostDescription'),
       default: false,
     },
+    prohibit_create_threads: {
+      type: 'boolean',
+      'x-display': 'switch',
+      title: i18n.t('_forum.prohibitCreateThreads'),
+      description: i18n.t('_forum.prohibitCreateThreadsDescription'),
+      default: false,
+    },
   },
 };

@@ -134,7 +134,9 @@
             </template>
             <template v-slot:footer-right>
               <v-btn color="success" outlined
-                     @click="$refs.addThreadDialog.show()">
+                     @click="$refs.addThreadDialog.show()"
+                     v-if="!topic.prohibit_create_threads || ($checkProp('forum_edit')
+                     || $checkTopicAdmin(topic.admins))">
                 <v-icon left>mdi-plus</v-icon>
                 <span>{{ $t('_forum.addThread') }}</span>
               </v-btn>
