@@ -26,8 +26,7 @@
             :default-sort-desc="true"
             @reload="fetchTopic"
             @click:row="showThread"
-            class="cursor"
-          >
+            class="cursor">
             <template v-slot:header>
               <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
                           @change="fetchTopic" class="text-capitalize"/>
@@ -98,9 +97,9 @@
             <template v-slot:item.title_sm="{ item }">
               <div class="d-flex">
                 <router-link
-                  :to="{ name: 'UserDashboard', params: { id: topic.last_post.creator.id } }">
+                  :to="{ name: 'UserDashboard', params: { id: item.creator.id } }">
                   <v-avatar class="ma-1 mr-2">
-                    <v-img :src="item.last_post.creator.avatar"/>
+                    <v-img :src="item.creator.avatar"/>
                   </v-avatar>
                 </router-link>
                 <div class="align-self-center">
@@ -127,7 +126,7 @@
                     {{ topic.posts_total }} {{ $t('_forum.posts') }}
                   </div>
                   <span v-if="topic.last_post" :class="{ 'font-weight-bold' : !item.is_read }">
-                {{ utils.formatTimeForForum(topic.last_post.created) }}
+                {{ utils.formatTimeForForum(item.last_post.created) }}
               </span>
                 </div>
               </div>
