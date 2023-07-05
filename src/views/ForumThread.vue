@@ -38,8 +38,9 @@
               <span>{{ $t('_forum.lock') }}</span>
             </div>
           </v-btn>
-          <v-btn v-if="($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))
-             && thread.status === 'CLOSED'" outlined x-small
+          <v-btn v-if="($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))"
+                 :disabled="thread.status !== 'CLOSED'"
+                 outlined x-small
              color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
             <v-icon left>mdi-delete</v-icon>
             {{ $t('_forum.deleteThread') }}
