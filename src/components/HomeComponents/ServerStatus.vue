@@ -46,7 +46,7 @@
                 </router-link>
               </span>
               <span class="font-italic text--disabled" v-if="server.status === 'UNKNOWN'">
-                {{ $t('_server.labels.unknownStatus') }}
+                {{ $t('unknown') }}
               </span>
             </v-col>
             <v-col order="3" order-xl="2" cols="12" lg="6" xl="7">
