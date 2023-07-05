@@ -4,8 +4,7 @@
     <dialog-form ref="messageAddDialog" :form-schema="messageAddSchema"
                  :title="$t('_home.addNews')" icon="mdi-newspaper-plus"
                  :max-width="1000"
-                 @submit="addMessage"
-    >
+                 @submit="addMessage">
       <template v-slot:type-after>
         <Editor v-model="message"/>
       </template>
@@ -65,7 +64,7 @@
       <!-- News -->
       <v-col cols="12" md="8">
         <!-- News of the Day -->
-        <v-row class="pa-0">
+        <v-row class="pa-0" v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
           <v-col order="2" order-sm="1" cols="12" sm="8">
             <PageTitle icon="mdi-newspaper" :title="$t('_home.newsOfTheDay')"
                        v-if="getNewsOfTheDay.length !== 0" />
@@ -112,7 +111,7 @@
           </v-card>
         </transition-group>
         <!-- Display News -->
-        <v-row v-if="getNews.length !== 0" class="mt-3">
+        <v-row v-if="getNews.length !== 0" :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }">
           <v-col>
             <PageTitle icon="mdi-newspaper-variant-multiple" :title="$t('_home.news')"/>
           </v-col>
@@ -149,7 +148,7 @@
           </v-card>
         </transition-group>
         <!-- Skeleton Loader -->
-        <v-row class="pa-0">
+        <v-row class="pa-0" v-if="exhausted || fetching">
           <v-col>
             <div v-if="!exhausted && fetching" class="animate__animated animate__fade mt-3">
               <v-skeleton-loader type="article" v-if="fetching" />
