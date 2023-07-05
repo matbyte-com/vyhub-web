@@ -1,6 +1,6 @@
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 708.661 708.661">
-    <g id="Icon_White" data-name="Icon White" class="custom-icon">
+    <g class="custom-icon">
       <polygon
         points="642.345 578.908 642.345 129.101 479.085 578.908 642.345 578.908"/>
       <polygon
