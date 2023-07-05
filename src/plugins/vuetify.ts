@@ -23,6 +23,7 @@ import minifyTheme from 'minify-css-string';
 import '@mdi/font/css/materialdesignicons.css';
 import VyHubIcon from '@/components/Icons/VyHub.vue';
 import TeamspeakIcon from '@/components/Icons/Teamspeak.vue';
+import FiveMIcon from '@/components/Icons/FiveM.vue';
 
 Vue.use(Vuetify);
 
@@ -53,6 +54,9 @@ export default new Vuetify({
       },
       teamspeak: {
         component: TeamspeakIcon,
+      },
+      fivem: {
+        component: FiveMIcon,
       },
     },
   },

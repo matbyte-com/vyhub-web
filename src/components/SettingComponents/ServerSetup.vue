@@ -19,14 +19,14 @@
           {{ $t('_server.instructions.GMOD.serverConsoleHint') }}
         </div>
       </div>
-      <div v-if="gmodCommands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateGmodCommands">
+      <div v-if="commands == null" class="mt-1 text-center">
+        <v-btn color="primary" @click="generateCommands()">
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
       </div>
-      <div v-if="gmodCommands != null" class="mt-1">
-        <div v-for="cmd in gmodCommands" :key="cmd">
+      <div v-if="commands != null" class="mt-1">
+        <div v-for="cmd in commands" :key="cmd">
           <code>{{ cmd }}</code>
           <br/>
         </div>
@@ -52,14 +52,14 @@
       <div class="font-weight-bold mt-4">
         2. {{ $t('_server.instructions.COMMON.runCommands') }}
       </div>
-      <div v-if="mcCommands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateMcCommands">
+      <div v-if="commands == null" class="mt-1 text-center">
+        <v-btn color="primary" @click="generateCommands()">
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
       </div>
-      <div v-if="mcCommands != null" class="mt-1">
-        <div v-for="cmd in mcCommands" :key="cmd">
+      <div v-if="commands != null" class="mt-1">
+        <div v-for="cmd in commands" :key="cmd">
           <code>{{ cmd }}</code>
           <br/>
         </div>
@@ -136,6 +136,39 @@
         </v-btn>
       </div>
     </div>
+
+    <!-- FIVEM -->
+    <div v-if="server.type === 'FIVEM'">
+      <div class="font-weight-bold">1. {{ $t('_server.instructions.FIVEM.download') }}</div>
+      <div class="mt-1 text-center">
+        <a href="https://github.com/matbyte-com/vyhub-fivem/releases" target="_blank">
+          <v-btn color="primary">
+            <v-icon left>mdi-download</v-icon>
+            {{ $t('download') }}
+          </v-btn>
+        </a>
+      </div>
+
+      <div class="font-weight-bold mt-4">
+        2. {{ $t('_server.instructions.COMMON.runCommands') }}
+      </div>
+      <div v-if="commands == null" class="mt-1 text-center">
+        <v-btn color="primary" @click="generateCommands()">
+          <v-icon left>mdi-repeat</v-icon>
+          {{ $t('generate') }}
+        </v-btn>
+      </div>
+      <div v-if="commands != null" class="mt-1">
+        <div v-for="cmd in commands" :key="cmd">
+          <code>{{ cmd }}</code>
+          <br/>
+        </div>
+      </div>
+
+      <div class="font-weight-bold mt-4">
+        3. {{ $t('_server.instructions.COMMON.wait') }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -150,15 +183,14 @@ export default {
   },
   data() {
     return {
-      gmodCommands: null,
-      mcCommands: null,
+      commands: null,
       discordBotLink: '#',
       botRestarted: 0,
     };
   },
   methods: {
     init() {
-      this.gmodCommands = null;
+      this.commands = null;
 
       if (this.server.type === 'DISCORD') {
         this.generateDiscordBotLink();
@@ -177,23 +209,14 @@ export default {
 
       return rsp.data.access_token;
     },
-    async generateGmodCommands() {
-      this.gmodCommands = [];
+    async generateCommands(prefix = 'vh_config') {
+      this.commands = [];
 
       const access_token = await this.generateToken();
 
-      this.gmodCommands.push(`vh_config api_key "${access_token}"`);
-      this.gmodCommands.push(`vh_config api_url "${config.backend_url}"`);
-      this.gmodCommands.push(`vh_config server_id "${this.server.id}"`);
-    },
-    async generateMcCommands() {
-      this.mcCommands = [];
-
-      const access_token = await this.generateToken();
-
-      this.mcCommands.push(`vh_config api_key ${access_token}`);
-      this.mcCommands.push(`vh_config api_url ${config.backend_url}`);
-      this.mcCommands.push(`vh_config server_id ${this.server.id}`);
+      this.commands.push(`${prefix} api_key "${access_token}"`);
+      this.commands.push(`${prefix} api_url "${config.backend_url}"`);
+      this.commands.push(`${prefix} server_id "${this.server.id}"`);
     },
     async generateDiscordBotLink() {
       const api = (await openapi);
