@@ -21,6 +21,7 @@
 | vh-email-notifications          | EmailNotifications.vue|
 | vh-page-title                   | PageTitle.vue         |
 |                                 | **Views**             |
+| vh-dashboard                    | Dashboard.vue         |
 | vh-forum                        | Forum.vue             |
 | vh-forum-topic                  | ForumTopic.vue        |
 | vh-forum-post                   | ForumThread.vue       |
