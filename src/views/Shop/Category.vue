@@ -57,7 +57,7 @@
                     </v-expand-transition>
                   </div>
                 </v-img>
-                <v-card-text>
+                <v-card-text class="vh-shop-packages">
                   <div>
                     <div class="text-center">
                       <div>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageTitle icon="mdi-account-cancel">{{ $t('_ban.labels.title') }}</PageTitle>
-    <v-card>
+    <v-card class="vh-ban">
       <v-card-text>
         <PaginatedDataTable
           ref="banTable"

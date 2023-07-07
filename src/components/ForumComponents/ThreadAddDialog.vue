@@ -1,5 +1,5 @@
 <template>
-  <Dialog ref="dialog" :title="dialogTitle" icon="mdi-newspaper-variant-outline">
+  <Dialog ref="dialog" :title="dialogTitle" icon="mdi-newspaper-variant-outline" max-width="75%">
     <v-row v-if="errorMsg != null">
       <v-col cols="12" class="mt-4">
         <v-alert

@@ -2,7 +2,7 @@
   <div>
     <div v-if="user">
       <PageTitle icon="mdi-account" :title="$t('_dashboard.labels.title', { usr: user.username })"/>
-      <v-card>
+      <v-card class="vh-dashboard">
         <v-card-text>
           <v-tabs v-model="activeTabIndex">
             <v-tab @click="switchTab('General')">

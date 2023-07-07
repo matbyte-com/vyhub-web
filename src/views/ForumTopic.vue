@@ -15,7 +15,7 @@
           / {{ topic.title }}
         </template>
       </PageTitle>
-      <v-card>
+      <v-card class="vh-forum-topic">
         <v-card-text>
           <PaginatedDataTable
             ref="threadTable"

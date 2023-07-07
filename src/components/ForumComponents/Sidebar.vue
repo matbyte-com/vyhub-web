@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-card v-if="latestPosts">
+  <v-card v-if="latestPosts" class="vh-forum-latest-posts">
     <v-card-title style="word-break: break-word">
       <HeadlineSidebar icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
     </v-card-title>
@@ -39,7 +39,7 @@
     </v-list>
   </v-card>
   <v-skeleton-loader type="card" v-else class="mt-3"/>
-  <v-card class="mt-3" v-if="latestThreads">
+  <v-card class="mt-3 vh-forum-latest-threads" v-if="latestThreads">
     <v-card-title style="word-break: break-word">
       <HeadlineSidebar icon="mdi-forum" :title="$t('_forum.latestThreads')"/>
     </v-card-title>
@@ -76,7 +76,7 @@
     </v-list>
   </v-card>
   <v-skeleton-loader type="card" v-else />
-  <v-card class="mt-3" v-if="latestPosts && latestThreads">
+  <v-card class="mt-3 vh-forum-statistics" v-if="latestPosts && latestThreads">
     <v-card-title style="word-break: break-word">
       <HeadlineSidebar icon="mdi-counter" :title="$t('_forum.statistics')"/>
     </v-card-title>

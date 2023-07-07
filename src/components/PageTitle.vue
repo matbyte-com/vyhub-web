@@ -2,7 +2,7 @@
   <div class="mb-3">
     <v-row>
       <v-col cols="12" class="d-flex">
-        <v-card>
+        <v-card class="vh-page-title">
           <v-card-text class="text-left text-h4 d-flex align-center pa-3">
             <v-icon color="primary" x-large v-if="icon != null" class="mr-1">{{ icon }}</v-icon>
             <v-sheet vertical color="primary" width="5" :height="dividerHeight" class="">

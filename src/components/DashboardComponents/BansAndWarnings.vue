@@ -1,5 +1,5 @@
 <template>
-  <v-card class="flex-grow-1">
+  <v-card class="flex-grow-1 vh-dashboard-bans-and-warnings">
     <v-card-text>
       <v-row>
         <v-col>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card class="vh-dashboard-comment">
       <v-card-title>
         <v-icon left>
           mdi-comment

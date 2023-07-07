@@ -1,5 +1,5 @@
 <template>
-  <v-card class="flex-grow-1">
+  <v-card class="flex-grow-1 vh-dashboard-groups">
     <dialog-form :form-schema="userMembershipAddForm"
                  icon="mdi-account-group"
                  :title="$t('_membership.labels.add')"

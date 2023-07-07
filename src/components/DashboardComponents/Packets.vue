@@ -1,5 +1,5 @@
 <template>
-  <v-card width="100%">
+  <v-card width="100%" class="vh-dashboard-packets">
     <v-card-title>
       <v-icon class="mr-2">mdi-gift-open</v-icon>
       {{ $t('packets') }}

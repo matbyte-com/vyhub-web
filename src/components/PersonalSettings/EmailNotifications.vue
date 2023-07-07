@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="vh-email-notifications">
     <v-card-title>
       <v-icon left>mdi-bell-badge</v-icon>
       {{ $t('_personalSettings.emailNotifications') }}

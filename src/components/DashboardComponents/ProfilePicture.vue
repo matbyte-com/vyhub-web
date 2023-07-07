@@ -1,5 +1,5 @@
 <template>
-  <v-card class="text-center">
+  <v-card class="text-center vh-dashboard-profile-picture">
     <v-card-text>
       <v-row justify="center" class="my-1">
         <v-hover v-if="activeUser != null">

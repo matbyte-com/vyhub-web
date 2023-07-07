@@ -39,7 +39,7 @@
       <draggable :list="questions"
                  @change="updateFaqEnabled = true" style="width: 100%">
         <v-expansion-panel v-for="question in questions" :key="question.id" class="mt-3">
-          <v-card>
+          <v-card class="vh-faq">
             <v-expansion-panel-header>
               <v-row>
                 <v-col cols="11" class="d-flex align-center">

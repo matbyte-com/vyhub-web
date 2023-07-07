@@ -7,7 +7,7 @@
       <v-col xl="9" lg="8" cols="12">
         <v-row v-if="openPurchase != null">
           <v-col>
-            <v-card>
+            <v-card class="vh-cart-unfinished">
               <v-card-title>
                 <v-icon left>mdi-cart-arrow-right</v-icon>
                 {{ $t('_shop.labels.unfinishedPurchase') }}
@@ -41,7 +41,7 @@
         <div v-if="cartPackets.length === 0">
           <v-row>
             <v-col>
-              <v-card>
+              <v-card class="vh-cart-empty">
                 <v-card-text>
                   {{ $t('_shop.messages.cartEmpty') }}
                   <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
@@ -73,7 +73,7 @@
         <!-- Cart total -->
         <v-row>
           <v-col>
-            <v-card>
+            <v-card class="vh-cart-total">
               <v-card-title>
                 <v-icon left>mdi-cart</v-icon>
                 {{ $t('_shop.labels.cartTotal') }}
@@ -96,7 +96,8 @@
         <!-- Billing address -->
         <v-row>
           <v-col>
-            <v-card class="animate__animated" :class="{animate__headShake:addressWobble === true}">
+            <v-card class="animate__animated vh-cart-address"
+                    :class="{animate__headShake:addressWobble === true}">
               <v-card-title>
                 <v-icon left>mdi-map-marker</v-icon>
                 {{ $t('_shop.labels.billingAddress') }}
@@ -121,9 +122,9 @@
 
         <v-row>
           <v-col>
-            <v-card>
+            <v-card class="vh-cart-discount">
               <v-card-text>
-                <v-text-field dense outlined :label="$t('_shop.labels.couponCode')"
+                <v-text-field dense outlined :label="$t('_shop.labels.discountCode')"
                               @keydown.enter="applyDiscount" v-model="couponCode"
                               :style="couponStyle"
                               :hide-details="couponError == null"
@@ -147,7 +148,7 @@
         <!-- Checkout button -->
         <v-row>
           <v-col>
-            <v-card>
+            <v-card class="vh-cart-checkout">
               <v-card-text class="red--text text-center" v-if="showDetails">
                 <span v-if="currentAddress == null">
                   {{ $t('_shop.messages.selectBillingAddressFirst') }}

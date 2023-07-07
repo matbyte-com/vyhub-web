@@ -17,7 +17,7 @@
         </v-list>
       </v-card>
     </v-menu>
-    <v-card>
+    <v-card class="vh-server-dashboard-status">
       <v-row align="center">
         <v-col class="ml-3">
           <v-icon :color="getStatusColor" left>
@@ -49,7 +49,7 @@
     </v-card>
     <v-row class="mt-6" no-gutters>
       <v-col cols="12" lg="4" class="d-flex" :class="$vuetify.breakpoint.lgAndUp ? 'pr-3' : 'mb-3'">
-        <v-card class="flex-grow-1">
+        <v-card class="flex-grow-1 vh-server-dashboard-users">
           <v-card-text>
             <div class="d-flex align-center">
               <v-text-field
@@ -123,7 +123,7 @@
         </v-card>
       </v-col>
       <v-col cols="12" lg="8" class="d-flex">
-        <v-card class="flex-grow-1">
+        <v-card class="flex-grow-1 vh-server-status-selected-user">
           <v-card-text v-if="!currentUser">{{ $t('_serverDashboard.selectAUser') }}</v-card-text>
           <v-card-text v-else>
             <v-row>

@@ -20,7 +20,7 @@
     <v-skeleton-loader v-if="topicCategories === null" type="card-heading@2"/>
     <v-row class="mt-1">
       <v-col cols="12" md="9">
-        <v-card v-for="category in topicCategories" :key="category.id" class="mb-3">
+        <v-card v-for="category in topicCategories" :key="category.id" class="mb-3 vh-forum">
           <v-card-text>
             <v-list subheader two-line>
               <v-list-group :value="true"

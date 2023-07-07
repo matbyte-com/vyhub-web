@@ -81,7 +81,8 @@
         </v-row>
         <transition-group  enter-active-class="animate__animated animate__fadeIn" class="mb-5"
                            leave-active-class="animate__animated animate__fadeOut">
-          <v-card v-for="message in getNewsOfTheDay" :key="message.id" class="mt-3 news-of-day">
+          <v-card v-for="message in getNewsOfTheDay" :key="message.id"
+                  class="mt-3 news-of-day vh-news-of-day">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
@@ -118,7 +119,7 @@
         </v-row>
         <transition-group enter-active-class="animate__animated animate__fadeIn"
                           leave-active-class="animate__animated animate__fadeOut">
-          <v-card flat outlined class="mt-3" v-for="message in getNews" :key="message.id">
+          <v-card flat outlined class="mt-3 vh-news" v-for="message in getNews" :key="message.id">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
@@ -153,7 +154,7 @@
             <div v-if="!exhausted && fetching" class="animate__animated animate__fade mt-3">
               <v-skeleton-loader type="article" v-if="fetching" />
             </div>
-            <v-card flat v-if="exhausted" class="mt-3">
+            <v-card flat v-if="exhausted" class="mt-3 vh-news-exhausted">
               <v-card-text class="text-center animate__animated animate__fadeIn">
                 {{ $t('_home.newsExhausted') }}
               </v-card-text>

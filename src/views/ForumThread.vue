@@ -88,7 +88,7 @@
             </v-avatar>
           </v-col>
           <v-col class="ml-sm-5 mr-sm-5">
-            <v-card flat outlined>
+            <v-card flat outlined class="vh-forum-post">
               <v-card-text>
                 <v-col>
                   <span v-html="post.content" class="ql-editor pa-0"/>

@@ -7,7 +7,7 @@
 
         <v-row>
           <v-col cols="12" md="6" xl="3" class="d-flex flex-column">
-            <v-card class="flex d-flex flex-column">
+            <v-card class="flex d-flex flex-column vh-shop-package-summary">
               <v-card-title>
                 <v-icon left>mdi-archive-star</v-icon>
                 {{ $t('summary') }}
@@ -49,7 +49,7 @@
             </v-card>
           </v-col>
           <v-col cols="12" md="12" xl="6" order-md="3" order-xl="2" class="d-flex flex-column">
-            <v-card class="flex d-flex flex-column">
+            <v-card class="flex d-flex flex-column vh-shop-package-description">
               <v-card-title>
                 <v-icon left>mdi-image-text</v-icon>
                 {{ $t('description') }}
@@ -61,7 +61,7 @@
             </v-card>
           </v-col>
           <v-col cols="12" md="6" xl="3" order-md="2" order-xl="3" class="d-flex flex-column">
-            <v-card class="flex d-flex flex-column">
+            <v-card class="flex d-flex flex-column vh-shop-package-price">
               <v-card-title>
                 <v-icon left>mdi-currency-usd</v-icon>
                 {{ $t('price') }}

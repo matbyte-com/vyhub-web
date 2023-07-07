@@ -4,7 +4,7 @@
     <DialogForm ref="addWarningDialog" @submit="addWarning" :form-schema="WarningAddForm"
                 :title="$t('_warning.add')" icon="mdi-account-alert"/>
     <PageTitle icon="mdi-account-alert">{{ $t('_warning.title') }}</PageTitle>
-    <v-card>
+    <v-card class="vh-warns">
       <v-card-text>
         <PaginatedDataTable
           ref="warnTable"

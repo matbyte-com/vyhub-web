@@ -28,7 +28,7 @@
           item-key="id"
           hide-default-footer>
           <template v-slot:default="{ items }">
-            <v-card class="mb-2" v-for="acc in items"
+            <v-card class="mb-2 vh-dashboard-linked-accounts" v-for="acc in items"
                     :key="acc.id">
               <v-card-title class="pb-0">
                 <v-card :href="openExternalProfileLink(acc.type, acc.identifier)" target="_blank"

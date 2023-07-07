@@ -9,7 +9,7 @@
         {{ $t('edit') }}
       </v-btn>
     </div>
-    <v-card>
+    <v-card class="vh-team">
       <v-tabs v-model="tab">
         <v-tab v-for="bundle in serverbundles" :key="bundle.id">
           <v-icon left :color="bundle.color">

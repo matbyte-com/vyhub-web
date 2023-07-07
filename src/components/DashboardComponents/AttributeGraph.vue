@@ -1,5 +1,5 @@
 <template>
-  <v-card width="100%">
+  <v-card width="100%" class="vh-dashboard-attribute-graph">
     <v-tabs
       background-color="primary"
       center-active

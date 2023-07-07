@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card class="vh-dashboard-logs">
       <v-card-title>
         <v-icon left>
           mdi-format-list-bulleted
