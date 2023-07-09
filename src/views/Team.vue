@@ -35,7 +35,8 @@
           <router-link :to="{ name: 'UserDashboard', params: { id: user.id } }">
             <v-avatar size="100%" style="border-style: solid;"
                       :style="{ borderColor: group.color }">
-              <img :src="user.avatar" alt="User Avatar">
+              <v-img :src="user.avatar" alt="User Avatar"
+                     lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
             </v-avatar>
           </router-link>
           <div style="position: absolute; top: 92%; width: 100%; text-align: center;">
