@@ -44,6 +44,13 @@
               <v-card>
                 <v-card-text>
                   {{ $t('_shop.messages.cartEmpty') }}
+                  <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
+                         active-class="no-active">
+                    {{ $t('shop') }}
+                    <v-icon right>
+                      mdi-arrow-right
+                    </v-icon>
+                  </v-btn>
                 </v-card-text>
               </v-card>
             </v-col>
@@ -467,6 +474,7 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style scoped lang="sass">
+.no-active::before
+  opacity: 0 !important
 </style>
