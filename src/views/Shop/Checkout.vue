@@ -250,7 +250,7 @@ export default {
       (await openapi).shop_addCouponCodes(this.debit.id, { coupons }).then(() => {
         this.checkPayment();
         this.$notify({
-          title: this.$t('_shop.messages.editSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
       }).catch((err) => {

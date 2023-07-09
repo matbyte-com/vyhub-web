@@ -319,7 +319,7 @@ export default {
       api.shop_removePacketFromCart({ uuid: cartPacketId }).then(() => {
         this.fetchData();
         this.$notify({
-          title: this.$t('_shop.messages.removeSuccess'),
+          title: this.$t('_messages.removeSuccess'),
           type: 'success',
         });
       }).catch((err) => {
