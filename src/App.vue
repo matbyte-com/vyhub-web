@@ -10,7 +10,7 @@
           <v-card-text>
             <transition mode="out-in"
                         enter-active-class="animate__animated animate__fadeIn animate__faster">
-              <router-view>
+              <router-view class="vh-router-view">
               </router-view>
             </transition>
           </v-card-text>
@@ -178,6 +178,7 @@ export default Vue.extend({
           this.$vuetify.theme.currentTheme.warning = theme.warning;
           this.$vuetify.theme.currentTheme.error = theme.error;
           this.$vuetify.theme.currentTheme.header = theme.header;
+          this.createStyleTag(theme.custom_css);
           cachedTheme.primary = theme.primary;
           cachedTheme.secondary = theme.secondary;
           cachedTheme.success = theme.success;
@@ -187,7 +188,8 @@ export default Vue.extend({
           cachedTheme.logo = theme.logo;
           cachedTheme.show_community_name = theme.show_community_name;
           cachedTheme.logo_width = theme.logo_width;
-          cachedTheme.show_information_fab = theme.show_information_fab;
+          cachedTheme.custom_css = theme.custom_css;
+
           // save theme to VueX
           this.$store.commit('SET_THEME', cachedTheme);
           emitter.emit('themeUpdatedAfter');
@@ -208,12 +210,14 @@ export default Vue.extend({
         } else {
           this.$vuetify.theme.dark = false;
         }
+        this.createStyleTag(obj.custom_css);
         this.$vuetify.theme.currentTheme.primary = obj.primary;
         this.$vuetify.theme.currentTheme.success = obj.success;
         this.$vuetify.theme.currentTheme.warning = obj.warning;
         this.$vuetify.theme.currentTheme.error = obj.error;
         this.$vuetify.theme.currentTheme.header = obj.header;
         this.$vuetify.theme.currentTheme.secondary = obj.secondary;
+        this.customCss = obj.custom_css;
       }
     },
     setLocale() {
@@ -240,6 +244,11 @@ export default Vue.extend({
         this.$store.dispatch('setHideWelcomeOverlay', { hideWelcomeOverlay: true });
         this.firstSteps = true;
       }, 350);
+    },
+    createStyleTag(css) {
+      const style = document.createElement('style');
+      style.innerText = css;
+      document.head.appendChild(style);
     },
   },
   computed: {

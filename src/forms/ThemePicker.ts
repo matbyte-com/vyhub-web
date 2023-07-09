@@ -55,5 +55,15 @@ export default {
       'x-display': 'switch',
       description: i18n.t('_theme.communityNameDescription'),
     },
+    custom_css: {
+      type: 'string',
+      title: i18n.t('_theme.customCss'),
+      'x-display': 'textarea',
+      'x-props': {
+        clearable: true,
+        placeholder: '.vh-news-of-day { \n  color: red;\n}',
+      },
+    },
+
   },
 };
