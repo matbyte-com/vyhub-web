@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="title">
+    <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="title"
+            text-class="mb-0 pb-0" action-class="mt-0 pt-1">
       <v-card outlined
               type="info" dense v-if="$store.getters.isLoggedIn" class="mt-3 description-card">
         <v-card-text>
@@ -14,8 +15,8 @@
           </v-row>
         </v-card-text>
       </v-card>
-      <v-list tile v-if="backends != null">
-        <v-list-item v-for="backend in backends" :key="backend.id"
+      <v-list tile v-if="backends != null" class="pb-0 mb-0">
+        <v-list-item v-for="backend in availableBackends" :key="backend.id"
                      @click="startAuth(backend)" :data-cy="backend.id">
           <v-list-item-icon>
             <v-icon> {{ getIcon(backend.name) }} </v-icon>
@@ -28,12 +29,28 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <div v-else class="text-center mt-5">
+      <div v-if="backends == null" class="text-center mt-5">
         <v-progress-circular
           indeterminate
           color="primary"
         ></v-progress-circular>
       </div>
+      <v-divider class="mt-1"/>
+      <template v-slot:actions>
+        <v-list class="pa-0 mt-0 ml-2 mr-2" style="width: 100%" dense>
+          <v-list-item @click="startAuth('CENTRAL')">
+            <v-list-item-icon>
+              <v-icon>{{ getIcon('CENTRAL') }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t(`_user.type.CENTRAL.name`) }}</v-list-item-title>
+              <!--<div class="grey--text text-subtitle-2">
+                {{ $t(`_user.type.CENTRAL.info`) }}
+              </div>-->
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </template>
     </Dialog>
     <Dialog v-model="authReqDialog" icon="mdi-account-key" :title="authDialogType"
             @cancel="authDialogType = null">
@@ -112,6 +129,12 @@ export default {
         return this.$t('link_account');
       }
       return this.$t('_header.labels.login');
+    },
+    availableBackends() {
+      if (this.backends == null) {
+        return [];
+      }
+      return this.backends.filter((b) => b.name !== 'CENTRAL');
     },
   },
   beforeMount() {

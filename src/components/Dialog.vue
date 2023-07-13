@@ -16,7 +16,7 @@
       <v-card-text :class="textClass" :id="id">
         <slot></slot>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions :class="actionClass">
         <slot name="actions"></slot>
       </v-card-actions>
     </v-card>
@@ -28,6 +28,7 @@ export default {
   name: 'Dialog',
   props: {
     textClass: String,
+    actionClass: String,
     title: String,
     icon: String,
     maxWidth: {
