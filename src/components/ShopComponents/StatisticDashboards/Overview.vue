@@ -122,7 +122,8 @@
             </v-card-title>
             <v-card-text>
               <div class="text-h4 text-center">
-                {{ purchaseStats.average_purchase }} {{ currency.symbol }}
+                {{ purchaseStats.average_purchase.
+              toLocaleString(undefine, { minimumFractionDigits: 2 }) }} {{ currency.symbol }}
               </div>
             </v-card-text>
           </v-card>
