@@ -378,7 +378,7 @@ export default {
   },
   computed: {
     postEditable() {
-      if (!this.topic || !this.$store.getters.user || !this.post) return false;
+      if (!this.topic || !this.$store.getters.user || !this.posts) return false;
       return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.topic.admins)
         || (this.$store.getters.user.id === this.post.creator.id && this.topic.edit_post));
     },
