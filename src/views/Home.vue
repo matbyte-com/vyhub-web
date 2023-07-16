@@ -230,7 +230,6 @@ export default {
       fetching: false,
       messageAddSchema: NewsAddForm,
       statusColumnWidth: 250,
-      maxInputLength: 10000,
       message: '',
     };
   },

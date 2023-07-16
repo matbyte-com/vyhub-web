@@ -93,7 +93,7 @@ function rewardTypeFields(rewardType: string) {
   } else if (rewardType === 'MEMBERSHIP') {
     on_event_set = 'reduced';
     otherOptions = {};
-    required = ['group'];
+    required = ['group_id'];
     properties = {
       group_id: {
         type: 'group',
@@ -101,6 +101,45 @@ function rewardTypeFields(rewardType: string) {
         'x-fromUrl': `${Common.apiURL}/group/`,
         'x-itemKey': 'id',
         'x-itemTitle': 'name',
+      },
+    };
+  } else if (rewardType === 'HTTP') {
+    on_event_set = 'reduced';
+    otherOptions = {};
+    required = ['method', 'url'];
+    properties = {
+      method: {
+        type: 'string',
+        title: i18n.t('method'),
+        enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+      },
+      url: {
+        type: 'string',
+        title: i18n.t('url'),
+      },
+      max_tries: {
+        type: 'integer',
+        title: i18n.t('_reward.labels.maxRetries'),
+        minimum: 1,
+        default: 3,
+        maximum: 10,
+      },
+      headers: {
+        type: 'array',
+        title: i18n.t('_reward.labels.headers'),
+        items: {
+          type: 'object',
+          properties: {
+            key: {
+              type: 'string',
+              title: i18n.t('_reward.labels.headerKey'),
+            },
+            value: {
+              type: 'string',
+              title: i18n.t('_reward.labels.headerValue'),
+            },
+          },
+        },
       },
     };
   }
@@ -162,6 +201,10 @@ function form() {
         {
           title: i18n.t('_reward.labels._types.membership'),
           ...rewardTypeFields('MEMBERSHIP'),
+        },
+        {
+          title: i18n.t('_reward.labels._types.http'),
+          ...rewardTypeFields('HTTP'),
         },
       ],
     },
