@@ -11,7 +11,7 @@
       </v-col>
     </v-row>
     <v-row v-else>
-      <v-col cols="6" md="4" v-for="i in 4" :key="i">
+      <v-col cols="6" md="6" lg="6" xl="3" v-for="i in 4" :key="i">
         <v-skeleton-loader type="card" height="200" />
       </v-col>
     </v-row>
