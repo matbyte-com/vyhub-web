@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card @click="$router.push({ name: 'ShopPacket', params: { packetId: packet.id }})"
-            class="flex-grow-1 flex-column d-flex">
+            class="flex-grow-1 flex-column d-flex vh-packet-card">
       <v-img
         :src="packet.image_url"
         class="white--text"

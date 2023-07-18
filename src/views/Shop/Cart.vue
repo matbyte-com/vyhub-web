@@ -66,6 +66,11 @@
             </v-col>
           </v-row>
         </div>
+        <v-row v-if="$vuetify.breakpoint.lgAndUp">
+          <v-col>
+            <RecommendedPackets :recommended-packets="recommendedPackets" />
+          </v-col>
+        </v-row>
       </v-col>
 
       <!-- Cart total, address and checkout -->
@@ -168,6 +173,13 @@
             </v-card>
           </v-col>
         </v-row>
+
+        <v-row v-if="$vuetify.breakpoint.mdAndDown">
+          <v-col>
+            <RecommendedPackets :recommended-packets="recommendedPackets" />
+          </v-col>
+        </v-row>
+
       </v-col>
     </v-row>
 
@@ -236,12 +248,14 @@ import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import Dialog from '@/components/Dialog.vue';
 import Email from '@/components/PersonalSettings/Email.vue';
 import AuthService from '@/services/AuthService';
+import RecommendedPackets from '@/components/ShopComponents/RecommendedPackets.vue';
 import openapi from '../../api/openapi';
 import CancelPurchaseConfirmationDialog
   from '../../components/ShopComponents/CancelPurchaseConfirmationDialog.vue';
 
 export default {
   components: {
+    RecommendedPackets,
     CancelPurchaseConfirmationDialog,
     Email,
     Dialog,
@@ -254,6 +268,7 @@ export default {
   },
   data() {
     return {
+      recommendedPackets: null,
       cartPackets: null,
       cartPrice: null,
       cartCorrect: false,
@@ -271,6 +286,7 @@ export default {
   beforeMount() {
     this.fetchData();
     this.queryAddresses();
+    this.getRecommendedPackets();
   },
   methods: {
     async fetchData() {
@@ -306,6 +322,11 @@ export default {
         .then((rsp) => {
           this.openPurchase = rsp.data.find((p) => p.status === 'OPEN');
         });
+    },
+    async getRecommendedPackets() {
+      (await openapi).shop_getPackets({ recommended: true, limit: 4 }).then((rsp) => {
+        this.recommendedPackets = rsp.data;
+      });
     },
     async queryAddresses() {
       const api = await openapi;
