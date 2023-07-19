@@ -85,6 +85,12 @@ export default {
           title: i18n.t('_packet.labels.buyableInactive'),
           default: false,
         },
+        recommendable: {
+          type: 'boolean',
+          title: i18n.t('_packet.labels.recommendable'),
+          description: i18n.t('_packet.labels.recommendableDescription'),
+          default: true,
+        },
       },
     },
     {
