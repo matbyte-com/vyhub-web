@@ -1,5 +1,5 @@
 <template>
-<v-card>
+<v-card class="vh-cart-recommended-packets" v-if="recommendedPackets !== []">
   <v-card-title>
     <v-icon left>mdi-star-shooting</v-icon>
     {{ $t('_shop.labels.recommended') }}
