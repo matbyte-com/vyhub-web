@@ -6,7 +6,7 @@
           <v-col lg="2" cols="12" sm="4" align-self="center" class="text-center">
             <v-img
               @click="showPacket"
-              style="cursor: pointer;"
+              style="cursor: pointer; border-radius: 5px"
               :src="cartPacket.packet.image_url"
             ></v-img>
           </v-col>

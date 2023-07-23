@@ -13,10 +13,9 @@
               v-for="userPacket in props.items"
               :key="userPacket.id"
               cols="12"
-              lg="6"
-            >
+              lg="6">
               <v-card @click="showUserPacketDetails(userPacket)">
-                <v-img contain height="90" :src="userPacket.packet.image_url"
+                <v-img height="90" :src="userPacket.packet.image_url"
                        :style="(userPacket.active ? '' : 'filter: grayscale(100%)')">
                   <v-chip
                     small
