@@ -1,5 +1,8 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
+import config from '@/config';
+
+const API_URL = config.backend_url;
 
 export default {
   type: 'object',
@@ -52,6 +55,16 @@ export default {
       type: 'object',
       properties: {
         properties: Common.propertiesSelector,
+        negative_properties: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+          title: i18n.t('_property.negatedProperties'),
+          'x-fromUrl': `${API_URL}/group/negative-property/`,
+          'x-itemTitle': 'description',
+          'x-itemKey': 'name',
+        },
       },
     },
     {

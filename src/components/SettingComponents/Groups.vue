@@ -221,6 +221,14 @@ export default {
         })), */
       ];
     },
+    formatNegativeProperties(data) {
+      return [
+        ...data.negative_properties.map((p) => ({
+          name: p,
+          granted: false,
+        })),
+      ];
+    },
     async fetchData() {
       (await openapi).group_getGroups().then((rsp) => {
         this.groups = rsp.data;
@@ -232,6 +240,7 @@ export default {
         data = this.$refs.addGroupDialog.getData();
 
         data.properties = this.formatProperties(data);
+        data.negative_properties = this.formatNegativeProperties(data);
         delete data.advanced_properties;
         data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
       } else {
@@ -260,6 +269,8 @@ export default {
 
       const allProps = Object.keys(item.properties);
       const props = allProps.filter((x) => !this.advancedProps.includes(x));
+      const negativeProps = Object.keys(item.properties)
+        .filter((key) => !item.properties[key].granted);
       // const advPropsKeys = allProps.filter((x) => this.advancedProps.includes(x));
       // const advProps = {};
 
@@ -275,6 +286,7 @@ export default {
         obj.max_ban_length = item.max_ban_length / 60 / 60 / 24;
       }
       obj.properties = props;
+      obj.negative_properties = negativeProps;
       obj.mappings = item.mappings;
       // obj.advanced_properties = advProps;
       obj.is_team = item.is_team;
@@ -303,6 +315,7 @@ export default {
       const data = this.$refs.editGroupDialog.getData();
 
       data.properties = this.formatProperties(data);
+      data.negative_properties = this.formatNegativeProperties(data);
       // delete data.advanced_properties;
       data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
 
