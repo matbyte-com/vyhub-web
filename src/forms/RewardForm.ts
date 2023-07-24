@@ -197,7 +197,10 @@ function form() {
         },
         {
           title: i18n.t('_reward.labels._types.credits',
-            { credits_display_title: store.getters.shopConfig.credits_display_title }),
+            {
+              credits_display_title:
+                store.getters.shopConfig.credits_display_title.toLowerCase(),
+            }),
           ...rewardTypeFields('CREDITS'),
         },
         {

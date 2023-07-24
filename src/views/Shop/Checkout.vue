@@ -29,8 +29,11 @@
                 <div v-if="debit.payment_gateway.type === 'CREDITS'">
                   <div class="body-1">
                     {{ $t('_shop.messages.confirmCreditsPayment',
-                    { credits: debit.credits,
-                      credits_display_title: $store.getters.shopConfig.credits_display_title }) }}
+                    {
+                      credits: debit.credits,
+                      credits_display_title:
+                      $store.getters.shopConfig.credits_display_title.toLowerCase()
+                    }) }}
                   </div>
                   <div class="mt-5">
                     <v-btn color="success" @click="confirmCreditPayment">
@@ -237,7 +240,10 @@ export default {
 
         if (err.response.data.detail.code === 'not_enough_credits') {
           this.errorMessage = this.$t('_shop.messages.notEnoughCredits',
-            { credits_display_title: this.$store.getters.shopConfig.credits_display_title });
+            {
+              credits_display_title:
+                this.$store.getters.shopConfig.credits_display_title.toLowerCase(),
+            });
         } else {
           this.errorMessage = err.response.data.detail.msg;
         }
