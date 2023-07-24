@@ -16,7 +16,7 @@
                     <div class="text-right">
                       <v-btn color="success" @click="$refs.creditHistoryDialog.show()">
                         <v-icon left>mdi-circle-multiple</v-icon>
-                        {{ $t('_dashboard.labels.credits') }}
+                        {{ $store.getters.shopConfig.credits_display_title }}
                       </v-btn>
                     </div>
                   </v-col>
@@ -146,7 +146,7 @@
       ref="confirmSubCancelDialog"
     >
     </ConfirmationDialog>
-    <Dialog ref="creditHistoryDialog" :title="$t('_dashboard.labels.credits')"
+    <Dialog ref="creditHistoryDialog" :title="$store.getters.shopConfig.credits_display_title"
             icon="mdi-circle-multiple" :max-width="1000">
       <CreditHistory :user="user"/>
     </Dialog>

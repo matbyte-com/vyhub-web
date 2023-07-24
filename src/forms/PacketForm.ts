@@ -1,5 +1,6 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
+import store from '@/store';
 
 const API_URL = Common.apiURL;
 
@@ -112,7 +113,7 @@ export default {
         },
         credits: {
           type: ['integer', 'null'],
-          title: i18n.t('_shop.labels.credits'),
+          title: store.getters.shopConfig.credits_display_title,
           'x-cols': 4,
           minimum: 0,
         },

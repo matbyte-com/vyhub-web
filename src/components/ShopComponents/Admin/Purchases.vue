@@ -128,7 +128,7 @@
                   </v-list-item>
                   <v-list-item v-if="currentPurchase.credits_used">
                     <v-list-item-content>
-                      {{ $t('_shop.labels.credits') }}
+                      {{ $store.getters.shopConfig.credits_display_title }}
                     </v-list-item-content>
                     <v-list-item-content>
                       {{ currentPurchase.credits }}
@@ -197,7 +197,7 @@
                           </td>
                           <td v-else>
                             {{ cp.credits }}
-                            {{ $t('_shop.labels.credits') }}
+                            {{ $store.getters.shopConfig.credits_display_title }}
                           </td>
                           <td>
                             <v-chip v-if="cp.discount != null" color="info" small>
@@ -257,7 +257,7 @@
                       </td>
                       <td v-else>
                         {{ debit.credits }}
-                        {{ $t('_shop.labels.credits') }}
+                        {{ $store.getters.shopConfig.credits_display_title }}
                       </td>
                       <td>
                         <v-btn color="primary" outlined small :disabled="!debit.invoice_available"
@@ -365,7 +365,7 @@ export default {
         { text: this.$t('user'), value: 'user', sortable: false },
         { text: this.$t('_purchases.labels.amountNet'), value: 'amount_net' },
         { text: this.$t('_purchases.labels.amountTotal'), value: 'amount_total' },
-        { text: this.$t('_shop.labels.credits'), value: 'credits' },
+        { text: this.$store.getters.shopConfig.credits_display_title, value: 'credits' },
         {
           text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
         },

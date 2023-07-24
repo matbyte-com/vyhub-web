@@ -52,7 +52,8 @@
               <v-row dense v-if="cartPacket.price.credits">
                 <v-col>
                   <div class="subtitle-2">
-                    {{ cartPacket.price.credits }} {{ $t('_shop.labels.credits') }}
+                    {{ cartPacket.price.credits }}
+                    {{ $store.getters.shopConfig.credits_display_title }}
                   </div>
                 </v-col>
               </v-row>

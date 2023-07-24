@@ -1,5 +1,6 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
+import store from '@/store';
 
 const on_event_full = [
   {
@@ -86,7 +87,7 @@ function rewardTypeFields(rewardType: string) {
     properties = {
       credits: {
         type: 'integer',
-        title: i18n.t('_shop.labels.credits'),
+        title: store.getters.shopConfig.credits_display_title,
         minimum: 1,
       },
     };
@@ -195,7 +196,8 @@ function form() {
           ...rewardTypeFields('SCRIPT'),
         },
         {
-          title: i18n.t('_reward.labels._types.credits'),
+          title: i18n.t('_reward.labels._types.credits',
+            { credits_display_title: store.getters.shopConfig.credits_display_title }),
           ...rewardTypeFields('CREDITS'),
         },
         {

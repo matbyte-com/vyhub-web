@@ -33,7 +33,7 @@
     <v-row v-if="price.credits != null">
       <v-col>
         <div class="font-weight-bold">
-          {{ $t('_shop.labels.credits') }}
+          {{ $store.getters.shopConfig.credits_display_title }}
           <div class="float-right">
             {{ price.credits }}
           </div>

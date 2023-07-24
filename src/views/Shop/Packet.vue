@@ -116,17 +116,17 @@
                   <v-col>
                     <div class="text-h5" v-if="!packet.custom_price">
                       {{ packet.price_with_discount.credits }}
-                      {{ $t('_shop.labels.credits') }}
+                      {{ $store.getters.shopConfig.credits_display_title }}
                     </div>
                     <div v-else>
                       <v-row justify="center" class="text-center">
                         <v-col cols="12" xl="5" lg="7">
                           <v-text-field
                             v-model="customCredits"
-                            :label="$t('_shop.labels.credits')"
+                            :label="$store.getters.shopConfig.credits_display_title"
                             type="number"
                             :min="packet.price_with_discount.credits"
-                            :suffix="$t('_shop.labels.credits')"
+                            :suffix="$store.getters.shopConfig.credits_display_title"
                           ></v-text-field>
                         </v-col>
                       </v-row>

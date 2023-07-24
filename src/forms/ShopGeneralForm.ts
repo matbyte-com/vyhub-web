@@ -9,6 +9,10 @@ export default {
       ...Common.currency_code,
       title: i18n.t('_shop.labels.defaultCurrency'),
     },
+    credits_display_title: {
+      type: 'string',
+      title: i18n.t('_shop.labels.creditsDisplayTitle'),
+    },
     donation_goal_enabled: {
       type: 'boolean',
       'x-display': 'switch',

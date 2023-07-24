@@ -129,7 +129,7 @@ export default {
           icon: 'mdi-credit-card-outline',
         },
         CREDITS: {
-          label: this.$t('_shop.labels.credits'),
+          label: this.$store.getters.shopConfig.credits_display_title,
           icon: 'mdi-circle-multiple',
         },
         PAYSAFECARD: {
