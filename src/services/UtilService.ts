@@ -233,9 +233,12 @@ export default {
             // console.log('Analytics is ready');
           });
         },
-        advancedSettings() {
+        showAdvancedSettings() {
+          if (!store.getters.generalConfig) {
+            return false;
+          }
           // Returns the value inverted because the button is used to show the advanced settings
-          return !store.getters.generalConfig.show_advanced_settings;
+          return store.getters.generalConfig.show_advanced_settings;
         },
       },
     };

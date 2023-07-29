@@ -75,7 +75,7 @@ function form(forum_enabled = false) {
       },
     },
   };
-  if (utilService.data().utils.advancedSettings()) {
+  if (!utilService.data().utils.showAdvancedSettings()) {
     delete ret.properties.google_analytics_tag;
   }
   return ret;

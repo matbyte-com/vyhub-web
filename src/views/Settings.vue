@@ -18,7 +18,8 @@
                       <v-icon>{{ tab.icon }}</v-icon>
                     </v-list-item-icon>
 
-                    <v-list-item-title>
+                    <v-list-item-title :class="!utils.showAdvancedSettings()
+                     && tab.advanced ? 'text--disabled' : ''">
                       {{ tab.title }}
                     </v-list-item-title>
                   </v-list-item>
@@ -115,6 +116,7 @@ export default {
           component: 'Bans',
           reqProp: 'ban_config_edit',
           title: this.$t('bans'),
+          advanced: true,
         },
         {
           name: 'warnings',
@@ -122,6 +124,7 @@ export default {
           component: 'Warnings',
           reqProp: 'warning_config_show',
           title: this.$t('warnings'),
+          advanced: true,
         },
         {
           name: 'server',
@@ -144,6 +147,7 @@ export default {
           component: 'Requirements',
           reqProp: 'requirement_show',
           title: this.$t('requirements'),
+          advanced: true,
         },
         {
           icon: 'mdi-cart',
@@ -212,6 +216,7 @@ export default {
           component: 'Import',
           reqProp: 'admin',
           title: this.$t('import'),
+          advanced: true,
         },
         {
           name: 'api',
@@ -219,6 +224,7 @@ export default {
           component: 'API',
           reqProp: 'apikey_edit',
           title: this.$t('api'),
+          advanced: true,
         },
         {
           name: 'legal',
@@ -232,9 +238,6 @@ export default {
     };
   },
   methods: {
-    init() {
-      //
-    },
     findTabByName(name) {
       let found = null;
 
@@ -255,9 +258,6 @@ export default {
   },
   beforeMount() {
     this.init();
-    if (utilService.data().utils.advancedSettings()) {
-      this.tabs = this.tabs.filter((tab) => tab.name !== 'requirements');
-    }
   },
   computed: {
     componentInstance() {
@@ -291,6 +291,17 @@ export default {
         }
       });
 
+      if (!this.utils.showAdvancedSettings()) {
+        return allowed.sort((a, b) => {
+          if (a.advanced && !b.advanced) {
+            return 1;
+          }
+          if (!a.advanced && b.advanced) {
+            return -1;
+          }
+          return 0;
+        });
+      }
       return allowed;
     },
     activeTab() {

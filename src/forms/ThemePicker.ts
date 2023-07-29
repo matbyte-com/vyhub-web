@@ -68,7 +68,7 @@ function returnForm() {
       },
     },
   };
-  if (utilService.data().utils.advancedSettings()) {
+  if (!utilService.data().utils.showAdvancedSettings()) {
     delete ret.properties.custom_css;
   }
   return ret;

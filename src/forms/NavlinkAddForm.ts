@@ -162,7 +162,7 @@ function returnForm(links: {}[], disabled?: false) {
       },
     ],
   };
-  if (utilService.data().utils.advancedSettings()) {
+  if (!utilService.data().utils.showAdvancedSettings()) {
     ret.allOf[1].properties.linkType?.oneOf.splice(1, 1);
   }
   return ret;

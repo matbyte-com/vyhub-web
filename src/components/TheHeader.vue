@@ -168,6 +168,7 @@ export default {
     EventBus.on('navUpdated', this.getNavItems);
     // Event Emitted in App.vue after Theme was updated
     EventBus.on('themeUpdatedAfter', this.getLogo);
+    EventBus.on('themeUpdated', this.getNavItems);
   },
   created() {
     this.getNavItemsFromCache();
