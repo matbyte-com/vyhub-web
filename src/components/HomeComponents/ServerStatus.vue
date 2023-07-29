@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-server-status" flat>
+    <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-server-status"
+            flat v-if="nonEmptyBundles.length > 0">
       <v-card-title class="pb-0">
         <v-row>
           <v-col cols="12" class="d-flex">
