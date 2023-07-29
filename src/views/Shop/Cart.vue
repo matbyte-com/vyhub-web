@@ -186,15 +186,16 @@
     <!-- Skeleton loaders -->
     <v-row v-else>
       <v-col lg="9" md="8">
-        <v-skeleton-loader v-for="n in 3"
-                           v-bind:key="n"
-                           type="card-heading, list-item-avatar">
-        </v-skeleton-loader>
-        <v-skeleton-loader type="button"></v-skeleton-loader>
+        <div>
+          <v-skeleton-loader v-for="n in 3" class="mb-3"
+                             v-bind:key="n"
+                             type="card-heading, list-item-avatar, actions" />
+        </div>
+        <v-skeleton-loader type="button" class="mt-3" />
       </v-col>
       <v-col>
-        <v-skeleton-loader type="article"></v-skeleton-loader>
-        <v-skeleton-loader type="article, actions"></v-skeleton-loader>
+        <v-skeleton-loader type="article"/>
+        <v-skeleton-loader type="article, actions" class="mt-3" />
       </v-col>
     </v-row>
 
