@@ -1,11 +1,12 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
 import config from '@/config';
+import utilService from '@/services/UtilService';
 
 const API_URL = config.backend_url;
 
 function returnForm(links: {}[], disabled?: false) {
-  return {
+  const ret = {
     type: 'object',
     allOf: [
       {
@@ -161,6 +162,10 @@ function returnForm(links: {}[], disabled?: false) {
       },
     ],
   };
+  if (utilService.data().utils.advancedSettings()) {
+    ret.allOf[1].properties.linkType?.oneOf.splice(1, 1);
+  }
+  return ret;
 }
 
 export default {

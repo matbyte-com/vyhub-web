@@ -66,6 +66,7 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
+import utilService from '@/services/UtilService';
 
 export default {
   components: {
@@ -254,6 +255,9 @@ export default {
   },
   beforeMount() {
     this.init();
+    if (utilService.data().utils.advancedSettings()) {
+      this.tabs = this.tabs.filter((tab) => tab.name !== 'requirements');
+    }
   },
   computed: {
     componentInstance() {

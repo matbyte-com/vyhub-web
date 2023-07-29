@@ -292,33 +292,35 @@
       </v-col>
     </v-row>
     <!-- CMS Page Component-->
-    <SettingTitle docPath="/guide/navigation" class="mt-10">
-      {{ $t('_navigation.cmsPageTitle') }}
-    </SettingTitle>
-    <v-list>
-      <v-list-item v-for="page in cmsPages" :key="page.id">
-        <v-row>
-          <v-col>{{ page.title }}</v-col>
-          <v-col class="text-right">
-            <v-btn outlined color="primary" small
-                   @click="openCmsEditDialog(page)" class="mr-1">
-              <v-icon>
-                mdi-pencil
-              </v-icon>
-            </v-btn>
-            <v-btn outlined color="error" small @click="$refs.cmsDeleteDialog.show(page)">
-              <v-icon>
-                mdi-delete
-              </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-list-item>
-    </v-list>
-    <v-btn outlined color="success" @click="$refs.cmsAddDialog.show()">
-      <v-icon left>mdi-plus</v-icon>
-      <span>{{ $t('_navigation.addCmsPage') }}</span>
-    </v-btn>
+    <div v-if="this.$store.state.generalConfig.show_advanced_settings">
+      <SettingTitle docPath="/guide/navigation" class="mt-10">
+        {{ $t('_navigation.cmsPageTitle') }}
+      </SettingTitle>
+      <v-list>
+        <v-list-item v-for="page in cmsPages" :key="page.id">
+          <v-row>
+            <v-col>{{ page.title }}</v-col>
+            <v-col class="text-right">
+              <v-btn outlined color="primary" small
+                     @click="openCmsEditDialog(page)" class="mr-1">
+                <v-icon>
+                  mdi-pencil
+                </v-icon>
+              </v-btn>
+              <v-btn outlined color="error" small @click="$refs.cmsDeleteDialog.show(page)">
+                <v-icon>
+                  mdi-delete
+                </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-list-item>
+      </v-list>
+      <v-btn outlined color="success" @click="$refs.cmsAddDialog.show()">
+        <v-icon left>mdi-plus</v-icon>
+        <span>{{ $t('_navigation.addCmsPage') }}</span>
+      </v-btn>
+    </div>
   </div>
 </template>
 

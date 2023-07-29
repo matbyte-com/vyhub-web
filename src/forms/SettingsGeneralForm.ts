@@ -1,5 +1,6 @@
 import ISO6391 from 'iso-639-1';
 import i18n from '@/plugins/i18n';
+import utilService from '@/services/UtilService';
 
 const oneOf: { const: string, title: string }[] = [];
 i18n.availableLocales.forEach((l) => {
@@ -11,7 +12,7 @@ i18n.availableLocales.forEach((l) => {
 });
 
 function form(forum_enabled = false) {
-  return {
+  const ret = {
     type: 'object',
     required: ['community_name', 'show_ticket', 'show_team', 'language'],
     properties: {
@@ -44,6 +45,12 @@ function form(forum_enabled = false) {
         'x-display': 'switch',
         default: false,
       },
+      show_advanced_settings: {
+        type: 'boolean',
+        title: i18n.t('_settings.showAdvancedSettings'),
+        'x-display': 'switch',
+        default: false,
+      },
       language: {
         type: 'string',
         title: i18n.t('_settings.language'),
@@ -68,7 +75,12 @@ function form(forum_enabled = false) {
       },
     },
   };
+  if (utilService.data().utils.advancedSettings()) {
+    delete ret.properties.google_analytics_tag;
+  }
+  return ret;
 }
+
 export default {
   form,
 };
