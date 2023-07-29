@@ -194,7 +194,7 @@
 <script>
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DialogForm from '@/components/DialogForm.vue';
-import FaqForm from '@/forms/FaqForm';
+import ForumRenameThread from '@/forms/ForumRenameThread';
 import editor from '@/components/Editor.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
@@ -222,7 +222,7 @@ export default {
       topic: null,
       user: null,
       message: {},
-      ThreadTitleForm: FaqForm,
+      ThreadTitleForm: ForumRenameThread,
       admins: [],
       page: 1,
       totalPages: 1,
