@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageTitle icon="mdi-sack" :title="$t('shop')"></PageTitle>
-    <v-row>
+    <v-row v-if="categories">
       <v-col xl="3" lg="4" md="6" sm="12" v-for="category in categories" :key="category.id"
              class="d-flex align-content-space-between">
         <v-card @click="$router.push({ name: 'ShopCategory', params: {categoryId: category.id }})"
@@ -16,6 +16,14 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row v-else>
+      <v-col xl="3" lg="4" md="6" sm="12" v-if="!categories">
+        <v-skeleton-loader type="card"/>
+      </v-col>
+      <v-col xl="3" lg="4" md="6" sm="12" v-if="!categories">
+        <v-skeleton-loader type="card"/>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -27,7 +35,7 @@ export default {
   components: { PageTitle },
   data() {
     return {
-      categories: [],
+      categories: null,
     };
   },
   beforeMount() {
