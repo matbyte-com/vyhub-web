@@ -82,7 +82,6 @@ export default {
       headers: [
         { value: 'color-status', sortable: false, width: '1px' },
         { text: this.$t('reason'), value: 'reason' },
-        { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
         { text: this.$t('creator'), value: 'creator', sortable: false },
         { text: this.$t('createdOn'), value: 'created_on' },
         {
