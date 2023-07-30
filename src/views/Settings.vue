@@ -67,16 +67,10 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
-import utilService from '@/services/UtilService';
 
 export default {
   components: {
     PageTitle,
-  },
-  watch: {
-    $route() {
-      this.init();
-    },
   },
   data() {
     return {
@@ -255,9 +249,6 @@ export default {
 
       return found;
     },
-  },
-  beforeMount() {
-    this.init();
   },
   computed: {
     componentInstance() {
