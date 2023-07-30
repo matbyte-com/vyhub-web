@@ -31,11 +31,13 @@
           {{ $t('details') }}
         </v-btn>
         <v-btn depressed small color="success" @click="$refs.debitConfirmationDialog.show(item)"
-               class="ml-1" :disabled="item.status !== 'STARTED'">
+               class="ml-1" :disabled="item.status !== 'STARTED'
+               || item.purchase.status !== 'OPEN'">
           <v-icon left>mdi-check</v-icon>
           {{ $t('_purchases.labels.confirm') }}
         </v-btn>
         <v-btn depressed small color="error" class="ml-1"
+               :disabled="item.status !== 'STARTED'"
                @click="$refs.debitDeclineDialog.show(item)">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -103,7 +105,7 @@ export default {
         });
     },
     showDetails(purchase) {
-      this.$router.push({ path: '/shop/admin/purchases', query: { purchaseId: purchase.id } });
+      this.$router.push({ path: '/shop/admin/purchases', query: { purchase_id: purchase.id } });
     },
     getCoupons(item) {
       if (!item) { return ''; }
@@ -122,16 +124,29 @@ export default {
       });
     },
     async declineDebit(item) {
-      (await openapi).shop_editPurchase(item.purchase.id, { status: 'CANCELLED' }).then(() => {
-        this.$refs.debitDeclineDialog.closeAndReset();
-        this.fetchData();
-        this.$notify({
-          title: this.$t('_purchases.messages.declinePurchaseSuccess'),
-          type: 'success',
+      const api = await openapi;
+
+      if (item.purchase.status !== 'OPEN') {
+        api.shop_cancelPayment(item.id).then(() => {
+          this.$refs.debitDeclineDialog.closeAndReset();
+          this.fetchData();
+          this.$notify({
+            title: this.$t('_messages.cancelSuccess'),
+            type: 'success',
+          });
         });
-      }).catch((err) => {
-        this.$refs.debitDeclineDialog.setError(err);
-      });
+      } else {
+        api.shop_editPurchase(item.purchase.id, { status: 'CANCELLED' }).then(() => {
+          this.$refs.debitDeclineDialog.closeAndReset();
+          this.fetchData();
+          this.$notify({
+            title: this.$t('_messages.cancelSuccess'),
+            type: 'success',
+          });
+        }).catch((err) => {
+          this.$refs.debitDeclineDialog.setError(err);
+        });
+      }
     },
   },
 };

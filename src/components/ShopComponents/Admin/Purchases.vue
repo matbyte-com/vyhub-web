@@ -371,6 +371,7 @@ export default {
         },
       ],
       purchases: null,
+      currentPurchase: null,
       totalItems: 0,
       orderBy: 'date',
       sortDesc: true,
@@ -379,6 +380,19 @@ export default {
     };
   },
   methods: {
+    async updateCurrentPurchase() {
+      const api = await openapi;
+
+      if (this.$route.query.purchase_id != null) {
+        api.shop_getPurchase({ uuid: this.$route.query.purchase_id }).then((rsp) => {
+          this.currentPurchase = rsp.data;
+        }).catch(() => {
+          this.currentPurchase = null;
+        });
+      } else {
+        this.currentPurchase = null;
+      }
+    },
     async fetchData(queryParams = null) {
       const api = await openapi;
 
@@ -388,9 +402,6 @@ export default {
       }).then((rsp) => {
         this.purchases = rsp.data.items;
         this.totalItems = rsp.data.total;
-      }).catch((err) => {
-        console.log(err);
-        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async queryAvailableStatus() {
@@ -399,7 +410,7 @@ export default {
       });
     },
     showDetails(purchase) {
-      this.$router.push({ query: { purchaseId: purchase.id } });
+      this.$router.push({ query: { purchase_id: purchase.id } });
     },
     filterFinishedDebits(debits) {
       return debits.filter((debit) => debit.status === 'FINISHED');
@@ -516,13 +527,14 @@ export default {
     },
   },
   beforeMount() {
+    this.updateCurrentPurchase();
     this.fetchData();
     this.queryAvailableStatus();
   },
   computed: {
     purchaseDetailShown: {
       get() {
-        return this.$route.query.purchaseId != null;
+        return this.$route.query.purchase_id != null;
       },
       set(newValue) {
         if (!newValue) {
@@ -530,18 +542,10 @@ export default {
         }
       },
     },
-    currentPurchase() {
-      if (this.purchases && this.purchases.length > 0) {
-        const purchase = this.purchases.find(
-          (p) => p.id === this.$route.query.purchaseId,
-        );
-
-        if (purchase != null) {
-          return purchase;
-        }
-      }
-
-      return null;
+  },
+  watch: {
+    $route() {
+      this.updateCurrentPurchase();
     },
   },
 };

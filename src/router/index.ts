@@ -4,7 +4,6 @@ import store from '@/store/index';
 import i18n from '@/plugins/i18n';
 import UtilService from '@/services/UtilService';
 import AuthService from '@/services/AuthService';
-import config from '@/config';
 import AccessControlService from '@/services/AccessControlService';
 
 Vue.use(VueRouter);
@@ -271,14 +270,6 @@ router.beforeEach(async (to, from, next) => {
     success = true;
   }
 
-  /* if (to.name === 'Dashboard' && store.getters.isLoggedIn) {
-    next({
-      name: 'UserDashboard', params: { id: store.getters.user.id },
-    });
-  } else if (to.name === 'Dashboard' && !store.getters.isLoggedIn) {
-    showLoginDialog(to, from);
-  } */
-
   if (success) {
     const reqProp = to?.meta?.reqProp;
 
@@ -286,6 +277,7 @@ router.beforeEach(async (to, from, next) => {
       const query = { ...to.query };
       delete query.login;
       delete query.return_url;
+
       next({ query });
     } else {
       console.log(`Property ${reqProp} missing.`);
