@@ -197,7 +197,7 @@ export default {
           text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
         },
       ],
-      groupFormSchema: GroupForm,
+      groupFormSchema: GroupForm.returnForm(),
       memberGroup: null,
       groupMembers: null,
       totalItems: 0,
