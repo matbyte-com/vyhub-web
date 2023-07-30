@@ -8,6 +8,7 @@
         :headers="headers"
         :items="groups"
         :items-per-page="10"
+        class="no-padding"
         sort-by="permission_level"
         :sort-desc="true">
         <template v-slot:item.name="{ item }">
@@ -17,51 +18,55 @@
             {{ item.name }}
           </v-chip>
         </template>
-        <template v-slot:item.properties="{ item }" >
-          <v-expansion-panels v-if="Object.keys(item.properties).length > 5" flat>
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                {{ $t('properties') }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-chip v-for="(prop, index) in item.properties" :key="index" small
-                        color="primary" class="mr-1 mb-1">
-                  {{ prop.name }}
-                  <span v-if="prop.value !== null">
+        <template v-slot:item.properties="{ item }">
+          <div class="pa-1">
+            <v-expansion-panels v-if="Object.keys(item.properties).length > 5" flat>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  {{ $t('properties') }}
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-chip v-for="(prop, index) in item.properties" :key="index" small
+                          :color="prop.granted ? 'primary' : 'grey'" class="mr-1 mb-1 mt-1">
+                    {{ prop.name }}
+                    <span v-if="prop.value !== null">
                     : {{ prop.value }}
                   </span>
-                </v-chip>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-          <v-chip v-else v-for="(prop, index) in item.properties" :key="index" small
-                  color="primary" class="mr-1 mb-1">
-            {{ prop.name }}
-            <span v-if="prop.value !== null">
+                  </v-chip>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+            <v-chip v-else v-for="(prop, index) in item.properties" :key="index" small
+                    :color="prop.granted ? 'primary' : 'grey'" class="mr-1 mb-1">
+              {{ prop.name }}
+              <span v-if="prop.value !== null">
               : {{ prop.value }}
             </span>
-          </v-chip>
+              {{ prop.granted }}
+            </v-chip>
+          </div>
         </template>
         <template v-slot:item.actions="{ item }">
-          <div class="text-right">
-            <v-btn icon color="secondary" small @click="copyGroup(item)" class="mr-1">
+          <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.lgAndDown }">
+            <v-btn icon color="secondary" small @click="copyGroup(item)" class="mr-xl-1 mt-xl-0">
               <v-icon small>
                 mdi-content-copy
               </v-icon>
             </v-btn>
             <v-btn outlined color="success" small
-                   @click="openShowMemberDialog(item)" class="mr-1">
+                   @click="openShowMemberDialog(item)" class="mr-xl-1 mt-1 mt-xl-0">
               <v-icon>
                 mdi-account-group
               </v-icon>
             </v-btn>
             <v-btn outlined color="primary" small
-                   @click="openEditGroupDialog(item)" class="mr-1">
+                   @click="openEditGroupDialog(item)" class="mr-xl-1 mt-1 mt-xl-0">
               <v-icon>
                 mdi-pencil
               </v-icon>
             </v-btn>
-            <v-btn outlined color="error" small @click="openDeleteGroupDialog(item)">
+            <v-btn outlined color="error" small @click="openDeleteGroupDialog(item)"
+                   class="mt-1 mt-xl-0">
               <v-icon>
                 mdi-delete
               </v-icon>
@@ -181,7 +186,7 @@ export default {
       headers: [
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('_settings.permissionLevel'), value: 'permission_level' },
-        { text: this.$t('properties'), value: 'properties' },
+        { text: this.$t('properties'), value: 'properties', width: '65%' },
         {
           text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
         },
@@ -366,6 +371,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 
+.no-padding table tr td {
+  padding: 5px !important;
+}
+
+.no-padding table {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+}
 </style>
