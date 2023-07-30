@@ -116,7 +116,7 @@
                   <span class="ml-3">{{ utils.formatDate(post.created) }}</span>
                   <v-col class="text-right pa-0">
                     <v-btn small outlined @click.stop="openEditPostDialog(post)" color="primary"
-                           v-if="postEditable">
+                           v-if="postEditable(post)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn small outlined
@@ -187,7 +187,10 @@
       <DeleteConfirmationDialog ref="deleteThreadConfirmationDialog"
                                 @submit="deleteThread" />
     </div>
-    <v-skeleton-loader v-else type="article@2" />
+    <div v-else>
+      <v-skeleton-loader type="article@1" />
+      <v-skeleton-loader class="mt-3" type="article@1" />
+    </div>
   </div>
 </template>
 
@@ -265,8 +268,8 @@ export default {
       });
     },
     async fetchTopic() {
-      const topicid = this.thread.topic.id;
-      (await openapi).forum_getTopic(topicid).then((rsp) => {
+      const topicId = this.thread.topic.id;
+      (await openapi).forum_getTopic(topicId).then((rsp) => {
         this.topic = rsp.data;
         this.admins = this.topic.admins;
       });
@@ -375,12 +378,10 @@ export default {
         }
       });
     },
-  },
-  computed: {
-    postEditable() {
+    postEditable(post) {
       if (!this.topic || !this.$store.getters.user || !this.posts) return false;
       return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.topic.admins)
-        || (this.$store.getters.user.id === this.post.creator.id && this.topic.edit_post));
+        || (this.$store.getters.user.id === post.creator.id && this.topic.edit_post));
     },
   },
 };
