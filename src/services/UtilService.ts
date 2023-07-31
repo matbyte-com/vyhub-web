@@ -1,12 +1,9 @@
-import { HumanizeDurationLanguage, HumanizeDuration } from 'humanize-duration-ts';
 import Vue from 'vue';
 import i18n from '@/plugins/i18n';
 import openapi from '@/api/openapi';
 import store from '@/store';
 import { setOptions, bootstrap } from 'vue-gtag';
-
-const langService: HumanizeDurationLanguage = new HumanizeDurationLanguage();
-const humanizeDuration: HumanizeDuration = new HumanizeDuration(langService);
+import humanizeDuration from 'humanize-duration';
 
 const unitMeasures = {
   y: 31536000000,
@@ -23,14 +20,15 @@ export default {
     return {
       utils: {
         formatLength(seconds: number) {
-          return (seconds == null ? '∞' : humanizeDuration.humanize(seconds * 1000, {
-            language: 'en', // TODO: Set actual locale
+          return (seconds == null ? '∞' : humanizeDuration(seconds * 1000, {
+            fallbacks: [i18n.locale.slice(0, 2), 'en'],
+            language: i18n.locale,
             unitMeasures,
             units: ['y', 'mo', 'd', 'h', 'm'],
           }));
         },
         formatElapsedTime(mseconds: number) {
-          return (mseconds == null ? '∞' : humanizeDuration.humanize(mseconds, {
+          return (mseconds == null ? '∞' : humanizeDuration(mseconds, {
             language: 'en', // TODO: Set actual locale
             unitMeasures,
             units: ['y', 'mo', 'd', 'h', 'm', 's'],
