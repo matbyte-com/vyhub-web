@@ -36,7 +36,7 @@
       </v-card>
     </div>
     <v-expansion-panels>
-      <draggable :list="questions"
+      <draggable :list="questions" :disabled="!$checkProp('faq_edit')"
                  @change="updateFaqEnabled = true" style="width: 100%">
         <v-expansion-panel v-for="question in questions" :key="question.id" class="mt-3">
           <v-card class="vh-faq">
