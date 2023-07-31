@@ -1,4 +1,4 @@
-import ISO6391 from 'iso-639-1';
+import ISO6391 from 'iso-639-1-plus';
 import i18n from '@/plugins/i18n';
 import utilService from '@/services/UtilService';
 
@@ -7,7 +7,8 @@ i18n.availableLocales.forEach((l) => {
   oneOf.push({
     const: l,
     // Cool but too new: new Intl.DisplayNames([l], { type: 'language' }),
-    title: `${ISO6391.getName(l)} (${ISO6391.getNativeName(l)})`,
+    // title: new Intl.DisplayNames([l], { type: 'language' }),
+    title: `${ISO6391.getName(l.replace('_', '-'))} (${ISO6391.getNativeName(l.replace('_', '-'))})`,
   });
 });
 

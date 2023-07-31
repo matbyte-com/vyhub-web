@@ -32,7 +32,7 @@
     "http-browserify": "^1.7.0",
     "https-browserify": "^1.0.0",
     "humanize-duration-ts": "^2.1.1",
-    "iso-639-1": "^2.1.13",
+    "iso-639-1-plus": "^3.0.3",
     "markdown-it": "^13.0.1",
     "minify-css-string": "^1.0.0",
     "mitt": "^2.1.0",
