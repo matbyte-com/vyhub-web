@@ -83,7 +83,7 @@ function returnForm(links: {}[], disabled?: false) {
         properties: {
           enabled: {
             type: 'boolean',
-            default: true,
+            default: 'true',
             title: i18n.t('_navigation.enabled'),
             'x-cols': 4,
             'x-class': 'mt-4',
@@ -130,7 +130,7 @@ function returnForm(links: {}[], disabled?: false) {
             link: {
               type: 'string',
               title: i18n.t('_navigation.link'),
-              pattern: '(^https?://.+$)|(/.+)',
+              pattern: '(^https?://.+$)|(/.*)',
               readOnly: disabled,
               'x-props': {
                 placeholder: 'https://vhyub.net',
