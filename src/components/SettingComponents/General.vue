@@ -7,7 +7,7 @@
                  :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true">
           <template v-slot:language-after>
             {{ $t('_settings.languageNewDescriptionText') }}
-            <a href="https://translate.matbyte.com" target="_blank">{{ $t('here') }}</a>!
+            <a href="https://github.com/matbyte-com/vyhub-lang" target="_blank">{{ $t('here') }}</a>!
           </template>
           <template v-slot:enable_forum-before v-if="!forumEnabled">
             <AddOnChip :addonTitle="$t('_forum.forum')"/>
