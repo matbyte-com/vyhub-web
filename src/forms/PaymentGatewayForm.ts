@@ -164,6 +164,16 @@ function form(gatewayType: string) {
         type: 'string',
         title: i18n.t('subtitle'),
       },
+      image_url: {
+        type: ['string', 'null'],
+        title: '',
+        description: '',
+        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
+        'x-props': {
+          clearable: true,
+          placeholder: i18n.t('_settings.httpPlaceholder'),
+        },
+      },
       type: {
         type: 'string',
         title: i18n.t('type'),

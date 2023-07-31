@@ -128,8 +128,8 @@
                 <v-card-text class="text-center">
                   <div class="d-flex justify-center">
                     <v-img contain class="mb-1" width="200" height="50"
-                           :src="getImgUrl(gateway.type)" :alt="gateway.type"
-                           v-if="getImgUrl(gateway.type) != null" />
+                           :src="getImgUrl(gateway)" :alt="gateway.name"
+                           v-if="getImgUrl(gateway) != null" />
                     <div v-else>
                       <h4 class="text-h4">{{ gateway.type }}</h4>
                     </div>
@@ -207,10 +207,12 @@ export default {
   },
   methods: {
     getImgUrl(gateway) {
+      // Return URL, when set, else return default
+      if (gateway.image_url) return gateway.image_url;
       const images = require.context('@/assets/img/gateways/', false, /\.png$/);
 
       try {
-        return images(`./${gateway}.png`);
+        return images(`./${gateway.type}.png`);
       } catch (e) {
         return null;
       }
