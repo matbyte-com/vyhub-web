@@ -49,12 +49,13 @@
                 </span>
               </v-list-item-group>
             </v-list>
+            <AdvancedSettingsSwitch />
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="12" lg="9">
         <v-card class="fill-height" flat width="100%">
-          <v-card-text>
+          <v-card-text :key="key">
             <keep-alive>
               <component :is="componentInstance"></component>
             </keep-alive>
@@ -67,13 +68,17 @@
 
 <script>
 import PageTitle from '@/components/PageTitle.vue';
+import AdvancedSettingsSwitch from '@/components/SettingComponents/AdvancedSettingsSwitch.vue';
+import EventBus from '@/services/EventBus';
 
 export default {
   components: {
+    AdvancedSettingsSwitch,
     PageTitle,
   },
   data() {
     return {
+      key: 0,
       tabs: [
         {
           name: 'general',
@@ -231,7 +236,13 @@ export default {
       activeTabName: 'general',
     };
   },
+  mounted() {
+    EventBus.on('advancedSettingsUpdated', this.rerenderComponents);
+  },
   methods: {
+    rerenderComponents() {
+      this.key += 1;
+    },
     findTabByName(name) {
       let found = null;
 
