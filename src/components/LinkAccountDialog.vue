@@ -38,7 +38,7 @@
       <v-divider class="mt-1"/>
       <template v-slot:actions>
         <v-list class="pa-0 mt-0 ml-2 mr-2" style="width: 100%" dense>
-          <v-list-item @click="startAuth('CENTRAL')">
+          <v-list-item @click="startAuth(backends.find((b) => b.type === 'CENTRAL'))">
             <v-list-item-icon>
               <v-icon>{{ getIcon('CENTRAL') }}</v-icon>
             </v-list-item-icon>
