@@ -12,6 +12,7 @@ export default {
     credits_display_title: {
       type: 'string',
       title: i18n.t('_shop.labels.creditsDisplayTitle'),
+      description: i18n.t('_shop.labels.creditsDisplayTitleDescription'),
     },
     donation_goal_enabled: {
       type: 'boolean',
