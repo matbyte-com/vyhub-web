@@ -134,6 +134,13 @@
           <v-icon left>mdi-format-list-bulleted</v-icon>
           {{ $t('logs') }}
         </v-btn>
+        <v-btn @click="restartTs3Bot" color="primary" class="ml-3"
+               :disabled="botRestarted > 0">
+          <v-icon left>mdi-reload</v-icon>
+          <div v-if="botRestarted === 0">{{ $t('_server.instructions.DISCORD.restart') }}</div>
+          <div v-else>{{ botRestarted }}</div>
+        </v-btn>
+
       </div>
     </div>
   </div>
@@ -211,6 +218,17 @@ export default {
     async restartDiscordBot() {
       const api = (await openapi);
       await api.server_restartDiscordBot().then(() => {
+        this.botRestarted = 10;
+        this.timer();
+        this.$notify({
+          type: 'success',
+          title: this.$t('_messages.editSuccess'),
+        });
+      });
+    },
+    async restartTs3Bot() {
+      const api = (await openapi);
+      await api.server_restartTs3Bot().then(() => {
         this.botRestarted = 10;
         this.timer();
         this.$notify({
