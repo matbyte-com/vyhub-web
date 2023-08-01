@@ -29,7 +29,8 @@ export default {
         },
         formatElapsedTime(mseconds: number) {
           return (mseconds == null ? '∞' : humanizeDuration(mseconds, {
-            language: 'en', // TODO: Set actual locale
+            fallbacks: [i18n.locale.slice(0, 2), 'en'],
+            language: i18n.locale,
             unitMeasures,
             units: ['y', 'mo', 'd', 'h', 'm', 's'],
             round: true,
