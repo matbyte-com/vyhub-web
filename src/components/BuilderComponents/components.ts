@@ -20,6 +20,14 @@ export default {
           name: 'imageUrl',
           type: 'string',
         },
+        {
+          name: 'btnText',
+          type: 'string',
+        },
+        {
+          name: 'btnUrl',
+          type: 'string',
+        },
       ],
     },
     {
