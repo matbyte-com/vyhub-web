@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-text class="pa-5">
-      <div class="text-center text-h3 pb-5">
+      <div class="text-center text-h3 pb-2">
         {{ headline }}
       </div>
       <div class="d-flex flex-row flex-wrap justify-center">
