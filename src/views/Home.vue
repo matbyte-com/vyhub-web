@@ -27,7 +27,7 @@
               {{ $t('serverStatus') }}
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <ServerStatus />
+              <ServerStatus ref="serverStatus" />
             </v-expansion-panel-content>
           </v-expansion-panel>
 
@@ -167,9 +167,9 @@
         <div style="overflow-y: hidden; overflow-x: hidden;"
              :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
-          <v-row>
+          <v-row v-if="$refs.serverStatus && $refs.serverStatus.nonEmptyBundles > 0">
             <v-col>
-              <ServerStatus ref="ServerStatus"/>
+              <ServerStatus ref="serverStatus"/>
             </v-col>
           </v-row>
           <v-row v-if="$store.getters.shopConfig &&
