@@ -4,23 +4,19 @@
       <div class="text-center text-h3 pb-5">
         {{ headline }}
       </div>
-      <v-row class="justify-center">
-        <v-col>
-          <div class="d-flex flex-row flex-wrap">
-            <v-card v-for="stat in stats" :key="stat.title" class="ml-3 stat-card" flat>
-              <v-card-text class="d-flex align-center">
-                <div>
-                  <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
-                </div>
-                <div class="ml-3">
-                  <div class="text-h5">{{ stat.title }}</div>
-                  <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
-                </div>
-              </v-card-text>
-            </v-card>
-          </div>
-        </v-col>
-      </v-row>
+      <div class="d-flex flex-row flex-wrap justify-center">
+        <v-card v-for="stat in stats" :key="stat.title" class="ml-3 mt-3 stat-card" flat>
+          <v-card-text class="d-flex align-center">
+            <div>
+              <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
+            </div>
+            <div class="ml-3">
+              <div class="text-h5">{{ stat.title }}</div>
+              <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
+            </div>
+          </v-card-text>
+        </v-card>
+      </div>
     </v-card-text>
   </v-card>
 </template>
