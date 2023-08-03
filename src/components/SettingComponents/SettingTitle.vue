@@ -14,7 +14,7 @@
         {{ $t('_settings.documentationLink') }}
       </v-tooltip>
     </div>
-    <v-divider v-if="divider" class="mb-1"></v-divider>
+    <v-divider v-if="divider" class="mb-3 mt-3"></v-divider>
   </div>
 </template>
 

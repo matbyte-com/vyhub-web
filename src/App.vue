@@ -5,16 +5,19 @@
     <TheHeader/>
 
     <v-main :style="backgroundColor">
-      <v-container>
-        <v-card class="transparent" flat min-height="70vh">
-          <v-card-text>
-            <transition mode="out-in"
-                        enter-active-class="animate__animated animate__fadeIn animate__faster">
-              <router-view class="vh-router-view">
-              </router-view>
-            </transition>
-          </v-card-text>
-        </v-card>
+      <div v-if="$route.meta.noContainer" style="min-height: 70vh;">
+        <transition mode="out-in"
+                    enter-active-class="animate__animated animate__fadeIn animate__faster">
+        <router-view class="vh-router-view" />
+        </transition>
+      </div>
+      <v-container v-else>
+        <div style="min-height: 70vh;">
+          <transition mode="out-in"
+                      enter-active-class="animate__animated animate__fadeIn animate__faster">
+            <router-view class="vh-router-view" />
+          </transition>
+        </div>
       </v-container>
     </v-main>
 

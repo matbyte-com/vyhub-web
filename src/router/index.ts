@@ -36,7 +36,12 @@ const routes: Array<RouteConfig> = [
     path: '/settings/:component?',
     name: 'Settings',
     component: () => import('@/views/Settings.vue'),
-    meta: { requiresAuth: true, title: i18n.t('_pageTitle.settings'), reqProp: 'admin_menu' },
+    meta: {
+      requiresAuth: true,
+      title: i18n.t('_pageTitle.settings'),
+      reqProp: 'admin_menu',
+      noContainer: true,
+    },
   },
   {
     path: '/bans/:banId?',

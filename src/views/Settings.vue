@@ -1,14 +1,16 @@
 <template>
   <div>
-    <PageTitle icon="mdi-cog" :title="$t('_settings.labels.title')" />
-    <v-row dense>
+    <!--<PageTitle icon="mdi-cog" :title="$t('_settings.labels.title')" />-->
+    <v-row dense no-gutters>
       <v-col cols="12" lg="3" class="mb-2 mb-lg-0">
-        <v-card flat class="fill-height">
+        <v-card flat outlined tile class="fill-height lighten-2"
+                :class="{ 'lighten-2': !$vuetify.theme.dark, 'darken-4': $vuetify.theme.dark }"
+                :color="$vuetify.theme.dark ? 'black' : 'grey'">
           <v-card-text>
-            <v-list shaped>
+            <v-list>
               <v-list-item-group color="primary">
                 <span v-for="tab in allowedTabs" :key="tab.id">
-                  <v-list-item v-if="!('tabs' in tab)"
+                  <v-list-item v-if="!('tabs' in tab)" style="height: 48px"
                                link :disabled="tab.disabled"
                                :class="{ 'active v-list-item--active' :
                                 tab.name === activeTab.name,
@@ -27,13 +29,14 @@
                                 :value="$vuetify.breakpoint.lgAndUp">
                     <template v-slot:activator>
                       <v-list-item-content :class="{'glow-effect':
-                                 utils.customerJourneyActive(tab.customerJourney)}">
+                                 utils.customerJourneyActive(tab.customerJourney)}"
+                                           style="height: 48px">
                         <v-list-item-title>{{ tab.title }}</v-list-item-title>
                       </v-list-item-content>
                     </template>
 
                     <v-list-item v-for="subtab in tab.tabs" :key="subtab.id"
-                                 link
+                                 link style="height: 48px"
                                  :class="{ 'active v-list-item--active':
                                   subtab.name === activeTab.name,
                                    'glow-effect':
@@ -54,10 +57,10 @@
         </v-card>
       </v-col>
       <v-col cols="12" lg="9">
-        <v-card class="fill-height" flat width="100%">
+        <v-card class="fill-height" flat outlined tile width="100%">
           <v-card-text :key="key">
             <keep-alive>
-              <component :is="componentInstance"></component>
+              <component class="mr-10 mt-3" :is="componentInstance"></component>
             </keep-alive>
           </v-card-text>
         </v-card>
