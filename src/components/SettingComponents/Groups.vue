@@ -227,6 +227,7 @@ export default {
       ];
     },
     formatNegativeProperties(data) {
+      if (!data.negative_properties) { return []; }
       return [
         ...data.negative_properties.map((p) => ({
           name: p,
