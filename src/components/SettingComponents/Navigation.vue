@@ -172,7 +172,10 @@
                     </v-chip>
                   </v-col>
                   <v-col class="text-right" cols="12" sm="3">
-                    <v-icon v-if="link.cms_page_id" class="mr-1">
+                    <v-icon v-if="!sublink.enabled" class="mr-1">
+                      mdi-ghost
+                    </v-icon>
+                    <v-icon v-if="sublink.cms_page_id" class="mr-1">
                       mdi-web
                     </v-icon>
                     <v-icon v-else class="mr-1">
@@ -184,7 +187,7 @@
                         mdi-pencil
                       </v-icon>
                     </v-btn>
-                    <v-btn :disabled="link.linkType==='default'"
+                    <v-btn :disabled="link.default"
                            outlined color="error" small
                            @click="$refs.deleteNavConfirmationDialog.show(sublink)">
                       <v-icon>
@@ -220,6 +223,9 @@
                 </v-chip>
               </v-col>
               <v-col class="text-right"  cols="12" sm="3">
+                <v-icon v-if="!link.enabled" class="mr-1">
+                  mdi-ghost
+                </v-icon>
                 <v-icon v-if="link.cms_page_id" class="mr-1">
                   mdi-web
                 </v-icon>
@@ -232,7 +238,7 @@
                     mdi-pencil
                   </v-icon>
                 </v-btn>
-                <v-btn :disabled="link.linkType==='default'"
+                <v-btn :disabled="link.default"
                        outlined color="error" small
                        @click="$refs.deleteNavConfirmationDialog.show(link)">
                   <v-icon>
@@ -522,6 +528,7 @@ export default {
       if (data.linkType === 'link') {
         data.cms_page_id = null;
       }
+      if (!data.parent_navigation_link_id && !data.header) data.parent_navigation_link_id = null;
       (await openapi).navigation_editNavigationLink(nav.id, data).then(() => {
         this.$refs.navEditDialog.closeAndReset();
         EventBus.emit('navUpdated');

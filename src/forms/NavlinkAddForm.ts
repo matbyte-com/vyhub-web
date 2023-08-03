@@ -36,7 +36,7 @@ function returnForm(links: {}[], disabled?: false) {
         then: {
           properties: {
             parent_navigation_link_id: {
-              type: 'string',
+              type: ['string', 'null'],
               title: i18n.t('_navigation.parentNavigationLink'),
               oneOf: links,
               'x-options': {
@@ -48,6 +48,7 @@ function returnForm(links: {}[], disabled?: false) {
           },
         },
         else: {
+          required: ['location'],
           properties: {
             location: {
               type: 'string',
