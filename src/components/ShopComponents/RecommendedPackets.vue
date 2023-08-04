@@ -7,7 +7,8 @@
   </v-card-title>
   <v-card-text>
     <v-row v-if="recommendedPackets">
-      <v-col cols="6" md="6" lg="6" xl="3" v-for="p in recommendedPackets" :key="p.id">
+      <v-col cols="6" md="6" lg="6" xl="3" v-for="p in recommendedPackets" :key="p.id"
+             class="d-flex align-content-space-between">
         <PacketCard :packet="p" />
       </v-col>
     </v-row>
