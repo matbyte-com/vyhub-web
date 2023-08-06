@@ -12,7 +12,7 @@
         </transition>
       </div>
       <v-container v-else>
-        <div style="min-height: 70vh;">
+        <div style="min-height: 70vh;" class="mt-3">
           <transition mode="out-in"
                       enter-active-class="animate__animated animate__fadeIn animate__faster">
             <router-view class="vh-router-view" />

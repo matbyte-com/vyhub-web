@@ -20,47 +20,49 @@
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
     <v-row>
       <!-- Smartphones Serverstatus + Donation Goal -->
-      <v-card width="100%" v-if="$vuetify.breakpoint.smAndDown">
-        <v-expansion-panels multiple flat >
-          <v-expansion-panel>
-            <v-expansion-panel-header>
-              {{ $t('serverStatus') }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <ServerStatus ref="serverStatus" />
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+      <v-col v-if="$vuetify.breakpoint.smAndDown">
+        <v-card width="100%" >
+          <v-expansion-panels multiple flat>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                {{ $t('serverStatus') }}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <ServerStatus ref="serverStatus" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
 
-          <v-expansion-panel v-if="$store.getters.shopConfig &&
-           $store.getters.shopConfig.donation_goal_enabled">
-            <v-expansion-panel-header>
-              {{ shopConfig.donation_goal_display_title }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <DonationGoal />
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+            <v-expansion-panel v-if="$store.getters.shopConfig &&
+             $store.getters.shopConfig.donation_goal_enabled">
+              <v-expansion-panel-header>
+                {{ shopConfig.donation_goal_display_title }}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <DonationGoal />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
 
-          <v-expansion-panel v-if="$store.getters.shopConfig &&
-           $store.getters.shopConfig.top_donators_enabled">
-            <v-expansion-panel-header>
-              {{ shopConfig.top_donators_display_title }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <TopDonators />
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+            <v-expansion-panel v-if="$store.getters.shopConfig &&
+             $store.getters.shopConfig.top_donators_enabled">
+              <v-expansion-panel-header>
+                {{ shopConfig.top_donators_display_title }}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <TopDonators />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
 
-          <v-expansion-panel>
-            <v-expansion-panel-header>
-              {{ $t('_user.labels.newUsers') }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <NewUsers />
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-card>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                {{ $t('_user.labels.newUsers') }}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <NewUsers />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-card>
+      </v-col>
       <!-- News -->
       <v-col cols="12" md="8">
         <!-- News of the Day -->
@@ -167,11 +169,7 @@
         <div style="overflow-y: hidden; overflow-x: hidden;"
              :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
-          <v-row v-if="!$refs.serverStatus || $refs.serverStatus.nonEmptyBundles.length > 0">
-            <v-col>
-              <ServerStatus ref="serverStatus"/>
-            </v-col>
-          </v-row>
+          <ServerStatus ref="serverStatus"/>
           <v-row v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.donation_goal_enabled">
             <v-col>

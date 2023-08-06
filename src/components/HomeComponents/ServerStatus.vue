@@ -1,118 +1,120 @@
 <template>
-  <div v-if="nonEmptyBundles.length > 0">
-    <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-server-status"
-            flat>
-      <v-card-title class="pb-0">
-        <v-row>
-          <v-col cols="12" class="d-flex">
-            <HeadlineSidebar icon="mdi-server" :title="$t('server')"/>
-          </v-col>
-        </v-row>
-      </v-card-title>
-      <v-card-text>
-        <div v-for="bundle in nonEmptyBundles" :key="bundle.id" class="mt-3">
-          <v-icon v-if="bundle.icon" left small :color="bundle.color">{{ bundle.icon }}</v-icon>
-          <span :style="'color:' + bundle.color">{{ bundle.name }}</span>
-          <v-divider class="mb-2"/>
-          <v-row dense v-for="server in getServer(bundle.id)" :key="server.id"
-                 align="center"
-                 class="mt-0">
-            <v-col order="1" order-xl="1" cols="6" lg="6" xl="3">
-              <v-icon :color="getStatusColor(server)" left>
-                mdi-flash
-              </v-icon>
-              <span v-if="server.status !== 'UNKNOWN'">
-                <router-link style="text-decoration: none" :disabled="true"
-                             :to="{ name: (!['DISCORD', 'TEAMSPEAK3'].includes(server.type) ?
-                              'ServerDashboard' : null),
-                              params: { id: server.id }}">
-                  <span v-if="server.type !== 'DISCORD'">
-                    <span v-if="server.users_current != null && server.status === 'ONLINE'">
-                      {{ server.users_current }}
+  <v-row  v-if="nonEmptyBundles.length > 0">
+    <v-col>
+      <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-server-status"
+              flat>
+        <v-card-title class="pb-0">
+          <v-row>
+            <v-col cols="12" class="d-flex">
+              <HeadlineSidebar icon="mdi-server" :title="$t('server')"/>
+            </v-col>
+          </v-row>
+        </v-card-title>
+        <v-card-text>
+          <div v-for="bundle in nonEmptyBundles" :key="bundle.id" class="mt-3">
+            <v-icon v-if="bundle.icon" left small :color="bundle.color">{{ bundle.icon }}</v-icon>
+            <span :style="'color:' + bundle.color">{{ bundle.name }}</span>
+            <v-divider class="mb-2"/>
+            <v-row dense v-for="server in getServer(bundle.id)" :key="server.id"
+                   align="center"
+                   class="mt-0">
+              <v-col order="1" order-xl="1" cols="6" lg="6" xl="3">
+                <v-icon :color="getStatusColor(server)" left>
+                  mdi-flash
+                </v-icon>
+                <span v-if="server.status !== 'UNKNOWN'">
+                  <router-link style="text-decoration: none" :disabled="true"
+                               :to="{ name: (!['DISCORD', 'TEAMSPEAK3'].includes(server.type) ?
+                                'ServerDashboard' : null),
+                                params: { id: server.id }}">
+                    <span v-if="server.type !== 'DISCORD'">
+                      <span v-if="server.users_current != null && server.status === 'ONLINE'">
+                        {{ server.users_current }}
+                      </span>
+                      <span v-else-if="server.status === 'OFFLINE'">
+                        0
+                      </span>
+                      <span v-else>
+                        ?
+                      </span>
+                      /
                     </span>
-                    <span v-else-if="server.status === 'OFFLINE'">
-                      0
+                    <span v-if="server.users_max != null">
+                      {{ server.users_max }}
                     </span>
                     <span v-else>
                       ?
                     </span>
-                    /
-                  </span>
-                  <span v-if="server.users_max != null">
-                    {{ server.users_max }}
-                  </span>
-                  <span v-else>
-                    ?
-                  </span>
+                  </router-link>
+                </span>
+                <span class="font-italic text--disabled" v-if="server.status === 'UNKNOWN'">
+                  {{ $t('unknown') }}
+                </span>
+              </v-col>
+              <v-col order="3" order-xl="2" cols="12" lg="6" xl="7">
+                <router-link style="text-decoration: none" :disabled="true"
+                             :to="{ name: (server.type !== 'DISCORD' && server.type
+                             !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
+                                  params: { id: server.id }}">
+                  {{ server.name }}
                 </router-link>
-              </span>
-              <span class="font-italic text--disabled" v-if="server.status === 'UNKNOWN'">
-                {{ $t('unknown') }}
-              </span>
-            </v-col>
-            <v-col order="3" order-xl="2" cols="12" lg="6" xl="7">
-              <router-link style="text-decoration: none" :disabled="true"
-                           :to="{ name: (server.type !== 'DISCORD' && server.type !== 'TEAMSPEAK3'
-                            ? 'ServerDashboard' : null),
-                                params: { id: server.id }}">
-                {{ server.name }}
-              </router-link>
-            </v-col>
-            <v-col order="2" order-xl="3" cols="6" lg="6" xl="2" class="text-right">
-              <v-btn icon small color="info" depressed
-                     @click="currentServer = server; $refs.serverDetailsDialog.show()">
-                <v-icon>
-                  mdi-information
-                </v-icon>
-              </v-btn>
+              </v-col>
+              <v-col order="2" order-xl="3" cols="6" lg="6" xl="2" class="text-right">
+                <v-btn icon small color="info" depressed
+                       @click="currentServer = server; $refs.serverDetailsDialog.show()">
+                  <v-icon>
+                    mdi-information
+                  </v-icon>
+                </v-btn>
 
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn small color="success" depressed v-bind="attrs" v-on="on"
-                         v-if="getConnectionLink(server) != null"
-                         :href="getConnectionLink(server)"
-                         class="ml-1">
-                    <v-icon>
-                      mdi-connection
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>{{ $t('connect') }}</span>
-              </v-tooltip>
-          </v-col>
-          </v-row>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn small color="success" depressed v-bind="attrs" v-on="on"
+                           v-if="getConnectionLink(server) != null"
+                           :href="getConnectionLink(server)"
+                           class="ml-1">
+                      <v-icon>
+                        mdi-connection
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ $t('connect') }}</span>
+                </v-tooltip>
+            </v-col>
+            </v-row>
+          </div>
+        </v-card-text>
+      </v-card>
+      <Dialog ref="serverDetailsDialog" :title="$t('_server.labels.details')" icon="mdi-server">
+        <div v-if="currentServer">
+          <v-simple-table>
+            <tbody>
+            <tr>
+              <td><b>{{ $t('name') }}</b></td>
+              <td>{{ currentServer.name }}</td>
+            </tr>
+            <tr>
+              <td><b>{{ $t('type') }}</b></td>
+              <td>{{ currentServer.type }}</td>
+            </tr>
+            <tr>
+              <td><b>{{ $t('address') }}</b></td>
+              <td>{{ currentServer.address }}:{{ currentServer.port }}</td>
+            </tr>
+            <tr v-if="currentServer.map != null">
+              <td><b>{{ $t('map') }}</b></td>
+              <td>{{ currentServer.map }}</td>
+            </tr>
+            <tr>
+              <td><b>{{ $t('status') }}</b></td>
+              <td>{{ currentServer.status }}</td>
+            </tr>
+            </tbody>
+          </v-simple-table>
         </div>
-      </v-card-text>
-    </v-card>
-    <Dialog ref="serverDetailsDialog" :title="$t('_server.labels.details')" icon="mdi-server">
-      <div v-if="currentServer">
-        <v-simple-table>
-          <tbody>
-          <tr>
-            <td><b>{{ $t('name') }}</b></td>
-            <td>{{ currentServer.name }}</td>
-          </tr>
-          <tr>
-            <td><b>{{ $t('type') }}</b></td>
-            <td>{{ currentServer.type }}</td>
-          </tr>
-          <tr>
-            <td><b>{{ $t('address') }}</b></td>
-            <td>{{ currentServer.address }}:{{ currentServer.port }}</td>
-          </tr>
-          <tr v-if="currentServer.map != null">
-            <td><b>{{ $t('map') }}</b></td>
-            <td>{{ currentServer.map }}</td>
-          </tr>
-          <tr>
-            <td><b>{{ $t('status') }}</b></td>
-            <td>{{ currentServer.status }}</td>
-          </tr>
-          </tbody>
-        </v-simple-table>
-      </div>
-    </Dialog>
-  </div>
+      </Dialog>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -174,7 +176,12 @@ export default {
   },
   computed: {
     nonEmptyBundles() {
-      return this.bundles.filter((b) => this.getServer(b.id).length > 0);
+      if (this.servers.length === 0) return [];
+      if (this.bundles.length === 0) return [];
+
+      return this.bundles.filter(
+        (b) => this.servers.filter((s) => s.serverbundle_id === b.id).length > 0,
+      );
     },
   },
 };
