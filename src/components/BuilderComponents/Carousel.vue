@@ -16,7 +16,7 @@
 <script>
 export default {
   name: 'Carousel',
-  props: ['titles', 'subtitles', 'height', 'imageUrls', 'slides'],
+  props: ['height', 'slides'],
 };
 </script>
 

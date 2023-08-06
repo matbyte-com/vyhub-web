@@ -1,24 +1,20 @@
 <template>
 <div>
-  <v-card>
-    <v-card-text class="pa-5">
-      <v-row class="justify-center">
-        <v-col class="d-flex align-center"
-               :class="{ 'order-2 justify-start': mirror, 'justify-end': !mirror }"
-               cols="12" md="6">
-          <div>
-            <div class="text-h3">{{ headline }}</div>
-            <v-img width="300px" class="mt-3 mx-auto"
-                   :class="{ 'invert-color': !$vuetify.theme.dark}"
-                   src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b544a3e3c7c05753bcd_full_logo_white_RGB.png"/>
-          </div>
-        </v-col>
-        <v-col cols="12" md="6" :class="{ 'text-start': !mirror, 'text-end': mirror }">
-          <div v-html="discordWidget"></div>
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+  <v-row class="justify-center">
+    <v-col class="d-flex align-center"
+           :class="{ 'order-2 justify-start': mirror, 'justify-end': !mirror }"
+           cols="12" md="6">
+      <div>
+        <div class="text-h3">{{ headline }}</div>
+        <v-img width="300px" class="mt-3 mx-auto"
+               :class="{ 'invert-color': !$vuetify.theme.dark}"
+               src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b544a3e3c7c05753bcd_full_logo_white_RGB.png"/>
+      </div>
+    </v-col>
+    <v-col cols="12" md="6" :class="{ 'text-start': !mirror, 'text-end': mirror }">
+      <div v-html="discordWidget"></div>
+    </v-col>
+  </v-row>
 </div>
 </template>
 

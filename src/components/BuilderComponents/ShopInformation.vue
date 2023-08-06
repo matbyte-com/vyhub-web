@@ -1,20 +1,13 @@
 <template>
   <div>
-    <v-card>
-      <v-card-text class="pa-5">
-        <div class="text-center text-h3 pb-2">
-          {{ headline }}
-        </div>
-        <v-row justify="center">
-          <v-col cols="8" md="6" lg="5" v-if="$store.getters.shopConfig.donation_goal_enabled">
-            <DonationGoal class="grow"/>
-          </v-col>
-          <v-col cols="8" md="6" lg="5" v-if="$store.getters.shopConfig.top_donators_enabled">
-            <TopDonators class="grow" />
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+    <v-row justify="center">
+      <v-col cols="8" md="6" lg="5" v-if="$store.getters.shopConfig.donation_goal_enabled">
+        <DonationGoal class="grow"/>
+      </v-col>
+      <v-col cols="8" md="6" lg="5" v-if="$store.getters.shopConfig.top_donators_enabled">
+        <TopDonators class="grow" />
+      </v-col>
+    </v-row>
   </div>
 </template>
 

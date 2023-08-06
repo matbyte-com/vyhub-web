@@ -1,41 +1,36 @@
 <template>
   <div>
-    <v-card>
-      <v-card-text class="pa-5">
-        <div class="text-center text-h3 pb-2">
-          <h1 class="text-h3">{{ headline }}</h1>
-          <p class="text-subtitle-1 mt-3">{{ subtitle }}</p>
-        </div>
-        <v-row justify="center" v-if="categories">
-          <v-col cols="12" sm="10" md="10" lg="9" xl="8"
-                 style="position: relative">
-            <swiper-container ref="carousel" class="mx-auto" :slides-per-view="perPage"
-                              :per-page="perPage" :key="perPage" :space-between="5">
-              <swiper-slide style="height: 100%"
-                   v-for="(category) in categories" :key="category.id">
-                <v-card max-width="400" width="90%" class="img-hover-zoom mx-auto overflow-hidden">
-                  <div style="overflow: hidden">
-                    <v-img style="width: 100%" :aspect-ratio="2"
-                         :src="category.image_url" :alt="category.name" />
-                  </div>
-                  <div class="text-center text-h5 mt-3">{{ category.name }}Ganz langer
-                    Category aname</div>
-                  <div class="text-center mt-3 pb-3">
-                    <v-btn outlined>{{ callToAction }}</v-btn>
-                  </div>
-                </v-card>
-              </swiper-slide>
-            </swiper-container>
-            <v-btn v-if="currentSlide !== 0"
-                   fab small style="position: absolute; z-index: 50; left: 0px; top: 31%;"
-                   @click="prev"><v-icon>mdi-chevron-left</v-icon></v-btn>
-            <v-btn v-if="currentSlide !== maxSlides"
-                   fab small style="position: absolute; z-index: 50; right: 0px; top: 31%;"
-                   @click="next"><v-icon>mdi-chevron-right</v-icon></v-btn>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+    <v-row justify="center" v-if="categories">
+      <v-col cols="12" sm="10" md="10" lg="9" xl="8"
+             style="position: relative">
+        <swiper-container ref="carousel" class="mx-auto" :slides-per-view="perPage"
+                          :per-page="perPage" :key="perPage" :space-between="5">
+          <swiper-slide style="height: 100%"
+               v-for="(category) in categories" :key="category.id">
+            <v-card max-width="400" width="90%" class="grow
+            img-hover-zoom mx-auto overflow-hidden mt-3 mb-3">
+              <div style="overflow: hidden">
+                <v-img style="width: 100%" :aspect-ratio="2"
+                     :src="category.image_url" :alt="category.name" />
+              </div>
+              <div class="text-center text-h5 mt-3">{{ category.name }}</div>
+              <div class="text-center mt-3 pb-3">
+                <v-btn outlined
+                       :to="{ name: 'ShopCategory', params: { categoryId: category.id} }">
+                  {{ callToAction }}
+                </v-btn>
+              </div>
+            </v-card>
+          </swiper-slide>
+        </swiper-container>
+        <v-btn v-if="currentSlide !== 0"
+               fab small style="position: absolute; z-index: 50; left: 0px; top: 31%;"
+               @click="prev"><v-icon>mdi-chevron-left</v-icon></v-btn>
+        <v-btn v-if="currentSlide !== maxSlides"
+               fab small style="position: absolute; z-index: 50; right: 0px; top: 31%;"
+               @click="next"><v-icon>mdi-chevron-right</v-icon></v-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -116,11 +111,18 @@ export default {
 
 /* [2] Transition property for smooth transformation of images */
 .img-hover-zoom .v-image {
-  transition: transform .5s ease;
+  transition: transform .3s ease;
 }
 
 /* [3] Finally, transforming the image when container gets hovered */
 .img-hover-zoom:hover .v-image {
-  transform: scale(1.05);
+  transform: scale(1.08);
+}
+
+.grow {
+  transition: all .3s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.03);
 }
 </style>
