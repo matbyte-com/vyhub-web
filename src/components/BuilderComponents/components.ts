@@ -102,5 +102,23 @@ export default {
         },
       ],
     },
+    {
+      title: 'Shop Categories',
+      component: 'ShopCategories',
+      props: [
+        {
+          name: 'headline',
+          type: 'string',
+        },
+        {
+          name: 'subtitle',
+          type: 'string',
+        },
+        {
+          name: 'callToAction',
+          type: 'string',
+        },
+      ],
+    },
   ],
 };
