@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-top-donators" flat
+    <v-card class="vh-top-donators" flat
             v-if="topDonators && shopConfig">
       <v-card-title class="pb-0">
           <HeadlineSidebar class="mx-auto"
-                             :title="shopConfig.top_donators_display_title" icon="mdi-podium"/>
+                           :title="shopConfig.top_donators_display_title" icon="mdi-podium"/>
       </v-card-title>
       <v-card-text>
         <div class="d-flex align-center mt-3" style="overflow-x: auto; height: 55px">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-donation-goal" flat
+    <v-card class="vh-donation-goal" flat
             v-if="shopConfig">
       <v-card-title>
         <HeadlineSidebar class="mx-auto" :title="shopConfig.donation_goal_display_title"
