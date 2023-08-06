@@ -92,5 +92,15 @@ export default {
         },
       ],
     },
+    {
+      title: 'Shop Stats',
+      component: 'ShopInformation',
+      props: [
+        {
+          name: 'headline',
+          type: 'string',
+        },
+      ],
+    },
   ],
 };

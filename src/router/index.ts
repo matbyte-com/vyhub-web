@@ -12,7 +12,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('../views/Home.vue'),
+    meta: { noContainer: true },
+    component: () => import('../views/Test.vue'),
   },
   {
     path: '/dashboard',
