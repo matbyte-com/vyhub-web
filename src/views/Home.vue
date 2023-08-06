@@ -167,7 +167,7 @@
         <div style="overflow-y: hidden; overflow-x: hidden;"
              :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
-          <v-row v-if="$refs.serverStatus && $refs.serverStatus.nonEmptyBundles > 0">
+          <v-row v-if="!$refs.serverStatus || $refs.serverStatus.nonEmptyBundles.length > 0">
             <v-col>
               <ServerStatus ref="serverStatus"/>
             </v-col>
