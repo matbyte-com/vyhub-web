@@ -10,13 +10,13 @@
           </v-card>
           <div class="ml-3">
             <div class="text-h5">{{ server1.name }}</div>
-            <div>{{ server1.users_current }}</div>
+            <div>{{ server1.users_current }} __active players</div>
           </div>
         </div>
       </a>
     </v-col>
     <v-col v-if="server2 || !servers" class="text-center">
-      <div v-if="!features">
+      <div v-if="!servers">
         __Specify up to two servers in the component settings__
       </div>
       <v-img height="200" contain :src="imageUrl ? imageUrl : this.$store.getters.theme.logo"
@@ -28,7 +28,7 @@
         <div class="d-flex align-center justify-end join-link pa-3 white--text">
           <div class="text-right mr-3">
             <div class="text-h5">{{ server2.name }}</div>
-            <div>{{ server2.users_current }}</div>
+            <div>{{ server2.users_current }} __active users</div>
           </div>
           <v-card :color="backgroundColor ? backgroundColor : 'primary'"
                   class="pa-5 join-btn" flat style="border-radius: 15px">
@@ -55,6 +55,11 @@ export default {
   },
   beforeMount() {
     this.fetchData();
+  },
+  watch: {
+    servers() {
+      this.fetchData();
+    },
   },
   methods: {
     async fetchData() {

@@ -40,6 +40,11 @@ export default {
       newUsers: null,
     };
   },
+  watch: {
+    limit() {
+      this.fetchData();
+    },
+  },
   methods: {
     async fetchData() {
       const api = await openapi;
@@ -59,10 +64,10 @@ export default {
 </script>
 
 <style scoped>
-.grow {
+.grow-on-hover {
   transition: all .2s ease-in-out;
 }
-.grow:hover {
+.grow-on-hover:hover {
   transform: scale(1.05);
 }
 

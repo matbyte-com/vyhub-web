@@ -95,6 +95,7 @@ import i18n from '@/plugins/i18n';
 import ForumService from '@/services/ForumService';
 import CustomerJourney from '@/components/CustomerJourney.vue';
 import VueGtag from 'vue-gtag';
+import { register } from 'swiper/element';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
@@ -104,6 +105,7 @@ Vue.mixin(ForumService);
 Vue.use(VueGtag, {
   bootstrap: false,
 });
+register(); // register Swiper
 export default Vue.extend({
   name: 'App',
 

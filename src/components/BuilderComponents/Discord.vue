@@ -2,7 +2,7 @@
 <div>
   <v-row class="justify-center">
     <v-col class="d-flex align-center"
-           :class="{ 'order-2 justify-start': mirror, 'justify-end': !mirror }"
+           :class="{ 'order-2 justify-start': inverted, 'justify-end': !inverted }"
            cols="12" md="6">
       <div>
         <div class="text-h3">{{ headline }}</div>
@@ -11,7 +11,7 @@
                src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b544a3e3c7c05753bcd_full_logo_white_RGB.png"/>
       </div>
     </v-col>
-    <v-col cols="12" md="6" :class="{ 'text-start': !mirror, 'text-end': mirror }">
+    <v-col cols="12" md="6" :class="{ 'text-start': !inverted, 'text-end': inverted }">
       <div v-html="discordWidget"></div>
     </v-col>
   </v-row>
@@ -29,7 +29,7 @@ export default {
     discordWidget: {
       type: String,
     },
-    mirror: {
+    inverted: {
       type: Boolean,
       default: false,
     },

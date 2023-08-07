@@ -2,11 +2,11 @@
   <div>
     <v-row justify="center">
       <v-col cols="6" md="4" lg="3" v-for="(card, index) in cards" :key="index">
-        <v-card class="grow">
+        <v-card class="grow-on-hover">
           <v-card-text class="text-center">
             <v-icon size="75">{{ card.icon }}</v-icon>
             <h3 class="text-h5">{{ card.title }}</h3>
-            <p v-html="card.text"></p>
+            <p v-html="card.content"></p>
           </v-card-text>
         </v-card>
       </v-col>

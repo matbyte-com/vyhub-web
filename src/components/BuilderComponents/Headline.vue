@@ -5,10 +5,14 @@
          class="d-flex flex-column justify-center align-center text-center">
       <h1 class="text-h3">{{ title }}</h1>
       <p class="text-subtitle-1 mt-3">{{ subtitle }}</p>
-      <v-btn v-if="btnText" outlined :href="(!localLink ? btnUrl : null)"
-             :to="localLink ? getLocalLink : null">
-        {{ btnText }}
-      </v-btn>
+      <div class="d-flex flex-row flex-wrap">
+        <v-btn v-for="(button, index) in buttons" :key="index" class="ml-3"
+               outlined :href="(!localLink(button) ? button.link : null)"
+               :to="localLink(button) ? getLocalLink(button) : null">
+          {{ button.btnText }}
+          {{ button.link }}
+        </v-btn>
+      </div>
     </div>
   </v-card>
 </div>
@@ -17,24 +21,25 @@
 <script>
 export default {
   name: 'FirstComponent',
-  props: ['title', 'subtitle', 'height', 'backgroundColor', 'imageUrl', 'btnText', 'btnUrl'],
+  props: ['title', 'subtitle', 'height', 'backgroundColor', 'imageUrl', 'buttons'],
   computed: {
     getBackgroundColor() {
       return this.backgroundColor ? this.backgroundColor : '';
     },
-    getLocalLink() {
-      if (!this.btnUrl) return '';
-      if (this.localLink) { return this.btnUrl.substring(window.location.origin.length); }
-      return this.btnUrl;
+  },
+  methods: {
+    getLocalLink(btn) {
+      if (!btn.link) return '';
+      if (this.localLink) { return btn.link.substring(window.location.origin.length); }
+      return btn.link;
     },
-    localLink() {
-      if (!this.btnUrl) return false;
+    localLink(btn) {
+      if (!btn.link) return false;
       if (window) {
-        return !!this.btnUrl.includes(window.location.hostname);
+        return !!btn.link.includes(window.location.hostname);
       }
       return false;
     },
-
   },
 };
 </script>
