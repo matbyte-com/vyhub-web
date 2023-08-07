@@ -9,11 +9,15 @@ export default {
     {
       title: 'Headline',
       component: 'Headline',
-      imageUrl: 'https://picsum.photos/300/200',
+      previewImage: 'https://picsum.photos/300/200',
       noWrap: true,
       schema: {
         type: 'object',
         properties: {
+          imageUrl: {
+            title: 'imageUrl',
+            type: 'string',
+          },
           title: {
             title: 'title',
             type: 'string',
@@ -25,10 +29,6 @@ export default {
           height: {
             title: 'height',
             type: 'number',
-          },
-          imageUrl: {
-            title: 'imageUrl',
-            type: 'string',
           },
           buttons: {
             type: 'array',
@@ -64,7 +64,7 @@ export default {
     {
       title: 'Carousel',
       component: 'Carousel',
-      imageUrl: 'https://picsum.photos/301/200',
+      previewImage: 'https://picsum.photos/301/200',
       noWrap: true,
       schema: {
         type: 'object',
@@ -114,7 +114,7 @@ export default {
     {
       title: 'New Users',
       component: 'NewUsers',
-      imageUrl: 'https://picsum.photos/303/200',
+      previewImage: 'https://picsum.photos/303/200',
       schema: {
         type: 'object',
         properties: {
@@ -133,7 +133,7 @@ export default {
     {
       title: 'Discord',
       component: 'Discord',
-      imageUrl: 'https://picsum.photos/304/200',
+      previewImage: 'https://picsum.photos/304/200',
       schema: {
         type: 'object',
         properties: {
@@ -159,7 +159,7 @@ export default {
     {
       title: 'Community Stats',
       component: 'CommunityStats',
-      imageUrl: 'https://picsum.photos/305/200',
+      previewImage: 'https://picsum.photos/305/200',
       defaults: {
         title: 'Our Community in Numbers',
       },
@@ -167,12 +167,12 @@ export default {
     {
       title: 'Shop Stats',
       component: 'ShopInformation',
-      imageUrl: 'https://picsum.photos/306/200',
+      previewImage: 'https://picsum.photos/306/200',
     },
     {
       title: 'Shop Categories',
       component: 'ShopCategories',
-      imageUrl: 'https://picsum.photos/307/200',
+      previewImage: 'https://picsum.photos/307/200',
       schema: {
         type: 'object',
         properties: {
@@ -191,7 +191,7 @@ export default {
     {
       title: 'Features',
       component: 'ColumnCards',
-      imageUrl: 'https://picsum.photos/308/200',
+      previewImage: 'https://picsum.photos/308/200',
       schema: {
         type: 'object',
         properties: {
@@ -240,7 +240,7 @@ export default {
     },
     {
       title: 'Join Server',
-      imageUrl: 'https://picsum.photos/309/200',
+      previewImage: 'https://picsum.photos/309/200',
       component: 'JoinServer',
       schema: {
         type: 'object',
@@ -269,9 +269,50 @@ export default {
       },
     },
     {
+      title: 'Frequently Asked Questions',
+      component: 'Faq',
+      previewImage: 'https://picsum.photos/310/200',
+      schema: {
+        type: 'object',
+        properties: {
+          questions: {
+            type: 'array',
+            title: 'Questions',
+            items: {
+              type: 'object',
+              properties: {
+                question: {
+                  title: 'question',
+                  type: 'string',
+                },
+                answer: {
+                  title: 'answer',
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+      defaults: {
+        title: 'FAQ',
+        subtitle: 'Frequently Asked Questions',
+        questions: [
+          {
+            question: 'What makes us different?',
+            answer: 'We are a team of experienced developers and server owners. We know what you need!',
+          },
+          {
+            question: 'How can I contact you?',
+            answer: 'The easiest way is to join our Discord server.',
+          },
+        ],
+      },
+    },
+    {
       title: 'HTML',
       component: 'RawHtml',
-      imageUrl: 'https://picsum.photos/302/200',
+      previewImage: 'https://picsum.photos/302/200',
       noWrap: true,
       schema: {
         type: 'object',
@@ -285,7 +326,7 @@ export default {
       },
       defaults: {
         html: '<div class="pa-5" style="width: 100%; text-align: center; background-color: #FFA500">'
-          + '<p><h1>Hi 👋, I am an HTML block</h1></p><p class="mb-0">Writing HTML isn\'t that hard. The cool thing is, you can use all of Vuetify\'s css-classes. Since they are already injected.</p><p class="text--disabled">Writing Vue or Vuetify tags doesn\'t work.</p>'
+          + '<p><h1>Hi 👋, I am an HTML block</h1></p><p class="mb-0">Writing HTML isn\'t that hard. The cool thing is, you can use all of Vuetify\'s css-classes. Since they are already injected.</p><p class="text--disabled">(Writing Vue or Vuetify tags doesn\'t work.)</p>'
           + '<p>TODO: Explanation on how to call the API</p>'
           + '<div class="d-flex justify-center">'
           + '<div class="text-center grow">⬅️ Left Column</div><div class="text-center grow">Right Column ➡️</div></div></div>',

@@ -10,6 +10,7 @@
     v-model="editDrawer"
     absolute
     bottom
+    width="350px"
     temporary>
     <v-list-item dense>
       <v-list-item-content>
@@ -66,7 +67,7 @@
     <v-row justify="center" class="mt-3">
       <v-col cols="6" md="4" lg="4" v-for="cp in availableComponents" :key="cp.component">
         <v-card class="add-component-card grow" @click="addComponent(cp)">
-          <v-img :src="cp.imageUrl" height="100px" />
+          <v-img :src="cp.previewImage" height="100px" />
           <div class="text-center text-h5">
             {{ cp.title }}
           </div>
