@@ -146,7 +146,7 @@
             </div>
             <div>
               <WarningTable v-if="$checkProp('warning_show') ||
-             ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.isLoggedIn))"
+             ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.user))"
                             :warnings="currentUser.warnings"
                             :total-items="currentUser.warnings.length"
                             :user="currentUser"
@@ -155,7 +155,7 @@
             </div>
             <div class="mt-4">
               <BanTable v-if="$checkProp('ban_show') ||
-             ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.isLoggedIn))"
+             ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.user))"
                         :bans="currentUser.bans"
                         :total-items="currentUser.bans.length"
                         :user="currentUser"

@@ -60,11 +60,21 @@ export default {
 
       let found = false;
 
-      user1.linked_users.forEach((user) => {
-        if (user.id === user2.id) {
-          found = true;
-        }
-      });
+      if (user1.linked_users) {
+        user1.linked_users.forEach((user) => {
+          if (user.id === user2.id) {
+            found = true;
+          }
+        });
+      }
+
+      if (!found && user2.linked_users) {
+        user2.linked_users.forEach((user) => {
+          if (user.id === user1.id) {
+            found = true;
+          }
+        });
+      }
 
       return found;
     },
