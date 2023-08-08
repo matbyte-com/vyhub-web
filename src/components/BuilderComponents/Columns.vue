@@ -9,7 +9,6 @@
                                                :max-width="maxImageWidth"/></div>
             <div v-if="column.content" v-html="column.content"
                  :style="`max-width: ${getMaxContentWidth}`" />
-            {{ getMaxContentWidth }}
           </div>
         </div>
       </v-col>
