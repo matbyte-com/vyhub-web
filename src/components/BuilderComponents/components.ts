@@ -10,7 +10,7 @@ export default {
       title: 'Headline',
       component: 'Headline',
       previewImage: 'https://picsum.photos/300/200',
-      noWrap: true,
+      no_wrap: true,
       schema: {
         type: 'object',
         properties: {
@@ -65,7 +65,7 @@ export default {
       title: 'Carousel',
       component: 'Carousel',
       previewImage: 'https://picsum.photos/301/200',
-      noWrap: true,
+      no_wrap: true,
       schema: {
         type: 'object',
         properties: {
@@ -289,6 +289,7 @@ export default {
                   title: 'answer',
                   type: 'string',
                 },
+                icon: Common.iconPicker,
               },
             },
           },
@@ -363,7 +364,7 @@ export default {
       title: 'HTML',
       component: 'RawHtml',
       previewImage: 'https://picsum.photos/302/200',
-      noWrap: true,
+      no_wrap: true,
       schema: {
         type: 'object',
         properties: {

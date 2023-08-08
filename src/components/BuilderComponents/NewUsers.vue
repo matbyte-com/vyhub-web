@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex flex-row flex-wrap justify-center" v-if="newUsers != null">
       <div class="pa-3" v-for="u in newUsers" v-bind:key="u.id">
-        <v-card class="text-center grow" width="250px"
+        <v-card class="text-center grow-on-hover" width="250px"
                 :to="{ name: 'UserDashboard', params: { id: u.id } }">
           <v-img height="125" style="filter: blur(2px) brightness(80%);"
                  :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />

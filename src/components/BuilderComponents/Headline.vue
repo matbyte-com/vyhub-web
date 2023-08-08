@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-card flat :height="height ? height : '300px'" :img="imageUrl">
+  <v-card flat :height="height ? height : '300px'" :img="imageUrl" tile>
     <div style="width: 100%; height: 100%" :style="{ backgroundColor: getBackgroundColor }"
          class="d-flex flex-column justify-center align-center text-center">
       <div>

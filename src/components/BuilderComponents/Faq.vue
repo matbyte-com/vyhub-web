@@ -5,9 +5,13 @@
         <v-expansion-panels>
           <v-expansion-panel v-for="(q, index) in questions" :key="index">
             <v-expansion-panel-header>
-              {{ q.question }}
+              <div>
+                <v-icon left v-if="q.icon">{{ q.icon }}</v-icon>
+                <b>{{ q.question }}</b>
+              </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
+              <v-divider class="pb-3" />
               <p v-html="q.answer"></p>
             </v-expansion-panel-content>
           </v-expansion-panel>
