@@ -28,7 +28,7 @@ export default {
           },
           height: {
             title: 'height',
-            type: 'number',
+            type: 'string',
           },
           buttons: {
             type: 'array',
@@ -305,6 +305,56 @@ export default {
           {
             question: 'How can I contact you?',
             answer: 'The easiest way is to join our Discord server.',
+          },
+        ],
+      },
+    },
+    {
+      title: 'Columns',
+      component: 'Columns',
+      previewImage: 'https://picsum.photos/311/200',
+      schema: {
+        type: 'object',
+        properties: {
+          columns: {
+            type: 'array',
+            title: 'Columns',
+            items: {
+              type: 'object',
+              properties: {
+                title: {
+                  title: 'title',
+                  type: 'string',
+                },
+                content: {
+                  title: 'content',
+                  type: 'string',
+                },
+                imageUrl: {
+                  title: 'imageUrl',
+                  type: 'string',
+                },
+              },
+            },
+          },
+          maxContentWidth: {
+            title: 'maxContentWidth',
+            type: 'string',
+          },
+          maxImageWidth: {
+            title: 'maxImageWidth',
+            type: 'string',
+          },
+        },
+      },
+      defaults: {
+        columns: [
+          {
+            title: 'Column 1',
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, vitae aliquam nisl nunc vitae nisl. Sed vitae nisl eget nisl aliquam ultricies. Sed vitae nisl eget nisl aliquam ultricies.',
+          },
+          {
+            imageUrl: 'https://picsum.photos/300/200',
           },
         ],
       },
