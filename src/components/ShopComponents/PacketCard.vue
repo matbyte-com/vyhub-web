@@ -8,7 +8,8 @@
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         max-height="300px"
         min-height="150px">
-        <div class="d-flex flex-column" style="height: 100%">
+        <div class="d-flex flex-column" style="height: 100%"
+             v-if="!hover && packet.abstract && packet.abstract.length > 0">
           <div>
             <v-chip
               v-if="packet.active_for != null && (!hover || packet.abstract == null ||
@@ -28,9 +29,9 @@
             {{ packet.title_in_image }}
           </v-row>
         </div>
-        <div v-if="packet.abstract != null && packet.abstract.length > 0">
-          <v-expand-transition>
-            <div v-if="hover"
+        <v-overlay absolute :value="hover"
+                   v-if="packet.abstract != null && packet.abstract.length > 0">
+            <div
                  class="d-flex transition-fast-in-fast-out v-card--reveal
                            text-h6 white--text"
                  style="height: 100%;">
@@ -38,8 +39,7 @@
                 <li v-for="point in packet.abstract" :key="point">{{ point }}</li>
               </ul>
             </div>
-          </v-expand-transition>
-        </div>
+        </v-overlay>
       </v-img>
       <v-card-text class="vh-shop-packages">
         <div>
@@ -118,6 +118,11 @@
 <script>
 export default {
   name: 'PacketCard',
+  data() {
+    return {
+      hover: false,
+    };
+  },
   props: {
     packet: {
       type: Object,
