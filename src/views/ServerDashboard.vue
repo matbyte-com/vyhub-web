@@ -64,11 +64,17 @@
                   </v-icon>
                 </template>
               </v-text-field>
-              <v-btn text color="info" @click="fetchData" class="ml-2">
-                <v-icon :class="{ 'mdi-spin': reloading }">
-                  mdi-sync
-                </v-icon>
-              </v-btn>
+              <transition enter-active-class="animate__fadeIn" mode="out-in"
+                          leave-active-class="animate__fadeOut">
+                <v-btn v-if="!reloading" text color="info" @click="fetchData"
+                       class="ml-2 animate__animated animate__faster" key="1">
+                    <v-icon :class="{ 'mdi-spin': reloading }">
+                      mdi-sync
+                    </v-icon>
+                </v-btn>
+                <v-progress-circular indeterminate v-else
+                                     class="animate__animated animate__faster ml-5 mr-5" key="2" />
+              </transition>
             </div>
             <v-list dense max-height="60vh" class="overflow-y-auto">
               <div v-if="returnUsers == null">
