@@ -5,8 +5,7 @@
       <v-list nav>
         <transition-group enter-active-class="animate__fadeIn"
                           leave-active-class="animate__fadeOut">
-          <v-list-item v-for="c in categories" :key="c.id"
-                       class="animate__animated vh-category-navigation-list"
+          <v-list-item v-for="c in categories" :key="c.id" class="animate__animated"
                        :class="{ 'shop-navigation-active': c.name === selectedCategory.name }"
                        @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()">
             <v-list-item-title>
@@ -34,8 +33,7 @@
           <v-list nav>
             <transition-group enter-active-class="animate__fadeIn"
                               leave-active-class="animate__fadeOut">
-              <v-list-item v-for="c in categories" :key="c.id"
-                           class="animate__animated vh-category-navigation-list"
+              <v-list-item v-for="c in categories" :key="c.id" class="animate__animated"
                            :class="{ 'shop-navigation-active': c.name === selectedCategory.name }"
                            @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()">
                 <v-list-item-title>
