@@ -7,6 +7,7 @@
             <v-icon size="75">{{ card.icon }}</v-icon>
             <h3 class="text-h5">{{ card.title }}</h3>
             <p v-html="card.content"></p>
+            <v-btn>__Test</v-btn>
           </v-card-text>
         </v-card>
       </v-col>

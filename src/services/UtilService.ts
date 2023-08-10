@@ -253,6 +253,15 @@ export default {
               return null;
           }
         },
+        copyServerAddress(server: any) {
+          console.log('JOOO');
+          if (!['MINECRAFT'].includes(server.type)) return;
+          navigator.clipboard.writeText(server.address);
+          Vue.notify({
+            title: String(i18n.t('_messages.copyClipboard')),
+            type: 'success',
+          });
+        },
       },
     };
   },

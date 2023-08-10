@@ -249,17 +249,11 @@ export default {
             type: 'array',
             title: 'Servers',
             items: {
-              type: 'object',
-              properties: {
-                id: {
-                  type: 'string',
-                  title: 'server',
-                  'x-fromUrl': `${API_URL}/server/`,
-                  'x-itemKey': 'id',
-                  'x-itemTitle': 'name',
-                },
-              },
+              type: 'string',
             },
+            'x-fromUrl': `${API_URL}/server/`,
+            'x-itemKey': 'id',
+            'x-itemTitle': 'name',
           },
           imageUrl: {
             title: 'imageUrl',
@@ -267,6 +261,11 @@ export default {
           },
         },
       },
+    },
+    {
+      title: 'Server Status',
+      previewImage: 'https://picsum.photos/310/200',
+      component: 'ServerStatus',
     },
     {
       title: 'Frequently Asked Questions',
