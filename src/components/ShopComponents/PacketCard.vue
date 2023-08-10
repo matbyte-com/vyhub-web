@@ -5,7 +5,6 @@
       <v-img
         :src="packet.image_url"
         class="white--text"
-        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         max-height="300px"
         min-height="150px">
         <div class="d-flex flex-column" style="height: 100%"
