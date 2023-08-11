@@ -1,9 +1,9 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card @click="$router.push({ name: 'ShopPacket', params: { packetId: packet.id }})"
-            class="flex-grow-1 flex-column d-flex vh-packet-card">
+    <v-card class="flex-grow-1 flex-column d-flex vh-packet-card">
       <v-img
         :src="packet.image_url"
+        @click="$emit('click', packet)"
         class="white--text"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         max-height="300px"
@@ -41,7 +41,7 @@
             </div>
         </v-overlay>
       </v-img>
-      <v-card-text class="vh-shop-packages">
+      <v-card-text class="vh-packet-card-text">
         <div>
           <div class="text-center">
             <div>
@@ -108,6 +108,15 @@
                 </v-chip>
               </div>
             </div>
+            <div class="d-flex mt-3">
+              <v-btn large style="width: 44px; min-width: 44px"
+                     class="pa-0 cta-btn" @click="$emit('click', packet)" outlined>
+                <v-icon large>mdi-information-slab-symbol</v-icon>
+              </v-btn>
+              <v-btn large depressed class="ml-1 grow cta-btn" color="primary">
+                <v-icon left>mdi-cart</v-icon>{{ $t('_shop.labels.addToCart17CharsMax') }}
+              </v-btn>
+            </div>
           </div>
         </div>
       </v-card-text>
@@ -133,5 +142,11 @@ export default {
 </script>
 
 <style scoped>
+.cta-btn{
+  transition: all 0.2s ease-in-out;
+}
 
+.cta-btn:hover i{
+  transform: scale(1.2);
+}
 </style>

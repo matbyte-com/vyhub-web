@@ -134,7 +134,7 @@
                   </v-col>
                 </v-row>
               </v-card-text>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-card-actions>
                 <v-btn block color="info"
                        v-if="!$store.getters.isLoggedIn"
