@@ -1,4 +1,4 @@
-<template>
+Homepag<template>
   <div>
     <!-- Add Message Dialog -->
     <dialog-form ref="messageAddDialog" :form-schema="messageAddSchema"
@@ -67,24 +67,21 @@
       <v-col cols="12" md="8">
         <!-- News of the Day -->
         <v-row class="pa-0" v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
-          <v-col order="2" order-sm="1" cols="12" sm="8">
-            <PageTitle icon="mdi-newspaper" :title="$t('_home.newsOfTheDay')"
-                       v-if="getNewsOfTheDay.length !== 0" />
-          </v-col>
-          <!-- Add News Button -->
-          <v-col order="1" order-sm="2" cols="12" sm="4" v-if="$checkProp('news_edit')"
-                 class="d-flex">
-            <v-spacer v-if="$vuetify.breakpoint.smAndUp"/>
-              <v-btn color="success" @click="showAddMessageDialog" data-cy="new-message-button">
+          <v-col>
+            <v-card flat color="primary" class="home-page-card d-flex align-center news-card">
+              <v-card-text class="text-h6">{{ $t('_home.newsOfTheDay') }}</v-card-text>
+              <v-btn color="success" small class="mr-3" v-if="$checkProp('news_edit')"
+                     @click="showAddMessageDialog" data-cy="new-message-button">
                 <v-icon left>mdi-plus</v-icon>
                 <span>{{ $t('_home.addNews') }}</span>
               </v-btn>
+            </v-card>
           </v-col>
         </v-row>
-        <transition-group  enter-active-class="animate__animated animate__fadeIn" class="mb-5"
+        <transition-group  enter-active-class="animate__animated animate__fadeIn"
                            leave-active-class="animate__animated animate__fadeOut">
           <v-card v-for="message in getNewsOfTheDay" :key="message.id"
-                  class="mt-3 news-of-day vh-news-of-day">
+                  class="mt-4 news-of-day vh-news-of-day home-page-card">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
@@ -114,14 +111,17 @@
           </v-card>
         </transition-group>
         <!-- Display News -->
-        <v-row v-if="getNews.length !== 0" :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }">
+        <v-row class="pa-0" v-if="getNews.length !== 0"
+               :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }">
           <v-col>
-            <PageTitle icon="mdi-newspaper-variant-multiple" :title="$t('_home.news')"/>
+            <v-card flat color="primary" class="home-page-card d-flex align-center news-card">
+              <v-card-text class="text-h6">{{ $t('_home.news') }}</v-card-text>
+            </v-card>
           </v-col>
         </v-row>
         <transition-group enter-active-class="animate__animated animate__fadeIn"
                           leave-active-class="animate__animated animate__fadeOut">
-          <v-card flat outlined class="mt-3 vh-news" v-for="message in getNews" :key="message.id">
+          <v-card flat outlined class="mt-4 vh-news" v-for="message in getNews" :key="message.id">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
@@ -212,7 +212,6 @@ export default {
   components: {
     TopDonators,
     Editor,
-    PageTitle,
     NewUsers,
     DonationGoal,
     ServerStatus,
@@ -356,4 +355,18 @@ export default {
   border-width: 3px
   border-color: var(--v-primary-base)
 
+.home-page-card
+  border-radius: 10px
+
+.news-card:before
+  content: ""
+  width: 0px
+  height: 0px
+  position: absolute
+  border-left: 10px solid transparent
+  border-right: 10px solid transparent
+  border-top: 10px solid var(--v-primary-base)
+  border-bottom: 10px solid transparent
+  left: 15%
+  bottom: -19px
 </style>
