@@ -28,7 +28,7 @@
       </v-card-title>
     </v-card>
     <v-row>
-      <v-col cols="4" md="3" lg="3" v-if="$vuetify.breakpoint.mdAndUp">
+      <v-col cols="12" sm="6" md="4" xl="3" v-if="$vuetify.breakpoint.mdAndUp">
         <v-card>
           <v-list nav>
             <transition-group enter-active-class="animate__fadeIn"
@@ -57,11 +57,11 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col xl="3" lg="4" md="6" sm="6" xs="12"
+              <v-col cols="12" sm="6" md="6" lg="4" xl="3"
                      v-for="packet in _packets" :key="packet.id"
                      class="d-flex align-content-space-between">
                 <v-fade-transition>
-                  <PacketCard :packet="packet" />
+                  <PacketCard :packet="packet" @click="$refs.packetDetailDialog.show(packet)" />
                 </v-fade-transition>
               </v-col>
             </v-row>
@@ -69,17 +69,18 @@
         </div>
       </v-col>
     </v-row>
+    <PacketDetailDialog ref="packetDetailDialog" />
   </div>
 </template>
 
 <script>
 import PacketCard from '@/components/ShopComponents/PacketCard.vue';
 import openapiCached from '@/api/openapiCached';
-import PageTitle from '../../components/PageTitle.vue';
+import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
 import openapi from '../../api/openapi';
 
 export default {
-  components: { PacketCard },
+  components: { PacketDetailDialog, PacketCard },
   data() {
     return {
       packets: null,
