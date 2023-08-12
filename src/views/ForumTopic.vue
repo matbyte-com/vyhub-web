@@ -30,7 +30,7 @@
             <template v-slot:header>
               <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
                           @change="fetchTopic" class="text-capitalize"/>
-              <div>
+              <div v-if="topic.admins.length >= 1">
                 {{ $t('_forum.topicAdmins') }}
                 <UserLink v-for="admin in topic.admins" small
                           :key="admin.id" :user="admin" class="mr-1"/>
@@ -52,7 +52,13 @@
               <router-link :to="{ name: 'ForumThread', params: { id: item.id } }"
                            :class="{ 'font-weight-bold' : !item.is_read }"
                            style="color: inherit; text-decoration: none">
-                {{ item.title }}
+                <div class="d-flex align-center">
+                  <v-chip small v-for="label in item.labels" :key="label.id" :color="label.color"
+                          text-color="white" class="mr-1">
+                    {{ label.name }}
+                  </v-chip>
+                  <span>{{ item.title }}</span>
+                </div>
               </router-link>
             </template>
             <template v-slot:item.last_post="{ item }">
@@ -87,7 +93,7 @@
                     <v-img :src="item.last_post.creator.avatar"/>
                   </v-avatar>
                 </router-link>
-                <div class="align-self-center d-flex flex-column">
+                <div class="align-self-center d-flex flex-column" style="width: 125px">
                   <UserLink @click.prevent :small="true" :user="item.last_post.creator"></UserLink>
                   {{ utils.formatTimeForForum(item.last_post.created) }}
                 </div>
@@ -107,6 +113,10 @@
                     <router-link
                       :to="{ name: 'ForumThread', params: { id: item.id } }"
                       class="hidelinkstyle ml-1">
+                      <v-chip x-small v-if="item.label" :color="item.label.color"
+                              text-color="white">
+                        {{ item.label.name }}
+                      </v-chip>
                       {{ item.title }}
                     </router-link>
                   </div>
@@ -134,8 +144,8 @@
             <template v-slot:footer-right>
               <v-btn color="success" outlined
                      @click="$refs.addThreadDialog.show()"
-                     v-if="!topic.prohibit_create_threads || ($checkProp('forum_edit')
-                     || $checkTopicAdmin(topic.admins))">
+                     v-if="!topic.prohibit_create_threads && $store.getters.isLoggedIn
+                     || ($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))">
                 <v-icon left>mdi-plus</v-icon>
                 <span>{{ $t('_forum.addThread') }}</span>
               </v-btn>
@@ -182,7 +192,9 @@ export default {
     headers() {
       if (this.$vuetify.breakpoint.mdAndUp) {
         return [
-          { text: this.$t('_forum.creator'), value: 'creator', sortable: false },
+          {
+            text: this.$t('_forum.creator'), value: 'creator', sortable: false,
+          },
           { text: this.$t('title'), value: 'title', sortable: false },
           { text: this.$t('_forum.created'), value: 'created' },
           { value: 'total_posts', sortable: false },
@@ -201,6 +213,7 @@ export default {
       (await openapi).forum_getTopic(topicId).then((rsp) => {
         if (rsp.data) {
           this.topic = rsp.data;
+          console.log(this.topic.admins);
           this.breadcrumbs = [
             { text: this.$t('title'), to: { name: 'Forum' } },
             {
@@ -256,6 +269,6 @@ export default {
 }
 
 .hidelinkstyle:hover {
-  color: var(--v-secondary-darken1) !important;
+  display: inline-block;
 }
 </style>
