@@ -15,19 +15,19 @@ export default {
         type: 'object',
         properties: {
           imageUrl: {
-            title: 'imageUrl',
+            title: i18n.t('imageURL'),
             type: 'string',
           },
           title: {
-            title: 'title',
+            title: i18n.t('title'),
             type: 'string',
           },
           subtitle: {
-            title: 'subtitle',
+            title: i18n.t('subtitle'),
             type: 'string',
           },
           height: {
-            title: 'height',
+            title: i18n.t('_component._form.height'),
             type: 'string',
           },
           buttons: {
@@ -38,11 +38,11 @@ export default {
               required: ['btnText', 'link'],
               properties: {
                 btnText: {
-                  title: 'String',
+                  title: i18n.t('title'),
                   type: 'string',
                 },
                 link: {
-                  title: 'btnUrl',
+                  title: i18n.t('url'),
                   type: 'string',
                 },
               },
@@ -76,15 +76,15 @@ export default {
               type: 'object',
               properties: {
                 title: {
-                  title: 'title',
+                  title: i18n.t('title'),
                   type: 'string',
                 },
                 subtitle: {
-                  title: 'subtitle',
+                  title: i18n.t('subtitle'),
                   type: 'string',
                 },
                 imageUrl: {
-                  title: 'imageUrl',
+                  title: i18n.t('imageURL'),
                   type: 'string',
                 },
               },
@@ -112,6 +112,20 @@ export default {
       },
     },
     {
+      title: 'News',
+      component: 'NewsPreview',
+      previewImage: 'https://picsum.photos/303/201',
+      schema: {
+        type: 'object',
+        properties: {
+          maxColumnHeight: {
+            title: i18n.t('_component._form.maxColumnHeight'),
+            type: 'string',
+          },
+        },
+      },
+    },
+    {
       title: 'New Users',
       component: 'NewUsers',
       previewImage: 'https://picsum.photos/303/200',
@@ -119,9 +133,10 @@ export default {
         type: 'object',
         properties: {
           limit: {
-            title: 'limit',
+            title: i18n.t('_component._form.limit'),
             type: 'number',
             minimum: 1,
+            maximum: 100,
           },
         },
       },
@@ -138,15 +153,15 @@ export default {
         type: 'object',
         properties: {
           headline: {
-            title: 'headline',
+            title: i18n.t('_component._form.headline'),
             type: 'string',
           },
           discordWidget: {
-            title: 'discordWidget',
+            title: i18n.t('_component._form.discordWidget'),
             type: 'string',
           },
           inverted: {
-            title: 'mirror',
+            title: i18n.t('_component._form.inverted'),
             type: 'boolean',
           },
         },
@@ -177,7 +192,7 @@ export default {
         type: 'object',
         properties: {
           callToAction: {
-            title: 'callToAction',
+            title: i18n.t('_component._form.btnText'),
             type: 'string',
           },
         },
@@ -202,15 +217,15 @@ export default {
               type: 'object',
               properties: {
                 title: {
-                  title: 'title',
+                  title: i18n.t('title'),
                   type: 'string',
                 },
                 icon: {
-                  title: 'icon',
+                  title: i18n.t('icon'),
                   type: 'string',
                 },
                 content: {
-                  title: 'content',
+                  title: i18n.t('content'),
                   type: 'string',
                 },
               },
@@ -247,7 +262,7 @@ export default {
         properties: {
           servers: {
             type: 'array',
-            title: 'Servers',
+            title: i18n.t('servers'),
             items: {
               type: 'string',
             },
@@ -256,7 +271,7 @@ export default {
             'x-itemTitle': 'name',
           },
           imageUrl: {
-            title: 'imageUrl',
+            title: i18n.t('imageURL'),
             type: 'string',
           },
         },
@@ -281,11 +296,11 @@ export default {
               type: 'object',
               properties: {
                 question: {
-                  title: 'question',
+                  title: i18n.t('_component._form.question'),
                   type: 'string',
                 },
                 answer: {
-                  title: 'answer',
+                  title: i18n.t('_component._form.answer'),
                   type: 'string',
                 },
                 icon: Common.iconPicker,
@@ -323,15 +338,15 @@ export default {
               type: 'object',
               properties: {
                 title: {
-                  title: 'title',
+                  title: i18n.t('title'),
                   type: 'string',
                 },
                 content: {
-                  title: 'content',
+                  title: i18n.t('content'),
                   type: 'string',
                 },
                 imageUrl: {
-                  title: 'imageUrl',
+                  title: i18n.t('imageURL'),
                   type: 'string',
                 },
               },
@@ -368,7 +383,7 @@ export default {
         type: 'object',
         properties: {
           html: {
-            title: 'html',
+            title: 'HTML',
             type: 'string',
             'x-display': 'textarea',
           },

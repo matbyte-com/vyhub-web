@@ -1,23 +1,23 @@
 <template>
   <div>
-    <div style="position: fixed; z-index: 10; margin-top: 3px; width: 100%" class="d-flex">
-      <v-spacer />
-      <div style="background-color: #646464A3; border-radius: 5px" class="pa-1">
-        <v-btn color="primary" @click="editDrawer = true">
-          <v-icon left>mdi-menu</v-icon>Drawer</v-btn>
-        <v-btn small class="ml-10" text @click="fetchData"><v-icon>mdi-restore</v-icon></v-btn>
-        <v-btn depressed class="ml-3" color="success" :disabled="!saveButton"
-               @click="savePage">Save</v-btn>
+    <!-- Top Menu -->
+    <div style="position: fixed; z-index: 2; margin-top: 3px; width: 100%" class="d-flex"
+         v-if="$checkProp('theme_edit')">
+      <div style="background-color: #646464A3; border-radius: 5px; height: 32px"
+           class="pa-1 ml-1 mt-1">
+        <v-icon color="white" @click="editDrawer = !editDrawer">mdi-menu</v-icon>
       </div>
-      <v-spacer />
     </div>
+    <!-- Rendering of Components -->
     <wrapper v-for="block in blocksToShow" :key="block.id" :no_wrap="block.no_wrap"
              :title="block.props_data ? block.props_data.title : null"
              :height="block.props_data ? block.props_data.height : null"
              :subtitle="block.props_data ? block.props_data.subtitle : null">
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
+    <!-- Side Menu -->
     <v-navigation-drawer
+      v-if="$checkProp('theme_edit')"
       v-model="editDrawer"
       :right="drawerRight"
       :permanent="newComponentDialog"
@@ -25,10 +25,10 @@
       bottom
       width="400px"
       temporary>
-      <v-list-item dense style="margin-top: 64px">
+      <v-list-item class="elevation-3" dense style="margin-top: 64px">
         <v-list-item-content>
           <v-list-item-title class="d-flex align-center">
-            __Components
+            {{ $t('_component.components') }}
             <v-spacer/>
             <v-icon left @click="drawerRight = !drawerRight">
               {{ drawerRight ? 'mdi-border-left-variant' : 'mdi-border-right-variant' }}
@@ -43,8 +43,8 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider/>
-      <div>
-        <v-expansion-panels accordion flat tile v-model="panelExposed">
+      <div style="max-height: 75vh; overflow-y: auto">
+        <v-expansion-panels accordion flat tile v-model="panelExposed" >
           <draggable v-model="blocks" @change="orderUpdated = true" style="width: 100%;
          border-style: none" :disabled="panelExposed != null">
             <transition-group>
@@ -80,18 +80,23 @@
             </transition-group>
           </draggable>
         </v-expansion-panels>
-        <v-list-item>
-          <v-list-item-content>
-            <v-btn class="" outlined
-                   @click="$refs.addComponentDialog.show();newComponentDialog = true;">
-              <v-icon left>mdi-plus</v-icon>
-              __Add component
-            </v-btn>
-          </v-list-item-content>
-        </v-list-item>
       </div>
+      <v-list-item>
+        <v-list-item-content>
+          <v-btn outlined
+                 @click="$refs.addComponentDialog.show();newComponentDialog = true;">
+            <v-icon left>mdi-plus</v-icon>
+            {{ $t('_component.addComponent') }}
+          </v-btn>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item>
+        <v-btn small text @click="fetchData"><v-icon>mdi-restore</v-icon></v-btn>
+        <v-btn depressed class="ml-3 grow" color="success" :disabled="!saveButton"
+               @click="savePage">Save</v-btn>
+      </v-list-item>
     </v-navigation-drawer>
-    <Dialog ref="addComponentDialog" title="__addComponent" :max-width="1000"
+    <Dialog ref="addComponentDialog" :title="$t('_component.addComponent')" :max-width="1000"
             @close="newComponentDialog = false">
       <v-row justify="center" class="mt-3">
         <v-col cols="6" md="4" lg="4" v-for="cp in availableComponents" :key="cp.component">
@@ -240,6 +245,7 @@ export default {
       const index = this.blocks.indexOf(cp);
       const newBlock = { ...cp };
       newBlock.deleted = !newBlock.deleted;
+      this.componentEdited = true;
       this.blocks.splice(index, 1, newBlock);
     },
     getComponentSchema(cp) {
@@ -250,22 +256,17 @@ export default {
           ...schema.properties,
           title: {
             type: 'string',
-            title: 'Title',
+            title: this.$t('title'),
             'x-cols': 6,
           },
           subtitle: {
             type: 'string',
-            title: 'Subtitle',
+            title: this.$t('subtitle'),
             'x-cols': 6,
           },
           height: {
             type: 'string',
-            title: 'Height',
-            'x-cols': 6,
-          },
-          css: {
-            type: 'string',
-            title: 'CSS',
+            title: this.$t('_component._form.height'),
             'x-cols': 6,
           },
         };
@@ -279,9 +280,12 @@ export default {
         this.$refs.closeDrawerIcon.$el.classList.remove('animate__rotateOut');
       }, 100);
     },
-    copyBlock() {
-      // TODO Implement
-      console.log('to Implement');
+    copyBlock(block) {
+      const newBlock = { ...block };
+      newBlock.new = true;
+      newBlock.id = Math.random(100);
+      this.blocks.push(newBlock);
+      this.componentAdded = true;
     },
   },
   computed: {
