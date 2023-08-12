@@ -13,7 +13,13 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'Home',
     meta: { noContainer: true },
-    component: () => import('../views/Test.vue'),
+    component: () => import('../views/Home.vue'),
+  },
+  {
+    path: '/news',
+    name: 'News',
+    meta: { title: i18n.t('_pageTitle.news') },
+    component: () => import('../views/News.vue'),
   },
   {
     path: '/dashboard',

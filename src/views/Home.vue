@@ -1,361 +1,348 @@
-Homepag<template>
+<template>
   <div>
-    <!-- Add Message Dialog -->
-    <dialog-form ref="messageAddDialog" :form-schema="messageAddSchema"
-                 :title="$t('_home.addNews')" icon="mdi-newspaper-plus"
-                 :max-width="1000"
-                 @submit="addMessage">
-      <template v-slot:type-after>
-        <Editor v-model="message"/>
-      </template>
-    </dialog-form>
-    <dialog-form ref="messageEditDialog" :form-schema="messageAddSchema"
-                 :title="$t('_home.editNews')" icon="mdi-newspaper"
-                 :max-width="1000"
-                 @submit="editMessage">
-      <template v-slot:type-after>
-        <Editor v-model="message"/>
-      </template>
-    </dialog-form>
-    <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
-    <v-row class="mb-5">
-      <!-- Smartphones Serverstatus + Donation Goal -->
-      <v-col v-if="$vuetify.breakpoint.smAndDown">
-        <v-card width="100%" >
-          <v-expansion-panels multiple flat>
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                {{ $t('serverStatus') }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <ServerStatus ref="serverStatus" />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel v-if="$store.getters.shopConfig &&
-             $store.getters.shopConfig.donation_goal_enabled">
-              <v-expansion-panel-header>
-                {{ shopConfig.donation_goal_display_title }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <DonationGoal />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel v-if="$store.getters.shopConfig &&
-             $store.getters.shopConfig.top_donators_enabled">
-              <v-expansion-panel-header>
-                {{ shopConfig.top_donators_display_title }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <TopDonators />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                {{ $t('_user.labels.newUsers') }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <NewUsers />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-card>
-      </v-col>
-      <!-- News -->
-      <v-col cols="12" md="8">
-        <!-- News of the Day -->
-        <v-row class="pa-0" v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
-          <v-col>
-            <v-card flat color="primary" class="card-rounded d-flex align-center news-card">
-              <v-card-text class="text-h5 pa-2 ml-1">{{ $t('_home.newsOfTheDay') }}</v-card-text>
-              <v-btn color="success" small class="mr-3" v-if="$checkProp('news_edit')"
-                     @click="showAddMessageDialog" data-cy="new-message-button">
-                <v-icon left>mdi-plus</v-icon>
-                <span>{{ $t('_home.addNews') }}</span>
-              </v-btn>
-            </v-card>
-          </v-col>
-        </v-row>
-        <transition-group  enter-active-class="animate__animated animate__fadeIn"
-                           leave-active-class="animate__animated animate__fadeOut">
-          <v-card v-for="message in getNewsOfTheDay" :key="message.id"
-                  class="mt-4 news-of-day vh-news-of-day card-rounded">
-            <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
-              <v-row>
-                <v-col>
-                  {{ message.subject }}
-                </v-col>
-                <v-col v-if="$checkProp('news_edit')" class="text-right">
-                  <v-btn outlined color="primary" small
-                         @click="openEditMessageDialog(message)" class="mr-1">
-                    <v-icon>
-                      mdi-pencil
+    <!-- Top Menu -->
+    <div style="position: fixed; z-index: 2; margin-top: 3px; width: 100%" class="d-flex"
+         v-if="$checkProp('theme_edit')">
+      <div style="background-color: #646464A3; border-radius: 5px; height: 32px"
+           class="pa-1 ml-1 mt-1">
+        <v-icon color="white" @click="editDrawer = !editDrawer">mdi-menu</v-icon>
+      </div>
+    </div>
+    <!-- Rendering of Components -->
+    <wrapper v-for="block in blocksToShow" :key="block.id" :no_wrap="block.no_wrap"
+             :title="block.props_data ? block.props_data.title : null"
+             :height="block.props_data ? block.props_data.height : null"
+             :subtitle="block.props_data ? block.props_data.subtitle : null">
+      <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
+    </wrapper>
+    <v-fade-transition>
+      <div v-if="blocksToShow == null" style="position: absolute; left: 50%; top: 50%">
+        <v-progress-circular indeterminate size="50" />
+      </div>
+    </v-fade-transition>
+    <!-- Side Menu -->
+    <v-navigation-drawer
+      v-if="$checkProp('theme_edit')"
+      v-model="editDrawer"
+      :right="drawerRight"
+      :permanent="newComponentDialog"
+      app
+      bottom
+      width="400px"
+      temporary>
+      <v-list-item class="elevation-3" dense style="margin-top: 64px">
+        <v-list-item-content>
+          <v-list-item-title class="d-flex align-center">
+            {{ $t('_component.components') }}
+            <v-spacer/>
+            <v-icon left @click="drawerRight = !drawerRight">
+              {{ drawerRight ? 'mdi-border-left-variant' : 'mdi-border-right-variant' }}
+            </v-icon>
+            <v-icon
+              ref="closeDrawerIcon"
+              @click="closeDrawer();"
+              class="animate__animated animate__faster">
+              mdi-close
+            </v-icon>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider/>
+      <div style="max-height: 75vh; overflow-y: auto">
+        <v-expansion-panels accordion flat tile v-model="panelExposed" >
+          <draggable v-model="blocks" @change="orderUpdated = true" style="width: 100%;
+         border-style: none" :disabled="panelExposed != null">
+            <transition-group>
+              <v-expansion-panel v-for="(component, index) in blocks" :key="index">
+                <v-expansion-panel-header class="py-0 my-0">
+                  <div :class="{ 'text-decoration-line-through' : component.deleted }">
+                    {{ component.type }}
+                  </div>
+                  <v-spacer/>
+                  <div class="text-right">
+                    <v-fade-transition>
+                      <v-icon small v-show="panelExposed == null">
+                        mdi-drag-variant
+                      </v-icon>
+                    </v-fade-transition>
+                    <v-icon small class="ml-1" olor="secondary" @click.stop="copyBlock(component)">
+                      mdi-content-copy
                     </v-icon>
-                  </v-btn>
-                  <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
-                    <v-icon>
+                    <v-icon :color="component.deleted ? '' : 'error'"
+                            @click.stop="toggleDeleteBlock(component)">
                       mdi-delete
                     </v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
-            </v-card-text>
-            <v-card-actions class="text--disabled pt-0">
-              <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
-              <user-link v-if="message.creator" :user="message.creator"/>
-            </v-card-actions>
-          </v-card>
-        </transition-group>
-        <!-- Display News -->
-        <v-row class="pa-0" v-if="getNews.length !== 0"
-               :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }">
-          <v-col>
-            <v-card flat color="primary" class="card-rounded d-flex align-center news-card">
-              <v-card-text class="pa-2 ml-1 text-h5">{{ $t('_home.news') }}</v-card-text>
+                  </div>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-form ref="form" @submit.prevent="">
+                    <v-jsf :options="vjsfOptions"
+                           @input="component.edited = true; componentEdited=true"
+                           v-model="component.props_data" :schema="getComponentSchema(component)"/>
+                  </v-form>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </transition-group>
+          </draggable>
+        </v-expansion-panels>
+      </div>
+      <v-list-item>
+        <v-list-item-content>
+          <v-btn outlined
+                 @click="$refs.addComponentDialog.show();newComponentDialog = true;">
+            <v-icon left>mdi-plus</v-icon>
+            {{ $t('_component.addComponent') }}
+          </v-btn>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item>
+        <v-btn small text @click="fetchData"><v-icon>mdi-restore</v-icon></v-btn>
+        <v-btn depressed class="ml-3 grow" color="success" :disabled="!saveButton"
+               @click="savePage">Save</v-btn>
+      </v-list-item>
+    </v-navigation-drawer>
+    <Dialog ref="addComponentDialog" :title="$t('_component.addComponent')" :max-width="1000"
+            @close="newComponentDialog = false">
+      <div style="height: 80vh">
+        <v-text-field outlined hide-details="auto" dense class="mt-3"
+                      v-model="addComponentSearch" :label="$t('search')"/>
+        <transition-group tag="div" class="mt-3 row" name="list-complete">
+          <v-col cols="6" md="4" lg="4" v-for="cp in availableComponentsSearch" :key="cp.component"
+                 class="list-complete-item">
+            <v-card @click="addComponent(cp)"
+                    class="">
+              <v-img :src="cp.previewImage" height="100px"/>
+              <div class="text-center text-h5">
+                {{ cp.title }}
+              </div>
             </v-card>
           </v-col>
-        </v-row>
-        <transition-group enter-active-class="animate__animated animate__fadeIn"
-                          leave-active-class="animate__animated animate__fadeOut">
-          <v-card flat outlined class="mt-4 vh-news card-rounded"
-                  v-for="message in getNews" :key="message.id">
-            <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
-              <v-row>
-                <v-col>
-                  {{ message.subject }}
-                </v-col>
-                <v-col v-if="$checkProp('news_edit')" class="text-right">
-                  <v-btn outlined color="primary" small
-                         @click="openEditMessageDialog(message)" class="mr-1">
-                    <v-icon>
-                      mdi-pencil
-                    </v-icon>
-                  </v-btn>
-                  <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
-                    <v-icon>
-                      mdi-delete
-                    </v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
-            </v-card-text>
-            <v-card-actions class="text--disabled pt-0">
-              <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
-              <user-link v-if="message.creator" :user="message.creator"/>
-            </v-card-actions>
-          </v-card>
+          <v-col cols="6" md="4" lg="3" class="list-complete-item" :key="1"
+                 v-if="availableComponentsSearch.length === 0">
+            <v-card>
+              <v-img src="https://picsum.photos/300" height="100px"/>
+              <div class="text-center text-h5">
+                __Nothing Found -Bild
+              </div>
+            </v-card>
+          </v-col>
         </transition-group>
-        <!-- Skeleton Loader -->
-        <v-row justify="center" class="pa-0" v-if="exhausted || fetching">
-          <v-progress-circular v-if="fetching" indeterminate
-                               class="animate__animated animate__fade mt-3" />
-        </v-row>
-      </v-col>
-      <!-- Sidebar -->
-      <v-col ref="StatusCol" cols="4">
-        <div style="overflow-y: hidden; overflow-x: hidden;"
-             :style="{width: `${statusColumnWidth}px`}"
-             v-if="$vuetify.breakpoint.mdAndUp">
-          <ServerStatus ref="serverStatus"/>
-          <v-row v-if="$store.getters.shopConfig &&
-           $store.getters.shopConfig.donation_goal_enabled">
-            <v-col>
-              <DonationGoal />
-            </v-col>
-          </v-row>
-          <v-row v-if="$store.getters.shopConfig &&
-           $store.getters.shopConfig.top_donators_enabled">
-            <v-col>
-              <TopDonators />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <NewUsers />
-            </v-col>
-          </v-row>
-        </div>
-      </v-col>
-    </v-row>
+      </div>
+    </Dialog>
   </div>
 </template>
 
 <script>
+import components from '@/components/BuilderComponents/components';
+import Wrapper from '@/components/BuilderComponents/Wrapper.vue';
+import Dialog from '@/components/Dialog.vue';
+import draggable from 'vuedraggable';
+import VJsf from '@koumoul/vjsf';
+import i18n from '@/plugins/i18n';
+import axios from 'axios';
 import openapi from '@/api/openapi';
-import UserLink from '@/components/UserLink.vue';
-import NewsAddForm from '@/forms/NewsAddForm';
-import DialogForm from '@/components/DialogForm.vue';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
-import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
-import Editor from '@/components/Editor.vue';
-import TopDonators from '@/components/HomeComponents/TopDonators.vue';
-import NewUsers from '../components/HomeComponents/NewUsers.vue';
-import config from '../config';
-import i18n from '../plugins/i18n';
+
+const homepageComponents = {};
+
+// eslint-disable-next-line array-callback-return
+components.components.map((component) => {
+  homepageComponents[component.component] = () => import(`@/components/BuilderComponents/${component.component}.vue`);
+});
 
 export default {
+  name: 'Home.vue',
   components: {
-    TopDonators,
-    Editor,
-    NewUsers,
-    DonationGoal,
-    ServerStatus,
-    DeleteConfirmationDialog,
-    UserLink,
-    DialogForm,
+    VJsf,
+    Dialog,
+    Wrapper,
+    draggable,
+    ...homepageComponents,
+  },
+  beforeMount() {
+    this.fetchData();
   },
   data() {
     return {
-      news: [],
-      page: 1,
-      exhausted: false,
-      fetching: false,
-      messageAddSchema: NewsAddForm,
-      statusColumnWidth: 250,
-      message: '',
+      editDrawer: false,
+      drawerRight: false,
+      orderUpdated: false,
+      componentAdded: false,
+      componentEdited: false,
+      newComponentDialog: false,
+      addComponentSearch: '',
+      blocks: null,
+      count: 0,
+      availableComponents: components.components,
+      panelExposed: null,
+      vjsfOptions: {
+        locale: i18n.locale, // i18n.locale,
+        httpLib: axios,
+        timePickerProps: {
+          format: '24hr',
+        },
+        markdownit: {
+          html: true,
+        },
+      },
     };
   },
-  mounted() {
-    this.fetchNews();
-    this.scroll();
-    this.setWidth();
-  },
   methods: {
-    async fetchNews(page) {
-      this.fetching = true;
-      (await openapi).news_getMessages({ page, size: 15 }).then((rsp) => {
-        rsp.data.items.forEach((item) => this.news.push(item));
-        if (rsp.data.items.length === 0) {
-          this.exhausted = true;
-        }
-        this.fetching = false;
+    async fetchData() {
+      (await openapi).design_getSections().then((rsp) => {
+        this.blocks = rsp.data;
+        this.orderUpdated = false;
+        this.componentAdded = false;
+        this.componentEdited = false;
       });
     },
-    scroll() {
-      window.onscroll = () => {
-        const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 10
-          >= document.documentElement.offsetHeight;
-        if (bottomOfWindow && !this.fetching && !this.exhausted) {
-          this.page += 1;
-          this.fetchNews(this.page);
+    async savePage() {
+      // First create, edit and delete necessary sections
+      // Second update order of sections
+      const api = await openapi;
+      // Do some magic that the forEach function is executed first
+      // Add all promises to the promises array
+      const promises = [];
+      this.blocks.forEach((b) => {
+        if (b.new) {
+          const p = api.design_createSection(null, b).then((rsp) => {
+            console.log('Section Created');
+            // eslint-disable-next-line no-param-reassign
+            b.new = false;
+            // eslint-disable-next-line no-param-reassign
+            b.id = rsp.data.id;
+          });
+          promises.push(p);
+        } else if (b.edited) {
+          const p = api.design_editSection(b.id, b).then((rsp) => {
+            console.log('Section Edited');
+          });
+          promises.push(p);
         }
-      };
+        if (b.deleted && !b.new) {
+          const p = api.design_deleteSection(b.id).then((rsp) => {
+            console.log('Section Deleted');
+          });
+          promises.push(p);
+        }
+      });
+      // Wait for all promises to resolve
+      Promise.all(promises).then(() => {
+        this.updateSectionOrder();
+      });
     },
-    showAddMessageDialog() {
-      this.message = null;
-      this.$refs.messageAddDialog.show();
-    },
-    async addMessage() {
-      const data = this.$refs.messageAddDialog.getData();
-      data.content = this.message;
-      if (!this.message) {
-        this.$refs.messageAddDialog.setErrorMessage(i18n.t('_home.messages.messageEmpty'));
-        return;
-      }
-      if (data.content.length > this.maxInputLength) {
-        this.$refs.messageAddDialog.setErrorMessage(i18n.t('maxInputExceeded', { length: config.html_max_input_length }),
-          { length: config.html_max_input_length });
-        return;
-      }
-      (await openapi).news_addMessage(null, data).then((rsp) => {
-        this.$refs.messageAddDialog.closeAndReset();
-        this.message = null;
-        this.news.unshift(rsp.data);
+    async updateSectionOrder() {
+      const res = [];
+      this.blocks.filter((b) => !b.deleted).forEach((item) => {
+        res.push(item.id);
+      });
+      (await openapi).design_updateOrder(null, res).then(() => {
+        this.fetchData();
+        this.orderUpdated = false;
         this.$notify({
-          title: this.$t('_messages.addSuccess'),
+          title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
-      }).catch((err) => this.$refs.messageAddDialog.setError(err));
+      }).catch((err) => {
+        console.log(`${err}`);
+      });
     },
-    openDeleteMessageDialog(message) {
-      this.$refs.deleteMessageDialog.show(message);
+    addComponent(cp) {
+      this.blocks.push({
+        type: cp.component,
+        new: true,
+        edited: false,
+        id: this.count += 1,
+        no_wrap: cp.no_wrap,
+        props_data: { ...cp.defaults },
+      // slot: 'Button',
+      });
+      this.$refs.addComponentDialog.close();
+      this.componentAdded = true;
     },
-    async deleteMessage(message) {
-      (await openapi).news_deleteMessage(message.id)
-        .then(() => {
-          this.$refs.deleteMessageDialog.closeAndReset();
-          this.$notify({
-            title: this.$t('_messages.deleteSuccess'),
-            type: 'success',
-          });
-        })
-        .catch((err) => this.$refs.deleteMessageDialog.setError(err));
-      const index = this.news.findIndex((n) => n.id === message.id);
-      if (index > -1) {
-        this.news.splice(index, 1);
+    toggleDeleteBlock(cp) {
+      const index = this.blocks.indexOf(cp);
+      const newBlock = { ...cp };
+      newBlock.deleted = !newBlock.deleted;
+      this.componentEdited = true;
+      this.blocks.splice(index, 1, newBlock);
+    },
+    getComponentSchema(cp) {
+      const el = this.availableComponents.find((c) => c.component === cp.type);
+      if (!el) return {};
+      const schema = { ...el.schema };
+      if (!el.no_wrap) {
+        schema.properties = {
+          ...schema.properties,
+          title: {
+            type: 'string',
+            title: this.$t('title'),
+            'x-cols': 6,
+          },
+          subtitle: {
+            type: 'string',
+            title: this.$t('subtitle'),
+            'x-cols': 6,
+          },
+          height: {
+            type: 'string',
+            title: this.$t('_component._form.height'),
+            'x-cols': 6,
+          },
+        };
       }
+      return schema;
     },
-    openEditMessageDialog(message) {
-      this.$refs.messageEditDialog.show(message);
-      this.$refs.messageEditDialog.setData(message);
-      this.message = message.content;
+    closeDrawer() {
+      this.$refs.closeDrawerIcon.$el.classList.add('animate__rotateOut');
+      setTimeout(() => {
+        this.editDrawer = false;
+        this.$refs.closeDrawerIcon.$el.classList.remove('animate__rotateOut');
+      }, 100);
     },
-    async editMessage(message) {
-      if (!this.message) {
-        this.$refs.messageEditDialog.setErrorMessage(i18n.t('_home.messages.messageEmpty'));
-        return;
-      }
-      const data = this.$refs.messageEditDialog.getData();
-      data.content = this.message;
-      (await openapi).news_editMessage(message.id, data)
-        .then((rsp) => {
-          const index = this.news.findIndex((n) => n.id === rsp.data.id);
-          if (index > -1) {
-            this.news.splice(index, 1, rsp.data);
-          }
-          this.$refs.messageEditDialog.closeAndReset();
-          this.$notify({
-            title: this.$t('_messages.editSuccess'),
-            type: 'success',
-          });
-        }).catch((err) => this.$refs.messageEditDialog.setError(err));
-    },
-    setWidth() {
-      this.statusColumnWidth = this.$refs.StatusCol.clientWidth;
+    copyBlock(block) {
+      const newBlock = { ...block };
+      newBlock.new = true;
+      newBlock.id = Math.random(100);
+      this.blocks.push(newBlock);
+      this.componentAdded = true;
     },
   },
   computed: {
-    getNews() {
-      return this.news.filter((n) => n.type === 'DEFAULT');
+    blocksToShow() {
+      if (this.blocks == null) return null;
+      return this.blocks.filter((block) => !block.deleted);
     },
-    getNewsOfTheDay() {
-      return this.news.filter((n) => n.type === 'PINNED');
+    saveButton() {
+      if (this.orderUpdated || this.componentAdded || this.componentEdited) return true;
+      return false;
     },
-    shopConfig() {
-      return this.$store.getters.shopConfig;
+    availableComponentsSearch() {
+      return this.availableComponents
+        .filter((cp) => cp.component.toLowerCase().includes(this.addComponentSearch.toLowerCase()));
     },
-  },
-  created() {
-    window.addEventListener('resize', this.setWidth);
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.setWidth);
-  },
+  }
+  ,
 };
 </script>
 
-<style scoped lang="sass">
-.news-of-day
-  border-style: solid
-  border-width: 3px
-  border-color: var(--v-primary-base)
+<style>
+.grow-on-hover {
+  transition: all .2s ease-in-out;
+}
 
-.news-card:before
-  content: ""
-  width: 0px
-  height: 0px
-  position: absolute
-  border-left: 10px solid transparent
-  border-right: 10px solid transparent
-  border-top: 10px solid var(--v-primary-base)
-  border-bottom: 10px solid transparent
-  left: 15%
-  bottom: -19px
+.grow-on-hover:hover {
+  transform: scale(1.02);
+}
+
+.list-complete-item {
+  transition: transform 0.5s, opacity 0.3s;
+}
+.list-complete-enter, .list-complete-leave-to
+  /* .list-complete-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.list-complete-leave-active {
+  position: absolute;
+}
 </style>
