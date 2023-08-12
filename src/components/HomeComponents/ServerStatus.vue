@@ -1,7 +1,8 @@
 <template>
   <v-row  v-if="nonEmptyBundles.length > 0">
     <v-col>
-      <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-server-status"
+      <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'"
+              class="vh-server-status card-rounded"
               flat>
         <v-card-title class="pb-0">
           <v-row>

@@ -1,5 +1,6 @@
 <template>
-  <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-new-users" flat>
+  <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'"
+          class="vh-new-users card-rounded" flat>
     <v-card-title class="pb-0">
       <v-row>
         <v-col cols="12" class="d-flex align-center">

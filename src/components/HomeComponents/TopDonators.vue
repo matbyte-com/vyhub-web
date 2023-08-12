@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'" class="vh-top-donators" flat
+    <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'"
+            class="vh-top-donators card-rounded" flat
             v-if="topDonators && shopConfig">
       <v-card-title class="pb-0">
         <v-row>

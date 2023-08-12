@@ -18,7 +18,7 @@ Homepag<template>
       </template>
     </dialog-form>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
-    <v-row>
+    <v-row class="mb-5">
       <!-- Smartphones Serverstatus + Donation Goal -->
       <v-col v-if="$vuetify.breakpoint.smAndDown">
         <v-card width="100%" >
@@ -68,8 +68,8 @@ Homepag<template>
         <!-- News of the Day -->
         <v-row class="pa-0" v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
           <v-col>
-            <v-card flat color="primary" class="home-page-card d-flex align-center news-card">
-              <v-card-text class="text-h6">{{ $t('_home.newsOfTheDay') }}</v-card-text>
+            <v-card flat color="primary" class="card-rounded d-flex align-center news-card">
+              <v-card-text class="text-h5 pa-2 ml-1">{{ $t('_home.newsOfTheDay') }}</v-card-text>
               <v-btn color="success" small class="mr-3" v-if="$checkProp('news_edit')"
                      @click="showAddMessageDialog" data-cy="new-message-button">
                 <v-icon left>mdi-plus</v-icon>
@@ -81,7 +81,7 @@ Homepag<template>
         <transition-group  enter-active-class="animate__animated animate__fadeIn"
                            leave-active-class="animate__animated animate__fadeOut">
           <v-card v-for="message in getNewsOfTheDay" :key="message.id"
-                  class="mt-4 news-of-day vh-news-of-day home-page-card">
+                  class="mt-4 news-of-day vh-news-of-day card-rounded">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
@@ -114,14 +114,15 @@ Homepag<template>
         <v-row class="pa-0" v-if="getNews.length !== 0"
                :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }">
           <v-col>
-            <v-card flat color="primary" class="home-page-card d-flex align-center news-card">
-              <v-card-text class="text-h6">{{ $t('_home.news') }}</v-card-text>
+            <v-card flat color="primary" class="card-rounded d-flex align-center news-card">
+              <v-card-text class="pa-2 ml-1 text-h5">{{ $t('_home.news') }}</v-card-text>
             </v-card>
           </v-col>
         </v-row>
         <transition-group enter-active-class="animate__animated animate__fadeIn"
                           leave-active-class="animate__animated animate__fadeOut">
-          <v-card flat outlined class="mt-4 vh-news" v-for="message in getNews" :key="message.id">
+          <v-card flat outlined class="mt-4 vh-news card-rounded"
+                  v-for="message in getNews" :key="message.id">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
@@ -151,17 +152,9 @@ Homepag<template>
           </v-card>
         </transition-group>
         <!-- Skeleton Loader -->
-        <v-row class="pa-0" v-if="exhausted || fetching">
-          <v-col>
-            <div v-if="!exhausted && fetching" class="animate__animated animate__fade mt-3">
-              <v-skeleton-loader type="article" v-if="fetching" />
-            </div>
-            <v-card flat v-if="exhausted" class="mt-3 vh-news-exhausted">
-              <v-card-text class="text-center animate__animated animate__fadeIn">
-                {{ $t('_home.newsExhausted') }}
-              </v-card-text>
-            </v-card>
-          </v-col>
+        <v-row justify="center" class="pa-0" v-if="exhausted || fetching">
+          <v-progress-circular v-if="fetching" indeterminate
+                               class="animate__animated animate__fade mt-3" />
         </v-row>
       </v-col>
       <!-- Sidebar -->
@@ -201,7 +194,6 @@ import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
 import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
-import PageTitle from '@/components/PageTitle.vue';
 import Editor from '@/components/Editor.vue';
 import TopDonators from '@/components/HomeComponents/TopDonators.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';
@@ -354,9 +346,6 @@ export default {
   border-style: solid
   border-width: 3px
   border-color: var(--v-primary-base)
-
-.home-page-card
-  border-radius: 10px
 
 .news-card:before
   content: ""
