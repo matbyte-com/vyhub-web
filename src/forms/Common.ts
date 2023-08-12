@@ -69,6 +69,13 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
+  forumSelectTopicLabels: {
+    type: 'object',
+    title: i18n.t('category'),
+    'x-fromUrl': `${API_URL}/forum/topic/category/`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'title',
+  },
   colorPicker(title = 'color', description?: string, colors?: string[][], inputs = true) {
     const form = {
       type: 'string',
