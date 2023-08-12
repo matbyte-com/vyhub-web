@@ -14,16 +14,17 @@
       <v-col cols="12" md="6" lg="5"
              class="d-flex align-content-space-between" v-if="getNews.length !== 0">
         <div class="flex-grow-1 flex-column d-flex">
-          <v-card height="50%" v-if="getNews.length === 1" :to="{ name: 'News' }">
+          <v-card :height="maxColumnHeight / 2" v-if="getNews.length >= 1" :to="{ name: 'News' }">
             <v-card-title>{{ getNews[0].subject }}</v-card-title>
             <v-card-text class="content-preview">
-              <p v-html="getNews[0].content"/>
+              <p :style="`height: ${maxColumnHeight / 2 - 64}px`" v-html="getNews[0].content"/>
             </v-card-text>
           </v-card>
-          <v-card class="mt-3" height="50%" v-if="getNews.length === 2" :to="{ name: 'News' }">
+          <v-card class="mt-3" :height="maxColumnHeight / 2" v-if="getNews.length === 2"
+                  :to="{ name: 'News' }">
             <v-card-title>{{ getNews[1].subject }}</v-card-title>
             <v-card-text class="content-preview">
-              <p v-html="getNews[1].content"/>
+              <p :style="`height: ${maxColumnHeight / 2 - 64}px`" v-html="getNews[1].content"/>
             </v-card-text>
           </v-card>
         </div>
@@ -54,8 +55,8 @@ export default {
   name: 'BlogPreview',
   props: {
     maxColumnHeight: {
-      type: String,
-      default: '210px',
+      type: Number,
+      default: 210,
     },
   },
   data() {
