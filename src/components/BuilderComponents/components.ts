@@ -283,6 +283,15 @@ export default {
       component: 'ServerStatus',
     },
     {
+      title: 'Forum Activity',
+      component: 'ForumLatestActivity',
+      previewImage: 'https://picsum.photos/311/200',
+      defaults: {
+        title: 'Forum',
+        subtitle: 'Start the discussion in our Forum!',
+      },
+    },
+    {
       title: 'Frequently Asked Questions',
       component: 'Faq',
       previewImage: 'https://picsum.photos/310/200',

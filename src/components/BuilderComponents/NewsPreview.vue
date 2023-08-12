@@ -1,23 +1,26 @@
 <template>
   <div>
-    <v-row v-if="news.length > 0">
-      <v-col class="d-flex align-content-space-between" v-if="getNewsOfTheDay.length > 0">
-        <v-card class="flex-grow-1 flex-column d-flex" :max-height="maxColumnHeight">
+    <v-row v-if="news.length > 0" justify="center">
+      <v-col cols="12" md="6" lg="5"
+             class="d-flex align-content-space-between" v-if="getNewsOfTheDay.length > 0">
+        <v-card class="flex-grow-1 flex-column d-flex" :max-height="maxColumnHeight"
+                :to="{ name: 'News' }">
           <v-card-title>{{ getNewsOfTheDay[0].subject }}</v-card-title>
           <v-card-text class="content-preview">
             <p v-html="getNewsOfTheDay[0].content"/>
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col class="d-flex align-content-space-between">
+      <v-col cols="12" md="6" lg="5"
+             class="d-flex align-content-space-between" v-if="getNews.length !== 0">
         <div class="flex-grow-1 flex-column d-flex">
-          <v-card height="50%" v-if="getNews.length === 1">
+          <v-card height="50%" v-if="getNews.length === 1" :to="{ name: 'News' }">
             <v-card-title>{{ getNews[0].subject }}</v-card-title>
             <v-card-text class="content-preview">
               <p v-html="getNews[0].content"/>
             </v-card-text>
           </v-card>
-          <v-card class="mt-3" height="50%" v-if="getNews.length === 2">
+          <v-card class="mt-3" height="50%" v-if="getNews.length === 2" :to="{ name: 'News' }">
             <v-card-title>{{ getNews[1].subject }}</v-card-title>
             <v-card-text class="content-preview">
               <p v-html="getNews[1].content"/>

@@ -15,6 +15,11 @@
              :subtitle="block.props_data ? block.props_data.subtitle : null">
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
+    <v-fade-transition>
+      <div v-if="blocksToShow == null" style="position: absolute; left: 50%; top: 50%">
+        <v-progress-circular indeterminate size="50" />
+      </div>
+    </v-fade-transition>
     <!-- Side Menu -->
     <v-navigation-drawer
       v-if="$checkProp('theme_edit')"
@@ -98,17 +103,31 @@
     </v-navigation-drawer>
     <Dialog ref="addComponentDialog" :title="$t('_component.addComponent')" :max-width="1000"
             @close="newComponentDialog = false">
-      <v-row justify="center" class="mt-3">
-        <v-col cols="6" md="4" lg="4" v-for="cp in availableComponents" :key="cp.component">
-          <v-card class="add-component-card grow" @click="addComponent(cp)">
-            <v-img :src="cp.previewImage" height="100px"/>
-            <div class="text-center text-h5">
-              {{ cp.title }}
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-divider/>
+      <div style="height: 80vh">
+        <v-text-field outlined hide-details="auto" dense class="mt-3"
+                      v-model="addComponentSearch" :label="$t('search')"/>
+        <transition-group tag="div" class="mt-3 row" name="list-complete">
+          <v-col cols="6" md="4" lg="4" v-for="cp in availableComponentsSearch" :key="cp.component"
+                 class="list-complete-item">
+            <v-card @click="addComponent(cp)"
+                    class="">
+              <v-img :src="cp.previewImage" height="100px"/>
+              <div class="text-center text-h5">
+                {{ cp.title }}
+              </div>
+            </v-card>
+          </v-col>
+          <v-col cols="6" md="4" lg="3" class="list-complete-item" :key="1"
+                 v-if="availableComponentsSearch.length === 0">
+            <v-card>
+              <v-img src="https://picsum.photos/300" height="100px"/>
+              <div class="text-center text-h5">
+                __Nothing Found -Bild
+              </div>
+            </v-card>
+          </v-col>
+        </transition-group>
+      </div>
     </Dialog>
   </div>
 </template>
@@ -118,7 +137,6 @@ import components from '@/components/BuilderComponents/components';
 import Wrapper from '@/components/BuilderComponents/Wrapper.vue';
 import Dialog from '@/components/Dialog.vue';
 import draggable from 'vuedraggable';
-import GenForm from '@/components/GenForm.vue';
 import VJsf from '@koumoul/vjsf';
 import i18n from '@/plugins/i18n';
 import axios from 'axios';
@@ -132,10 +150,9 @@ components.components.map((component) => {
 });
 
 export default {
-  name: 'Test.vue',
+  name: 'Home.vue',
   components: {
     VJsf,
-    GenForm,
     Dialog,
     Wrapper,
     draggable,
@@ -152,6 +169,7 @@ export default {
       componentAdded: false,
       componentEdited: false,
       newComponentDialog: false,
+      addComponentSearch: '',
       blocks: null,
       count: 0,
       availableComponents: components.components,
@@ -250,6 +268,7 @@ export default {
     },
     getComponentSchema(cp) {
       const el = this.availableComponents.find((c) => c.component === cp.type);
+      if (!el) return {};
       const schema = { ...el.schema };
       if (!el.no_wrap) {
         schema.properties = {
@@ -290,12 +309,16 @@ export default {
   },
   computed: {
     blocksToShow() {
-      if (this.blocks == null) return [];
+      if (this.blocks == null) return null;
       return this.blocks.filter((block) => !block.deleted);
     },
     saveButton() {
       if (this.orderUpdated || this.componentAdded || this.componentEdited) return true;
       return false;
+    },
+    availableComponentsSearch() {
+      return this.availableComponents
+        .filter((cp) => cp.component.toLowerCase().includes(this.addComponentSearch.toLowerCase()));
     },
   }
   ,
@@ -309,5 +332,17 @@ export default {
 
 .grow-on-hover:hover {
   transform: scale(1.02);
+}
+
+.list-complete-item {
+  transition: transform 0.5s, opacity 0.3s;
+}
+.list-complete-enter, .list-complete-leave-to
+  /* .list-complete-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.list-complete-leave-active {
+  position: absolute;
 }
 </style>
