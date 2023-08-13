@@ -12,7 +12,8 @@
           <v-list-item v-for="server in availableServerDashboards" :key="server.id"
                        @click="serverChanged(server)"
                        :input-value="$route.params.id === server.id">
-            <v-icon left>{{ server.serverbundle.icon }}</v-icon>{{ server.name }}
+            <v-icon left>{{ server.serverbundle.icon }}</v-icon>
+            {{ server.name }}
           </v-list-item>
         </v-list>
       </v-card>
@@ -68,15 +69,15 @@
                           leave-active-class="animate__fadeOut">
                 <v-btn v-if="!reloading" text color="info" @click="fetchData"
                        class="ml-2 animate__animated animate__faster" key="1">
-                    <v-icon :class="{ 'mdi-spin': reloading }">
-                      mdi-sync
-                    </v-icon>
+                  <v-icon :class="{ 'mdi-spin': reloading }">
+                    mdi-sync
+                  </v-icon>
                 </v-btn>
                 <v-progress-circular indeterminate v-else
-                                     class="animate__animated animate__faster ml-5 mr-5" key="2" />
+                                     class="animate__animated animate__faster ml-5 mr-5" key="2"/>
               </transition>
             </div>
-            <v-list dense max-height="60vh" class="overflow-y-auto">
+            <v-list max-height="60vh" class="overflow-y-auto">
               <div v-if="returnUsers == null">
                 <v-skeleton-loader type="list-item-avatar"
                                    :key="i"
@@ -90,37 +91,33 @@
               </v-list-item>
               <v-list-item v-for="user in returnUsers" :key="user.id"
                            @click="currentUser=user" :input-value="listActive(user)">
-                <v-avatar class="mt-1 mb-1" size="40">
+                <v-avatar size="35">
                   <v-img v-if="user.avatar" :src="user.avatar"/>
                 </v-avatar>
                 <span class="ml-3 text-h6" :style="{ color: getColor(user) }">
                   {{ user.username }}
                 </span>
-                <v-spacer />
-                <div class="d-flex flex-column mt-1 mb-1">
+                <v-spacer/>
+                <div>
                   <v-chip v-if="user.warnings.length > 0"
-                          class="white--text"
+                          class="mr-2"
                           color="warning darken-1"
-                          small :class="user.bans.length > 0 ? 'mb-1' : ''">
+                          small>
                     <v-icon left>
                       mdi-account-alert
                     </v-icon>
-                    <span class="mr-1">
+                    <span>
                       {{ user.warnings.length }}
                     </span>
-                    {{ $t('warnings') }}
                   </v-chip>
-                  <!-- TODO $checkProp: Elemente verstecken, wenn keine Berechtigungen für Bundle-->
                   <v-chip v-if="user.bans.length > 0"
-                          class="white--text"
                           small color="error darken-2">
                     <v-icon left>
                       mdi-account-cancel
                     </v-icon>
-                    <span class="mr-1">
+                    <span>
                        {{ user.bans.length }}
                     </span>
-                    {{ $t('bans') }}
                   </v-chip>
                 </div>
               </v-list-item>
