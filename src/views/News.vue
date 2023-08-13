@@ -69,7 +69,9 @@ Homepag<template>
         <v-row class="pa-0" v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
           <v-col>
             <v-card flat color="primary" class="card-rounded d-flex align-center news-card">
-              <v-card-text class="text-h5 pa-2 ml-1">{{ $t('_home.newsOfTheDay') }}</v-card-text>
+              <v-card-text class="text-h5 pa-2 ml-1 white--text">
+                {{ $t('_home.newsOfTheDay') }}
+              </v-card-text>
               <v-btn color="success" small class="mr-3" v-if="$checkProp('news_edit')"
                      @click="showAddMessageDialog" data-cy="new-message-button">
                 <v-icon left>mdi-plus</v-icon>
@@ -115,7 +117,9 @@ Homepag<template>
                :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }">
           <v-col>
             <v-card flat color="primary" class="card-rounded d-flex align-center news-card">
-              <v-card-text class="pa-2 ml-1 text-h5">{{ $t('_home.news') }}</v-card-text>
+              <v-card-text class="pa-2 ml-1 text-h5 white--text">
+                {{ $t('_home.news') }}
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>

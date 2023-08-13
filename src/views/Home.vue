@@ -12,7 +12,9 @@
     <wrapper v-for="block in blocksToShow" :key="block.id" :no_wrap="block.no_wrap"
              :title="block.props_data ? block.props_data.title : null"
              :height="block.props_data ? block.props_data.height : null"
-             :subtitle="block.props_data ? block.props_data.subtitle : null">
+             :subtitle="block.props_data ? block.props_data.subtitle : null"
+             :background-color="block.props_data ? block.props_data.backgroundColor : null"
+             :white-text="block.props_data.whiteText ? block.props_data.whiteText : null">
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
     <v-fade-transition>
@@ -52,37 +54,35 @@
         <v-expansion-panels accordion flat tile v-model="panelExposed" >
           <draggable v-model="blocks" @change="orderUpdated = true" style="width: 100%;
          border-style: none" :disabled="panelExposed != null">
-            <transition-group>
-              <v-expansion-panel v-for="(component, index) in blocks" :key="index">
-                <v-expansion-panel-header class="py-0 my-0">
-                  <div :class="{ 'text-decoration-line-through' : component.deleted }">
-                    {{ component.type }}
-                  </div>
-                  <v-spacer/>
-                  <div class="text-right">
-                    <v-fade-transition>
-                      <v-icon small v-show="panelExposed == null">
-                        mdi-drag-variant
-                      </v-icon>
-                    </v-fade-transition>
-                    <v-icon small class="ml-1" olor="secondary" @click.stop="copyBlock(component)">
-                      mdi-content-copy
+            <v-expansion-panel v-for="(component, index) in blocks" :key="index">
+              <v-expansion-panel-header class="py-0 my-0">
+                <div :class="{ 'text-decoration-line-through' : component.deleted }">
+                  {{ component.type }}
+                </div>
+                <v-spacer/>
+                <div class="text-right">
+                  <v-fade-transition>
+                    <v-icon small v-show="panelExposed == null">
+                      mdi-drag-variant
                     </v-icon>
-                    <v-icon :color="component.deleted ? '' : 'error'"
-                            @click.stop="toggleDeleteBlock(component)">
-                      mdi-delete
-                    </v-icon>
-                  </div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-form ref="form" @submit.prevent="">
-                    <v-jsf :options="vjsfOptions"
-                           @input="component.edited = true; componentEdited=true"
-                           v-model="component.props_data" :schema="getComponentSchema(component)"/>
-                  </v-form>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </transition-group>
+                  </v-fade-transition>
+                  <v-icon small class="ml-1" olor="secondary" @click.stop="copyBlock(component)">
+                    mdi-content-copy
+                  </v-icon>
+                  <v-icon :color="component.deleted ? '' : 'error'"
+                          @click.stop="toggleDeleteBlock(component)">
+                    mdi-delete
+                  </v-icon>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-form ref="form" @submit.prevent="">
+                  <v-jsf :options="vjsfOptions"
+                         @input="component.edited = true; componentEdited=true"
+                         v-model="component.props_data" :schema="getComponentSchema(component)"/>
+                </v-form>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
           </draggable>
         </v-expansion-panels>
       </div>
@@ -117,14 +117,8 @@
               </div>
             </v-card>
           </v-col>
-          <v-col cols="6" md="4" lg="3" class="list-complete-item" :key="1"
-                 v-if="availableComponentsSearch.length === 0">
-            <v-card>
-              <v-img src="https://picsum.photos/300" height="100px"/>
-              <div class="text-center text-h5">
-                __Nothing Found -Bild
-              </div>
-            </v-card>
+          <v-col v-if="availableComponentsSearch.length === 0" :key="1">
+            {{ $t('noDataAvailable') }}
           </v-col>
         </transition-group>
       </div>
@@ -283,10 +277,23 @@ export default {
             title: this.$t('subtitle'),
             'x-cols': 6,
           },
+          whiteText: {
+            type: 'boolean',
+            title: this.$t('whiteText'),
+            'x-cols': 6,
+            'x-display': 'switch',
+            default: true,
+          },
           height: {
             type: 'string',
             title: this.$t('_component._form.height'),
             'x-cols': 6,
+          },
+          backgroundColor: {
+            type: 'string',
+            title: "I'm a color",
+            format: 'hexcolor',
+            description: 'This description is used as a help message.',
           },
         };
       }

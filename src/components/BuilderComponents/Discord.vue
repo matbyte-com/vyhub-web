@@ -5,9 +5,9 @@
            :class="{ 'order-2 justify-start': inverted, 'justify-end': !inverted }"
            cols="12" md="6">
       <div>
-        <div class="text-h3">{{ headline }}</div>
+        <div class="text-h3" :class="{ 'white--text': whiteText }">{{ headline }}</div>
         <v-img width="300px" class="mt-3 mx-auto"
-               :class="{ 'invert-color': !$vuetify.theme.dark}"
+               :class="{ 'invert-color': !whiteText}"
                src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b544a3e3c7c05753bcd_full_logo_white_RGB.png"/>
       </div>
     </v-col>
@@ -32,6 +32,10 @@ export default {
     inverted: {
       type: Boolean,
       default: false,
+    },
+    whiteText: {
+      type: Boolean,
+      default: true,
     },
   },
 };

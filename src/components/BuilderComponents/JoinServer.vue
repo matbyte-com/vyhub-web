@@ -3,12 +3,13 @@
   <v-row justify="center">
     <v-col class="d-flex align-center justify-start" v-if="server1">
       <a :href="utils.getConnectionLink(server1)" class="text-decoration-none" target="_blank">
-        <div class="d-flex align-center join-link pa-3 white--text">
-          <v-card :color="backgroundColor ? backgroundColor : 'primary'"
+        <div class="d-flex align-center join-link pa-3" :class="{ 'white--text': whiteText }">
+          <v-card color="primary"
                   class="pa-5 join-btn" flat style="border-radius: 15px">
-            <v-icon color="white" size="40">{{ getServerIcon(server1) }}</v-icon>
+            <v-icon :color="whiteText ? 'white' : 'black'"
+                    size="40">{{ getServerIcon(server1) }}</v-icon>
           </v-card>
-          <div class="ml-3">
+          <div class="ml-3" >
             <div class="text-h5">{{ server1.name }}</div>
             <div>{{ server1.users_current }} __active players</div>
           </div>
@@ -25,14 +26,16 @@
     <v-col class="d-flex align-center justify-end" v-if="server2">
       <a :href="utils.getConnectionLink(server2)" target="_blank"
          class="text-decoration-none">
-        <div class="d-flex align-center justify-end join-link pa-3 white--text">
+        <div class="d-flex align-center justify-end join-link pa-3"
+             :class="{ 'white--text': whiteText }">
           <div class="text-right mr-3">
             <div class="text-h5">{{ server2.name }}</div>
             <div>{{ server2.users_current }} __active users</div>
           </div>
-          <v-card :color="backgroundColor ? backgroundColor : 'primary'"
+          <v-card color="primary"
                   class="pa-5 join-btn" flat style="border-radius: 15px">
-            <v-icon color="white" size="40">{{ getServerIcon(server2) }}</v-icon>
+            <v-icon :color="whiteText ? 'white' : 'black'"
+                    size="40">{{ getServerIcon(server2) }}</v-icon>
           </v-card>
         </div>
       </a>
@@ -47,7 +50,7 @@ import { features } from 'process';
 
 export default {
   name: 'JoinServer',
-  props: ['imageUrl', 'servers', 'backgroundColor'],
+  props: ['imageUrl', 'servers', 'whiteText'],
   data() {
     return {
       fetchedServers: null,
@@ -117,8 +120,7 @@ export default {
   border-radius: 15px;
 }
 .join-link:hover {
-  fillter: brightness(130%);
-  background-color: var(--v-primary-lighten5);
+  background-color: var(--v-primary-lighten2);
 }
 
 .join-btn {

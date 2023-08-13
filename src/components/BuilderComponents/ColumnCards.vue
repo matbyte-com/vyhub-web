@@ -2,12 +2,16 @@
   <div>
     <v-row justify="center">
       <v-col cols="6" md="4" lg="3" v-for="(card, index) in cards" :key="index">
-        <v-card class="grow-on-hover">
+        <v-card class="grow-on-hover feature-card">
           <v-card-text class="text-center">
             <v-icon size="75">{{ card.icon }}</v-icon>
             <h3 class="text-h5">{{ card.title }}</h3>
             <p v-html="card.content"></p>
-            <v-btn>__Test</v-btn>
+            <v-btn outlined color="primary"
+                   :href="(!utils.localLink(card) ? card.link : null)"
+                   :to="utils.localLink(card) ? utils.getLocalLink(card) : null">
+              {{ card.btnText }}
+            </v-btn>
           </v-card-text>
         </v-card>
       </v-col>
@@ -17,11 +21,18 @@
 
 <script>
 export default {
+  // TODO Fix BTN Link
   name: 'ColumnCards',
   props: ['headline', 'subtitle', 'cards'],
 };
 </script>
 
 <style scoped>
+.feature-card {
+  transition: all .2s ease-in-out;
+}
 
+.feature-card:hover i {
+  color: var(--v-primary-base);
+}
 </style>

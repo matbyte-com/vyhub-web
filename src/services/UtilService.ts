@@ -262,6 +262,19 @@ export default {
             type: 'success',
           });
         },
+        localLink(btn: any) {
+          if (!btn.link) return false;
+          if (window) {
+            return !!btn.link.includes(window.location.hostname);
+          }
+          return false;
+        },
+        getLocalLink(btn: any) {
+          // Btn needs to have link property
+          if (!btn.link) return '';
+          if (this.localLink(btn)) { return btn.link.substring(window.location.origin.length); }
+          return btn.link;
+        },
       },
     };
   },

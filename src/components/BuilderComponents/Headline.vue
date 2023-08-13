@@ -4,8 +4,9 @@
     <div style="width: 100%; height: 100%" :style="{ backgroundColor: getBackgroundColor }"
          class="d-flex flex-column justify-center align-center text-center">
       <div>
-        <div>
-          <v-img v-if="imageUrl" :src="imageUrl" :alt="title" height="100px" contain class="mb-5"/>
+        <div v-if="logoUrl">
+          <v-img v-if="imageUrl" :src="logoUrl"
+                 :alt="title" height="100px" contain class="mb-5"/>
         </div>
         <h1 class="text-h3">{{ title }}</h1>
         <p class="text-subtitle-1 mt-3">{{ subtitle }}</p>
@@ -25,7 +26,7 @@
 <script>
 export default {
   name: 'FirstComponent',
-  props: ['title', 'subtitle', 'height', 'backgroundColor', 'imageUrl', 'buttons'],
+  props: ['title', 'subtitle', 'height', 'backgroundColor', 'imageUrl', 'buttons', 'logoUrl'],
   computed: {
     getBackgroundColor() {
       return this.backgroundColor ? this.backgroundColor : '';

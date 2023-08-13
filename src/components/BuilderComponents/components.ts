@@ -14,16 +14,22 @@ export default {
       schema: {
         type: 'object',
         properties: {
-          imageUrl: {
-            title: i18n.t('imageURL'),
-            type: 'string',
-          },
           title: {
             title: i18n.t('title'),
             type: 'string',
+            'x-cols': 6,
           },
           subtitle: {
             title: i18n.t('subtitle'),
+            type: 'string',
+            'x-cols': 6,
+          },
+          logoUrl: {
+            title: i18n.t('_component._form.logoUrl'),
+            type: 'string',
+          },
+          imageUrl: {
+            title: i18n.t('imageURL'),
             type: 'string',
           },
           height: {
@@ -228,6 +234,14 @@ export default {
                   title: i18n.t('content'),
                   type: 'string',
                 },
+                btnText: {
+                  title: i18n.t('_component._form.btnText'),
+                  type: 'string',
+                },
+                link: {
+                  title: i18n.t('_component._form.link'),
+                  type: 'string',
+                },
               },
             },
           },
@@ -239,16 +253,19 @@ export default {
             icon: 'mdi-star',
             title: 'Features',
             content: 'We offer the best features on the market!',
+            btnText: 'View Features',
           },
           {
             icon: 'mdi-face-agent',
             title: 'Support',
             content: 'Our friendly support is here to help you!',
+            btnText: 'Contact Us',
           },
           {
             icon: 'mdi-developer-board',
             title: 'Developer',
             content: 'Our experienced development team is constantly working on new features!',
+            btnText: 'View Introductions',
           },
         ],
       },

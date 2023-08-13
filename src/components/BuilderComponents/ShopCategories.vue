@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center" v-if="categories">
-      <v-col cols="12" sm="10" md="10" lg="9" xl="8"
+      <v-col cols="11" sm="10" md="10" lg="9" xl="8"
              style="position: relative">
         <swiper-container ref="carousel" class="mx-auto" :slides-per-view="perPage"
                           :per-page="perPage" :key="perPage" :space-between="5">
@@ -15,7 +15,7 @@
               </div>
               <div class="text-center text-h5 mt-3">{{ category.name }}</div>
               <div class="text-center mt-3 pb-3">
-                <v-btn outlined
+                <v-btn outlined color="primary"
                        :to="{ name: 'ShopCategory', params: { categoryId: category.id} }">
                   {{ callToAction }}
                 </v-btn>
@@ -29,6 +29,8 @@
         <v-btn v-if="currentSlide !== maxSlides"
                fab small style="position: absolute; z-index: 50; right: 0px; top: 31%;"
                @click="next"><v-icon>mdi-chevron-right</v-icon></v-btn>
+        <v-card>
+          {{ maxSlides }}</v-card>
       </v-col>
     </v-row>
   </div>
@@ -99,7 +101,7 @@ export default {
       if (!this.categories) return 0;
       const quotient = this.categories.length / this.perPage;
       if (quotient <= 1) return 0;
-      return Math.floor(quotient);
+      return Math.floor(quotient - 1);
     },
   },
 };
