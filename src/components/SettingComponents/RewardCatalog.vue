@@ -423,7 +423,7 @@ export default {
                   {
                     name: 'Give Weapons',
                     description: 'Give weapons to a player. Multiple weapons are possible.',
-                    script: 'PLAYER:Give({{weapon}})',
+                    script: 'PLAYER:Give("{{weapon}}")',
                     properties: {
                       weapon: {
                         name: 'weapon',
@@ -435,7 +435,7 @@ export default {
                   {
                     name: 'Give Weapons (Permanent)',
                     description: 'Give weapons permanently to a player. (give on spawn)',
-                    script: 'PLAYER:Give({{weapon}})',
+                    script: 'PLAYER:Give("{{weapon}}")',
                     on_event: 'SPAWN',
                     properties: {
                       weapon: {
