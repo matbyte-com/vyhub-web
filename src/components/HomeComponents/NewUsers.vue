@@ -1,18 +1,14 @@
 <template>
-  <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'"
-          class="vh-new-users card-rounded" flat>
+  <v-card class="vh-new-users card-rounded" flat>
     <v-card-title class="pb-0">
-      <v-row>
-        <v-col cols="12" class="d-flex align-center">
-          <HeadlineSidebar :title="$t('_user.labels.newUsers')" icon="mdi-account-arrow-right"/>
-        </v-col>
-      </v-row>
+      <HeadlineSidebar :title="$t('_user.labels.newUsers')" icon="mdi-account-arrow-right"/>
     </v-card-title>
-    <v-card-text>
-      <v-row v-if="newUsers != null">
-        <v-col cols="6" md="6" lg="6" xl="3" v-for="u in newUsers" v-bind:key="u.id">
+    <v-card-text style="width: inherit" class="mt-3" v-if="newUsers != null">
+      <v-row v-if="$vuetify.breakpoint.mdAndUp" style="width: inherit"
+             :justify="$vuetify.breakpoint.smAndDown && newUsers.length !== 1 ? 'center' : ''">
+        <v-col cols="4" md="6" lg="6" xl="3" v-for="u in newUsers" v-bind:key="u.id">
           <v-card
-            class="mt-2 vh-new-user-card"
+            class="vh-new-user-card"
             @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })">
             <v-img :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
             <v-card-subtitle class="pa-2 text-center">
@@ -21,11 +17,18 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row v-else>
-        <v-col>
-          <v-skeleton-loader></v-skeleton-loader>
-        </v-col>
-      </v-row>
+      <div v-else class="d-flex justify-center" >
+        <div style="width: 30%" v-for="u in newUsers.slice(0,3)" v-bind:key="u.id" class="mx-2">
+          <v-card
+            class="vh-new-user-card"
+            @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })">
+            <v-img :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+            <v-card-subtitle class="pa-2 text-center">
+              {{ u.username }}
+            </v-card-subtitle>
+          </v-card>
+        </div>
+      </div>
     </v-card-text>
   </v-card>
 </template>

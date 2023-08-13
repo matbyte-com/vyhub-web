@@ -1,4 +1,4 @@
-Homepag<template>
+<template>
   <div>
     <!-- Add Message Dialog -->
     <dialog-form ref="messageAddDialog" :form-schema="messageAddSchema"
@@ -20,48 +20,19 @@ Homepag<template>
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
     <v-row class="mb-5">
       <!-- Smartphones Serverstatus + Donation Goal -->
-      <v-col v-if="$vuetify.breakpoint.smAndDown">
-        <v-card width="100%" >
-          <v-expansion-panels multiple flat>
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                {{ $t('serverStatus') }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <ServerStatus ref="serverStatus" />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel v-if="$store.getters.shopConfig &&
-             $store.getters.shopConfig.donation_goal_enabled">
-              <v-expansion-panel-header>
-                {{ shopConfig.donation_goal_display_title }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <DonationGoal />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel v-if="$store.getters.shopConfig &&
-             $store.getters.shopConfig.top_donators_enabled">
-              <v-expansion-panel-header>
-                {{ shopConfig.top_donators_display_title }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <TopDonators />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                {{ $t('_user.labels.newUsers') }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <NewUsers />
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-card>
+      <v-col cols="12" v-if="$vuetify.breakpoint.smAndDown">
+        <Swiper :number-of-elements="3">
+          <swiper-slide>
+            <ServerStatus ref="serverStatus" />
+          </swiper-slide>
+          <swiper-slide v-if="$store.getters.shopConfig">
+            <DonationGoal v-if="$store.getters.shopConfig.donation_goal_enabled"/>
+            <TopDonators class="mt-3" v-if="$store.getters.shopConfig.top_donators_enabled"/>
+          </swiper-slide>
+          <swiper-slide>
+            <NewUsers />
+          </swiper-slide>
+        </Swiper>
       </v-col>
       <!-- News -->
       <v-col cols="12" md="8">
@@ -200,12 +171,14 @@ import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
 import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
 import Editor from '@/components/Editor.vue';
 import TopDonators from '@/components/HomeComponents/TopDonators.vue';
+import Swiper from '@/components/Swiper.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';
 import config from '../config';
 import i18n from '../plugins/i18n';
 
 export default {
   components: {
+    Swiper,
     TopDonators,
     Editor,
     NewUsers,

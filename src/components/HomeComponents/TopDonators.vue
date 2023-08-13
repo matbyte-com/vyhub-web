@@ -1,16 +1,10 @@
 <template>
   <div>
-    <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'"
-            class="vh-top-donators card-rounded" flat
-            v-if="topDonators && shopConfig">
+    <v-card class="vh-top-donators card-rounded" flat v-if="topDonators && shopConfig">
       <v-card-title class="pb-0">
-        <v-row>
-          <v-col cols="12" class="d-flex align-center">
-            <HeadlineSidebar :title="shopConfig.top_donators_display_title" icon="mdi-podium"/>
-          </v-col>
-        </v-row>
+        <HeadlineSidebar :title="shopConfig.top_donators_display_title" icon="mdi-podium"/>
       </v-card-title>
-      <v-card-text v-if="topDonators.donators.length > 0">
+      <v-card-text style="width: inherit" v-if="topDonators.donators.length > 0">
         <div class="d-flex align-center mt-3" style="overflow-x: auto">
           <v-spacer/>
           <span class="mr-2 subtitle-1 text-no-wrap">

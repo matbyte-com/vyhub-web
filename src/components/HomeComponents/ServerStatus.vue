@@ -1,23 +1,17 @@
 <template>
   <v-row  v-if="nonEmptyBundles.length > 0">
     <v-col>
-      <v-card :class="$vuetify.breakpoint.mdAndUp ? '' : 'transparent'"
-              class="vh-server-status card-rounded"
-              flat>
+      <v-card class="vh-server-status card-rounded" flat>
         <v-card-title class="pb-0">
-          <v-row>
-            <v-col cols="12" class="d-flex">
-              <HeadlineSidebar icon="mdi-server" :title="$t('server')"/>
-            </v-col>
-          </v-row>
+          <HeadlineSidebar icon="mdi-server" :title="$t('server')"/>
         </v-card-title>
-        <v-card-text>
+        <v-card-text style="width: inherit">
           <div v-for="bundle in nonEmptyBundles" :key="bundle.id" class="mt-3">
             <v-icon v-if="bundle.icon" left small :color="bundle.color">{{ bundle.icon }}</v-icon>
             <span :style="'color:' + bundle.color">{{ bundle.name }}</span>
             <v-divider class="mb-2"/>
             <v-row dense v-for="server in getServer(bundle.id)" :key="server.id"
-                   align="center"
+                   align="center" :no-gutters="$vuetify.breakpoint.smAndDown"
                    class="mt-0">
               <v-col order="1" order-xl="1" cols="6" lg="6" xl="3">
                 <v-icon :color="getStatusColor(server)" left>
@@ -32,28 +26,19 @@
                       <span v-if="server.users_current != null && server.status === 'ONLINE'">
                         {{ server.users_current }}
                       </span>
-                      <span v-else-if="server.status === 'OFFLINE'">
-                        0
-                      </span>
-                      <span v-else>
-                        ?
-                      </span>
-                      /
+                      <span v-else-if="server.status === 'OFFLINE'">0</span>
+                      <span v-else>?</span>/
                     </span>
-                    <span v-if="server.users_max != null">
-                      {{ server.users_max }}
-                    </span>
-                    <span v-else>
-                      ?
-                    </span>
+                    <span v-if="server.users_max != null">{{ server.users_max }}</span>
+                    <span v-else>?</span>
                   </router-link>
                 </span>
                 <span class="font-italic text--disabled" v-if="server.status === 'UNKNOWN'">
                   {{ $t('unknown') }}
                 </span>
               </v-col>
-              <v-col order="3" order-xl="2" cols="12" lg="6" xl="7">
-                <router-link style="text-decoration: none" :disabled="true"
+              <v-col order="3" order-xl="2" cols="10" lg="6" xl="7">
+                <router-link style="text-decoration: none;"
                              :to="{ name: (server.type !== 'DISCORD' && server.type
                              !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
                                   params: { id: server.id }}">
