@@ -28,7 +28,10 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-skeleton-loader v-else type="card" />
+    <v-card class="card-rounded" v-else>
+      <v-card-title><v-skeleton-loader type="sentence"/></v-card-title>
+      <v-card-text><v-skeleton-loader type="paragraph"/></v-card-text>
+    </v-card>
   </div>
 </template>
 

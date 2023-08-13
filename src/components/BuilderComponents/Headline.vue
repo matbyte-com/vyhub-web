@@ -8,8 +8,8 @@
           <v-img v-if="imageUrl" :src="logoUrl"
                  :alt="title" height="100px" contain class="mb-5"/>
         </div>
-        <h1 class="text-h3">{{ title }}</h1>
-        <p class="text-subtitle-1 mt-3">{{ subtitle }}</p>
+        <h1 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h1>
+        <p class="text-subtitle-1 mt-3" :class="{ 'white--text': whiteText }">{{ subtitle }}</p>
         <div class="d-flex flex-row flex-wrap justify-center">
           <v-btn v-for="(button, index) in buttons" :key="index" class="ml-3"
                  outlined :href="(!localLink(button) ? button.link : null)"
@@ -26,7 +26,7 @@
 <script>
 export default {
   name: 'FirstComponent',
-  props: ['title', 'subtitle', 'height', 'backgroundColor', 'imageUrl', 'buttons', 'logoUrl'],
+  props: ['title', 'subtitle', 'height', 'backgroundColor', 'imageUrl', 'buttons', 'logoUrl', 'whiteText'],
   computed: {
     getBackgroundColor() {
       return this.backgroundColor ? this.backgroundColor : '';

@@ -14,6 +14,7 @@
              :height="block.props_data ? block.props_data.height : null"
              :subtitle="block.props_data ? block.props_data.subtitle : null"
              :background-color="block.props_data ? block.props_data.backgroundColor : null"
+             :image-url="block.props_data ? block.props_data.imageUrl : null"
              :white-text="block.props_data.whiteText ? block.props_data.whiteText : null">
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
@@ -132,6 +133,8 @@ import Wrapper from '@/components/BuilderComponents/Wrapper.vue';
 import Dialog from '@/components/Dialog.vue';
 import draggable from 'vuedraggable';
 import VJsf from '@koumoul/vjsf';
+import '@koumoul/vjsf/dist/main.css';
+import '@koumoul/vjsf/lib/deps/third-party';
 import i18n from '@/plugins/i18n';
 import axios from 'axios';
 import openapi from '@/api/openapi';
@@ -277,23 +280,31 @@ export default {
             title: this.$t('subtitle'),
             'x-cols': 6,
           },
-          whiteText: {
-            type: 'boolean',
-            title: this.$t('whiteText'),
-            'x-cols': 6,
-            'x-display': 'switch',
-            default: true,
-          },
           height: {
             type: 'string',
             title: this.$t('_component._form.height'),
+            'x-cols': 12,
+          },
+          whiteText: {
+            type: 'boolean',
+            title: this.$t('_component.whiteText'),
             'x-cols': 6,
+            'x-display': 'switch',
+            'x-props': {
+              'hide-details': 'auto',
+            },
+            default: true,
+          },
+          imageUrl: {
+            type: 'string',
+            'x-cols': 6,
+            title: this.$t('_theme.backgroundImageURL'),
           },
           backgroundColor: {
             type: 'string',
-            title: "I'm a color",
+            'x-cols': 6,
+            title: this.$t('_theme.backgroundColor'),
             format: 'hexcolor',
-            description: 'This description is used as a help message.',
           },
         };
       }

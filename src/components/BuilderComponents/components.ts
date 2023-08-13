@@ -25,15 +25,7 @@ export default {
             'x-cols': 6,
           },
           logoUrl: {
-            title: i18n.t('_component._form.logoUrl'),
-            type: 'string',
-          },
-          imageUrl: {
-            title: i18n.t('imageURL'),
-            type: 'string',
-          },
-          height: {
-            title: i18n.t('_component._form.height'),
+            title: i18n.t('_theme.logoURL'),
             type: 'string',
           },
           buttons: {
@@ -53,6 +45,32 @@ export default {
                 },
               },
             },
+          },
+          height: {
+            title: i18n.t('_component._form.height'),
+            type: 'string',
+            'x-cols': 6,
+          },
+          imageUrl: {
+            title: i18n.t('_theme.backgroundImageURL'),
+            type: 'string',
+            'x-cols': 6,
+          },
+          whiteText: {
+            type: 'boolean',
+            title: i18n.t('_component.whiteText'),
+            'x-cols': 6,
+            'x-display': 'switch',
+            'x-props': {
+              'hide-details': 'auto',
+            },
+            default: true,
+          },
+          backgroundColor: {
+            type: 'string',
+            title: i18n.t('_theme.backgroundColor'),
+            format: 'hexcolor',
+            'x-cols': 6,
           },
         },
       },
@@ -96,9 +114,20 @@ export default {
               },
             },
           },
+          whiteText: {
+            type: 'boolean',
+            title: i18n.t('whiteText'),
+            'x-cols': 6,
+            'x-display': 'switch',
+            'x-props': {
+              'hide-details': 'auto',
+            },
+            default: true,
+          },
           height: {
             title: 'height',
             type: 'number',
+            'x-cols': 6,
           },
         },
       },
@@ -239,7 +268,7 @@ export default {
                   type: 'string',
                 },
                 link: {
-                  title: i18n.t('_component._form.link'),
+                  title: i18n.t('link'),
                   type: 'string',
                 },
               },

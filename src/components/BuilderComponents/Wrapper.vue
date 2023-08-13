@@ -1,28 +1,36 @@
 <template>
-  <div :style="`background-color: ${backgroundColor}`">
-    <div v-if="no_wrap">
+  <div>
+    <div class="no-wrap" v-if="no_wrap" :style="`background-color: ${backgroundColor}`">
       <slot />
     </div>
-    <div class="pt-5 pb-5" :style="`height: ${height}`" v-else>
-      <v-container class="d-flex align-center justify-center wrapper-container">
-        <div>
-          <div class="text-center">
-            <h2 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h2>
-            <p class="text-subtitle-1" :class="{ 'white--text': whiteText }">{{ subtitle }}</p>
-          </div>
+    <v-card flat tile :color="backgroundColor" :img="imageUrl" :height="height"
+            class="wrapper-card transparent" v-else>
+      <div class="pt-3 pb-3" :style="{ backgroundColor: getBackgroundColor }">
+        <v-container class="d-flex align-center justify-center wrapper-container">
           <div>
-            <slot />
+            <div class="text-center">
+              <h2 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h2>
+              <p class="text-subtitle-1" :class="{ 'white--text': whiteText }">{{ subtitle }}</p>
+            </div>
+            <div>
+              <slot />
+            </div>
           </div>
-        </div>
-      </v-container>
-    </div>
+        </v-container>
+      </div>
+    </v-card>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Wrapper',
-  props: ['title', 'subtitle', 'no_wrap', 'height', 'css', 'backgroundColor', 'whiteText'],
+  props: ['title', 'subtitle', 'no_wrap', 'height', 'css', 'backgroundColor', 'whiteText', 'imageUrl'],
+  computed: {
+    getBackgroundColor() {
+      return this.backgroundColor ? this.backgroundColor : '';
+    },
+  },
 };
 </script>
 
