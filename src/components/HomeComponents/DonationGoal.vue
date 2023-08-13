@@ -6,12 +6,12 @@
                          icon="mdi-flag-checkered"/>
         <v-spacer />
         <v-btn :to="{name: 'Shop'}" outlined color="success"
-               :x-small="$vuetify.breakpoint.mdAndDown"
-               :small="$vuetify.breakpoint.lgAndUp">
-          <v-icon left>
+               :x-small="$vuetify.breakpoint.md" style="min-width: 32px"
+               :small="$vuetify.breakpoint.lgAndUp || $vuetify.breakpoint.smAndDown">
+          <v-icon :left="$vuetify.breakpoint.mdAndUp">
             mdi-sack
           </v-icon>
-          <span>{{ $t('shop') }}</span>
+          <span v-if="!$vuetify.breakpoint.sm">{{ $t('shop') }}</span>
         </v-btn>
       </v-card-title>
       <v-card-text style="width: inherit">
