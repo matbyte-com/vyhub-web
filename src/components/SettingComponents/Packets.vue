@@ -127,7 +127,7 @@ export default {
         },
       ],
       packets: null,
-      packetSchema: PacketForm,
+      packetSchema: PacketForm.form(),
       categories: [],
       currentCategory: null,
     };

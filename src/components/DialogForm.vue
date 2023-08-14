@@ -1,5 +1,6 @@
 <template>
-  <Dialog :max-width="maxWidth" ref="dialog" :title="title" :icon="icon" @cancel="cancelForm">
+  <Dialog :max-width="maxWidth" ref="dialog" :title="title" :icon="icon" @cancel="cancelForm"
+          class="">
           <!--:text-class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'"-->
     <template v-if="formSchema" style="overflow-x: hidden">
       <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
@@ -10,8 +11,8 @@
                class="mt-1"
                @mounted="genFormMounted"
                @updated="$emit('updated')"
-               @notValid="loading=false"
-      >
+               @notValid="loading=false;
+               $refs.form.$el.scrollIntoView({ block: 'start', behavior: 'smooth' });">
         <template v-for="(index, name) in $scopedSlots" v-slot:[name]="scope">
           <slot v-bind="scope" :name="name"/>
         </template>
@@ -142,5 +143,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
