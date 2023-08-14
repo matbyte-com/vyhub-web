@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-row justify="center">
-    <v-col class="d-flex align-center justify-start" v-if="server1">
+    <v-col class="d-flex align-center justify-start" v-if="server1 && $vuetify.breakpoint.mdAndUp">
       <a :href="utils.getConnectionLink(server1)" class="text-decoration-none" target="_blank">
         <div class="d-flex align-center join-link pa-3" :class="{ 'white--text': whiteText }">
           <v-card color="primary"
@@ -11,26 +11,26 @@
           </v-card>
           <div class="ml-3" >
             <div class="text-h5">{{ server1.name }}</div>
-            <div>{{ server1.users_current }} __active players</div>
+            <div>{{ $t('_component.currentPlayers') }} {{ server1.users_current }}</div>
           </div>
         </div>
       </a>
     </v-col>
     <v-col v-if="server2 || !servers" class="text-center">
       <div v-if="!servers">
-        __Specify up to two servers in the component settings__
+        {{ $t('_component.specifyServers') }}
       </div>
       <v-img height="200" contain :src="imageUrl ? imageUrl : this.$store.getters.theme.logo"
              :alt="$store.getters.theme.logo" />
     </v-col>
-    <v-col class="d-flex align-center justify-end" v-if="server2">
+    <v-col class="d-flex align-center justify-end" v-if="server2 && $vuetify.breakpoint.mdAndUp">
       <a :href="utils.getConnectionLink(server2)" target="_blank"
          class="text-decoration-none">
         <div class="d-flex align-center justify-end join-link pa-3"
              :class="{ 'white--text': whiteText }">
           <div class="text-right mr-3">
             <div class="text-h5">{{ server2.name }}</div>
-            <div>{{ server2.users_current }} __active users</div>
+            <div>{{ $t('_component.currentPlayers') }} {{ server2.users_current }}</div>
           </div>
           <v-card color="primary"
                   class="pa-5 join-btn" flat style="border-radius: 15px">
@@ -47,6 +47,7 @@
 <script>
 import openapiCached from '@/api/openapiCached';
 import { features } from 'process';
+import vuetify from '@/plugins/vuetify';
 
 export default {
   name: 'JoinServer',
@@ -65,6 +66,9 @@ export default {
     },
   },
   methods: {
+    vuetify() {
+      return vuetify;
+    },
     async fetchData() {
       (await openapiCached).server_getServers().then((rsp) => {
         this.fetchedServers = rsp.data;
@@ -95,7 +99,7 @@ export default {
     server1() {
       if (!this.servers) return null;
       if (this.fetchedServers) {
-        return this.fetchedServers[0];
+        return this.fetchedServers.find((s) => s.id === this.servers[0]);
       }
       return null;
     },
@@ -105,8 +109,7 @@ export default {
         return this.server1;
       }
       if (this.fetchedServers) {
-        // TODO find right server from id
-        return this.fetchedServers[1];
+        return this.fetchedServers.find((s) => s.id === this.servers[1]);
       }
       return null;
     },
