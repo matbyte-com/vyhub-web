@@ -51,10 +51,11 @@
             </v-card>
           </v-col>
         </v-row>
-        <transition-group  enter-active-class="animate__animated animate__fadeIn"
-                           leave-active-class="animate__animated animate__fadeOut">
-          <v-card v-for="message in getNewsOfTheDay" :key="message.id"
-                  class="mt-4 news-of-day vh-news-of-day card-rounded">
+        <transition-group enter-active-class="animate__fadeIn"
+                          leave-active-class="animate__fadeOut">
+          <v-card v-for="message in getNewsOfTheDay" :key="message.id" :img="message.background_url"
+                  class="mt-4 news-of-day vh-news-of-day card-rounded animate__animated
+                   animate__faster">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
@@ -94,10 +95,10 @@
             </v-card>
           </v-col>
         </v-row>
-        <transition-group enter-active-class="animate__animated animate__fadeIn"
-                          leave-active-class="animate__animated animate__fadeOut">
-          <v-card flat outlined class="mt-4 vh-news card-rounded"
-                  v-for="message in getNews" :key="message.id">
+        <transition-group enter-active-class="animate__fadeIn"
+                          leave-active-class="animate__fadeOut">
+          <v-card flat outlined class="mt-4 vh-news card-rounded animate__animated animate__faster"
+                  v-for="message in getNews" :key="message.id" :img="message.background_url">
             <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
