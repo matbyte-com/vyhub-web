@@ -27,6 +27,9 @@ export default {
           logoUrl: {
             title: i18n.t('_theme.logoURL'),
             type: 'string',
+            'x-props': {
+              clearable: true,
+            },
           },
           buttons: {
             type: 'array',
@@ -55,6 +58,9 @@ export default {
             title: i18n.t('_theme.backgroundImageURL'),
             type: 'string',
             'x-cols': 6,
+            'x-props': {
+              clearable: true,
+            },
           },
           whiteText: {
             type: 'boolean',
@@ -110,6 +116,9 @@ export default {
                 imageUrl: {
                   title: i18n.t('imageURL'),
                   type: 'string',
+                  'x-props': {
+                    clearable: true,
+                  },
                 },
               },
             },
@@ -319,6 +328,9 @@ export default {
           imageUrl: {
             title: i18n.t('imageURL'),
             type: 'string',
+            'x-props': {
+              clearable: true,
+            },
           },
         },
       },
@@ -403,6 +415,9 @@ export default {
                 imageUrl: {
                   title: i18n.t('imageURL'),
                   type: 'string',
+                  'x-props': {
+                    clearable: true,
+                  },
                 },
               },
             },

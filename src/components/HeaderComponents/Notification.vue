@@ -3,8 +3,7 @@
     <v-menu
       @input="newMessages = false"
       open-on-hover
-      offset-y
-    >
+      offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-badge color="warning"
                  :value="newMessages"
@@ -13,10 +12,8 @@
                  offset-x="20px"
                  offset-y="20px">
           <v-btn icon
-                 dark
                  v-bind="attrs"
-                 v-on="on"
-          >
+                 v-on="on">
             <v-icon>
               mdi-bell-outline
             </v-icon>
@@ -34,8 +31,7 @@
             v-else
             v-for="notification in notifications"
             :key="notification.id"
-            @click="rowClick(notification)"
-          >
+            @click="rowClick(notification)">
             <v-list-item-icon>
               <v-icon>{{ notification.message.kwargs.icon }}</v-icon>
             </v-list-item-icon>

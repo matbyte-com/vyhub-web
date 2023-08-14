@@ -22,7 +22,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/News.vue'),
   },
   {
-    path: '/dashboard',
+    path: '/user',
     name: 'Dashboard',
     meta: { title: i18n.t('_pageTitle.dashboard'), requiresAuth: true },
     component: () => import('../views/Redirect/Dashboard.vue'),
@@ -93,7 +93,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
-    path: '/shop/admin/:component?',
+    path: '/admin/shop/:component?',
     name: 'ShopAdmin',
     component: () => import('@/views/Shop/Admin.vue'),
     meta: { requiresAuth: true, title: i18n.t('_pageTitle.shopAdministration'), reqProp: 'admin_menu' },

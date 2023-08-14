@@ -1,14 +1,15 @@
 <template>
-  <v-footer color="header lighten-1" padless>
+  <v-footer color="footer lighten-1" padless>
     <v-row justify="center" no-gutters>
       <div class="d-flex my-2">
         <NavigationLink
           :link="link"
+          :dark="true"
           v-for="(link, index) in navLinks"
           :key="index">
         </NavigationLink>
       </div>
-      <v-col class="header lighten-2 py-4 text-center white--text" cols="12">
+      <v-col class="footer lighten-2 py-4 text-center white--text" cols="12">
         <strong>
           {{ new Date().getFullYear() }}
           <span v-if="$store.getters.generalConfig != null">

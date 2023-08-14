@@ -1,5 +1,6 @@
 <template>
-  <v-app-bar app color="header" dark style="z-index: 200;">
+  <v-app-bar app color="header" :light="$store.getters.theme.light_header"
+             :dark="!$store.getters.theme.light_header" style="z-index: 200;">
     <!-- burger menu on the left-->
     <div class="hidden-md-and-up">
       <BurgerMenu
@@ -44,8 +45,7 @@
       <div v-else>
         <v-btn outlined class="mr-1 lighten-1 white--text" data-cy="login-button"
                @click="showLoginDialog"
-               :class="{ 'glow-effect':utils.customerJourneyActive('login') }"
-        >
+               :class="{ 'glow-effect':utils.customerJourneyActive('login') }">
           {{ $t("_header.labels.login") }}
         </v-btn>
       </div>

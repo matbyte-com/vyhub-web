@@ -6,7 +6,8 @@
       open-on-hover
       offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text dark v-bind="attrs" v-on="on">
+        <v-btn text class="nav-btn" :class="{ 'active-btn' : listActive }"
+               v-bind="attrs" v-on="on">
           <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
           <span>{{ link.title }}</span>
           <v-icon>mdi-menu-down</v-icon>
@@ -27,11 +28,10 @@
     </v-menu>
     <!-- simple button when no tabs are existent -->
     <v-btn
-      text dark
-      v-if="(allowedTabs || []).length === 0"
+      text :dark="dark"
+      v-if="(allowedTabs || []).length === 0" class="nav-btn" active-class="active-btn"
       :href="(link.cms_page_id === null && !localLink(link) ? link.link : null)"
-      :to="(link.cms_page_id || localLink(link) ? getLocalLink(link) : null)"
-    >
+      :to="(link.cms_page_id || localLink(link) ? getLocalLink(link) : null)">
       <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
     </v-btn>
@@ -42,7 +42,7 @@
 export default {
   name: 'NavigationLinks.vue',
   props: {
-    link: Object,
+    link: Object, dark: Boolean,
   },
   computed: {
     allowedTabs() {
@@ -51,6 +51,13 @@ export default {
       }
 
       return this.link.sublinks.filter((t) => !t.req_prop || this.$checkProp(t.req_prop) === true);
+    },
+    listActive() {
+      if (this.allowedTabs.length === 0) {
+        return false;
+      }
+      const { path } = this.$route;
+      return this.allowedTabs.some((t) => t.link === path);
     },
   },
   methods: {
@@ -71,3 +78,18 @@ export default {
   },
 };
 </script>
+
+<style>
+.active-btn {
+  background-color: var(--v-primary-lighten1);
+}
+
+.active-btn::before {
+  opacity: 0 !important;
+}
+
+.active-btn span {
+  color: #FFFFFF !important;
+}
+
+</style>

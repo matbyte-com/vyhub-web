@@ -176,6 +176,9 @@ export default Vue.extend({
             this.$vuetify.theme.dark = false;
             cachedTheme.dark = false;
           }
+          cachedTheme.light_header = theme.light_header;
+          console.log('Theme Light Header');
+          console.log(theme.light_header);
           // set colors, logo and more
           this.$vuetify.theme.currentTheme.primary = theme.primary;
           this.$vuetify.theme.currentTheme.success = theme.success;
@@ -183,6 +186,7 @@ export default Vue.extend({
           this.$vuetify.theme.currentTheme.warning = theme.warning;
           this.$vuetify.theme.currentTheme.error = theme.error;
           this.$vuetify.theme.currentTheme.header = theme.header;
+          this.$vuetify.theme.currentTheme.footer = theme.footer;
           this.createStyleTag(theme.custom_css);
           cachedTheme.primary = theme.primary;
           cachedTheme.secondary = theme.secondary;
@@ -190,6 +194,7 @@ export default Vue.extend({
           cachedTheme.warning = theme.warning;
           cachedTheme.error = theme.error;
           cachedTheme.header = theme.header;
+          cachedTheme.footer = theme.footer;
           cachedTheme.logo = theme.logo;
           cachedTheme.show_community_name = theme.show_community_name;
           cachedTheme.logo_width = theme.logo_width;
@@ -221,6 +226,7 @@ export default Vue.extend({
         this.$vuetify.theme.currentTheme.warning = obj.warning;
         this.$vuetify.theme.currentTheme.error = obj.error;
         this.$vuetify.theme.currentTheme.header = obj.header;
+        this.$vuetify.theme.currentTheme.footer = obj.footer;
         this.$vuetify.theme.currentTheme.secondary = obj.secondary;
         this.customCss = obj.custom_css;
       }

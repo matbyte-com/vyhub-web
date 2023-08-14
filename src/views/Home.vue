@@ -274,6 +274,9 @@ export default {
             type: 'string',
             title: this.$t('title'),
             'x-cols': 6,
+            'x-props': {
+              clearable: true,
+            },
           },
           subtitle: {
             type: 'string',
@@ -292,6 +295,7 @@ export default {
             'x-display': 'switch',
             'x-props': {
               'hide-details': 'auto',
+              clearable: true,
             },
             default: true,
           },
@@ -299,6 +303,9 @@ export default {
             type: 'string',
             'x-cols': 6,
             title: this.$t('_theme.backgroundImageURL'),
+            'x-props': {
+              clearable: true,
+            },
           },
           backgroundColor: {
             type: 'string',

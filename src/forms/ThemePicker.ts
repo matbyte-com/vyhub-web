@@ -10,6 +10,13 @@ function returnForm() {
     ],
     properties: {
       header: common.colorPicker('_theme.headerColor'),
+      light_header: {
+        type: 'boolean',
+        title: i18n.t('_theme.lightHeaderColor'),
+        'x-display': 'switch',
+        'x-props': 6,
+      },
+      footer: common.colorPicker('_theme.footerColor'),
       primary: common.colorPicker('_theme.primaryColor'),
       secondary: common.colorPicker('_theme.secondaryColor'),
       success: common.colorPicker('_theme.successColor'),
@@ -70,6 +77,9 @@ function returnForm() {
   };
   if (!utilService.data().utils.showAdvancedSettings()) {
     delete ret.properties.custom_css;
+    delete ret.properties.success;
+    delete ret.properties.error;
+    delete ret.properties.warning;
   }
   return ret;
 }
