@@ -56,7 +56,8 @@
           <v-card v-for="message in getNewsOfTheDay" :key="message.id" :img="message.background_url"
                   class="mt-4 news-of-day vh-news-of-day card-rounded animate__animated
                    animate__faster">
-            <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
+            <v-card-title :class="{ 'grey-title': !message.background_url &&
+                           !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
                   {{ message.subject }}
@@ -99,7 +100,8 @@
                           leave-active-class="animate__fadeOut">
           <v-card flat outlined class="mt-4 vh-news card-rounded animate__animated animate__faster"
                   v-for="message in getNews" :key="message.id" :img="message.background_url">
-            <v-card-title :class="{ 'grey-title': !$vuetify.theme.dark }">
+            <v-card-title :class="{ 'grey-title': !message.background_url &&
+                           !$vuetify.theme.dark }">
               <v-row>
                 <v-col>
                   {{ message.subject }}
@@ -336,4 +338,7 @@ export default {
   border-bottom: 10px solid transparent
   left: 15%
   bottom: -19px
+
+.grey-title
+  background-color: rgb(255,255,255)
 </style>
