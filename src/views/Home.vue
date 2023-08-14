@@ -58,7 +58,7 @@
             <v-expansion-panel v-for="(component, index) in blocks" :key="index">
               <v-expansion-panel-header class="py-0 my-0">
                 <div :class="{ 'text-decoration-line-through' : component.deleted }">
-                  {{ component.type }}
+                  {{ getComponentTitle(component) }}
                 </div>
                 <v-spacer/>
                 <div class="text-right">
@@ -331,6 +331,11 @@ export default {
       this.blocks.push(newBlock);
       this.componentAdded = true;
     },
+    getComponentTitle(cp) {
+      const el = this.availableComponents.find((c) => c.component === cp.type);
+      if (!el) return cp.type;
+      return el.title;
+    },
   },
   computed: {
     blocksToShow() {
@@ -343,7 +348,9 @@ export default {
     },
     availableComponentsSearch() {
       return this.availableComponents
-        .filter((cp) => cp.component.toLowerCase().includes(this.addComponentSearch.toLowerCase()));
+        .filter((cp) => cp.title.toLowerCase().includes(this.addComponentSearch.toLowerCase())
+          || cp.keywords.filter((k) => k.toLowerCase()
+            .includes(this.addComponentSearch.toLowerCase())).length > 0);
     },
   }
   ,

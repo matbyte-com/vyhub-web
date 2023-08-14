@@ -8,6 +8,7 @@ export default {
   components: [
     {
       title: 'Headline',
+      keywords: ['headline', 'welcome'],
       component: 'Headline',
       previewImage: 'https://picsum.photos/300/200',
       no_wrap: true,
@@ -94,6 +95,7 @@ export default {
     {
       title: 'Carousel',
       component: 'Carousel',
+      keywords: ['headline', 'welcome', 'carousel', 'slider', 'slides'],
       previewImage: 'https://picsum.photos/301/200',
       no_wrap: true,
       schema: {
@@ -157,6 +159,7 @@ export default {
     },
     {
       title: 'News',
+      keywords: ['news', 'announcements'],
       component: 'NewsPreview',
       previewImage: 'https://picsum.photos/303/201',
       schema: {
@@ -170,7 +173,43 @@ export default {
       },
     },
     {
+      title: 'Community Stats',
+      keywords: ['community', 'stats', 'playtime', 'users', 'players'],
+      component: 'CommunityStats',
+      previewImage: 'https://picsum.photos/305/200',
+      defaults: {
+        title: 'Our Community in Numbers',
+      },
+    },
+    {
+      title: 'Shop Stats',
+      keywords: ['shop', 'stats', 'top donators', 'donation goal', 'store'],
+      component: 'ShopInformation',
+      previewImage: 'https://picsum.photos/306/200',
+    },
+    {
+      title: 'Shop Categories',
+      keywords: ['shop', 'categories', 'store'],
+      component: 'ShopCategories',
+      previewImage: 'https://picsum.photos/307/200',
+      schema: {
+        type: 'object',
+        properties: {
+          callToAction: {
+            title: i18n.t('_component._form.btnText'),
+            type: 'string',
+          },
+        },
+      },
+      defaults: {
+        title: 'Store',
+        subtitle: 'Get your in-game perks here!',
+        callToAction: 'Browse Packages',
+      },
+    },
+    {
       title: 'New Users',
+      keywords: ['new users', 'new', 'players', 'users', 'gamer'],
       component: 'NewUsers',
       previewImage: 'https://picsum.photos/303/200',
       schema: {
@@ -190,7 +229,42 @@ export default {
       },
     },
     {
+      title: 'Join Server',
+      previewImage: 'https://picsum.photos/309/200',
+      keywords: ['server', 'status', 'logo', 'join server'],
+      component: 'JoinServer',
+      schema: {
+        type: 'object',
+        properties: {
+          servers: {
+            type: 'array',
+            title: i18n.t('servers'),
+            items: {
+              type: 'string',
+            },
+            'x-fromUrl': `${API_URL}/server/`,
+            'x-itemKey': 'id',
+            'x-itemTitle': 'name',
+          },
+          imageUrl: {
+            title: i18n.t('imageURL'),
+            type: 'string',
+            'x-props': {
+              clearable: true,
+            },
+          },
+        },
+      },
+    },
+    {
+      title: 'Server Status',
+      previewImage: 'https://picsum.photos/310/200',
+      keywords: ['server', 'status', 'logo'],
+      component: 'ServerStatus',
+    },
+    {
       title: 'Discord',
+      keywords: ['discord', 'voice', 'join'],
       component: 'Discord',
       previewImage: 'https://picsum.photos/304/200',
       schema: {
@@ -216,39 +290,18 @@ export default {
       },
     },
     {
-      title: 'Community Stats',
-      component: 'CommunityStats',
-      previewImage: 'https://picsum.photos/305/200',
+      title: 'Forum Activity',
+      component: 'ForumLatestActivity',
+      keywords: ['forum', 'posts', 'threads', 'reactions', 'activity', 'stats'],
+      previewImage: 'https://picsum.photos/311/200',
       defaults: {
-        title: 'Our Community in Numbers',
-      },
-    },
-    {
-      title: 'Shop Stats',
-      component: 'ShopInformation',
-      previewImage: 'https://picsum.photos/306/200',
-    },
-    {
-      title: 'Shop Categories',
-      component: 'ShopCategories',
-      previewImage: 'https://picsum.photos/307/200',
-      schema: {
-        type: 'object',
-        properties: {
-          callToAction: {
-            title: i18n.t('_component._form.btnText'),
-            type: 'string',
-          },
-        },
-      },
-      defaults: {
-        title: 'Store',
-        subtitle: 'Get your in-game perks here!',
-        callToAction: 'Browse Packages',
+        title: 'Forum',
+        subtitle: 'Start the discussion in our Forum!',
       },
     },
     {
       title: 'Features',
+      keywords: ['features', 'columns', 'icons', 'cards'],
       component: 'ColumnCards',
       previewImage: 'https://picsum.photos/308/200',
       schema: {
@@ -309,49 +362,9 @@ export default {
       },
     },
     {
-      title: 'Join Server',
-      previewImage: 'https://picsum.photos/309/200',
-      component: 'JoinServer',
-      schema: {
-        type: 'object',
-        properties: {
-          servers: {
-            type: 'array',
-            title: i18n.t('servers'),
-            items: {
-              type: 'string',
-            },
-            'x-fromUrl': `${API_URL}/server/`,
-            'x-itemKey': 'id',
-            'x-itemTitle': 'name',
-          },
-          imageUrl: {
-            title: i18n.t('imageURL'),
-            type: 'string',
-            'x-props': {
-              clearable: true,
-            },
-          },
-        },
-      },
-    },
-    {
-      title: 'Server Status',
-      previewImage: 'https://picsum.photos/310/200',
-      component: 'ServerStatus',
-    },
-    {
-      title: 'Forum Activity',
-      component: 'ForumLatestActivity',
-      previewImage: 'https://picsum.photos/311/200',
-      defaults: {
-        title: 'Forum',
-        subtitle: 'Start the discussion in our Forum!',
-      },
-    },
-    {
       title: 'Frequently Asked Questions',
       component: 'Faq',
+      keywords: ['questions', 'answers', 'help', 'faq'],
       previewImage: 'https://picsum.photos/310/200',
       schema: {
         type: 'object',
@@ -394,6 +407,7 @@ export default {
     {
       title: 'Columns',
       component: 'Columns',
+      keywords: ['columns', 'customizable', 'content', 'images'],
       previewImage: 'https://picsum.photos/311/200',
       schema: {
         type: 'object',
@@ -447,6 +461,7 @@ export default {
     {
       title: 'HTML',
       component: 'RawHtml',
+      keywords: ['html', 'customizable', 'content'],
       previewImage: 'https://picsum.photos/302/200',
       no_wrap: true,
       schema: {
