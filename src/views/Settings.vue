@@ -3,9 +3,21 @@
     <!--<PageTitle icon="mdi-cog" :title="$t('_settings.labels.title')" />-->
     <v-row dense no-gutters>
       <v-col cols="12" lg="3" class="mb-2 mb-lg-0">
-        <v-card flat outlined tile class="fill-height lighten-2"
-                :class="{ 'lighten-2': !$vuetify.theme.dark, 'darken-4': $vuetify.theme.dark }"
-                :color="$vuetify.theme.dark ? 'black' : 'grey'">
+        <v-card v-if="$vuetify.breakpoint.mdAndDown" class="mt-2" flat tile
+                @click="navigationDrawer = !navigationDrawer">
+          <v-card-text class="d-flex align-center text-capitalize text-h5">
+            <v-icon left>{{ activeTab.icon }}</v-icon>
+            {{ activeTab.name }}
+            <v-spacer />
+            <v-icon>mdi-unfold-more-horizontal</v-icon>
+          </v-card-text>
+        </v-card>
+        <v-navigation-drawer :permanent="!$vuetify.breakpoint.mdAndDown"
+                             :app="$vuetify.breakpoint.mdAndDown" v-model="navigationDrawer"
+                             bottom flat outlined tile class="fill-height"
+                             style="width: 100%"
+                :class="{ 'lighten-3': !$vuetify.theme.dark, 'darken-4': $vuetify.theme.dark }"
+                :color="$vuetify.theme.dark ? 'grey' : 'grey'">
           <v-card-text>
             <v-list>
               <v-list-item-group color="primary">
@@ -54,13 +66,14 @@
             </v-list>
             <AdvancedSettingsSwitch />
           </v-card-text>
-        </v-card>
+        </v-navigation-drawer>
       </v-col>
       <v-col cols="12" lg="9">
-        <v-card class="fill-height" flat outlined tile width="100%">
+        <v-card class="fill-height" style="min-height: 75vh" flat outlined tile width="100%">
           <v-card-text :key="key">
             <keep-alive>
-              <component class="mr-10 mt-3" :is="componentInstance"></component>
+              <component class="mt-3" :class="{ 'mr-10' : $vuetify.breakpoint.lgAndUp }"
+                         :is="componentInstance"></component>
             </keep-alive>
           </v-card-text>
         </v-card>
@@ -82,6 +95,7 @@ export default {
   data() {
     return {
       key: 0,
+      navigationDrawer: false,
       tabs: [
         {
           name: 'general',
