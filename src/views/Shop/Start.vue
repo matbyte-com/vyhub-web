@@ -9,7 +9,6 @@
           <v-img
             :src="category.image_url"
             class="white--text align-end"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             max-height="300px" min-height="150px">
             <v-card-title>{{ category.name }}</v-card-title>
           </v-img>
