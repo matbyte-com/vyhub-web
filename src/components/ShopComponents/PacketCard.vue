@@ -76,8 +76,7 @@
           <v-overlay absolute :value="hover"
                      v-if="packet.abstract != null && packet.abstract.length > 0 && hover">
             <div
-              class="d-flex transition-fast-in-fast-out v-card--reveal
-                           text-h6 white--text"
+              class="d-flex text-h6 white--text"
               style="height: 100%;">
               <ul class="ma-2">
                 <li v-for="point in packet.abstract" :key="point">{{ point }}</li>
@@ -159,12 +158,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.cta-btn{
-  transition: all 0.2s ease-in-out;
-}
-
-.cta-btn:hover i{
-  transform: scale(1.2);
-}
+<style>
 </style>

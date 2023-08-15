@@ -3,6 +3,12 @@
   <v-dialog
     max-width="1000px"
     v-model="dialog">
+    <div class="d-flex justify-end mb-3">
+      <v-btn large style="width: 44px; min-width: 44px"
+             class="pa-0 cta-btn" @click="dialog = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </div>
     <v-card>
       <v-card-text class="pa-5">
         <v-row>
@@ -112,14 +118,13 @@
                 {{ $t('_shop.labels.loginToBuy') }}
               </v-btn>
               <div v-else class="d-flex" style="width: 100%">
-                <v-btn color="success" @click="addToCart()" class="flex-grow-1">
-                  <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
-                  <div v-else>
-                    <v-icon left>mdi-cart-arrow-down</v-icon>
-                    {{ $t('_shop.labels.addToCart') }}
-                  </div>
+                <v-btn color="success" :loading="loading"
+                       @click="addToCart()" class="flex-grow-1 cta-btn">
+                  <v-icon left>mdi-cart-arrow-down</v-icon>
+                  {{ $t('_shop.labels.addToCart') }}
                 </v-btn>
-                <v-btn color="secondary" class="ml-1" @click="$refs.giftPacketDialog.show()">
+                <v-btn color="secondary" class="ml-1 cta-btn"
+                       @click="$refs.giftPacketDialog.show()">
                   <v-icon>
                     mdi-gift-open
                   </v-icon>
@@ -141,16 +146,29 @@
       </v-card-text>
     </v-card>
   </v-dialog>
+  <DialogForm :title="$t('_shop.labels.changeTargetUser')"
+              :form-schema="cartPacketTargetUserForm"
+              @submit="buyForAnotherUser"
+              icon="mdi-account-switch"
+              ref="giftPacketDialog" />
 </div>
 </template>
 
 <script>
+import openapi from '@/api/openapi';
+import ShopService from '@/services/ShopService';
+import DialogForm from '@/components/DialogForm.vue';
+import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
+
 export default {
   name: 'PacketDetailDialog',
+  components: { DialogForm },
   data() {
     return {
       dialog: false,
       packet: null,
+      loading: false,
+      cartPacketTargetUserForm,
     };
   },
   methods: {
@@ -161,10 +179,63 @@ export default {
     close() {
       this.dialog = false;
     },
+    async addToCart(target_user_id = null) {
+      const api = await openapi;
+
+      this.loading = true;
+
+      const data = {
+        packet_id: this.packet.id,
+        custom_price: this.customPrice,
+        custom_credits: this.customCredits,
+        target_user_id,
+      };
+
+      if (!this.packet.custom_price) {
+        data.custom_credits = null;
+        data.custom_price = null;
+      }
+
+      api.shop_addPacketToCart(undefined, data).then(() => {
+        this.loading = false;
+
+        this.$notify({
+          title: this.$t('_messages.addSuccess'),
+          type: 'success',
+        });
+        this.dialog = false;
+        ShopService.refreshCartPacketCount();
+      }).catch((err) => {
+        console.log(err);
+
+        this.loading = false;
+        this.addFail = true;
+
+        let errDet = (err.response.data.detail.code != null ? err.response.data.detail : null);
+
+        if (err.response.status === 401) {
+          errDet = {
+            code: 'unauthorized',
+            detail: { },
+          };
+        }
+
+        /* this.$notify({
+          title: this.$t('_shop.messages.addToCartError'),
+          text: this.$t(`_errors.${errDet.code}`, errDet.detail),
+          type: 'error',
+        }); */
+      });
+    },
+    async buyForAnotherUser() {
+      const data = this.$refs.giftPacketDialog.getData();
+      await this.addToCart(data.target_user_id).then(() => {
+        this.$refs.giftPacketDialog.closeAndReset();
+      });
+    },
   },
 };
 </script>
 
-<style scoped>
-
+<style>
 </style>
