@@ -59,7 +59,9 @@
             <v-card-title :class="{ 'grey-title': !message.background_url &&
                            !$vuetify.theme.dark }">
               <v-row>
-                <v-col>
+                <v-col
+                  :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
+                   'black--text' : $vuetify.theme.dark && message.invert_title_color }">
                   {{ message.subject }}
                 </v-col>
                 <v-col v-if="$checkProp('news_edit')" class="text-right">
@@ -80,7 +82,12 @@
             <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
             </v-card-text>
             <v-card-actions class="text--disabled pt-0">
-              <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
+              <span class="mr-3"
+                    :class="{ 'white--text' : !$vuetify.theme.dark
+                    && message.invert_title_color,
+                   'black--text' : $vuetify.theme.dark && message.invert_title_color }">
+                {{ $d(new Date(message.created), 'long') }}
+              </span>
               <user-link v-if="message.creator" :user="message.creator"/>
             </v-card-actions>
           </v-card>
@@ -103,7 +110,8 @@
             <v-card-title :class="{ 'grey-title': !message.background_url &&
                            !$vuetify.theme.dark }">
               <v-row>
-                <v-col>
+                <v-col :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
+                   'black--text' : $vuetify.theme.dark && message.invert_title_color }">
                   {{ message.subject }}
                 </v-col>
                 <v-col v-if="$checkProp('news_edit')" class="text-right">
@@ -124,7 +132,10 @@
             <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
             </v-card-text>
             <v-card-actions class="text--disabled pt-0">
-              <span class="mr-3">{{ $d(new Date(message.created), 'long') }}</span>
+              <span class="mr-3"
+                    :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
+                   'black--text' : $vuetify.theme.dark && message.invert_title_color }">
+                {{ $d(new Date(message.created), 'long') }}</span>
               <user-link v-if="message.creator" :user="message.creator"/>
             </v-card-actions>
           </v-card>

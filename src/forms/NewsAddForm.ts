@@ -12,7 +12,20 @@ export default {
       type: 'string',
       title: i18n.t('_home.messageSubject'),
     },
-    background_url: Common.imageURLField,
+    background_url: {
+      ...Common.imageURLField,
+      'x-cols': 6,
+    },
+    invert_title_color: {
+      type: 'boolean',
+      title: i18n.t('_home.invertTitleColor'),
+      default: false,
+      'x-cols': 6,
+      'x-display': 'switch',
+      'x-props': {
+        'hide-details': true,
+      },
+    },
     type: {
       type: 'string',
       title: i18n.t('_home.messageType'),
