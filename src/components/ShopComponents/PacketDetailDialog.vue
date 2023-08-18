@@ -9,7 +9,8 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </div>
-    <v-card>
+    <!-- TODO Better Animation -->
+    <v-card v-if="packet">
       <v-card-text class="pa-5">
         <v-row>
           <!-- Image column -->

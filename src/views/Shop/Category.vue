@@ -1,12 +1,12 @@
 <template>
   <div>
+    <!-- Smartphone navigation -->
     <v-navigation-drawer app
                          bottom v-if="$vuetify.breakpoint.smAndDown" v-model="navigationDrawer">
       <v-list nav>
         <transition-group enter-active-class="animate__fadeIn"
                           leave-active-class="animate__fadeOut">
           <v-list-item v-for="c in categories" :key="c.id" class="animate__animated"
-                       :class="{ 'shop-navigation-active': c.name === selectedCategory.name }"
                        @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()">
             <v-list-item-title>
               {{ c.name }}
@@ -27,48 +27,48 @@
         <v-icon>mdi-unfold-more-horizontal</v-icon>
       </v-card-title>
     </v-card>
-    <v-row>
-      <v-col cols="12" sm="6" md="4" xl="3" v-if="$vuetify.breakpoint.mdAndUp">
-        <v-card>
-          <v-list nav>
-            <transition-group enter-active-class="animate__fadeIn"
-                              leave-active-class="animate__fadeOut">
-              <v-list-item v-for="c in categories" :key="c.id" class="animate__animated"
-                           :class="{ 'shop-navigation-active': c.name === selectedCategory.name }"
-                           @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()">
-                <v-list-item-title>
-                  {{ c.name }}
-                </v-list-item-title>
-              </v-list-item>
-            </transition-group>
-            <v-skeleton-loader v-if="categories == null" type="list-item@4" />
-          </v-list>
-        </v-card>
-      </v-col>
-      <v-col>
-        <div v-if="subcategories != null">
-          <div v-for="(_packets, subcat) in subcategories" :key="subcat">
-            <v-row v-if="subcat">
-              <v-col>
-                <v-chip label color="primary" class="mt-4 text-h6">
-                  <v-icon left>mdi-star</v-icon>
-                  {{ subcat }}
-                </v-chip>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" sm="6" md="6" lg="4" xl="3"
-                     v-for="packet in _packets" :key="packet.id"
-                     class="d-flex align-content-space-between">
-                <v-fade-transition>
-                  <PacketCard :packet="packet" @click="$refs.packetDetailDialog.show(packet)" />
-                </v-fade-transition>
-              </v-col>
-            </v-row>
-          </div>
-        </div>
-      </v-col>
-    </v-row>
+    <!-- Full Size Screens -->
+    <div class="d-flex" v-if="$vuetify.breakpoint.mdAndUp && selectedCategory">
+      <h1 class="text-h3">{{ selectedCategory.name }} - __Packets</h1>
+      <v-divider class="ml-3 divider-strong align-self-end"/>
+    </div>
+    <v-card class="mt-5 card-rounded" flat v-if="$vuetify.breakpoint.mdAndUp">
+      <v-card-text>
+        <v-row>
+          <v-col cols="12" md="8" lg="9">
+            <v-tabs v-model="tab">
+              <v-tab v-for="c in categories" :key="c.id" class="animate__animated"
+                     @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()">
+                {{ c.name }}
+              </v-tab>
+              <span v-if="!categories">
+              <v-tab v-for="i in 3" :key="i">
+                <v-skeleton-loader type="button" />
+              </v-tab>
+            </span>
+            </v-tabs>
+            <div v-if="subcategories != null" class="mt-3">
+              <div v-for="(_packets, subcat) in subcategories" :key="subcat">
+                <div v-if="subcat" class="d-flex align-center mt-5 mb-1">
+                  <h2>{{ subcat }}</h2>
+                  <v-divider class="ml-3" />
+                </div>
+                <v-row>
+                  <v-col cols="12" sm="6" md="6" lg="4" xl="3"
+                         v-for="packet in _packets" :key="packet.id"
+                         class="d-flex align-content-space-between">
+                    <PacketCard :packet="packet" @click="$refs.packetDetailDialog.show(packet)" />
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </v-col>
+          <v-col>
+            <RecommendedPacketsSide />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
     <PacketDetailDialog ref="packetDetailDialog" />
   </div>
 </template>
@@ -77,12 +77,14 @@
 import PacketCard from '@/components/ShopComponents/PacketCard.vue';
 import openapiCached from '@/api/openapiCached';
 import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
+import RecommendedPacketsSide from '@/components/ShopComponents/RecommendedPacketsSide.vue';
 import openapi from '../../api/openapi';
 
 export default {
-  components: { PacketDetailDialog, PacketCard },
+  components: { RecommendedPacketsSide, PacketDetailDialog, PacketCard },
   data() {
     return {
+      tab: null,
       packets: null,
       categories: null,
       navigationDrawer: null,
@@ -105,11 +107,12 @@ export default {
     async fetchCategories() {
       (await openapi).packet_getCategories()
         .then((rsp) => {
-          this.categories = [];
-          this.insertCategoryIntoArray(rsp.data, 0);
+          this.categories = rsp.data;
+          this.tab = rsp.data.findIndex((cat) => cat.id === this.$route.params.categoryId);
         });
     },
     insertCategoryIntoArray(sourceArray, index) {
+      // Cool thing but currently not in use
       if (index >= sourceArray.length) { return; }
       this.categories.push(sourceArray[index]);
       setTimeout(() => {
@@ -163,7 +166,9 @@ export default {
   position: absolute;
   width: 100%;
 }
-.shop-navigation-active {
-  background-color: var(--v-primary-base);
+.divider-strong {
+  border-width: 2px !important;
+  border-color: black !important;
+  height: 100%;
 }
 </style>
