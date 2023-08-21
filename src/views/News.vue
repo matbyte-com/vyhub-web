@@ -39,7 +39,7 @@
         <!-- News of the Day -->
         <v-row class="pa-0" v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
           <v-col>
-            <v-card flat color="primary" class="card-rounded d-flex align-center news-card">
+            <v-card flat color="primary" class="card-rounded d-flex align-center title-card">
               <v-card-text class="text-h5 pa-2 ml-1 white--text">
                 {{ $t('_home.newsOfTheDay') }}
               </v-card-text>
@@ -96,7 +96,7 @@
         <v-row class="pa-0" v-if="getNews.length !== 0"
                :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }">
           <v-col>
-            <v-card flat color="primary" class="card-rounded d-flex align-center news-card">
+            <v-card flat color="primary" class="card-rounded d-flex align-center title-card">
               <v-card-text class="pa-2 ml-1 text-h5 white--text">
                 {{ $t('_home.news') }}
               </v-card-text>
@@ -337,18 +337,6 @@ export default {
   border-style: solid
   border-width: 3px
   border-color: var(--v-primary-base)
-
-.news-card:before
-  content: ""
-  width: 0px
-  height: 0px
-  position: absolute
-  border-left: 10px solid transparent
-  border-right: 10px solid transparent
-  border-top: 10px solid var(--v-primary-base)
-  border-bottom: 10px solid transparent
-  left: 15%
-  bottom: -19px
 
 .grey-title
   background-color: rgb(255,255,255)

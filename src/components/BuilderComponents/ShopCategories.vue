@@ -3,7 +3,7 @@
     <v-row justify="center" v-if="categories">
       <v-col cols="11" sm="10" md="10" lg="9" xl="8"
              style="position: relative">
-        <Swiper :number-of-elements="categories.length" :categories="categories">
+        <Swiper :number-of-elements="categories.length">
           <swiper-slide style="height: 100%"
                         v-for="category in categories" :key="category.id">
             <v-card class="grow-on-hover

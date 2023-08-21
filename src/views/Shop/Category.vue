@@ -170,11 +170,6 @@ export default {
   position: absolute;
   width: 100%;
 }
-.divider-strong {
-  border-width: 2px !important;
-  border-color: black !important;
-  height: 100%;
-}
 
 .absolute {
   position: absolute;

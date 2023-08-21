@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="numberOfElements" style="position:relative;">
-      <swiper-container ref="carousel"
+      <swiper-container ref="carousel" grid-rows="3"
                         class="mx-auto" :slides-per-view="perPage"
                         :per-page="perPage" :key="perPage" :space-between="12">
         <slot />
@@ -19,7 +19,7 @@
 <script>
 export default {
   name: 'Swiper',
-  props: ['numberOfElements'],
+  props: ['numberOfElements', 'perPageCustom'],
   data() {
     return {
       currentSlide: 0,
@@ -41,6 +41,7 @@ export default {
   },
   computed: {
     perPage() {
+      if (this.perPageCustom) return this.perPageCustom;
       if (!this.numberOfElements) return 0;
       let res = 1;
       if (this.$vuetify.breakpoint.xs) {

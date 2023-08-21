@@ -88,7 +88,7 @@
           </v-fade-transition>
         </v-img>
     </v-hover>
-    <v-card-text class="vh-packet-card-text">
+    <v-card-text class="vh-packet-card-text" style="width: inherit">
           <div class="text-center">
             <div>
               <h6 class="text-h6">
