@@ -29,7 +29,11 @@
     </v-card>
     <!-- Full Size Screens -->
     <div class="d-flex" v-if="$vuetify.breakpoint.mdAndUp && selectedCategory">
-      <h1 class="text-h3">{{ selectedCategory.name }} - __Packets</h1>
+      <transition enter-active-class="animate__fadeIn animate__animated"
+                  leave-active-class="absolute">
+          <h1 class="text-h3"
+              :key="headlineKey">{{ selectedCategory.name }} - __Packets</h1>
+      </transition>
       <v-divider class="ml-3 divider-strong align-self-end"/>
     </div>
     <v-card class="mt-5 card-rounded" flat v-if="$vuetify.breakpoint.mdAndUp">
@@ -38,7 +42,8 @@
           <v-col cols="12" md="8" lg="9">
             <v-tabs v-model="tab">
               <v-tab v-for="c in categories" :key="c.id" class="animate__animated"
-                     @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()">
+                     @click="$router.push({ params: { categoryId: c.id } }); fetchPackets();
+              headlineKey++;">
                 {{ c.name }}
               </v-tab>
               <span v-if="!categories">
@@ -56,38 +61,37 @@
                 <v-row>
                   <v-col cols="12" sm="6" md="6" lg="4" xl="3"
                          v-for="packet in _packets" :key="packet.id"
-                         class="d-flex align-content-space-between">
-                    <PacketCard :packet="packet" @click="$refs.packetDetailDialog.show(packet)" />
+                         class="">
+                    <PacketCard :packet="packet" />
                   </v-col>
                 </v-row>
               </div>
             </div>
           </v-col>
-          <v-col>
+          <v-col cols="12" md="4" lg="3">
             <RecommendedPacketsSide />
           </v-col>
         </v-row>
       </v-card-text>
     </v-card>
-    <PacketDetailDialog ref="packetDetailDialog" />
   </div>
 </template>
 
 <script>
 import PacketCard from '@/components/ShopComponents/PacketCard.vue';
 import openapiCached from '@/api/openapiCached';
-import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
 import RecommendedPacketsSide from '@/components/ShopComponents/RecommendedPacketsSide.vue';
 import openapi from '../../api/openapi';
 
 export default {
-  components: { RecommendedPacketsSide, PacketDetailDialog, PacketCard },
+  components: { RecommendedPacketsSide, PacketCard },
   data() {
     return {
       tab: null,
       packets: null,
       categories: null,
       navigationDrawer: null,
+      headlineKey: 0,
     };
   },
   beforeMount() {
@@ -170,5 +174,10 @@ export default {
   border-width: 2px !important;
   border-color: black !important;
   height: 100%;
+}
+
+.absolute {
+  position: absolute;
+  opacity: 0;
 }
 </style>

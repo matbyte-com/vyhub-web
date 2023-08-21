@@ -3,12 +3,6 @@
   <v-dialog
     max-width="1000px"
     v-model="dialog">
-    <div class="d-flex justify-end mb-3">
-      <v-btn large style="width: 44px; min-width: 44px"
-             class="pa-0 cta-btn" @click="dialog = false">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </div>
     <!-- TODO Better Animation -->
     <v-card v-if="packet">
       <v-card-text class="pa-5">
@@ -164,18 +158,22 @@ import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 export default {
   name: 'PacketDetailDialog',
   components: { DialogForm },
+  props: {
+    packet: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       dialog: false,
-      packet: null,
       loading: false,
       cartPacketTargetUserForm,
     };
   },
   methods: {
-    show(packet) {
+    show() {
       this.dialog = true;
-      this.packet = packet;
     },
     close() {
       this.dialog = false;
