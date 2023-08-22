@@ -13,12 +13,14 @@
   </div>
   -->
       <!-- class="flex-grow-1 flex-column d-flex vh-packet-card" -->
-    <v-card class="flex-grow-1 flex-column d-flex vh-packet-card">
+    <v-card class="flex-grow-1 flex-column d-flex vh-packet-card" :color="flat ? 'transparent' : ''"
+            :flat="flat">
       <v-hover v-slot:default="{ hover }">
       <v-img
           :src="packet.image_url"
           @click="$refs.detailDialog.show()"
           class="white--text"
+          max-height="200px"
           style="cursor: pointer;">
           <div class="d-flex flex-column" style="height: 100%">
             <v-fade-transition>
@@ -155,6 +157,10 @@ export default {
       default: false,
     },
     disableHover: {
+      type: Boolean,
+      default: false,
+    },
+    flat: {
       type: Boolean,
       default: false,
     },

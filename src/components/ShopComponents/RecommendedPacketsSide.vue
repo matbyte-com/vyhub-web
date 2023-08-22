@@ -7,11 +7,11 @@
       <v-divider class="ml-3 mb-1 divider-strong align-self-end"/>
     </v-card-title>
     <v-card-text>
-      <div v-if="!$vuetify.breakpoint.smAndDown">
+      <div v-if="!$vuetify.breakpoint.lgAndDown">
         <v-row v-if="recommendedPackets">
           <v-col cols="6" md="6" lg="12" xl="6" v-for="p in recommendedPackets" :key="p.id"
-                 class="d-flex align-content-space-between">
-            <PacketCard
+                 class="d-flex">
+            <PacketCard :flat="true" class="flex-grow-1"
               :small="true" :disable-hover="true" :packet="p" />
           </v-col>
         </v-row>
@@ -24,7 +24,7 @@
       <div v-else>
         <Swiper :number-of-elements="4" :per-page-custom="perPage">
           <swiper-slide v-for="p in recommendedPackets" :key="p.id">
-            <PacketCard
+            <PacketCard :flat="true"
               :small="true" :disable-hover="true" :packet="p" />
           </swiper-slide>
         </Swiper>

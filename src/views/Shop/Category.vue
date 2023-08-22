@@ -39,7 +39,7 @@
     <v-card class="mt-5 card-rounded" flat v-if="$vuetify.breakpoint.mdAndUp">
       <v-card-text>
         <v-row>
-          <v-col cols="12" md="8" lg="9">
+          <v-col cols="12" md="8" lg="8">
             <v-tabs v-model="tab">
               <v-tab v-for="c in categories" :key="c.id" class="animate__animated"
                      @click="$router.push({ params: { categoryId: c.id } }); fetchPackets();
@@ -68,7 +68,7 @@
               </div>
             </div>
           </v-col>
-          <v-col cols="12" md="4" lg="3">
+          <v-col cols="12" md="4" lg="4">
             <RecommendedPacketsSide />
           </v-col>
         </v-row>

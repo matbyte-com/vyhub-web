@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import TopDonators from '@/components/BuilderComponents/TopDonators.vue';
-import DonationGoal from './DonationGoal.vue';
+import TopDonators from '@/components/ShopComponents/TopDonators.vue';
+import DonationGoal from '../ShopComponents/DonationGoal.vue';
 
 export default {
   name: 'ShopInformation',

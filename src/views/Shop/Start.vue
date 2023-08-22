@@ -2,19 +2,18 @@
   <div>
     <v-row>
       <v-col cols="12" md="8" lg="9" class="d-flex flex-column align-content-space-between">
-        <v-card flat color="primary" class="card-rounded d-flex align-center title-card">
-          <v-card-text class="pa-2 ml-1 white--text">
-            <h1 class="text-h5">__ Welcome to the {{ $t('shop') }}</h1>
-          </v-card-text>
+        <PageTitleFlat :title="$t('_shop.shopTitle')" />
+        <v-card class="card-rounded mt-4" v-if="$vuetify.breakpoint.smAndDown">
+          <ShopStatsSide />
         </v-card>
-        <v-card class="card-rounded mt-4 flex-grow-1">
+        <v-card class="card-rounded mt-4 flex-grow-1" flat>
           <v-card-text>
             <div class="d-flex">
-              <h2 class="text-h5">__Categories</h2>
+              <h2 class="text-h5">{{ $t('categories') }}</h2>
               <v-divider class="ml-3 mb-1 divider-strong align-self-end"/>
             </div>
             <v-row v-if="categories" class="mt-1">
-              <v-col cols="6" xl="3" lg="4" md="6" sm="4" v-for="category in categories"
+              <v-col cols="6" xl="4" lg="4" md="6" sm="4" v-for="category in categories"
                      :key="category.id"
                      class="d-flex align-content-space-between">
                 <v-card :to=" { name: 'ShopCategory',
@@ -28,7 +27,8 @@
                     <h3 class="text-h6">{{ category.name }}</h3>
                     <v-spacer />
                     <v-btn tile depressed color="primary" v-if="!$vuetify.breakpoint.smAndDown">
-                      __View More
+                      <span v-if="$vuetify.breakpoint.lgAndUp">{{ $t('viewMore') }}</span>
+                      <span v-else>{{ $t('view') }}</span>
                     </v-btn>
                   </div>
                 </v-card>
@@ -46,7 +46,10 @@
         </v-card>
       </v-col>
       <v-col cols="12" md="4" lg="3" class="d-flex flex-column">
-        <v-card class="card-rounded flex-grow-1">
+        <v-card class="card-rounded" v-if="!$vuetify.breakpoint.smAndDown" flat>
+          <ShopStatsSide />
+        </v-card>
+        <v-card class="card-rounded mt-6" flat>
           <RecommendedPacketsSide />
         </v-card>
       </v-col>
@@ -56,10 +59,12 @@
 
 <script>
 import RecommendedPacketsSide from '@/components/ShopComponents/RecommendedPacketsSide.vue';
+import ShopStatsSide from '@/components/ShopComponents/ShopStatsSide.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../../api/openapi';
 
 export default {
-  components: { RecommendedPacketsSide },
+  components: { PageTitleFlat, ShopStatsSide, RecommendedPacketsSide },
   data() {
     return {
       categories: null,

@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <v-card class="vh-donation-goal" flat
+  <div style="min-height: 105px">
+    <div class="vh-donation-goal"
             v-if="shopConfig">
-      <v-card-title>
+      <v-card-title v-if="!noTitle" class="pb-2 pt-0">
         <HeadlineSidebar class="mx-auto" :title="shopConfig.donation_goal_display_title"
                          icon="mdi-flag-checkered"/>
       </v-card-title>
-      <v-card-text>
-        <v-progress-linear striped :value="donationProgress" height="20" class="progress-bar">
-          <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
-            {{ donationProgress }}%
-          </span>
-        </v-progress-linear>
-        <div class="text-center mt-1">
-        <span v-if="donationGoal && donationGoal.currency" class="subtitle-1">
-          {{ utils.formatDecimal(donationGoal.current) }}{{donationGoal.currency.symbol}}
-          / {{ utils.formatDecimal(donationGoal.goal) }}{{donationGoal.currency.symbol}}
-          {{ $t('_shop.labels.perMonth') }}</span>
-        </div>
-      </v-card-text>
-    </v-card>
+      <v-progress-linear striped :value="donationProgress" height="20" class="progress-bar">
+        <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
+          {{ donationProgress }}%
+        </span>
+      </v-progress-linear>
+      <div class="text-center mt-1">
+      <span v-if="donationGoal && donationGoal.currency" class="subtitle-1">
+        {{ utils.formatDecimal(donationGoal.current) }}{{donationGoal.currency.symbol}}
+        / {{ utils.formatDecimal(donationGoal.goal) }}{{donationGoal.currency.symbol}}
+        {{ $t('_shop.labels.perMonth') }}</span>
+      </div>
+    </div>
     <v-skeleton-loader v-else type="card" />
   </div>
 </template>
@@ -31,6 +29,7 @@ import openapi from '@/api/openapi';
 export default {
   name: 'DonationGoal.vue',
   components: { HeadlineSidebar },
+  props: ['noTitle'],
   data() {
     return {
       donationGoal: null,
