@@ -64,22 +64,36 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/shop',
-    name: 'Shop',
     component: () => import('@/views/Shop/Start.vue'),
-    meta: { title: i18n.t('_pageTitle.shop') },
+    children: [
+      {
+        path: '',
+        name: 'Shop',
+        component: () => import('@/views/Shop/Categories.vue'),
+        meta: { title: i18n.t('_pageTitle.shop') },
+      },
+      {
+        path: 'category/:categoryId',
+        name: 'ShopCategory',
+        component: () => import('@/views/Shop/Category.vue'),
+        meta: { title: i18n.t('_pageTitle.shopCategory') },
+      },
+    ],
   },
+  /*
   {
     path: '/shop/category/:categoryId',
     name: 'ShopCategory',
     component: () => import('@/views/Shop/Category.vue'),
     meta: { title: i18n.t('_pageTitle.shopCategory') },
-  },
+  }, */
+  /*
   {
     path: '/shop/packet/:packetId',
     name: 'ShopPacket',
     component: () => import('@/views/Shop/Packet.vue'),
     meta: { title: i18n.t('_pageTitle.shopPacket') },
-  },
+  }, */
   {
     path: '/shop/cart',
     name: 'ShopCart',

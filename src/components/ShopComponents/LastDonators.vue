@@ -3,6 +3,7 @@
   <v-card-title class="pt-0 pb-0">
     <HeadlineSidebar class="mx-auto"
                      :title="$store.getters.shopConfig.last_donators_display_title"
+                     :no-icon="true"
                      icon="mdi-clock-end"/>
   </v-card-title>
   <v-row class="mt-2">

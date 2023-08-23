@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-center">
-      <v-icon color="primary" class="mr-1">{{ icon }}</v-icon>
-      <v-sheet vertical color="primary" width="2" height="25">
+      <v-icon color="primary" class="mr-1" v-if="!noIcon">{{ icon }}</v-icon>
+      <v-sheet vertical color="primary" width="2" height="25" v-if="!noIcon">
       </v-sheet>
       <span class="ml-2 mr-1">
             {{ title }}
@@ -15,6 +15,7 @@ export default {
   props: {
     icon: String,
     title: String,
+    noIcon: Boolean,
   },
 };
 </script>

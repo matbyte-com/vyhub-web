@@ -19,6 +19,7 @@ const getDefaultState = () => ({
   theme: null,
   activeCustomerJourneyStep: null,
   hideWelcomeOverlay: null,
+  homePageComponents: null,
 });
 
 export default new Vuex.Store({
@@ -41,6 +42,7 @@ export default new Vuex.Store({
     theme: (state) => state.theme,
     activeCustomerJourneyStep: (state) => state.activeCustomerJourneyStep,
     hideWelcomeOverlay: (state) => state.hideWelcomeOverlay,
+    homePageComponents: (state) => state.homePageComponents,
   },
   mutations: {
     RESET: (state) => {
@@ -84,6 +86,9 @@ export default new Vuex.Store({
     SET_HIDE_WELCOME_OVERLAY: (state, hide_welcome_overlay) => {
       state.hideWelcomeOverlay = hide_welcome_overlay;
     },
+    SET_HOMEPAGE_COMPONENTS: (state, homepageComponents) => {
+      state.homePageComponents = homepageComponents;
+    },
     LOGOUT: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -124,6 +129,9 @@ export default new Vuex.Store({
     },
     setHideWelcomeOverlay: ({ commit }, { hideWelcomeOverlay }) => {
       commit('SET_HIDE_WELCOME_OVERLAY', hideWelcomeOverlay);
+    },
+    setHomePageComponents: ({ commit }, { homePageComponents }) => {
+      commit('SET_HOMEPAGE_COMPONENTS', homePageComponents);
     },
   },
   modules: {

@@ -3,7 +3,9 @@
     <div class="vh-donation-goal"
             v-if="shopConfig">
       <v-card-title v-if="!noTitle" class="pb-2 pt-0">
-        <HeadlineSidebar class="mx-auto" :title="shopConfig.donation_goal_display_title"
+        <HeadlineSidebar class="mx-auto"
+                         :title="shopConfig.donation_goal_display_title"
+                         :no-icon="true"
                          icon="mdi-flag-checkered"/>
       </v-card-title>
       <v-progress-linear striped :value="donationProgress" height="20" class="progress-bar">

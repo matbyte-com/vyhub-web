@@ -3,7 +3,7 @@
     <div class="vh-top-donators"
             v-if="topDonators && shopConfig">
       <v-card-title class="pb-1 pt-0" v-if="!noTitle">
-          <HeadlineSidebar class="mx-auto"
+          <HeadlineSidebar class="mx-auto" :no-icon="true"
                            :title="shopConfig.top_donators_display_title" icon="mdi-podium"/>
       </v-card-title>
       <div class="d-flex align-center mt-3" style="overflow-x: auto; height: 55px">
