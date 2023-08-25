@@ -6,11 +6,11 @@
       <transition enter-active-class="animate__fadeIn animate__animated"
                   leave-active-class="absolute">
         <v-row class="justify-center align-center">
-          <v-col><slot name="start" /></v-col>
-          <v-col class="text-center">
+          <v-col v-if="$slots.start"><slot name="start" /></v-col>
+          <v-col :class="{ 'text-center' : $slots.start}">
             <h1 class="text-h5 text-uppercase font-weight-bold">{{ title }}</h1>
           </v-col>
-          <v-col><slot name="end" /></v-col>
+          <v-col v-if="$slots.end"><slot name="end" /></v-col>
         </v-row>
       </transition>
     </v-card-text>
