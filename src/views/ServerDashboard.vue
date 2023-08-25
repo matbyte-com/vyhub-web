@@ -1,24 +1,33 @@
 <template>
   <div v-if="server">
-    <v-menu offset-y max-width="100%">
-      <template v-slot:activator="{ on, attrs }">
-        <PageTitle icon="mdi-server">
-          <span v-bind="attrs"
-                v-on="on">{{ server.name }} <v-icon>mdi-triangle mdi-rotate-180</v-icon></span>
-        </PageTitle>
-      </template>
-      <v-card>
-        <v-list>
-          <v-list-item v-for="server in availableServerDashboards" :key="server.id"
-                       @click="serverChanged(server)"
-                       :input-value="$route.params.id === server.id">
-            <v-icon left>{{ server.serverbundle.icon }}</v-icon>
-            {{ server.name }}
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-menu>
-    <v-card class="vh-server-dashboard-status">
+    <div>
+      <v-menu offset-y width="100%" v-model="menuOpen">
+        <template v-slot:activator="{ on, attrs }">
+          <div v-bind="attrs" v-on="on">
+            <PageTitleFlat :title="server.name" :hide-triangle="true" :is-menu="true"
+                           :open="menuOpen">
+              <template v-slot:start>
+                <v-progress-linear height="15px" style="width: 50px"/>
+              </template>
+              <template v-slot:end>
+                <v-icon color="white">mdi-unfold-more-horizontal</v-icon>
+              </template>
+            </PageTitleFlat>
+          </div>
+        </template>
+        <v-card style="width: 100%;" class="card-rounded-bottom">
+          <v-list>
+            <v-list-item v-for="server in availableServerDashboards" :key="server.id"
+                         @click="serverChanged(server)"
+                         :input-value="$route.params.id === server.id">
+              <v-icon left>{{ server.serverbundle.icon }}</v-icon>{{ server.name }}
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-menu>
+    </div>
+    <!--
+    <v-card class="">
       <v-row align="center">
         <v-col class="ml-3">
           <v-icon :color="getStatusColor" left>
@@ -48,9 +57,10 @@
         <v-col class="text-right mr-3">{{ $t(`_server.type.${server.type}`) }}</v-col>
       </v-row>
     </v-card>
-    <v-row class="mt-6" no-gutters>
+    -->
+    <v-row class="mt-3" no-gutters>
       <v-col cols="12" lg="4" class="d-flex" :class="$vuetify.breakpoint.lgAndUp ? 'pr-3' : 'mb-3'">
-        <v-card class="flex-grow-1 vh-server-dashboard-users">
+        <v-card class="flex-grow-1 vh-server-dashboard-users card-rounded" flat>
           <v-card-text>
             <div class="d-flex align-center">
               <v-text-field
@@ -81,8 +91,7 @@
               <div v-if="returnUsers == null">
                 <v-skeleton-loader type="list-item-avatar"
                                    :key="i"
-                                   v-for="i in Array(5)"
-                >
+                                   v-for="i in Array(5)">
                 </v-skeleton-loader>
               </div>
               <v-list-item v-else-if="returnUsers.length === 0"
@@ -126,7 +135,7 @@
         </v-card>
       </v-col>
       <v-col cols="12" lg="8" class="d-flex">
-        <v-card class="flex-grow-1 vh-server-status-selected-user">
+        <v-card class="flex-grow-1 vh-server-status-selected-user card-rounded" flat>
           <v-card-text v-if="!currentUser">{{ $t('_serverDashboard.selectAUser') }}</v-card-text>
           <v-card-text v-else>
             <v-row>
@@ -173,17 +182,20 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
 import WarningTable from '@/components/ServerDashboard/WarningTable.vue';
 import BanTable from '@/components/ServerDashboard/BanTable.vue';
 import SessionService from '@/services/SessionService';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
   name: 'ServerDashboard',
   components: {
-    WarningTable, UserLink, PageTitle, BanTable,
+    PageTitleFlat,
+    WarningTable,
+    UserLink,
+    BanTable,
   },
   data() {
     return {
@@ -191,6 +203,7 @@ export default {
       users: null,
       userSearchModel: null,
       currentUser: null,
+      menuOpen: false,
       reloading: false,
       banHeaders: [
         { text: this.$t('user'), value: 'user', sortable: false },

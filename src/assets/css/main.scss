@@ -49,6 +49,16 @@
   border-radius: 10px !important;
 }
 
+.card-rounded-bottom {
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+
+.card-rounded-top {
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+}
+
 // For all Overlays
 .v-overlay--active .v-overlay__scrim {
   display: none;
