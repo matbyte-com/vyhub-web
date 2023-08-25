@@ -12,32 +12,6 @@
             <v-icon left>mdi-pencil</v-icon>
             <span>{{ $t('_forum.editThread') }}</span>
           </v-btn>
-          <v-btn v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
-                 class="mr-1" x-small outlined
-                 :color="thread.pinned === false ? 'success' : 'error'"
-                 @click="togglePin">
-            <div v-if="thread.pinned === false">
-              <v-icon left>mdi-pin</v-icon>
-              <span>{{ $t('_forum.pin') }}</span>
-            </div>
-            <div v-else>
-              <v-icon left>mdi-pin-off</v-icon>
-              <span>{{ $t('_forum.unpin') }}</span>
-            </div>
-          </v-btn>
-          <v-btn v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
-                 class="mr-1" x-small outlined
-                 :color="thread.status === 'CLOSED' ? 'success' : 'error'"
-                 @click="toggleStatus">
-            <div v-if="thread.status === 'CLOSED'">
-              <v-icon left>mdi-lock-open-variant</v-icon>
-              <span>{{ $t('_forum.unlock') }}</span>
-            </div>
-            <div v-else>
-              <v-icon left>mdi-lock</v-icon>
-              <span>{{ $t('_forum.lock') }}</span>
-            </div>
-          </v-btn>
           <v-btn v-if="($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))"
                  :disabled="thread.status !== 'CLOSED'"
                  outlined x-small
@@ -145,15 +119,18 @@
                     <div class="d-flex flex-row flex-wrap">
                       <div v-for="icon in icons" :key="icon">
                         <span class="mr-2">
-                          <v-btn small
-                                 :class="{ 'text--disabled':
+                          <v-btn :class="{ 'text--disabled':
                                  getReactionAccumulated(post, icon).count === 0,
-                                 'clicked': added[icon],
-                                 'glow-reaction':
-                                 getReactionAccumulated(post, icon).has_reacted }" icon
+                                 'clicked': added[post.id + icon],
+                                 'glow-reaction': getReactionAccumulated(post, icon).has_reacted }"
+                                 icon small v-if="$store.getters.isLoggedIn"
                           @click="toggleReaction(post, icon)">
                             {{ icon }}
                           </v-btn>
+                          <span v-else :class="{ 'text--disabled':
+                                 getReactionAccumulated(post, icon).count === 0}">
+                            {{ icon }}
+                          </span>
                           <span v-if="getReactionAccumulated(post, icon).count !== 0">
                             {{ getReactionAccumulated(post, icon).count }}
                           </span>
@@ -187,7 +164,6 @@
                     :length="totalPages"
                     :total-visible="5"
                     @input="fetchData"/>
-      <!-- Only works if more then 3 Posts exists? -->
       <div class="mt-3" v-if="thread.status !== 'CLOSED' && posts.length > 3
       && $vuetify.breakpoint.mdAndUp">
         <v-card flat outlined>
@@ -211,14 +187,13 @@
       </div>
       <ThreadAddDialog ref="addPostDialog"
                        :dialog-title="`${$t('_forum.addPost')}`"
-                       @submit="newPost" :hide-title-input="true"/>
+                       @submit="newPost" :hide-title-input="true" />
       <ThreadAddDialog ref="editPostDialog"
                        :dialog-title="`${$t('_forum.editPost')}`"
-                       @submit="editPost" :hide-title-input="true"/>
-      <DialogForm :title="`${$t('_forum.renameThread')}`" :form-schema="ThreadTitleForm"
-                  ref="editThreadTitleDialog" :icon="`mdi-pencil`"
-                  :dialog-title="`${$t('_forum.editThreadTitle')}`"
-                  @submit="editThreadTitle" :hide-editor="true"/>
+                       @submit="editPost" :hide-title-input="true" />
+      <EditThreadDialog ref="editThreadTitleDialog"
+                  :dialog-title="`${$t('_forum.editThread')}`"
+                  @submit="editThreadTitle" />
       <DeleteConfirmationDialog ref="deletePostConfirmationDialog"
                                 @submit="deletePost" />
       <DeleteConfirmationDialog ref="deleteThreadConfirmationDialog"
@@ -230,9 +205,9 @@
 
 <script>
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import DialogForm from '@/components/DialogForm.vue';
 import ForumEditThreadForm from '@/forms/ForumEditThreadForm';
 import editor from '@/components/Editor.vue';
+import EditThreadDialog from '@/components/ForumComponents/EditThreadDialog.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 import UserLink from '../components/UserLink.vue';
@@ -242,11 +217,11 @@ import ForumPost from '../forms/ForumPost';
 export default {
   name: 'ForumThread',
   components: {
+    EditThreadDialog,
     DeleteConfirmationDialog,
     PageTitle,
     ThreadAddDialog,
     UserLink,
-    DialogForm,
     editor,
   },
   data() {
@@ -388,18 +363,21 @@ export default {
     openThreadTitleEditDialog(thread) {
       const data = thread;
       this.$refs.editThreadTitleDialog.show(data);
-      data.title = thread.title;
-      this.$refs.editThreadTitleDialog.setData(data);
+      this.$refs.editThreadTitleDialog.setData(data, this.topic.id);
     },
     async editThreadTitle() {
       const data = this.$refs.editThreadTitleDialog.getData();
+      if (data.status !== this.thread.status) {
+        this.toggleStatus();
+      }
+      delete data.status;
       (await openapi).forum_editThread(this.threadId, data).then(() => {
         this.$notify({
           title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
         this.getThread();
-        this.$refs.editThreadTitleDialog.closeAndReset();
+        this.$refs.editThreadTitleDialog.close();
       }).catch((err) => {
         this.$refs.editThreadTitleDialog.setError(err);
       });
@@ -423,23 +401,6 @@ export default {
           title: this.$t('_messages.toggleSuccess'),
           type: 'success',
         });
-      });
-    },
-    async togglePin() {
-      this.thread.pinned = !this.thread.pinned;
-      (await openapi).forum_editThread(this.threadId, this.thread).then((rsp) => {
-        this.thread = rsp.data;
-        if (this.thread.pinned) {
-          this.$notify({
-            title: this.$t('_forum.messages.pinned'),
-            type: 'success',
-          });
-        } else {
-          this.$notify({
-            title: this.$t('_forum.messages.unpinned'),
-            type: 'success',
-          });
-        }
       });
     },
     getReactionAccumulated(post, icon) {
@@ -479,9 +440,9 @@ export default {
           post.accumulated_reactions[icon].has_reacted = true;
           // eslint-disable-next-line brace-style
         });
-        this.added[icon] = true;
+        this.added[post.id + icon] = true;
         setTimeout(() => {
-          this.added[icon] = false;
+          this.added[post.id + icon] = false;
         }, 1500);
       }
       setTimeout(() => {
@@ -508,12 +469,13 @@ export default {
 }
 
 .glow-reaction {
-  box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(84, 113, 252, 0.1);
+  border: 1px solid rgba(84, 113, 252, 0.5);
+  border-radius: 50%;
 }
 
 .clicked {
-  animation: reacted 1.5s steps(15) 1;
+  animation: xmasTheme 1.5s steps(15) 1;
 }
 
 @keyframes reacted {
