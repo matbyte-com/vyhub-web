@@ -1,16 +1,17 @@
 <template>
-  <v-card flat color="primary" class="card-rounded d-flex align-center vh-page-title"
-          :class="{ 'title-card': !hideTriangle, 'card-rounded': !isMenu }">
+  <v-card flat color="primary" class="card-rounded-top d-flex align-center vh-page-title"
+          :class="{ 'title-card': !hideTriangle, 'no-bottom-border-radius': open,
+           'card-rounded': !isMenu, 'card-rounded-bottom': isMenu && !open }">
     <v-card-text class="pa-2 ml-1 white--text">
       <transition enter-active-class="animate__fadeIn animate__animated"
                   leave-active-class="absolute">
-        <div class="d-flex align-center">
-          <slot name="start" />
-          <v-spacer v-if="$slots.start"/>
-          <h1 class="text-h5 text-uppercase font-weight-bold">{{ title }}</h1>
-          <v-spacer v-if="$slots.end"/>
-          <slot name="end" />
-        </div>
+        <v-row class="justify-center align-center">
+          <v-col><slot name="start" /></v-col>
+          <v-col class="text-center">
+            <h1 class="text-h5 text-uppercase font-weight-bold">{{ title }}</h1>
+          </v-col>
+          <v-col><slot name="end" /></v-col>
+        </v-row>
       </transition>
     </v-card-text>
   </v-card>

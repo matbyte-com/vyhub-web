@@ -6,11 +6,32 @@
           <div v-bind="attrs" v-on="on">
             <PageTitleFlat :title="server.name" :hide-triangle="true" :is-menu="true"
                            :open="menuOpen">
-              <template v-slot:start>
-                <v-progress-linear height="15px" style="width: 50px"/>
+              <template v-slot:start v-if="server.status === 'ONLINE'">
+                <v-card class="pa-1" flat style="width: 100px; background-color: green">
+                  <v-progress-linear rounded :value="getPlayerOnlineProgress(server)" height="18"
+                                     class="white--text">
+                    <strong v-if="server.status === 'ONLINE'">
+                      <span v-if="server.users_current != null">
+                        {{ server.users_current }}
+                      </span>
+                          <span v-else>
+                        ?
+                      </span>
+                          /
+                          <span v-if="server.users_max != null">
+                        {{ server.users_max }}
+                      </span>
+                          <span v-else>
+                        ?
+                      </span>
+                    </strong>
+                  </v-progress-linear>
+                </v-card>
               </template>
               <template v-slot:end>
-                <v-icon color="white">mdi-unfold-more-horizontal</v-icon>
+                <div class="text-right">
+                  <v-icon color="white">mdi-unfold-more-horizontal</v-icon>
+                </div>
               </template>
             </PageTitleFlat>
           </div>
@@ -26,38 +47,6 @@
         </v-card>
       </v-menu>
     </div>
-    <!--
-    <v-card class="">
-      <v-row align="center">
-        <v-col class="ml-3">
-          <v-icon :color="getStatusColor" left>
-            mdi-flash
-          </v-icon>
-          <span v-if="server.status !== 'UNKNOWN'">
-            <a>
-              <span v-if="server.type !== 'DISCORD'">
-                <span v-if="server.users_current != null">
-                {{ server.users_current }}
-              </span>
-              <span v-else>
-                ?
-              </span>
-              /
-              </span>
-              <span v-if="server.users_max != null">
-                {{ server.users_max }}
-              </span>
-              <span v-else>
-                ?
-              </span>
-            </a>
-          </span>
-        </v-col>
-        <v-col class="text-center text-h6">{{ server.name }}</v-col>
-        <v-col class="text-right mr-3">{{ $t(`_server.type.${server.type}`) }}</v-col>
-      </v-row>
-    </v-card>
-    -->
     <v-row class="mt-3" no-gutters>
       <v-col cols="12" lg="4" class="d-flex" :class="$vuetify.breakpoint.lgAndUp ? 'pr-3' : 'mb-3'">
         <v-card class="flex-grow-1 vh-server-dashboard-users card-rounded" flat>
@@ -285,6 +274,10 @@ export default {
       // eslint-disable-next-line max-len
       const membership = user.memberships.reduce((prev, current) => ((prev.group.permission_level > current.group.permission_level) ? prev : current));
       return membership.group.color;
+    },
+    getPlayerOnlineProgress(server) {
+      if (server.users_max == null || server.users_current == null) return 0;
+      return (server.users_current / server.users_max) * 100;
     },
   },
   computed: {

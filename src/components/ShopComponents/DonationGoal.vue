@@ -14,10 +14,12 @@
         </span>
       </v-progress-linear>
       <div class="text-center mt-1">
-      <span v-if="donationGoal && donationGoal.currency" class="subtitle-1">
+        <v-fade-transition>
+                <span v-if="donationGoal && donationGoal.currency" class="subtitle-1">
         {{ utils.formatDecimal(donationGoal.current) }}{{donationGoal.currency.symbol}}
         / {{ utils.formatDecimal(donationGoal.goal) }}{{donationGoal.currency.symbol}}
         {{ $t('_shop.labels.perMonth') }}</span>
+        </v-fade-transition>
       </div>
     </div>
     <v-skeleton-loader v-else type="card" />

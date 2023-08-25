@@ -59,6 +59,17 @@
   border-top-right-radius: 10px !important;
 }
 
+.no-bottom-border-radius {
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.no-top-border-radius {
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+
 // For all Overlays
 .v-overlay--active .v-overlay__scrim {
   display: none;
