@@ -6,8 +6,9 @@
           <div v-bind="attrs" v-on="on">
             <PageTitleFlat :title="server.name" :hide-triangle="true" :is-menu="true"
                            :open="menuOpen">
-              <template v-slot:start v-if="server.status === 'ONLINE'">
-                <v-card class="pa-1" flat style="width: 100px; background-color: green">
+              <template v-slot:start>
+                <v-card class="pa-1" flat style="width: 100px; background-color: green"
+                        v-if="server.status === 'ONLINE'">
                   <v-progress-linear rounded :value="getPlayerOnlineProgress(server)" height="18"
                                      class="white--text">
                     <strong v-if="server.status === 'ONLINE'">
@@ -27,6 +28,7 @@
                     </strong>
                   </v-progress-linear>
                 </v-card>
+                <div v-else/>
               </template>
               <template v-slot:end>
                 <div class="text-right">
