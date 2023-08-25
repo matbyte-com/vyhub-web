@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- TODO Place into PageTitleFlat
     <div class="d-flex">
       <PageTitle icon="mdi-forum">{{ $t('_forum.forum') }}</PageTitle>
       <v-spacer/>
@@ -16,11 +17,19 @@
           <span>{{ $t('_forum.manageTopics') }}</span>
         </v-btn>
       </div>
-    </div>
+    </div>-->
+    <!-- TODO Skeleton Loaders to better resemble the strucutre of the page-->
     <v-skeleton-loader v-if="topicCategories === null" type="card-heading@2"/>
     <v-row class="mt-1">
       <v-col cols="12" md="9">
-        <v-card v-for="category in topicCategories" :key="category.id" class="mb-3 vh-forum">
+        <PageTitleFlat :title="$t('_forum.welcomeToForum')">
+          <template v-slot:end>
+            <div class="text-end">
+              TODO Buttons Here
+            </div>
+          </template>
+        </PageTitleFlat>
+        <v-card v-for="category in topicCategories" :key="category.id" class="mb-3 mt-4 vh-forum">
           <v-card-text>
             <v-list subheader two-line>
               <v-list-group :value="true"
@@ -247,16 +256,16 @@ import DialogForm from '@/components/DialogForm.vue';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import UserLink from '@/components/UserLink.vue';
 import Sidebar from '@/components/ForumComponents/Sidebar.vue';
-import PageTitle from '../components/PageTitle.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../api/openapi';
 
 export default {
   components: {
+    PageTitleFlat,
     Sidebar,
     UserLink,
     DialogForm,
     Dialog,
-    PageTitle,
     ConfirmationDialog,
   },
   name: 'Forum.vue',
