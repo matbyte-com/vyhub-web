@@ -18,7 +18,8 @@
         </v-btn>
       </div>
     </div>-->
-    <!-- TODO Skeleton Loaders to better resemble the strucutre of the page-->
+    <!-- TODO Skeleton Loaders to better resemble the strucutre of the page 2 columns multiple
+     cards -->
     <v-skeleton-loader v-if="topicCategories === null" type="card-heading@2"/>
     <v-row class="mt-1">
       <v-col cols="12" md="9">

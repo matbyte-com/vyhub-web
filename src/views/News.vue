@@ -37,20 +37,18 @@
       <!-- News -->
       <v-col cols="12" md="8">
         <!-- News of the Day -->
-        <v-row class="pa-0" v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
-          <v-col>
-            <v-card flat color="primary" class="card-rounded d-flex align-center title-card">
-              <v-card-text class="text-h5 pa-2 ml-1 white--text">
-                {{ $t('_home.newsOfTheDay') }}
-              </v-card-text>
-              <v-btn color="success" small class="mr-3" v-if="$checkProp('news_edit')"
-                     @click="showAddMessageDialog" data-cy="new-message-button">
-                <v-icon left>mdi-plus</v-icon>
-                <span>{{ $t('_home.addNews') }}</span>
-              </v-btn>
-            </v-card>
-          </v-col>
-        </v-row>
+          <PageTitleFlat :title="$t('_home.newsOfTheDay')" class="mb-0"
+                         v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
+            <template v-slot:end>
+              <div class="text-end">
+                <v-btn color="success" small class="mr-3" v-if="$checkProp('news_edit')"
+                       @click="showAddMessageDialog" data-cy="new-message-button">
+                  <v-icon left>mdi-plus</v-icon>
+                  <span>{{ $t('_home.addNews') }}</span>
+                </v-btn>
+              </div>
+            </template>
+          </PageTitleFlat>
         <transition-group enter-active-class="animate__fadeIn"
                           leave-active-class="animate__fadeOut">
           <v-card v-for="message in getNewsOfTheDay" :key="message.id" :img="message.background_url"
@@ -93,16 +91,8 @@
           </v-card>
         </transition-group>
         <!-- Display News -->
-        <v-row class="pa-0" v-if="getNews.length !== 0"
-               :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }">
-          <v-col>
-            <v-card flat color="primary" class="card-rounded d-flex align-center title-card">
-              <v-card-text class="pa-2 ml-1 text-h5 white--text">
-                {{ $t('_home.news') }}
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+        <PageTitleFlat :title="$t('_home.news')" class="mb-0" v-if="getNews.length !== 0"
+                       :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }"/>
         <transition-group enter-active-class="animate__fadeIn"
                           leave-active-class="animate__fadeOut">
           <v-card flat outlined class="mt-4 vh-news card-rounded animate__animated animate__faster"
@@ -186,12 +176,14 @@ import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
 import Editor from '@/components/Editor.vue';
 import TopDonators from '@/components/HomeComponents/TopDonators.vue';
 import Swiper from '@/components/Swiper.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';
 import config from '../config';
 import i18n from '../plugins/i18n';
 
 export default {
   components: {
+    PageTitleFlat,
     Swiper,
     TopDonators,
     Editor,

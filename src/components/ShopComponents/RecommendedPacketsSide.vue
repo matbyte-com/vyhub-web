@@ -2,9 +2,8 @@
   <v-card class="vh-cart-recommended-packets" color="transparent" flat
           v-if="recommendedPackets !== null && recommendedPackets.length > 0">
     <v-card-title class="d-flex">
-      <v-icon left>mdi-star-shooting</v-icon>
       {{ $t('_shop.labels.recommended') }}
-      <v-divider class="ml-3 mb-1 divider-strong align-self-end"/>
+      <v-divider class="ml-3 mb-1 align-self-end"/>
     </v-card-title>
     <v-card-text>
       <div v-if="!$vuetify.breakpoint.lgAndDown">
