@@ -68,104 +68,84 @@
 
       <!-- Cart total, address and checkout -->
       <v-col>
+        <!-- Discount -->
+        <v-card class="vh-cart-discount card-rounded">
+          <v-card-text>
+            <v-text-field dense outlined :label="$t('_shop.labels.discountCode')"
+                          @keydown.enter="applyDiscount" v-model="couponCode"
+                          :style="couponStyle"
+                          :hide-details="couponError == null"
+                          :error-messages="couponError">
+              <template slot="prepend-inner">
+                <v-icon>
+                  mdi-ticket-percent
+                </v-icon>
+              </template>
+              <template slot="append">
+                <v-icon @click="applyDiscount" color="primary">
+                  mdi-check
+                </v-icon>
+              </template>
+            </v-text-field>
+          </v-card-text>
+        </v-card>
         <!-- Cart total -->
-        <v-row>
-          <v-col>
-            <v-card class="vh-cart-total">
-              <v-card-title>
-                <v-icon left>mdi-cart</v-icon>
-                {{ $t('_shop.labels.cartTotal') }}
-              </v-card-title>
-              <v-card-text v-if="cartPrice != null" class="body-1">
-                <CartTotal :price="cartPrice"></CartTotal>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+        <v-card class="vh-cart-total mt-3 card-rounded">
+          <v-card-title>
+            <v-icon left>mdi-cart</v-icon>
+            {{ $t('_shop.labels.cartTotal') }}
+          </v-card-title>
+          <v-card-text v-if="cartPrice != null" class="body-1">
+            <CartTotal :price="cartPrice"></CartTotal>
+          </v-card-text>
+        </v-card>
         <!-- Email -->
-        <v-row>
-          <v-col>
-            <Email ref="emailCard" class="animate__animated"
-                   @user-changed="refreshUser"
-                   :user="$store.getters.user"
-                   :class="{animate__headShake:emailWobble === true}"/>
-          </v-col>
-        </v-row>
+        <Email ref="emailCard" class="animate__animated card-rounded mt-3"
+               @user-changed="refreshUser"
+               :user="$store.getters.user"
+               :class="{animate__headShake:emailWobble === true}"/>
         <!-- Billing address -->
-        <v-row>
-          <v-col>
-            <v-card class="animate__animated vh-cart-address"
-                    :class="{animate__headShake:addressWobble === true}">
-              <v-card-title>
-                <v-icon left>mdi-map-marker</v-icon>
-                {{ $t('_shop.labels.billingAddress') }}
-              </v-card-title>
-              <v-card-text class="body-1">
-                <Address hidden v-if="currentAddress != null" :address="currentAddress"></Address>
-                <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn text color="success" @click="$refs.addressAddDialog.show()">
-                  <v-icon left>mdi-plus</v-icon>
-                  {{ $t('add') }}
-                </v-btn>
-                <v-btn text color="primary" @click="$refs.selectAddressDialog.show()">
-                  <v-icon left>mdi-format-list-text</v-icon>
-                  {{ $t('select') }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col>
-            <v-card class="vh-cart-discount">
-              <v-card-text>
-                <v-text-field dense outlined :label="$t('_shop.labels.discountCode')"
-                              @keydown.enter="applyDiscount" v-model="couponCode"
-                              :style="couponStyle"
-                              :hide-details="couponError == null"
-                              :error-messages="couponError">
-                  <template slot="prepend-inner">
-                    <v-icon>
-                      mdi-ticket-percent
-                    </v-icon>
-                  </template>
-                  <template slot="append">
-                    <v-icon @click="applyDiscount" color="primary">
-                      mdi-check
-                    </v-icon>
-                  </template>
-                </v-text-field>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+        <v-card class="animate__animated vh-cart-address mt-3 card-rounded"
+                :class="{animate__headShake:addressWobble === true}">
+          <v-card-title>
+            <v-icon left>mdi-map-marker</v-icon>
+            {{ $t('_shop.labels.billingAddress') }}
+          </v-card-title>
+          <v-card-text class="body-1">
+            <Address hidden v-if="currentAddress != null" :address="currentAddress"></Address>
+            <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn text color="success" @click="$refs.addressAddDialog.show()">
+              <v-icon left>mdi-plus</v-icon>
+              {{ $t('add') }}
+            </v-btn>
+            <v-btn text color="primary" @click="$refs.selectAddressDialog.show()">
+              <v-icon left>mdi-format-list-text</v-icon>
+              {{ $t('select') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
 
         <!-- Checkout button -->
-        <v-row>
-          <v-col>
-            <v-card class="vh-cart-checkout">
-              <v-card-text class="red--text text-center" v-if="showDetails">
-                <span v-if="currentAddress == null">
-                  {{ $t('_shop.messages.selectBillingAddressFirst') }}
-                </span>
-                <span v-if="$refs.emailCard.user.email == null">
-                  {{ $t('_shop.messages.selectEmailFirst') }}
-                </span>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="primary" block
-                       :disabled="cartPackets.length == 0 || openPurchase != null"
-                       @click="startCheckout">
-                  <v-icon left>mdi-cart-arrow-right</v-icon>
-                  {{ $t('_shop.labels.checkout') }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
+        <v-card class="vh-cart-checkout mt-3 card-rounded">
+          <v-card-text class="red--text text-center" v-if="showDetails">
+            <span v-if="currentAddress == null">
+              {{ $t('_shop.messages.selectBillingAddressFirst') }}
+            </span>
+            <span v-if="$refs.emailCard.user.email == null">
+              {{ $t('_shop.messages.selectEmailFirst') }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" depressed block
+                   :disabled="cartPackets.length == 0 || openPurchase != null"
+                   @click="startCheckout">
+              <v-icon left>mdi-cart-arrow-right</v-icon>
+              {{ $t('_shop.labels.purchaseNow') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
 
