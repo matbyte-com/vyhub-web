@@ -199,7 +199,22 @@
       <DeleteConfirmationDialog ref="deleteThreadConfirmationDialog"
                                 @submit="deleteThread" />
     </div>
+    <!-- TODO Better Skeleton Loader to resemble the structure of the page
+    <v-card>
+      <v-card-text>
+        <v-row>
+          <v-col>
+             Skeleton Avatar..
+          </v-col>
+          <v-col>
+             Skeleton Text..
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>-->
     <v-skeleton-loader v-else type="button@2" />
+    <!-- TODO Reaction in Lightmode not disabled when clicked -->
+    <!-- TODO Disable Timestamp to make less obvious -->
   </div>
 </template>
 
@@ -279,7 +294,8 @@ export default {
                 acc[obj.name].count += 1;
                 if (this.$store.getters.user && p.reactions.length > 0) {
                   const user_id = this.$store.getters.user.id;
-                  if (p.reactions.some((reaction) => reaction.user_id === user_id)) {
+                  if (p.reactions.some((reaction) => reaction.user
+                    && reaction.user.id === user_id)) {
                     acc[obj.name].has_reacted = true;
                   }
                 }
@@ -416,7 +432,7 @@ export default {
       this.cooldown = true;
       if (post.accumulated_reactions[icon].has_reacted) {
         const reaction = post.reactions
-          .find((r) => r.user_id === this.$store.getters.user.id && r.name === icon);
+          .find((r) => r.user && r.user.id === this.$store.getters.user.id && r.name === icon);
         if (!reaction) {
           console.log(`Users ${icon} reaction could not be found`);
           return;
