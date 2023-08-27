@@ -1,11 +1,11 @@
 <template>
   <div>
-    <page-title icon="mdi-cart-variant">{{ $t('_shop.labels.cart') }}</page-title>
-
-    <v-row v-if="cartPackets != null">
+    <RecommendedPacketsCart @cartChanged="fetchData" />
+    <v-row v-if="cartPackets != null" class="mt-3">
       <!-- Cart packets -->
       <v-col xl="9" lg="8" cols="12">
-        <v-row v-if="openPurchase != null">
+        <PageTitleFlat :title="$t('_shop.labels.cart')" class="mb-4" />
+        <v-row v-if="openPurchase != null" class="mt-3">
           <v-col>
             <v-card class="vh-cart-unfinished">
               <v-card-title>
@@ -29,15 +29,13 @@
           </v-col>
         </v-row>
 
-        <v-row v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id">
-          <v-col>
-            <CartPacket :cart-packet="cartPacket" show-outline show-remove
-                        @remove="removeCartPacket(cartPacket.id)"
-                        @removeDiscount="removeDiscount(cartPacket.discount.id)"
-                        @targetUserChanged="fetchData">
-            </CartPacket>
-          </v-col>
-        </v-row>
+        <CartPacket
+          v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id" class="mt-3"
+          :cart-packet="cartPacket" show-outline show-remove
+          @remove="removeCartPacket(cartPacket.id)"
+          @removeDiscount="removeDiscount(cartPacket.discount.id)"
+          @targetUserChanged="fetchData">
+        </CartPacket>
         <div v-if="cartPackets.length === 0">
           <v-row>
             <v-col>
@@ -66,11 +64,6 @@
             </v-col>
           </v-row>
         </div>
-        <v-row v-if="$vuetify.breakpoint.lgAndUp">
-          <v-col>
-            <RecommendedPackets :recommended-packets="recommendedPackets" />
-          </v-col>
-        </v-row>
       </v-col>
 
       <!-- Cart total, address and checkout -->
@@ -173,13 +166,6 @@
             </v-card>
           </v-col>
         </v-row>
-
-        <v-row v-if="$vuetify.breakpoint.mdAndDown">
-          <v-col>
-            <RecommendedPackets :recommended-packets="recommendedPackets" />
-          </v-col>
-        </v-row>
-
       </v-col>
     </v-row>
 
@@ -238,7 +224,6 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import AddressForm from '@/forms/AddressForm';
 import DialogForm from '@/components/DialogForm.vue';
 import ShopService from '@/services/ShopService';
@@ -249,14 +234,16 @@ import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import Dialog from '@/components/Dialog.vue';
 import Email from '@/components/PersonalSettings/Email.vue';
 import AuthService from '@/services/AuthService';
-import RecommendedPackets from '@/components/ShopComponents/RecommendedPackets.vue';
+import RecommendedPacketsCart from '@/components/ShopComponents/RecommendedPacketsCart.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../../api/openapi';
 import CancelPurchaseConfirmationDialog
   from '../../components/ShopComponents/CancelPurchaseConfirmationDialog.vue';
 
 export default {
   components: {
-    RecommendedPackets,
+    PageTitleFlat,
+    RecommendedPacketsCart,
     CancelPurchaseConfirmationDialog,
     Email,
     Dialog,
@@ -264,12 +251,10 @@ export default {
     CheckoutDialog,
     CartPacket,
     Address,
-    PageTitle,
     DialogForm,
   },
   data() {
     return {
-      recommendedPackets: null,
       cartPackets: null,
       cartPrice: null,
       cartCorrect: false,
@@ -287,7 +272,6 @@ export default {
   beforeMount() {
     this.fetchData();
     this.queryAddresses();
-    this.getRecommendedPackets();
   },
   methods: {
     async fetchData() {
@@ -323,11 +307,6 @@ export default {
         .then((rsp) => {
           this.openPurchase = rsp.data.find((p) => p.status === 'OPEN');
         });
-    },
-    async getRecommendedPackets() {
-      (await openapi).shop_getPackets({ recommended: true, limit: 4 }).then((rsp) => {
-        this.recommendedPackets = rsp.data;
-      });
     },
     async queryAddresses() {
       const api = await openapi;
