@@ -8,9 +8,7 @@
       <div v-else>
         <v-row v-if="errorMessage != null">
           <v-col cols="12" class="mt-4">
-            <v-alert
-              type="error"
-            >
+            <v-alert type="error">
               {{ errorMessage }}
             </v-alert>
           </v-col>
@@ -60,7 +58,8 @@
                   <v-card-text class="d-flex">
                     <v-row>
                       <v-col>
-                        <v-img :src="require('@/assets/img/icons/gift-box.png')" max-width="100px"/>
+                        <!--<v-img :src="require('@/assets/img/icons/gift-box.png')"
+                         max-width="100px"/>-->
                       </v-col>
                       <v-col>
                         <ul>

@@ -6,14 +6,14 @@
                   leave-active-class="animate__animated animate__fadeOut animate__faster">
         <div v-if="!hidden || shown" key="1">
           <v-row>
-            <v-col cols="10">
+            <v-col cols="10" style="font-size: 0.9em; line-height: 1.3em">
               <div>{{ address.street_and_number }}</div>
               <div>{{ address.addition }}</div>
               <div>{{ address.zip_code }} {{ address.city }}, {{ address.state }}</div>
               <div>{{ address.country.name }}</div>
               <div v-if="address.vat_number != null">{{ address.vat_number }}</div>
             </v-col>
-            <v-col cols="2" class="d-flex align-center">
+            <v-col cols="2" class="d-flex align-center" v-if="incognito">
               <v-btn icon class="ml-1">
                 <v-icon>
                   mdi-eye
@@ -51,6 +51,10 @@ export default {
   props: {
     address: Object,
     hidden: {
+      type: Boolean,
+      default: false,
+    },
+    incognito: {
       type: Boolean,
       default: false,
     },

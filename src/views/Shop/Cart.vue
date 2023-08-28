@@ -28,7 +28,7 @@
           </v-card-actions>
         </v-card>
         <!-- Cart Packets -->
-        <v-card class="vh-cart-packets mt-3 card-rounded">
+        <v-card class="vh-cart-packets mt-3 card-rounded" v-if="cartPackets.length > 0">
           <v-card-text>
             <CartPacket
               class="mt-1"
@@ -41,7 +41,7 @@
             <!-- Remove All Btn -->
             <div class="text-right">
               <v-btn small color="error" @click="clearCart" depressed
-                     class="text-right vh-remove-all-packets mt-3">
+                     class="text-right vh-remove-all-packets mt-1">
                 <v-icon left>mdi-delete</v-icon>
                 {{ $t('_shop.labels.removeAllPackets') }}
               </v-btn>
@@ -61,20 +61,76 @@
             </v-btn>
           </v-card-text>
         </v-card>
+        <!-- Address and Email -->
+        <v-card class="card-rounded mt-3 vh-address-email-cart" flat
+                :class="{ 'card-next-step': billingAddressDrawer === 0 }">
+          <v-expansion-panels v-model="billingAddressDrawer">
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                <div>
+                  <h2 class="text-h6">{{ $t('_shop.labels.billingAddress') }}</h2>
+                  <v-divider v-if="billingAddressDrawer === 0" class="mt-3 mr-5"/>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content eager>
+                <v-row class="d-flex">
+                  <v-col cols="12" sm="6" class="mt-0 pt-0">
+                    <!-- Billing address -->
+                    <v-card class="animate__animated vh-cart-address mt-3 card-rounded" flat
+                            :class="{animate__headShake:addressWobble === true}">
+                      <v-card-title>
+                        <v-icon left>mdi-map-marker</v-icon>
+                        {{ $t('_shop.labels.billingAddress') }}
+                      </v-card-title>
+                      <v-card-text class="body-1">
+                        <Address hidden incognito
+                                 v-if="currentAddress != null" :address="currentAddress" />
+                        <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn text color="success" @click="$refs.addressAddDialog.show()">
+                          <v-icon left>mdi-plus</v-icon>
+                          {{ $t('add') }}
+                        </v-btn>
+                        <v-btn text color="primary"
+                               @click="queryAddresses(); $refs.selectAddressDialog.show()">
+                          <v-icon left>mdi-format-list-text</v-icon>
+                          {{ $t('select') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                  <v-col cols="12" sm="6" class="d-flex flex-column mt-0 pt-0">
+                    <!-- Email -->
+                    <Email ref="emailCard" class="animate__animated card-rounded mt-3"
+                           @user-changed="refreshUser" :flat="true"
+                           :user="$store.getters.user"
+                           :class="{animate__headShake:emailWobble === true}"/>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-card>
         <!-- Payment Methods -->
-        <v-card class="mt-3 card-rounded vh-select-payment-gateway" flat >
+        <v-card class="mt-3 card-rounded vh-select-payment-gateway" flat
+                :class="{ 'card-next-step': billingAddressDrawer == null }">
           <v-card-title class="d-block">
             <h2 class="text-h6">{{ $t('_shop.messages.selectGateway') }}</h2>
-            <v-divider />
+            <v-divider class="mt-3" />
           </v-card-title>
           <v-card-text>
             <v-row v-if="gateways">
-              <v-col lg="3" md="4" sm="6" xs="12" v-for="gateway in gateways" :key="gateway.id"
+              <v-col cols="6" sm="6" md="4" lg="3" v-for="gateway in gateways" :key="gateway.id"
                      class="d-flex">
-                <v-card @click="startPayment(gateway)" class="flex-grow-1">
+                <v-card @click="selectedGateway = gateway.id"
+                        class="flex-grow-1 card-rounded gateway-card no-active"
+                        :class="{'card-active': gateway.id === selectedGateway,
+                         'card-inactive': gateway.id !== selectedGateway}"
+                        outlined>
                   <v-card-text class="text-center">
                     <div class="d-flex justify-center">
-                      <v-img contain class="mb-1" width="200" height="50"
+                      <v-img contain class="mb-1" height="50"
                              :src="getImgUrl(gateway)" :alt="gateway.name"
                              v-if="getImgUrl(gateway) != null" />
                       <div v-else>
@@ -103,7 +159,7 @@
       <v-col>
         <!-- Discount -->
         <v-card class="vh-cart-discount card-rounded">
-          <v-card-text>
+          <v-card-actions>
             <v-text-field dense outlined :label="$t('_shop.labels.discountCode')"
                           @keydown.enter="applyDiscount" v-model="couponCode"
                           :style="couponStyle"
@@ -120,7 +176,7 @@
                 </v-icon>
               </template>
             </v-text-field>
-          </v-card-text>
+          </v-card-actions>
         </v-card>
         <!-- Cart total -->
         <v-card class="vh-cart-total mt-3 card-rounded">
@@ -131,37 +187,7 @@
           <v-card-text v-if="cartPrice != null" class="body-1">
             <CartTotal :price="cartPrice"></CartTotal>
           </v-card-text>
-        </v-card>
-        <!-- Email -->
-        <Email ref="emailCard" class="animate__animated card-rounded mt-3"
-               @user-changed="refreshUser"
-               :user="$store.getters.user"
-               :class="{animate__headShake:emailWobble === true}"/>
-        <!-- Billing address -->
-        <v-card class="animate__animated vh-cart-address mt-3 card-rounded"
-                :class="{animate__headShake:addressWobble === true}">
-          <v-card-title>
-            <v-icon left>mdi-map-marker</v-icon>
-            {{ $t('_shop.labels.billingAddress') }}
-          </v-card-title>
-          <v-card-text class="body-1">
-            <Address hidden v-if="currentAddress != null" :address="currentAddress"></Address>
-            <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn text color="success" @click="$refs.addressAddDialog.show()">
-              <v-icon left>mdi-plus</v-icon>
-              {{ $t('add') }}
-            </v-btn>
-            <v-btn text color="primary" @click="$refs.selectAddressDialog.show()">
-              <v-icon left>mdi-format-list-text</v-icon>
-              {{ $t('select') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-
-        <!-- Checkout button -->
-        <v-card class="vh-cart-checkout mt-3 card-rounded">
+          <!-- Checkout button -->
           <v-card-text class="red--text text-center" v-if="showDetails">
             <span v-if="currentAddress == null">
               {{ $t('_shop.messages.selectBillingAddressFirst') }}
@@ -211,10 +237,10 @@
       <template>
         <div class="mt-2">
           <div v-if="addresses != null && addresses.length > 0">
-            <v-row>
+            <v-row dense>
               <v-col lg="6" md="12" v-for="address in addresses" v-bind:key="address.id"
                      class="d-flex">
-                <v-card @click="selectAddress(address)" class="flex-grow-1">
+                <v-card outlined @click="selectAddress(address)" class="flex-grow-1 card-rounded">
                   <v-card-text>
                     <Address :address="address"></Address>
                   </v-card-text>
@@ -281,6 +307,8 @@ export default {
       addressWobble: false,
       showDetails: false,
       gateways: null,
+      selectedGateway: null,
+      billingAddressDrawer: null,
     };
   },
   beforeMount() {
@@ -321,6 +349,13 @@ export default {
         .then((rsp) => {
           this.openPurchase = rsp.data.find((p) => p.status === 'OPEN');
         });
+
+      api.shop_getAvailableGateways().then((rsp) => {
+        this.gateways = rsp.data;
+        if (rsp.data.length > 0 && this.selectedGateway == null) {
+          this.selectedGateway = rsp.data[0].id;
+        }
+      });
     },
     async queryAddresses() {
       const api = await openapi;
@@ -504,4 +539,22 @@ export default {
 <style scoped lang="sass">
 .no-active::before
   opacity: 0 !important
+
+.gateway-card
+  filter: brightness(0.9)
+  transition: all 0.2s ease-in-out
+
+.gateway-card:hover
+  filter: brightness(1)
+  border-color: var(--v-primary-base)
+
+.gateway-card.card-active
+  border-color: var(--v-primary-base)
+  transform: scale(1.05)
+  filter: brightness(1)
+
+.card-next-step
+  border-style: solid !important
+  border-width: 2px !important
+  border-color: var(--v-primary-base) !important
 </style>

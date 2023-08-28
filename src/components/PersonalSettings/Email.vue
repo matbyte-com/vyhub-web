@@ -1,5 +1,6 @@
 <template>
-  <v-card v-if="user != null" class="vh-email">
+  <v-card v-if="user != null" class="vh-email flex-grow-1 d-flex flex-column card-rounded"
+          :flat="flat">
     <v-card-title>
       <v-icon left>mdi-email</v-icon>
       {{ $t('_personalSettings.email') }}
@@ -15,6 +16,7 @@
                     :label="$t('_personalSettings.email')" :rules="[validator]"
                     @keydown.enter="updateMail"/>
     </v-card-text>
+    <v-spacer />
     <v-card-actions>
       <v-btn text color="primary" @click="this.showInputFunc" v-if="!showInput">
         <v-icon left>mdi-pencil</v-icon>
@@ -35,6 +37,7 @@ export default {
   name: 'Email',
   props: {
     user: null,
+    flat: null,
   },
   data() {
     return {
