@@ -6,7 +6,7 @@
       open-on-hover
       offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text class="nav-btn" :class="{ 'active-btn' : listActive }"
+        <v-btn text class="nav-btn" :class="{ 'active-btn' : listActive && lightHeader }"
                v-bind="attrs" v-on="on">
           <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
           <span>{{ link.title }}</span>
@@ -29,7 +29,8 @@
     <!-- simple button when no tabs are existent -->
     <v-btn
       text :dark="dark"
-      v-if="(allowedTabs || []).length === 0" class="nav-btn" active-class="active-btn"
+      v-if="(allowedTabs || []).length === 0" class="nav-btn"
+      :active-class="lightHeader ? 'active-btn' : ''"
       :href="(link.cms_page_id === null && !localLink(link) ? link.link : null)"
       :to="(link.cms_page_id || localLink(link) ? getLocalLink(link) : null)">
       <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
@@ -58,6 +59,9 @@ export default {
       }
       const { path } = this.$route;
       return this.allowedTabs.some((t) => t.link === path);
+    },
+    lightHeader() {
+      return this.$store.getters.theme && this.$store.getters.theme.light_header;
     },
   },
   methods: {
