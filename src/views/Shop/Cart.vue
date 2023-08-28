@@ -1,14 +1,15 @@
 <template>
   <div>
     <RecommendedPacketsCart @cartChanged="fetchData" />
-    <v-row v-if="cartPackets != null" class="mt-1">
+    <v-row v-if="cartPackets != null" class="mt-4" dense>
       <!-- Cart packets -->
       <v-col cols="12" lg="8" xl="9">
         <!-- Page Title -->
-        <PageTitleFlat :title="$t('_shop.labels.cart')" :hide-triangle="true"
+        <PageTitleFlat :title="openPurchase?$t('_shop.labels.unfinishedPurchase')
+        :$t('_shop.labels.cart')" :hide-triangle="true"
                        :open="true"/>
-        <!-- Open Purchase -->
         <!-- TODO Probably Remove Somehow -->
+        <!--
         <v-card class="vh-cart-unfinished" v-if="openPurchase != null">
           <v-card-title>
             <v-icon left>mdi-cart-arrow-right</v-icon>
@@ -27,32 +28,40 @@
               {{ $t('cancel') }}
             </v-btn>
           </v-card-actions>
-        </v-card>
+        </v-card>-->
         <!-- Cart Packets -->
+        <!-- Either show cart-packets or open-purchase packets -->
         <v-card class="vh-cart-packets card-rounded-bottom"
                 style="border-top-right-radius: 0; border-top-left-radius: 0"
-                v-if="cartPackets.length > 0">
+                v-if="cartPackets.length > 0 || openPurchase">
           <v-card-text>
             <CartPacket
               class="mt-1"
-              v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id"
-              :cart-packet="cartPacket" show-remove
+              v-for="cartPacket in packetsToShow" v-bind:key="cartPacket.id"
+              :cart-packet="cartPacket" :show-remove="!openPurchase"
               @remove="removeCartPacket(cartPacket.id)"
               @removeDiscount="removeDiscount(cartPacket.discount.id)"
               @targetUserChanged="fetchData">
             </CartPacket>
             <!-- Remove All Btn -->
             <div class="text-right">
-              <v-btn small color="error" @click="clearCart" depressed
+              <v-btn small color="error" @click="clearCart" depressed v-if="!openPurchase"
                      class="text-right vh-remove-all-packets mt-1">
                 <v-icon left>mdi-delete</v-icon>
                 {{ $t('_shop.labels.removeAllPackets') }}
+              </v-btn>
+              <v-btn v-else color="error" text class="mt-1"
+                     @click="$refs.cancelPurchaseConfirmationDialog.show()">
+                <v-icon left>mdi-close</v-icon>
+                {{ $t('_shop.labels.cancelPurchase') }}
               </v-btn>
             </div>
           </v-card-text>
         </v-card>
         <!-- Empty Cart -->
-        <v-card class="vh-cart-empty" v-if="cartPackets.length === 0">
+        <v-card class="vh-cart-empty card-rounded-bottom"
+                style="border-top-right-radius: 0; border-top-left-radius: 0"
+                v-if="cartPackets.length === 0 && !openPurchase">
           <v-card-text>
             {{ $t('_shop.messages.cartEmpty') }}
             <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
@@ -65,7 +74,7 @@
           </v-card-text>
         </v-card>
         <!-- Address and Email -->
-        <v-card class="card-rounded mt-3 vh-address-email-cart" flat
+        <v-card class="card-rounded mt-3 vh-address-email-cart" flat v-if="!openPurchase"
                 :class="{ 'card-next-step': billingAddressDrawer === 0 }">
           <v-expansion-panels v-model="billingAddressDrawer">
             <v-expansion-panel>
@@ -116,46 +125,49 @@
           </v-expansion-panels>
         </v-card>
         <!-- Payment Methods -->
-        <v-card class="mt-3 card-rounded vh-select-payment-gateway" flat
-                :class="{ 'card-next-step': billingAddressDrawer == null }">
-          <v-card-title class="d-block">
-            <h2 class="text-h6">{{ $t('_shop.messages.selectGateway') }}</h2>
-            <v-divider class="mt-3" />
-          </v-card-title>
-          <v-card-text>
-            <v-row v-if="gateways">
-              <v-col cols="6" sm="6" md="4" lg="3" v-for="gateway in gateways" :key="gateway.id"
-                     class="d-flex">
-                <v-card @click="selectedGateway = gateway.id"
-                        class="flex-grow-1 card-rounded gateway-card no-active"
-                        :class="{'card-active': gateway.id === selectedGateway,
+        <v-fade-transition>
+          <v-card class="mt-3 card-rounded vh-select-payment-gateway" flat
+                  v-if="openPurchase || cartPackets.length > 0"
+                  :class="{ 'card-next-step': billingAddressDrawer == null }">
+            <v-card-title class="d-block">
+              <h2 class="text-h6">{{ $t('_shop.messages.selectGateway') }}</h2>
+              <v-divider class="mt-3" />
+            </v-card-title>
+            <v-card-text>
+              <v-row v-if="gateways">
+                <v-col cols="6" sm="6" md="4" lg="3" v-for="gateway in gateways" :key="gateway.id"
+                       class="d-flex">
+                  <v-card @click="selectedGateway = gateway.id"
+                          class="flex-grow-1 card-rounded gateway-card no-active"
+                          :class="{'card-active': gateway.id === selectedGateway,
                          'card-inactive': gateway.id !== selectedGateway}"
-                        outlined>
-                  <v-card-text class="text-center">
-                    <div class="d-flex justify-center">
-                      <v-img contain class="mb-1" height="50"
-                             :src="getImgUrl(gateway)" :alt="gateway.name"
-                             v-if="getImgUrl(gateway) != null" />
-                      <div v-else>
-                        <h4 class="text-h4">{{ gateway.type }}</h4>
+                          outlined>
+                    <v-card-text class="text-center">
+                      <div class="d-flex justify-center">
+                        <v-img contain class="mb-1" height="50"
+                               :src="getImgUrl(gateway)" :alt="gateway.name"
+                               v-if="getImgUrl(gateway) != null" />
+                        <div v-else>
+                          <h4 class="text-h4">{{ gateway.type }}</h4>
+                        </div>
                       </div>
-                    </div>
-                    <div v-if="gateway.subtitle != null">
-                      {{ gateway.subtitle }}
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-            <v-row v-else>
-              <v-col cols="6" md="3" xl="2" v-for="i in 4" :key="i">
-                <v-card class="card-rounded" flat>
-                  <v-skeleton-loader type="image"/>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+                      <div v-if="gateway.subtitle != null">
+                        {{ gateway.subtitle }}
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
+              <v-row v-else>
+                <v-col cols="6" md="3" xl="2" v-for="i in 4" :key="i">
+                  <v-card class="card-rounded" flat>
+                    <v-skeleton-loader type="image"/>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-fade-transition>
       </v-col>
 
       <!-- Cart total, address and checkout -->
@@ -183,15 +195,18 @@
         </v-card>
         <!-- Cart total -->
         <v-card class="vh-cart-total mt-3 card-rounded">
+          <v-alert type="error" v-if="errorMessage">
+            {{ errorMessage }}
+          </v-alert>
           <v-card-title>
             <v-icon left>mdi-cart</v-icon>
-            {{ $t('_shop.labels.cartTotal') }}
+            {{ openPurchase ? $t('_shop.labels.total') : $t('_shop.labels.cartTotal') }}
           </v-card-title>
           <v-card-text class="body-1">
-            <CartTotal :price="cartPrice" />
+            <CartTotal :price="price" />
           </v-card-text>
-          <!-- Checkboxes -->
-          <div class="px-3" v-if="checkboxes != null">
+          <!-- Checkboxes (hide when open purchase)-->
+          <div class="px-3" v-if="checkboxes != null && !openPurchase">
             <v-form v-model="allChecked" ref="checkboxesForm" lazy-validation>
               <v-checkbox required v-for="checkbox in checkboxes" v-bind:key="checkbox.id"
                           hide-details="auto"
@@ -209,7 +224,7 @@
               </v-checkbox>
             </v-form>
           </div>
-          <v-card-text v-else>
+          <v-card-text v-else-if="!openPurchase">
             <v-skeleton-loader type="heading" />
           </v-card-text>
           <!-- Checkout button -->
@@ -223,10 +238,10 @@
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" depressed block
-                   :disabled="cartPackets.length == 0"
+                   :disabled="cartPackets.length === 0 && !openPurchase"
                    @click="startCheckout">
               <v-icon left>mdi-cart-arrow-right</v-icon>
-              {{ $t('_shop.labels.purchaseNow') }}
+              {{ openPurchase ? $t('_shop.labels.payNow') : $t('_shop.labels.purchaseNow') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -345,6 +360,7 @@ export default {
       allChecked: false,
       redirectDialog: false,
       generalConfig: null,
+      errorMessage: null,
     };
   },
   beforeMount() {
@@ -385,14 +401,25 @@ export default {
       })
         .then((rsp) => {
           this.openPurchase = rsp.data.find((p) => p.status === 'OPEN');
+          this.fetchGateways();
         });
-
-      api.shop_getAvailableGateways().then((rsp) => {
-        this.gateways = rsp.data;
-        if (rsp.data.length > 0 && this.selectedGateway == null) {
-          this.selectedGateway = rsp.data[0].id;
-        }
-      });
+    },
+    async fetchGateways() {
+      const api = await openapi;
+      if (this.openPurchase == null) {
+        // Gateways when no Purchase
+        api.shop_getAvailableGateways().then((rsp) => {
+          this.gateways = rsp.data;
+          if (rsp.data.length > 0 && this.selectedGateway == null) {
+            this.selectedGateway = rsp.data[0].id;
+          }
+        });
+      } else {
+        // Different Endpoint when Purchase is available
+        api.shop_getPurchaseGateways({ uuid: this.openPurchase.id }).then((rsp) => {
+          this.gateways = rsp.data;
+        });
+      }
     },
     async fetchShopConfig() {
       const apiCached = await openapiCached;
@@ -477,30 +504,41 @@ export default {
       this.$refs.selectAddressDialog.close();
     },
     async startCheckout() {
-      // Check for missing address or email and wobble
-      // TODO Also Wobble Whole Drawer / Expansion Panel
-      if (this.currentAddress == null || this.$refs.emailCard.user.email == null) {
-        if (this.currentAddress == null) {
-          this.addressWobble = true;
+      // SKip checks when open purchase
+      if (this.openPurchase == null) {
+        // Check for missing address or email and wobble
+        // TODO Also Wobble Whole Drawer / Expansion Panel
+        if (this.currentAddress == null || this.$refs.emailCard.user.email == null) {
+          if (this.currentAddress == null) {
+            this.addressWobble = true;
+          }
+          if (this.$refs.emailCard.user.email == null) {
+            this.emailWobble = true;
+          }
+          setTimeout(() => {
+            this.emailWobble = false;
+            this.addressWobble = false;
+          }, 500);
+          this.showDetails = true;
+          return;
         }
-        if (this.$refs.emailCard.user.email == null) {
-          this.emailWobble = true;
-        }
-        setTimeout(() => {
-          this.emailWobble = false;
-          this.addressWobble = false;
-        }, 500);
-        this.showDetails = true;
-        return;
-      }
 
-      await this.$refs.checkboxesForm.validate();
-      if (!this.allChecked) {
-        return;
+        // Check for missing checkboxes
+        await this.$refs.checkboxesForm.validate();
+        if (!this.allChecked) {
+          return;
+        }
       }
 
       const api = await openapi;
       this.redirectDialog = true;
+
+      // Continue Purchase
+      if (this.openPurchase != null) {
+        await this.startPayment();
+        return;
+      }
+      // Create and start Purchase
       api.shop_startCheckout(undefined, { address_id: this.currentAddress.id }).then((rsp) => {
         this.openPurchase = rsp.data;
         // this.$refs.checkoutDialog.show(purchase);
@@ -634,6 +672,29 @@ export default {
 
         return cbo;
       });
+    },
+    packetsToShow() {
+      if (this.cartPackets.length > 0) {
+        return this.cartPackets;
+      }
+      if (this.openPurchase.cart_packets.length > 0) {
+        return this.openPurchase.cart_packets;
+      }
+      return null;
+    },
+    price() {
+      if (this.openPurchase == null) {
+        return this.cartPrice;
+      }
+      return {
+        net: this.openPurchase.amount_net,
+        total: this.openPurchase.amount_total,
+        currency: this.openPurchase.currency,
+        tax_rate: this.openPurchase.tax_rate,
+        amount_tax: this.openPurchase.amount_tax,
+        tax_info: this.openPurchase.tax_info,
+        credits: this.openPurchase.credits,
+      };
     },
   },
 };
