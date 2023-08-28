@@ -23,14 +23,19 @@
     <v-skeleton-loader v-if="topicCategories === null" type="card-heading@2"/>
     <v-row class="mt-1">
       <v-col cols="12" md="9">
-        <PageTitleFlat :title="$t('_forum.welcomeToForum')">
+        <PageTitleFlat :title="$t('_forum.welcomeToForum')"
+                       :hide-triangle="$vuetify.breakpoint.smAndDown"
+                       :open="$vuetify.breakpoint.smAndDown">
           <template v-slot:end>
             <div class="text-end">
               TODO Buttons Here
             </div>
           </template>
         </PageTitleFlat>
-        <v-card v-for="category in topicCategories" :key="category.id" class="mb-3 mt-4 vh-forum">
+        <v-card v-for="category in topicCategories" :key="category.id"
+                class="mb-3 vh-forum card-rounded-bottom"
+                :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+                'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
           <v-card-text>
             <v-list subheader two-line>
               <v-list-group :value="true"

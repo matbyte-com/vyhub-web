@@ -477,7 +477,7 @@ export default {
     selectAddress(address) {
       ShopService.selectAddress(address);
       this.$notify({
-        title: this.$t('_address.messages.selectedSuccess'),
+        title: this.$t('_messages.editSuccess'),
         type: 'success',
       });
       this.$refs.selectAddressDialog.close();

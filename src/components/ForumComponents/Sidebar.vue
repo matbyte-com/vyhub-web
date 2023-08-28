@@ -1,11 +1,11 @@
 <template>
 <div>
-  <v-card v-if="latestPosts" class="vh-forum-latest-posts">
+  <v-card class="vh-forum-latest-posts card-rounded">
     <v-card-title style="word-break: break-word">
       <HeadlineSidebar icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
     </v-card-title>
     <v-divider class="ml-3 mr-3"/>
-    <v-list dense>
+    <v-list dense v-if="latestPosts">
       <v-list-item v-for="post in latestPosts" :key="post.id" class="listItem pt-0 pb-0"
                    :to="{ name: 'ForumThread', params: { id: post.thread.id },
                     query: {lastPage: true}}">
@@ -37,14 +37,15 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <v-skeleton-loader type="list-item-avatar, divider, list-item-avatar,
+       divider, list-item-avatar" v-else/>
   </v-card>
-  <v-skeleton-loader type="card" v-else class="mt-3"/>
-  <v-card class="mt-3 vh-forum-latest-threads" v-if="latestThreads">
+  <v-card class="mt-3 vh-forum-latest-threads card-rounded">
     <v-card-title style="word-break: break-word">
       <HeadlineSidebar icon="mdi-forum" :title="$t('_forum.latestThreads')"/>
     </v-card-title>
     <v-divider class="ml-3 mr-3"/>
-    <v-list dense>
+    <v-list dense v-if="latestThreads">
       <v-list-item v-for="thread in latestThreads" :key="thread.id" class="listItem"
                    :to="{ name: 'ForumThread', params: { id: thread.id } }">
         <v-list-item-content>
@@ -74,19 +75,24 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <v-skeleton-loader type="list-item-avatar, divider, list-item-avatar,
+       divider, list-item-avatar" v-else/>
   </v-card>
-  <v-skeleton-loader type="card" v-else />
-  <v-card class="mt-3 vh-forum-statistics" v-if="latestPosts && latestThreads">
+  <v-card class="mt-3 vh-forum-statistics card-rounded">
     <v-card-title style="word-break: break-word">
       <HeadlineSidebar icon="mdi-counter" :title="$t('_forum.statistics')"/>
     </v-card-title>
     <v-divider class="ml-3 mr-3"/>
-    <v-card-text>
-      <span class="font-weight-bold">{{ totalThreads }}</span> {{ $t('_forum.threads') }},
-      <span class="font-weight-bold">{{ totalPosts }}</span> {{ $t('_forum.posts') }}
+    <v-card-text v-if="totalThreads && totalPosts && totalReactions">
+      <span class="font-weight-bold">{{ totalThreads }}</span>{{ $t('_forum.threads') }},
+      <span class="font-weight-bold">{{ totalPosts }}</span> {{ $t('_forum.posts') }},
+      <span class="font-weight-bold">{{ totalReactions }}</span> {{ $t('_forum.reactions') }}
+    </v-card-text>
+    <v-card-text v-else class="d-flex">
+      <v-skeleton-loader height="26px" tile type="chip"/>
+      <v-skeleton-loader height="26px" tile type="chip" class="ml-1"/>
     </v-card-text>
   </v-card>
-  <v-skeleton-loader type="card" class="mt-3" v-else />
 </div>
 </template>
 
@@ -94,6 +100,7 @@
 import HeadlineSidebar from '@/components/HomeComponents/HeadlineSidebar.vue';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
+import openapiCached from '@/api/openapiCached';
 
 export default {
   name: 'Sidebar.vue',
@@ -104,6 +111,7 @@ export default {
       latestThreads: null,
       totalPosts: null,
       totalThreads: null,
+      totalReactions: null,
     };
   },
   beforeMount() {
@@ -111,13 +119,17 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).forum_getPosts({ sort_by: 'created', sort_desc: true, size: 5 }).then((rsp) => {
+      const api = await openapi;
+      api.forum_getPosts({ sort_by: 'created', sort_desc: true, size: 5 }).then((rsp) => {
         this.latestPosts = rsp.data.items;
         this.totalPosts = rsp.data.total;
       });
-      (await openapi).forum_getThreads({ sort_by: 'created', sort_desc: true, size: 5 }).then((rsp) => {
+      api.forum_getThreads({ sort_by: 'created', sort_desc: true, size: 5 }).then((rsp) => {
         this.latestThreads = rsp.data.items;
         this.totalThreads = rsp.data.total;
+      });
+      api.forum_getStats().then((rsp) => {
+        this.totalReactions = rsp.data.reactions_count;
       });
     },
   },
