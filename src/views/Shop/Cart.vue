@@ -5,10 +5,11 @@
       <!-- Cart packets -->
       <v-col cols="12" lg="8" xl="9">
         <!-- Page Title -->
-        <PageTitleFlat :title="$t('_shop.labels.cart')" class="mb-4" />
+        <PageTitleFlat :title="$t('_shop.labels.cart')" :hide-triangle="true"
+                       :open="true"/>
         <!-- Open Purchase -->
         <!-- TODO Probably Remove Somehow -->
-        <v-card class="vh-cart-unfinished mt-3" v-if="openPurchase != null">
+        <v-card class="vh-cart-unfinished" v-if="openPurchase != null">
           <v-card-title>
             <v-icon left>mdi-cart-arrow-right</v-icon>
             {{ $t('_shop.labels.unfinishedPurchase') }}
@@ -28,7 +29,9 @@
           </v-card-actions>
         </v-card>
         <!-- Cart Packets -->
-        <v-card class="vh-cart-packets mt-3 card-rounded" v-if="cartPackets.length > 0">
+        <v-card class="vh-cart-packets card-rounded-bottom"
+                style="border-top-right-radius: 0; border-top-left-radius: 0"
+                v-if="cartPackets.length > 0">
           <v-card-text>
             <CartPacket
               class="mt-1"
@@ -66,7 +69,7 @@
                 :class="{ 'card-next-step': billingAddressDrawer === 0 }">
           <v-expansion-panels v-model="billingAddressDrawer">
             <v-expansion-panel>
-              <v-expansion-panel-header>
+              <v-expansion-panel-header class="px-5 pb-0 pt-0">
                 <div>
                   <h2 class="text-h6">{{ $t('_shop.labels.billingAddress') }}</h2>
                   <v-divider v-if="billingAddressDrawer === 0" class="mt-3 mr-5"/>
@@ -184,8 +187,30 @@
             <v-icon left>mdi-cart</v-icon>
             {{ $t('_shop.labels.cartTotal') }}
           </v-card-title>
-          <v-card-text v-if="cartPrice != null" class="body-1">
-            <CartTotal :price="cartPrice"></CartTotal>
+          <v-card-text class="body-1">
+            <CartTotal :price="cartPrice" />
+          </v-card-text>
+          <!-- Checkboxes -->
+          <div class="px-3" v-if="checkboxes != null">
+            <v-form v-model="allChecked" ref="checkboxesForm" lazy-validation>
+              <v-checkbox required v-for="checkbox in checkboxes" v-bind:key="checkbox.id"
+                          hide-details="auto"
+                          :rules="[v => !!v || $t('_shop.messages.mustAgree')]" class="mt-0">
+                <template v-slot:label>
+                  <div v-if="checkbox.url != null">
+                    <a :href="checkbox.url" target="_blank" @click.stop>
+                      {{ checkbox.text }}
+                    </a>
+                  </div>
+                  <div v-else>
+                    {{ checkbox.text }}
+                  </div>
+                </template>
+              </v-checkbox>
+            </v-form>
+          </div>
+          <v-card-text v-else>
+            <v-skeleton-loader type="heading" />
           </v-card-text>
           <!-- Checkout button -->
           <v-card-text class="red--text text-center" v-if="showDetails">
@@ -198,7 +223,7 @@
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" depressed block
-                   :disabled="cartPackets.length == 0 || openPurchase != null"
+                   :disabled="cartPackets.length == 0"
                    @click="startCheckout">
               <v-icon left>mdi-cart-arrow-right</v-icon>
               {{ $t('_shop.labels.purchaseNow') }}
@@ -209,6 +234,7 @@
     </v-row>
 
     <!-- Skeleton loaders -->
+    <!-- TODO Replace Skeleton Loaders with something better -->
     <v-row v-else>
       <v-col lg="9" md="8">
         <div>
@@ -258,7 +284,15 @@
     </v-card>
     <cancel-purchase-confirmation-dialog ref="cancelPurchaseConfirmationDialog"
                          @submit="cancelPurchase(openPurchase)"/>
-    <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>
+    <!--
+    <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>-->
+    <v-dialog v-model="redirectDialog" max-width="500px" persistent>
+        <v-card class="card-rounded text-center pa-3">
+          <h2 class="text-h5 text-capitalize mb-2">{{ $t('_shop.labels.pleaseWait') }}</h2>
+          <p>{{ $t('_shop.labels.redirectDescription') }}</p>
+          <v-progress-circular indeterminate class="mb-3 mt-3" size="50" color="primary" />
+        </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -268,13 +302,13 @@ import DialogForm from '@/components/DialogForm.vue';
 import ShopService from '@/services/ShopService';
 import Address from '@/components/Address.vue';
 import CartPacket from '@/components/ShopComponents/CartPacket.vue';
-import CheckoutDialog from '@/components/ShopComponents/CheckoutDialog.vue';
 import CartTotal from '@/components/ShopComponents/CartTotal.vue';
 import Dialog from '@/components/Dialog.vue';
 import Email from '@/components/PersonalSettings/Email.vue';
 import AuthService from '@/services/AuthService';
 import RecommendedPacketsCart from '@/components/ShopComponents/RecommendedPacketsCart.vue';
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
+import openapiCached from '@/api/openapiCached';
 import openapi from '../../api/openapi';
 import CancelPurchaseConfirmationDialog
   from '../../components/ShopComponents/CancelPurchaseConfirmationDialog.vue';
@@ -287,7 +321,6 @@ export default {
     Email,
     Dialog,
     CartTotal,
-    CheckoutDialog,
     CartPacket,
     Address,
     DialogForm,
@@ -309,11 +342,15 @@ export default {
       gateways: null,
       selectedGateway: null,
       billingAddressDrawer: null,
+      allChecked: false,
+      redirectDialog: false,
+      generalConfig: null,
     };
   },
   beforeMount() {
     this.fetchData();
     this.queryAddresses();
+    this.fetchShopConfig();
   },
   methods: {
     async fetchData() {
@@ -355,6 +392,20 @@ export default {
         if (rsp.data.length > 0 && this.selectedGateway == null) {
           this.selectedGateway = rsp.data[0].id;
         }
+      });
+    },
+    async fetchShopConfig() {
+      const apiCached = await openapiCached;
+
+      apiCached.shop_getConfig().then((rsp) => {
+        this.generalConfig = rsp.data;
+
+        // if (this.checkboxes != null && this.checkboxes.length === 0) {
+        //   this.confirmed = true;
+        // }
+      }).catch((err) => {
+        console.log(err);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async queryAddresses() {
@@ -427,6 +478,7 @@ export default {
     },
     async startCheckout() {
       // Check for missing address or email and wobble
+      // TODO Also Wobble Whole Drawer / Expansion Panel
       if (this.currentAddress == null || this.$refs.emailCard.user.email == null) {
         if (this.currentAddress == null) {
           this.addressWobble = true;
@@ -442,16 +494,45 @@ export default {
         return;
       }
 
-      const api = await openapi;
+      await this.$refs.checkboxesForm.validate();
+      if (!this.allChecked) {
+        return;
+      }
 
+      const api = await openapi;
+      this.redirectDialog = true;
       api.shop_startCheckout(undefined, { address_id: this.currentAddress.id }).then((rsp) => {
-        const purchase = rsp.data;
-        this.$refs.checkoutDialog.show(purchase);
+        this.openPurchase = rsp.data;
+        // this.$refs.checkoutDialog.show(purchase);
+        this.startPayment();
         this.fetchData();
       }).catch((err) => {
         console.log(err);
+        this.redirectDialog = false;
         this.utils.notifyUnexpectedError(err.response.data);
         this.fetchData();
+      });
+    },
+    async startPayment() {
+      const api = await openapi;
+
+      this.errorMessage = null;
+
+      api.shop_startPayment(undefined, {
+        purchase_id: this.openPurchase.id,
+        payment_gateway_id: this.selectedGateway,
+      }).then((rsp) => {
+        const { action, debit } = rsp.data;
+        console.log(action, debit);
+
+        ShopService.executeAction(debit, action).catch((err) => {
+          this.errorMessage = this.$t('_shop.messages.paymentActionFailed', { message: err });
+        });
+      }).catch((err) => {
+        this.redirectDialog = false;
+        this.errorMessage = this.$t('_shop.messages.startingPaymentFailed');
+        console.log(err);
+        this.utils.notifyUnexpectedError(err.response.data);
       });
     },
     async cancelPurchase(purchase) {
@@ -531,6 +612,28 @@ export default {
   computed: {
     currentAddress() {
       return this.$store.getters.address;
+    },
+    checkboxes() {
+      if (this.generalConfig == null) {
+        return null;
+      }
+
+      if (this.generalConfig.checkout_checkboxes == null) {
+        return [];
+      }
+
+      let id = 1;
+      return this.generalConfig.checkout_checkboxes.map((cb) => {
+        const cbo = {
+          text: cb.text,
+          url: cb.url,
+          id,
+        };
+
+        id += 1;
+
+        return cbo;
+      });
     },
   },
 };

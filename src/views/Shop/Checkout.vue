@@ -2,16 +2,14 @@
   <div>
     <v-row class="justify-center">
       <v-col cols="12" md="6" lg="5" xl="3">
-        <v-card>
-          <v-card-title>
-            <v-icon>mdi-currency-usd</v-icon>
+        <v-card class="card-rounded">
+          <v-card-title class="d-block">
             {{ $t('_shop.labels.payment') }}
+            <v-divider />
           </v-card-title>
           <v-card-text>
             <div v-if="errorMessage != null">
-              <v-alert
-                type="error"
-              >
+              <v-alert type="error">
                 {{ errorMessage }}
               </v-alert>
             </div>
