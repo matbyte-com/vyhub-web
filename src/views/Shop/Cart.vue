@@ -8,69 +8,45 @@
         <PageTitleFlat :title="openPurchase?$t('_shop.labels.unfinishedPurchase')
         :$t('_shop.labels.cart')" :hide-triangle="true"
                        :open="true"/>
-        <!-- TODO Probably Remove Somehow -->
-        <!--
-        <v-card class="vh-cart-unfinished" v-if="openPurchase != null">
-          <v-card-title>
-            <v-icon left>mdi-cart-arrow-right</v-icon>
-            {{ $t('_shop.labels.unfinishedPurchase') }}
-          </v-card-title>
-          <v-card-text class="body-1">
-            {{ $t('_shop.messages.unfinishedPurchase') }}
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="success" @click="$refs.checkoutDialog.show(openPurchase)">
-              <v-icon left>mdi-arrow-right</v-icon>
-              {{ $t('continue') }}
-            </v-btn>
-            <v-btn text color="error" @click="$refs.cancelPurchaseConfirmationDialog.show()">
-              <v-icon left>mdi-close</v-icon>
-              {{ $t('cancel') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>-->
         <!-- Cart Packets -->
         <!-- Either show cart-packets or open-purchase packets -->
         <v-card class="vh-cart-packets card-rounded-bottom"
-                style="border-top-right-radius: 0; border-top-left-radius: 0"
-                v-if="cartPackets.length > 0 || openPurchase">
+                style="border-top-right-radius: 0; border-top-left-radius: 0">
           <v-card-text>
-            <CartPacket
-              class="mt-1"
-              v-for="cartPacket in packetsToShow" v-bind:key="cartPacket.id"
-              :cart-packet="cartPacket" :show-remove="!openPurchase"
-              @remove="removeCartPacket(cartPacket.id)"
-              @removeDiscount="removeDiscount(cartPacket.discount.id)"
-              @targetUserChanged="fetchData">
-            </CartPacket>
-            <!-- Remove All Btn -->
-            <div class="text-right">
-              <v-btn small color="error" @click="clearCart" depressed v-if="!openPurchase"
-                     class="text-right vh-remove-all-packets mt-1">
-                <v-icon left>mdi-delete</v-icon>
-                {{ $t('_shop.labels.removeAllPackets') }}
-              </v-btn>
-              <v-btn v-else color="error" text class="mt-1"
-                     @click="$refs.cancelPurchaseConfirmationDialog.show()">
-                <v-icon left>mdi-close</v-icon>
-                {{ $t('_shop.labels.cancelPurchase') }}
+            <transition-group name="packet-list">
+              <CartPacket
+                class="mt-1"
+                v-for="cartPacket in packetsToShow" v-bind:key="cartPacket.id"
+                :cart-packet="cartPacket" :show-remove="!openPurchase"
+                @remove="removeCartPacket(cartPacket.id)"
+                @removeDiscount="removeDiscount(cartPacket.discount.id)"
+                @targetUserChanged="fetchData">
+              </CartPacket>
+              <!-- Remove All Btn -->
+              <div class="text-right" v-if="cartPackets.length > 0 || openPurchase" :key="3">
+                <v-btn small color="error" @click="clearCart" depressed v-if="!openPurchase"
+                       class="text-right vh-remove-all-packets mt-1">
+                  <v-icon left>mdi-delete</v-icon>
+                  {{ $t('_shop.labels.removeAllPackets') }}
+                </v-btn>
+                <v-btn v-else color="error" text class="mt-1"
+                       @click="$refs.cancelPurchaseConfirmationDialog.show()">
+                  <v-icon left>mdi-close</v-icon>
+                  {{ $t('_shop.labels.cancelPurchase') }}
+                </v-btn>
+              </div>
+            </transition-group>
+            <!-- Cart Empty -->
+            <div v-if="!openPurchase && cartPackets.length === 0" :key="1">
+              {{ $t('_shop.messages.cartEmpty') }}
+              <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
+                     active-class="no-active">
+                {{ $t('shop') }}
+                <v-icon right>
+                  mdi-arrow-right
+                </v-icon>
               </v-btn>
             </div>
-          </v-card-text>
-        </v-card>
-        <!-- Empty Cart -->
-        <v-card class="vh-cart-empty card-rounded-bottom"
-                style="border-top-right-radius: 0; border-top-left-radius: 0"
-                v-if="cartPackets.length === 0 && !openPurchase">
-          <v-card-text>
-            {{ $t('_shop.messages.cartEmpty') }}
-            <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
-                   active-class="no-active">
-              {{ $t('shop') }}
-              <v-icon right>
-                mdi-arrow-right
-              </v-icon>
-            </v-btn>
           </v-card-text>
         </v-card>
         <!-- Address and Email -->
@@ -418,6 +394,9 @@ export default {
         // Different Endpoint when Purchase is available
         api.shop_getPurchaseGateways({ uuid: this.openPurchase.id }).then((rsp) => {
           this.gateways = rsp.data;
+          if (rsp.data.length > 0 && this.selectedGateway == null) {
+            this.selectedGateway = rsp.data[0].id;
+          }
         });
       }
     },
@@ -677,7 +656,7 @@ export default {
       if (this.cartPackets.length > 0) {
         return this.cartPackets;
       }
-      if (this.openPurchase.cart_packets.length > 0) {
+      if (this.openPurchase && this.openPurchase.cart_packets.length > 0) {
         return this.openPurchase.cart_packets;
       }
       return null;
@@ -721,4 +700,17 @@ export default {
   border-style: solid !important
   border-width: 2px !important
   border-color: var(--v-primary-base) !important
+
+.packet-list-move, .packet-list-enter-active, .packet-list-leave-active
+  transition: all 0.5s ease
+
+.packet-list-enter-from, .packet-list-leave-to
+  opacity: 0
+  transform: translateX(30px)
+
+.packet-list-leave-active
+  position: absolute
+
+.vh-cart-packets
+  transition: all 0.5s ease
 </style>
