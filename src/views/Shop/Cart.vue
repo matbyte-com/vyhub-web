@@ -1,69 +1,102 @@
 <template>
   <div>
     <RecommendedPacketsCart @cartChanged="fetchData" />
-    <v-row v-if="cartPackets != null" class="mt-3">
+    <v-row v-if="cartPackets != null" class="mt-1">
       <!-- Cart packets -->
-      <v-col xl="9" lg="8" cols="12">
+      <v-col cols="12" lg="8" xl="9">
+        <!-- Page Title -->
         <PageTitleFlat :title="$t('_shop.labels.cart')" class="mb-4" />
-        <v-row v-if="openPurchase != null" class="mt-3">
-          <v-col>
-            <v-card class="vh-cart-unfinished">
-              <v-card-title>
-                <v-icon left>mdi-cart-arrow-right</v-icon>
-                {{ $t('_shop.labels.unfinishedPurchase') }}
-              </v-card-title>
-              <v-card-text class="body-1">
-                {{ $t('_shop.messages.unfinishedPurchase') }}
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="success" @click="$refs.checkoutDialog.show(openPurchase)">
-                  <v-icon left>mdi-arrow-right</v-icon>
-                  {{ $t('continue') }}
-                </v-btn>
-                <v-btn text color="error" @click="$refs.cancelPurchaseConfirmationDialog.show()">
-                  <v-icon left>mdi-close</v-icon>
-                  {{ $t('cancel') }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <CartPacket
-          v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id" class="mt-3"
-          :cart-packet="cartPacket" show-outline show-remove
-          @remove="removeCartPacket(cartPacket.id)"
-          @removeDiscount="removeDiscount(cartPacket.discount.id)"
-          @targetUserChanged="fetchData">
-        </CartPacket>
-        <div v-if="cartPackets.length === 0">
-          <v-row>
-            <v-col>
-              <v-card class="vh-cart-empty">
-                <v-card-text>
-                  {{ $t('_shop.messages.cartEmpty') }}
-                  <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
-                         active-class="no-active">
-                    {{ $t('shop') }}
-                    <v-icon right>
-                      mdi-arrow-right
-                    </v-icon>
-                  </v-btn>
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
-        </div>
-        <div v-else>
-          <v-row>
-            <v-col class="text-right">
-              <v-btn color="error" @click="clearCart" depressed>
+        <!-- Open Purchase -->
+        <!-- TODO Probably Remove Somehow -->
+        <v-card class="vh-cart-unfinished mt-3" v-if="openPurchase != null">
+          <v-card-title>
+            <v-icon left>mdi-cart-arrow-right</v-icon>
+            {{ $t('_shop.labels.unfinishedPurchase') }}
+          </v-card-title>
+          <v-card-text class="body-1">
+            {{ $t('_shop.messages.unfinishedPurchase') }}
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="success" @click="$refs.checkoutDialog.show(openPurchase)">
+              <v-icon left>mdi-arrow-right</v-icon>
+              {{ $t('continue') }}
+            </v-btn>
+            <v-btn text color="error" @click="$refs.cancelPurchaseConfirmationDialog.show()">
+              <v-icon left>mdi-close</v-icon>
+              {{ $t('cancel') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+        <!-- Cart Packets -->
+        <v-card class="vh-cart-packets mt-3 card-rounded">
+          <v-card-text>
+            <CartPacket
+              class="mt-1"
+              v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id"
+              :cart-packet="cartPacket" show-remove
+              @remove="removeCartPacket(cartPacket.id)"
+              @removeDiscount="removeDiscount(cartPacket.discount.id)"
+              @targetUserChanged="fetchData">
+            </CartPacket>
+            <!-- Remove All Btn -->
+            <div class="text-right">
+              <v-btn small color="error" @click="clearCart" depressed
+                     class="text-right vh-remove-all-packets mt-3">
                 <v-icon left>mdi-delete</v-icon>
                 {{ $t('_shop.labels.removeAllPackets') }}
               </v-btn>
-            </v-col>
-          </v-row>
-        </div>
+            </div>
+          </v-card-text>
+        </v-card>
+        <!-- Empty Cart -->
+        <v-card class="vh-cart-empty" v-if="cartPackets.length === 0">
+          <v-card-text>
+            {{ $t('_shop.messages.cartEmpty') }}
+            <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
+                   active-class="no-active">
+              {{ $t('shop') }}
+              <v-icon right>
+                mdi-arrow-right
+              </v-icon>
+            </v-btn>
+          </v-card-text>
+        </v-card>
+        <!-- Payment Methods -->
+        <v-card class="mt-3 card-rounded vh-select-payment-gateway" flat >
+          <v-card-title class="d-block">
+            <h2 class="text-h6">{{ $t('_shop.messages.selectGateway') }}</h2>
+            <v-divider />
+          </v-card-title>
+          <v-card-text>
+            <v-row v-if="gateways">
+              <v-col lg="3" md="4" sm="6" xs="12" v-for="gateway in gateways" :key="gateway.id"
+                     class="d-flex">
+                <v-card @click="startPayment(gateway)" class="flex-grow-1">
+                  <v-card-text class="text-center">
+                    <div class="d-flex justify-center">
+                      <v-img contain class="mb-1" width="200" height="50"
+                             :src="getImgUrl(gateway)" :alt="gateway.name"
+                             v-if="getImgUrl(gateway) != null" />
+                      <div v-else>
+                        <h4 class="text-h4">{{ gateway.type }}</h4>
+                      </div>
+                    </div>
+                    <div v-if="gateway.subtitle != null">
+                      {{ gateway.subtitle }}
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row v-else>
+              <v-col cols="6" md="3" xl="2" v-for="i in 4" :key="i">
+                <v-card class="card-rounded" flat>
+                  <v-skeleton-loader type="image"/>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
       </v-col>
 
       <!-- Cart total, address and checkout -->
@@ -247,6 +280,7 @@ export default {
       emailWobble: false,
       addressWobble: false,
       showDetails: false,
+      gateways: null,
     };
   },
   beforeMount() {
@@ -446,6 +480,17 @@ export default {
         this.utils.notifyUnexpectedError(err.response.data);
         this.fetchData();
       });
+    },
+    getImgUrl(gateway) {
+      // Return URL, when set, else return default
+      if (gateway.image_url) return gateway.image_url;
+      const images = require.context('@/assets/img/gateways/', false, /\.png$/);
+
+      try {
+        return images(`./${gateway.type}.png`);
+      } catch (e) {
+        return null;
+      }
     },
   },
   computed: {

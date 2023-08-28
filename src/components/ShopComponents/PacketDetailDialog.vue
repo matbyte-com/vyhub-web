@@ -4,6 +4,7 @@
     max-width="1000px"
     v-model="dialog">
     <!-- TODO Better Animation -->
+    <!-- TODO Make Packet Dialog Available for Cart Packets -->
     <v-card v-if="packet">
       <v-card-text class="pa-5">
         <v-row>

@@ -4,7 +4,7 @@
       <v-icon left>mdi-email</v-icon>
       {{ $t('_personalSettings.email') }}
     </v-card-title>
-    <v-card-text class="body-1">
+    <v-card-text class="body-1 mb-0 pb-0">
       <div v-if="!showInput">
         <div v-if="user.email != null">
           {{ user.email }}

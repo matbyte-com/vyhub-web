@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-card>
+    <v-card class="vh-cart-packet card-rounded" outlined>
       <v-card-text>
         <v-row>
-          <v-col lg="2" cols="12" sm="4" align-self="center" class="text-center">
+          <v-col cols="12" sm="3" md="3" lg="3" xl="2" align-self="center" class="text-center">
             <v-img
               @click="showPacket"
               style="cursor: pointer; border-radius: 5px"
@@ -16,13 +16,6 @@
             </div>
             <div class="subtitle-2" v-if="cartPacket.packet.subtitle">
               {{ cartPacket.packet.subtitle }}
-            </div>
-            <div class="body-2" v-if="showOutline">
-              <ul>
-                <li v-for="point in cartPacket.packet.abstract" :key="point">
-                  {{ point }}
-                </li>
-              </ul>
             </div>
           </v-col>
           <v-col cols="12" md="auto" lg="auto"
@@ -87,6 +80,8 @@
         <UserLink v-if="cartPacket.target_user" :user="cartPacket.target_user" />
       </template>
     </DialogForm>
+    <!-- TODO Make Packet Dialog Available for Cart Packets -->
+    <PacketDetailDialog ref="detailDialog" :packet="cartPacket" />
   </div>
 </template>
 
@@ -95,10 +90,11 @@ import openapi from '@/api/openapi';
 import DialogForm from '@/components/DialogForm.vue';
 import CartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 import UserLink from '@/components/UserLink.vue';
+import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
 
 export default {
   name: 'CartPacket',
-  components: { UserLink, DialogForm },
+  components: { PacketDetailDialog, UserLink, DialogForm },
   data() {
     return {
       cartPacketTargetUserForm: CartPacketTargetUserForm,
@@ -106,7 +102,6 @@ export default {
   },
   props: {
     cartPacket: Object,
-    showOutline: Boolean,
     showRemove: Boolean,
     priceCols: {
       type: Number,
@@ -115,7 +110,7 @@ export default {
   },
   methods: {
     showPacket() {
-      this.$router.push({ name: 'ShopPacket', params: { packetId: this.cartPacket.packet.id } });
+      this.$refs.detailDialog.show();
     },
     async changeTargetUser() {
       const data = this.$refs.targetUserEditDialog.getData();
