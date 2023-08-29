@@ -6,7 +6,7 @@
         <CardTitle :no-icon="noIcon" :centered="centerHeadline"
                    :title="shopConfig.top_donators_display_title" icon="mdi-podium"/>
       </v-card-title>
-      <v-card-text>
+      <v-card-text style="width: inherit">
         <div class="d-flex align-center mt-3" style="overflow-x: auto; height: 55px"
              v-if="topDonators && topDonators.donators.length > 0">
           <v-spacer/>

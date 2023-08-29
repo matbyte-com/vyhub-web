@@ -6,7 +6,7 @@
         <CardTitle :no-icon="noIcon" :centered="centerHeadline"
                    :title="shopConfig.donation_goal_display_title" icon="mdi-flag-checkered"/>
       </v-card-title>
-      <v-card-text>
+      <v-card-text style="width: inherit">
         <v-progress-linear striped :value="donationProgress" height="20" class="progress-bar">
         <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
           {{ donationProgress }}%

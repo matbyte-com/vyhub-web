@@ -26,8 +26,12 @@
             <ServerStatus ref="serverStatus" />
           </swiper-slide>
           <swiper-slide v-if="$store.getters.shopConfig">
-            <DonationGoal v-if="$store.getters.shopConfig.donation_goal_enabled"/>
-            <TopDonators class="mt-3" v-if="$store.getters.shopConfig.top_donators_enabled"/>
+            <v-card class="card-rounded" flat>
+              <DonationGoal v-if="$store.getters.shopConfig.donation_goal_enabled"/>
+            </v-card>
+            <v-card class="card-rounded mt-3" flat>
+              <TopDonators v-if="$store.getters.shopConfig.top_donators_enabled"/>
+            </v-card>
           </swiper-slide>
           <swiper-slide>
             <NewUsers />
