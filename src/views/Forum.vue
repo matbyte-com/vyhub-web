@@ -7,16 +7,10 @@
                        :open="$vuetify.breakpoint.smAndDown">
           <template v-slot:end>
             <div v-if="$checkProp('forum_edit')" class="d-flex flex-column">
-              <v-btn class="ml-auto" color="success" small
+              <v-btn class="ml-auto" color="success" small depressed
                      @click="$refs.editTopicCategoriesDialog.show()">
                 <v-icon left>mdi-card-multiple</v-icon>
                 <span>{{ $t('_forum.manageTopicCategories') }}</span>
-              </v-btn>
-              <v-btn class="ml-auto mt-1" color="success" small style="min-width: 233px"
-                     @click="$refs.editTopicsDialog.show()"
-                     :disabled="selectedTopicCategory === null">
-                <v-icon left>mdi-card-multiple</v-icon>
-                <span>{{ $t('_forum.manageTopics') }}</span>
               </v-btn>
             </div>
           </template>
@@ -29,10 +23,11 @@
             <v-skeleton-loader type="card-heading"/>
           </v-card>
         </div>
-        <v-card v-for="category in topicCategories" :key="category.id"
+        <v-card v-for="(category, index) in topicCategories" :key="category.id"
                 class="mb-3 vh-forum card-rounded-bottom"
                 :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-                'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+                'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0,
+                 'card-rounded-top': index !== 0 }">
           <v-card-text>
             <v-list subheader two-line>
               <v-list-group :value="true"
@@ -41,7 +36,7 @@
                   <v-icon class="icon ml-0 pl-0">$expand</v-icon>
                 </template>
                 <template v-slot:activator>
-                  <v-list-item-title class="ml-5 headerListItem" style="font-size: 1.5em;">
+                  <v-list-item-title class="ml-5" style="font-size: 1.5em;">
                     {{ category.title }}
                   </v-list-item-title>
                 </template>
@@ -139,95 +134,92 @@
     </v-row>
 
     <!-- TopicCategoryDialog -->
-    <Dialog ref="editTopicCategoriesDialog"
+    <Dialog ref="editTopicCategoriesDialog" :max-width="1000"
             :title="$t('_forum.manageTopicCategories')" :icon="'mdi-card-multiple'">
-      <template>
-        <v-list>
-          <draggable :list="topicCategories" @change="updateForumCategories = true">
-            <v-list-item v-for="category in topicCategories" :key="category.id">
-              <v-row>
-                <v-col>
-                  {{ category.title }}
-                </v-col>
-                <v-col class="text-right">
+        <v-expansion-panels class="mt-5" flat v-model="expansionPanel">
+          <draggable :list="topicCategories" @change="updateForumCategories = true"
+                     style="width: 100%">
+            <v-expansion-panel v-for="category in topicCategories" :key="category.id">
+              <v-expansion-panel-header>
+                <!-- Topic Category -->
+                <div class="d-flex align-center">
+                    {{ category.title }}
+                  <v-spacer />
                   <v-btn class="mr-1" @click.stop="openTopicCategoryEditDialog(category)"
                          color="primary" outlined small>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
                   <v-btn
                     @click.stop="$refs.deleteTopicCategoryConfirmationDialog.show(category);
-                $refs.deleteTopicCategoryConfirmationDialog.confirmationTextField = category.title;"
-                    color="red" outlined small>
+            $refs.deleteTopicCategoryConfirmationDialog.confirmationTextField = category.title;"
+                    color="red" class="mr-3" outlined small>
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
-                </v-col>
-              </v-row>
-            </v-list-item>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <!-- Topic -->
+                <v-card outlined>
+                  <v-list v-if="selectedTopicCategory">
+                    <draggable :list="selectedTopicCategory.topics"
+                               @change="updateForumTopics = true">
+                      <v-list-item v-for="topic in selectedTopicCategory.topics" :key="topic.id">
+                        <v-row>
+                          <v-col>
+                            {{ topic.title }}
+                          </v-col>
+                          <v-col class="text-right">
+                            <v-btn class="mr-1"
+                                   @click.stop="openTopicEditDialog(topic,selectedTopicCategory.id)"
+                                   color="primary" outlined x-small>
+                              <v-icon small>mdi-pencil</v-icon>
+                            </v-btn>
+                            <v-btn @click.stop="$refs.deleteTopicConfirmationDialog.show(topic);
+                $refs.deleteTopicConfirmationDialog.confirmationTextField = topic.title;"
+                                   color="red" outlined x-small>
+                              <v-icon small>mdi-delete</v-icon>
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-list-item>
+                    </draggable>
+                  </v-list>
+                  <!-- Topic Actions -->
+                  <div class="d-flex align-center justify-end pb-1 pr-4">
+                    <v-btn color="success" small outlined @click="openAddTopicDialog">
+                      <v-icon small>mdi-plus</v-icon>
+                      {{ $t('_forum.addTopic') }}
+                    </v-btn>
+                    <v-btn color="primary" small class="mr-0 ml-3" outlined
+                           style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+                           @click="updateTopicOrder()" :disabled="!updateForumTopics">
+                      <v-icon small>mdi-check</v-icon>
+                    </v-btn>
+                    <v-btn color="primary" small class="ma-0" outlined
+                           style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                           @click="fetchData" :disabled="!updateForumTopics">
+                      <v-icon small>mdi-backspace-outline</v-icon>
+                    </v-btn>
+                  </div>
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
           </draggable>
-        </v-list>
-
-      </template>
+        </v-expansion-panels>
+      <!-- Topic Category Actions -->
       <template v-slot:actions>
-        <v-btn color="primary" @click="$refs.addTopicCategoryDialog.show()">
+        <v-btn outlined color="success" @click="$refs.addTopicCategoryDialog.show()">
           <v-icon>mdi-plus</v-icon>
           {{ $t('_forum.addCategory') }}
         </v-btn>
-        <v-btn color="primary" class="mr-0"
+        <v-btn color="primary" outlined class="mr-0"
                style="border-top-right-radius: 0; border-bottom-right-radius: 0"
                @click="updateCategoryOrder" :disabled="!updateForumCategories">
           <v-icon>mdi-check</v-icon>
         </v-btn>
-        <v-btn color="primary" class="ma-0"
+        <v-btn color="primary" outlined class="ma-0"
                style="border-bottom-left-radius: 0; border-top-left-radius: 0"
                @click="fetchData" :disabled="!updateForumCategories">
-          <v-icon>mdi-backspace-outline</v-icon>
-        </v-btn>
-      </template>
-    </Dialog>
-    <!-- TopicDialog -->
-    <Dialog ref="editTopicsDialog" v-if="topicCategories"
-            :title="$t('_forum.manageTopics')" :icon="'mdi-card-multiple'">
-      <template>
-        <v-select :label="$t('_forum.selectTopicCategory')" :items="topicCategories.map(category =>
-        ({text: category.title, value: category.id}))"
-                  v-model="selectedTopicCategory"/>
-        <v-list v-if="getSelectedCategory">
-          <draggable :list="getSelectedCategory.topics" @change="updateForumTopics = true">
-            <v-list-item v-for="topic in getSelectedCategory.topics" :key="topic.id">
-              <v-row>
-                <v-col>
-                  {{ topic.title }}
-                </v-col>
-                <v-col class="text-right">
-                  <v-btn class="mr-1"
-                         @click.stop="openTopicEditDialog(topic, getSelectedCategory.id)"
-                         color="primary" outlined small>
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn @click.stop="$refs.deleteTopicConfirmationDialog.show(topic);
-                $refs.deleteTopicConfirmationDialog.confirmationTextField = topic.title;"
-                         color="red" outlined small>
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-list-item>
-          </draggable>
-        </v-list>
-      </template>
-      <template v-slot:actions>
-        <v-btn color="primary" @click="openAddTopicDialog">
-          <v-icon>mdi-plus</v-icon>
-          {{ $t('_forum.addTopic') }}
-        </v-btn>
-        <v-btn color="primary" class="mr-0"
-               style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-               @click="updateTopicOrder()" :disabled="!updateForumTopics">
-          <v-icon>mdi-check</v-icon>
-        </v-btn>
-        <v-btn color="primary" class="ma-0"
-               style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-               @click="fetchData" :disabled="!updateForumTopics">
           <v-icon>mdi-backspace-outline</v-icon>
         </v-btn>
       </template>
@@ -275,15 +267,11 @@ export default {
   data() {
     return {
       topicCategories: null,
-      selectedTopicCategory: null,
       updateForumCategories: false,
       updateForumTopics: false,
       topicCategoryForm: ForumAddTopicCategory,
       TopicForm: ForumAddTopicForm,
-      latestPosts: null,
-      latestThreads: null,
-      totalPosts: null,
-      totalThreads: null,
+      expansionPanel: null,
     };
   },
   beforeMount() {
@@ -293,15 +281,8 @@ export default {
     async fetchData() {
       (await openapi).forum_getTopicCategories().then((rsp) => {
         this.topicCategories = rsp.data;
-        if (this.topicCategories.length > 0) {
-          this.selectedTopicCategory = this.topicCategories[0].id;
-        }
-        if (this.updateForumCategories === true) {
-          this.updateForumCategories = false;
-        }
-        if (this.updateForumTopics === true) {
-          this.updateForumTopics = false;
-        }
+        this.updateForumCategories = false;
+        this.updateForumTopics = false;
       });
     },
     // Hinzufügen
@@ -414,9 +395,8 @@ export default {
       });
     },
     async updateTopicOrder() {
-      const category = this.topicCategories.find((item) => item.id === this.selectedTopicCategory);
       const res = [];
-      category.topics.forEach((item) => {
+      this.selectedTopicCategory.topics.forEach((item) => {
         res.push(item.id);
       });
       (await openapi).forum_updateTopicOrder(null, res).then(() => {
@@ -431,13 +411,13 @@ export default {
     },
     openAddTopicDialog() {
       this.$refs.addTopicDialog.show();
-      this.$refs.addTopicDialog.setData({ topic_category_id: this.selectedTopicCategory });
+      this.$refs.addTopicDialog.setData({ topic_category_id: this.selectedTopicCategory.id });
     },
   },
   computed: {
-    getSelectedCategory() {
-      if (!this.topicCategories) return {};
-      return this.topicCategories.find((category) => category.id === this.selectedTopicCategory);
+    selectedTopicCategory() {
+      if (this.expansionPanel == null || !this.topicCategories) return null;
+      return this.topicCategories[this.expansionPanel];
     },
   },
 };
@@ -450,10 +430,6 @@ export default {
 
 .icon {
   order: 0;
-}
-
-.headerListItem {
-  order: 1
 }
 
 .textOverflow {

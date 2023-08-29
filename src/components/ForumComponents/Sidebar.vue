@@ -1,16 +1,15 @@
 <template>
 <div>
   <v-card class="vh-forum-latest-posts card-rounded">
-    <v-card-title style="word-break: break-word">
+    <v-card-title class="pb-0">
       <CardTitle icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
     </v-card-title>
-    <v-divider class="ml-3 mr-3"/>
     <v-list dense v-if="latestPosts">
       <v-list-item v-for="post in latestPosts" :key="post.id" class="listItem pt-0 pb-0"
                    :to="{ name: 'ForumThread', params: { id: post.thread.id },
                     query: {lastPage: true}}">
         <v-list-item-content>
-          <div class="d-flex">
+          <div class="d-flex align-center">
             <router-link
               :to="{ name: 'UserDashboard',
                            params: { id: post.creator.id } }">
@@ -18,7 +17,7 @@
                 <v-img :src="post.creator.avatar"/>
               </v-avatar>
             </router-link>
-            <div class="align-self-center">
+            <div>
               <div>
                 <router-link :to="{ name: 'ForumThread', params: { id: post.thread.id },
                  query: {lastPage: true} }"
@@ -41,15 +40,14 @@
        divider, list-item-avatar" v-else/>
   </v-card>
   <v-card class="mt-3 vh-forum-latest-threads card-rounded">
-    <v-card-title style="word-break: break-word">
+    <v-card-title class="d-block pb-0">
       <CardTitle icon="mdi-forum" :title="$t('_forum.latestThreads')"/>
     </v-card-title>
-    <v-divider class="ml-3 mr-3"/>
     <v-list dense v-if="latestThreads">
       <v-list-item v-for="thread in latestThreads" :key="thread.id" class="listItem"
                    :to="{ name: 'ForumThread', params: { id: thread.id } }">
         <v-list-item-content>
-          <div class="d-flex">
+          <div class="d-flex align-center">
             <router-link
               :to="{ name: 'UserDashboard',
                            params: { id: thread.creator.id } }">
@@ -57,7 +55,7 @@
                 <v-img :src="thread.creator.avatar"/>
               </v-avatar>
             </router-link>
-            <div class="align-self-center">
+            <div>
               <div>
                 <router-link :to="{ name: 'ForumThread', params: { id: thread.id } }"
                              style="font-size: 1em; white-space: nowrap;
@@ -79,12 +77,11 @@
        divider, list-item-avatar" v-else/>
   </v-card>
   <v-card class="mt-3 vh-forum-statistics card-rounded">
-    <v-card-title style="word-break: break-word">
-      <CardTitle icon="mdi-counter" :title="$t('_forum.statistics')"/>
+    <v-card-title>
+      <CardTitle icon="mdi-counter" :title="$t('statistics')"/>
     </v-card-title>
-    <v-divider class="ml-3 mr-3"/>
     <v-card-text v-if="totalThreads != null && totalPosts != null && totalReactions != null">
-      <span class="font-weight-bold">{{ totalThreads }}</span>{{ $t('_forum.threads') }},
+      <span class="font-weight-bold">{{ totalThreads }}</span> {{ $t('_forum.threads') }},
       <span class="font-weight-bold">{{ totalPosts }}</span> {{ $t('_forum.posts') }},
       <span class="font-weight-bold">{{ totalReactions }}</span> {{ $t('_forum.reactions') }}
     </v-card-text>

@@ -4,7 +4,7 @@
     <v-icon color="primary" left v-if="!noIcon">{{ icon }}</v-icon>
     <!--<v-sheet vertical color="primary" width="2" height="25" v-if="!noIcon">
     </v-sheet>-->
-    <span class="mr-1">
+    <span class="mr-1" style="white-space: nowrap">
       {{ title }}
     </span>
     <v-spacer v-if="centered"/>

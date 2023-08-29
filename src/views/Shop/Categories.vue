@@ -17,16 +17,16 @@
                :key="category.id"
                class="d-flex align-content-space-between">
           <v-card :to=" { name: 'ShopCategory',
-           params: {categoryId: category.id }}" color="transparent" flat tile
-                  class="flex-grow-1 flex-column d-flex bordered">
+           params: {categoryId: category.id }}" color="" flat outlined
+                  class="flex-grow-1 flex-column d-flex">
             <v-img
-              :src="category.image_url" class="ma-1"
+              :src="category.image_url" class="ma-1 img-rounded"
               max-height="300px" />
             <div class="d-flex align-center mx-1 mb-1 justify-center">
               <v-spacer v-if="$vuetify.breakpoint.smAndDown"/>
               <h3 class="text-h6">{{ category.name }}</h3>
               <v-spacer />
-              <v-btn tile depressed color="primary" v-if="!$vuetify.breakpoint.smAndDown">
+              <v-btn depressed color="primary" v-if="!$vuetify.breakpoint.smAndDown">
                 <span v-if="$vuetify.breakpoint.lgAndUp">{{ $t('viewMore') }}</span>
                 <span v-else>{{ $t('view') }}</span>
               </v-btn>
@@ -78,5 +78,9 @@ export default {
 <style scoped>
 .bordered {
   border: 1px solid grey !important;
+}
+
+.img-rounded {
+  border-radius: 3px !important;
 }
 </style>
