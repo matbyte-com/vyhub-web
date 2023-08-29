@@ -37,99 +37,103 @@
       <!-- News -->
       <v-col cols="12" md="8">
         <!-- News of the Day -->
-          <PageTitleFlat :title="$t('_home.newsOfTheDay')" class="mb-0"
-                         v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')">
-            <template v-slot:end>
-              <div class="text-end">
-                <v-btn color="success" small class="mr-3" v-if="$checkProp('news_edit')"
-                       @click="showAddMessageDialog" data-cy="new-message-button">
-                  <v-icon left>mdi-plus</v-icon>
-                  <span>{{ $t('_home.addNews') }}</span>
-                </v-btn>
-              </div>
-            </template>
-          </PageTitleFlat>
-        <transition-group enter-active-class="animate__fadeIn"
-                          leave-active-class="animate__fadeOut">
-          <v-card v-for="message in getNewsOfTheDay" :key="message.id" :img="message.background_url"
-                  class="mt-4 news-of-day vh-news-of-day card-rounded animate__animated
-                   animate__faster">
-            <v-card-title :class="{ 'grey-title': !message.background_url &&
-                           !$vuetify.theme.dark }">
-              <v-row>
-                <v-col
-                  :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
-                   'black--text' : $vuetify.theme.dark && message.invert_title_color }">
-                  {{ message.subject }}
-                </v-col>
-                <v-col v-if="$checkProp('news_edit')" class="text-right">
-                  <v-btn outlined color="primary" small
-                         @click="openEditMessageDialog(message)" class="mr-1">
-                    <v-icon>
-                      mdi-pencil
-                    </v-icon>
-                  </v-btn>
-                  <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
-                    <v-icon>
-                      mdi-delete
-                    </v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
-            </v-card-text>
-            <v-card-actions class="text--disabled pt-0">
-              <span class="mr-3"
-                    :class="{ 'white--text' : !$vuetify.theme.dark
-                    && message.invert_title_color,
-                   'black--text' : $vuetify.theme.dark && message.invert_title_color }">
-                {{ $d(new Date(message.created), 'long') }}
-              </span>
-              <user-link v-if="message.creator" :user="message.creator"/>
-            </v-card-actions>
-          </v-card>
-        </transition-group>
+        <PageTitleFlat :title="$t('_home.newsOfTheDay')"
+                       v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')"
+                       :hide-triangle="$vuetify.breakpoint.smAndDown"
+                       :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"
+                       :class="{ 'mb-4': $vuetify.breakpoint.mdAndUp }">
+          <template v-slot:end v-if="$checkProp('news_edit')">
+            <div class="text-end">
+              <v-btn color="success" depressed small
+                     @click="showAddMessageDialog" data-cy="new-message-button">
+                <v-icon left>mdi-plus</v-icon>
+                <span>{{ $t('_home.addNews') }}</span>
+              </v-btn>
+            </div>
+          </template>
+        </PageTitleFlat>
+        <v-card v-for="(message, index) in getNewsOfTheDay" :key="message.id"
+                :img="message.background_url" flat
+                class="news-of-day vh-news-of-day card-rounded-bottom animate__animated
+                 animate__fadeIn animate__faster mb-3"
+                :class="{ 'card-rounded-top':!$vuetify.breakpoint.smAndDown || index !== 0,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0 }">
+          <v-card-title :class="{ 'grey-title': !message.background_url &&
+                         !$vuetify.theme.dark }">
+            <span
+              :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
+               'black--text' : $vuetify.theme.dark && message.invert_title_color }">
+              {{ message.subject }}
+            </span>
+            <v-spacer />
+            <span v-if="$checkProp('news_edit')" class="text-right">
+              <v-btn outlined color="primary" small
+                     @click="openEditMessageDialog(message)" class="mr-1">
+                <v-icon>
+                  mdi-pencil
+                </v-icon>
+              </v-btn>
+              <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+                <v-icon>
+                  mdi-delete
+                </v-icon>
+              </v-btn>
+            </span>
+          </v-card-title>
+          <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
+          </v-card-text>
+          <v-card-actions class="text--disabled pt-0">
+            <span class="mr-3"
+                  :class="{ 'white--text' : !$vuetify.theme.dark
+                  && message.invert_title_color,
+                 'black--text' : $vuetify.theme.dark && message.invert_title_color }">
+              {{ $d(new Date(message.created), 'long') }}
+            </span>
+            <user-link v-if="message.creator" :user="message.creator"/>
+          </v-card-actions>
+        </v-card>
         <!-- Display News -->
-        <PageTitleFlat :title="$t('_home.news')" class="mb-0" v-if="getNews.length !== 0"
-                       :class="{ 'mt-3': getNewsOfTheDay.length !== 0 }"/>
-        <transition-group enter-active-class="animate__fadeIn"
-                          leave-active-class="animate__fadeOut">
-          <v-card flat outlined class="mt-4 vh-news card-rounded animate__animated animate__faster"
-                  v-for="message in getNews" :key="message.id" :img="message.background_url">
-            <v-card-title :class="{ 'grey-title': !message.background_url &&
-                           !$vuetify.theme.dark }">
-              <v-row>
-                <v-col :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
-                   'black--text' : $vuetify.theme.dark && message.invert_title_color }">
-                  {{ message.subject }}
-                </v-col>
-                <v-col v-if="$checkProp('news_edit')" class="text-right">
-                  <v-btn outlined color="primary" small
-                         @click="openEditMessageDialog(message)" class="mr-1">
-                    <v-icon>
-                      mdi-pencil
-                    </v-icon>
-                  </v-btn>
-                  <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
-                    <v-icon>
-                      mdi-delete
-                    </v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
-            </v-card-text>
-            <v-card-actions class="text--disabled pt-0">
-              <span class="mr-3"
-                    :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
-                   'black--text' : $vuetify.theme.dark && message.invert_title_color }">
-                {{ $d(new Date(message.created), 'long') }}</span>
-              <user-link v-if="message.creator" :user="message.creator"/>
-            </v-card-actions>
-          </v-card>
-        </transition-group>
+        <PageTitleFlat :title="$t('_home.news')" v-if="getNews.length !== 0"
+                       :class="{ 'mt-3': getNewsOfTheDay.length !== 0,
+                        'mb-4': $vuetify.breakpoint.mdAndUp }"
+                       :hide-triangle="$vuetify.breakpoint.smAndDown"
+                       :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+        <v-card flat outlined
+                :class="{ 'card-rounded-top':!$vuetify.breakpoint.smAndDown || index !== 0,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0 }"
+                class="mb-3 vh-news card-rounded animate__animated animate__fadeIn animate__faster"
+                v-for="(message, index) in getNews" :key="message.id" :img="message.background_url">
+          <v-card-title :class="{ 'grey-title': !message.background_url &&
+                         !$vuetify.theme.dark }">
+            <span :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
+               'black--text' : $vuetify.theme.dark && message.invert_title_color }">
+              {{ message.subject }}
+            </span>
+            <v-spacer />
+            <span v-if="$checkProp('news_edit')" class="text-right">
+              <v-btn outlined color="primary" small
+                     @click="openEditMessageDialog(message)" class="mr-1">
+                <v-icon>
+                  mdi-pencil
+                </v-icon>
+              </v-btn>
+              <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+                <v-icon>
+                  mdi-delete
+                </v-icon>
+              </v-btn>
+            </span>
+          </v-card-title>
+          <v-card-text v-html="message.content" class="mt-3 ql-editor" style="min-height: 50px">
+          </v-card-text>
+          <v-card-actions class="text--disabled pt-0">
+            <span class="mr-3"
+                  :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
+                 'black--text' : $vuetify.theme.dark && message.invert_title_color }">
+              {{ $d(new Date(message.created), 'long') }}</span>
+            <user-link v-if="message.creator" :user="message.creator"/>
+          </v-card-actions>
+        </v-card>
         <!-- Skeleton Loader -->
         <v-row justify="center" class="pa-0" v-if="exhausted || fetching">
           <v-progress-circular v-if="fetching" indeterminate
@@ -200,7 +204,7 @@ export default {
       page: 1,
       exhausted: false,
       fetching: false,
-      messageAddSchema: NewsAddForm,
+      messageAddSchema: NewsAddForm.returnForm(),
       statusColumnWidth: 250,
       message: '',
     };

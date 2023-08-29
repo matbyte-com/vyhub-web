@@ -1,7 +1,9 @@
 <template>
   <v-card flat color="primary" class="card-rounded-top d-flex align-center vh-page-title"
-          :class="{ 'title-card': !hideTriangle, 'no-bottom-border-radius': open,
-           'card-rounded': !isMenu, 'card-rounded-bottom': isMenu && !open }">
+          :class="{ 'title-card': !hideTriangle,
+           'no-bottom-border-radius': open || noBottomBorderRadius,
+           'card-rounded': !isMenu, 'card-rounded-bottom': isMenu && !open &&
+            !noBottomBorderRadius}">
     <v-card-text class="pa-2 ml-1 white--text">
       <transition enter-active-class="animate__fadeIn animate__animated"
                   leave-active-class="absolute">
@@ -20,7 +22,7 @@
 <script>
 export default {
   name: 'PageTitleFlat',
-  props: ['title', 'hideTriangle', 'isMenu', 'open'],
+  props: ['title', 'hideTriangle', 'isMenu', 'open', 'noBottomBorderRadius'],
 };
 </script>
 

@@ -2,7 +2,7 @@
 <div class="d-flex flex-column flex-grow-1">
   <PageTitleFlat :title="$t('_shop.shopTitle')"
                  :hide-triangle="$vuetify.breakpoint.smAndDown"
-                 :open="$vuetify.breakpoint.smAndDown"/>
+                 :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
   <v-card class="card-rounded-bottom flex-grow-1"
           :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }"
