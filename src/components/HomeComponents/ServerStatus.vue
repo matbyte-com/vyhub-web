@@ -3,7 +3,7 @@
     <v-col>
       <v-card class="vh-server-status card-rounded" flat>
         <v-card-title class="pb-0">
-          <HeadlineSidebar icon="mdi-server" :title="$t('server')"/>
+          <CardTitle :title="$t('server')" icon="mdi-server" />
         </v-card-title>
         <v-card-text style="width: inherit">
           <div v-for="bundle in nonEmptyBundles" :key="bundle.id" class="mt-3">
@@ -105,12 +105,13 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
-import HeadlineSidebar from '@/components/HomeComponents/HeadlineSidebar.vue';
+import CardTitle from '@/components/CardTitle.vue';
 import Dialog from '@/components/Dialog.vue';
 
 export default {
   name: 'ServerStatus',
-  components: { Dialog, HeadlineSidebar },
+  components: { Dialog, CardTitle },
+  props: ['noIcon', 'noTitle', 'centerHeadline'],
   data() {
     return {
       servers: [],

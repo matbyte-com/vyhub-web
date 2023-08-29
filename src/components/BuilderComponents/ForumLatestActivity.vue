@@ -4,7 +4,7 @@
   <v-col class="d-flex" cols="11" sm="6" lg="5">
     <v-card v-if="latestPosts" class="vh-forum-latest-posts flex-grow-1 flex-column d-flex">
       <v-card-title style="word-break: break-word">
-        <HeadlineSidebar icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
+        <CardTitle icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
       </v-card-title>
       <v-divider class="ml-3 mr-3"/>
       <v-list dense>
@@ -45,7 +45,7 @@
     <v-card class="vh-forum-latest-threads flex-grow-1 flex-column d-flex"
             v-if="latestThreads">
       <v-card-title style="word-break: break-word">
-        <HeadlineSidebar icon="mdi-forum" :title="$t('_forum.latestThreads')"/>
+        <CardTitle icon="mdi-forum" :title="$t('_forum.latestThreads')"/>
       </v-card-title>
       <v-divider class="ml-3 mr-3"/>
       <v-list dense>
@@ -86,12 +86,12 @@
 
 <script>
 import openapi from '@/api/openapi';
-import HeadlineSidebar from '@/components/HomeComponents/HeadlineSidebar.vue';
 import UserLink from '@/components/UserLink.vue';
+import CardTitle from '@/components/CardTitle.vue';
 
 export default {
   name: 'ForumLatestActivity',
-  components: { HeadlineSidebar, UserLink },
+  components: { CardTitle, UserLink },
   data() {
     return {
       latestPosts: [],

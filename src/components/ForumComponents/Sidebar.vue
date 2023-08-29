@@ -2,7 +2,7 @@
 <div>
   <v-card class="vh-forum-latest-posts card-rounded">
     <v-card-title style="word-break: break-word">
-      <HeadlineSidebar icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
+      <CardTitle icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
     </v-card-title>
     <v-divider class="ml-3 mr-3"/>
     <v-list dense v-if="latestPosts">
@@ -97,14 +97,13 @@
 </template>
 
 <script>
-import HeadlineSidebar from '@/components/HomeComponents/HeadlineSidebar.vue';
+import CardTitle from '@/components/CardTitle.vue';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
-import openapiCached from '@/api/openapiCached';
 
 export default {
   name: 'Sidebar.vue',
-  components: { HeadlineSidebar, UserLink },
+  components: { CardTitle, UserLink },
   data() {
     return {
       latestPosts: null,

@@ -146,23 +146,17 @@
              :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
           <ServerStatus ref="serverStatus"/>
-          <v-row v-if="$store.getters.shopConfig &&
+          <v-card class="mt-3 card-rounded" flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.donation_goal_enabled">
-            <v-col>
-              <DonationGoal />
-            </v-col>
-          </v-row>
-          <v-row v-if="$store.getters.shopConfig &&
+            <DonationGoal class="pt-3"/>
+          </v-card>
+          <v-card class="mt-3 card-rounded" flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.top_donators_enabled">
-            <v-col>
-              <TopDonators />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <NewUsers />
-            </v-col>
-          </v-row>
+            <TopDonators class="pt-3"/>
+          </v-card>
+          <v-card class="mt-3 card-rounded">
+            <NewUsers />
+          </v-card>
         </div>
       </v-col>
     </v-row>
@@ -176,9 +170,9 @@ import NewsAddForm from '@/forms/NewsAddForm';
 import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
-import DonationGoal from '@/components/HomeComponents/DonationGoal.vue';
+import DonationGoal from '@/components/ShopComponents/DonationGoal.vue';
 import Editor from '@/components/Editor.vue';
-import TopDonators from '@/components/HomeComponents/TopDonators.vue';
+import TopDonators from '@/components/ShopComponents/TopDonators.vue';
 import Swiper from '@/components/Swiper.vue';
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import NewUsers from '../components/HomeComponents/NewUsers.vue';

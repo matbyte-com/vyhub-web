@@ -11,13 +11,13 @@
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item v-if="$store.getters.shopConfig.donation_goal_enabled">
-        <DonationGoal class="mt-3" />
+        <DonationGoal class="mt-3" :no-icon="true" :center-headline="true"/>
       </v-tab-item>
       <v-tab-item v-if="$store.getters.shopConfig.top_donators_enabled">
-        <TopDonators class="mt-3" />
+        <TopDonators class="mt-3" :no-icon="true" :center-headline="true" />
       </v-tab-item>
       <v-tab-item v-if="$store.getters.shopConfig.last_donators_enabled">
-        <LastDonators class="mt-3" />
+        <LastDonators class="mt-3" :no-icon="true" :center-headline="true" />
       </v-tab-item>
     </v-tabs-items>
   </v-card-text>
