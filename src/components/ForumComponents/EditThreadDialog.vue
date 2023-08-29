@@ -3,88 +3,91 @@
           :max-width="700">
     <v-row v-if="errorMsg != null">
       <v-col cols="12" class="mt-4">
-        <v-alert
-          type="error"
-        >
+        <v-alert type="error">
           {{ errorMsg }}
         </v-alert>
       </v-col>
     </v-row>
     <!-- Thread Settings: -->
-    <v-text-field :label="$t('title')"
-                  v-model="title">
-      <template v-slot:append>
-        <div style="display: flex; flex-wrap: wrap;">
-          <div v-for="label in currentLabels" :key="label.id">
-            <!-- Add current labels before the title text as chips -->
-            <v-chip class="mr-1 mb-1" :color="label.color" small close
-                    @click:close="removeLabel(label)">
-              {{ label.name }}
-            </v-chip>
+    <v-card flat outlined class="mt-3">
+      <v-card-text>
+        <v-form @submit.prevent="submit">
+          <v-text-field :label="$t('title')" hide-details="auto"
+                        v-model="title">
+            <template v-slot:append>
+              <div style="display: flex; flex-wrap: wrap;">
+                <div v-for="label in currentLabels" :key="label.id">
+                  <!-- Add current labels before the title text as chips -->
+                  <v-chip class="mr-1 mb-1 white--text" :color="label.color" small close
+                          @click:close="removeLabel(label)">
+                    {{ label.name }}
+                  </v-chip>
+                </div>
+              </div>
+            </template>
+          </v-text-field>
+          <div class="d-flex">
+            <v-checkbox v-model="pinned" :label="$t('_forum.pinned')" class="mr-4"
+                        hide-details="auto"/>
+            <v-checkbox v-model="locked" :label="$t('_forum.locked')" hide-details="auto" />
           </div>
-        </div>
-      </template>
-    </v-text-field>
-    <div class="d-flex">
-      <v-checkbox v-model="pinned" label="Pinned" class="mr-4" />
-      <v-checkbox v-model="locked" label="Locked" />
-    </div>
-    <v-btn outlined color="success" @click="submit" v-if="title !== ''" class="mb-2" small>
-      <v-icon left>mdi-check</v-icon>
-      <div>
-        {{ $t('submit') }}
-      </div>
-    </v-btn>
-    <v-divider />
-    <!-- For Labels: -->
-    <div class="mt-2 mb-1">
-      <span>{{ $t('_forum.availableLabels') }}:</span>
-      <div class="d-flex mt-1 mb-2">
+          <v-btn outlined color="success" class="mt-3" @click="submit" :disabled="title === ''">
+            <v-icon left>mdi-check</v-icon>
+            <div>
+              {{ $t('submit') }}
+            </div>
+          </v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
+    <v-card flat outlined class="mt-3">
+      <v-card-text>
+        <v-form @submit.prevent="addLabel">
+        <!-- For Labels: -->
+          <div class="d-flex flex-wrap">
           <span v-for="label in labels" :key="label.name + label.color">
-            <v-chip class="mr-1 mb-1" :color="label.color" small @click="addLabel(label, true)">
+            <v-chip class="mr-1 mb-1 white--text" :color="label.color" small
+                    @click="addLabel(label, true)">
               {{ label.name }}
-              <v-icon v-if="label.removed" right x-small
-                      style="background-color: #FFFFFF; color: #000000; border-radius: 50%">
-                mdi-reload
-              </v-icon>
-              <v-icon v-else right x-small
+              <v-icon right x-small
                       style="background-color: #FFFFFF; color: #000000; border-radius: 50%">
                 mdi-plus
               </v-icon>
             </v-chip>
           </span>
-      </div>
-    </div>
-    <v-row>
-      <v-col cols="8">
-        <v-text-field v-model="labelTitle" :label="$t('_forum.labelTitle')" />
-      </v-col>
-      <v-col cols="4">
-        <v-text-field v-model="labelColor" hide-details class="ma-0 pa-0" solo
-                      style="max-width: 200px">
-          <template v-slot:append>
-            <v-menu v-model="colorPickerVisible" top nudge-bottom="105" nudge-left="16"
-                    :close-on-content-click="false">
-              <template v-slot:activator="{ on }">
-                <div :style="swatchStyle" v-on="on" />
-              </template>
-              <v-card>
-                <v-card-text class="pa-0">
-                  <v-color-picker v-model="labelColor" show-swatches/>
-                </v-card-text>
-              </v-card>
-            </v-menu>
-          </template>
-        </v-text-field>
-      </v-col>
-    </v-row>
-    <div class="mt-2">
-      <v-btn outlined color="success" :disabled="labelTitle === '' || labelTitle === null"
-             @click="addLabel(null)" small>
-        <v-icon left>mdi-plus</v-icon>
-        {{ $t('create') }}
-      </v-btn>
-    </div>
+          </div>
+          <v-row>
+            <v-col cols="8">
+              <v-text-field v-model="labelTitle" :label="$t('_forum.labelTitle')"
+                            hide-details="auto" @keydown.enter="addLabel(null)" />
+            </v-col>
+            <v-col cols="4">
+              <v-text-field v-model="labelColor" hide-details class="ma-0 pa-0" solo
+                            style="max-width: 200px">
+                <template v-slot:append>
+                  <v-menu v-model="colorPickerVisible" top nudge-bottom="105" nudge-left="16"
+                          :close-on-content-click="false">
+                    <template v-slot:activator="{ on }">
+                      <div :style="swatchStyle" v-on="on" />
+                    </template>
+                    <v-card>
+                      <v-card-text class="pa-0">
+                        <v-color-picker v-model="labelColor" show-swatches/>
+                      </v-card-text>
+                    </v-card>
+                  </v-menu>
+                </template>
+              </v-text-field>
+            </v-col>
+          </v-row>
+          <v-btn outlined color="success" :disabled="labelTitle === '' || labelTitle === null"
+                 class="mt-3" @click="addLabel(null)">
+            <v-icon left>mdi-plus</v-icon>
+            {{ $t('create') }}
+          </v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </Dialog>
 </template>
 

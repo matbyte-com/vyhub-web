@@ -72,7 +72,7 @@
                     <template v-slot:activator="{ on }">
                       <v-icon v-on="on" v-if="item.status === 'CLOSED'">mdi-lock</v-icon>
                     </template>
-                    <span> {{ $t('_forum.threadLocked') }} </span>
+                    <span> {{ $t('_forum.locked') }} </span>
                   </v-tooltip>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -80,7 +80,7 @@
                         mdi-pin
                       </v-icon>
                     </template>
-                    <span> {{ $t('_forum.threadPinned') }} </span>
+                    <span> {{ $t('_forum.pinned') }} </span>
                   </v-tooltip>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -115,7 +115,7 @@
                   <div>
                     <router-link
                       :to="{ name: 'ForumThread', params: { id: item.id } }"
-                      class="hidelinkstyle ml-1">
+                      class="text-decoration-none ml-1">
                       <v-chip x-small v-if="item.label" :color="item.label.color"
                               text-color="white">
                         {{ item.label.name }}
@@ -159,7 +159,13 @@
       <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_forum.addThread')"
                        @submit="newThread"/>
     </div>
-    <v-skeleton-loader v-else type="article@2"/>
+    <div v-else>
+      <PageTitleFlat/>
+      <v-card flat class="card-rounded mt-4">
+        <v-skeleton-loader type="table-heading, list-item-avatar, divider,
+         list-item-avatar,divider, list-item-avatar, divider, list-item-avatar"/>
+      </v-card>
+    </div>
   </div>
 </template>
 

@@ -93,7 +93,7 @@
                                   <router-link
                                     :to="{ name: 'ForumThread',
                              params: { id: topic.last_post.thread.id } }"
-                                    class="hidelinkstyle ml-1 textOverflow">
+                                    class="ml-1 textOverflow">
                                     {{ topic.last_post.thread.title }}
                                   </router-link>
                                   <div class="d-flex align-center textOverflow">

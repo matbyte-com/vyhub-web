@@ -3,9 +3,7 @@
     <v-col cols="12">
       <v-row v-if="alertMessage != null">
         <v-col cols="12" class="mt-4">
-          <v-alert
-            :type="alertType"
-          >
+          <v-alert :type="alertType">
             {{ alertMessage }}
           </v-alert>
         </v-col>

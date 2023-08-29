@@ -1,43 +1,6 @@
 <template>
   <div>
     <div v-if="thread && posts && topic">
-      <PageTitle
-          :icon="thread.pinned ? 'mdi-pin' : 'mdi-comment'"
-          class="mb-5"
-          :title="thread.title"
-          subtitle>
-        <template v-slot:default v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
-          <v-btn color="success" outlined x-small class="ml-5 mr-1"
-                 @click="openThreadTitleEditDialog(thread)">
-            <v-icon left>mdi-pencil</v-icon>
-            <span>{{ $t('_forum.editThread') }}</span>
-          </v-btn>
-          <v-btn v-if="($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))"
-                 :disabled="thread.status !== 'CLOSED'"
-                 outlined x-small
-             color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
-            <v-icon left>mdi-delete</v-icon>
-            {{ $t('_forum.deleteThread') }}
-          </v-btn>
-        </template>
-        <template v-slot:subtitle>
-          <router-link :to="{ name: 'Forum' }"
-                       class="hidelinkstyle">
-            {{ topic.topic_category.title }}
-          </router-link>
-          / <router-link :to="{ name: 'ForumTopic', params: { id: topic.id } }"
-                         class="hidelinkstyle">
-            {{ topic.title }}
-          </router-link>
-          / {{ thread.title }}
-          <v-row>
-            <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
-              <user-link simple class="ml-1" v-if="thread.creator" :user="thread.creator"/>
-              {{ utils.formatDate(thread.created) }}
-            </v-col>
-          </v-row>
-        </template>
-      </PageTitle>
       <div class="mt-3 ml-auto">
         <v-btn v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
                color="success" @click="$refs.addPostDialog.show()" small>
@@ -45,120 +8,156 @@
           {{ $t('_forum.addPost') }}
         </v-btn>
       </div>
-      <div class="mt-3" v-for="post in posts" :key="post.id">
-        <v-card flat outlined class="vh-forum-post">
-          <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
-            <!-- Avatar -->
-            <div class="pa-3 text-center" style="width: 150px" v-if="$vuetify.breakpoint.smAndUp">
-              <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
-                           class="hidelinkstyle" style="color: inherit">
-                <v-avatar size="80">
-                  <v-img class="mx-auto" :src="post.creator.avatar" />
-                </v-avatar>
-                <div class="text-h6">
-                  {{ post.creator.username }}
+      <PageTitleFlat :title="thread.title" :icon="threadIcon"
+                     :hide-triangle="$vuetify.breakpoint.smAndDown"
+                     :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
+        <template v-slot:start>
+          <router-link :to="{ name: 'Forum' }"
+                       class="white--text">
+            {{ topic.topic_category.title }}</router-link>
+          / <router-link :to="{ name: 'ForumTopic', params: { id: topic.id } }"
+                         class="white--text">
+          {{ topic.title }}</router-link>
+          / {{ thread.title }}
+        </template>
+        <template v-slot:end v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
+          <div class="text-end">
+            <v-btn color="success" outlined small class="ml-5 mr-1"
+                   @click="openThreadTitleEditDialog(thread)">
+              <v-icon left>mdi-pencil</v-icon>
+              <span>{{ $t('edit') }}</span>
+            </v-btn>
+            <v-btn v-if="($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))"
+                   outlined small
+                   style="min-width: 18px; width: 18px"
+                   color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
+              <v-icon small>mdi-delete</v-icon>
+            </v-btn>
+          </div>
+        </template>
+      </PageTitleFlat>
+      <v-card flat outlined class="vh-forum-post card-rounded-bottom mb-3"
+              v-for="(post, index) in posts" :key="post.id"
+              :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0}">
+        <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
+          <!-- Avatar -->
+          <div class="pa-3 text-center" style="width: 150px" v-if="$vuetify.breakpoint.smAndUp">
+            <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
+                         class="text-decoration-none" style="color: inherit">
+              <v-avatar size="80">
+                <v-img class="mx-auto" :src="post.creator.avatar" />
+              </v-avatar>
+              <div class="text-h6">
+                {{ post.creator.username }}
+              </div>
+            </router-link>
+          </div>
+          <!-- TODO Coloring of Card - Light and DarkMode -->
+          <div v-else class="pa-3">
+            <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
+                         class="text-decoration-none d-flex justify-center align-center"
+                         style="color: inherit">
+              <v-avatar size="40">
+                <v-img class="mx-auto" :src="post.creator.avatar" />
+              </v-avatar>
+              <div class="text-h6 ml-1">
+                {{ post.creator.username }}
+              </div>
+            </router-link>
+          </div>
+          <v-divider vertical v-if="$vuetify.breakpoint.smAndUp"/>
+          <div style="width: 100%">
+            <div>
+              <!-- TOP START -->
+              <!-- ORIGINAL POSTER HINT -->
+              <v-card-text class="d-flex">
+                <div v-if="post.creator && thread.creator
+                    && post.creator.id === thread.creator.id">
+                  <v-chip color="#1c1c1c" small label>
+                    <span class="white--text">OP</span>
+                  </v-chip>
+                  <b class="ml-1 mr-1">·</b>
                 </div>
-              </router-link>
-            </div>
-            <!-- TODO Coloring of Card - Light and DarkMode -->
-            <div v-else class="pa-3">
-              <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
-                           class="hidelinkstyle d-flex justify-center align-center"
-                           style="color: inherit">
-                <v-avatar size="40">
-                  <v-img class="mx-auto" :src="post.creator.avatar" />
-                </v-avatar>
-                <div class="text-h6 ml-1">
-                  {{ post.creator.username }}
-                </div>
-              </router-link>
-            </div>
-            <v-divider vertical v-if="$vuetify.breakpoint.smAndUp"/>
-            <div style="width: 100%">
-              <div>
-                <!-- TOP START -->
-                <!-- ORIGINAL POSTER HINT -->
-                <v-card-text class="d-flex">
-                  <div v-if="post.creator && thread.creator
-                      && post.creator.id === thread.creator.id">
-                    <v-chip color="#1c1c1c" small label>
-                      <span class="white--text">OP</span>
+                {{ utils.formatDate(post.created) }}
+                <!-- ORIGINAL POSTER HINT END -->
+                <!-- ADMIN HINT -->
+                <div class="ml-auto">
+                  <span v-for="admin in topic.admins" :key="admin.id">
+                    <v-chip round v-if="post.creator.id === admin.id"
+                            outlined color="red" small>
+                      <v-icon small left>mdi-shield-sword-outline</v-icon>
+                      <span>{{ $t('_forum.admin') }}</span>
                     </v-chip>
-                    <b class="ml-1 mr-1">·</b>
+                  </span>
+                  <!-- Labels only on first post -->
+                  <div v-if="index === 0">
+                    <v-chip v-for="label in thread.labels" :key="label.id"
+                            class="mr-1 mb-1 white--text" :color="label.color" small>
+                      {{ label.name }}
+                    </v-chip>
                   </div>
-                  {{ utils.formatDate(post.created) }}
-                  <!-- ORIGINAL POSTER HINT END -->
-                  <!-- ADMIN HINT -->
-                  <div class="ml-auto">
-                    <span v-for="admin in topic.admins" :key="admin.id">
-                      <v-chip round v-if="post.creator.id === admin.id"
-                              outlined color="red" small>
-                        <v-icon small left>mdi-shield-sword-outline</v-icon>
-                        <span>{{ $t('_forum.admin') }}</span>
-                      </v-chip>
+                </div>
+              </v-card-text>
+              <!-- ADMIN HINT END -->
+              <v-divider/>
+              <v-card-text>
+                <!-- IMPORTANT - TOP -->
+                <span v-html="post.content" class="ql-editor pa-0"/>
+              </v-card-text>
+              <v-divider /> <!-- IMPORTANT - BOTTOM -->
+              <div class="px-3 py-1">
+                <div class="d-flex align-center">
+                  <div v-if="post.last_edit" class="text--disabled"
+                       style="font-size: 0.9em">
+                    <span>{{ $t('_forum.edited') }}:
+                      {{ utils.formatTimeForForum(post.last_edit) }}
                     </span>
                   </div>
-                </v-card-text>
-                <!-- ADMIN HINT END -->
-                <v-divider/>
-                <v-card-text>
-                  <!-- IMPORTANT - TOP -->
-                  <span v-html="post.content" class="ql-editor pa-0"/>
-                </v-card-text>
-                <v-divider /> <!-- IMPORTANT - BOTTOM -->
-                <div class="px-3 py-1">
-                  <div class="d-flex align-center">
-                    <div v-if="post.last_edit" class="text--disabled"
-                         style="font-size: 0.9em">
-                      <span>{{ $t('_forum.edited') }}:
-                        {{ utils.formatTimeForForum(post.last_edit) }}
+
+                  <!-- POST REACTIONS -->
+                  <div class="d-flex flex-row flex-wrap">
+                    <div v-for="icon in icons" :key="icon">
+                      <span class="mr-2">
+                        <v-btn :class="{ 'text--disabled':
+                               getReactionAccumulated(post, icon).count === 0,
+                               'clicked': added[post.id + icon],
+                               'glow-reaction': getReactionAccumulated(post, icon).has_reacted }"
+                               icon small v-if="$store.getters.isLoggedIn"
+                        @click="toggleReaction(post, icon)">
+                          {{ icon }}
+                        </v-btn>
+                        <span v-else :class="{ 'text--disabled':
+                               getReactionAccumulated(post, icon).count === 0}">
+                          {{ icon }}
+                        </span>
+                        <span v-if="getReactionAccumulated(post, icon).count !== 0">
+                          {{ getReactionAccumulated(post, icon).count }}
+                        </span>
+                        <span v-else class="mr-1" />
                       </span>
                     </div>
-
-                    <!-- POST REACTIONS -->
-                    <div class="d-flex flex-row flex-wrap">
-                      <div v-for="icon in icons" :key="icon">
-                        <span class="mr-2">
-                          <v-btn :class="{ 'text--disabled':
-                                 getReactionAccumulated(post, icon).count === 0,
-                                 'clicked': added[post.id + icon],
-                                 'glow-reaction': getReactionAccumulated(post, icon).has_reacted }"
-                                 icon small v-if="$store.getters.isLoggedIn"
-                          @click="toggleReaction(post, icon)">
-                            {{ icon }}
-                          </v-btn>
-                          <span v-else :class="{ 'text--disabled':
-                                 getReactionAccumulated(post, icon).count === 0}">
-                            {{ icon }}
-                          </span>
-                          <span v-if="getReactionAccumulated(post, icon).count !== 0">
-                            {{ getReactionAccumulated(post, icon).count }}
-                          </span>
-                          <span v-else class="mr-1" />
-                        </span>
-                      </div>
-                    </div>
-                    <div class="ml-auto">
-                      <v-btn small outlined @click.stop="openEditPostDialog(post)"
-                             color="primary"
-                             v-if="postEditable">
-                        <v-icon>mdi-pencil</v-icon>
-                      </v-btn>
-                      <v-btn small outlined
-                             v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
-                             @click.stop="$refs.deletePostConfirmationDialog.show(post)"
-                             color="error"
-                             class="ml-2">
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </div>
+                  </div>
+                  <div class="ml-auto">
+                    <v-btn small outlined @click.stop="openEditPostDialog(post)"
+                           color="primary"
+                           v-if="postEditable">
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                    <v-btn small outlined
+                           v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
+                           @click.stop="$refs.deletePostConfirmationDialog.show(post)"
+                           color="error"
+                           class="ml-2">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </v-card>
-      </div>
+        </div>
+      </v-card>
       <v-pagination v-if="totalPages > 1"
                     v-model="page"
                     :length="totalPages"
@@ -223,20 +222,18 @@
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import editor from '@/components/Editor.vue';
 import EditThreadDialog from '@/components/ForumComponents/EditThreadDialog.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../../api/openapi';
 import ThreadAddDialog from '../../components/ForumComponents/ThreadAddDialog.vue';
-import UserLink from '../../components/UserLink.vue';
-import PageTitle from '../../components/PageTitle.vue';
 import ForumPost from '../../forms/ForumPost';
 
 export default {
   name: 'ForumThread',
   components: {
+    PageTitleFlat,
     EditThreadDialog,
     DeleteConfirmationDialog,
-    PageTitle,
     ThreadAddDialog,
-    UserLink,
     editor,
   },
   data() {
@@ -464,9 +461,6 @@ export default {
         this.cooldown = false;
       }, 250);
     },
-    getColsCount(index) {
-      return index % 5 === 5 ? 1 : 2;
-    },
   },
   computed: {
     postEditable() {
@@ -474,15 +468,17 @@ export default {
       return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.topic.admins)
         || (this.$store.getters.user.id === this.post.creator.id && this.topic.edit_post));
     },
+    threadIcon() {
+      if (!this.thread) return null;
+      if (this.thread.pinned) return 'mdi-pin';
+      if (this.thread.status === 'CLOSED') return 'mdi-lock';
+      return null;
+    },
   },
 };
 </script>
 
 <style scoped>
-.hidelinkstyle{
-  text-decoration: none;
-}
-
 .glow-reaction {
   background-color: rgba(84, 113, 252, 0.1);
   border: 1px solid rgba(84, 113, 252, 0.5);

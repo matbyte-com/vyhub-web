@@ -3,7 +3,7 @@
           :class="{ 'title-card': !hideTriangle,
            'no-bottom-border-radius': noBottomBorderRadius,
            'card-rounded': !isMenu, 'card-rounded-bottom': isMenu &&
-            !noBottomBorderRadius}">
+            !noBottomBorderRadius}" style="min-height: 46px">
     <v-card-text class="pa-2 ml-1 white--text">
       <transition enter-active-class="animate__fadeIn animate__animated"
                   leave-active-class="absolute">
