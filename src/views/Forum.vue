@@ -1,26 +1,5 @@
 <template>
   <div>
-    <!-- TODO Place into PageTitleFlat
-    <div class="d-flex">
-      <PageTitle icon="mdi-forum">{{ $t('_forum.forum') }}</PageTitle>
-      <v-spacer/>
-      <div v-if="$checkProp('forum_edit')" class="d-flex flex-column">
-        <v-btn class="" color="success" small
-               @click="$refs.editTopicCategoriesDialog.show()">
-          <v-icon left>mdi-card-multiple</v-icon>
-          <span>{{ $t('_forum.manageTopicCategories') }}</span>
-        </v-btn>
-        <v-btn class="mt-1" color="success" small
-               @click="$refs.editTopicsDialog.show()"
-               :disabled="selectedTopicCategory === null">
-          <v-icon left>mdi-card-multiple</v-icon>
-          <span>{{ $t('_forum.manageTopics') }}</span>
-        </v-btn>
-      </div>
-    </div>-->
-    <!-- TODO Skeleton Loaders to better resemble the strucutre of the page 2 columns multiple
-     cards -->
-    <v-skeleton-loader v-if="topicCategories === null" type="card-heading@2"/>
     <v-row class="mt-1">
       <v-col cols="12" md="9">
         <PageTitleFlat :title="$t('_forum.welcomeToForum')"
@@ -42,6 +21,14 @@
             </div>
           </template>
         </PageTitleFlat>
+        <div v-if="topicCategories == null">
+          <v-card class="card-rounded mt-3">
+            <v-skeleton-loader type="card-heading"/>
+          </v-card>
+          <v-card class="card-rounded mt-3">
+            <v-skeleton-loader type="card-heading"/>
+          </v-card>
+        </div>
         <v-card v-for="category in topicCategories" :key="category.id"
                 class="mb-3 vh-forum card-rounded-bottom"
                 :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'HeadlineSidebar',
+  name: 'CardTitle',
   props: {
     icon: String,
     title: String,
