@@ -7,7 +7,7 @@
         <!-- Page Title -->
         <PageTitleFlat :title="openPurchase?$t('_shop.labels.unfinishedPurchase')
         :$t('_shop.labels.cart')" :hide-triangle="true"
-                       :open="true"/>
+                       :no-bottom-border-radius="true"/>
         <!-- Cart Packets -->
         <!-- Either show cart-packets or open-purchase packets -->
         <v-card class="vh-cart-packets card-rounded-bottom"

@@ -5,7 +5,6 @@
         <template v-slot:activator="{ on, attrs }">
           <div v-bind="attrs" v-on="on">
             <PageTitleFlat :title="server.name" :hide-triangle="true" :is-menu="true"
-                           :open="menuOpen"
                            :no-bottom-border-radius="$vuetify.breakpoint.mdAndDown">
               <template v-slot:start>
                 <v-card class="pa-1" flat style="width: 100px; background-color: green"

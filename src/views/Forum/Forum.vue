@@ -4,7 +4,7 @@
       <v-col cols="12" md="9">
         <PageTitleFlat :title="$t('_forum.welcomeToForum')"
                        :hide-triangle="$vuetify.breakpoint.smAndDown"
-                       :open="$vuetify.breakpoint.smAndDown">
+                       :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
           <template v-slot:end>
             <div v-if="$checkProp('forum_edit')" class="d-flex flex-column">
               <v-btn class="ml-auto" color="success" small depressed

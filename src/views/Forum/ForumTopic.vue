@@ -1,21 +1,24 @@
 <template>
   <div>
     <div v-if="topic">
-      <PageTitle :icon="topic.icon" :title="topic.title" subtitle>
-        <template #subtitle>
-          <v-row>
-            <v-col cols="12" sm="7" align-self="center" style="white-space: nowrap">
-              {{ topic.description }}
-            </v-col>
-          </v-row>
+      <PageTitleFlat :title="topic.title" :icon="topic.icon"
+                     :hide-triangle="$vuetify.breakpoint.smAndDown"
+                     :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
+        <template v-slot:start>
           <router-link :to="{ name: 'Forum' }"
-                       class="hidelinkstyle">
-            {{ topic.topic_category.title }}
-          </router-link>
+                       class="white--text">
+            {{ topic.topic_category.title }}</router-link>
           / {{ topic.title }}
         </template>
-      </PageTitle>
-      <v-card class="vh-forum-topic">
+        <template v-slot:end>
+          <div class="text-end">
+            {{ topic.description }}
+          </div>
+        </template>
+      </PageTitleFlat>
+      <v-card class="vh-forum-topic card-rounded-bottom"
+              :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
         <v-card-text>
           <PaginatedDataTable
             ref="threadTable"
@@ -162,16 +165,16 @@
 
 <script>
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import PageTitle from '../../components/PageTitle.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../../api/openapi';
 import ThreadAddDialog from '../../components/ForumComponents/ThreadAddDialog.vue';
 import UserLink from '../../components/UserLink.vue';
 
 export default {
   components: {
+    PageTitleFlat,
     PaginatedDataTable,
     ThreadAddDialog,
-    PageTitle,
     UserLink,
   },
   name: 'ForumTopic.vue',
@@ -261,13 +264,5 @@ export default {
 <style scoped>
 .cursor >>> td {
   cursor: pointer !important;
-}
-
-.hidelinkstyle {
-  text-decoration: none;
-}
-
-.hidelinkstyle:hover {
-  display: inline-block;
 }
 </style>
