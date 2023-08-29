@@ -213,7 +213,6 @@ export default {
       (await openapi).forum_getTopic(topicId).then((rsp) => {
         if (rsp.data) {
           this.topic = rsp.data;
-          console.log(this.topic.admins);
           this.breadcrumbs = [
             { text: this.$t('title'), to: { name: 'Forum' } },
             {
@@ -241,9 +240,9 @@ export default {
     async newThread() {
       const data = this.$refs.addThreadDialog.getData();
       data.topic_id = this.$route.params.id;
-      (await openapi).forum_createThread(null, data).then(() => {
+      (await openapi).forum_createThread(null, data).then((rsp) => {
         this.$refs.addThreadDialog.close();
-        this.fetchThreads();
+        this.showThread(rsp.data);
         this.$notify({
           title: this.$t('_messages.addSuccess'),
           type: 'success',

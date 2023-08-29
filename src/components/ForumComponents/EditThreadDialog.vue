@@ -1,5 +1,5 @@
 <template>
-  <Dialog ref="dialog" :title="$t('_forum.editThread')" icon="mdi-molecule"
+  <Dialog ref="dialog" :title="$t('_forum.editThread')" icon="mdi-newspaper-variant-outline"
           :max-width="700">
     <v-row v-if="errorMsg != null">
       <v-col cols="12" class="mt-4">
@@ -43,7 +43,11 @@
           <span v-for="label in labels" :key="label.name + label.color">
             <v-chip class="mr-1 mb-1" :color="label.color" small @click="addLabel(label, true)">
               {{ label.name }}
-              <v-icon right x-small
+              <v-icon v-if="label.removed" right x-small
+                      style="background-color: #FFFFFF; color: #000000; border-radius: 50%">
+                mdi-reload
+              </v-icon>
+              <v-icon v-else right x-small
                       style="background-color: #FFFFFF; color: #000000; border-radius: 50%">
                 mdi-plus
               </v-icon>
@@ -205,9 +209,11 @@ export default {
       this.labelColor = '#000000';
     },
     async removeLabel(label) {
-      (await openapi).forum_deleteLabel(label.id).then(() => {
-        this.labels.push(label);
-        this.currentLabels.splice(this.currentLabels.indexOf(label), 1);
+      const data = label;
+      (await openapi).forum_deleteLabel(data.id).then(() => {
+        data.removed = true;
+        this.labels.push(data);
+        this.currentLabels.splice(this.currentLabels.indexOf(data), 1);
         this.$notify({
           title: this.$t('_messages.removeSuccess'),
           type: 'success',

@@ -212,6 +212,7 @@
         </v-row>
       </v-card-text>
     </v-card>-->
+    <!-- TODO Good Skeleton Loader Design - Placeholder: -->
     <v-skeleton-loader v-else type="button@2" />
     <!-- TODO Reaction in Lightmode not disabled when clicked -->
     <!-- TODO Disable Timestamp to make less obvious -->
@@ -220,7 +221,6 @@
 
 <script>
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import ForumEditThreadForm from '@/forms/ForumEditThreadForm';
 import editor from '@/components/Editor.vue';
 import EditThreadDialog from '@/components/ForumComponents/EditThreadDialog.vue';
 import openapi from '../api/openapi';
@@ -248,7 +248,6 @@ export default {
       thread: null,
       topic: null,
       message: {},
-      ThreadTitleForm: ForumEditThreadForm,
       admins: [],
       page: 1,
       totalPages: 1,
@@ -491,7 +490,7 @@ export default {
 }
 
 .clicked {
-  animation: xmasTheme 1.5s steps(15) 1;
+  animation: reacted 1.5s steps(15) 1;
 }
 
 @keyframes reacted {

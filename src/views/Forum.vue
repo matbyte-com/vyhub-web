@@ -27,8 +27,18 @@
                        :hide-triangle="$vuetify.breakpoint.smAndDown"
                        :open="$vuetify.breakpoint.smAndDown">
           <template v-slot:end>
-            <div class="text-end">
-              TODO Buttons Here
+            <div v-if="$checkProp('forum_edit')" class="d-flex flex-column">
+              <v-btn class="ml-auto" color="success" small
+                     @click="$refs.editTopicCategoriesDialog.show()">
+                <v-icon left>mdi-card-multiple</v-icon>
+                <span>{{ $t('_forum.manageTopicCategories') }}</span>
+              </v-btn>
+              <v-btn class="ml-auto mt-1" color="success" small style="min-width: 233px"
+                     @click="$refs.editTopicsDialog.show()"
+                     :disabled="selectedTopicCategory === null">
+                <v-icon left>mdi-card-multiple</v-icon>
+                <span>{{ $t('_forum.manageTopics') }}</span>
+              </v-btn>
             </div>
           </template>
         </PageTitleFlat>

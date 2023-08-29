@@ -35,8 +35,8 @@ export default {
     edit_post: {
       type: 'boolean',
       'x-display': 'switch',
-      title: i18n.t('_forum.editPost'),
-      description: i18n.t('_forum.editPostDescription'),
+      title: i18n.t('_forum.allowEditPost'),
+      description: i18n.t('_forum.allowEditPostDescription'),
       default: false,
     },
     prohibit_create_threads: {
