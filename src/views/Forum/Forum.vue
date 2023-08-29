@@ -252,7 +252,7 @@ import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import UserLink from '@/components/UserLink.vue';
 import Sidebar from '@/components/ForumComponents/Sidebar.vue';
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
-import openapi from '../api/openapi';
+import openapi from '../../api/openapi';
 
 export default {
   components: {

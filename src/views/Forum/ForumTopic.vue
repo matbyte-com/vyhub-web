@@ -162,10 +162,10 @@
 
 <script>
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import PageTitle from '../components/PageTitle.vue';
-import openapi from '../api/openapi';
-import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
-import UserLink from '../components/UserLink.vue';
+import PageTitle from '../../components/PageTitle.vue';
+import openapi from '../../api/openapi';
+import ThreadAddDialog from '../../components/ForumComponents/ThreadAddDialog.vue';
+import UserLink from '../../components/UserLink.vue';
 
 export default {
   components: {

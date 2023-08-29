@@ -80,20 +80,6 @@ const routes: Array<RouteConfig> = [
       },
     ],
   },
-  /*
-  {
-    path: '/shop/category/:categoryId',
-    name: 'ShopCategory',
-    component: () => import('@/views/Shop/Category.vue'),
-    meta: { title: i18n.t('_pageTitle.shopCategory') },
-  }, */
-  /*
-  {
-    path: '/shop/packet/:packetId',
-    name: 'ShopPacket',
-    component: () => import('@/views/Shop/Packet.vue'),
-    meta: { title: i18n.t('_pageTitle.shopPacket') },
-  }, */
   {
     path: '/shop/cart',
     name: 'ShopCart',
@@ -157,19 +143,19 @@ const routes: Array<RouteConfig> = [
     path: '/forum/',
     name: 'Forum',
     meta: { title: i18n.t('_pageTitle.forum') },
-    component: () => import('../views/Forum.vue'),
+    component: () => import('../views/Forum/Forum.vue'),
   },
   {
     path: '/forum/topic/:id',
     name: 'ForumTopic',
     meta: { title: i18n.t('_pageTitle.forum') },
-    component: () => import('../views/ForumTopic.vue'),
+    component: () => import('../views/Forum/ForumTopic.vue'),
   },
   {
     path: '/forum/thread/:id',
     name: 'ForumThread',
     meta: { title: i18n.t('_pageTitle.forum') },
-    component: () => import('../views/ForumThread.vue'),
+    component: () => import('../views/Forum/ForumThread.vue'),
   },
   {
     path: '/team',

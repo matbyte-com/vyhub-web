@@ -223,11 +223,11 @@
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import editor from '@/components/Editor.vue';
 import EditThreadDialog from '@/components/ForumComponents/EditThreadDialog.vue';
-import openapi from '../api/openapi';
-import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
-import UserLink from '../components/UserLink.vue';
-import PageTitle from '../components/PageTitle.vue';
-import ForumPost from '../forms/ForumPost';
+import openapi from '../../api/openapi';
+import ThreadAddDialog from '../../components/ForumComponents/ThreadAddDialog.vue';
+import UserLink from '../../components/UserLink.vue';
+import PageTitle from '../../components/PageTitle.vue';
+import ForumPost from '../../forms/ForumPost';
 
 export default {
   name: 'ForumThread',
