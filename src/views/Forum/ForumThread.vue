@@ -113,7 +113,7 @@
               <v-divider /> <!-- IMPORTANT - BOTTOM -->
               <div class="px-3 py-1">
                 <div class="d-flex align-center">
-                  <div v-if="post.last_edit" class="text--disabled"
+                  <div v-if="post.last_edit" class="text--disabled mr-2"
                        style="font-size: 0.9em">
                     <span>{{ $t('_forum.edited') }}:
                       {{ utils.formatTimeForForum(post.last_edit) }}
@@ -121,25 +121,33 @@
                   </div>
 
                   <!-- POST REACTIONS -->
-                  <div class="d-flex flex-row flex-wrap">
+                  <div class="d-flex flex-row flex-wrap align-center">
                     <div v-for="icon in icons" :key="icon">
-                      <span class="mr-2">
+                      <span class="mr-2 d-flex align-center">
+                        <!-- BTN when logged in -->
                         <v-btn :class="{ 'text--disabled':
-                               getReactionAccumulated(post, icon).count === 0,
-                               'clicked': added[post.id + icon],
-                               'glow-reaction': getReactionAccumulated(post, icon).has_reacted }"
-                               icon small v-if="$store.getters.isLoggedIn"
-                        @click="toggleReaction(post, icon)">
-                          {{ icon }}
-                        </v-btn>
-                        <span v-else :class="{ 'text--disabled':
-                               getReactionAccumulated(post, icon).count === 0}">
-                          {{ icon }}
-                        </span>
-                        <span v-if="getReactionAccumulated(post, icon).count !== 0">
+                               getReactionAccumulated(post, icon).count === 0}"
+                               small outlined depressed v-if="$store.getters.isLoggedIn"
+                               class="pa-1 ma-0 reaction-btn"
+                               :style="getReactionAccumulated(post, icon).has_reacted ?
+                               `background-color: ${$vuetify.theme.currentTheme.primary}1A;
+                                border-color: ${$vuetify.theme.currentTheme.primary}` : ''"
+                               style="min-width: 30px; border-color: transparent"
+                               @click="toggleReaction(post, icon)">
+                          <span class="reaction-icon">{{ icon }}</span>
+                          <span class="ml-1 animate__animated animate__fadeInUp animate__faster"
+                                v-if="getReactionAccumulated(post, icon).count !== 0">
                           {{ getReactionAccumulated(post, icon).count }}
+                          </span>
+                        </v-btn>
+                        <span v-else
+                              :class="{ 'text--disabled':
+                              getReactionAccumulated(post, icon).count === 0}">
+                          {{ icon }}
+                          <span v-if="getReactionAccumulated(post, icon).count !== 0">
+                            {{ getReactionAccumulated(post, icon).count }}
+                          </span>
                         </span>
-                        <span v-else class="mr-1" />
                       </span>
                     </div>
                   </div>
@@ -205,20 +213,22 @@
       <DeleteConfirmationDialog ref="deleteThreadConfirmationDialog"
                                 @submit="deleteThread" />
     </div>
-    <!-- TODO Better Skeleton Loader to resemble the structure of the page
-    <v-card>
-      <v-card-text>
-        <v-row>
-          <v-col>
-             Skeleton Avatar..
-          </v-col>
-          <v-col>
-             Skeleton Text..
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>-->
-    <!-- TODO Add Post Btn -->
+    <div v-else>
+      <PageTitleFlat />
+      <v-card class="card-rounded mt-3" flat v-for="i in 3" :key="i">
+        <v-card-text>
+          <v-row>
+            <v-col cols="3" sm="2" md="1" class="d-flex">
+              <v-skeleton-loader type="avatar" />
+            </v-col>
+            <v-divider vertical />
+            <v-col>
+              <v-skeleton-loader type="paragraph" />
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </div>
     <!-- TODO Reations Animation -->
     <!-- TODO Good Skeleton Loader Design - Placeholder: -->
     <!-- TODO Reaction in Lightmode not disabled when clicked -->
@@ -257,7 +267,6 @@ export default {
       totalPages: 1,
       icons: ['😀', '😂', '🤨', '😐', '😕', '🙄', '👍', '👎', '❤️', '🏆'],
       menuOpen: false,
-      added: {},
       cooldown: false,
     };
   },
@@ -459,10 +468,6 @@ export default {
           post.accumulated_reactions[icon].has_reacted = true;
           // eslint-disable-next-line brace-style
         });
-        this.added[post.id + icon] = true;
-        setTimeout(() => {
-          this.added[post.id + icon] = false;
-        }, 1500);
       }
       setTimeout(() => {
         this.cooldown = false;
@@ -486,14 +491,10 @@ export default {
 </script>
 
 <style scoped>
-.glow-reaction {
-  background-color: rgba(84, 113, 252, 0.1);
-  border: 1px solid rgba(84, 113, 252, 0.5);
-  border-radius: 50%;
-}
-
 .clicked {
-  animation: reacted 1.5s steps(15) 1;
+  background-color: rgba(84, 113, 252, 0.1);
+  border: 1px solid var(--v-primary-lighten3);
+  border-radius: 5px;
 }
 
 .thread-breadcrumbs {
@@ -504,36 +505,7 @@ export default {
   width: 40%
 }
 
-@keyframes reacted {
-  0% {
-    transform: scale(1) rotate(0deg);
-    background-color: #3498db;
-    box-shadow: none;
-  }
-  15% {
-    transform: scale(1.1) rotate(7.5deg);
-    background-color: #f39c12;
-    box-shadow: 0px 4px 10px rgba(243, 156, 18, 0.4);
-  }
-  30% {
-    transform: scale(1.2) rotate(-7.5deg);
-    background-color: #2ecc71;
-    box-shadow: 0px 4px 10px rgba(46, 204, 113, 0.4);
-  }
-  45% {
-    transform: scale(1.1) rotate(7.5deg);
-    background-color: #e74c3c;
-    box-shadow: 0px 4px 10px rgba(231, 76, 60, 0.4);
-  }
-  60% {
-    transform: scale(1.05) rotate(0deg);
-    background-color: #3498db;
-    box-shadow: none;
-  }
-  80% {
-    transform: scale(1) rotate(0deg);
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: none;
-  }
+.reaction-btn {
+  transition: all 0.2s ease-in-out;
 }
 </style>
