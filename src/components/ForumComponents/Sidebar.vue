@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-card class="vh-forum-latest-posts card-rounded">
+  <v-card class="vh-forum-latest-posts card-rounded" flat>
     <v-card-title class="pb-0">
       <CardTitle icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
     </v-card-title>
@@ -39,7 +39,7 @@
     <v-skeleton-loader type="list-item-avatar, divider, list-item-avatar,
        divider, list-item-avatar" v-else/>
   </v-card>
-  <v-card class="mt-3 vh-forum-latest-threads card-rounded">
+  <v-card class="mt-3 vh-forum-latest-threads card-rounded" flat>
     <v-card-title class="d-block pb-0">
       <CardTitle icon="mdi-forum" :title="$t('_forum.latestThreads')"/>
     </v-card-title>
@@ -76,7 +76,7 @@
     <v-skeleton-loader type="list-item-avatar, divider, list-item-avatar,
        divider, list-item-avatar" v-else/>
   </v-card>
-  <v-card class="mt-3 vh-forum-statistics card-rounded">
+  <v-card class="mt-3 vh-forum-statistics card-rounded" flat>
     <v-card-title>
       <CardTitle icon="mdi-counter" :title="$t('statistics')"/>
     </v-card-title>

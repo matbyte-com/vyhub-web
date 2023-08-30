@@ -42,7 +42,7 @@
       <draggable :list="questions" :disabled="!$checkProp('faq_edit')"
                  @change="updateFaqEnabled = true" style="width: 100%">
         <v-expansion-panel v-for="question in questions" :key="question.id" class="mb-3">
-          <v-card class="vh-faq card-rounded">
+          <v-card class="vh-faq card-rounded" flat>
             <v-expansion-panel-header>
               <div class="d-flex align-center flex-wrap">
                 <v-icon v-if="question.icon" class="mr-2">{{ question.icon }}</v-icon>

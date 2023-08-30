@@ -5,7 +5,7 @@
                 :title="$t('_warning.add')" icon="mdi-account-alert"/>
     <PageTitleFlat :title="$t('_warning.title')" :hide-triangle="true"
                    :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
-    <v-card class="vh-warns card-rounded-bottom"
+    <v-card class="vh-warns card-rounded-bottom" flat
             :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-card-text>

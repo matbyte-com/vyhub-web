@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card class="card-rounded">
       <v-card-text>
         <!-- Do not remove or alter the following disclaimer.
          This is against the terms of service of VyHub.-->

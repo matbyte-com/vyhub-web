@@ -24,7 +24,7 @@
           </v-card>
         </div>
         <v-card v-for="(category, index) in topicCategories" :key="category.id"
-                class="mb-3 vh-forum card-rounded-bottom"
+                class="mb-3 vh-forum card-rounded-bottom" flat
                 :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
                 'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0,
                  'card-rounded-top': index !== 0 }">

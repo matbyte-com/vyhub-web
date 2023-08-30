@@ -2,9 +2,13 @@
 <div>
   <ConfirmationDialog :btn-text="$t('_notification.markAllAsRead')"
                       @submit="markAllAsRead" ref="markAsReadDialog"/>
-  <PageTitle icon="mdi-bell-outline">{{ $t('_notification.notifications') }}</PageTitle>
-  <v-card>
-    <v-card-text class="mt-0 pt-0">
+  <PageTitleFlat :title="$t('_notification.notifications')"
+                 :hide-triangle="$vuetify.breakpoint.smAndDown"
+                 :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+  <v-card flat class="card-rounded"
+          :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+    <v-card-text class="pt-1">
       <v-fade-transition>
         <v-btn depressed color="primary" v-if="newMessages" @click="fetchData()" class="mt-3">
           <v-icon left>
@@ -23,16 +27,14 @@
         default-sort-by="created_on"
         :default-sort-desc="true"
         @click:row="rowClick"
-        @reload="fetchData"
-      >
+        @reload="fetchData">
         <template v-slot:header>
           <div class="d-flex align-center">
             <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
             <v-btn
               outlined
               color="primary"
-              @click="$refs.markAsReadDialog.show"
-            >
+              @click="$refs.markAsReadDialog.show">
               <v-icon left>
                 mdi-playlist-check
               </v-icon>
@@ -53,8 +55,7 @@
                   outlined
                   color="primary"
                   v-bind="attrs"
-                  v-on="on"
-                >
+                  v-on="on">
                   <v-icon left>
                     mdi-filter
                   </v-icon>
@@ -132,15 +133,17 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import EventBus from '@/services/EventBus';
 import openapi from '@/api/openapi';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
   name: 'Notification.vue',
-  components: { PaginatedDataTable, PageTitle, ConfirmationDialog },
+  components: {
+    PageTitleFlat, PaginatedDataTable, ConfirmationDialog,
+  },
   data() {
     return {
       selectedCat: [],

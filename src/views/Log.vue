@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageTitleFlat :title="$t('log')" :hide-triangle="true"/>
-    <v-card class="card-rounded-bottom"
+    <v-card class="card-rounded-bottom" flat
             :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-card-text>
@@ -205,7 +205,7 @@
              class="mt-2">
       {{ $t('_log.messages.limitReachedFilter') }}
     </v-alert>
-    <v-card class="card-rounded">
+    <v-card class="card-rounded" flat>
       <v-card-text class="mt-0 pt-0">
         <DataTable
           ref="logTable"

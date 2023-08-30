@@ -2,7 +2,7 @@
   <div>
     <PageTitleFlat :title="$t('_ban.labels.title')" :hide-triangle="true"
                    :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
-    <v-card class="vh-ban card-rounded-bottom"
+    <v-card class="vh-ban card-rounded-bottom" flat
             :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-card-text>

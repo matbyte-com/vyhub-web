@@ -19,7 +19,7 @@
           </div>
         </template>
       </PageTitleFlat>
-      <v-card class="vh-forum-topic card-rounded-bottom"
+      <v-card class="vh-forum-topic card-rounded-bottom" flat
               :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
         <v-card-text class="mt-0 pt-0">
