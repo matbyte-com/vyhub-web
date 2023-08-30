@@ -1,64 +1,64 @@
 <template>
   <div>
-    <PageTitle icon="mdi-chat-question">{{ $t('faq') }}</PageTitle>
-    <div class="text-right" v-if="$checkProp('faq_edit')">
-        <v-btn color="success" small @click="$refs.addQuestionDialog.show()">
-          <v-icon left>
-            mdi-plus
-          </v-icon>
-          {{ $t('_faq.add') }}
-        </v-btn>
-      <v-card class="ml-3" style="display: inline-block">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs}">
-            <v-btn color="primary" v-on="on" v-bind="attrs"
-                   style="border-top-right-radius: 0; border-bottom-right-radius: 0" small
-                   @click="updateLinkOrder" :disabled="!updateFaqEnabled">
-              <v-icon>mdi-check</v-icon>
-            </v-btn>
-          </template>
-          <span>
+    <PageTitleFlat :title="$t('faq')">
+      <template v-slot:end v-if="$checkProp('faq_edit')">
+        <div class="text-right">
+          <v-btn color="success" depressed small @click="$refs.addQuestionDialog.show()">
+            <v-icon left>
+              mdi-plus
+            </v-icon>
+            {{ $t('_faq.add') }}
+          </v-btn>
+          <v-card class="ml-3" style="display: inline-block" flat>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs}">
+                <v-btn color="primary" v-on="on" v-bind="attrs"
+                       style="border-top-right-radius: 0; border-bottom-right-radius: 0" small
+                       @click="updateLinkOrder" :disabled="!updateFaqEnabled">
+                  <v-icon>mdi-check</v-icon>
+                </v-btn>
+              </template>
+              <span>
           {{ $t('_settings.labels.updateOrder') }}
         </span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs}">
-            <v-btn color="primary" v-on="on" v-bind="attrs"
-                   style="border-bottom-left-radius: 0; border-top-left-radius: 0" small
-                   @click="fetchData" :disabled="!updateFaqEnabled">
-              <v-icon>mdi-backspace-outline</v-icon>
-            </v-btn>
-          </template>
-          <span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs}">
+                <v-btn color="primary" v-on="on" v-bind="attrs"
+                       style="border-bottom-left-radius: 0; border-top-left-radius: 0" small
+                       @click="fetchData" :disabled="!updateFaqEnabled">
+                  <v-icon>mdi-backspace-outline</v-icon>
+                </v-btn>
+              </template>
+              <span>
           {{ $t('_settings.labels.resetOrder') }}
         </span>
-        </v-tooltip>
-      </v-card>
-    </div>
-    <v-expansion-panels>
+            </v-tooltip>
+          </v-card>
+        </div>
+      </template>
+    </PageTitleFlat>
+    <v-expansion-panels class="mt-4" flat>
       <draggable :list="questions" :disabled="!$checkProp('faq_edit')"
                  @change="updateFaqEnabled = true" style="width: 100%">
-        <v-expansion-panel v-for="question in questions" :key="question.id" class="mt-3">
-          <v-card class="vh-faq">
+        <v-expansion-panel v-for="question in questions" :key="question.id" class="mb-3">
+          <v-card class="vh-faq card-rounded">
             <v-expansion-panel-header>
-              <v-row>
-                <v-col cols="11" class="d-flex align-center">
-                  <v-icon v-if="question.icon" class="mr-2">{{ question.icon }}</v-icon>
-                  <b>
-                    {{ question.title }}
-                  </b>
-                </v-col>
-                <v-col class="text-right mr-1" v-if="$checkProp('faq_edit')">
-                  <v-btn outlined color="primary" small
-                         @click.stop="openQuestionEditDialog(question)" class="mr-1">
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn outlined color="error" small
-                         @click.stop="$refs.deleteQuestionConfirmationDialog.show(question)">
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
+              <div class="d-flex align-center flex-wrap">
+                <v-icon v-if="question.icon" class="mr-2">{{ question.icon }}</v-icon>
+                <b>
+                  {{ question.title }}
+                </b>
+                <v-spacer />
+                <v-btn outlined color="primary" small v-if="$checkProp('faq_edit')"
+                       @click.stop="openQuestionEditDialog(question)" class="mr-1">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-btn outlined color="error" small v-if="$checkProp('faq_edit')"
+                       @click.stop="$refs.deleteQuestionConfirmationDialog.show(question)">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content :style="{ background: 'rgba(19,19,19,0.2)' }">
               <v-divider />
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../api/openapi';
 import DialogForm from '../components/DialogForm.vue';
 import Editor from '../components/Editor.vue';
@@ -100,7 +100,7 @@ import FaqForm from '../forms/FaqForm';
 export default {
   name: 'FAQ',
   components: {
-    PageTitle,
+    PageTitleFlat,
     DialogForm,
     Editor,
     DeleteConfirmationDialog,
