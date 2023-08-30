@@ -3,8 +3,11 @@
     <DeleteConfirmationDialog ref="deleteWarningDialog" @submit="deleteWarning"/>
     <DialogForm ref="addWarningDialog" @submit="addWarning" :form-schema="WarningAddForm"
                 :title="$t('_warning.add')" icon="mdi-account-alert"/>
-    <PageTitle icon="mdi-account-alert">{{ $t('_warning.title') }}</PageTitle>
-    <v-card class="vh-warns">
+    <PageTitleFlat :title="$t('_warning.title')" :hide-triangle="true"
+                   :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+    <v-card class="vh-warns card-rounded-bottom"
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-card-text>
         <PaginatedDataTable
           ref="warnTable"
@@ -111,21 +114,21 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import UserLink from '@/components/UserLink.vue';
 import openapi from '@/api/openapi';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import WarningAddForm from '@/forms/WarningAddForm';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
   name: 'Warning.vue',
   components: {
+    PageTitleFlat,
     PaginatedDataTable,
     DialogForm,
     DeleteConfirmationDialog,
-    PageTitle,
     UserLink,
   },
   data() {
