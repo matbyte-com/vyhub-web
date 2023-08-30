@@ -24,13 +24,12 @@
           style="cursor: pointer;">
           <div class="d-flex flex-column" style="height: 100%">
             <v-fade-transition>
-              <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2
+              <v-row justify="center" align="center" class="text-h4 text-center ml-2 mr-2
                          font-weight-bold"
-                     style="margin-bottom: auto;
-                    margin-top: auto; text-shadow: #000000 2px 2px 2px;"
+                     style="text-shadow: #000000 2px 2px 2px;"
                      v-if="packet.title_in_image &&
                 (!hover || packet.abstract == null || packet.abstract.length === 0)">
-                {{ packet.title_in_image }}
+                  {{ packet.title_in_image }}
               </v-row>
             </v-fade-transition>
             <div class="d-flex justify-space-between pa-1 mt-auto" v-if="!small">
@@ -122,10 +121,16 @@
                    class="pa-0 cta-btn" @click="$refs.detailDialog.show()" outlined>
               <v-icon large>mdi-information-slab-symbol</v-icon>
             </v-btn>
-            <v-btn large :loading="loading" depressed class="ml-1 grow cta-btn" color="primary"
+            <v-btn large :loading="loading" v-if="!packet.custom_price"
+                   depressed class="ml-1 grow cta-btn" color="primary"
                    @click="addToCart()">
-              <v-icon class="" left>mdi-cart</v-icon>
+              <v-icon left>mdi-cart</v-icon>
               {{ $t('_shop.labels.addToCart17CharsMax') }}
+            </v-btn>
+            <v-btn v-else large depressed class="ml-1 grow cta-btn" color="primary"
+                   @click="$refs.detailDialog.show()">
+              <v-icon left>mdi-open-in-new</v-icon>
+              {{ $t('view') }}
             </v-btn>
           </div>
         </v-card-text>

@@ -96,7 +96,7 @@
                     mdi-check-circle-outline
                   </v-icon>
                 </div>
-                <div class="body-1">
+                <div class="body-1 mt-3">
                   {{ $t('_shop.messages.paymentSuccess') }}
                 </div>
               </div>

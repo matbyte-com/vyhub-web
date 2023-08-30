@@ -229,9 +229,6 @@
         </v-card-text>
       </v-card>
     </div>
-    <!-- TODO Reations Animation -->
-    <!-- TODO Good Skeleton Loader Design - Placeholder: -->
-    <!-- TODO Reaction in Lightmode not disabled when clicked -->
   </div>
 </template>
 

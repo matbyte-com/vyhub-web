@@ -1,143 +1,158 @@
 <template>
 <div>
   <v-dialog
-    max-width="1000px"
+    max-width="800px"
     v-model="dialog">
     <!-- TODO Better Animation -->
     <!-- TODO Make Packet Dialog Available for Cart Packets -->
-    <v-card v-if="packet">
+    <v-card v-if="packet" class="card-rounded">
       <v-card-text class="pa-5">
         <v-row>
           <!-- Image column -->
           <v-col cols="12" sm="5">
-            <v-img :src="packet.image_url">
-              <div class="d-flex" style="height: 100%">
-                <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2
+            <v-card class="pa-1" flat outlined>
+              <v-img :src="packet.image_url" style="border-radius: 3px">
+                <div class="d-flex" style="height: 100%">
+                  <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2
                            font-weight-bold white--text"
-                       style="text-shadow: #000000 2px 2px 2px;"
-                       v-if="packet.title_in_image">
-                  {{ packet.title_in_image }}
-                </v-row>
-              </div>
-            </v-img>
-            <v-alert
-              dense
-              text
-              color="info"
-              outlined
-              class="font-weight-bold text-center mt-2"
-              v-if="packet.active_for != null">
-              <v-icon color="info" left>
-                mdi-clock-end
-              </v-icon>
-              {{ utils.formatLength(packet.active_for) }}
-            </v-alert>
+                         style="text-shadow: #000000 2px 2px 2px;"
+                         v-if="packet.title_in_image">
+                    {{ packet.title_in_image }}
+                  </v-row>
+                </div>
+              </v-img>
+              <v-alert
+                dense
+                text
+                color="secondary"
+                outlined
+                class="font-weight-bold text-center mt-2 mb-0"
+                v-if="packet.active_for != null || packet.recurring">
+                <v-icon color="secondary" left v-if="packet.recurring">
+                  mdi-calendar-sync
+                </v-icon>
+                <v-icon color="secondary" v-else>mdi-clock-end</v-icon>
+                <span v-if="packet.recurring">{{ $t('every') }}</span>
+                {{ utils.formatLength(packet.active_for) }}
+              </v-alert>
+            </v-card>
           </v-col>
           <!-- Price and buy column -->
-          <v-col cols="12" sm="7">
-            <div class="text-center">
-              <v-row>
-                <v-col>
-                  <div class="text-h2 d-flex align-center justify-center"
-                       v-if="!packet.custom_price">
-                      <span class="text-h5 strikethrough-diagonal mr-2 text--disabled"
-                            v-if="packet.discount != null">
-                        {{ utils.formatDecimal(packet.price_without_discount.total) }}
-                        {{ packet.currency.symbol }}
-                      </span>
-                    {{ utils.formatDecimal(packet.price_with_discount.total) }}
-                    {{ packet.currency.symbol }}
-                  </div>
-                  <div v-else>
-                    <v-chip label class="font-weight-bold" color="primary">
-                      {{ $t('_packet.messages.customPricePossible') }}
-                    </v-chip>
-                    <v-row justify="center" class="text-center mt-2">
-                      <v-col cols="12" xl="4" lg="6">
-                        <v-text-field
-                          :label="$t('price')"
-                          v-model="customPrice"
-                          type="number"
-                          :min="packet.price_with_discount.total"
-                          :prefix="packet.currency.symbol"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </div>
-                  <div v-if="packet.recurring" class="text-h6 mt-2">
-                    <v-icon>mdi-calendar-sync</v-icon>
-                    {{ $t('every') }}
-                    {{ utils.formatLength(packet.active_for) }}
-                  </div>
-                  <div class="subtitle-2 font-italic mt-2"
-                       v-if="packet.price_with_discount.tax_rate > 0">
-                    {{ $t('_shop.messages.includesVAT',
-                    { tax_rate: packet.price_with_discount.tax_rate }) }}
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row align="center" v-if="packet.price_with_discount.credits != null">
-                <v-divider></v-divider>
-                <span class="mr-3 ml-3">{{ $t('or') }}</span>
-                <v-divider></v-divider>
-              </v-row>
-              <!-- Description -->
-              <v-row v-if="packet.price_with_discount.credits != null">
-                <v-col>
-                  <div class="text-h5" v-if="!packet.custom_price">
+          <v-col cols="12" sm="7" class="d-flex flex-column">
+            <!-- Headline -->
+            <h1 class="mt-2">{{ packet.title }}</h1>
+            <!-- Price -->
+            <div v-if="!packet.custom_price">
+              <div class="d-flex align-center mt-2 ml-1" style="line-height: 0.9em">
+                <span class="strikethrough-diagonal mr-2 text--disabled"
+                      v-if="packet.discount != null">
+                  {{ utils.formatDecimal(packet.price_without_discount.total) }}
+                </span>
+                <span style="color: var(--v-success-base); font-weight: 900; font-size: large">
+                  {{ utils.formatDecimal(packet.price_with_discount.total) }}
+                  {{ packet.currency.name }}
+                </span>
+                </div>
+                <div v-if="packet.price_with_discount.credits != null">
+                  <div class="font-weight-bold ml-1" v-if="!packet.custom_price">
+                     {{ $t('or') }}
                     {{ packet.price_with_discount.credits }}
                     {{ $store.getters.shopConfig.credits_display_title }}
                   </div>
-                  <div v-else>
-                    <v-row justify="center" class="text-center">
-                      <v-col cols="12" xl="5" lg="7">
-                        <v-text-field
-                          v-model="customCredits"
-                          :label="$store.getters.shopConfig.credits_display_title"
-                          type="number"
-                          :min="packet.price_with_discount.credits"
-                          :suffix="$store.getters.shopConfig.credits_display_title"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </div>
-                </v-col>
-              </v-row>
+              </div>
             </div>
+            <span class="font-weight-bold mt-1" v-else>
+              {{ $t('_packet.messages.customPricePossible') }}
+            </span>
+            <!-- Custom Price -->
             <v-spacer />
-            <v-card-actions>
-              <v-btn block color="info"
-                     v-if="!$store.getters.isLoggedIn"
-                     @click="$router.push({ path: $route.path,
-                       query: { login: 'true', return_url: getReturnUrl() }})">
-                <v-icon left>mdi-lock</v-icon>
-                {{ $t('_shop.labels.loginToBuy') }}
-              </v-btn>
-              <div v-else class="d-flex" style="width: 100%">
-                <v-btn color="success" :loading="loading"
-                       @click="addToCart()" class="flex-grow-1 cta-btn">
+            <!-- Recurring Packets
+            <div v-if="packet.recurring" class="text-h6 mt-2">
+              <v-icon>mdi-calendar-sync</v-icon>
+              {{ $t('every') }}
+              {{ utils.formatLength(packet.active_for) }}
+            </div>-->
+            <!--
+            TODO TAX Rate
+            <div class="subtitle-2 font-italic mt-2"
+                 v-if="packet.price_with_discount.tax_rate > 0">
+              {{ $t('_shop.messages.includesVAT',
+              { tax_rate: packet.price_with_discount.tax_rate }) }}
+            </div>
+            -->
+            <!--
+            OR
+            <v-row align="center" v-if="packet.price_with_discount.credits != null">
+              <v-divider></v-divider>
+              <span class="mr-3 ml-3">{{ $t('or') }}</span>
+              <v-divider></v-divider>
+            </v-row>-->
+            <!-- Abstracts -->
+            <!--
+            <v-list dense>
+              <p class="pa-0 ma-0" v-for="point in packet.abstract" :key="point">
+                  <v-icon>mdi-star</v-icon>
+                <span class="body-2 pa-0 ma-0">
+                  {{ point }}
+                </span>
+              </p>
+            </v-list>-->
+            <!-- Buy Button -->
+            <v-btn color="info" large
+                   v-if="!$store.getters.isLoggedIn"
+                   @click="$router.push({ path: $route.path,
+                     query: { login: 'true', return_url: getReturnUrl() }})">
+              <v-icon left>mdi-lock</v-icon>
+              {{ $t('_shop.labels.loginToBuy') }}
+            </v-btn>
+            <v-row v-else dense>
+              <v-col :cols="packet.price_with_discount.credits ? 4 : 12 "
+                     v-if="packet.custom_price">
+                <v-text-field
+                  v-model="customPrice"
+                  type="number"
+                  hide-details="auto"
+                  :min="packet.price_with_discount.total"
+                  :prefix="packet.currency.symbol"/>
+              </v-col>
+              <v-col cols="8"
+                     v-if="packet.custom_price &&packet.price_with_discount.credits != null">
+                <v-text-field
+                  v-if="packet.price_with_discount.credits != null"
+                  v-model="customCredits"
+                  type="number"
+                  hide-details="auto"
+                  :prefix="$store.getters.shopConfig.credits_display_title"
+                  :min="packet.price_with_discount.credits"/>
+              </v-col>
+              <v-col cols="8">
+                <v-btn color="primary" ref="addToCartBtn" :loading="loading" depressed large
+                       @click="addToCart()" class="cta-btn button-rounded" block>
                   <v-icon left>mdi-cart-arrow-down</v-icon>
                   {{ $t('_shop.labels.addToCart') }}
                 </v-btn>
-                <v-btn color="secondary" class="ml-1 cta-btn"
+              </v-col>
+              <v-col cols="4">
+                <v-btn color="secondary" class="cta-btn button-rounded" block depressed large
                        @click="$refs.giftPacketDialog.show()">
                   <v-icon>
                     mdi-gift-open
                   </v-icon>
                 </v-btn>
-              </div>
-            </v-card-actions>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
-        <v-card class="flex d-flex flex-column vh-shop-package-description">
-          <v-card-title>
-            <v-icon left>mdi-image-text</v-icon>
-            {{ $t('description') }}
+        <!-- Description -->
+        <v-card class="flex d-flex flex-column vh-shop-package-description transparent" flat>
+          <v-card-title class="px-0 mx-0">
+            <v-icon color="primary" left>mdi-star-four-points</v-icon>
+            <span class="font-weight-bold" style="font-size: larger;">
+              {{ $t('_shop.labels.productDescription') }}
+            </span>
           </v-card-title>
-          <v-card-text>
-                <span v-html="packet.description" class="ql-editor">
-                </span>
-          </v-card-text>
+          <span v-html="packet.description" class="ql-editor ma-0 pa-0">
+          </span>
         </v-card>
       </v-card-text>
     </v-card>
@@ -159,22 +174,25 @@ import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 export default {
   name: 'PacketDetailDialog',
   components: { DialogForm },
-  props: {
-    packet: {
-      type: Object,
-      required: true,
-    },
-  },
+  props: ['packet'],
   data() {
     return {
       dialog: false,
       loading: false,
       cartPacketTargetUserForm,
+      customPrice: null,
+      customCredits: null,
+      addToCartBtnWidth: 0,
     };
   },
   methods: {
     show() {
       this.dialog = true;
+      this.$nextTick(() => {
+        console.log(this.$refs.addToCartBtn.$el.offsetWidth);
+      });
+      this.customPrice = this.packet.price_with_discount.total;
+      this.customCredits = this.packet.price_with_discount.credits;
     },
     close() {
       this.dialog = false;
@@ -238,4 +256,7 @@ export default {
 </script>
 
 <style>
+.button-rounded {
+  border-radius: 7px;
+}
 </style>

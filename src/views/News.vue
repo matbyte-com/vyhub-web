@@ -329,7 +329,7 @@ export default {
 <style scoped lang="sass">
 .news-of-day
   border-style: solid
-  border-width: 3px
+  border-width: 2px
   border-color: var(--v-primary-base)
 
 .grey-title

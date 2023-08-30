@@ -89,7 +89,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/shop/checkout/:debitId/:action',
     name: 'ShopCheckout',
-    meta: { title: i18n.t('_pageTitle.shopCheckout'), requiresAuth: true },
+    meta: { title: i18n.t('_pageTitle.shop'), requiresAuth: true },
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
