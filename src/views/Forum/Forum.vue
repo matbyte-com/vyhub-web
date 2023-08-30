@@ -48,22 +48,23 @@
                         <!-- Topic Title -->
                         <v-col class="d-flex" cols="8" md="6" lg="6" xl="7">
                           <v-icon left v-if="topic.icon">{{ topic.icon }}</v-icon>
-                          <div class="align-self-center text-overflow">
-                            <div class="text-overflow"
+                          <div class="align-self-center text-ellipsis">
+                            <div class="text-ellipsis"
                                  style="font-size: 1.3em;"
                                  :class="{ 'fill-height':!topic.description }">
                               {{ topic.title }}
                             </div>
                             <div v-if="topic.description"
                                  style="white-space: normal; overflow-wrap: break-word;"
-                                 class="text--disabled mt-1 text-overflow">
+                                 class="text--disabled mt-1 text-ellipsis">
                               {{ topic.description }}
                             </div>
                           </div>
                         </v-col>
                         <v-col cols="5" md="6" lg="6" xl="5" v-if="!$vuetify.breakpoint.smAndDown"
                                class="d-flex align-center justify-end">
-                            <div class="d-flex align-center" v-if="$vuetify.breakpoint.lgAndUp">
+                            <div class="d-flex align-center mr-1"
+                                 v-if="$vuetify.breakpoint.lgAndUp">
                               <v-tooltip bottom>
                                 <template v-slot:activator="{ on }">
                                   <v-icon class="ml-1 mr-1" v-on="on">mdi-comment-multiple</v-icon>
@@ -89,7 +90,7 @@
                                 </v-avatar>
                               </router-link>
                               <!-- Last Thread Title -->
-                              <div class="align-self-center text-overflow" style="width: 200px">
+                              <div class="align-self-center text-ellipsis" style="width: 200px">
                                 <router-link
                                   :to="{ name: 'ForumThread',
                            params: { id: topic.last_post.thread.id } }"
@@ -440,12 +441,6 @@ export default {
 
 .icon {
   order: 0;
-}
-
-.text-overflow {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .hidelinkstyle {

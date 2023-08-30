@@ -4,15 +4,18 @@
       <PageTitleFlat :title="topic.title" :icon="topic.icon"
                      :hide-triangle="$vuetify.breakpoint.smAndDown"
                      :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
-        <template v-slot:start>
-          <router-link :to="{ name: 'Forum' }"
-                       class="white--text">
-            {{ topic.topic_category.title }}</router-link>
-          / {{ topic.title }}
-        </template>
-        <template v-slot:end>
-          <div class="text-end">
-            {{ topic.description }}
+        <template v-slot:subtitle v-if="false">
+          <div class="d-flex align-center">
+            <div class="text-ellipsis mt-1" style="width: 50%; max-width: 300px">
+              <router-link :to="{ name: 'Forum' }"
+                           class="white--text">
+                {{ topic.topic_category.title }}</router-link>
+              / {{ topic.title }}
+            </div>
+            <v-spacer v-if="!$vuetify.breakpoint.xs"/>
+            <div v-if="!$vuetify.breakpoint.xs">
+              {{ topic.description }}
+            </div>
           </div>
         </template>
       </PageTitleFlat>
@@ -21,6 +24,7 @@
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
         <v-card-text>
           <PaginatedDataTable
+            :mobile-breakpoint="0"
             ref="threadTable"
             :headers="headers"
             :items="threads"
@@ -39,36 +43,11 @@
                           :key="admin.id" :user="admin" class="mr-1"/>
               </div>
             </template>
-            <template v-slot:item.created="{ item }">
-              <span :class="{ 'font-weight-bold' : !item.is_read }">
-                {{ utils.formatDate(item.created) }}
-              </span>
-            </template>
-            <template v-slot:item.creator="{ item }">
-              <v-avatar class="ma-1">
-                <v-img v-if="item.creator" :src="item.creator.avatar"/>
-                <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
-              </v-avatar>
-              <UserLink v-if="item.creator" @click.prevent :user="item.creator"></UserLink>
-            </template>
-            <template v-slot:item.title="{ item }">
-              <router-link :to="{ name: 'ForumThread', params: { id: item.id } }"
-                           :class="{ 'font-weight-bold' : !item.is_read }"
-                           style="color: inherit; text-decoration: none">
-                <div class="d-flex align-center">
-                  <v-chip small v-for="label in item.labels" :key="label.id" :color="label.color"
-                          text-color="white" class="mr-1">
-                    {{ label.name }}
-                  </v-chip>
-                  <span>{{ item.title }}</span>
-                </div>
-              </router-link>
-            </template>
             <template v-slot:item.last_post="{ item }">
-              <div v-if="item.last_post" class="d-flex">
+              <div v-if="item.last_post" class="d-flex align-center">
                 <v-spacer/>
-                <div class="mr-3 align-self-center">
-                  <v-tooltip bottom>
+                <div class="mr-3 align-center d-flex">
+                  <v-tooltip bottom v-if="item.pinned === false">
                     <template v-slot:activator="{ on }">
                       <v-icon v-on="on" v-if="item.status === 'CLOSED'">mdi-lock</v-icon>
                     </template>
@@ -82,58 +61,61 @@
                     </template>
                     <span> {{ $t('_forum.pinned') }} </span>
                   </v-tooltip>
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-icon v-on="on">mdi-comment</v-icon>
-                    </template>
-                    <span> {{ $t('_forum.numberOfPosts') }} </span>
-                  </v-tooltip>
-                  {{ item.posts_total }}
+                  <div class="d-flex align-center">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-icon class="mr-1" v-on="on">mdi-comment</v-icon>
+                      </template>
+                      <span> {{ $t('_forum.numberOfPosts') }} </span>
+                    </v-tooltip>
+                    {{ item.posts_total }}
+                  </div>
+                </div>
+                <div class="align-self-center d-flex flex-column text-ellipsis">
+                  <UserLink @click.prevent :small="true" :user="item.last_post.creator"
+                            :simple="true"/>
+                  {{ utils.formatTimeForForum(item.last_post.created) }}
                 </div>
                 <router-link
                   :to="{ name: 'UserDashboard', params: { id: item.last_post.creator.id } }">
-                  <v-avatar class="ma-1 mr-2">
+                  <v-avatar class="ma-1 ml-2">
                     <v-img :src="item.last_post.creator.avatar"/>
                   </v-avatar>
                 </router-link>
-                <div class="align-self-center d-flex flex-column" style="width: 125px">
-                  <UserLink @click.prevent :small="true" :user="item.last_post.creator"></UserLink>
-                  {{ utils.formatTimeForForum(item.last_post.created) }}
-                </div>
               </div>
             </template>
-            <!-- For mobile devices -->
-            <template v-slot:item.title_sm="{ item }">
-              <div class="d-flex">
+            <template v-slot:item.title="{ item }">
+              <div class="d-flex align-center">
                 <router-link
                   :to="{ name: 'UserDashboard', params: { id: item.creator.id } }">
                   <v-avatar class="ma-1 mr-2">
                     <v-img :src="item.creator.avatar"/>
                   </v-avatar>
                 </router-link>
-                <div class="align-self-center">
+                <div class="align-center align-self-center">
                   <div>
                     <router-link
                       :to="{ name: 'ForumThread', params: { id: item.id } }"
-                      class="text-decoration-none ml-1">
-                      <v-chip x-small v-if="item.label" :color="item.label.color"
-                              text-color="white">
-                        {{ item.label.name }}
-                      </v-chip>
+                      :class="{ 'font-weight-bold' : !item.is_read }"
+                      class="text-decoration-none ml-1" style="font-size: larger">
                       {{ item.title }}
                     </router-link>
                   </div>
                   <user-link :user="item.creator" :simple="true"/>
+                  <b class="ml-1">·</b>
+                  <span>
+                    {{ new Date(item.created).toLocaleDateString() }}
+                  </span>
+                  <v-chip label x-small class="white--text ml-1" :color="l.color"
+                          v-for="l in item.labels" :key="l.id">
+                    {{ l.name }}
+                  </v-chip>
                 </div>
               </div>
             </template>
             <template v-slot:item.last_post_sm="{ item }">
               <div class="d-flex">
                 <v-spacer />
-                <v-icon v-if="item.pinned === true" class="mr-1 mdi-rotate-45">
-                  mdi-pin
-                </v-icon>
-                <v-icon v-if="item.status === 'CLOSED'" class="mr-3">mdi-lock</v-icon>
                 <div v-if="item.last_post">
                   <div :class="{ 'font-weight-bold' : !item.is_read }">
                     {{ topic.posts_total }} {{ $t('_forum.posts') }}
@@ -201,18 +183,17 @@ export default {
     headers() {
       if (this.$vuetify.breakpoint.mdAndUp) {
         return [
-          {
-            text: this.$t('_forum.creator'), value: 'creator', sortable: false,
-          },
           { text: this.$t('title'), value: 'title', sortable: false },
-          { text: this.$t('_forum.created'), value: 'created' },
-          { value: 'total_posts', sortable: false },
-          { text: this.$t('_forum.last_post'), value: 'last_post', align: 'right' },
+          {
+            text: this.$t('_forum.last_post'), value: 'last_post', align: 'right', sortable: false,
+          },
         ];
       }
       return [
-        { text: this.$t('title'), value: 'title_sm', sortable: false },
-        { text: this.$t('_forum.last_post'), value: 'last_post_sm', align: 'right' },
+        { text: this.$t('title'), value: 'title', sortable: false },
+        {
+          text: this.$t('_forum.last_post'), value: 'last_post_sm', align: 'right', sortable: false,
+        },
       ];
     },
   },

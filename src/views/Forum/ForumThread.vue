@@ -99,7 +99,7 @@
                   </span>
                   <!-- Labels only on first post -->
                   <div v-if="index === 0" class="text-right">
-                    <v-chip v-for="label in thread.labels" :key="label.id"
+                    <v-chip v-for="label in thread.labels" :key="label.id" label
                             class="mr-1 mb-1 white--text" :color="label.color" small>
                       {{ label.name }}
                     </v-chip>

@@ -30,8 +30,10 @@ export default {
   props: ['title', 'hideTriangle', 'isMenu', 'noBottomBorderRadius', 'icon', 'centered'],
   computed: {
     headlineClasses() {
-      if (this.title && this.title.length > 20 && this.$vuetify.breakpoint.smAndDown) return 'text-h6 text-uppercase';
-      return 'text-h5 text-uppercase font-weight-bold';
+      let res = '';
+      if (this.title && this.title.length > 20 && this.$vuetify.breakpoint.smAndDown) res = 'text-h6';
+      else res = 'text-h5 font-weight-bold';
+      return res;
     },
   },
 };

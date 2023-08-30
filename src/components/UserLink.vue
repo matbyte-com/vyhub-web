@@ -13,8 +13,8 @@
     </v-chip>
     <span v-if="simple">
       <v-icon small>mdi-account</v-icon>
-      <router-link
-        :to="{ name: 'UserDashboard', params: {id: user.id}}">{{ user.username }}</router-link>
+      <router-link :to="{ name: 'UserDashboard', params: {id: user.id}}">
+        {{ user.username }}</router-link>
     </span>
   </span>
 </template>
