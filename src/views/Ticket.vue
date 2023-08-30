@@ -1,7 +1,10 @@
 <template>
   <div>
-    <PageTitle icon="mdi-ticket-confirmation">{{ $t('_forum.tickets') }}</PageTitle>
-    <v-card>
+    <PageTitleFlat :hide-triangle="true" :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"
+                   :title="$t('_forum.tickets')"/>
+    <v-card :class="{ 'mt-3 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown }"
+            class="card-rounded-bottom" flat>
       <v-card-text>
         <PaginatedDataTable
           ref="ticketTable"
@@ -63,16 +66,16 @@
 
 <script>
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import PageTitle from '../components/PageTitle.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 import UserLink from '../components/UserLink.vue';
 
 export default {
   components: {
+    PageTitleFlat,
     PaginatedDataTable,
     ThreadAddDialog,
-    PageTitle,
     UserLink,
   },
   name: 'Ticket.vue',
