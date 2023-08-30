@@ -11,37 +11,41 @@
       <PageTitleFlat :title="thread.title" :icon="threadIcon"
                      :hide-triangle="$vuetify.breakpoint.smAndDown"
                      :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
-        <template v-slot:start>
-          <router-link :to="{ name: 'Forum' }"
-                       class="white--text">
-            {{ topic.topic_category.title }}</router-link>
-          / <router-link :to="{ name: 'ForumTopic', params: { id: topic.id } }"
-                         class="white--text">
-          {{ topic.title }}</router-link>
-          / {{ thread.title }}
-        </template>
-        <template v-slot:end v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
-          <div class="text-end">
-            <v-btn color="success" outlined small class="ml-5 mr-1"
-                   @click="openThreadTitleEditDialog(thread)">
-              <v-icon left>mdi-pencil</v-icon>
-              <span>{{ $t('edit') }}</span>
-            </v-btn>
-            <v-btn v-if="($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))"
-                   outlined small
-                   style="min-width: 18px; width: 18px"
-                   color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
-              <v-icon small>mdi-delete</v-icon>
-            </v-btn>
+        <template v-slot:subtitle>
+          <div class="d-flex align-center">
+            <div class="white--text thread-breadcrumbs">
+              <router-link :to="{ name: 'Forum' }" class="white--text">
+                {{ topic.topic_category.title }}</router-link>
+              / <router-link class="white--text"
+                             :to="{ name: 'ForumTopic', params: { id: topic.id } }">
+              {{ topic.title }}</router-link>
+              / <span>
+              {{ thread.title }}
+              </span>
+            </div>
+            <v-spacer />
+            <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
+              <v-btn color="success" outlined small class="ml-5 mr-1"
+                     @click="openThreadTitleEditDialog(thread)">
+                <v-icon left>mdi-pencil</v-icon>
+                <span>{{ $t('edit') }}</span>
+              </v-btn>
+              <v-btn outlined small
+                     style="min-width: 18px; width: 18px"
+                     color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
+                <v-icon small>mdi-delete</v-icon>
+              </v-btn>
+            </div>
           </div>
         </template>
       </PageTitleFlat>
       <v-card flat outlined class="vh-forum-post card-rounded-bottom mb-3"
               v-for="(post, index) in posts" :key="post.id"
-              :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+              :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown || index !== 0,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0}">
         <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
           <!-- Avatar -->
+          <!-- Large Screens -->
           <div class="pa-3 text-center" style="width: 150px" v-if="$vuetify.breakpoint.smAndUp">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
                          class="text-decoration-none" style="color: inherit">
@@ -54,7 +58,8 @@
             </router-link>
           </div>
           <!-- TODO Coloring of Card - Light and DarkMode -->
-          <div v-else class="pa-3">
+          <!-- Small Screens -->
+          <div v-else class="pt-3 px-3">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
                          class="text-decoration-none d-flex justify-center align-center"
                          style="color: inherit">
@@ -71,15 +76,17 @@
             <div>
               <!-- TOP START -->
               <!-- ORIGINAL POSTER HINT -->
-              <v-card-text class="d-flex">
+              <v-card-text class="d-flex align-center">
                 <div v-if="post.creator && thread.creator
                     && post.creator.id === thread.creator.id">
                   <v-chip color="#1c1c1c" small label>
                     <span class="white--text">OP</span>
                   </v-chip>
-                  <b class="ml-1 mr-1">·</b>
                 </div>
-                {{ utils.formatDate(post.created) }}
+                <!-- Post created -->
+                <span class="font-weight-light ml-1">
+                  <b class="mr-1">·</b>{{ utils.formatDate(post.created) }}
+                </span>
                 <!-- ORIGINAL POSTER HINT END -->
                 <!-- ADMIN HINT -->
                 <div class="ml-auto">
@@ -91,7 +98,7 @@
                     </v-chip>
                   </span>
                   <!-- Labels only on first post -->
-                  <div v-if="index === 0">
+                  <div v-if="index === 0" class="text-right">
                     <v-chip v-for="label in thread.labels" :key="label.id"
                             class="mr-1 mb-1 white--text" :color="label.color" small>
                       {{ label.name }}
@@ -138,9 +145,11 @@
                       </span>
                     </div>
                   </div>
-                  <div class="ml-auto">
+                  <v-spacer />
+                  <div class="d-flex align-center justify-end">
                     <v-btn small outlined @click.stop="openEditPostDialog(post)"
                            color="primary"
+                           class="mr-2"
                            v-if="postEditable">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
@@ -148,7 +157,7 @@
                            v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
                            @click.stop="$refs.deletePostConfirmationDialog.show(post)"
                            color="error"
-                           class="ml-2">
+                           class="">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </div>
@@ -165,14 +174,14 @@
                     @input="fetchData"/>
       <div class="mt-3" v-if="thread.status !== 'CLOSED' && posts.length > 3
       && $vuetify.breakpoint.mdAndUp">
-        <v-card flat outlined>
-          <editor v-model="message.content"/>
-          <v-card-actions>
-            <v-btn color="success" @click="newPost(message.content)">
+        <v-card flat outlined class="card-rounded">
+          <v-card-text>
+            <editor v-model="message.content"/>
+            <v-btn class="mt-3" depressed color="success" @click="newPost(message.content)">
               <v-icon left>mdi-plus</v-icon>
               {{ $t('_forum.addPost') }}
             </v-btn>
-          </v-card-actions>
+          </v-card-text>
         </v-card>
       </div>
       <div v-if="thread.status === 'CLOSED'">
@@ -211,10 +220,10 @@
         </v-row>
       </v-card-text>
     </v-card>-->
+    <!-- TODO Add Post Btn -->
+    <!-- TODO Reations Animation -->
     <!-- TODO Good Skeleton Loader Design - Placeholder: -->
-    <v-skeleton-loader v-else type="button@2" />
     <!-- TODO Reaction in Lightmode not disabled when clicked -->
-    <!-- TODO Disable Timestamp to make less obvious -->
   </div>
 </template>
 
@@ -487,6 +496,14 @@ export default {
 
 .clicked {
   animation: reacted 1.5s steps(15) 1;
+}
+
+.thread-breadcrumbs {
+  font-size: smaller;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 40%
 }
 
 @keyframes reacted {

@@ -41,28 +41,29 @@
                   </v-list-item-title>
                 </template>
                 <v-divider style="border-width: 2px;"/>
-                <div v-for="topic in category.topics" :key="topic.id" class="ml-9 topic mr-3">
+                <div v-for="topic in category.topics" :key="topic.id" class="ml-9 topic">
                   <v-list-item link :to="{ name: 'ForumTopic', params: { id: topic.id } }">
                     <v-list-item-content>
-                      <v-row no-gutters>
-                        <v-col class="d-flex" cols="7" md="5" lg="7">
+                      <v-row no-gutters style="width: 100%">
+                        <!-- Topic Title -->
+                        <v-col class="d-flex" cols="8" md="6" lg="6" xl="7">
                           <v-icon left v-if="topic.icon">{{ topic.icon }}</v-icon>
-                          <div class="align-self-center">
-                            <div class="d-flex align-center textOverflow" style="font-size: 1.3em;"
+                          <div class="align-self-center text-overflow">
+                            <div class="text-overflow"
+                                 style="font-size: 1.3em;"
                                  :class="{ 'fill-height':!topic.description }">
                               {{ topic.title }}
                             </div>
                             <div v-if="topic.description"
                                  style="white-space: normal; overflow-wrap: break-word;"
-                                 class="text--disabled mt-1 textOverflow">
+                                 class="text--disabled mt-1 text-overflow">
                               {{ topic.description }}
                             </div>
                           </div>
                         </v-col>
-                        <v-col>
-                          <v-row no-gutters>
-                            <v-col md="4" lg="4"
-                                   class="d-flex align-center" v-if="$vuetify.breakpoint.lgAndUp">
+                        <v-col cols="5" md="6" lg="6" xl="5" v-if="!$vuetify.breakpoint.smAndDown"
+                               class="d-flex align-center justify-end">
+                            <div class="d-flex align-center" v-if="$vuetify.breakpoint.lgAndUp">
                               <v-tooltip bottom>
                                 <template v-slot:activator="{ on }">
                                   <v-icon class="ml-1 mr-1" v-on="on">mdi-comment-multiple</v-icon>
@@ -77,44 +78,53 @@
                                 <span> {{ $t('_forum.numberOfPosts') }} </span>
                               </v-tooltip>
                               <span>{{ topic.posts_total }}</span>
-                            </v-col>
-                            <v-col md="12" lg="8" class="d-flex"
-                                   v-if="topic.last_post !== null && $vuetify.breakpoint.mdAndUp">
-                              <v-spacer v-if="$vuetify.breakpoint.mdOnly"/>
-                              <div class="d-flex">
+                            </div>
+                            <div class="d-flex justify-end"
+                                 v-if="topic.last_post !== null && $vuetify.breakpoint.mdAndUp">
+                              <router-link
+                                :to="{ name: 'UserDashboard',
+                         params: { id: topic.last_post.creator.id } }">
+                                <v-avatar class="ma-1 mr-2">
+                                  <v-img :src="topic.last_post.creator.avatar"/>
+                                </v-avatar>
+                              </router-link>
+                              <!-- Last Thread Title -->
+                              <div class="align-self-center text-overflow" style="width: 200px">
                                 <router-link
-                                  :to="{ name: 'UserDashboard',
-                           params: { id: topic.last_post.creator.id } }">
-                                  <v-avatar class="ma-1 mr-2">
-                                    <v-img :src="topic.last_post.creator.avatar"/>
-                                  </v-avatar>
+                                  :to="{ name: 'ForumThread',
+                           params: { id: topic.last_post.thread.id } }"
+                                  class="ml-1">
+                                  {{ topic.last_post.thread.title }}
                                 </router-link>
-                                <div class="align-self-center">
-                                  <router-link
-                                    :to="{ name: 'ForumThread',
-                             params: { id: topic.last_post.thread.id } }"
-                                    class="ml-1 textOverflow">
-                                    {{ topic.last_post.thread.title }}
-                                  </router-link>
-                                  <div class="d-flex align-center textOverflow">
-                                    <UserLink :simple="true"
-                                              :user="topic.last_post.creator"
-                                              class="mr-1"></UserLink>
-                                    •
-                                    {{ utils.formatTimeForForum(topic.last_post.created) }}
-                                  </div>
+                                <div class="d-flex align-center">
+                                  <UserLink :simple="true"
+                                            :user="topic.last_post.creator"
+                                            class="mr-1"></UserLink>
+                                  •
+                                  {{ utils.formatTimeForForum(topic.last_post.created) }}
                                 </div>
                               </div>
-                            </v-col>
-                          </v-row>
+                            </div>
                         </v-col>
                         <!-- Mobile -->
-                        <v-col v-if="$vuetify.breakpoint.smAndDown">
+                        <v-col cols="4" v-if="$vuetify.breakpoint.smAndDown"
+                               class="d-flex justify-end align-center">
                           <div class="text-right">
-                            {{ topic.posts_total }} {{ $t('_forum.posts') }}
+                            <div>
+                              {{ topic.posts_total }} {{ $t('_forum.posts') }}
+                            </div>
+                            <div v-if="topic.last_post" class="text--disabled">
+                              {{ utils.formatTimeForForum(topic.last_post.created) }}
+                            </div>
                           </div>
-                          <div v-if="topic.last_post" class="text-right text--disabled">
-                            {{ utils.formatTimeForForum(topic.last_post.created) }}
+                          <div v-if="!$vuetify.breakpoint.xs" class="ml-1">
+                            <router-link
+                              :to="{ name: 'UserDashboard',
+                         params: { id: topic.last_post.creator.id } }">
+                              <v-avatar class="ma-1 mr-2">
+                                <v-img :src="topic.last_post.creator.avatar"/>
+                              </v-avatar>
+                            </router-link>
                           </div>
                         </v-col>
                       </v-row>
@@ -432,9 +442,10 @@ export default {
   order: 0;
 }
 
-.textOverflow {
+.text-overflow {
   white-space: nowrap;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .hidelinkstyle {
