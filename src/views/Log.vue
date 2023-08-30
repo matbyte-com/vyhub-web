@@ -1,7 +1,9 @@
 <template>
   <div>
-    <PageTitle icon="mdi-format-list-bulleted">{{ $t('log') }}</PageTitle>
-    <v-card>
+    <PageTitleFlat :title="$t('log')" :hide-triangle="true"/>
+    <v-card class="card-rounded-bottom"
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-card-text>
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="4" xl="2">
@@ -10,8 +12,7 @@
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto"
-            >
+              min-width="auto">
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="startDate"
@@ -36,8 +37,7 @@
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto"
-            >
+              min-width="auto">
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="startTime"
@@ -63,8 +63,7 @@
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto"
-            >
+              min-width="auto">
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   class="ml-5"
@@ -89,8 +88,7 @@
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto"
-            >
+              min-width="auto">
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   class="ml-3"
@@ -118,8 +116,7 @@
                   outlined
                   color="primary"
                   v-bind="attrs"
-                  v-on="on"
-                >
+                  v-on="on">
                   <v-icon left>
                     mdi-filter
                   </v-icon>
@@ -145,8 +142,7 @@
                   outlined
                   color="primary"
                   v-bind="attrs"
-                  v-on="on"
-                >
+                  v-on="on">
                   <v-icon left>
                     mdi-filter
                   </v-icon>
@@ -174,8 +170,7 @@
               outlined
               class="ml-3"
               dense
-              @change="fetchLogs"
-            >
+              @change="fetchLogs">
               <template v-slot:prepend-inner>
                 <v-icon>
                   mdi-magnify
@@ -210,7 +205,7 @@
              class="mt-2">
       {{ $t('_log.messages.limitReachedFilter') }}
     </v-alert>
-    <v-card>
+    <v-card class="card-rounded">
       <v-card-text class="mt-0 pt-0">
         <DataTable
           ref="logTable"
@@ -220,8 +215,7 @@
           default-sort-by="created_on"
           :default-sort-desc="true"
           show-expand
-          @reload="fetchData"
-        >
+          @reload="fetchData">
           <template v-slot:item.message="{ item }">
             <div class="text-truncate"
                  :style="{'max-width': $vuetify.breakpoint.width / 2.2 + 'px'}">
@@ -287,32 +281,26 @@
                 @submit="applyAdvancedFilters" @cancel="selectedFilters = {}"
                 :form-schema="advancedFiltersFormSchema">
     </DialogForm>
-    <div class="mt-4 text-right">
-      <v-btn @click="downloadOldLogs">
-        <v-icon left>mdi-download</v-icon>
-        {{ $t('_log.labels.downloadOldLogs') }}
-      </v-btn>
-    </div>
   </div>
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import openapi from '@/api/openapi';
 import UserLink from '@/components/UserLink.vue';
 import DataTable from '@/components/DataTable.vue';
 import LogLabel from '@/components/LogLabel.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import Common from '@/forms/Common';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
   name: 'Log',
   components: {
+    PageTitleFlat,
     DialogForm,
     LogLabel,
     DataTable,
     UserLink,
-    PageTitle,
   },
   emits: ['update:selectedFilters'],
   data() {

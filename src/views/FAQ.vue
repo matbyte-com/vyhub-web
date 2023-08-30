@@ -31,8 +31,8 @@
                 </v-btn>
               </template>
               <span>
-          {{ $t('_settings.labels.resetOrder') }}
-        </span>
+              {{ $t('_settings.labels.resetOrder') }}
+              </span>
             </v-tooltip>
           </v-card>
         </div>
