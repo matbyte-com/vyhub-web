@@ -10,7 +10,7 @@
                        :no-bottom-border-radius="true"/>
         <!-- Cart Packets -->
         <!-- Either show cart-packets or open-purchase packets -->
-        <v-card class="vh-cart-packets card-rounded-bottom"
+        <v-card class="vh-cart-packets card-rounded-bottom" flat
                 style="border-top-right-radius: 0; border-top-left-radius: 0">
           <v-card-text>
             <transition-group name="packet-list">
@@ -50,9 +50,9 @@
           </v-card-text>
         </v-card>
         <!-- Address and Email -->
-        <v-card class="card-rounded mt-3 vh-address-email-cart" flat v-if="!openPurchase"
-                :class="{ 'card-next-step': billingAddressDrawer === 0 }">
-          <v-expansion-panels v-model="billingAddressDrawer">
+        <v-card class="card-rounded mt-3 vh-address-email-cart" v-if="!openPurchase"
+                :class="{ 'card-next-step': billingAddressDrawer === 0 }" flat>
+          <v-expansion-panels v-model="billingAddressDrawer" flat>
             <v-expansion-panel>
               <v-expansion-panel-header class="px-5 pb-0 pt-0">
                 <div>
@@ -149,7 +149,7 @@
       <!-- Cart total, address and checkout -->
       <v-col>
         <!-- Discount -->
-        <v-card class="vh-cart-discount card-rounded">
+        <v-card class="vh-cart-discount card-rounded" flat>
           <v-card-actions>
             <v-text-field dense outlined :label="$t('_shop.labels.discountCode')"
                           @keydown.enter="applyDiscount" v-model="couponCode"
@@ -170,7 +170,7 @@
           </v-card-actions>
         </v-card>
         <!-- Cart total -->
-        <v-card class="vh-cart-total mt-3 card-rounded">
+        <v-card class="vh-cart-total mt-3 card-rounded" flat>
           <v-alert type="error" v-if="errorMessage">
             {{ errorMessage }}
           </v-alert>

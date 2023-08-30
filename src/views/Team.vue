@@ -1,15 +1,20 @@
 <template>
   <div>
-    <div class="d-flex">
-      <PageTitle icon="mdi-account-group">{{ $t('_team.title') }}</PageTitle>
-      <v-spacer/>
-      <v-btn v-if="$checkProp('edit_team')" color="success" small
-             @click="showEditDialog">
-        <v-icon left>mdi-pencil</v-icon>
-        {{ $t('edit') }}
-      </v-btn>
-    </div>
-    <v-card class="vh-team">
+      <PageTitleFlat :title="$t('_team.title')" :hide-triangle="true"
+                     :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
+        <template v-slot:end>
+          <div class="text-right">
+            <v-btn depressed v-if="$checkProp('edit_team')" color="success" small
+                   @click="showEditDialog">
+              <v-icon left>mdi-pencil</v-icon>
+              {{ $t('edit') }}
+            </v-btn>
+          </div>
+        </template>
+      </PageTitleFlat>
+    <v-card class="vh-team card-rounded-bottom px-2" flat
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-tabs v-model="tab">
         <v-tab v-for="bundle in serverbundles" :key="bundle.id">
           <v-icon left :color="bundle.color">
@@ -21,8 +26,8 @@
         </v-tab>
       </v-tabs>
     </v-card>
-
     <v-row v-for="group in getCurrentTabGroups" :key="group.id" class="justify-center mt-10 mb-3">
+
       <v-col class="text-center" cols="12">
         <v-chip :color="group.color ? group.color : '#000000'" large
                 :text-color="$vuetify.theme.dark ? 'black' : 'white'" label>
@@ -56,7 +61,7 @@
 </template>
 
 <script>
-import PageTitle from '../components/PageTitle.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../api/openapi';
 import DialogForm from '../components/DialogForm.vue';
 import TeamEditForm from '../forms/TeamEditForm';
@@ -64,8 +69,8 @@ import TeamEditForm from '../forms/TeamEditForm';
 export default {
   name: 'Team',
   components: {
+    PageTitleFlat,
     DialogForm,
-    PageTitle,
   },
   data() {
     return {
