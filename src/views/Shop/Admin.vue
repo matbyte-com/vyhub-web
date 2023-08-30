@@ -1,42 +1,38 @@
 <template>
   <div>
-    <PageTitle icon="mdi-sack">{{ $t('_shop.labels.admin') }}</PageTitle>
-    <v-row>
-      <v-col>
-        <v-card flat class="fill-height">
-          <v-card-text>
-            <v-tabs v-model="tabModel">
-              <v-tab v-for="tab in allowedTabs"
-                     :key="tab.id"
-                     class="justify-start"
-                     @click="$router.push({ name: 'ShopAdmin',
-                                        params: { component: tab.name} })">
-                <v-icon left>{{ tab.icon }}</v-icon>
-                <span>{{ tab.title }}</span>
-              </v-tab>
-            </v-tabs>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-card class="fill-height" flat>
-          <v-card-text>
-            <component :is="componentInstance"></component>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+    <PageTitleFlat :hide-triangle="true" :title="$t('_shop.labels.admin')"
+                   :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+    <v-card flat class="fill-height card-rounded-bottom"
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+      <v-card-text>
+        <v-tabs v-model="tabModel" >
+          <v-tab v-for="tab in allowedTabs"
+                 :key="tab.id"
+                 class="justify-start"
+                 @click="$router.push({ name: 'ShopAdmin',
+                                    params: { component: tab.name} })">
+            <v-icon left>{{ tab.icon }}</v-icon>
+            <span>{{ tab.title }}</span>
+          </v-tab>
+        </v-tabs>
+      </v-card-text>
+    </v-card>
+    <v-card class="fill-height card-rounded mt-3" flat min-height="200px">
+      <v-card-text>
+        <component :is="componentInstance"></component>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script>
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import PageTitle from '../../components/PageTitle.vue';
 
 export default {
   name: 'Purchase',
-  components: { PageTitle },
+  components: { PageTitleFlat, PageTitle },
   data() {
     return {
       tabs: [
