@@ -1,13 +1,6 @@
 <template>
   <div>
     <div v-if="thread && posts && topic">
-      <div class="mt-3 ml-auto">
-        <v-btn v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
-               color="success" @click="$refs.addPostDialog.show()" small>
-          <v-icon left>mdi-plus</v-icon>
-          {{ $t('_forum.addPost') }}
-        </v-btn>
-      </div>
       <PageTitleFlat :title="thread.title" :icon="threadIcon"
                      :hide-triangle="$vuetify.breakpoint.smAndDown"
                      :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
@@ -34,6 +27,11 @@
                      style="min-width: 18px; width: 18px"
                      color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
                 <v-icon small>mdi-delete</v-icon>
+              </v-btn>
+              <v-btn depressed v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
+                     color="success" @click="$refs.addPostDialog.show()" class="ml-1" small>
+                <v-icon left>mdi-plus</v-icon>
+                {{ $t('_forum.addPost') }}
               </v-btn>
             </div>
           </div>

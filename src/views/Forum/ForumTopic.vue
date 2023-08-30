@@ -22,7 +22,7 @@
       <v-card class="vh-forum-topic card-rounded-bottom"
               :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
-        <v-card-text>
+        <v-card-text class="mt-0 pt-0">
           <PaginatedDataTable
             :mobile-breakpoint="0"
             ref="threadTable"

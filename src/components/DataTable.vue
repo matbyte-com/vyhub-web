@@ -7,7 +7,7 @@
     :footer-props="footerProps"
     v-bind="$attrs" v-on="$listeners">
     <template v-slot:top>
-      <v-row>
+      <v-row dense>
         <v-col align-self="center">
           <slot name="header">
           </slot>
