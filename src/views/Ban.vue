@@ -1,7 +1,10 @@
 <template>
   <div>
-    <PageTitle icon="mdi-account-cancel">{{ $t('_ban.labels.title') }}</PageTitle>
-    <v-card class="vh-ban">
+    <PageTitleFlat :title="$t('_ban.labels.title')" :hide-triangle="true"
+                   :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+    <v-card class="vh-ban card-rounded-bottom"
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
+           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-card-text>
         <PaginatedDataTable
           ref="banTable"
@@ -256,7 +259,6 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import UserLink from '@/components/UserLink.vue';
 import LogTable from '@/components/LogTable.vue';
@@ -265,8 +267,8 @@ import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import openapiCached from '@/api/openapiCached';
-import { left } from 'core-js/internals/array-reduce';
 import CommentsTable from '@/components/Comments/CommentsTable.vue';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import Dialog from '../components/Dialog.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
@@ -274,12 +276,12 @@ import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 export default {
   name: 'Ban.vue',
   components: {
+    PageTitleFlat,
     CommentsTable,
     ThreadAddDialog,
     PaginatedDataTable,
     Dialog,
     LogTable,
-    PageTitle,
     DialogForm,
     UserLink,
     DeleteConfirmationDialog,
