@@ -82,7 +82,7 @@ export default {
         },
       },
       defaults: {
-        title: store.getters.generalConfig.community_name,
+        title: store.getters.generalConfig ? store.getters.generalConfig.community_name : 'Communtiy Name',
         subtitle: 'Welcome to our community!',
         buttons: [
           {

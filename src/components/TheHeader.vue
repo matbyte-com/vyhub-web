@@ -1,6 +1,8 @@
 <template>
-  <v-app-bar app color="header" :light="$store.getters.theme.light_header"
-             :dark="!$store.getters.theme.light_header" style="z-index: 200;">
+  <v-app-bar app color="header"
+             :light="$store.getters.theme && $store.getters.theme.light_header"
+             :dark="$store.getters.theme && !$store.getters.theme.light_header"
+             style="z-index: 200;">
     <!-- burger menu on the left-->
     <div v-if="$vuetify.breakpoint.smAndDown">
       <BurgerMenu
