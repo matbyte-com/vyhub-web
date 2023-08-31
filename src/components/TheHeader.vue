@@ -2,7 +2,7 @@
   <v-app-bar app color="header" :light="$store.getters.theme.light_header"
              :dark="!$store.getters.theme.light_header" style="z-index: 200;">
     <!-- burger menu on the left-->
-    <div class="hidden-md-and-up">
+    <div v-if="$vuetify.breakpoint.smAndDown">
       <BurgerMenu
         :nav-links="allowedLinks"
         :help-links="allowedHelpCircleLinks"
@@ -12,15 +12,25 @@
     </div>
 
     <!-- Logo -->
-    <div class="d-flex align-center pr-5" @click="$router.push('/')" style="cursor: pointer;">
+    <div>
       <v-img alt="Community Logo" class="shrink" contain v-if="imgSrc" :src="imgSrc"
+             @click="$router.push('/')"
              transition="scale-transition" :width="logo_width" height="50"/>
-      <v-toolbar-title class="ml-3" v-if="communityName">{{ communityName }}</v-toolbar-title>
     </div>
+    <!-- Do not overflow on bigger screens -->
+    <div v-if="$vuetify.breakpoint.mdAndUp">
+      <v-toolbar-title class="ml-3" @click="$router.push('/')">
+        {{ communityName }}
+      </v-toolbar-title>
+    </div>
+    <!-- Overflow ellipsis (...) on smaller screens -->
+    <v-toolbar-title v-else class="ml-3" @click="$router.push('/')">
+      {{ communityName }}
+    </v-toolbar-title>
+
     <!-- navigation links-->
-    <div style="overflow-x: auto;" class="d-flex top-scrollbar">
+    <div style="overflow-x: auto;" class="d-flex top-scrollbar" v-if="$vuetify.breakpoint.mdAndUp">
       <NavigationLink
-        class="hidden-sm-and-down"
         :link="link"
         v-for="(link, index) in allowedLinks"
         :key="index">
@@ -30,11 +40,11 @@
     <v-spacer></v-spacer>
     <Search class="mr-2"/>
     <Notification v-if="$store.getters.isLoggedIn"/>
-    <div class="hidden-sm-and-down">
+    <div v-if="$vuetify.breakpoint.mdAndUp">
       <HelpCircle :menu-links="allowedHelpCircleLinks"/>
     </div>
     <!-- profile icon with dropdown or login-->
-    <div class="hidden-sm-and-down">
+    <div v-if="$vuetify.breakpoint.mdAndUp">
       <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
         <Credits/>
         <ShoppingCart/>

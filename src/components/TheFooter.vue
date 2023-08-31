@@ -1,8 +1,9 @@
 <template>
   <v-footer color="footer lighten-1" padless>
     <v-row justify="center" no-gutters>
-      <div class="d-flex my-2">
+      <div class="d-flex my-2 flex-wrap justify-center">
         <NavigationLink
+          class=""
           :link="link"
           :dark="true"
           v-for="(link, index) in navLinks"
