@@ -40,10 +40,14 @@
           <!-- Price and buy column -->
           <v-col cols="12" sm="7" class="d-flex flex-column">
             <!-- Headline -->
-            <h1 class="mt-2">{{ packet.title }}</h1>
+            <h1 class="mt-2" :class="{ 'text-center': $vuetify.breakpoint.xs }">
+              {{ packet.title }}
+            </h1>
             <!-- Price -->
-            <div v-if="!packet.custom_price">
-              <div class="d-flex align-center mt-2 ml-1" style="line-height: 0.9em">
+            <div v-if="!packet.custom_price" class="mt-2"
+                 :class="{ 'd-flex justify-center align-center': $vuetify.breakpoint.xs }">
+              <div class="ml-1" style="line-height: 0.9em"
+                   :class="{ 'text-center': $vuetify.breakpoint.xs }">
                 <span class="strikethrough-diagonal mr-2 text--disabled"
                       v-if="packet.discount != null">
                   {{ utils.formatDecimal(packet.price_without_discount.total) }}
@@ -52,16 +56,16 @@
                   {{ utils.formatDecimal(packet.price_with_discount.total) }}
                   {{ packet.currency.name }}
                 </span>
-                </div>
-                <div v-if="packet.price_with_discount.credits != null">
-                  <div class="font-weight-bold ml-1" v-if="!packet.custom_price">
-                     {{ $t('or') }}
-                    {{ packet.price_with_discount.credits }}
-                    {{ $store.getters.shopConfig.credits_display_title }}
-                  </div>
+              </div>
+              <div v-if="packet.price_with_discount.credits != null"
+                   class="font-weight-bold ml-1 my-auto">
+                {{ $t('or') }}
+                {{ packet.price_with_discount.credits }}
+                {{ $store.getters.shopConfig.credits_display_title }}
               </div>
             </div>
-            <span class="font-weight-bold mt-1" v-else>
+            <span class="font-weight-bold mt-1"
+                  :class="{ 'text-center': $vuetify.breakpoint.xs }" v-else>
               {{ $t('_packet.messages.customPricePossible') }}
             </span>
             <!-- Custom Price -->
@@ -98,49 +102,47 @@
               </p>
             </v-list>-->
             <!-- Buy Button -->
-            <v-btn color="info" large
-                   v-if="!$store.getters.isLoggedIn"
-                   @click="$router.push({ path: $route.path,
+            <div :class="{ 'mt-7': $vuetify.breakpoint.xs }">
+              <v-btn color="info" large block
+                     v-if="!$store.getters.isLoggedIn"
+                     @click="$router.push({ path: $route.path,
                      query: { login: 'true', return_url: getReturnUrl() }})">
-              <v-icon left>mdi-lock</v-icon>
-              {{ $t('_shop.labels.loginToBuy') }}
-            </v-btn>
-            <v-row v-else dense>
-              <v-col :cols="packet.price_with_discount.credits ? 4 : 12 "
-                     v-if="packet.custom_price">
+                <v-icon left>mdi-lock</v-icon>
+                {{ $t('_shop.labels.loginToBuy') }}
+              </v-btn>
+              <div v-if="packet.custom_price" class="d-flex align-center mb-2">
                 <v-text-field
+                  :style="packet.price_with_discount.credits != null ? 'max-width: 33%' : ''"
                   v-model="customPrice"
                   type="number"
                   hide-details="auto"
                   :min="packet.price_with_discount.total"
                   :prefix="packet.currency.symbol"/>
-              </v-col>
-              <v-col cols="8"
-                     v-if="packet.custom_price &&packet.price_with_discount.credits != null">
                 <v-text-field
+                  style="max-width: 66%"
+                  class="ml-1"
                   v-if="packet.price_with_discount.credits != null"
                   v-model="customCredits"
                   type="number"
                   hide-details="auto"
                   :prefix="$store.getters.shopConfig.credits_display_title"
                   :min="packet.price_with_discount.credits"/>
-              </v-col>
-              <v-col cols="8">
+              </div>
+              <div class="d-flex align-center mb-1">
                 <v-btn color="primary" ref="addToCartBtn" :loading="loading" depressed large
-                       @click="addToCart()" class="cta-btn button-rounded" block>
+                       @click="addToCart()" class="cta-btn button-rounded" style="width: 66%">
                   <v-icon left>mdi-cart-arrow-down</v-icon>
                   {{ $t('_shop.labels.addToCart') }}
                 </v-btn>
-              </v-col>
-              <v-col cols="4">
-                <v-btn color="secondary" class="cta-btn button-rounded" block depressed large
+                <v-btn color="secondary" class="cta-btn button-rounded ml-1" depressed large
+                       style="width: 33%"
                        @click="$refs.giftPacketDialog.show()">
                   <v-icon>
                     mdi-gift-open
                   </v-icon>
                 </v-btn>
-              </v-col>
-            </v-row>
+              </div>
+            </div>
           </v-col>
         </v-row>
         <!-- Description -->
