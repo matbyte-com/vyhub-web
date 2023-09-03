@@ -1,5 +1,5 @@
 <template>
-  <v-card class="text-center vh-dashboard-profile-picture">
+  <v-card class="text-center vh-dashboard-profile-picture card-rounded" flat>
     <v-card-text>
       <v-row justify="center" class="my-1">
         <v-hover v-if="activeUser != null">
@@ -10,8 +10,7 @@
                 <v-fade-transition>
                   <v-overlay
                     v-if="hover"
-                    absolute
-                  >
+                    absolute>
                     <p>{{ activeUser.type }} </p>
                     <UserLink :disabled-link="true" :outline="false" :user="activeUser"/>
                   </v-overlay>
@@ -25,38 +24,34 @@
           indeterminate
         ></v-progress-circular>
       </v-row>
-      <v-row v-if="user.admin">
-        <v-col>
-          <v-alert
-            dense
-            text
-            color="success"
-            outlined
-            class="font-weight-bold"
-            width="100%"
-          >
-            <span class="d-flex align-center justify-space-between">
-              <span>
-              </span>
-              <span>
-                <v-icon color="success" left>
-                  mdi-shield-account
-                </v-icon>
-                <span>
-                  {{ $t('_dashboard.labels.admin') }}
-                </span>
-              </span>
-              <span class="justify-end">
-                <v-btn icon color="error" v-if="$store.getters.user && $store.getters.user.admin"
-                       @click="$refs.adminDeleteConfirmationDialog.show()" x-small
-                       class="justify-end">
-                <v-icon>mdi-close-circle</v-icon>
-              </v-btn>
-              </span>
+      <v-alert
+        v-if="user.admin"
+        dense
+        text
+        color="success"
+        outlined
+        class="font-weight-bold mt-3 mb-0"
+        width="100%">
+        <span class="d-flex align-center justify-space-between">
+          <span>
+          </span>
+          <span>
+            <v-icon color="success" left>
+              mdi-shield-account
+            </v-icon>
+            <span>
+              {{ $t('_dashboard.labels.admin') }}
             </span>
-          </v-alert>
-        </v-col>
-      </v-row>
+          </span>
+          <span class="justify-end">
+            <v-btn icon color="error" v-if="$store.getters.user && $store.getters.user.admin"
+                   @click="$refs.adminDeleteConfirmationDialog.show()" x-small
+                   class="justify-end">
+            <v-icon>mdi-close-circle</v-icon>
+          </v-btn>
+          </span>
+        </span>
+      </v-alert>
     </v-card-text>
     <confirmation-dialog ref="adminDeleteConfirmationDialog"
                          :title="$t('_dashboard.labels.removeAdminTitle')"

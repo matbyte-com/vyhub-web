@@ -1,9 +1,9 @@
 <template>
-  <v-card class="flex-grow-1 vh-dashboard-bans-and-warnings">
+  <v-card class="flex-grow-1 vh-dashboard-bans-and-warnings card-rounded" flat>
     <v-card-text>
       <v-row>
         <v-col>
-          <v-btn block :color="(banCount ? 'error darken-2' : 'gray')"
+          <v-btn block depressed :color="(banCount ? 'error darken-2' : 'gray')"
                   :to="{ name: 'Bans', query: { user_id: user.id } }">
             <v-icon left>
               mdi-account-cancel
@@ -16,7 +16,7 @@
           </v-btn>
         </v-col>
         <v-col>
-          <v-btn :color="(warningCount ? 'warning darken-2' : 'gray')" block
+          <v-btn :color="(warningCount ? 'warning darken-2' : 'gray')" block depressed
                   :to="{ name: 'Warnings', query: { user_id: user.id } }">
             <v-icon left>
               mdi-account-alert

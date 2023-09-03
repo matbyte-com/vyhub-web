@@ -8,13 +8,12 @@
               :items="purchases"
               sort-by="date"
               :items-per-page="6"
-              :sort-desc="true"
-            >
+              :sort-desc="true">
               <template v-slot:header class="d-flex">
                 <v-row>
                   <v-col>
                     <div class="text-right">
-                      <v-btn color="success" @click="$refs.creditHistoryDialog.show()">
+                      <v-btn depressed color="success" @click="$refs.creditHistoryDialog.show()">
                         <v-icon left>mdi-circle-multiple</v-icon>
                         {{ $store.getters.shopConfig.credits_display_title }}
                       </v-btn>
@@ -30,15 +29,12 @@
                     cols="12"
                     lg="6"
                     xl="4"
-                    class="d-flex"
-                  >
-                    <v-card class="flex-grow-1">
+                    class="d-flex">
+                    <v-card class="flex-grow-1 card-rounded" outlined>
                       <v-card-title class="subheading font-weight-bold">
                         # {{ purchase.id }}
                       </v-card-title>
-
-                      <v-divider></v-divider>
-
+                      <v-divider />
                       <v-card-text>
                         <v-row>
                           <v-col>

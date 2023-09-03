@@ -1,5 +1,5 @@
 <template>
-  <v-card class="flex-grow-1 vh-dashboard-groups">
+  <v-card class="flex-grow-1 vh-dashboard-groups card-rounded" flat>
     <dialog-form :form-schema="userMembershipAddForm"
                  icon="mdi-account-group"
                  :title="$t('_membership.labels.add')"
@@ -46,8 +46,7 @@
                     outlined
                     class="ml-1 mb-1 a mt-1"
                     :class="checkGroups(group)"
-                    v-for="group in getUserActiveGroupsByBundle(bundle)" :key="group.id"
-                  >
+                    v-for="group in getUserActiveGroupsByBundle(bundle)" :key="group.id">
                     {{ group.name }}
                   </v-chip>
                 </td>
@@ -70,8 +69,7 @@
                   :items="computedMemberships"
                   :items-per-page="10"
                   :sort-by="membershipSortBy"
-                  :sort-desc="membershipSortDesc"
-                >
+                  :sort-desc="membershipSortDesc">
                   <template v-slot:item.color-status="{ item }">
                     <v-sheet :color="membershipRowFormatter(item)"
                              height="95%" width="10px"
@@ -82,8 +80,7 @@
                       :color="item.group.color ? item.group.color : '#000000'"
                       :text-color="$vuetify.theme.dark ? 'white' : 'black'"
                       outlined
-                      class="ml-1 mb-1 a"
-                    >
+                      class="ml-1 mb-1 a">
                       {{ item.group.name }}
                     </v-chip>
                   </template>

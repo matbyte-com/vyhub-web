@@ -3,24 +3,24 @@
     <v-list>
       <DataIterator :items="comments" sort-by="date" :sort-desc="true">
         <template v-slot:default="props">
-          <v-list-item v-for="comment in props.items" :key="comment.id" class="mb-3"
+          <v-list-item v-for="comment in props.items" :key="comment.id" class="mb-1"
           :style="`border-color: ${comment.color}; border-width: 0 0 0 10px; border-style: solid;`">
-            <v-list-item-content>
-              <div class="mb-4">
+            <v-list-item-content class="pb-1">
+              <div class="mb-2">
                 {{ comment.message }}
               </div>
               <div>
                 <div class="d-flex align-center justify-space-between">
-                  <UserLink :user="comment.creator"
+                  <UserLink :user="comment.creator" :simple="true"
                             v-if="comment.creator != null"></UserLink>
-                  <span>{{ new Date(comment.date).toLocaleString() }}</span>
+                  <span class="text--disabled">{{ new Date(comment.date).toLocaleString() }}</span>
                   <v-btn v-if="($checkProp(`${type}_comment_edit`) &&
-                comment.creator_id &&
-                $store.getters.user &&
-                $store.getters.user.id === comment.creator_id) ||
-                ($checkProp(`${type}_comment_delete`))"
-                         outlined color="error" small
-                         @click="$refs.commentDeleteConfirm.show(comment)">
+                    comment.creator_id &&
+                    $store.getters.user &&
+                    $store.getters.user.id === comment.creator_id) ||
+                    ($checkProp(`${type}_comment_delete`))"
+                             outlined color="error" small
+                             @click="$refs.commentDeleteConfirm.show(comment)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </div>
@@ -28,12 +28,13 @@
             </v-list-item-content>
           </v-list-item>
         </template>
+        <!-- BTN in Outer Components
         <template v-slot:footer-left>
-          <v-btn @click="$refs.commentAddDialog.show()">
+          <v-btn outlined color="success" @click="$refs.commentAddDialog.show()">
             <v-icon left>mdi-comment-plus</v-icon>
             {{ $t('comment') }}
           </v-btn>
-        </template>
+        </template>-->
       </DataIterator>
     </v-list>
     <DialogForm
@@ -41,13 +42,10 @@
       @submit="addComment"
       :max-width="600"
       :form-schema="CommentForm"
-      :title="$t('comment')" icon="mdi-comment-plus"
-    ></DialogForm>
+      :title="$t('comment')" icon="mdi-comment-plus" />
     <DeleteConfirmationDialog
       ref="commentDeleteConfirm"
-      @submit="deleteComment"
-    >
-    </DeleteConfirmationDialog>
+      @submit="deleteComment" />
   </div>
 </template>
 
@@ -142,19 +140,6 @@ export default {
         this.$refs.commentDeleteConfirm.closeAndReset();
         this.fetchData();
       });
-    },
-  },
-  computed: {
-    headers() {
-      const headers = [
-        { value: 'color-status', sortable: false, width: '1px' },
-        { text: this.$t('user'), value: 'creator' },
-        { text: this.$t('message'), value: 'message' },
-        { text: this.$t('date'), value: 'date', align: 'end' },
-        { value: 'actions', align: 'end' },
-      ];
-
-      return headers;
     },
   },
   watch: {

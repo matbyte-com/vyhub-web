@@ -1,5 +1,5 @@
 <template>
-  <v-card width="100%" class="vh-dashboard-packets">
+  <v-card class="vh-dashboard-packets card-rounded" flat>
     <v-card-title>
       <v-icon class="mr-2">mdi-gift-open</v-icon>
       {{ $t('packets') }}
@@ -11,10 +11,9 @@
           <v-row>
             <v-col
               v-for="userPacket in props.items"
-              :key="userPacket.id"
-              cols="12"
-              lg="6">
-              <v-card @click="showUserPacketDetails(userPacket)">
+              :key="userPacket.id" class="d-flex flex-column"
+              cols="6" sm="4" md="6" lg="3" xl="6">
+              <v-card @click="showUserPacketDetails(userPacket)" class="flex-grow-1">
                 <v-img height="90" :src="userPacket.packet.image_url"
                        :style="(userPacket.active ? '' : 'filter: grayscale(100%)')">
                   <v-chip

@@ -24,8 +24,7 @@
                       outlined
                       color="primary"
                       v-bind="attrs"
-                      v-on="on"
-                    >
+                      v-on="on">
                       <v-icon left>
                         mdi-filter
                       </v-icon>
@@ -41,8 +40,7 @@
                     v-model="selectedBundles"
                     :label="bundle.name"
                     :value="bundle.id"
-                    @change="fetchData()"
-                  ></v-checkbox>
+                    @change="fetchData()" />
                   <a class="ma-1" @click="selectedBundles = []; fetchData()">
                     {{ $t('reset') }}</a>
                 </v-menu>
@@ -185,10 +183,17 @@
           </div>
           <br/>
           <div v-if="$checkProp('ban_comment_show')">
-            <h6 class="text-h6 mb-5">{{ $t('comments') }}</h6>
+            <div class="d-flex align-center">
+              <h6 class="text-h6 mb-5">{{ $t('comments') }}</h6>
+              <v-spacer />
+              <v-btn outlined color="success"
+                     @click="$refs.banCommentsTable.$refs.commentAddDialog.show()">
+                <v-icon left>mdi-plus</v-icon>
+                {{ $t('comment') }}
+              </v-btn>
+            </div>
             <CommentsTable type="ban" :obj-id="currentBan.id" :show-search="false"
-                           ref="banCommentsTable">
-            </CommentsTable>
+                           ref="banCommentsTable" />
           </div>
           <br/>
           <div v-if="$checkProp('ban_log_show')">

@@ -4,7 +4,7 @@
                :title="$t('_membership.labels.edit')"
                ref="editMembershipDialog"
                @submit="editUserMembership">
-    <template slot="end-after">
+    <template v-slot:end-after>
       <ConfirmationDialog ref="endMembershipConfirmation" @submit="endMembership"
                           :btn-text="$t('_membership.labels.endMembership')"/>
       <v-btn color="error" text outlined @click="$refs.endMembershipConfirmation.show()"

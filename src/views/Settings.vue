@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--<PageTitle icon="mdi-cog" :title="$t('_settings.labels.title')" />-->
     <v-row dense no-gutters>
       <v-col cols="12" lg="3" class="mb-2 mb-lg-0">
         <v-card v-if="$vuetify.breakpoint.mdAndDown" class="mt-2" flat tile
@@ -83,14 +82,12 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import AdvancedSettingsSwitch from '@/components/SettingComponents/AdvancedSettingsSwitch.vue';
 import EventBus from '@/services/EventBus';
 
 export default {
   components: {
     AdvancedSettingsSwitch,
-    PageTitle,
   },
   data() {
     return {

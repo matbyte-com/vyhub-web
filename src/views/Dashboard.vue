@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="user">
-      <PageTitle icon="mdi-account" :title="$t('_dashboard.labels.title', { usr: user.username })"/>
-      <v-card class="vh-dashboard">
+      <PageTitleFlat :title="user.username" :no-bottom-border-radius="true"/>
+      <v-card class="vh-dashboard-tabs card-rounded-bottom no-top-border-radius" flat>
         <v-card-text>
           <v-tabs v-model="activeTabIndex">
             <v-tab @click="switchTab('General')">
@@ -11,11 +11,12 @@
             </v-tab>
             <v-tab @click="switchTab('Purchases')"
                    v-if="$store.getters.isLoggedIn &&
-                   (user.id === $store.getters.user.id || $checkProp('purchase_show'))">
+               (user.id === $store.getters.user.id || $checkProp('purchase_show'))">
               <v-icon left>mdi-cart-check</v-icon>
               <span>{{ $t('purchases') }}</span>
             </v-tab>
-            <v-tab v-for="bundle in getBundles" :key="bundle.id" :style="'color:' + bundle.color"
+            <v-tab v-for="bundle in getBundles" :key="bundle.id"
+                   :style="'color:' + bundle.color"
                    @click="switchTab('Bundle', bundle)">
               <v-icon v-if="bundle.icon" left :color="bundle.color">{{ bundle.icon }}</v-icon>
               <span>{{ bundle.name }}</span>
@@ -30,26 +31,41 @@
         </keep-alive>
       </div>
     </div>
+    <!-- Skeleton Loaders -->
     <div v-else>
-      <v-row>
-        <v-col>
-          <v-skeleton-loader type="heading"></v-skeleton-loader>
+      <PageTitleFlat :no-bottom-border-radius="true"/>
+      <v-card class="no-top-border-radius card-rounded-bottom" flat>
+        <v-card-text>
+          <v-skeleton-loader type="heading" />
+        </v-card-text>
+      </v-card>
+      <v-row class="mt-3">
+        <v-col cols="3">
+          <v-card class="pa-3 card-rounded" flat>
+            <v-skeleton-loader type="list-item-avatar" />
+          </v-card>
+          <v-card class="pa-3 mt-3 card-rounded" flat>
+            <v-skeleton-loader type="list-item-avatar" />
+          </v-card>
+          <v-card class="pa-3 mt-3 card-rounded" flat>
+            <v-skeleton-loader type="list-item-avatar" />
+          </v-card>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-skeleton-loader type="article"></v-skeleton-loader>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-skeleton-loader type="list-item-avatar-three-line, image, article, article">
-
-          </v-skeleton-loader>
+        <v-col cols="6">
+          <v-card class="pa-3 card-rounded" flat>
+            <v-skeleton-loader type="paragraph@2" />
+          </v-card>
+          <v-card class="pa-3 card-rounded mt-3" flat>
+            <v-skeleton-loader type="paragraph" />
+          </v-card>
         </v-col>
         <v-col cols="3">
-          <v-skeleton-loader type="list-item-avatar, divider, list-item-three-line, card-heading,
-          image, actions"></v-skeleton-loader>
+          <v-card class="pa-3 card-rounded" flat>
+            <v-row>
+              <v-col><v-skeleton-loader type="card" /></v-col>
+              <v-col><v-skeleton-loader type="card" /></v-col>
+            </v-row>
+          </v-card>
         </v-col>
       </v-row>
     </div>
@@ -57,14 +73,14 @@
 </template>
 
 <script>
-import PageTitle from '@/components/PageTitle.vue';
 import openapiCached from '@/api/openapiCached';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
+import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
   components: {
-    PageTitle,
+    PageTitleFlat,
   },
   data() {
     return {

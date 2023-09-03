@@ -28,11 +28,10 @@
 
 <script>
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
-import PageTitle from '../../components/PageTitle.vue';
 
 export default {
   name: 'Purchase',
-  components: { PageTitleFlat, PageTitle },
+  components: { PageTitleFlat },
   data() {
     return {
       tabs: [

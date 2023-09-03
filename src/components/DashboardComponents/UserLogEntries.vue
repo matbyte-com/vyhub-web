@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="vh-dashboard-logs">
+    <v-card class="vh-dashboard-logs card-rounded" flat>
       <v-card-title>
         <v-icon left>
           mdi-format-list-bulleted
@@ -15,10 +15,8 @@
           </span>
         </v-btn>
       </v-card-title>
-      <v-card-text>
-        <LogTable ref="logTable" type="user" :obj-id="user.id" :show-search="false"
-                  v-if="user != null && logsShown" />
-        <v-skeleton-loader v-else></v-skeleton-loader>
+      <v-card-text v-if="user != null && logsShown">
+        <LogTable ref="logTable" type="user" :obj-id="user.id" :show-search="false"/>
       </v-card-text>
     </v-card>
   </div>

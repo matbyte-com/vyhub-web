@@ -3,6 +3,7 @@
     <ThreadAddDialog ref="addPostDialog"
                      :dialog-title="`${$t('_forum.addPost')}`"
                      @submit="newPost" :hide-title-input="true"/>
+    <!--
     <PageTitle v-if="thread && posts"
                icon="mdi-forum"
                class="mb-5"
@@ -25,7 +26,7 @@
           </v-col>
         </v-row>
       </template>
-    </PageTitle>
+    </PageTitle>-->
     <div v-if="!posts" class="mr-15 ml-15">
       <v-skeleton-loader type="article"/>
       <v-skeleton-loader class="mt-3" type="article"/>
@@ -111,12 +112,10 @@
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 import UserLink from '../components/UserLink.vue';
-import PageTitle from '../components/PageTitle.vue';
 
 export default {
   name: 'Thread',
   components: {
-    PageTitle,
     ThreadAddDialog,
     UserLink,
   },
