@@ -1,6 +1,6 @@
 <template>
   <v-card v-if="user != null" class="vh-email flex-grow-1 d-flex flex-column card-rounded"
-          :flat="flat">
+          :outlined="outlined">
     <v-card-title>
       <v-icon left>mdi-email</v-icon>
       {{ $t('_personalSettings.email') }}
@@ -37,7 +37,7 @@ export default {
   name: 'Email',
   props: {
     user: null,
-    flat: null,
+    outlined: null,
   },
   data() {
     return {

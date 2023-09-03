@@ -1,7 +1,7 @@
 <template>
   <div>
     <RecommendedPacketsCart @cartChanged="fetchData" />
-    <v-row v-if="cartPackets != null" class="mt-4" dense>
+    <v-row v-if="cartPackets != null" class="mt-4" :dense="$vuetify.breakpoint.mdAndDown">
       <!-- Cart packets -->
       <v-col cols="12" lg="8" xl="9">
         <!-- Page Title -->
@@ -50,21 +50,23 @@
           </v-card-text>
         </v-card>
         <!-- Address and Email -->
-        <v-card class="card-rounded mt-3 vh-address-email-cart" v-if="!openPurchase"
-                :class="{ 'card-next-step': billingAddressDrawer === 0 }" flat>
+        <v-card class="card-rounded mt-3 vh-address-email-cart animate__animated"
+                v-if="!openPurchase"
+                :class="{ 'card-next-step': billingAddressDrawer === 0,
+                 animate__headShake:emailWobble === true || addressWobble === true,
+                  'card-error': billingCardError }" flat>
           <v-expansion-panels v-model="billingAddressDrawer" flat>
             <v-expansion-panel>
               <v-expansion-panel-header class="px-5 pb-0 pt-0">
                 <div>
                   <h2 class="text-h6">{{ $t('_shop.labels.billingAddress') }}</h2>
-                  <v-divider v-if="billingAddressDrawer === 0" class="mt-3 mr-5"/>
                 </div>
               </v-expansion-panel-header>
               <v-expansion-panel-content eager>
                 <v-row class="d-flex">
                   <v-col cols="12" sm="6" class="mt-0 pt-0">
                     <!-- Billing address -->
-                    <v-card class="animate__animated vh-cart-address mt-3 card-rounded" flat
+                    <v-card class="animate__animated vh-cart-address mt-3 card-rounded" outlined
                             :class="{animate__headShake:addressWobble === true}">
                       <v-card-title>
                         <v-icon left>mdi-map-marker</v-icon>
@@ -91,7 +93,7 @@
                   <v-col cols="12" sm="6" class="d-flex flex-column mt-0 pt-0">
                     <!-- Email -->
                     <Email ref="emailCard" class="animate__animated card-rounded mt-3"
-                           @user-changed="refreshUser" :flat="true"
+                           @user-changed="refreshUser" :outlined="true"
                            :user="$store.getters.user"
                            :class="{animate__headShake:emailWobble === true}"/>
                   </v-col>
@@ -338,6 +340,7 @@ export default {
       redirectDialog: false,
       generalConfig: null,
       errorMessage: null,
+      billingCardError: null,
     };
   },
   beforeMount() {
@@ -471,6 +474,7 @@ export default {
         });
         this.$refs.addressAddDialog.closeAndReset();
         this.fetchData();
+        this.billingCardError = false;
       }).catch((err) => {
         console.log(err);
         this.$refs.addressAddDialog.setError(err);
@@ -488,13 +492,14 @@ export default {
       // SKip checks when open purchase
       if (this.openPurchase == null) {
         // Check for missing address or email and wobble
-        // TODO Also Wobble Whole Drawer / Expansion Panel
         if (this.currentAddress == null || this.$refs.emailCard.user.email == null) {
           if (this.currentAddress == null) {
             this.addressWobble = true;
+            this.billingCardError = true;
           }
           if (this.$refs.emailCard.user.email == null) {
             this.emailWobble = true;
+            this.billingCardError = true;
           }
           setTimeout(() => {
             this.emailWobble = false;
@@ -503,6 +508,7 @@ export default {
           this.showDetails = true;
           return;
         }
+        this.billingCardError = false;
 
         // Check for missing checkboxes
         await this.$refs.checkboxesForm.validate();
@@ -702,6 +708,11 @@ export default {
   border-style: solid !important
   border-width: 2px !important
   border-color: var(--v-primary-base) !important
+
+.card-error
+  border-style: solid !important
+  border-width: 2px !important
+  border-color: var(--v-error-base) !important
 
 .packet-list-move, .packet-list-enter-active, .packet-list-leave-active
   transition: all 0.5s ease
