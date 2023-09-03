@@ -3,7 +3,6 @@
     <SettingTitle docPath="/guide/shop/packet">
       {{ $t('packets') }}
     </SettingTitle>
-
     <DataTable
       :headers="headers"
       :items="packets"
@@ -13,17 +12,24 @@
       :sort-by="(currentCategory != null ? null : ['category.name'])"
       id="packets-table"
       :showSearch="true">
-      <template slot="header">
-        <v-col xl="9" md="12">
+      <template v-slot:header>
+        <v-col cols="12" xl="9" class="pa-0 ma-0">
           <v-select outlined hide-details dense
+                    :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
                     return-object
                     :label="$t('category')"
                     clearable
                     v-model="currentCategory"
                     :items="categories" item-value="id" item-text="name">
-
           </v-select>
         </v-col>
+      </template>
+      <template v-slot:footer-right>
+        <v-btn outlined color="success" @click="showAddPacketDialog"
+               :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }">
+          <v-icon left>mdi-plus</v-icon>
+          <span>{{ $t('_packet.labels.add') }}</span>
+        </v-btn>
       </template>
       <template v-slot:item.flags="{ item }">
         <div v-if="item.flags.length === 0">
@@ -55,14 +61,6 @@
         </div>
       </template>
     </DataTable>
-    <v-divider class="mb-3"/>
-    <div>
-      <v-btn outlined color="success" @click="showAddPacketDialog"
-             :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }">
-        <v-icon left>mdi-plus</v-icon>
-        <span>{{ $t('_packet.labels.add') }}</span>
-      </v-btn>
-    </div>
     <DialogForm
       ref="addPacketDialog"
       :form-schema="packetSchema"

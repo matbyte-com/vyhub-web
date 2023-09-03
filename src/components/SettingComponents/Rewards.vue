@@ -16,8 +16,7 @@
         </v-btn>
         <v-btn outlined color="primary" @click="$refs.useTemplateDialog.show()"
                style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
-               :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }"
-        >
+               :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }">
           <v-icon left>mdi-bookshelf</v-icon>
           <span>{{ $t('_reward.labels.templates') }}</span>
         </v-btn>

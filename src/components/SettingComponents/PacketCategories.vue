@@ -30,7 +30,8 @@
       </template>
     </DataTable>
     <v-divider class="mb-3"/>
-    <div>
+    <div class="d-flex">
+      <v-spacer />
       <v-btn outlined color="success" @click="$refs.createCategoryDialog.show()"
              :class="{ 'glow-effect':utils.customerJourneyActive('add-category') }">
         <v-icon left>mdi-plus</v-icon>

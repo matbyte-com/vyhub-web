@@ -20,8 +20,7 @@
             hide-details
             outlined
             dense
-            @input="$emit('search', searchModel)"
-          >
+            @input="$emit('search', searchModel)">
             <template v-slot:prepend-inner>
               <v-icon>
                 mdi-magnify
@@ -32,12 +31,7 @@
       </v-row>
     </template>
     <template v-slot:footer.page-text>
-      <v-row>
-        <v-col align-self="center">
-          <slot name="footer-right">
-          </slot>
-        </v-col>
-      </v-row>
+      <slot name="footer-right" />
     </template>
     <template v-for="(_, slot) of inheritSlots" v-slot:[slot]="scope">
       <slot :name="slot" v-bind="scope" />
