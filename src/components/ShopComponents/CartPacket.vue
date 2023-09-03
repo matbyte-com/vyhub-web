@@ -81,7 +81,8 @@
       </template>
     </DialogForm>
     <!-- TODO Make Packet Dialog Available for Cart Packets -->
-    <PacketDetailDialog ref="detailDialog" :packet="cartPacket" />
+    <PacketDetailDialog ref="detailDialog" :cart-packet="true" :packet="cartPacket.packet"
+                        :hide-buy-btns="openPurchase"/>
   </div>
 </template>
 
@@ -103,6 +104,7 @@ export default {
   props: {
     cartPacket: Object,
     showRemove: Boolean,
+    openPurchase: Object,
     priceCols: {
       type: Number,
       default: 3,

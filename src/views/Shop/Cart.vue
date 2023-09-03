@@ -17,7 +17,7 @@
               <CartPacket
                 class="mt-1"
                 v-for="cartPacket in packetsToShow" v-bind:key="cartPacket.id"
-                :cart-packet="cartPacket" :show-remove="!openPurchase"
+                :cart-packet="cartPacket" :show-remove="!openPurchase" :open-purchase="openPurchase"
                 @remove="removeCartPacket(cartPacket.id)"
                 @removeDiscount="removeDiscount(cartPacket.discount.id)"
                 @targetUserChanged="fetchData">
@@ -300,6 +300,7 @@ import AuthService from '@/services/AuthService';
 import RecommendedPacketsCart from '@/components/ShopComponents/RecommendedPacketsCart.vue';
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapiCached from '@/api/openapiCached';
+import EventBus from '@/services/EventBus';
 import openapi from '../../api/openapi';
 import CancelPurchaseConfirmationDialog
   from '../../components/ShopComponents/CancelPurchaseConfirmationDialog.vue';
@@ -343,6 +344,7 @@ export default {
     this.fetchData();
     this.queryAddresses();
     this.fetchShopConfig();
+    EventBus.on('cart-packet-added', this.fetchData);
   },
   methods: {
     async fetchData() {

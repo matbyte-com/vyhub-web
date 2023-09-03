@@ -3,8 +3,6 @@
   <v-dialog
     max-width="800px"
     v-model="dialog">
-    <!-- TODO Better Animation -->
-    <!-- TODO Make Packet Dialog Available for Cart Packets -->
     <v-card v-if="packet" class="card-rounded">
       <v-card-text class="pa-5">
         <v-row>
@@ -44,39 +42,35 @@
               {{ packet.title }}
             </h1>
             <!-- Price -->
-            <div v-if="!packet.custom_price" class="mt-2"
-                 :class="{ 'd-flex justify-center align-center': $vuetify.breakpoint.xs }">
-              <div class="ml-1" style="line-height: 0.9em"
-                   :class="{ 'text-center': $vuetify.breakpoint.xs }">
+            <div v-if="!cartPacket">
+              <div v-if="!packet.custom_price" class="mt-2"
+                   :class="{ 'd-flex justify-center align-center': $vuetify.breakpoint.xs }">
+                <div class="ml-1" style="line-height: 0.9em"
+                     :class="{ 'text-center': $vuetify.breakpoint.xs }">
                 <span class="strikethrough-diagonal mr-2 text--disabled"
                       v-if="packet.discount != null">
                   {{ utils.formatDecimal(packet.price_without_discount.total) }}
                 </span>
-                <span style="color: var(--v-success-base); font-weight: 900; font-size: large">
+                  <span style="color: var(--v-success-base); font-weight: 900; font-size: large">
                   {{ utils.formatDecimal(packet.price_with_discount.total) }}
                   {{ packet.currency.name }}
                 </span>
+                </div>
+                <div v-if="packet.price_with_discount.credits != null"
+                     class="font-weight-bold ml-1 my-auto">
+                  {{ $t('or') }}
+                  {{ packet.price_with_discount.credits }}
+                  {{ $store.getters.shopConfig.credits_display_title }}
+                </div>
               </div>
-              <div v-if="packet.price_with_discount.credits != null"
-                   class="font-weight-bold ml-1 my-auto">
-                {{ $t('or') }}
-                {{ packet.price_with_discount.credits }}
-                {{ $store.getters.shopConfig.credits_display_title }}
-              </div>
+              <span class="font-weight-bold mt-1"
+                    :class="{ 'text-center': $vuetify.breakpoint.xs }" v-else>
+                {{ $t('_packet.messages.customPricePossible') }}
+              </span>
             </div>
-            <span class="font-weight-bold mt-1"
-                  :class="{ 'text-center': $vuetify.breakpoint.xs }" v-else>
-              {{ $t('_packet.messages.customPricePossible') }}
-            </span>
             <!-- Custom Price -->
             <v-spacer />
             <!-- Recurring Packets
-            <div v-if="packet.recurring" class="text-h6 mt-2">
-              <v-icon>mdi-calendar-sync</v-icon>
-              {{ $t('every') }}
-              {{ utils.formatLength(packet.active_for) }}
-            </div>-->
-            <!--
             TODO TAX Rate
             <div class="subtitle-2 font-italic mt-2"
                  v-if="packet.price_with_discount.tax_rate > 0">
@@ -102,7 +96,7 @@
               </p>
             </v-list>-->
             <!-- Buy Button -->
-            <div :class="{ 'mt-7': $vuetify.breakpoint.xs }">
+            <div :class="{ 'mt-7': $vuetify.breakpoint.xs }" v-if="!hideBuyBtns">
               <v-btn color="info" large block
                      v-if="!$store.getters.isLoggedIn"
                      @click="$router.push({ path: $route.path,
@@ -110,7 +104,7 @@
                 <v-icon left>mdi-lock</v-icon>
                 {{ $t('_shop.labels.loginToBuy') }}
               </v-btn>
-              <div v-if="packet.custom_price">
+              <div v-if="packet.custom_price && !cartPacket">
                 <v-form @submit.prevent="addToCart()"
                         class="d-flex align-start mb-2"
                         v-model="minPriceFormValid" ref="minPriceForm">
@@ -183,11 +177,12 @@ import openapi from '@/api/openapi';
 import ShopService from '@/services/ShopService';
 import DialogForm from '@/components/DialogForm.vue';
 import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
+import EventBus from '@/services/EventBus';
 
 export default {
   name: 'PacketDetailDialog',
   components: { DialogForm },
-  props: ['packet'],
+  props: ['packet', 'cartPacket', 'hideBuyBtns'],
   data() {
     return {
       dialog: false,
@@ -202,8 +197,11 @@ export default {
   methods: {
     show() {
       this.dialog = true;
-      this.customPrice = this.packet.price_with_discount.total;
-      this.customCredits = this.packet.price_with_discount.credits;
+      // If not CartPacket
+      if (!this.cartPacket) {
+        this.customPrice = this.packet.price_with_discount.total;
+        this.customCredits = this.packet.price_with_discount.credits;
+      }
     },
     close() {
       this.dialog = false;
@@ -237,6 +235,8 @@ export default {
         });
         this.dialog = false;
         ShopService.refreshCartPacketCount();
+        // Caught in cart
+        EventBus.emit('cart-packet-added');
       }).catch((err) => {
         console.log(err);
 

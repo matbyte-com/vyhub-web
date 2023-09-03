@@ -26,7 +26,7 @@
       <v-card-title class="white--text">
         <div style="width: 24px"/>
         <v-spacer />
-        <strong>{{ selectedCategory.name }}</strong>
+          <strong>{{ selectedCategory.name }}</strong>
         <v-spacer />
         <v-icon color="white">mdi-unfold-more-horizontal</v-icon>
       </v-card-title>
@@ -40,8 +40,7 @@
       <v-card-text>
         <v-tabs v-model="tab" v-if="$vuetify.breakpoint.mdAndUp">
           <v-tab v-for="c in categories" :key="c.id" class="animate__animated"
-                 @click="$router.push({ params: { categoryId: c.id } }); fetchPackets();
-          headlineKey++;">
+                 @click="$router.push({ params: { categoryId: c.id } }); fetchPackets();">
             {{ c.name }}
           </v-tab>
           <span v-if="!categories">
@@ -84,7 +83,6 @@ export default {
       packets: null,
       categories: null,
       navigationDrawer: null,
-      headlineKey: 0,
     };
   },
   beforeMount() {
