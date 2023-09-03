@@ -74,33 +74,33 @@ export default {
       if (this.$vuetify.breakpoint.xs) {
         // eslint-disable-next-line prefer-destructuring
         if (this.perPageCustom) res = this.perPageCustom[0];
-        if (this.numberOfElements < 1) res = this.numberOfElements;
+        else if (this.numberOfElements < 1) res = this.numberOfElements;
         else res = 1;
         res += 0.15;
       }
       if (this.$vuetify.breakpoint.sm) {
         // eslint-disable-next-line prefer-destructuring
         if (this.perPageCustom) res = this.perPageCustom[1];
-        if (this.numberOfElements < 2) res = this.numberOfElements;
+        else if (this.numberOfElements < 2) res = this.numberOfElements;
         else res = 2;
         res += 0.15;
       }
       if (this.$vuetify.breakpoint.md) {
         // eslint-disable-next-line prefer-destructuring
         if (this.perPageCustom) res = this.perPageCustom[2];
-        if (this.numberOfElements < 3) res = this.numberOfElements;
+        else if (this.numberOfElements < 3) res = this.numberOfElements;
         else res = 3;
       }
       if (this.$vuetify.breakpoint.lg) {
         // eslint-disable-next-line prefer-destructuring
         if (this.perPageCustom) res = this.perPageCustom[3];
-        if (this.numberOfElements < 4) res = this.numberOfElements;
+        else if (this.numberOfElements < 4) res = this.numberOfElements;
         else res = 4;
       }
       if (this.$vuetify.breakpoint.xl) {
         // eslint-disable-next-line prefer-destructuring
         if (this.perPageCustom) res = this.perPageCustom[4];
-        if (this.numberOfElements < 4) res = this.numberOfElements;
+        else if (this.numberOfElements < 4) res = this.numberOfElements;
         else res = 4;
       }
       return res;

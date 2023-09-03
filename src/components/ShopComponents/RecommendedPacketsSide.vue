@@ -6,14 +6,14 @@
       <v-divider class="ml-3 mb-1 align-self-end"/>
     </v-card-title>
     <v-card-text>
-      <div>
+      <div v-if="$vuetify.breakpoint.mdAndUp">
         <v-row v-if="recommendedPackets" dense>
           <v-col cols="3" md="6" lg="6" xl="4" v-for="p in recommendedPackets" :key="p.id"
                  class="d-flex">
             <v-card class="card-rounded d-block" width="100%"
                     @click="selectedPacket = p; $refs.detailDialog.show()">
               <v-img :src="p.image_url" :alt="p.title">
-                <div class="d-flex flex-column ml-2 mr-2" style="height: 80px;">
+                <div class="d-flex flex-column ml-3 mr-3" style="height: 80px;">
                   <v-row align="center" justify="center" v-if="p.title_in_image"
                          class="title-in-image text-center white--text text-h6"
                          style="text-shadow: #000000 2px 2px 2px;">
@@ -47,11 +47,13 @@
           </v-col>
         </v-row>
       </div>
-      <div v-if="false">
-        <Swiper :number-of-elements="4" :per-page-custom="perPage">
-          <swiper-slide v-for="p in recommendedPackets" :key="p.id">
-            <PacketCard :flat="true"
-              :small="true" :disable-hover="true" :packet="p" />
+      <div v-else>
+        <Swiper :number-of-elements="recommendedPackets.length" :per-page-custom="[2,3]">
+          <swiper-slide v-for="p in recommendedPackets" :key="p.id" style="height: 300px">
+            <v-card class="card-rounded">
+              <PacketCard :flat="true"
+                          :small="true" :disable-hover="true" :packet="p" />
+            </v-card>
           </swiper-slide>
         </Swiper>
       </div>
@@ -83,14 +85,6 @@ export default {
       (await openapi).shop_getPackets({ recommended: true, limit: 6 }).then((rsp) => {
         this.recommendedPackets = rsp.data;
       });
-    },
-  },
-  computed: {
-    perPage() {
-      if (this.$vuetify.breakpoint.smAndDown) {
-        return 3.15;
-      }
-      return 1;
     },
   },
 };

@@ -1,5 +1,6 @@
 <template>
-  <v-card class="flex-column d-flex vh-packet-card" height="100%"
+  <v-card class="flex-column d-flex vh-packet-card"
+          :class="{'card-rounded': $vuetify.breakpoint.smAndDown}" height="100%"
           :color="flat ? 'transparent' : ''" :flat="flat">
     <v-hover v-slot:default="{ hover }">
       <v-img :src="packet.image_url"
@@ -8,7 +9,8 @@
         <div class="d-flex flex-column" style="height: 100%">
           <v-fade-transition>
             <v-row justify="center" align="center"
-                   class="text-h4 text-center ml-2 mr-2 font-weight-bold title-in-image"
+                   class="text-center ml-2 mr-2 font-weight-bold title-in-image"
+                   :class="$vuetify.breakpoint.smAndDown ? 'text-h6' : 'text-h4'"
                    style="text-shadow: #000000 2px 2px 2px;"
                    v-if="packet.title_in_image &&
               (!hover || packet.abstract == null || packet.abstract.length === 0)">
@@ -79,7 +81,7 @@
     <v-card-text class="vh-packet-card-text flex-grow-1 d-flex flex-column" style="width: inherit">
       <div class="text-center">
         <div>
-          <h6 class="text-h6">
+          <h6 class="text-h6" style="line-height: normal" >
             {{ packet.title }}
           </h6>
         </div>
@@ -89,16 +91,16 @@
           </div>
         </div>
         <!-- Price when small view is activated -->
-        <div v-if="small" class="green--text font-weight-bold">
+        <div v-if="small" class="green--text font-weight-bold mt-1">
         <span v-if="packet.price_with_discount != null">
           {{
             packet.price_with_discount.total
               .toLocaleString(undefined, {minimumFractionDigits: 2})
           }}
           {{ packet.currency.symbol }}
-          <div v-if="packet.recurring" class="pl-1">
+          <span v-if="packet.recurring" class="pl-1">
             / {{ utils.formatLength(packet.active_for) }}
-          </div>
+          </span>
         </span>
           <span v-else-if="packet.credits">
           {{ packet.credits }} {{ $store.getters.shopConfig.credits_display_title }}

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="card-rounded mb-5" v-if="$vuetify.breakpoint.smAndDown">
+    <v-card flat class="card-rounded mb-5" v-if="$vuetify.breakpoint.smAndDown">
       <ShopStatsSide />
     </v-card>
     <v-row>
