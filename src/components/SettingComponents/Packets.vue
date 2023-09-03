@@ -24,17 +24,8 @@
           </v-select>
         </v-col>
       </template>
-      <template v-slot:footer-right>
-        <v-btn outlined color="success" @click="showAddPacketDialog"
-               :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }">
-          <v-icon left>mdi-plus</v-icon>
-          <span>{{ $t('_packet.labels.add') }}</span>
-        </v-btn>
-      </template>
       <template v-slot:item.flags="{ item }">
-        <div v-if="item.flags.length === 0">
-          -
-        </div>
+        <div v-if="item.flags.length === 0">-</div>
         <v-chip v-for="flag in item.flags" :color="flag.color + ' lighten-1'" v-bind:key="flag.text"
                 small class="mr-1">
           {{ flag.text }}
@@ -61,6 +52,14 @@
         </div>
       </template>
     </DataTable>
+    <div class="d-flex">
+      <v-spacer />
+      <v-btn outlined color="success" @click="showAddPacketDialog"
+             :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }">
+        <v-icon left>mdi-plus</v-icon>
+        <span>{{ $t('_packet.labels.add') }}</span>
+      </v-btn>
+    </div>
     <DialogForm
       ref="addPacketDialog"
       :form-schema="packetSchema"

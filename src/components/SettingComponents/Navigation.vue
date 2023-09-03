@@ -7,11 +7,10 @@
                  icon="mdi-content-save" :max-width="1000"
                  :title="$t('_navigation.addCmsPage')"
                  @submit="createCmsPage">
-      <template slot="title-after">
+      <template v-slot:title-after>
         <v-alert
-          type="warning" outlined
-          dense
-        >{{ $t('_navigation.contentSanitizationWarning') }}
+          type="warning" outlined dense>
+          {{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
         <v-expansion-panels flat>
           <v-expansion-panel>
@@ -102,6 +101,7 @@
     <delete-confirmation-dialog ref="deleteNavConfirmationDialog" @submit="deleteNav"/>
     <!-- real Component -->
     <v-select outlined hide-details dense
+              :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
               :label="$t('_navigation.location')"
               clearable class="mt-3"
               v-model="currentLocation" @change="categoryUpdated"

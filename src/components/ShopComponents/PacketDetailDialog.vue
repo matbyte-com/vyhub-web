@@ -110,32 +110,43 @@
                 <v-icon left>mdi-lock</v-icon>
                 {{ $t('_shop.labels.loginToBuy') }}
               </v-btn>
-              <div v-if="packet.custom_price" class="d-flex align-center mb-2">
-                <v-text-field
-                  :style="packet.price_with_discount.credits != null ? 'max-width: 33%' : ''"
-                  v-model="customPrice"
-                  type="number"
-                  hide-details="auto"
-                  :min="packet.price_with_discount.total"
-                  :prefix="packet.currency.symbol"/>
-                <v-text-field
-                  style="max-width: 66%"
-                  class="ml-1"
-                  v-if="packet.price_with_discount.credits != null"
-                  v-model="customCredits"
-                  type="number"
-                  hide-details="auto"
-                  :prefix="$store.getters.shopConfig.credits_display_title"
-                  :min="packet.price_with_discount.credits"/>
+              <div v-if="packet.custom_price">
+                <v-form @submit.prevent="addToCart()"
+                        class="d-flex align-start mb-2"
+                        v-model="minPriceFormValid" ref="minPriceForm">
+                  <v-text-field
+                    @keydown.enter="addToCart()"
+                    :style="packet.price_with_discount.credits != null ? 'max-width: 33%' : ''"
+                    v-model="customPrice"
+                    type="number"
+                    :rules="[v => v >= packet.price_with_discount.total
+                     || $t('_shop.messages.priceMustBeHigherThanMin')]"
+                    hide-details="auto"
+                    :min="packet.price_with_discount.total"
+                    :prefix="packet.currency.symbol"/>
+                  <v-text-field
+                    @keydown.enter="addToCart()"
+                    style="max-width: 66%"
+                    class="ml-1"
+                    v-if="packet.price_with_discount.credits != null"
+                    v-model="customCredits"
+                    type="number"
+                    :rules="[v => v >= packet.price_with_discount.credits
+                     || $t('_shop.messages.priceMustBeHigherThanMin')]"
+                    hide-details="auto"
+                    :prefix="$store.getters.shopConfig.credits_display_title"
+                    :min="packet.price_with_discount.credits"/>
+                </v-form>
               </div>
               <div class="d-flex align-center mb-1">
                 <v-btn color="primary" ref="addToCartBtn" :loading="loading" depressed large
+                       :disabled="!minPriceFormValid"
                        @click="addToCart()" class="cta-btn button-rounded" style="width: 66%">
                   <v-icon left>mdi-cart-arrow-down</v-icon>
                   {{ $t('_shop.labels.addToCart') }}
                 </v-btn>
                 <v-btn color="secondary" class="cta-btn button-rounded ml-1" depressed large
-                       style="width: 33%"
+                       style="width: 33%" :disabled="!minPriceFormValid"
                        @click="$refs.giftPacketDialog.show()">
                   <v-icon>
                     mdi-gift-open
@@ -185,14 +196,12 @@ export default {
       customPrice: null,
       customCredits: null,
       addToCartBtnWidth: 0,
+      minPriceFormValid: true,
     };
   },
   methods: {
     show() {
       this.dialog = true;
-      this.$nextTick(() => {
-        console.log(this.$refs.addToCartBtn.$el.offsetWidth);
-      });
       this.customPrice = this.packet.price_with_discount.total;
       this.customCredits = this.packet.price_with_discount.credits;
     },
@@ -200,6 +209,9 @@ export default {
       this.dialog = false;
     },
     async addToCart(target_user_id = null) {
+      if (!this.minPriceFormValid) {
+        return;
+      }
       const api = await openapi;
 
       this.loading = true;

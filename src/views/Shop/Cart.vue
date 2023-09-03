@@ -213,7 +213,7 @@
             </span>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" depressed block
+            <v-btn color="primary" depressed block class="cta-btn"
                    :disabled="cartPackets.length === 0 && !openPurchase"
                    @click="startCheckout">
               <v-icon left>mdi-cart-arrow-right</v-icon>

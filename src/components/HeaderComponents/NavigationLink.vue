@@ -58,7 +58,7 @@ export default {
         return false;
       }
       const { path } = this.$route;
-      return this.allowedTabs.some((t) => t.link === path);
+      return this.allowedTabs.some((t) => path.includes(t.link));
     },
     lightHeader() {
       return this.$store.getters.theme && this.$store.getters.theme.light_header;
