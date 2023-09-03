@@ -13,12 +13,11 @@
             <v-card class="card-rounded d-block" width="100%"
                     @click="selectedPacket = p; $refs.detailDialog.show()">
               <v-img :src="p.image_url" :alt="p.title">
-                <div class="d-flex flex-column white--text text-h6" style="height: 80px">
-                  <v-row align="center" justify="center" v-if="p.title_in_image">
-                    <div style="margin-bottom: auto;
-                                margin-top: auto; text-shadow: #000000 2px 2px 2px;">
-                      {{ p.title_in_image }}
-                    </div>
+                <div class="d-flex flex-column ml-2 mr-2" style="height: 80px;">
+                  <v-row align="center" justify="center" v-if="p.title_in_image"
+                         class="title-in-image text-center white--text text-h6"
+                         style="text-shadow: #000000 2px 2px 2px;">
+                    {{ p.title_in_image }}
                   </v-row>
                 </div>
               </v-img>

@@ -8,7 +8,7 @@
         <div class="d-flex flex-column" style="height: 100%">
           <v-fade-transition>
             <v-row justify="center" align="center"
-                   class="text-h4 text-center ml-2 mr-2font-weight-bold"
+                   class="text-h4 text-center ml-2 mr-2 font-weight-bold title-in-image"
                    style="text-shadow: #000000 2px 2px 2px;"
                    v-if="packet.title_in_image &&
               (!hover || packet.abstract == null || packet.abstract.length === 0)">
