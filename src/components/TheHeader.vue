@@ -20,7 +20,7 @@
              transition="scale-transition" :width="logo_width" height="50"/>
     </div>
     <!-- Do not overflow on bigger screens -->
-    <div v-if="$vuetify.breakpoint.mdAndUp">
+    <div v-if="$vuetify.breakpoint.mdAndUp" class="mr-1">
       <v-toolbar-title class="ml-3" @click="$router.push('/')">
         {{ communityName }}
       </v-toolbar-title>
