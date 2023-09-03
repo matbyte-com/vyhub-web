@@ -4,7 +4,8 @@
       <div>
         <swiper-container ref="carousel" grid-rows="3"
                           class="" :slides-per-view="perPage"
-                          :per-page="perPage" :key="perPage" :space-between="12">
+                          @slidechange="slideChanged()"
+                          :key="perPage" :space-between="12">
           <slot />
         </swiper-container>
       </div>
@@ -12,7 +13,7 @@
         <div style="position: absolute; z-index: 50; left: -50px; top: 0; height: 100%"
              class="d-flex flex-column">
           <v-spacer />
-          <v-btn :disabled="currentSlide === 0"
+          <v-btn :disabled="isBeginning"
                  fab small depressed outlined
                  @click="prev"><v-icon>mdi-chevron-left</v-icon></v-btn>
           <v-spacer />
@@ -20,7 +21,7 @@
         <div style="position: absolute; z-index: 50; right: -50px; top: 0; height: 100%"
              class="d-flex flex-column">
           <v-spacer />
-        <v-btn :disabled="currentSlide === maxSlides"
+        <v-btn :disabled="isEnd"
                fab small depressed outlined
                @click="next"><v-icon>mdi-chevron-right</v-icon></v-btn>
           <v-spacer />
@@ -32,25 +33,37 @@
 
 <script>
 export default {
+  // TODO Swiper is responsive, but not during a live update of the breakpoint size
+  //  -> Remount needed
   name: 'Swiper',
   props: ['numberOfElements', 'perPageCustom'],
   data() {
     return {
       currentSlide: 0,
       swiperEl: null,
+      isEnd: null,
+      isBeginning: null,
     };
+  },
+  mounted() {
+    this.swiperEl = document.querySelector('swiper-container');
+    this.isEnd = this.swiperEl.swiper.isEnd;
+    this.isBeginning = this.swiperEl.swiper.isBeginning;
   },
   methods: {
     prev() {
-      if (!this.swiperEl) this.swiperEl = document.querySelector('swiper-container');
       this.swiperEl.swiper.slidePrev();
       this.currentSlide = this.swiperEl.swiper.activeIndex;
     },
 
     next() {
-      if (!this.swiperEl) this.swiperEl = document.querySelector('swiper-container');
       this.swiperEl.swiper.slideNext();
       this.currentSlide = this.swiperEl.swiper.activeIndex;
+    },
+    slideChanged() {
+      this.currentSlide = this.swiperEl.activeIndex;
+      this.isEnd = this.swiperEl.swiper.isEnd;
+      this.isBeginning = this.swiperEl.swiper.isBeginning;
     },
   },
   computed: {
