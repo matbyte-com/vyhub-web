@@ -1,7 +1,8 @@
 <template>
-<div>
+<div class="vh-home-join-server">
   <v-row justify="center">
-    <v-col class="d-flex align-center justify-start" v-if="server1 && $vuetify.breakpoint.mdAndUp">
+    <v-col cols="5" lg="4" class="d-flex align-center justify-start"
+           v-if="server1 && $vuetify.breakpoint.mdAndUp">
       <a :href="utils.getConnectionLink(server1)" class="text-decoration-none" target="_blank">
         <div class="d-flex align-center join-link pa-3" :class="{ 'white--text': whiteText }">
           <v-card color="primary"
@@ -16,14 +17,15 @@
         </div>
       </a>
     </v-col>
-    <v-col v-if="server2 || !servers" class="text-center">
+    <v-col cols="3" md="2" lg="4" v-if="server2 || !servers" class="text-center">
       <div v-if="!servers">
         {{ $t('_component.specifyServers') }}
       </div>
-      <v-img height="200" contain :src="imageUrl ? imageUrl : this.$store.getters.theme.logo"
+      <v-img height="200" contain :src="logoUrl ? logoUrl : this.$store.getters.theme.logo"
              :alt="$store.getters.theme.logo" />
     </v-col>
-    <v-col class="d-flex align-center justify-end" v-if="server2 && $vuetify.breakpoint.mdAndUp">
+    <v-col cols="5" lg="4" class="d-flex align-center justify-end"
+           v-if="server2 && $vuetify.breakpoint.mdAndUp">
       <a :href="utils.getConnectionLink(server2)" target="_blank"
          class="text-decoration-none">
         <div class="d-flex align-center justify-end join-link pa-3"
@@ -51,7 +53,7 @@ import vuetify from '@/plugins/vuetify';
 
 export default {
   name: 'JoinServer',
-  props: ['imageUrl', 'servers', 'whiteText'],
+  props: ['logoUrl', 'servers', 'whiteText'],
   data() {
     return {
       fetchedServers: null,
@@ -61,7 +63,6 @@ export default {
     this.fetchData();
   },
   watch: {
-    // TODO Not working correctly
     servers() {
       this.fetchData();
     },
@@ -76,21 +77,26 @@ export default {
       });
     },
     getServerIcon(server) {
-      // TODO fix icons
       if (!server) return null;
       if (server.type === 'GMOD') {
-        return 'mdi-account';
+        return '$gmod';
       }
       if (server.type === 'DISCORD') {
-        return 'mdi-discord';
+        return '$discord';
       }
       if (server.type === 'MINECRAFT') {
         return 'mdi-minecraft';
       }
+      if (server.type === 'FIVEM') {
+        return '$fivem';
+      }
+      if (server.type === 'TEAMSPEAK3') {
+        return '$teamspeak';
+      }
       if (server.icon) {
         return server.icon;
       }
-      return 'https://cdn.discordapp.com/icons/0/0.png';
+      return null;
     },
   },
   computed: {
@@ -98,7 +104,7 @@ export default {
       return features;
     },
     server1() {
-      if (!this.servers) return null;
+      if (!this.servers || this.servers.length === 1) return null;
       if (this.fetchedServers) {
         return this.fetchedServers.find((s) => s.id === this.servers[0]);
       }
@@ -106,8 +112,9 @@ export default {
     },
     server2() {
       if (!this.servers) return null;
-      if (this.servers.length < 2) {
-        return this.server1;
+      if (this.servers.length < 2 && this.fetchedServers) {
+        // Return Server 1
+        return this.fetchedServers.find((s) => s.id === this.servers[0]);
       }
       if (this.fetchedServers) {
         return this.fetchedServers.find((s) => s.id === this.servers[1]);
@@ -129,6 +136,10 @@ export default {
 
 .join-btn {
   filter: brightness(100%);
+}
+
+a {
+  color: inherit;
 }
 
 </style>

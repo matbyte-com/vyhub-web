@@ -24,6 +24,7 @@ export default {
             title: i18n.t('subtitle'),
             type: 'string',
             'x-cols': 6,
+            'x-class': 'pl-1',
           },
           logoUrl: {
             title: i18n.t('_theme.logoURL'),
@@ -62,6 +63,7 @@ export default {
             'x-props': {
               clearable: true,
             },
+            'x-class': 'pl-1',
           },
           whiteText: {
             type: 'boolean',
@@ -127,16 +129,17 @@ export default {
           },
           whiteText: {
             type: 'boolean',
-            title: i18n.t('whiteText'),
+            title: i18n.t('_component.whiteText'),
             'x-cols': 6,
             'x-display': 'switch',
+            'x-class': 'mt-5',
             'x-props': {
               'hide-details': 'auto',
             },
             default: true,
           },
           height: {
-            title: 'height',
+            title: i18n.t('_component._form.height'),
             type: 'number',
             'x-cols': 6,
           },
@@ -246,8 +249,8 @@ export default {
             'x-itemKey': 'id',
             'x-itemTitle': 'name',
           },
-          imageUrl: {
-            title: i18n.t('imageURL'),
+          logoUrl: {
+            title: i18n.t('_theme.logoURL'),
             type: 'string',
             'x-props': {
               clearable: true,

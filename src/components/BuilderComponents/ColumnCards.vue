@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vh-home-features">
     <v-row justify="center">
       <v-col cols="6" md="4" lg="3" v-for="(card, index) in cards" :key="index" class="d-flex">
         <v-card class="grow-on-hover feature-card flex-grow-1">

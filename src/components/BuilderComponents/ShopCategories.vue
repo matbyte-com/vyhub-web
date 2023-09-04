@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vh-home-shop-categories">
     <v-row justify="center" v-if="categories">
       <v-col cols="11" sm="10" md="10" lg="9" xl="8"
              style="position: relative">

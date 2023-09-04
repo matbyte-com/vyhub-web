@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vh-home-news-preview">
     <v-row v-if="news.length > 0" justify="center">
       <v-col cols="12" md="6" lg="5"
              class="d-flex align-content-space-between" v-if="getNewsOfTheDay.length > 0">

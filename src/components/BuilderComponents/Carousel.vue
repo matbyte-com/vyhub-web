@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vh-home-carousel">
     <v-carousel hide-delimiters :height="height ? height : '500px'">
       <v-carousel-item v-for="slide in slides" :key="slide.title + slide.imageUrl"
                        :src="slide.imageUrl">

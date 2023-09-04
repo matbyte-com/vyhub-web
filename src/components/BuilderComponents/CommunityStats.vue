@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex flex-row flex-wrap justify-center">
+    <div class="d-flex flex-row flex-wrap justify-center vh-home-community-stats">
       <v-card v-for="stat in stats" :key="stat.title"
               class="ml-3 mt-3 stat-card card-rounded" hover>
         <v-card-text class="d-flex align-center">

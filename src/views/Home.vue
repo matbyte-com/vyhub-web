@@ -33,7 +33,8 @@
       bottom
       width="400px"
       temporary>
-      <v-list-item class="elevation-3" dense style="margin-top: 64px">
+      <v-list-item class="elevation-3" dense
+                   :style="$vuetify.breakpoint.lgAndUp ? 'margin-top: 64px' : '' ">
         <v-list-item-content>
           <v-list-item-title class="d-flex align-center">
             {{ $t('_component.components') }}
@@ -200,7 +201,7 @@ export default {
       // Add all promises to the promises array
       const promises = [];
       this.blocks.forEach((b) => {
-        if (b.new) {
+        if (b.new && !b.deleted) {
           const p = api.design_createSection(null, b).then((rsp) => {
             console.log('Section Created');
             // eslint-disable-next-line no-param-reassign
@@ -209,7 +210,7 @@ export default {
             b.id = rsp.data.id;
           });
           promises.push(p);
-        } else if (b.edited) {
+        } else if (b.edited && !b.new) {
           const p = api.design_editSection(b.id, b).then((rsp) => {
             console.log('Section Edited');
           });
@@ -282,6 +283,7 @@ export default {
             type: 'string',
             title: this.$t('subtitle'),
             'x-cols': 6,
+            'x-class': 'pl-1',
           },
           height: {
             type: 'string',
@@ -298,6 +300,7 @@ export default {
               clearable: true,
             },
             default: true,
+            'x-class': 'mt-5',
           },
           imageUrl: {
             type: 'string',

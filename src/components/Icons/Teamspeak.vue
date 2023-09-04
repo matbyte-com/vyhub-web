@@ -7,7 +7,7 @@ export default {
 };
 </script>
 
-<style  lang="sass">
+<style scoped lang="sass">
 .ts3
   fill: currentColor
 </style>

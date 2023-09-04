@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="vh-home-discord">
   <v-row class="justify-center">
     <v-col class="d-flex align-center"
            :class="{ 'order-2 justify-start': inverted && $vuetify.breakpoint.mdAndUp,

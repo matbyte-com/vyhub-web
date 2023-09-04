@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="vh-home-wrapper">
     <div class="no-wrap" v-if="no_wrap" :style="`background-color: ${backgroundColor}`">
       <slot />
     </div>
     <v-card flat tile :color="backgroundColor" :img="imageUrl" :height="height"
             class="wrapper-card transparent" v-else>
       <div class="pt-3 pb-3" :style="{ backgroundColor: getBackgroundColor }">
-        <v-container class="d-flex align-center justify-center wrapper-container">
+        <v-container class="d-flex align-center justify-center wrapper-container pt-0 mt-0">
           <div>
             <div class="text-center">
               <h2 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h2>

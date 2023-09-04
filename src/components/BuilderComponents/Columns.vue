@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="vh-home-columns">
     <v-row justify="center">
       <v-col v-for="(column, index) in columns" :key="index">
         <div class="d-flex justify-center align-center">
           <div>
             <div v-if="column.title"><h3 class="text-h3">{{ column.title }}</h3></div>
-            <div v-if="column.imageUrl"><v-img :src="column.imageUrl" :alt="column.title" contain
-                                               :max-width="maxImageWidth"/></div>
+            <div v-if="column.imageUrl">
+              <v-img :src="column.imageUrl" :alt="column.title" contain :max-width="maxImageWidth"
+                     style="border-radius: 3px"/>
+            </div>
             <div v-if="column.content" v-html="column.content"
                  :style="`max-width: ${getMaxContentWidth}`" />
           </div>

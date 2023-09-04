@@ -61,12 +61,14 @@ export default {
       title: i18n.t('_shop.labels.topDonatorDisplayTitle'),
       default: 'Donation Goal',
       'x-cols': 4,
+      'x-class': 'pl-1',
     },
     last_donators_display_title: {
       type: 'string',
       title: i18n.t('_shop.labels.lastDonatorsDisplayTitle'),
       default: 'Donation Goal',
       'x-cols': 4,
+      'x-class': 'pl-1',
     },
     tax_allow_unknown: {
       type: 'boolean',

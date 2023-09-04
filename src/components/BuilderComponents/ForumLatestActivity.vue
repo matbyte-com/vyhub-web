@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="vh-home-forum-activity">
 <v-row justify="center">
   <v-col class="d-flex" cols="11" sm="6" lg="5">
     <v-card v-if="latestPosts"
@@ -50,14 +50,14 @@
       </v-card-title>
       <v-divider class="ml-3 mr-3"/>
       <v-list dense>
-        <v-list-item v-for="thread in latestThreads" :key="thread.id" class="listItem"
+        <v-list-item v-for="thread in latestThreads" :key="thread.id" class="listItem pt-0 pb-0"
                      :to="{ name: 'ForumThread', params: { id: thread.id } }">
           <v-list-item-content>
             <div class="d-flex">
               <router-link
                 :to="{ name: 'UserDashboard',
                            params: { id: thread.creator.id } }">
-                <v-avatar class="ma-1 mr-2" size="35">
+                <v-avatar class="ma-1 mr-2" size="30">
                   <v-img :src="thread.creator.avatar"/>
                 </v-avatar>
               </router-link>

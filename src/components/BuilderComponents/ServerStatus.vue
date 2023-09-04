@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="vh-home-server-status">
     <v-row justify="center">
-      <v-col cols="6" sm="4" md="4" lg="3" xl="2" v-for="s in servers" :key="s.id" >
+      <v-col cols="12" sm="4" md="4" lg="3" xl="2" v-for="s in servers" :key="s.id" >
         <v-card class="card-rounded" hover>
           <v-img :src="getImage(s)" :alt="s.name"/>
           <v-card-text class="d-flex flex-column" style="min-height: 172px" >
@@ -37,8 +37,9 @@
             </div>
             <v-spacer />
             <div class="d-flex justify-center align-center mt-3">
-              <v-btn v-if="s.status === 'ONLINE'" outlined :href="utils.getConnectionLink(s)"
-                     @click="utils.copyServerAddress(s)" class="vh-connect-btn">
+              <v-btn v-if="s.status === 'ONLINE' && $vuetify.breakpoint.mdAndUp"
+                     outlined :href="utils.getConnectionLink(s)" color="primary"
+                     @click="utils.copyServerAddress(s)" class="cta-btn">
                 <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
                   <v-icon left>mdi-connection</v-icon>
                   <div>{{ $t('connect') }}</div>
@@ -48,13 +49,15 @@
                   <div>{{ $t('copy') }}</div>
                 </div>
               </v-btn>
-              <v-btn class="ml-1"
+              <v-btn class="ml-1 cta-btn"
                      v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
-                     :to="{ name: 'ServerDashboard', params: { id: s.id } }"
-                     outlined><v-icon>mdi-badge-account-horizontal</v-icon></v-btn>
+                     :to="{ name: 'ServerDashboard', params: { id: s.id } }" outlined>
+                <v-icon :left="$vuetify.breakpoint.smAndDown">mdi-badge-account-horizontal</v-icon>
+                <span v-if="$vuetify.breakpoint.smAndDown">{{ $t('dashboard') }}</span>
+              </v-btn>
               <v-chip v-if="s.status === 'OFFLINE'" color="error" outlined label>
                 <v-icon small left>mdi-alert-circle</v-icon>
-                __Offline
+                {{ $t('_server.labels.offline') }}
               </v-chip>
             </div>
           </v-card-text>
@@ -68,7 +71,6 @@
 import openapiCached from '@/api/openapiCached';
 
 export default {
-  // TODO Improve small screen size
   name: 'ServerStatus',
   data() {
     return {
@@ -84,13 +86,6 @@ export default {
     async fetchData() {
       (await openapiCached).server_getServers().then((rsp) => {
         this.servers = rsp.data;
-        this.servers[0].status = 'ONLINE';
-        this.servers[0].map = null;
-        this.servers[1].status = 'ONLINE';
-        this.servers[0].type = 'MINECRAFT';
-        this.servers[1].type = 'GMOD';
-        this.servers[0].current_players = 1;
-        // this.servers.push(rsp.data[0]);
       });
       (await openapiCached).server_getBundles().then((rsp) => {
         this.bundles = rsp.data;
@@ -110,6 +105,8 @@ export default {
           return 'https://cdn.vyhub.net/central/games/discord.png';
         case 'RUST':
           return 'https://cdn.steamstatic.com/steam/apps/252490/header.jpg';
+        case 'FiveM':
+          return 'https://cdn.steamstatic.com/steam/apps/252490/header.jpg';
         default:
           return 'https://cdn.vyhub.net/central/games/teamspeak.jpeg';
       }
@@ -125,13 +122,4 @@ export default {
 </script>
 
 <style scoped>
-.vh-connect-btn {
-  transition: all 0.2s ease-in-out;
-}
-
-.vh-connect-btn:hover i{
-  text-decoration: none;
-  color: var(--v-primary-base);
-  transform: scale(1.1);
-}
 </style>

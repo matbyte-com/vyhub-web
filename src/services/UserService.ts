@@ -2,7 +2,7 @@ export default {
   userTypeIcons: {
     CENTRAL: '$vyhub',
     STEAM: 'mdi-steam',
-    DISCORD: 'mdi-discord',
+    DISCORD: '$discord',
     MINECRAFT: 'mdi-minecraft',
     TEAMSPEAK3: '$teamspeak',
   },

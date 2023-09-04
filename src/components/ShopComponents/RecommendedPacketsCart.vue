@@ -5,7 +5,7 @@
     <h2 class="text-h6">{{ $t('_shop.labels.recommended') }}</h2>
   </v-card-title>
   <v-card-text>
-    <Swiper :number-of-elements="recommendedPackets.length" :per-page-custom="[1,1,3,3,3]">
+    <Swiper :number-of-elements="recommendedPackets.length" :per-page-custom="[1,2,2,3,3]">
       <swiper-slide v-for="p in recommendedPackets" :key="p.id" style="height: 85px;">
         <v-card class="card-rounded d-block" height="80px" width="100%"
                 @click="selectedPacket = p; $refs.detailDialog.show()">
@@ -41,7 +41,6 @@
                 </span>
                 <v-spacer v-if="p.price_with_discount.total === p.price_without_discount.total"/>
                 <v-icon @click.stop="addToCart(p.id)" class="cart-add-animation ml-1"
-                        v-if="p.price_with_discount.total === p.price_without_discount.total"
                         color="primary">mdi-cart-plus</v-icon>
               </div>
             </div>
