@@ -48,7 +48,6 @@ export default {
   },
   mounted() {
     this.swiperEl = document.querySelector('swiper-container');
-    console.log(this.swiperEl.swiper);
     this.isEnd = this.swiperEl.swiper.isEnd;
     this.isBeginning = this.swiperEl.swiper.isBeginning;
     this.isLocked = this.swiperEl.swiper.isLocked;
