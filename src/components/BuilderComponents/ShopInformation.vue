@@ -1,11 +1,16 @@
 <template>
   <div>
     <v-row justify="center">
-      <v-col cols="8" md="6" lg="5" v-if="$store.getters.shopConfig.donation_goal_enabled">
-        <DonationGoal class="grow-on-hover"/>
+      <v-col cols="8" md="6" lg="5" v-if="$store.getters.shopConfig.donation_goal_enabled"
+             class="d-flex">
+        <v-card class="card-rounded pt-2 px-2 flex-grow-1" hover>
+          <DonationGoal text-classes="mt-3"/>
+        </v-card>
       </v-col>
       <v-col cols="8" md="6" lg="5" v-if="$store.getters.shopConfig.top_donators_enabled">
-        <TopDonators class="grow-on-hover" />
+        <v-card class="card-rounded pt-2 px-2" hover>
+          <TopDonators  />
+        </v-card>
       </v-col>
     </v-row>
   </div>
@@ -23,11 +28,5 @@ export default {
 </script>
 
 <style scoped>
-.grow-on-hover {
-  transition: all .2s ease-in-out;
-}
-.grow-on-hover:hover {
-  transform: scale(1.02);
-}
 
 </style>

@@ -6,7 +6,7 @@
         <CardTitle :no-icon="noIcon" :centered="centerHeadline"
                    :title="shopConfig.donation_goal_display_title" icon="mdi-flag-checkered"/>
       </v-card-title>
-      <v-card-text style="width: inherit">
+      <v-card-text style="width: inherit" :class="textClasses">
         <v-progress-linear striped :value="donationProgress" height="20" class="progress-bar">
         <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
           {{ donationProgress }}%
@@ -33,7 +33,7 @@ import CardTitle from '@/components/CardTitle.vue';
 export default {
   name: 'DonationGoal.vue',
   components: { CardTitle },
-  props: ['noIcon', 'noTitle', 'centerHeadline'],
+  props: ['noIcon', 'noTitle', 'centerHeadline', 'textClasses'],
   data() {
     return {
       donationGoal: null,

@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  // TODO Explain how to use Vue Axios
   name: 'RawHtml',
   props: ['html'],
 };

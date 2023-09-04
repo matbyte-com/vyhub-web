@@ -1,64 +1,66 @@
 <template>
   <div>
-    <div class="d-flex flex-row flex-wrap justify-center">
-      <v-card width="300px" v-for="s in servers" :key="s.id" class="ma-2" hover>
-        <v-img :src="getImage(s)" :alt="s.name"/>
-        <v-card-text class="d-flex flex-column" style="min-height: 172px" >
-          <div class="text-center text-h6 mb-3">
-            {{ s.name }}
-          </div>
-          <v-spacer />
-          <div v-if="s.users_current != null && s.status === 'ONLINE'">
-            <div class="d-flex align-center">
-              <v-icon left>mdi-account-multiple</v-icon>
-              <v-progress-linear rounded :value="getPlayerOnlineProgress(s)" height="18"
-                                 class="white--text">
-                <strong>
+    <v-row justify="center">
+      <v-col cols="6" sm="4" md="4" lg="3" xl="2" v-for="s in servers" :key="s.id" >
+        <v-card class="card-rounded" hover>
+          <v-img :src="getImage(s)" :alt="s.name"/>
+          <v-card-text class="d-flex flex-column" style="min-height: 172px" >
+            <div class="text-center text-h6 mb-3">
+              {{ s.name }}
+            </div>
+            <v-spacer />
+            <div v-if="s.users_current != null && s.status === 'ONLINE'">
+              <div class="d-flex align-center">
+                <v-icon left>mdi-account-multiple</v-icon>
+                <v-progress-linear rounded :value="getPlayerOnlineProgress(s)" height="18"
+                                   class="white--text">
+                  <strong>
                   <span v-if="s.users_current != null && s.status === 'ONLINE'">
                     {{ s.users_current }}
                   </span>
                     <span v-else>
                     ?
                   </span>
-                  /
-                  <span v-if="s.users_max != null">
+                    /
+                    <span v-if="s.users_max != null">
                     {{ s.users_max }}
                   </span>
-                  <span v-else>
+                    <span v-else>
                     ?
                   </span>
-                </strong>
-              </v-progress-linear>
+                  </strong>
+                </v-progress-linear>
+              </div>
             </div>
-          </div>
-          <div>
-            <v-icon v-if="s.map" left>mdi-map</v-icon>{{ s.map }}
-          </div>
-          <v-spacer />
-          <div class="d-flex justify-center align-center mt-3">
-            <v-btn v-if="s.status === 'ONLINE'" outlined :href="utils.getConnectionLink(s)"
-                   @click="utils.copyServerAddress(s)" class="vh-connect-btn">
-              <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
-                <v-icon left>mdi-connection</v-icon>
-                <div>{{ $t('connect') }}</div>
-              </div>
-              <div v-else class="d-flex align-center">
-                <v-icon left>mdi-content-copy</v-icon>
-                <div>{{ $t('copy') }}</div>
-              </div>
-            </v-btn>
-            <v-btn class="ml-1"
-                   v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
-                   :to="{ name: 'ServerDashboard', params: { id: s.id } }"
-                   outlined><v-icon>mdi-badge-account-horizontal</v-icon></v-btn>
-            <v-chip v-if="s.status === 'OFFLINE'" color="error" outlined label>
-              <v-icon small left>mdi-alert-circle</v-icon>
-              __Offline
-            </v-chip>
-          </div>
-        </v-card-text>
-      </v-card>
-    </div>
+            <div>
+              <v-icon v-if="s.map" left>mdi-map</v-icon>{{ s.map }}
+            </div>
+            <v-spacer />
+            <div class="d-flex justify-center align-center mt-3">
+              <v-btn v-if="s.status === 'ONLINE'" outlined :href="utils.getConnectionLink(s)"
+                     @click="utils.copyServerAddress(s)" class="vh-connect-btn">
+                <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
+                  <v-icon left>mdi-connection</v-icon>
+                  <div>{{ $t('connect') }}</div>
+                </div>
+                <div v-else class="d-flex align-center">
+                  <v-icon left>mdi-content-copy</v-icon>
+                  <div>{{ $t('copy') }}</div>
+                </div>
+              </v-btn>
+              <v-btn class="ml-1"
+                     v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
+                     :to="{ name: 'ServerDashboard', params: { id: s.id } }"
+                     outlined><v-icon>mdi-badge-account-horizontal</v-icon></v-btn>
+              <v-chip v-if="s.status === 'OFFLINE'" color="error" outlined label>
+                <v-icon small left>mdi-alert-circle</v-icon>
+                __Offline
+              </v-chip>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -95,6 +97,7 @@ export default {
       });
     },
     getImage(s) {
+      // TODO Put Pictures into cdn
       if (s.imageUrl != null) return s.imageUrl;
       switch (s.type) {
         case 'MINECRAFT':

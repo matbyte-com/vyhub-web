@@ -28,18 +28,20 @@
               </h3>
               <v-spacer />
               <div class="d-flex align-end">
-          <span class="strikethrough-diagonal text--disabled mr-2"
-                v-if="p.price_with_discount.total !== p.price_without_discount.total">
-            {{ utils.formatDecimal(p.price_without_discount.total) }}
-            {{ p.currency.symbol }}
-          </span>
+                <span class="strikethrough-diagonal text--disabled mr-2"
+                        v-if="p.price_with_discount.total !== p.price_without_discount.total">
+                  {{ utils.formatDecimal(p.price_without_discount.total) }}
+                  {{ p.currency.symbol }}
+                </span>
+                <v-spacer v-if="p.price_with_discount.total !== p.price_without_discount.total"/>
                 <span class="primary--text" style="font-size: large">
-            {{ p.price_with_discount.total
-                  .toLocaleString(undefined, {minimumFractionDigits: 2})}}
-            {{ p.currency.symbol }}
-          </span>
-                <v-spacer />
-                <v-icon @click.stop="addToCart(p.id)" class="cart-add-animation"
+                  {{ p.price_with_discount.total
+                        .toLocaleString(undefined, {minimumFractionDigits: 2})}}
+                  {{ p.currency.symbol }}
+                </span>
+                <v-spacer v-if="p.price_with_discount.total === p.price_without_discount.total"/>
+                <v-icon @click.stop="addToCart(p.id)" class="cart-add-animation ml-1"
+                        v-if="p.price_with_discount.total === p.price_without_discount.total"
                         color="primary">mdi-cart-plus</v-icon>
               </div>
             </div>

@@ -2,7 +2,8 @@
 <div>
 <v-row justify="center">
   <v-col class="d-flex" cols="11" sm="6" lg="5">
-    <v-card v-if="latestPosts" class="vh-forum-latest-posts flex-grow-1 flex-column d-flex">
+    <v-card v-if="latestPosts"
+            class="vh-forum-latest-posts flex-grow-1 flex-column d-flex card-rounded">
       <v-card-title style="word-break: break-word">
         <CardTitle icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
       </v-card-title>
@@ -42,7 +43,7 @@
     </v-card>
   </v-col>
   <v-col class="d-flex" cols="11" sm="6" lg="5">
-    <v-card class="vh-forum-latest-threads flex-grow-1 flex-column d-flex"
+    <v-card class="vh-forum-latest-threads flex-grow-1 flex-column d-flex card-rounded"
             v-if="latestThreads">
       <v-card-title style="word-break: break-word">
         <CardTitle icon="mdi-forum" :title="$t('_forum.latestThreads')"/>

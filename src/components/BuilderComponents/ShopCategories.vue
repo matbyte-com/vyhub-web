@@ -3,11 +3,11 @@
     <v-row justify="center" v-if="categories">
       <v-col cols="11" sm="10" md="10" lg="9" xl="8"
              style="position: relative">
-        <Swiper :number-of-elements="categories.length">
+        <Swiper :number-of-elements="categories.length" :per-page-custom="[1,2,3,3,3]">
           <swiper-slide style="height: 100%"
                         v-for="category in categories" :key="category.id">
-            <v-card class="grow-on-hover
-          img-hover-zoom mx-auto overflow-hidden mt-3 mb-3">
+            <v-card class="img-hover-zoom overflow-hidden mt-3 mb-3 card-rounded" hover
+                    :to="{ name: 'ShopCategory', params: { categoryId: category.id} }">
               <div style="overflow: hidden">
                 <v-img style="width: 100%" :aspect-ratio="2"
                        :src="category.image_url" :alt="category.name" />

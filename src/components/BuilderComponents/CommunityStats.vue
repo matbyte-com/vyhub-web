@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="d-flex flex-row flex-wrap justify-center">
-      <v-card v-for="stat in stats" :key="stat.title" class="ml-3 mt-3 stat-card" flat>
+      <v-card v-for="stat in stats" :key="stat.title"
+              class="ml-3 mt-3 stat-card card-rounded" hover>
         <v-card-text class="d-flex align-center">
           <div>
             <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
@@ -28,26 +29,25 @@ export default {
     },
   },
   data() {
-    // TODO Translate
     return {
       stats: [
         {
-          title: 'Online Players',
+          title: this.$t('_component.onlinePlayers'),
           key: 'online_players',
           icon: 'mdi-gamepad-right',
         },
         {
-          title: 'Active Spieler',
+          title: this.$t('_component.activePlayers'),
           key: 'active_users',
           icon: 'mdi-account-clock-outline',
         },
         {
-          title: 'Registered Players',
+          title: this.$t('_component.registeredPlayers'),
           key: 'registered_players',
           icon: 'mdi-account-group',
         },
         {
-          title: 'Hours Played',
+          title: this.$t('_component.hoursPlayed'),
           key: 'hours_played',
           icon: 'mdi-clock-fast',
         },

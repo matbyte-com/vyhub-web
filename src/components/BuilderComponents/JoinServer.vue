@@ -61,6 +61,7 @@ export default {
     this.fetchData();
   },
   watch: {
+    // TODO Not working correctly
     servers() {
       this.fetchData();
     },
