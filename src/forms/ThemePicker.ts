@@ -9,12 +9,17 @@ function returnForm() {
       'dark',
     ],
     properties: {
+      enable_landingpage: {
+        type: 'boolean',
+        title: i18n.t('_theme.enable_landingpage'),
+        'x-display': 'switch',
+      },
       header: common.colorPicker('_theme.headerColor'),
       light_header: {
         type: 'boolean',
         title: i18n.t('_theme.lightHeaderColor'),
         'x-display': 'switch',
-        'x-props': 6,
+        'x-cols': 6,
       },
       footer: common.colorPicker('_theme.footerColor'),
       primary: common.colorPicker('_theme.primaryColor'),

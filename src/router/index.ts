@@ -11,6 +11,11 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
+    name: 'Start',
+    component: () => import('../views/Start.vue'),
+  },
+  {
+    path: '/home',
     name: 'Home',
     meta: { noContainer: true },
     component: () => import('../views/Home.vue'),

@@ -197,6 +197,7 @@ export default Vue.extend({
           cachedTheme.show_community_name = theme.show_community_name;
           cachedTheme.logo_width = theme.logo_width;
           cachedTheme.custom_css = theme.custom_css;
+          cachedTheme.enable_landingpage = theme.enable_landingpage;
 
           // save theme to VueX
           this.$store.commit('SET_THEME', cachedTheme);
