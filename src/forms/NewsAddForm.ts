@@ -31,16 +31,16 @@ function returnForm() {
       },
       type: {
         type: 'string',
-        title: i18n.t('_home.messageType'),
+        title: i18n.t('type'),
         default: 'DEFAULT',
         oneOf: [
           {
             const: 'DEFAULT',
-            title: i18n.t('_home.messageTypeNews'),
+            title: i18n.t('_home.news'),
           },
           {
             const: 'PINNED',
-            title: i18n.t('_home.messageTypePinned'),
+            title: i18n.t('_home.newsOfTheDay'),
           },
         ],
       },
