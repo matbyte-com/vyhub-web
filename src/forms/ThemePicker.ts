@@ -40,8 +40,13 @@ function returnForm() {
           clearable: true,
           placeholder: i18n.t('_settings.httpPlaceholder'),
         },
+        'x-cols': 6,
       },
-      background: common.colorPicker('_theme.backgroundColor', '_theme.backgroundColorDescription'),
+      background: {
+        ...common.colorPicker('_theme.backgroundColor', '_theme.backgroundColorDescription'),
+        'x-class': 'ml-5 mt-3',
+        'x-cols': 5,
+      },
       logo: {
         type: 'string',
         title: i18n.t('_theme.logoURL'),
@@ -51,6 +56,7 @@ function returnForm() {
           placeholder: i18n.t('_settings.httpPlaceholder'),
         },
         description: i18n.t('_theme.logoDescription'),
+        'x-cols': 6,
       },
       logo_width: {
         type: 'integer',
@@ -61,6 +67,8 @@ function returnForm() {
         'x-props': {
           'thumb-label': 'always',
         },
+        'x-class': 'ml-5 mt-5',
+        'x-cols': 5,
       },
       show_community_name: {
         type: 'boolean',
