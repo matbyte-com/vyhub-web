@@ -9,8 +9,8 @@
           <slot />
         </swiper-container>
       </div>
-      <span v-if="$vuetify.breakpoint.mdAndUp">
-        <div style="position: absolute; z-index: 50; left: -50px; top: 0; height: 100%"
+      <span v-if="$vuetify.breakpoint.mdAndUp && !isLocked">
+        <div style="position: absolute; z-index: 5; left: -50px; top: 0; height: 100%"
              class="d-flex flex-column">
           <v-spacer />
           <v-btn :disabled="isBeginning"
@@ -18,7 +18,7 @@
                  @click="prev"><v-icon>mdi-chevron-left</v-icon></v-btn>
           <v-spacer />
         </div>
-        <div style="position: absolute; z-index: 50; right: -50px; top: 0; height: 100%"
+        <div style="position: absolute; z-index: 5; right: -50px; top: 0; height: 100%"
              class="d-flex flex-column">
           <v-spacer />
         <v-btn :disabled="isEnd"
@@ -43,12 +43,15 @@ export default {
       swiperEl: null,
       isEnd: null,
       isBeginning: null,
+      isLocked: null,
     };
   },
   mounted() {
     this.swiperEl = document.querySelector('swiper-container');
+    console.log(this.swiperEl.swiper);
     this.isEnd = this.swiperEl.swiper.isEnd;
     this.isBeginning = this.swiperEl.swiper.isBeginning;
+    this.isLocked = this.swiperEl.swiper.isLocked;
   },
   methods: {
     prev() {
@@ -73,43 +76,30 @@ export default {
       let res = 1;
       if (this.$vuetify.breakpoint.xs) {
         // eslint-disable-next-line prefer-destructuring
-        if (this.perPageCustom) res = this.perPageCustom[0];
-        else if (this.numberOfElements < 1) res = this.numberOfElements;
-        else res = 1;
+        res = this.perPageCustom[0];
         res += 0.15;
       }
       if (this.$vuetify.breakpoint.sm) {
         // eslint-disable-next-line prefer-destructuring
-        if (this.perPageCustom) res = this.perPageCustom[1];
-        else if (this.numberOfElements < 2) res = this.numberOfElements;
-        else res = 2;
+        res = this.perPageCustom[1];
         res += 0.15;
       }
       if (this.$vuetify.breakpoint.md) {
         // eslint-disable-next-line prefer-destructuring
-        if (this.perPageCustom) res = this.perPageCustom[2];
-        else if (this.numberOfElements < 3) res = this.numberOfElements;
-        else res = 3;
+        res = this.perPageCustom[2];
       }
       if (this.$vuetify.breakpoint.lg) {
         // eslint-disable-next-line prefer-destructuring
-        if (this.perPageCustom) res = this.perPageCustom[3];
-        else if (this.numberOfElements < 4) res = this.numberOfElements;
-        else res = 4;
+        res = this.perPageCustom[3];
       }
       if (this.$vuetify.breakpoint.xl) {
         // eslint-disable-next-line prefer-destructuring
-        if (this.perPageCustom) res = this.perPageCustom[4];
-        else if (this.numberOfElements < 4) res = this.numberOfElements;
-        else res = 4;
+        res = this.perPageCustom[4];
+      }
+      if (res > this.numberOfElements) {
+        res = this.numberOfElements;
       }
       return res;
-    },
-    maxSlides() {
-      if (!this.numberOfElements) return 0;
-      const quotient = this.numberOfElements / this.perPage;
-      if (quotient <= 1) return 0;
-      return Math.floor(quotient - 1);
     },
   },
 };
