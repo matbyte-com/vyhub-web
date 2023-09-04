@@ -57,7 +57,6 @@ export default {
       this.swiperEl.swiper.slidePrev();
       this.currentSlide = this.swiperEl.swiper.activeIndex;
     },
-
     next() {
       this.swiperEl.swiper.slideNext();
       this.currentSlide = this.swiperEl.swiper.activeIndex;

@@ -16,10 +16,10 @@
           </template>
         </PageTitleFlat>
         <div v-if="topicCategories == null">
-          <v-card class="card-rounded mt-3">
+          <v-card class="card-rounded mt-3" flat>
             <v-skeleton-loader type="card-heading"/>
           </v-card>
-          <v-card class="card-rounded mt-3">
+          <v-card class="card-rounded mt-3" flat>
             <v-skeleton-loader type="card-heading"/>
           </v-card>
         </div>
@@ -28,26 +28,30 @@
                 :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
                 'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0,
                  'card-rounded-top': index !== 0 }">
-          <v-card-text>
-            <v-list subheader two-line>
+          <v-card-text class="pa-0">
+            <v-list subheader class="pb-0">
               <v-list-group :value="true"
-                            class="topicCategory">
+                            class="vh-topic-category">
                 <template v-slot:actions>
                   <v-icon class="icon ml-0 pl-0">$expand</v-icon>
                 </template>
                 <template v-slot:activator>
-                  <v-list-item-title class="ml-5" style="font-size: 1.5em;">
+                  <v-list-item-title style="font-size: 1.5em;">
                     {{ category.title }}
                   </v-list-item-title>
                 </template>
-                <v-divider style="border-width: 2px;"/>
-                <div v-for="topic in category.topics" :key="topic.id" class="ml-9 topic">
-                  <v-list-item link :to="{ name: 'ForumTopic', params: { id: topic.id } }">
-                    <v-list-item-content>
+                <div v-for="topic in category.topics" :key="topic.id" class="topic">
+                  <v-divider style="border-width: 1px;"/>
+                  <v-list-item dense link :to="{ name: 'ForumTopic', params: { id: topic.id } }">
+                    <v-list-item-content class="pa-0 ma-0">
                       <v-row no-gutters style="width: 100%">
                         <!-- Topic Title -->
                         <v-col class="d-flex" cols="8" md="6" lg="6" xl="7">
-                          <v-icon left v-if="topic.icon">{{ topic.icon }}</v-icon>
+                          <v-card v-if="topic.icon"
+                                  class="d-flex align-center justify-center pa-1 my-2 mr-1"
+                                  flat>
+                            <v-icon>{{ topic.icon }}</v-icon>
+                          </v-card>
                           <div class="align-self-center text-ellipsis">
                             <div class="text-ellipsis"
                                  style="font-size: 1.3em;"
@@ -131,7 +135,6 @@
                       </v-row>
                     </v-list-item-content>
                   </v-list-item>
-                  <v-divider style="border-width: 1px;"/>
                 </div>
               </v-list-group>
             </v-list>
@@ -439,20 +442,13 @@ export default {
   cursor: pointer !important;
 }
 
-.icon {
-  order: 0;
+.v-list-item--link::before {
+  border-bottom-right-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
 }
 
-.hidelinkstyle {
-  text-decoration: none
-}
-
-.hidelinkstyle:hover {
-  color: var(--v-secondary-darken1) !important;
-}
-
-.listItem:hover {
-  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1) !important;
-  background-color: rgba(var(--color), 0.5) !important;
+::v-deep .v-list-group__header::before {
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
 }
 </style>
