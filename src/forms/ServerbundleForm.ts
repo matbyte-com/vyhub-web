@@ -18,7 +18,6 @@ function returnForm(disableServerTypeSelectField = false, selected = 'GMOD') {
         title: i18n.t('_settings.multigroup'),
         description: i18n.t('_settings.multigroupDescription'),
       },
-      color: Common.colorPicker(),
       icon: Common.iconPicker,
       server_type: Common.serverTypeSelectField(disableServerTypeSelectField, selected),
       default_group: {

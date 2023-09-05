@@ -6,9 +6,10 @@
           <CardTitle :title="$t('server')" icon="mdi-server" />
         </v-card-title>
         <v-card-text style="width: inherit">
-          <div v-for="bundle in nonEmptyBundles" :key="bundle.id" class="mt-3">
-            <v-icon v-if="bundle.icon" left small :color="bundle.color">{{ bundle.icon }}</v-icon>
-            <span :style="'color:' + bundle.color">{{ bundle.name }}</span>
+          <div v-for="bundle in nonEmptyBundles" :key="bundle.id"
+               class="mt-3" :class="`vh-bundle-${bundle.id}`">
+            <v-icon v-if="bundle.icon" left small>{{ bundle.icon }}</v-icon>
+            <span>{{ bundle.name }}</span>
             <v-divider class="mb-2"/>
             <v-row dense v-for="server in getServer(bundle.id)" :key="server.id"
                    align="center" :no-gutters="$vuetify.breakpoint.smAndDown"

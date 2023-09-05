@@ -15,10 +15,9 @@
               <v-icon left>mdi-cart-check</v-icon>
               <span>{{ $t('purchases') }}</span>
             </v-tab>
-            <v-tab v-for="bundle in getBundles" :key="bundle.id"
-                   :style="'color:' + bundle.color"
+            <v-tab v-for="bundle in getBundles" :key="bundle.id" :class="`vh-bundle-${bundle.id}`"
                    @click="switchTab('Bundle', bundle)">
-              <v-icon v-if="bundle.icon" left :color="bundle.color">{{ bundle.icon }}</v-icon>
+              <v-icon v-if="bundle.icon" left>{{ bundle.icon }}</v-icon>
               <span>{{ bundle.name }}</span>
             </v-tab>
           </v-tabs>
