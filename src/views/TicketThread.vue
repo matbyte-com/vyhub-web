@@ -26,44 +26,79 @@
           </v-col>
         </v-row>
       </template>
-    </PageTitle>-->
+    </PageTitle>
+    -->
+    <PageTitleFlat :title="thread.title" class="mb-5"
+                   :hide-triangle="$vuetify.breakpoint.smAndDown"
+                   :open="$vuetify.breakpoint.smAndDown">
+      <template v-slot:end>
+        <div class="d-flex flex-column">
+          <v-chip v-if="thread.status === 'OPEN'" color="success"  class="text-uppercase ml-auto">
+            {{ $t('_forum.open') }}
+          </v-chip>
+          <v-chip v-else color="error" class="text-uppercase ml-auto">
+            {{ $t('_forum.closed') }}
+          </v-chip>
+        </div>
+      </template>
+    </PageTitleFlat>
     <div v-if="!posts" class="mr-15 ml-15">
       <v-skeleton-loader type="article"/>
       <v-skeleton-loader class="mt-3" type="article"/>
     </div>
     <div class="mt-3" v-if="thread">
-      <v-row  v-for="post in posts" :key="post.id">
-        <v-col class="hidden-xs-only" cols="2" lg="1">
-          <v-avatar :size="avatarWidth">
-            <v-img v-if="post.creator" :src="post.creator.avatar"/>
-            <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
-          </v-avatar>
-        </v-col>
-        <v-col class="ml-sm-5 mr-sm-5">
-          <v-card flat outlined>
-            <v-card-text>
-              <span v-html="post.content" class="ql-editor pa-0">
-              </span>
-              <div class="text--disabled mt-3 d-flex align-center">
-                <v-avatar v-if="post.creator && thread.creator &&
-                 post.creator.id === thread.creator.id"
-                          class="hidden-sm-and-up mr-3"
-                          size="30">
-                  <v-img :src="post.creator.avatar"/>
+      <div class="mt-3" v-for="post in posts" :key="post.id">
+        <v-card flat outlined class="vh-forum-post card-rounded">
+          <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
+            <div class="pa-3 text-center" style="width: 150px" v-if="$vuetify.breakpoint.smAndUp">
+              <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
+                           class="stylelint" style="color: inherit">
+                <v-avatar size="80">
+                  <v-img class="mx-auto" :src="post.creator.avatar" />
                 </v-avatar>
-                <user-link small v-if="post.creator" :user="post.creator"/>
-                <span class="ml-3">{{ utils.formatDate(post.created) }}</span>
+                <div class="text-h6">
+                  {{ post.creator.username }}
+                </div>
+              </router-link>
+            </div>
+            <div v-else class="pa-3">
+              <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
+                           class="stylelint d-flex justify-center align-center"
+                           style="color: inherit">
+                <v-avatar size="40">
+                  <v-img class="mx-auto" :src="post.creator.avatar" />
+                </v-avatar>
+                <div class="text-h6 ml-1">
+                  {{ post.creator.username }}
+                </div>
+              </router-link>
+            </div>
+            <v-divider vertical v-if="$vuetify.breakpoint.smAndUp"/>
+            <div style="width: 100%">
+              <div>
+                <v-card-text class="d-flex">
+                  {{ utils.formatDate(post.created) }}
+                  <div class="ml-auto">
+                    <v-chip round v-if="post.creator.id !== thread.creator.id"
+                            color="primary" small>
+                      <v-icon small left>
+                        mdi-shield-sword-outline
+                      </v-icon>
+                      <span>
+                        {{ $t('_ticket.staff') }}
+                      </span>
+                    </v-chip>
+                  </div>
+                </v-card-text>
+                <v-divider/>
+                <v-card-text>
+                  <span v-html="post.content" class="ql-editor pa-0"/>
+                </v-card-text>
               </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col class="hidden-xs-only" cols="2" lg="1">
-          <v-avatar v-if="post.creator && thread.creator && post.creator.id !== thread.creator.id"
-                    :size="avatarWidth">
-            <v-img :src="post.creator.avatar"/>
-          </v-avatar>
-        </v-col>
-      </v-row>
+            </div>
+          </div>
+        </v-card>
+      </div>
     </div>
     <div>
     </div>
@@ -102,7 +137,6 @@
           </v-btn>
           <v-spacer v-if="$vuetify.breakpoint.mdAndDown"/>
         </v-col>
-        <v-col class="hidden-sm-and-down" cols="2" lg="1"></v-col>
       </v-row>
     </div>
   </div>
@@ -111,13 +145,13 @@
 <script>
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
-import UserLink from '../components/UserLink.vue';
+import PageTitleFlat from '../components/PageTitleFlat.vue';
 
 export default {
   name: 'Thread',
   components: {
     ThreadAddDialog,
-    UserLink,
+    PageTitleFlat,
   },
   data() {
     return {
