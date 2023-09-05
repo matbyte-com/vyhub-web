@@ -8,7 +8,7 @@
       <div class="pt-3 pb-3" :style="{ backgroundColor: getBackgroundColor }">
         <v-container class="d-flex align-center justify-center wrapper-container pt-0 mt-0">
           <div>
-            <div class="text-center">
+            <div class="text-center" v-if="!noTitleInWrapper">
               <h2 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h2>
               <p class="text-subtitle-1" :class="{ 'white--text': whiteText }">{{ subtitle }}</p>
             </div>
@@ -25,7 +25,7 @@
 <script>
 export default {
   name: 'Wrapper',
-  props: ['title', 'subtitle', 'no_wrap', 'height', 'css', 'backgroundColor', 'whiteText', 'imageUrl'],
+  props: ['title', 'subtitle', 'no_wrap', 'height', 'css', 'backgroundColor', 'whiteText', 'imageUrl', 'noTitleInWrapper'],
   computed: {
     getBackgroundColor() {
       return this.backgroundColor ? this.backgroundColor : '';

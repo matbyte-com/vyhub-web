@@ -15,7 +15,8 @@
              :subtitle="block.props_data ? block.props_data.subtitle : null"
              :background-color="block.props_data ? block.props_data.backgroundColor : null"
              :image-url="block.props_data ? block.props_data.imageUrl : null"
-             :white-text="block.props_data.whiteText ? block.props_data.whiteText : null">
+             :white-text="block.props_data.whiteText ? block.props_data.whiteText : null"
+             :no-title-in-wrapper="block.type === 'NewsPreview'">
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
     <v-fade-transition>
@@ -103,17 +104,19 @@
                @click="savePage">Save</v-btn>
       </v-list-item>
     </v-navigation-drawer>
-    <Dialog ref="addComponentDialog" :title="$t('_component.addComponent')" :max-width="1000"
+    <Dialog ref="addComponentDialog" :title="$t('_component.addComponent')" icon="mdi-image-plus"
+            :max-width="1000"
             @close="newComponentDialog = false">
       <div style="height: 80vh">
-        <v-text-field outlined hide-details="auto" dense class="mt-3"
+        <v-text-field outlined hide-details="auto" dense class="mt-3" append-icon="mdi-magnify"
                       v-model="addComponentSearch" :label="$t('search')"/>
         <transition-group tag="div" class="mt-3 row" name="list-complete">
           <v-col cols="6" md="4" lg="4" v-for="cp in availableComponentsSearch" :key="cp.component"
                  class="list-complete-item">
             <v-card @click="addComponent(cp)"
                     class="">
-              <v-img :src="cp.previewImage" height="100px"/>
+              <v-img style="background-color: #e0e0e0"
+                     :src="cp.previewImage" height="100px" contain/>
               <div class="text-center text-h5">
                 {{ cp.title }}
               </div>
@@ -251,7 +254,9 @@ export default {
         edited: false,
         id: this.count += 1,
         no_wrap: cp.no_wrap,
-        props_data: { ...cp.defaults },
+        props_data: {
+          ...cp.defaults,
+        },
       // slot: 'Button',
       });
       this.$refs.addComponentDialog.close();

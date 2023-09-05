@@ -10,7 +10,7 @@ export default {
       title: 'Headline',
       keywords: ['headline', 'welcome'],
       component: 'Headline',
-      previewImage: 'https://picsum.photos/300/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Header.png',
       no_wrap: true,
       schema: {
         type: 'object',
@@ -73,7 +73,6 @@ export default {
             'x-props': {
               'hide-details': 'auto',
             },
-            default: true,
           },
           backgroundColor: {
             type: 'string',
@@ -98,7 +97,7 @@ export default {
       title: 'Carousel',
       component: 'Carousel',
       keywords: ['headline', 'welcome', 'carousel', 'slider', 'slides'],
-      previewImage: 'https://picsum.photos/301/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Carousel.png',
       no_wrap: true,
       schema: {
         type: 'object',
@@ -150,12 +149,12 @@ export default {
           {
             title: 'Slide 1',
             subtitle: 'Slide 1 Subtitle',
-            imageUrl: 'https://picsum.photos/600/400',
+            imageUrl: 'https://steam.cryotank.net/wp-content/gallery/minecraft/Minecraft-07-HD.png',
           },
           {
             title: 'Slide 2',
             subtitle: 'Slide 2 Subtitle',
-            imageUrl: 'https://picsum.photos/600/400',
+            imageUrl: 'https://cdn.steamstatic.com/steam/apps/4000/header.jpg',
           },
         ],
       },
@@ -164,7 +163,8 @@ export default {
       title: 'News',
       keywords: ['news', 'announcements'],
       component: 'NewsPreview',
-      previewImage: 'https://picsum.photos/303/201',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/NewsPreview.png',
+      no_title_in_wrapper: true,
       schema: {
         type: 'object',
         properties: {
@@ -172,14 +172,22 @@ export default {
             title: i18n.t('_component._form.maxColumnHeight'),
             type: 'string',
           },
+          inverted: {
+            title: i18n.t('_component._form.inverted'),
+            type: 'boolean',
+          },
         },
+      },
+      defaults: {
+        title: 'Do you want to stay updated?',
+        subtitle: 'Get the latest announcements here!',
       },
     },
     {
       title: 'Community Stats',
       keywords: ['community', 'stats', 'playtime', 'users', 'players'],
       component: 'CommunityStats',
-      previewImage: 'https://picsum.photos/305/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/CommunityStats.png',
       defaults: {
         title: 'Our Community in Numbers',
       },
@@ -188,13 +196,13 @@ export default {
       title: 'Shop Stats',
       keywords: ['shop', 'stats', 'top donators', 'donation goal', 'store'],
       component: 'ShopInformation',
-      previewImage: 'https://picsum.photos/306/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ShopStats.png',
     },
     {
       title: 'Shop Categories',
       keywords: ['shop', 'categories', 'store'],
       component: 'ShopCategories',
-      previewImage: 'https://picsum.photos/307/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ShopCategories.png',
       schema: {
         type: 'object',
         properties: {
@@ -214,7 +222,7 @@ export default {
       title: 'New Users',
       keywords: ['new users', 'new', 'players', 'users', 'gamer'],
       component: 'NewUsers',
-      previewImage: 'https://picsum.photos/303/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/NewUsers.png',
       schema: {
         type: 'object',
         properties: {
@@ -233,7 +241,7 @@ export default {
     },
     {
       title: 'Join Server',
-      previewImage: 'https://picsum.photos/309/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/JoinServerLink.png',
       keywords: ['server', 'status', 'logo', 'join server'],
       component: 'JoinServer',
       schema: {
@@ -261,7 +269,7 @@ export default {
     },
     {
       title: 'Server Status',
-      previewImage: 'https://picsum.photos/310/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ServerStatus.png',
       keywords: ['server', 'status', 'logo'],
       component: 'ServerStatus',
     },
@@ -269,7 +277,7 @@ export default {
       title: 'Discord',
       keywords: ['discord', 'voice', 'join'],
       component: 'Discord',
-      previewImage: 'https://picsum.photos/304/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/JoinDiscord.png',
       schema: {
         type: 'object',
         properties: {
@@ -296,7 +304,7 @@ export default {
       title: 'Forum Activity',
       component: 'ForumLatestActivity',
       keywords: ['forum', 'posts', 'threads', 'reactions', 'activity', 'stats'],
-      previewImage: 'https://picsum.photos/311/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ForumLatest.png',
       defaults: {
         title: 'Forum',
         subtitle: 'Start the discussion in our Forum!',
@@ -306,7 +314,7 @@ export default {
       title: 'Features',
       keywords: ['features', 'columns', 'icons', 'cards'],
       component: 'ColumnCards',
-      previewImage: 'https://picsum.photos/308/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Features.png',
       schema: {
         type: 'object',
         properties: {
@@ -368,7 +376,7 @@ export default {
       title: 'Frequently Asked Questions',
       component: 'Faq',
       keywords: ['questions', 'answers', 'help', 'faq'],
-      previewImage: 'https://picsum.photos/310/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/FrequentlyAskedQuestions.png',
       schema: {
         type: 'object',
         properties: {
@@ -411,7 +419,7 @@ export default {
       title: 'Columns',
       component: 'Columns',
       keywords: ['columns', 'customizable', 'content', 'images'],
-      previewImage: 'https://picsum.photos/311/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ColumnsTemplate.png',
       schema: {
         type: 'object',
         properties: {
@@ -465,7 +473,7 @@ export default {
       title: 'HTML',
       component: 'RawHtml',
       keywords: ['html', 'customizable', 'content'],
-      previewImage: 'https://picsum.photos/302/200',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Html.png',
       no_wrap: true,
       schema: {
         type: 'object',

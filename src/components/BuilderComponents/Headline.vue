@@ -11,7 +11,7 @@
         <h1 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h1>
         <p class="text-subtitle-1 mt-3" :class="{ 'white--text': whiteText }">{{ subtitle }}</p>
         <div class="d-flex flex-row flex-wrap justify-center">
-          <v-btn v-for="(button, index) in buttons" :key="index" class="ml-3"
+          <v-btn color="primary" v-for="(button, index) in buttons" :key="index" class="ml-3"
                  outlined :href="(!localLink(button) ? button.link : null)"
                  :to="localLink(button) ? getLocalLink(button) : null">
             {{ button.btnText }}
