@@ -39,7 +39,7 @@
       </NavigationLink>
     </div>
 
-    <v-spacer></v-spacer>
+    <v-spacer />
     <Search class="mr-2"/>
     <Notification v-if="$store.getters.isLoggedIn"/>
     <div v-if="$vuetify.breakpoint.mdAndUp">
@@ -62,8 +62,7 @@
         </v-btn>
       </div>
     </div>
-    <LinkAccountDialog ref="linkAccountDialog">
-    </LinkAccountDialog>
+    <LinkAccountDialog ref="linkAccountDialog" />
     <PersonalSettings ref="userSelfSettings" :user="$store.getters.user"
                       @user-changed="refreshUser"
                       v-if="$store.getters.isLoggedIn">

@@ -7,6 +7,89 @@ const API_URL = Common.apiURL;
 export default {
   components: [
     {
+      title: 'Header',
+      keywords: ['header', 'welcome', 'headline', 'navigation'],
+      component: 'Header',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/123.png',
+      no_wrap: true,
+      schema: {
+        type: 'object',
+        properties: {
+          logoUrl: {
+            title: i18n.t('_theme.logoURL'),
+            type: 'string',
+            'x-props': {
+              clearable: true,
+            },
+          },
+          headline: {
+            title: i18n.t('headline'),
+            type: 'string',
+          },
+          backgroundColor: {
+            type: 'string',
+            title: i18n.t('_theme.backgroundColor'),
+            format: 'hexcolor',
+            'x-cols': 6,
+          },
+          whiteText: {
+            type: 'boolean',
+            title: i18n.t('_component.whiteText'),
+            'x-cols': 6,
+            'x-display': 'switch',
+            'x-props': {
+              'hide-details': 'auto',
+            },
+          },
+          app: {
+            type: 'boolean',
+            title: i18n.t('_component.app'),
+            'x-cols': 6,
+            'x-display': 'switch',
+            'x-props': {
+              'hide-details': 'auto',
+            },
+          },
+          fixed: {
+            type: 'boolean',
+            title: i18n.t('_component.fixed'),
+            'x-cols': 6,
+            'x-display': 'switch',
+            'x-props': {
+              'hide-details': 'auto',
+            },
+          },
+          dense: {
+            type: 'boolean',
+            title: i18n.t('_component.dense'),
+            'x-cols': 6,
+            'x-display': 'switch',
+            'x-props': {
+              'hide-details': 'auto',
+            },
+          },
+          links: {
+            type: 'array',
+            title: 'Buttons',
+            items: {
+              type: 'object',
+              required: ['btnText', 'link'],
+              properties: {
+                btnText: {
+                  title: i18n.t('title'),
+                  type: 'string',
+                },
+                link: {
+                  title: i18n.t('url'),
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
       title: 'Headline',
       keywords: ['headline', 'welcome'],
       component: 'Headline',

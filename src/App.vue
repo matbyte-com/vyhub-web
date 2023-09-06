@@ -2,7 +2,7 @@
   <v-app>
 
     <VueNotification />
-    <TheHeader/>
+    <TheHeader v-if="!$route.meta.noHeader"/>
 
     <v-main :style="backgroundColor">
       <div v-if="$route.meta.noContainer" style="min-height: 70vh;">

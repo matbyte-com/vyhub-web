@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Top Menu -->
-    <div style="position: fixed; z-index: 2; margin-top: 3px; width: 100%" class="d-flex"
+    <div style="position: fixed; z-index: 5; margin-top: 3px; width: 100%" class="d-flex"
          v-if="$checkProp('theme_edit')">
       <div style="background-color: #646464A3; border-radius: 5px; height: 32px"
            class="pa-1 ml-1 mt-1">
