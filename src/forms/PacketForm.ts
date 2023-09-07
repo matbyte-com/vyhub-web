@@ -194,6 +194,7 @@ function form() {
   };
   if (!utilService.data().utils.showAdvancedSettings()) {
     delete res.allOf[0].properties.enabled;
+    delete res.allOf[1].properties.payment_gateways;
   }
   return res;
 }
