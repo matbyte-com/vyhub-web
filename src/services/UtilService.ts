@@ -264,6 +264,7 @@ export default {
         },
         localLink(btn: any) {
           if (!btn.link) return false;
+          if (btn.link.startsWith('/')) return true;
           if (window) {
             return !!btn.link.includes(window.location.hostname);
           }
@@ -272,6 +273,7 @@ export default {
         getLocalLink(btn: any) {
           // Btn needs to have link property
           if (!btn.link) return '';
+          if (btn.link.startsWith('/')) return btn.link;
           if (this.localLink(btn)) { return btn.link.substring(window.location.origin.length); }
           return btn.link;
         },

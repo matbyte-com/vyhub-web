@@ -23,7 +23,7 @@ export default {
             },
           },
           headline: {
-            title: i18n.t('headline'),
+            title: i18n.t('_component._form.headline'),
             type: 'string',
           },
           backgroundColor: {
@@ -43,8 +43,7 @@ export default {
           },
           app: {
             type: 'boolean',
-            title: i18n.t('_component.app'),
-            'x-cols': 6,
+            title: i18n.t('_component._form.app'),
             'x-display': 'switch',
             'x-props': {
               'hide-details': 'auto',
@@ -52,8 +51,7 @@ export default {
           },
           fixed: {
             type: 'boolean',
-            title: i18n.t('_component.fixed'),
-            'x-cols': 6,
+            title: i18n.t('_component._form.fixed'),
             'x-display': 'switch',
             'x-props': {
               'hide-details': 'auto',
@@ -61,7 +59,7 @@ export default {
           },
           dense: {
             type: 'boolean',
-            title: i18n.t('_component.dense'),
+            title: i18n.t('_component._form.dense'),
             'x-cols': 6,
             'x-display': 'switch',
             'x-props': {
@@ -73,8 +71,9 @@ export default {
             title: 'Buttons',
             items: {
               type: 'object',
-              required: ['btnText', 'link'],
+              required: ['link'],
               properties: {
+                icon: Common.iconPicker,
                 btnText: {
                   title: i18n.t('title'),
                   type: 'string',
@@ -87,6 +86,27 @@ export default {
             },
           },
         },
+      },
+      defaults: {
+        headline: store.getters.generalConfig ? store.getters.generalConfig.community_name : 'Community Name',
+        fixed: true,
+        links: [
+          {
+            icon: 'mdi-newspaper',
+            btnText: 'News',
+            link: '/news',
+          },
+          {
+            icon: 'mdi-cart',
+            btnText: 'Shop',
+            link: '/shop',
+          },
+          {
+            icon: 'mdi-forum',
+            btnText: 'Forum',
+            link: '/forum',
+          },
+        ],
       },
     },
     {
@@ -166,7 +186,7 @@ export default {
         },
       },
       defaults: {
-        title: store.getters.generalConfig ? store.getters.generalConfig.community_name : 'Communtiy Name',
+        title: store.getters.generalConfig ? store.getters.generalConfig.community_name : 'Community Name',
         subtitle: 'Welcome to our community!',
         buttons: [
           {

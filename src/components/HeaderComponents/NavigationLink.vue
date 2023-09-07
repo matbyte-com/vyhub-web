@@ -16,9 +16,9 @@
       <v-list dense class="text-uppercase">
         <v-list-item v-for="(tab, index) in allowedTabs || []"
                      :key="index"
-                     :href="(tab.cms_page_id === null && !localLink(tab) ? tab.link : null)"
-                     :to="(tab.cms_page_id || localLink(tab) ?
-                      getLocalLink(tab) : null)">
+                     :href="(tab.cms_page_id === null && !utils.localLink(tab) ? tab.link : null)"
+                     :to="(tab.cms_page_id || utils.localLink(tab) ?
+                      utils.getLocalLink(tab) : null)">
           <v-list-item-title>
             <v-icon left v-if="tab.icon">{{ tab.icon}}</v-icon>
             <span>{{ tab.title }}</span>
@@ -31,8 +31,8 @@
       text :dark="dark"
       v-if="(allowedTabs || []).length === 0" class="nav-btn"
       :active-class="lightHeader ? 'active-btn' : ''"
-      :href="(link.cms_page_id === null && !localLink(link) ? link.link : null)"
-      :to="(link.cms_page_id || localLink(link) ? getLocalLink(link) : null)">
+      :href="(link.cms_page_id === null && !utils.localLink(link) ? link.link : null)"
+      :to="(link.cms_page_id || utils.localLink(link) ? utils.getLocalLink(link) : null)">
       <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
     </v-btn>
@@ -62,22 +62,6 @@ export default {
     },
     lightHeader() {
       return this.$store.getters.theme && this.$store.getters.theme.light_header;
-    },
-  },
-  methods: {
-    getLocalLink(link) {
-      if (!link.link) return '';
-      if (link.default) return link.link;
-      if (this.localLink(link)) { return link.link.substring(window.location.origin.length); }
-      return link.link;
-    },
-    localLink(link) {
-      if (!link.link) return false;
-      if (link.default) return true;
-      if (window) {
-        return !!link.link.includes(window.location.hostname);
-      }
-      return false;
     },
   },
 };
