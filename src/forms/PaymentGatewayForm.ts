@@ -152,7 +152,7 @@ function gatewayFields(gatewayType: string) {
 }
 
 function form(gatewayType: string) {
-  return {
+  const res = {
     type: 'object',
     required: ['name', 'type'],
     properties: {
@@ -191,6 +191,8 @@ function form(gatewayType: string) {
       },
     },
   };
+  if (gatewayType === 'FREE') delete res.properties.enabled;
+  return res;
 }
 
 export default form;
