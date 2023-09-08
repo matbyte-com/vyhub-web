@@ -1,11 +1,11 @@
 <template>
-  <v-card class="flex-column d-flex vh-packet-card"
+  <v-card class="flex-column d-flex vh-packet-card"  outlined
           :class="{'card-rounded': $vuetify.breakpoint.smAndDown}" height="100%"
           :color="flat ? 'transparent' : ''" :flat="flat">
     <v-hover v-slot:default="{ hover }">
       <v-img :src="packet.image_url"
              @click="$refs.detailDialog.show()"
-             class="white--text" max-height="200px" style="cursor: pointer;">
+             class="white--text img-rounded ma-1" max-height="200px" style="cursor: pointer;">
         <div class="d-flex flex-column" style="height: 100%">
           <v-fade-transition>
             <v-row justify="center" align="center"
@@ -29,9 +29,8 @@
                     && packet.price_with_discount.total !==
                      packet.price_without_discount.total">
               <v-chip color="green lighten-2" text-color="white">
-                <span class="strikethrough-diagonal">
+                <span class="strikethrough-diagonal text--disabled">
                   {{ utils.formatDecimal(packet.price_without_discount.total) }}
-                  {{ packet.currency.symbol }}
                 </span>
               </v-chip>
               <v-chip
@@ -78,7 +77,8 @@
         </v-fade-transition>
       </v-img>
     </v-hover>
-    <v-card-text class="vh-packet-card-text flex-grow-1 d-flex flex-column" style="width: inherit">
+    <v-card-text class="vh-packet-card-text flex-grow-1 d-flex flex-column"
+                 style="width: inherit">
       <div class="text-center">
         <div>
           <h6 class="text-h6" style="line-height: normal" >
@@ -108,7 +108,7 @@
         </div>
       </div>
       <v-spacer />
-      <div class="d-flex mt-3" v-if="!small">
+      <div class="d-flex mt-2" v-if="!small">
         <v-btn large style="width: 44px; min-width: 44px"
                class="pa-0 cta-btn" @click="$refs.detailDialog.show()" outlined>
           <v-icon large>mdi-information-slab-symbol</v-icon>
@@ -189,4 +189,7 @@ export default {
 </script>
 
 <style>
+.img-rounded {
+  border-radius: 3px !important;
+}
 </style>
