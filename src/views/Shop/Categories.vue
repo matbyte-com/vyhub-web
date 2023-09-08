@@ -69,6 +69,10 @@ export default {
       api.packet_getCategories()
         .then((rsp) => {
           this.categories = rsp.data.filter((cat) => cat.enabled);
+          // Redirect if there is only on category
+          if (this.categories.length === 1) {
+            this.$router.replace({ name: 'ShopCategory', params: { categoryId: this.categories[0].id } });
+          }
         });
     },
   },
