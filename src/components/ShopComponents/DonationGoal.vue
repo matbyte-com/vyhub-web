@@ -6,8 +6,8 @@
         <CardTitle :no-icon="noIcon" :centered="centerHeadline"
                    :title="shopConfig.donation_goal_display_title" icon="mdi-flag-checkered"/>
         <v-spacer v-if="!noShopBtn" />
-        <v-btn v-if="!noShopBtn" outlined small :to="{ name: 'Shop' }">
-          {{ $t('shop') }}
+        <v-btn v-if="!noShopBtn" outlined class="mt-1" small :to="{ name: 'Shop' }">
+          <span>{{ $t('shop') }}</span>
         </v-btn>
       </v-card-title>
       <v-card-text style="width: inherit" :class="textClasses">
