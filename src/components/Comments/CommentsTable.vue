@@ -28,13 +28,12 @@
             </v-list-item-content>
           </v-list-item>
         </template>
-        <!-- BTN in Outer Components
-        <template v-slot:footer-left>
+        <template v-slot:footer-left v-if="!noAddBtn">
           <v-btn outlined color="success" @click="$refs.commentAddDialog.show()">
             <v-icon left>mdi-comment-plus</v-icon>
             {{ $t('comment') }}
           </v-btn>
-        </template>-->
+        </template>
       </DataIterator>
     </v-list>
     <DialogForm
@@ -76,6 +75,7 @@ export default {
     categories: Array,
     objId: String,
     showSearch: Boolean,
+    noAddBtn: Boolean,
     showCategory: {
       type: Boolean,
       default: false,

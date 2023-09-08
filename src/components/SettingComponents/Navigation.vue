@@ -29,12 +29,12 @@
             <v-expansion-panel-header>
               <v-row>
                 <v-badge :value="rawHtmlInput" inline dot class="float-left">
-                  {{ $t('_navigation.rawHtml') }}
+                  {{ $t('rawHtml') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-textarea :placeholder="$t('_navigation.rawHtml')" v-model="rawHtmlInput"/>
+              <v-textarea :placeholder="$t('rawHtml')" v-model="rawHtmlInput"/>
               <input type="file" :accept="acceptedFileTypes.join(',')" @change="readFile"
                      style="display: none" ref="fileInput">
               <v-btn color="secondary" @click="$refs.fileInput.click()" small>
@@ -73,12 +73,12 @@
             <v-expansion-panel-header>
               <v-row>
                 <v-badge :value="rawHtmlInput" inline dot class="float-left">
-                  {{ $t('_navigation.rawHtml') }}
+                  {{ $t('rawHtml') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-textarea :placeholder="$t('_navigation.rawHtml')" v-model="rawHtmlInput"/>
+              <v-textarea :placeholder="$t('rawHtml')" v-model="rawHtmlInput"/>
               <input type="file" :accept="acceptedFileTypes.join(',')" @change="readFile"
                      style="display: none" ref="fileInput">
               <v-btn color="secondary" @click="$refs.fileInput.click()" small>

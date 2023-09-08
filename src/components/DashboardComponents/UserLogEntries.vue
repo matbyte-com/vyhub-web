@@ -2,11 +2,6 @@
   <div>
     <v-card class="vh-dashboard-logs card-rounded" flat>
       <v-card-title>
-        <v-icon left>
-          mdi-format-list-bulleted
-        </v-icon>
-        {{ $t('logs') }}
-        <v-spacer></v-spacer>
         <v-btn :icon="logsShown" outlined color="primary" @click="showLogs">
           <v-icon v-if="logsShown">mdi-refresh</v-icon>
           <span v-else>

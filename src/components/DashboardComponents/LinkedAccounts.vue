@@ -1,31 +1,35 @@
 <template>
   <div>
-    <v-row v-if="(userSelf || ($store.getters.user && $store.getters.user.admin))
-     && !bundle" no-gutters>
-      <v-col>
-        <v-btn depressed color="success" :to="{path: $route.path,
-      query: { login: 'true', return_url: getReturnUrl() } }"
-               block :disabled="!userSelf">
-          <v-icon left>
-            mdi-account-plus
-          </v-icon>
-          {{ $t("_dashboard.labels.linkNewAccount") }}
-        </v-btn>
-      </v-col>
-      <v-col cols="2" v-if="$store.getters.user &&
-             $store.getters.user.admin" class="mr-1">
-        <v-btn block depressed class="ml-1" @click="showExistingUserLinkDialog">
-          <v-icon>mdi-link-variant-remove</v-icon>
-        </v-btn>
-      </v-col>
-    </v-row>
     <v-row>
       <v-col>
-        <v-card class="vh-dashboard-linked-accounts card-rounded" flat>
+        <v-card class="card-rounded" flat>
           <v-card-text>
+            <!-- Connect User Account -->
+            <div class="vh-dashboard-link-account mb-3">
+              <v-row v-if="(userSelf || ($store.getters.user && $store.getters.user.admin))
+     && !bundle" no-gutters>
+                <v-col>
+                  <v-btn depressed color="success" :to="{path: $route.path,
+      query: { login: 'true', return_url: getReturnUrl() } }"
+                         block :disabled="!userSelf">
+                    <v-icon left>
+                      mdi-account-plus
+                    </v-icon>
+                    {{ $t("_dashboard.labels.linkNewAccount") }}
+                  </v-btn>
+                </v-col>
+                <v-col cols="2" v-if="$store.getters.user &&
+             $store.getters.user.admin" class="mr-1">
+                  <v-btn block depressed class="ml-1" @click="showExistingUserLinkDialog">
+                    <v-icon>mdi-link-variant-remove</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </div>
             <v-data-iterator
               :items="linkedUsers"
               item-key="id"
+              class="vh-dashboard-linked-accounts"
               hide-default-footer>
               <template v-slot:default="{ items }">
                 <v-card class="mb-2" v-for="acc in items"

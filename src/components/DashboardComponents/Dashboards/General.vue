@@ -29,11 +29,6 @@
                 <Groups :user="user"/>
               </v-col>
             </v-row>
-            <v-row v-if="$checkProp('user_log')">
-              <v-col>
-                <UserLogEntries :user="user"/>
-              </v-col>
-            </v-row>
           </v-col>
           <v-col cols="12" xl="6">
             <v-row v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
@@ -42,9 +37,30 @@
                 <BansAndWarnings :user="user"/>
               </v-col>
             </v-row>
-            <v-row v-if="$checkProp('user_comment_show')">
+            <v-row v-if="$checkProp('user_log') || $checkProp('user_comment_show')">
               <v-col>
-                <UserComments :user="user"/>
+                <v-card flat class="card-rounded">
+                  <v-tabs grow>
+                    <v-tab v-if="$checkProp('user_comment_show')">
+                      <v-icon left>
+                        mdi-comment
+                      </v-icon>
+                      {{ $t('comments') }}
+                    </v-tab>
+                    <v-tab v-if="$checkProp('user_log')">
+                      <v-icon left>
+                        mdi-format-list-bulleted
+                      </v-icon>
+                      {{ $t('logs') }}
+                    </v-tab>
+                    <v-tab-item v-if="$checkProp('user_comment_show')">
+                      <UserComments :user="user"/>
+                    </v-tab-item>
+                    <v-tab-item v-if="$checkProp('user_log')">
+                      <UserLogEntries :user="user"/>
+                    </v-tab-item>
+                  </v-tabs>
+                </v-card>
               </v-col>
             </v-row>
           </v-col>

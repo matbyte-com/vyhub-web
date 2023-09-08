@@ -23,7 +23,7 @@
           </v-tabs>
         </v-card-text>
       </v-card>
-      <div class="mt-2">
+      <div class="mt-5">
         <keep-alive>
           <component :is="componentInstance" :bundle="activeBundle" :user="user">
           </component>

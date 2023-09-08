@@ -193,7 +193,7 @@
               </v-btn>
             </div>
             <CommentsTable type="ban" :obj-id="currentBan.id" :show-search="false"
-                           ref="banCommentsTable" />
+                           ref="banCommentsTable" :no-add-btn="true"/>
           </div>
           <br/>
           <div v-if="$checkProp('ban_log_show')">

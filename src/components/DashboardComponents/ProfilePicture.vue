@@ -40,7 +40,7 @@
               mdi-shield-account
             </v-icon>
             <span>
-              {{ $t('_dashboard.labels.admin') }}
+              {{ $t('admin') }}
             </span>
           </span>
           <span class="justify-end">
