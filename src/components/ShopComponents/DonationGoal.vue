@@ -5,6 +5,10 @@
       <v-card-title v-if="!noTitle" class="pb-2 pt-0">
         <CardTitle :no-icon="noIcon" :centered="centerHeadline"
                    :title="shopConfig.donation_goal_display_title" icon="mdi-flag-checkered"/>
+        <v-spacer v-if="!noShopBtn" />
+        <v-btn v-if="!noShopBtn" outlined small :to="{ name: 'Shop' }">
+          {{ $t('shop') }}
+        </v-btn>
       </v-card-title>
       <v-card-text style="width: inherit" :class="textClasses">
         <v-progress-linear rounded striped
@@ -34,7 +38,7 @@ import CardTitle from '@/components/CardTitle.vue';
 export default {
   name: 'DonationGoal.vue',
   components: { CardTitle },
-  props: ['noIcon', 'noTitle', 'centerHeadline', 'textClasses'],
+  props: ['noIcon', 'noTitle', 'centerHeadline', 'textClasses', 'noShopBtn'],
   data() {
     return {
       donationGoal: null,
