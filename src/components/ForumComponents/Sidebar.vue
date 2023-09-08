@@ -20,7 +20,7 @@
             <div>
               <div>
                 <router-link :to="{ name: 'ForumThread', params: { id: post.thread.id },
-                 query: {lastPage: true} }"
+                 query: {lastPage: true} }" class="vh-forum-link"
                              style="font-size: 1em; white-space: nowrap;
                                       text-overflow: ellipsis; color: inherit;
                                        text-decoration: none">
@@ -28,7 +28,9 @@
                 </router-link>
               </div>
               <div class="text--disabled">
-                {{ utils.formatTimeForForum(post.created) }} {{ $t('_forum.by') }}
+                <span class="vh-forum-link">
+                  {{ utils.formatTimeForForum(post.created) }} {{ $t('_forum.by') }}
+                </span>
                 <UserLink :simple="true" :user="post.creator"></UserLink>
               </div>
             </div>
@@ -36,7 +38,8 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <v-skeleton-loader type="list-item-avatar, divider, list-item-avatar,
+    <v-skeleton-loader dark style="background-color: rgba(0,0,0,0)"
+                       type="list-item-avatar, divider, list-item-avatar,
        divider, list-item-avatar" v-else/>
   </v-card>
   <v-card class="mt-3 vh-forum-latest-threads card-rounded" flat>
@@ -60,12 +63,14 @@
                 <router-link :to="{ name: 'ForumThread', params: { id: thread.id } }"
                              style="font-size: 1em; white-space: nowrap;
                                       text-overflow: ellipsis; color: inherit;
-                                       text-decoration: none">
+                                       text-decoration: none" class="vh-forum-link">
                   {{ thread.title }}
                 </router-link>
               </div>
               <div class="text--disabled">
-                {{ utils.formatTimeForForum(thread.created) }} {{ $t('_forum.by') }}
+                <span class="vh-forum-link">
+                  {{ utils.formatTimeForForum(thread.created) }} {{ $t('_forum.by') }}
+                </span>
                 <UserLink :simple="true" :user="thread.creator"></UserLink>
               </div>
             </div>
@@ -73,7 +78,8 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <v-skeleton-loader type="list-item-avatar, divider, list-item-avatar,
+    <v-skeleton-loader dark style="background-color: rgba(0,0,0,0)"
+                       type="list-item-avatar, divider, list-item-avatar,
        divider, list-item-avatar" v-else/>
   </v-card>
   <v-card class="mt-3 vh-forum-statistics card-rounded" flat>
@@ -86,8 +92,10 @@
       <span class="font-weight-bold">{{ totalReactions }}</span> {{ $t('_forum.reactions') }}
     </v-card-text>
     <v-card-text v-else class="d-flex">
-      <v-skeleton-loader height="26px" tile type="chip"/>
-      <v-skeleton-loader height="26px" tile type="chip" class="ml-1"/>
+      <v-skeleton-loader height="26px" tile type="chip"
+                         dark style="background-color: rgba(0,0,0,0)"/>
+      <v-skeleton-loader height="26px" tile type="chip" dark
+                         style="background-color: rgba(0,0,0,0)" class="ml-1"/>
     </v-card-text>
   </v-card>
 </div>

@@ -150,17 +150,17 @@
              :style="{width: `${statusColumnWidth}px`}"
              v-if="$vuetify.breakpoint.mdAndUp">
           <ServerStatus ref="serverStatus"/>
-          <v-card class="mt-3 card-rounded" flat v-if="$store.getters.shopConfig &&
+          <v-card class="mt-3 card-rounded vh-news-donation-goal"
+                  flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.donation_goal_enabled">
             <DonationGoal class="pt-3"/>
           </v-card>
-          <v-card class="mt-3 card-rounded" flat v-if="$store.getters.shopConfig &&
+          <v-card class="mt-3 card-rounded vh-news-top-donators"
+                  flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.top_donators_enabled">
             <TopDonators class="pt-3"/>
           </v-card>
-          <v-card class="mt-3 card-rounded">
-            <NewUsers />
-          </v-card>
+          <NewUsers class="mt-3" />
         </div>
       </v-col>
     </v-row>

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="vh-cart-recommended-packets" color="transparent" flat
+  <v-card class="vh-cart-recommended-packets card-rounded" flat
           v-if="recommendedPackets !== null && recommendedPackets.length > 0">
     <v-card-title class="d-flex">
       <h2 class="text-h6">{{ $t('_shop.labels.recommended') }}</h2>

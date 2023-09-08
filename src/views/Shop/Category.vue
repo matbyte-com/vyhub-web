@@ -34,7 +34,7 @@
     <!-- Full Size Screens -->
     <PageTitleFlat v-if="$vuetify.breakpoint.mdAndUp && selectedCategory"
                    :title="`${selectedCategory.name} ${$t('packets')}`" />
-    <v-card flat class="card-rounded-bottom flex-grow-1"
+    <v-card flat class="card-rounded-bottom vh-cart-category flex-grow-1"
             :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
             'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-card-text>
@@ -43,11 +43,7 @@
                  @click="$router.push({ params: { categoryId: c.id } }); fetchPackets();">
             {{ c.name }}
           </v-tab>
-          <span v-if="!categories">
-          <v-tab v-for="i in 3" :key="i">
-            <v-skeleton-loader type="button" />
-          </v-tab>
-        </span>
+          <v-skeleton-loader v-if="!categories" type="button" />
         </v-tabs>
         <div v-if="subcategories != null" class="mt-3">
           <div v-for="(_packets, subcat) in subcategories" :key="subcat">
@@ -63,6 +59,16 @@
               </v-col>
             </v-row>
           </div>
+        </div>
+        <div v-else>
+          <v-row>
+            <v-col cols="12" sm="6" md="6" lg="4" xl="3">
+              <v-skeleton-loader type="card" />
+            </v-col>
+            <v-col cols="12" sm="6" md="6" lg="4" xl="3">
+              <v-skeleton-loader type="card" />
+            </v-col>
+          </v-row>
         </div>
       </v-card-text>
     </v-card>

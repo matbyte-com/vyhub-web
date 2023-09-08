@@ -3,7 +3,7 @@
   <PageTitleFlat :title="$t('_shop.shopTitle')"
                  :hide-triangle="$vuetify.breakpoint.smAndDown"
                  :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
-  <v-card class="card-rounded-bottom flex-grow-1"
+  <v-card class="card-rounded-bottom flex-grow-1 vh-cart-categories"
           :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }"
           flat>

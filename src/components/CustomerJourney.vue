@@ -59,7 +59,7 @@
         </v-btn>
         <v-btn class="red lighten-2 ml-2" href="https://discord.gg/QycQpd2AQP" target="_blank">
           <v-icon left>
-            mdi-discord
+            $discord
           </v-icon>
           <span>Discord</span>
         </v-btn>

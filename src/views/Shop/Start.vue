@@ -14,9 +14,9 @@
         <v-card class="card-rounded" v-if="!$vuetify.breakpoint.smAndDown" flat>
           <ShopStatsSide />
         </v-card>
-        <v-card class="card-rounded" :class="{ 'mt-6':!$vuetify.breakpoint.smAndDown }" flat>
+        <div class="card-rounded" :class="{ 'mt-6':!$vuetify.breakpoint.smAndDown }" flat>
           <RecommendedPacketsSide />
-        </v-card>
+        </div>
       </v-col>
     </v-row>
   </div>
