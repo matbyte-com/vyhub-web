@@ -21,7 +21,7 @@
     <v-row class="mb-5">
       <!-- Smartphones Serverstatus + Donation Goal -->
       <v-col cols="12" v-if="$vuetify.breakpoint.smAndDown">
-        <Swiper :number-of-elements="[3,3,3]">
+        <Swiper :number-of-elements="3" :per-page-custom="[1,2,3,3,3]">
           <swiper-slide>
             <ServerStatus ref="serverStatus" />
           </swiper-slide>
