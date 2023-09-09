@@ -1,6 +1,6 @@
 <template>
-  <v-footer color="footer lighten-1" padless>
-    <v-row justify="center" no-gutters>
+  <v-footer color="footer" padless class="vh-footer justify-center lighten-1">
+    <div style="width: 100%">
       <div class="d-flex my-2 flex-wrap justify-center">
         <NavigationLink
           class=""
@@ -10,23 +10,23 @@
           :key="index">
         </NavigationLink>
       </div>
-      <v-col class="footer lighten-2 py-4 text-center white--text" cols="12">
+      <div class="footer py-4 text-center white--text" style="width: 100%">
         <strong>
           {{ new Date().getFullYear() }}
           <span v-if="$store.getters.generalConfig != null">
-            — {{ $store.getters.generalConfig.community_name }}
-          </span>
+          — {{ $store.getters.generalConfig.community_name }}
+        </span>
           <span v-if="config.branding == null || config.branding">
-            —
-            <a class="text-decoration-none white--text" href="https://vyhub.net">
-              Powered by VyHub
-            </a>
-          </span>
+          —
+          <a class="text-decoration-none white--text" href="https://vyhub.net">
+            Powered by VyHub
+          </a>
+        </span>
           —
           {{ version }}
         </strong>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </v-footer>
 </template>
 
