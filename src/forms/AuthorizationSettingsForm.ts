@@ -8,7 +8,7 @@ export default {
         discord: {
           type: 'boolean',
           'x-display': 'switch',
-          title: i18n.t('_authorization.discord'),
+          title: i18n.t('discord'),
           default: false,
         },
       },

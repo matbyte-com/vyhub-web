@@ -3,7 +3,7 @@
           :outlined="outlined">
     <v-card-title>
       <v-icon left>mdi-email</v-icon>
-      {{ $t('_personalSettings.email') }}
+      {{ $t('email') }}
     </v-card-title>
     <v-card-text class="body-1 mb-0 pb-0">
       <div v-if="!showInput">

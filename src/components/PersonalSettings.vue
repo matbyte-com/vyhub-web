@@ -1,6 +1,6 @@
 <template>
   <Dialog ref="userSettingsDialog"
-          :title="$t('_personalSettings.title')"
+          :title="$t('personalSettings')"
           @close="$router.push($route.path)"
           @cancel="$router.push($route.path)"
           icon="mdi-account">

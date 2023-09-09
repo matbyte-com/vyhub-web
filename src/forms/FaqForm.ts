@@ -9,7 +9,7 @@ export default {
   properties: {
     title: {
       type: 'string',
-      title: i18n.t('_faq.formTitle'),
+      title: i18n.t('title'),
     },
     icon: Common.iconPicker,
   },
