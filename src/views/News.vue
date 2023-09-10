@@ -146,9 +146,7 @@
       </v-col>
       <!-- Sidebar -->
       <v-col ref="StatusCol" cols="4">
-        <div style="overflow-y: hidden; overflow-x: hidden;"
-             :style="{width: `${statusColumnWidth}px`}"
-             v-if="$vuetify.breakpoint.mdAndUp">
+        <div v-if="$vuetify.breakpoint.mdAndUp">
           <ServerStatus ref="serverStatus"/>
           <v-card class="mt-3 card-rounded vh-news-donation-goal"
                   flat v-if="$store.getters.shopConfig &&
@@ -203,14 +201,12 @@ export default {
       exhausted: false,
       fetching: false,
       messageAddSchema: NewsAddForm.returnForm(),
-      statusColumnWidth: 250,
       message: '',
     };
   },
   mounted() {
     this.fetchNews();
     this.scroll();
-    this.setWidth();
   },
   methods: {
     async fetchNews(page) {
@@ -302,9 +298,6 @@ export default {
           });
         }).catch((err) => this.$refs.messageEditDialog.setError(err));
     },
-    setWidth() {
-      this.statusColumnWidth = this.$refs.StatusCol.clientWidth;
-    },
   },
   computed: {
     getNews() {
@@ -316,12 +309,6 @@ export default {
     shopConfig() {
       return this.$store.getters.shopConfig;
     },
-  },
-  created() {
-    window.addEventListener('resize', this.setWidth);
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.setWidth);
   },
 };
 </script>
