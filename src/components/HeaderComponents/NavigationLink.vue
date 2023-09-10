@@ -6,7 +6,9 @@
       open-on-hover
       offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text class="nav-btn pr-0 pl-2" :class="{ 'active-btn' : listActive && lightHeader }"
+        <v-btn text class="nav-btn pr-0 pl-2"
+               :class="{ 'active-btn-light' : listActive && lightHeader,
+                'v-btn--active' : listActive && !lightHeader }"
                v-bind="attrs" v-on="on">
           <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
           <span>{{ link.title }}</span>
@@ -30,7 +32,7 @@
     <v-btn
       text :dark="dark"
       v-if="(allowedTabs || []).length === 0" class="nav-btn px-3"
-      :active-class="lightHeader ? 'active-btn' : ''"
+      :active-class="lightHeader ? 'active-btn-light' : 'active-btn-normal'"
       :href="(link.cms_page_id === null && !utils.localLink(link) ? link.link : null)"
       :to="(link.cms_page_id || utils.localLink(link) ? utils.getLocalLink(link) : null)">
       <v-icon left class="" v-if="link.icon">{{ link.icon }}</v-icon>
@@ -68,15 +70,19 @@ export default {
 </script>
 
 <style>
-.active-btn {
+.active-btn-light {
   background-color: var(--v-primary-lighten1);
 }
 
-.active-btn::before {
+.active-btn-normal {
+  background-color: var(--v-header-lighten1);
+}
+
+.active-btn-light::before {
   opacity: 0 !important;
 }
 
-.active-btn span {
+.active-btn-light span {
   color: #FFFFFF !important;
 }
 
