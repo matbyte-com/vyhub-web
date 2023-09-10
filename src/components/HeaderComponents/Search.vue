@@ -6,7 +6,8 @@
       @mousedown="searchClosed = false"
       :placeholder="searchClosed ? '' : $t('user')"
       prepend-inner-icon="mdi-magnify"
-      class="expanding-search mt-6"
+      class="expanding-search"
+      hide-details="auto"
       :class="{ 'closed' : searchClosed && !search }"
       filled dense clearable
       hide-no-data

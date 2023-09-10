@@ -9,9 +9,10 @@
                  :value="newMessages"
                  dot
                  transition="fade-transition"
-                 offset-x="20px"
-                 offset-y="20px">
+                 offset-x="10px"
+                 offset-y="10px">
           <v-btn icon
+                 style="min-width: 30px; width: 34px; height: 34px"
                  v-bind="attrs"
                  v-on="on">
             <v-icon>

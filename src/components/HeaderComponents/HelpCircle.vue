@@ -1,7 +1,9 @@
 <template>
   <v-menu open-on-hover offset-y eager>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on" v-if="menuLinks.length > 0">
+      <v-btn icon
+             style="min-width: 30px; width: 34px; height: 34px"
+             v-bind="attrs" v-on="on" v-if="menuLinks.length > 0">
         <v-icon>mdi-help-circle</v-icon>
       </v-btn>
     </template>

@@ -1,19 +1,17 @@
 <template>
   <div>
     <v-btn text
-           icon
-           :to="{ name: 'ShopCart' }"
-           v-if="!listItem">
+           style="min-width: 30px; width: 34px; height: 34px"
+           icon :to="{ name: 'ShopCart' }" v-if="!listItem">
       <v-badge
         bottom
         overlap
         color="error"
         :content="$store.getters.cartPacketCount"
-        v-if="$store.getters.cartPacketCount > 0"
-      >
+        v-if="$store.getters.cartPacketCount > 0">
         <v-icon>mdi-cart-variant</v-icon>
       </v-badge>
-      <v-icon v-else>mdi-cart-variant</v-icon>
+      <v-icon icon v-else>mdi-cart-variant</v-icon>
     </v-btn>
     <v-list-item v-else :to="{ name: 'ShopCart' }">
       <v-badge
@@ -21,8 +19,7 @@
         overlap
         color="error"
         :content="$store.getters.cartPacketCount"
-        v-if="$store.getters.cartPacketCount > 0 && !listItem"
-      >
+        v-if="$store.getters.cartPacketCount > 0 && !listItem">
         <v-icon left>mdi-cart-variant</v-icon>
       </v-badge>
       <v-icon left v-else>mdi-cart-variant</v-icon>

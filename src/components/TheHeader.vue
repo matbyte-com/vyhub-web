@@ -1,73 +1,80 @@
 <template>
-  <v-app-bar app color="header"
-             :light="$store.getters.theme && $store.getters.theme.light_header"
-             :dark="$store.getters.theme && !$store.getters.theme.light_header"
-             style="z-index: 200;">
-    <!-- burger menu on the left-->
-    <div v-if="$vuetify.breakpoint.smAndDown">
-      <BurgerMenu
-        :nav-links="allowedLinks"
-        :help-links="allowedHelpCircleLinks"
-        :menu-links="linksRight"
-        @logout="logout"
-        @login="showLoginDialog()"/>
-    </div>
+  <div>
+    <v-app-bar app color="header"
+               :light="$store.getters.theme && $store.getters.theme.light_header"
+               :dark="$store.getters.theme && !$store.getters.theme.light_header"
+               style="z-index: 200;">
+      <v-container class="d-flex align-center">
+        <!-- burger menu on the left-->
+        <div v-if="$vuetify.breakpoint.mdAndDown">
+          <BurgerMenu
+            :nav-links="allowedLinks"
+            :help-links="allowedHelpCircleLinks"
+            :menu-links="linksRight"
+            @logout="logout"
+            @login="showLoginDialog()"/>
+        </div>
 
-    <!-- Logo -->
-    <div>
-      <v-img alt="Community Logo" class="shrink" contain v-if="imgSrc" :src="imgSrc"
-             @click="$router.push('/')"
-             transition="scale-transition" :width="logo_width" height="50"/>
-    </div>
-    <!-- Do not overflow on bigger screens -->
-    <div v-if="$vuetify.breakpoint.mdAndUp" class="mr-1">
-      <v-toolbar-title class="ml-3" @click="$router.push('/')">
-        {{ communityName }}
-      </v-toolbar-title>
-    </div>
-    <!-- Overflow ellipsis (...) on smaller screens -->
-    <v-toolbar-title v-else class="ml-3" @click="$router.push('/')">
-      {{ communityName }}
-    </v-toolbar-title>
+        <!-- Logo -->
+        <div>
+          <v-img alt="Community Logo" class="shrink" contain v-if="imgSrc" :src="imgSrc"
+                 @click="$router.push('/')"
+                 transition="scale-transition" :width="logo_width" height="50"/>
+        </div>
+        <!-- Do not overflow on bigger screens -->
+        <div v-if="$vuetify.breakpoint.ldAndUp" class="mr-1">
+          <v-toolbar-title class="ml-3" @click="$router.push('/')">
+            {{ communityName }}
+          </v-toolbar-title>
+        </div>
+        <!-- Overflow ellipsis (...) on smaller screens -->
+        <v-toolbar-title v-else class="ml-3" @click="$router.push('/')">
+          {{ communityName }}
+        </v-toolbar-title>
 
-    <!-- navigation links-->
-    <div style="overflow-x: auto;" class="d-flex top-scrollbar" v-if="$vuetify.breakpoint.mdAndUp">
-      <NavigationLink
-        :link="link"
-        v-for="(link, index) in allowedLinks"
-        :key="index">
-      </NavigationLink>
-    </div>
+        <!-- navigation links-->
+        <div style="overflow-x: auto; min-width: 50%" class="d-flex top-scrollbar ml-3 flex-grow-1"
+             v-if="$vuetify.breakpoint.lgAndUp">
+          <NavigationLink
+            :link="link"
+            class="ml-1"
+            v-for="(link, index) in allowedLinks"
+            :key="index">
+          </NavigationLink>
+        </div>
 
-    <v-spacer />
-    <Search class="mr-2"/>
-    <Notification v-if="$store.getters.isLoggedIn"/>
-    <div v-if="$vuetify.breakpoint.mdAndUp">
-      <HelpCircle :menu-links="allowedHelpCircleLinks"/>
-    </div>
-    <!-- profile icon with dropdown or login-->
-    <div v-if="$vuetify.breakpoint.mdAndUp">
-      <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
-        <Credits/>
-        <ShoppingCart/>
-        <ProfileMenu
-          :menu-links="linksRight"
-          @logout="logout"/>
-      </div>
-      <div v-else>
-        <v-btn outlined class="mr-1 lighten-1 white--text" data-cy="login-button"
-               @click="showLoginDialog"
-               :class="{ 'glow-effect':utils.customerJourneyActive('login') }">
-          {{ $t("_header.labels.login") }}
-        </v-btn>
-      </div>
-    </div>
+        <v-spacer />
+        <Search />
+        <Notification v-if="$store.getters.isLoggedIn" class="ml-1"/>
+        <div v-if="$vuetify.breakpoint.lgAndUp">
+          <HelpCircle :menu-links="allowedHelpCircleLinks" class="ml-1"/>
+        </div>
+        <!-- profile icon with dropdown or login-->
+        <div v-if="$vuetify.breakpoint.smAndUp">
+          <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
+            <Credits class="ml-1 mr-1"/>
+            <ShoppingCart/>
+            <ProfileMenu
+              class="ml-3"
+              :menu-links="linksRight"
+              @logout="logout"/>
+          </div>
+          <div v-else>
+            <v-btn outlined class="lighten-1 white--text" data-cy="login-button"
+                   @click="showLoginDialog"
+                   :class="{ 'glow-effect':utils.customerJourneyActive('login') }">
+              {{ $t("_header.labels.login") }}
+            </v-btn>
+          </div>
+        </div>
+      </v-container>
+    </v-app-bar>
     <LinkAccountDialog ref="linkAccountDialog" />
     <PersonalSettings ref="userSelfSettings" :user="$store.getters.user"
                       @user-changed="refreshUser"
                       v-if="$store.getters.isLoggedIn">
     </PersonalSettings>
-  </v-app-bar>
+  </div>
 </template>
 
 <script>
