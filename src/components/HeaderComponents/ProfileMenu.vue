@@ -2,13 +2,15 @@
   <div>
     <v-menu open-on-hover offset-y eager>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text v-bind="attrs" v-on="on" class="px-1">
-          {{ $store.getters.user.username }}
-          <v-avatar size="25px" class="ml-1">
+        <v-chip pill v-bind="attrs" v-on="on" class="header lighten-1">
+          <v-avatar left>
             <v-img :src="$store.getters.user.avatar"
                    lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
           </v-avatar>
-        </v-btn>
+          <span class="ml-1 mr-1">
+            {{ $store.getters.user.username }}
+          </span>
+        </v-chip>
       </template>
       <v-list dense>
         <LinkAccountListItem />
@@ -59,3 +61,6 @@ export default {
 };
 
 </script>
+
+<style scoped>
+</style>

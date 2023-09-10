@@ -45,7 +45,6 @@
 
         <v-spacer />
         <Search />
-        <Notification v-if="$store.getters.isLoggedIn" class="ml-1"/>
         <div v-if="$vuetify.breakpoint.lgAndUp">
           <HelpCircle :menu-links="allowedHelpCircleLinks" class="ml-1"/>
         </div>
@@ -55,9 +54,10 @@
             <Credits class="ml-1 mr-1"/>
             <ShoppingCart/>
             <ProfileMenu
-              class="ml-3"
+              class="ml-5"
               :menu-links="linksRight"
               @logout="logout"/>
+            <Notification v-if="$store.getters.isLoggedIn" class="ml-1"/>
           </div>
           <div v-else>
             <v-btn outlined class="lighten-1 white--text" data-cy="login-button"
