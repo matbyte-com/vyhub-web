@@ -69,15 +69,15 @@
                 </template>
               </v-text-field>
               <transition enter-active-class="animate__fadeIn" mode="out-in"
-                          leave-active-class="animate__fadeOut">
-                <v-btn v-if="!reloading" text color="info" @click="fetchData"
-                       class="ml-2 animate__animated animate__faster" key="1">
-                  <v-icon :class="{ 'mdi-spin': reloading }">
+                          leave-active-class="animate__rotateOut">
+                <div v-if="!reloading" style="width: 56px"
+                     class="animate__animated animate__faster text-center">
+                  <v-icon color="info" @click="fetchData" key="1">
                     mdi-sync
                   </v-icon>
-                </v-btn>
+                </div>
                 <v-progress-circular indeterminate v-else
-                                     class="animate__animated animate__faster ml-5 mr-5" key="2"/>
+                                     class="animate__animated animate__faster ml-3 mr-3" key="2"/>
               </transition>
             </div>
             <v-list max-height="60vh" class="overflow-y-auto">
