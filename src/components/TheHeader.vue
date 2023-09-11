@@ -4,7 +4,8 @@
                :light="$store.getters.theme && $store.getters.theme.light_header"
                :dark="$store.getters.theme && !$store.getters.theme.light_header"
                style="z-index: 200;">
-      <v-container class="d-flex align-center">
+      <div class="d-flex align-center grow"
+           :class="{ 'container' : $store.getters.theme && $store.getters.theme.header_container }">
         <!-- burger menu on the left-->
         <div v-if="$vuetify.breakpoint.mdAndDown">
           <BurgerMenu
@@ -67,7 +68,7 @@
             </v-chip>
           </div>
         </div>
-      </v-container>
+      </div>
     </v-app-bar>
     <LinkAccountDialog ref="linkAccountDialog" />
     <PersonalSettings ref="userSelfSettings" :user="$store.getters.user"

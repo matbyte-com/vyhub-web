@@ -177,6 +177,7 @@ export default Vue.extend({
             cachedTheme.dark = false;
           }
           cachedTheme.light_header = theme.light_header;
+          cachedTheme.header_container = theme.header_container;
           // set colors, logo and more
           this.$vuetify.theme.currentTheme.primary = theme.primary;
           this.$vuetify.theme.currentTheme.success = theme.success;
