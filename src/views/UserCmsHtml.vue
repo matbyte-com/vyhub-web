@@ -1,5 +1,14 @@
 <template>
-  <span class="ql-editor" v-if="html" v-html="html"></span>
+  <div v-if="data">
+    <v-container v-if="data.wrapper">
+      <v-card class="card-rounded">
+        <v-card-text>
+          <span class="ql-editor" v-html="data.content"></span>
+        </v-card-text>
+      </v-card>
+    </v-container>
+    <span v-else class="ql-editor" v-html="data.content"></span>
+  </div>
 </template>
 
 <script>
@@ -10,7 +19,7 @@ export default {
   data() {
     return {
       links: [],
-      html: null,
+      data: null,
     };
   },
   watch: {
@@ -34,14 +43,13 @@ export default {
     async getHtml() {
       const htmlId = this.links
         .find((l) => l.title.toLowerCase() === this.$route.params.title).cms_page_id;
-      (await openapi).general_getCmsHtml(htmlId).then((rsp) => { this.html = rsp.data.content; })
+      (await openapi).general_getCmsHtml(htmlId).then((rsp) => { this.data = rsp.data; })
         .catch((err) => {
           this.html = `Error while fetching HTML ${err}`;
           console.log(err.data);
         });
     },
   },
-
 };
 </script>
 

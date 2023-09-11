@@ -106,6 +106,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/cms/:title',
     name: 'Cms',
+    meta: { noContainer: true },
     component: () => import('../views/UserCmsHtml.vue'),
   },
   {

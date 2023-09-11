@@ -13,5 +13,10 @@ export default {
       ...Common.requirementSetSelectField,
       type: 'String',
     },
+    wrapper: {
+      type: 'boolean',
+      title: i18n.t('wrapper'),
+      'x-display': 'switch',
+    },
   },
 };
