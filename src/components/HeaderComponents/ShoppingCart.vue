@@ -1,14 +1,15 @@
 <template>
   <div>
-    <v-btn text
-           style="min-width: 30px; width: 34px; height: 34px"
-           icon :to="{ name: 'ShopCart' }" v-if="!listItem">
-      <v-badge
-        bottom
-        overlap
-        color="error"
-        :content="$store.getters.cartPacketCount"
+    <v-btn text style="min-width: 30px; width: 34px; height: 34px" icon
+           :to="{ name: 'ShopCart' }" v-if="!listItem">
+      <v-badge bottom overlap color="error"
         v-if="$store.getters.cartPacketCount > 0">
+        <template v-slot:badge>
+          <div class="animate__animated"
+               :class="{ 'animate__heartBeat': bouncing }">
+            {{ $store.getters.cartPacketCount }}
+          </div>
+        </template>
         <v-icon>mdi-cart-variant</v-icon>
       </v-badge>
       <v-icon icon v-else>mdi-cart-variant</v-icon>
@@ -38,6 +39,11 @@ import ShopService from '@/services/ShopService';
 
 export default {
   name: 'ShoppingCart',
+  data() {
+    return {
+      bouncing: false,
+    };
+  },
   props: {
     listItem: {
       type: Boolean,
@@ -46,6 +52,14 @@ export default {
   },
   mounted() {
     this.fetchData();
+  },
+  watch: {
+    '$store.getters.cartPacketCount': function () {
+      this.bouncing = true;
+      setTimeout(() => {
+        this.bouncing = false;
+      }, 1000);
+    },
   },
   methods: {
     fetchData() {
