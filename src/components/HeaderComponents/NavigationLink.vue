@@ -32,7 +32,7 @@
     <v-btn
       text :dark="dark"
       v-if="(allowedTabs || []).length === 0" class="nav-btn px-3"
-      :active-class="lightHeader ? 'active-btn-light' : 'active-btn-normal'"
+      :active-class="lightHeader ? 'active-btn-light' : ''"
       :href="(link.cms_page_id === null && !utils.localLink(link) ? link.link : null)"
       :to="(link.cms_page_id || utils.localLink(link) ? utils.getLocalLink(link) : null)">
       <v-icon left class="" v-if="link.icon">{{ link.icon }}</v-icon>
@@ -72,10 +72,6 @@ export default {
 <style>
 .active-btn-light {
   background-color: var(--v-primary-lighten1);
-}
-
-.active-btn-normal {
-  background-color: var(--v-header-lighten1);
 }
 
 .active-btn-light::before {

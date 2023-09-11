@@ -2,7 +2,7 @@
   <div>
     <v-menu open-on-hover offset-y eager>
       <template v-slot:activator="{ on, attrs }">
-        <v-chip pill v-bind="attrs" v-on="on" class="header lighten-3">
+        <v-chip pill v-bind="attrs" v-on="on" class="header lighten-2">
           <v-avatar left>
             <v-img :src="$store.getters.user.avatar"
                    lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />

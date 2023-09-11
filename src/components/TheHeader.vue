@@ -60,7 +60,7 @@
             <Notification v-if="$store.getters.isLoggedIn" class="ml-1"/>
           </div>
           <div v-else>
-            <v-chip style="height: 32px" class="lighten-3 header ml-1" data-cy="login-button"
+            <v-chip style="height: 32px" class="lighten-2 header ml-1" data-cy="login-button"
                    @click="showLoginDialog"
                    :class="{ 'glow-effect':utils.customerJourneyActive('login') }">
               {{ $t("_header.labels.login") }}
