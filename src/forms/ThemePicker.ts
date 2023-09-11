@@ -14,12 +14,21 @@ function returnForm() {
         title: i18n.t('_theme.enable_landingpage'),
         'x-display': 'switch',
       },
-      header: common.colorPicker('_theme.headerColor'),
+      header: {
+        ...common.colorPicker('_theme.headerColor'),
+        'x-cols': 4,
+      },
       light_header: {
         type: 'boolean',
         title: i18n.t('_theme.lightHeaderColor'),
         'x-display': 'switch',
-        'x-cols': 6,
+        'x-cols': 4,
+      },
+      header_container: {
+        type: 'boolean',
+        title: i18n.t('_theme.headerContainer'),
+        'x-display': 'switch',
+        'x-cols': 4,
       },
       footer: common.colorPicker('_theme.footerColor'),
       primary: common.colorPicker('_theme.primaryColor'),
