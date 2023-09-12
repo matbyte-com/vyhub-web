@@ -152,7 +152,7 @@ function gatewayFields(gatewayType: string) {
 }
 
 function form(gatewayType: string) {
-  const res = {
+  const res: any = {
     type: 'object',
     required: ['name', 'type'],
     properties: {

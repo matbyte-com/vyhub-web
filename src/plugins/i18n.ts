@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
-const dateTimeFormats = {
+const dateTimeFormats: any = {
   en: {
     short: {
       year: 'numeric', month: 'short', day: 'numeric',

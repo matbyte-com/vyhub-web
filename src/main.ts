@@ -14,6 +14,7 @@ import '@/assets/css/main.scss';
 import 'animate.css';
 
 Vue.config.productionTip = false;
+Vue.config.ignoredElements = ['swiper-container', 'swiper-slide'];
 
 Axios.defaults.baseURL = config.backend_url;
 Axios.defaults.headers.common['Content-Type'] = 'application/json';

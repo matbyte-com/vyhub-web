@@ -3,7 +3,7 @@ import i18n from '@/plugins/i18n';
 import utilService from '@/services/UtilService';
 
 function returnForm() {
-  const ret = {
+  const ret: any = {
     type: 'object',
     required: [
       'dark',

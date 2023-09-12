@@ -13,7 +13,7 @@ i18n.availableLocales.forEach((l) => {
 });
 
 function form(forum_enabled = false) {
-  const ret = {
+  const ret: any = {
     type: 'object',
     required: ['community_name', 'show_ticket', 'show_team', 'language'],
     properties: {

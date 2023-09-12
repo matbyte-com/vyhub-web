@@ -3,7 +3,7 @@ import Common from '@/forms/Common';
 import utilService from '@/services/UtilService';
 
 function returnForm() {
-  const ret = {
+  const ret: any = {
     type: 'object',
     required: [
       'title',
