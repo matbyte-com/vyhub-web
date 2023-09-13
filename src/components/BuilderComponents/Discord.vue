@@ -8,9 +8,11 @@
            cols="12" md="6">
       <div>
         <div class="text-h3" :class="{ 'white--text': whiteText }">{{ headline }}</div>
-        <v-img width="300px" class="mt-3 mx-auto"
-               :class="{ 'invert-color': !whiteText}"
-               src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b544a3e3c7c05753bcd_full_logo_white_RGB.png"/>
+        <a :href="inviteLink">
+          <v-img width="300px" class="mt-3 mx-auto"
+                 :class="{ 'invert-color': !whiteText}"
+                 src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b544a3e3c7c05753bcd_full_logo_white_RGB.png"/>
+        </a>
       </div>
     </v-col>
     <v-col cols="12" md="6" :class="{ 'text-start': !inverted && $vuetify.breakpoint.mdAndUp,
@@ -40,6 +42,10 @@ export default {
     whiteText: {
       type: Boolean,
       default: true,
+    },
+    inviteLink: {
+      type: String,
+      default: null,
     },
   },
 };

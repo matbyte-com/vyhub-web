@@ -4,7 +4,7 @@
       <slot />
     </div>
     <v-card flat tile :color="backgroundColor" :img="imageUrl" :height="height"
-            class="wrapper-card transparent" v-else>
+            class="wrapper-card transparent" v-else :style="`margin-top: ${getMarginTop}`">
       <div class="pt-3 pb-3" :style="{ backgroundColor: getBackgroundColor }">
         <v-container class="d-flex align-center justify-center wrapper-container pt-0 mt-0">
           <div>
@@ -25,10 +25,16 @@
 <script>
 export default {
   name: 'Wrapper',
-  props: ['title', 'subtitle', 'no_wrap', 'height', 'css', 'backgroundColor', 'whiteText', 'imageUrl', 'noTitleInWrapper'],
+  props: ['title', 'subtitle', 'no_wrap', 'height', 'css', 'backgroundColor', 'whiteText', 'imageUrl', 'noTitleInWrapper', 'marginTop'],
   computed: {
     getBackgroundColor() {
       return this.backgroundColor ? this.backgroundColor : '';
+    },
+    getMarginTop() {
+      if (!this.marginTop) return 0;
+      // check if string is only number. If so, add px
+      if (/^\d+$/.test(this.marginTop)) return `${this.marginTop}px`;
+      return this.marginTop;
     },
   },
 };

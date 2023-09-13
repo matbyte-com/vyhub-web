@@ -16,6 +16,7 @@
              :background-color="block.props_data ? block.props_data.backgroundColor : null"
              :image-url="block.props_data ? block.props_data.imageUrl : null"
              :white-text="block.props_data.whiteText ? block.props_data.whiteText : null"
+             :margin-top="block.props_data.marginTop ? block.props_data.marginTop : 0"
              :no-title-in-wrapper="block.type === 'NewsPreview'">
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
@@ -292,7 +293,13 @@ export default {
           height: {
             type: 'string',
             title: this.$t('_component._form.height'),
-            'x-cols': 12,
+            'x-cols': 6,
+          },
+          marginTop: {
+            type: 'string',
+            title: this.$t('_component._form.marginTop'),
+            'x-cols': 6,
+            'x-class': 'pl-1',
           },
           whiteText: {
             type: 'boolean',

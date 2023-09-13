@@ -210,6 +210,7 @@ export default {
             title: 'Slides',
             items: {
               type: 'object',
+              required: ['imageUrl'],
               properties: {
                 title: {
                   title: i18n.t('title'),
@@ -386,6 +387,10 @@ export default {
         properties: {
           headline: {
             title: i18n.t('_component._form.headline'),
+            type: 'string',
+          },
+          inviteLink: {
+            title: i18n.t('_component._form.inviteLink'),
             type: 'string',
           },
           discordWidget: {

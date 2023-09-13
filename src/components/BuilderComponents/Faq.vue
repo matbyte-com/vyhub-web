@@ -5,10 +5,13 @@
         <v-card class="card-rounded">
           <v-expansion-panels>
             <v-expansion-panel v-for="(q, index) in questions" :key="index">
-              <v-expansion-panel-header>
+              <v-expansion-panel-header class="vh-home-faq-header">
                 <div>
                   <v-icon left v-if="q.icon">{{ q.icon }}</v-icon>
-                  <b>{{ q.question }}</b>
+                  <b>
+                    <span class="primary--text">{{ String(index + 1).padStart(2, '0') }}.</span>
+                    <span class="ml-2">{{ q.question }}</span>
+                  </b>
                 </div>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
@@ -31,5 +34,8 @@ export default {
 </script>
 
 <style scoped>
+::v-deep .v-expansion-panel-header__icon i {
+  color: var(--v-primary-base) !important;
+}
 
 </style>

@@ -28,15 +28,44 @@
           </v-icon>
           {{ l.btnText }}
         </v-btn>
+        <v-spacer />
+        <v-btn color="primary card-rounded" large depressed v-if="!$store.getters.isLoggedIn"
+               @click="showLoginDialog"
+               :class="{ 'glow-effect':utils.customerJourneyActive('login') }">
+          {{ $t('_header.labels.login') }}
+        </v-btn>
+        <v-chip pill v-else outlined :to="{ name: 'Dashboard' }">
+          <v-avatar left>
+            <v-img :src="$store.getters.user.avatar"
+                   lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+          </v-avatar>
+          <span class="ml-1 mr-1">
+            {{ $store.getters.user.username }}
+          </span>
+        </v-chip>
       </v-container>
     </v-app-bar>
+    <LinkAccountDialog ref="linkAccountDialog" />
   </div>
 </template>
 
 <script>
+import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
+
 export default {
   name: 'Header',
   props: ['headline', 'logoUrl', 'logo_width', 'app', 'backgroundColor', 'whiteText', 'links', 'dense', 'fixed', 'backgroundImage'],
+  components: {
+    LinkAccountDialog,
+  },
+  methods: {
+    showLoginDialog() {
+      this.$router.push({
+        path: this.$route.path,
+        query: { login: 'true', return_url: `${window.location.origin}/user` },
+      });
+    },
+  },
 };
 </script>
 

@@ -3,7 +3,7 @@
     <div style="width: 100%">
       <div class="d-flex my-2 flex-wrap justify-center">
         <NavigationLink
-          class=""
+          class="ml-1"
           :link="link"
           :dark="true"
           v-for="(link, index) in navLinks"

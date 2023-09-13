@@ -19,17 +19,17 @@
         <!-- Logo -->
         <div>
           <v-img alt="Community Logo" class="shrink" contain v-if="imgSrc" :src="imgSrc"
-                 @click="$router.push('/')"
+                 @click="$router.push('/')" style="cursor: pointer"
                  transition="scale-transition" :width="logo_width" height="50"/>
         </div>
         <!-- Do not overflow on bigger screens -->
         <div v-if="$vuetify.breakpoint.lgAndUp" class="mr-1">
-          <v-toolbar-title class="ml-3" @click="$router.push('/')">
+          <v-toolbar-title class="ml-3" @click="$router.push('/')" style="cursor: pointer">
             {{ communityName }}
           </v-toolbar-title>
         </div>
         <!-- Overflow ellipsis (...) on smaller screens -->
-        <v-toolbar-title v-else class="ml-3" @click="$router.push('/')">
+        <v-toolbar-title v-else class="ml-3" @click="$router.push('/')" style="cursor: pointer">
           {{ communityName }}
         </v-toolbar-title>
 

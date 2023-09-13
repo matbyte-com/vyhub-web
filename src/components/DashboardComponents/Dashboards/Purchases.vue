@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card class="vh-dashboard-purchases card-rounded" flat>
       <v-card-text>
         <v-row>
           <v-col>
