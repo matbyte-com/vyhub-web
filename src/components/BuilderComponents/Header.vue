@@ -4,7 +4,8 @@
                :flat="!app" style="z-index: 4;" :src="backgroundImage">
       <!-- burger menu on the left-->
       <!-- Logo -->
-      <v-container class="d-flex align-center">
+      <div class="d-flex align-center"
+           :class="{ 'container' : !$vuetify.breakpoint.xs }">
         <div>
           <v-img alt="Community Logo" class="shrink py-1" contain v-if="logoUrl" :src="logoUrl"
                  transition="scale-transition" :width="logo_width" height="50"/>
@@ -43,7 +44,7 @@
             {{ $store.getters.user.username }}
           </span>
         </v-chip>
-      </v-container>
+      </div>
     </v-app-bar>
     <LinkAccountDialog ref="linkAccountDialog" />
   </div>

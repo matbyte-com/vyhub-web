@@ -1,12 +1,12 @@
 <template>
   <div>
     <!-- Top Menu -->
-    <div style="position: fixed; z-index: 5; margin-top: 3px;" class="d-flex"
+    <div style="position: fixed; z-index: 5; margin-top: 70px;" class="d-flex"
          v-if="$checkProp('theme_edit')">
-      <div style="background-color: #646464A3; border-radius: 5px; height: 32px"
-           class="pa-1 ml-1 mt-1">
-        <v-icon color="white" @click="editDrawer = !editDrawer">mdi-menu</v-icon>
-      </div>
+      <v-card tile style="background-color: #646464A3;"
+           class="pa-1 mt-1">
+        <v-icon large @click="editDrawer = !editDrawer">mdi-cog</v-icon>
+      </v-card>
     </div>
     <!-- Rendering of Components -->
     <wrapper v-for="block in blocksToShow" :key="block.id" :no_wrap="block.no_wrap"
