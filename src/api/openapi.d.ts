@@ -889,6 +889,10 @@ declare namespace Components {
              */
             requirement_set_id?: string; // uuid
             /**
+             * Wrapper
+             */
+            wrapper: boolean;
+            /**
              * Content
              */
             content?: string;
@@ -909,6 +913,10 @@ declare namespace Components {
              * Requirement Set Id
              */
             requirement_set_id?: string; // uuid
+            /**
+             * Wrapper
+             */
+            wrapper?: boolean;
         }
         /**
          * CmsPageModelPatch
@@ -926,6 +934,10 @@ declare namespace Components {
              * Requirement Set Id
              */
             requirement_set_id?: string; // uuid
+            /**
+             * Wrapper
+             */
+            wrapper?: boolean;
         }
         /**
          * CmsPageModelShort
@@ -943,6 +955,10 @@ declare namespace Components {
              * Requirement Set Id
              */
             requirement_set_id?: string; // uuid
+            /**
+             * Wrapper
+             */
+            wrapper: boolean;
         }
         /**
          * CommentModel
@@ -965,6 +981,27 @@ declare namespace Components {
              * Date
              */
             date: string; // date-time
+        }
+        /**
+         * CommunityStatModel
+         */
+        export interface CommunityStatModel {
+            /**
+             * Online Players
+             */
+            online_players: number;
+            /**
+             * Registered Players
+             */
+            registered_players: number;
+            /**
+             * Hours Played
+             */
+            hours_played: number;
+            /**
+             * Active Users
+             */
+            active_users: number;
         }
         /**
          * CountryModel
@@ -1618,6 +1655,23 @@ declare namespace Components {
             PurchaseStatus;
         }
         /**
+         * ForumStatsModel
+         */
+        export interface ForumStatsModel {
+            /**
+             * Posts Count
+             */
+            posts_count: number;
+            /**
+             * Threads Count
+             */
+            threads_count: number;
+            /**
+             * Reactions Count
+             */
+            reactions_count: number;
+        }
+        /**
          * FrontendURLModel
          */
         export interface FrontendURLModel {
@@ -1976,6 +2030,21 @@ declare namespace Components {
             favicon_url?: string; // uri
         }
         /**
+         * LastPurchaseModel
+         */
+        export interface LastPurchaseModel {
+            /**
+             * Amount Total
+             */
+            amount_total: number;
+            currency: /* CurrencyModel */ CurrencyModel;
+            user: /* UserModelShort */ UserModelShort;
+            /**
+             * Last Update
+             */
+            last_update: string; // date-time
+        }
+        /**
          * LegalModel
          */
         export interface LegalModel {
@@ -1999,11 +2068,6 @@ declare namespace Components {
                 [key: string]: any;
             };
         }
-        /**
-         * LogCategory
-         * An enumeration.
-         */
-        export type LogCategory = "SYSTEM" | "USER" | "BAN" | "SHOP" | "PACKET" | "GROUP" | "NEWS" | "REQUIREMENT" | "DESIGN" | "WARNING" | "SERVER" | "DISCORD" | "FAQ" | "ADVERT" | "NAVIGATION" | "FORUM" | "TEAMSPEAK3" | "API" | "OTHER";
         /**
          * LogModel
          */
@@ -3097,6 +3161,10 @@ declare namespace Components {
              */
             id: string; // uuid
             currency: /* CurrencyModel */ CurrencyModel;
+            /**
+             * Description
+             */
+            description?: string;
         }
         /**
          * PacketModelVeryShort
@@ -3512,6 +3580,19 @@ declare namespace Components {
          */
         export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "COUPON" | "CREDITS" | "FREE";
         /**
+         * PopularLabelModel
+         */
+        export interface PopularLabelModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color?: string; // color
+        }
+        /**
          * PostModel
          */
         export interface PostModel {
@@ -3529,9 +3610,17 @@ declare namespace Components {
             created: string; // date-time
             creator?: /* UserModelShort */ UserModelShort;
             /**
+             * Thread Id
+             */
+            thread_id: string; // uuid
+            /**
              * Last Edit
              */
             last_edit?: string; // date-time
+            /**
+             * Reactions
+             */
+            reactions: /* PostReactionModel */ PostReactionModel[];
         }
         /**
          * PostModelAdd
@@ -3602,10 +3691,42 @@ declare namespace Components {
             created: string; // date-time
             creator?: /* UserModelShort */ UserModelShort;
             /**
+             * Thread Id
+             */
+            thread_id: string; // uuid
+            /**
              * Last Edit
              */
             last_edit?: string; // date-time
+            /**
+             * Reactions
+             */
+            reactions: /* PostReactionModel */ PostReactionModel[];
             thread?: /* ThreadModelExtraShort */ ThreadModelExtraShort;
+        }
+        /**
+         * PostReactionModel
+         */
+        export interface PostReactionModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            post: /* PostModelExtraShort */ PostModelExtraShort;
+            user: /* UserModelNoLinkedExtraShort */ UserModelNoLinkedExtraShort;
+        }
+        /**
+         * PostReactionModelAdd
+         */
+        export interface PostReactionModelAdd {
+            /**
+             * Name
+             */
+            name: string;
         }
         /**
          * PropertyModel
@@ -4510,10 +4631,6 @@ declare namespace Components {
              * Multigroup
              */
             multigroup: boolean;
-            /**
-             * Color
-             */
-            color: string; // color
             server_type: /**
              * ServerType
              * An enumeration.
@@ -4533,10 +4650,6 @@ declare namespace Components {
              * Name
              */
             name: string;
-            /**
-             * Color
-             */
-            color: string; // color
             /**
              * Server Type
              */
@@ -4563,10 +4676,6 @@ declare namespace Components {
              */
             name?: string;
             /**
-             * Color
-             */
-            color?: string; // color
-            /**
              * Icon
              */
             icon?: string;
@@ -4591,10 +4700,6 @@ declare namespace Components {
              * Name
              */
             name: string;
-            /**
-             * Color
-             */
-            color: string; // color
             /**
              * Icon
              */
@@ -4636,6 +4741,14 @@ declare namespace Components {
              * Top Donators Display Title
              */
             top_donators_display_title?: string;
+            /**
+             * Last Donators Enabled
+             */
+            last_donators_enabled?: boolean;
+            /**
+             * Last Donators Display Title
+             */
+            last_donators_display_title?: string;
             /**
              * Default Currency
              */
@@ -4691,6 +4804,14 @@ declare namespace Components {
              * Top Donators Display Title
              */
             top_donators_display_title?: string;
+            /**
+             * Last Donators Enabled
+             */
+            last_donators_enabled?: boolean;
+            /**
+             * Last Donators Display Title
+             */
+            last_donators_display_title?: string;
             /**
              * Default Currency
              */
@@ -4858,6 +4979,10 @@ declare namespace Components {
          */
         export interface ThemeConfigModel {
             /**
+             * Enable Landingpage
+             */
+            enable_landingpage?: boolean;
+            /**
              * Dark
              */
             dark?: boolean;
@@ -4881,6 +5006,10 @@ declare namespace Components {
              * Light Header
              */
             light_header?: boolean;
+            /**
+             * Header Container
+             */
+            header_container?: boolean;
             /**
              * Footer
              */
@@ -4917,6 +5046,36 @@ declare namespace Components {
              * Custom Css
              */
             custom_css?: string;
+        }
+        /**
+         * ThreadLabelModel
+         */
+        export interface ThreadLabelModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color?: string; // color
+        }
+        /**
+         * ThreadLabelModelAdd
+         */
+        export interface ThreadLabelModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color?: string; // color
         }
         /**
          * ThreadModel
@@ -4960,6 +5119,10 @@ declare namespace Components {
              * Pinned
              */
             pinned?: boolean;
+            /**
+             * Labels
+             */
+            labels: /* ThreadLabelModel */ ThreadLabelModel[];
         }
         /**
          * ThreadModelAdd
@@ -6657,6 +6820,27 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ForumAddLabel {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* ThreadLabelModelAdd */ Components.Schemas.ThreadLabelModelAdd;
+        namespace Responses {
+            export type $200 = /* ThreadLabelModel */ Components.Schemas.ThreadLabelModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace ForumCreatePost {
         namespace Parameters {
             /**
@@ -6675,6 +6859,27 @@ declare namespace Paths {
         export type RequestBody = /* PostModelAdd */ Components.Schemas.PostModelAdd;
         namespace Responses {
             export type $200 = /* PostModel */ Components.Schemas.PostModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumCreateReaction {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* PostReactionModelAdd */ Components.Schemas.PostReactionModelAdd;
+        namespace Responses {
+            export type $200 = /* PostReactionModel */ Components.Schemas.PostReactionModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -6699,7 +6904,47 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ForumDeleteLabel {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.DepsVyhubCommonApiHelpersSuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace ForumDeletePost {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.DepsVyhubCommonApiHelpersSuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumDeleteReaction {
         namespace Parameters {
             /**
              * Uuid
@@ -6863,6 +7108,14 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ForumGetPopularLabels {
+        namespace Responses {
+            /**
+             * Response Get Popular Labels Forum Label  Get
+             */
+            export type $200 = /* PopularLabelModel */ Components.Schemas.PopularLabelModel[];
+        }
+    }
     namespace ForumGetPosts {
         namespace Parameters {
             /**
@@ -6891,6 +7144,11 @@ declare namespace Paths {
         namespace Responses {
             export type $200 = /* Page[PostModelWithThread] */ Components.Schemas.PagePostModelWithThread;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumGetStats {
+        namespace Responses {
+            export type $200 = /* ForumStatsModel */ Components.Schemas.ForumStatsModel;
         }
     }
     namespace ForumGetThread {
@@ -7259,12 +7517,7 @@ declare namespace Paths {
     }
     namespace GeneralGetCommunityStats {
         namespace Responses {
-            /**
-             * Response Get Community Stats General Community Stats Get
-             */
-            export interface $200 {
-                [name: string]: number;
-            }
+            export type $200 = /* CommunityStatModel */ Components.Schemas.CommunityStatModel;
         }
     }
     namespace GeneralGetConfig {
@@ -7549,15 +7802,6 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
-    namespace LogGetCategories {
-        namespace Responses {
-            export type $200 = /**
-             * LogCategory
-             * An enumeration.
-             */
-            Components.Schemas.LogCategory[];
-        }
-    }
     namespace LogGetLabels {
         namespace Parameters {
             /**
@@ -7619,11 +7863,6 @@ declare namespace Paths {
              */
             export type $200 = /* LogModel */ Components.Schemas.LogModel[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
-        }
-    }
-    namespace LogGetOldLogCsv {
-        namespace Responses {
-            export type $200 = any;
         }
     }
     namespace NavigationCreateNavigationLink {
@@ -9231,6 +9470,14 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ShopGetAvailableGateways {
+        namespace Responses {
+            /**
+             * Response Get Available Gateways Shop Purchase Gateway  Get
+             */
+            export type $200 = /* PaymentGatewayModel */ Components.Schemas.PaymentGatewayModel[];
+        }
+    }
     namespace ShopGetBusinessAddress {
         namespace Responses {
             export type $200 = /* AddressModel */ Components.Schemas.AddressModel;
@@ -9464,6 +9711,14 @@ declare namespace Paths {
              * Response Get Gateways Shop Gateway  Get
              */
             export type $200 = /* PaymentGatewayModel */ Components.Schemas.PaymentGatewayModel[];
+        }
+    }
+    namespace ShopGetLastDonators {
+        namespace Responses {
+            /**
+             * Response Get Last Donators Shop Last Donators Get
+             */
+            export type $200 = /* LastPurchaseModel */ Components.Schemas.LastPurchaseModel[];
         }
     }
     namespace ShopGetPacketCategoryStatistic {
@@ -12340,6 +12595,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200>
   /**
+   * shop_getAvailableGateways - Get Available Gateways
+   */
+  'shop_getAvailableGateways'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetAvailableGateways.Responses.$200>
+  /**
    * shop_startPayment - Start Payment
    */
   'shop_startPayment'(
@@ -12467,6 +12730,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDonationGoal.Responses.$200>
+  /**
+   * shop_getLastDonators - Get Last Donators
+   */
+  'shop_getLastDonators'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetLastDonators.Responses.$200>
   /**
    * shop_getTopDonators - Get Top Donators
    */
@@ -12888,14 +13159,6 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.LogGetLog.Responses.$200>
   /**
-   * log_getCategories - Get Categories
-   */
-  'log_getCategories'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.LogGetCategories.Responses.$200>
-  /**
    * log_getLabels - Get Labels
    */
   'log_getLabels'(
@@ -12903,16 +13166,6 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.LogGetLabels.Responses.$200>
-  /**
-   * log_getOldLogCsv - Get Old Log Csv
-   * 
-   * Get logs from versions < 1.5.0 as CSV file
-   */
-  'log_getOldLogCsv'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.LogGetOldLogCsv.Responses.$200>
   /**
    * webhook_paypalEvent - Paypal Event
    */
@@ -13092,6 +13345,30 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumToggleStatus.Responses.$200>
   /**
+   * forum_addLabel - Add Label
+   */
+  'forum_addLabel'(
+    parameters?: Parameters<Paths.ForumAddLabel.PathParameters> | null,
+    data?: Paths.ForumAddLabel.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumAddLabel.Responses.$200>
+  /**
+   * forum_getPopularLabels - Get Popular Labels
+   */
+  'forum_getPopularLabels'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumGetPopularLabels.Responses.$200>
+  /**
+   * forum_deleteLabel - Delete Label
+   */
+  'forum_deleteLabel'(
+    parameters?: Parameters<Paths.ForumDeleteLabel.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumDeleteLabel.Responses.$200>
+  /**
    * forum_getThreadPosts - Get Thread Posts
    */
   'forum_getThreadPosts'(
@@ -13124,6 +13401,24 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumDeletePost.Responses.$200>
   /**
+   * forum_createReaction - Create Reaction
+   * 
+   * Add reaction to post specified by path parameter.
+   */
+  'forum_createReaction'(
+    parameters?: Parameters<Paths.ForumCreateReaction.PathParameters> | null,
+    data?: Paths.ForumCreateReaction.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumCreateReaction.Responses.$200>
+  /**
+   * forum_deleteReaction - Delete Reaction
+   */
+  'forum_deleteReaction'(
+    parameters?: Parameters<Paths.ForumDeleteReaction.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumDeleteReaction.Responses.$200>
+  /**
    * forum_getPosts - Get Posts
    */
   'forum_getPosts'(
@@ -13131,6 +13426,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumGetPosts.Responses.$200>
+  /**
+   * forum_getStats - Get Stats
+   */
+  'forum_getStats'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumGetStats.Responses.$200>
   /**
    * import_getGextensionPackets - Get Gextension Packets
    */
@@ -14811,6 +15114,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200>
   }
+  ['/shop/purchase/gateway/']: {
+    /**
+     * shop_getAvailableGateways - Get Available Gateways
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetAvailableGateways.Responses.$200>
+  }
   ['/shop/checkout/']: {
     /**
      * shop_startPayment - Start Payment
@@ -14962,6 +15275,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDonationGoal.Responses.$200>
+  }
+  ['/shop/last_donators']: {
+    /**
+     * shop_getLastDonators - Get Last Donators
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetLastDonators.Responses.$200>
   }
   ['/shop/top-donators']: {
     /**
@@ -15451,16 +15774,6 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.LogGetLog.Responses.$200>
   }
-  ['/log/type']: {
-    /**
-     * log_getCategories - Get Categories
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.LogGetCategories.Responses.$200>
-  }
   ['/log/labels']: {
     /**
      * log_getLabels - Get Labels
@@ -15470,18 +15783,6 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.LogGetLabels.Responses.$200>
-  }
-  ['/log/old/csv']: {
-    /**
-     * log_getOldLogCsv - Get Old Log Csv
-     * 
-     * Get logs from versions < 1.5.0 as CSV file
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.LogGetOldLogCsv.Responses.$200>
   }
   ['/webhook/paypal/{uuid}']: {
     /**
@@ -15689,6 +15990,36 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumToggleStatus.Responses.$200>
   }
+  ['/forum/thread/{uuid}/label']: {
+    /**
+     * forum_addLabel - Add Label
+     */
+    'post'(
+      parameters?: Parameters<Paths.ForumAddLabel.PathParameters> | null,
+      data?: Paths.ForumAddLabel.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumAddLabel.Responses.$200>
+  }
+  ['/forum/label/']: {
+    /**
+     * forum_getPopularLabels - Get Popular Labels
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumGetPopularLabels.Responses.$200>
+  }
+  ['/forum/label/{uuid}']: {
+    /**
+     * forum_deleteLabel - Delete Label
+     */
+    'delete'(
+      parameters?: Parameters<Paths.ForumDeleteLabel.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumDeleteLabel.Responses.$200>
+  }
   ['/forum/thread/{uuid}/posts']: {
     /**
      * forum_getThreadPosts - Get Thread Posts
@@ -15727,6 +16058,28 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumEditPost.Responses.$200>
   }
+  ['/forum/post/{uuid}/reaction']: {
+    /**
+     * forum_createReaction - Create Reaction
+     * 
+     * Add reaction to post specified by path parameter.
+     */
+    'post'(
+      parameters?: Parameters<Paths.ForumCreateReaction.PathParameters> | null,
+      data?: Paths.ForumCreateReaction.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumCreateReaction.Responses.$200>
+  }
+  ['/forum/reaction/{uuid}']: {
+    /**
+     * forum_deleteReaction - Delete Reaction
+     */
+    'delete'(
+      parameters?: Parameters<Paths.ForumDeleteReaction.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumDeleteReaction.Responses.$200>
+  }
   ['/forum/post']: {
     /**
      * forum_getPosts - Get Posts
@@ -15736,6 +16089,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumGetPosts.Responses.$200>
+  }
+  ['/forum/stats']: {
+    /**
+     * forum_getStats - Get Stats
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumGetStats.Responses.$200>
   }
   ['/import/gextension/packet']: {
     /**

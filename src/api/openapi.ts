@@ -1,5 +1,6 @@
 import OpenAPIClientAxios from 'openapi-client-axios';
-import { Client } from '@/api/openapi.d';
+import { Client } from './openapi.d';
+import qs from 'qs';
 import store from '@/store';
 import config from '@/config';
 
@@ -16,6 +17,10 @@ function api() {
     axiosConfigDefaults: {
       withCredentials: true,
       baseURL: config.backend_url,
+      // needed to match the fast-api required input type
+      paramsSerializer: (params) => {
+        return qs.stringify(params, {arrayFormat: 'repeat'})
+      },
       headers,
     },
   }).init<Client>();

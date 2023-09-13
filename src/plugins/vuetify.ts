@@ -23,7 +23,7 @@ import minifyTheme from 'minify-css-string';
 import '@mdi/font/css/materialdesignicons.css';
 import VyHubIcon from '@/components/Icons/VyHub.vue';
 import TeamspeakIcon from '@/components/Icons/Teamspeak.vue';
-import DiscordIcon from '@/components/Icons/Discord.vue';
+import DiscordIcon from '@/components/Icons/IDiscord.vue';
 import RustIcon from '@/components/Icons/Rust.vue';
 import FiveMIcon from '@/components/Icons/FiveM.vue';
 import GModIcon from '@/components/Icons/GMod.vue';

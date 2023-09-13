@@ -79,7 +79,7 @@
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-form ref="form" @submit.prevent="">
-                  <v-jsf :options="vjsfOptions"
+                  <vj :options="vjsfOptions"
                          @input="component.edited = true; componentEdited=true"
                          v-model="component.props_data" :schema="getComponentSchema(component)"/>
                 </v-form>
@@ -146,13 +146,13 @@ const homepageComponents = {};
 
 // eslint-disable-next-line array-callback-return
 components.components.map((component) => {
-  homepageComponents[component.component] = () => import(`@/components/BuilderComponents/${component.component}.vue`);
+  homepageComponents[component.component] = () => import(`../components/BuilderComponents/${component.component}.vue`);
 });
 
 export default {
   name: 'Home.vue',
   components: {
-    VJsf,
+    vj: VJsf,
     Dialog,
     Wrapper,
     draggable,

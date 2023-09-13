@@ -23,7 +23,7 @@
       <v-col cols="12" v-if="$vuetify.breakpoint.smAndDown">
         <Swiper :number-of-elements="3" :per-page-custom="[1,2,3,3,3]">
           <swiper-slide>
-            <ServerStatus ref="serverStatus" />
+            <HomeServerStatus ref="serverStatus" />
           </swiper-slide>
           <swiper-slide v-if="$store.getters.shopConfig">
             <v-card class="card-rounded" flat>
@@ -34,7 +34,7 @@
             </v-card>
           </swiper-slide>
           <swiper-slide>
-            <NewUsers />
+            <HomeNewUsers />
           </swiper-slide>
         </Swiper>
       </v-col>
@@ -147,7 +147,7 @@
       <!-- Sidebar -->
       <v-col ref="StatusCol" cols="4">
         <div v-if="$vuetify.breakpoint.mdAndUp">
-          <ServerStatus ref="serverStatus"/>
+          <HomeServerStatus ref="serverStatus"/>
           <v-card class="mt-3 card-rounded vh-news-donation-goal"
                   flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.donation_goal_enabled">
@@ -158,7 +158,7 @@
            $store.getters.shopConfig.top_donators_enabled">
             <TopDonators class="pt-3"/>
           </v-card>
-          <NewUsers class="mt-3" />
+          <HomeNewUsers class="mt-3" />
         </div>
       </v-col>
     </v-row>
@@ -171,13 +171,13 @@ import UserLink from '@/components/UserLink.vue';
 import NewsAddForm from '@/forms/NewsAddForm';
 import DialogForm from '@/components/DialogForm.vue';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
+import HomeServerStatus from '@/components/HomeComponents/HomeServerStatus.vue';
 import DonationGoal from '@/components/ShopComponents/DonationGoal.vue';
 import Editor from '@/components/Editor.vue';
 import TopDonators from '@/components/ShopComponents/TopDonators.vue';
 import Swiper from '@/components/Swiper.vue';
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
-import NewUsers from '../components/HomeComponents/NewUsers.vue';
+import HomeNewUsers from '../components/HomeComponents/HomeNewUsers.vue';
 import config from '../config';
 import i18n from '../plugins/i18n';
 
@@ -187,9 +187,9 @@ export default {
     Swiper,
     TopDonators,
     Editor,
-    NewUsers,
+    HomeNewUsers,
     DonationGoal,
-    ServerStatus,
+    HomeServerStatus,
     DeleteConfirmationDialog,
     UserLink,
     DialogForm,

@@ -11,7 +11,7 @@
       <v-row>
         <v-col cols="12">
           <v-form ref="form" @submit.prevent="validateAndRun">
-            <v-jsf v-model="formModel"
+            <vj v-model="formModel"
                    :schema="formSchema"
                    :options="options"
                    @input="$emit('updated')"
@@ -19,7 +19,7 @@
               <template v-for="(index, name) in $scopedSlots" v-slot:[name]="scope">
                 <slot v-bind="scope" :name="name"/>
               </template>
-            </v-jsf>
+            </vj>
             <slot name="form-after"></slot>
             <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
               <v-col cols="12" :class="`mt-${actionButtonTopMargin}`">
@@ -43,16 +43,16 @@
 </template>
 
 <script>
-import VJsf from '@koumoul/vjsf';
 import '@koumoul/vjsf/dist/main.css';
 import '@koumoul/vjsf/lib/deps/third-party';
+import VJsf from '@koumoul/vjsf';
 import axios from 'axios';
 import i18n from '../plugins/i18n';
 
 export default {
   name: 'GenForm',
   components: {
-    VJsf,
+    vj: VJsf,
   },
   props: {
     formSchema: Object,

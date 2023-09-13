@@ -278,7 +278,7 @@ export default {
   computed: {
     componentInstance() {
       const type = this.activeTab.component;
-      return () => import(`@/components/SettingComponents/${type}`);
+      return () => import(`../components/SettingComponents/${type}.vue`);
     },
     allowedTabs(includeGroups = false) {
       const allowed = [];

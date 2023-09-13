@@ -21,22 +21,18 @@ const dateTimeFormats: any = {
 };
 
 function loadLocaleMessages() {
-  const locales = require.context(
-    '@/lang',
-    true,
-    /[A-Za-z0-9-_,\s]+\.json$/i,
-  );
+  const locales = import.meta.globEager('../lang/*.json');
 
   const messages: any = {};
-  locales.keys().forEach((key) => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i);
+  for (const path in locales) {
+    const matched = path.match(/([A-Za-z0-9-_]+)\.json$/i);
     if (matched) {
       if (matched.length > 1) {
-        const locale: string = matched[1];
-        messages[locale] = locales(key);
+        const locale = matched[1];
+        messages[locale] = locales[path];
       }
     }
-  });
+  }
   return messages;
 }
 

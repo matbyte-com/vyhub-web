@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Client } from '@/api/openapi.d';
 import store from '@/store';
 import config from '@/config';
+import qs from "qs";
 
 let headers = {};
 
@@ -21,6 +22,9 @@ async function api() {
     withServer: 'main',
     axiosConfigDefaults: {
       adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 300 * 1000 }),
+      paramsSerializer: (params) => {
+        return qs.stringify(params, {arrayFormat: 'repeat'})
+      },
       baseURL: config.backend_url,
       headers,
     },

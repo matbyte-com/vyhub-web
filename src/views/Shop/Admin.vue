@@ -38,42 +38,42 @@ export default {
         {
           name: 'purchases',
           icon: 'mdi-clipboard-list',
-          component: 'Purchases',
+          component: 'AdminPurchases',
           reqProp: 'purchase_show',
           title: this.$t('_purchases.labels.allPurchases'),
         },
         {
           name: 'applied-packets',
           icon: 'mdi-gift-open',
-          component: 'AppliedPackets',
+          component: 'AdminAppliedPackets',
           reqProp: 'purchase_show',
           title: this.$t('_purchases.labels.appliedPackets'),
         },
         {
           name: 'discounts',
           icon: 'mdi-ticket-percent',
-          component: 'Discounts',
+          component: 'AdminDiscounts',
           reqProp: 'discount_show',
           title: this.$t('discounts'),
         },
         {
           name: 'purchase-confirmation',
           icon: 'mdi-lock-reset',
-          component: 'PurchaseManualConfirmation',
+          component: 'AdminPurchaseManualConfirmation',
           reqProp: 'purchase_edit',
           title: this.$t('_purchases.labels.confirmPurchases'),
         },
         {
           name: 'report',
           icon: 'mdi-file-table',
-          component: 'Report',
+          component: 'AdminReport',
           reqProp: 'purchase_show',
           title: this.$t('report'),
         },
         {
           name: 'statistics',
           icon: 'mdi-chart-areaspline',
-          component: 'Statistics',
+          component: 'AdminStatistics',
           reqProp: 'purchase_show',
           title: this.$t('statistics'),
         },
@@ -104,7 +104,7 @@ export default {
   computed: {
     componentInstance() {
       const type = this.activeComponent;
-      return () => import(`@/components/ShopComponents/Admin/${type}`);
+      return () => import(`../../components/ShopComponents/Admin/${type}.vue`);
     },
     allowedTabs() {
       return this.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);

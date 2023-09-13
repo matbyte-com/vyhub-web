@@ -17,8 +17,7 @@
                     outlined
                     color="primary"
                     v-bind="attrs"
-                    v-on="on"
-                  >
+                    v-on="on">
                     <v-icon left>
                       mdi-filter
                     </v-icon>
@@ -170,7 +169,7 @@
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
 import SyncAppliedRewardsPacketsDialog
-  from '@/components/ShopComponents/Admin/RewardToAppliedPacketAddDialog.vue';
+  from '@/components/ShopComponents/Admin/AdminRewardToAppliedPacketAddDialog.vue';
 import UserLink from '../../UserLink.vue';
 import openapi from '../../../api/openapi';
 import BoolIcon from '../../BoolIcon.vue';

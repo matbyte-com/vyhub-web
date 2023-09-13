@@ -128,12 +128,13 @@ export default {
   computed: {
     componentInstance() {
       if (this.activeTab === 'Bundle' && this.activeBundle) {
-        return () => import(`@/components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}`);
+        return () => import(`../components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}.vue`);
       }
-      if (this.activeTab === 'Bundle') {
-        return () => import('@/components/DashboardComponents/Dashboards/General.vue');
+      if (this.activeTab === 'Purchases') {
+        return () => import('@/components/DashboardComponents/Dashboards/PurchasesDash.vue');
       }
-      return () => import(`@/components/DashboardComponents/Dashboards/${this.activeTab}`);
+      // default
+      return () => import('@/components/DashboardComponents/Dashboards/GeneralDash.vue');
     },
     getBundles() {
       return this.bundles.filter((b) => b.server_type !== 'DISCORD' && b.server_type !== 'TEAMSPEAK3');

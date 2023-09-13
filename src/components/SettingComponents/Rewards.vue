@@ -79,7 +79,7 @@
 
 <script>
 import SyncAppliedRewardsPacketsDialog
-  from '@/components/ShopComponents/Admin/RewardToAppliedPacketAddDialog.vue';
+  from '@/components/ShopComponents/Admin/AdminRewardToAppliedPacketAddDialog.vue';
 import Dialog from '@/components/Dialog.vue';
 import admin from '@/views/Shop/Admin.vue';
 import GMOD from '@/components/DashboardComponents/Dashboards/Bundle/GMOD.vue';
