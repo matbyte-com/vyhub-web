@@ -21,22 +21,24 @@
     <v-row class="mb-5">
       <!-- Smartphones Serverstatus + Donation Goal -->
       <v-col cols="12" v-if="$vuetify.breakpoint.smAndDown">
-        <Swiper :number-of-elements="3" :per-page-custom="[1,2,3,3,3]">
-          <swiper-slide>
-            <ServerStatus ref="serverStatus" />
-          </swiper-slide>
-          <swiper-slide v-if="$store.getters.shopConfig">
-            <v-card class="card-rounded pt-3" flat>
-              <DonationGoal v-if="$store.getters.shopConfig.donation_goal_enabled"/>
-            </v-card>
-            <v-card class="card-rounded mt-3 pt-3" flat>
-              <TopDonators v-if="$store.getters.shopConfig.top_donators_enabled"/>
-            </v-card>
-          </swiper-slide>
-          <swiper-slide>
-            <NewUsers />
-          </swiper-slide>
-        </Swiper>
+        <v-card class="card-rounded pa-3" flat>
+          <Swiper :number-of-elements="3" :per-page-custom="[1,2,3,3,3]">
+            <swiper-slide>
+              <ServerStatus ref="serverStatus" />
+            </swiper-slide>
+            <swiper-slide v-if="$store.getters.shopConfig">
+              <v-card class="card-rounded pt-3" flat>
+                <DonationGoal v-if="$store.getters.shopConfig.donation_goal_enabled"/>
+              </v-card>
+              <v-card class="card-rounded mt-3 pt-3" flat>
+                <TopDonators v-if="$store.getters.shopConfig.top_donators_enabled"/>
+              </v-card>
+            </swiper-slide>
+            <swiper-slide>
+              <NewUsers />
+            </swiper-slide>
+          </Swiper>
+        </v-card>
       </v-col>
       <!-- News -->
       <v-col cols="12" md="8">
@@ -139,10 +141,9 @@
           </v-card-actions>
         </v-card>
         <!-- Skeleton Loader -->
-        <v-row justify="center" class="pa-0" v-if="exhausted || fetching">
-          <v-progress-circular v-if="fetching" indeterminate
-                               class="animate__animated animate__fade mt-3" />
-        </v-row>
+        <v-card class="card-rounded pa-3" flat v-if="fetching">
+          <v-skeleton-loader type="paragraph@2" />
+        </v-card>
       </v-col>
       <!-- Sidebar -->
       <v-col ref="StatusCol" cols="4">

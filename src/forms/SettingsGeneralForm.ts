@@ -8,7 +8,7 @@ i18n.availableLocales.forEach((l) => {
     const: l,
     // Cool but too new: new Intl.DisplayNames([l], { type: 'language' }),
     // title: new Intl.DisplayNames([l], { type: 'language' }),
-    title: `${ISO6391.getName(l.replace('_', '-'))} (${ISO6391.getNativeName(l.replace('_', '-'))})`,
+    title: `${ISO6391.getName(l.replace('_', '-'))} (${ISO6391.getNativeName(l.replace('_', '-')).replace(/^./, ISO6391.getNativeName(l.replace('_', '-'))[0].toUpperCase())})`,
   });
 });
 
