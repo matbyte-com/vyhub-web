@@ -1,18 +1,36 @@
 <template>
   <div>
-    <div class="d-flex flex-row flex-wrap justify-center vh-home-new-users" v-if="newUsers != null">
-      <div class="pa-3" v-for="u in newUsers" v-bind:key="u.id">
-        <v-card class="text-center grow-on-hover card-rounded" width="250px"
-                :to="{ name: 'UserDashboard', params: { id: u.id } }">
-          <v-img height="125" style="filter: blur(2px) brightness(80%);"
-                 :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
-          <v-img height="125px" width="125px" class="avatar"
-                 :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
-          <div class="text-h5 pa-3">
-            {{ u.username }}
-          </div>
-        </v-card>
+    <div class="vh-home-new-users" v-if="newUsers != null">
+      <div v-if="$vuetify.breakpoint.mdAndUp" class="d-flex flex-row flex-wrap justify-center">
+        <div class="pa-3" v-for="u in newUsers" :key="u.id">
+          <v-card class="text-center grow-on-hover card-rounded" width="250px"
+                  :to="{ name: 'UserDashboard', params: { id: u.id } }">
+            <v-img height="125" style="filter: blur(2px) brightness(80%);"
+                   :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+            <v-img height="125px" width="125px" class="avatar"
+                   :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+            <div class="text-h5 pa-3">
+              {{ u.username }}
+            </div>
+          </v-card>
+        </div>
       </div>
+      <Swiper :number-of-elements="newUsers.length" :per-page-custom="[1,2,3,4]" v-else>
+        <swiper-slide v-for="u in newUsers" :key="u.id">
+          <div class="pa-2">
+            <v-card class="text-center grow-on-hover card-rounded"
+                    :to="{ name: 'UserDashboard', params: { id: u.id } }">
+              <v-img height="125" style="filter: blur(2px) brightness(80%);"
+                     :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+              <v-img height="125px" width="125px" class="avatar"
+                     :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+              <div class="text-h5 pa-3">
+                {{ u.username }}
+              </div>
+            </v-card>
+          </div>
+        </swiper-slide>
+      </Swiper>
     </div>
     <div v-else>
       <v-row justify="center">
@@ -25,10 +43,12 @@
 </template>
 
 <script>
+import Swiper from '@/components/Swiper.vue';
 import openapi from '../../api/openapi';
 
 export default {
   name: 'NewUsers',
+  components: { Swiper },
   props: {
     limit: {
       type: Number,
