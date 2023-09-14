@@ -1,7 +1,7 @@
 <template>
   <v-row  v-if="nonEmptyBundles.length > 0">
     <v-col>
-      <v-card class="vh-server-status card-rounded" flat>
+      <v-card class="vh-server-status card-rounded" flat :outlined="outlined">
         <v-card-title class="pb-0">
           <CardTitle :title="$t('server')" icon="mdi-server" />
         </v-card-title>
@@ -111,7 +111,7 @@ import Dialog from '@/components/Dialog.vue';
 export default {
   name: 'ServerStatus',
   components: { Dialog, CardTitle },
-  props: ['noIcon', 'noTitle', 'centerHeadline'],
+  props: ['noIcon', 'noTitle', 'centerHeadline', 'outlined'],
   data() {
     return {
       servers: [],

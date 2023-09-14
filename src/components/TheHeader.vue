@@ -51,15 +51,17 @@
           <HelpCircle :menu-links="allowedHelpCircleLinks" class="ml-1"/>
         </div>
         <!-- profile icon with dropdown or login-->
-        <div v-if="$vuetify.breakpoint.smAndUp">
+        <div>
           <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
-            <Credits class="ml-1 mr-1"/>
+            <Credits class="ml-1 mr-1" v-if="$vuetify.breakpoint.smAndUp"/>
             <ShoppingCart/>
             <ProfileMenu
+              v-if="$vuetify.breakpoint.smAndUp"
               class="ml-5"
               :menu-links="linksRight"
               @logout="logout"/>
-            <Notification v-if="$store.getters.isLoggedIn" class="ml-1"/>
+            <Notification v-if="$vuetify.breakpoint.smAndUp && $store.getters.isLoggedIn"
+                          class="ml-1"/>
           </div>
           <div v-else>
             <v-chip style="height: 32px" class="lighten-2 header ml-1" data-cy="login-button"

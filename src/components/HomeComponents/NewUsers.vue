@@ -1,5 +1,5 @@
 <template>
-  <v-card class="vh-new-users card-rounded" flat>
+  <v-card class="vh-new-users card-rounded" flat :outlined="outlined">
     <v-card-title class="pb-0">
       <CardTitle icon="mdi-account-arrow-right" :title="$t('_user.labels.newUsers')"/>
     </v-card-title>
@@ -42,7 +42,7 @@ import CardTitle from '../CardTitle.vue';
 export default {
   name: 'NewUsers',
   components: { CardTitle },
-  props: ['noIcon', 'noTitle', 'centerHeadline'],
+  props: ['noIcon', 'noTitle', 'centerHeadline', 'outlined'],
   data() {
     return {
       newUsers: null,

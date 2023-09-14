@@ -13,7 +13,7 @@
         <div v-else>{{ $t('_personalSettings.noEmailSpecified') }}</div>
       </div>
       <v-text-field v-else v-model="emailModel" hide-details="auto" ref="textfield"
-                    :label="$t('_personalSettings.email')" :rules="[validator]"
+                    :label="$t('email')" :rules="[validator]"
                     @keydown.enter="updateMail"/>
     </v-card-text>
     <v-spacer />

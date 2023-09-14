@@ -24,18 +24,18 @@
         <v-card class="card-rounded pa-3" flat>
           <Swiper :number-of-elements="3" :per-page-custom="[1,2,3,3,3]">
             <swiper-slide>
-              <ServerStatus ref="serverStatus" />
+              <ServerStatus :outlined="true" ref="serverStatus" />
             </swiper-slide>
             <swiper-slide v-if="$store.getters.shopConfig">
-              <v-card class="card-rounded pt-3" flat>
+              <v-card class="card-rounded pt-3" outlined>
                 <DonationGoal v-if="$store.getters.shopConfig.donation_goal_enabled"/>
               </v-card>
-              <v-card class="card-rounded mt-3 pt-3" flat>
+              <v-card class="card-rounded mt-3 pt-3" outlined>
                 <TopDonators v-if="$store.getters.shopConfig.top_donators_enabled"/>
               </v-card>
             </swiper-slide>
             <swiper-slide>
-              <NewUsers />
+              <NewUsers :outlined="true" />
             </swiper-slide>
           </Swiper>
         </v-card>
