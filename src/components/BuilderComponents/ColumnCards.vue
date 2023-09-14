@@ -25,7 +25,7 @@
       </v-col>
     </v-row>
     <Swiper :number-of-elements="cards.length" :per-page-custom="[1,2,3,3,3]" v-else>
-      <swiper-slide v-for="(card, index) in cards" :key="index" style="height: 130%">
+      <swiper-slide v-for="(card, index) in cards" :key="index">
         <div class="pt-10">
           <v-card class="grow-on-hover feature-card flex-grow-1 card-rounded text-center"
                   style="width: inherit">

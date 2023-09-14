@@ -1,27 +1,71 @@
 <template>
   <div>
-    <div class="d-flex flex-row flex-wrap justify-center vh-home-community-stats">
-      <v-card v-for="stat in stats" :key="stat.title"
-              class="ml-3 mt-3 stat-card card-rounded" hover>
-        <v-card-text class="d-flex align-center">
-          <div>
-            <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
-          </div>
-          <div class="ml-3">
-            <div class="text-h5">{{ stat.title }}</div>
-            <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
-          </div>
-        </v-card-text>
-      </v-card>
+    <div class="vh-home-community-stats">
+      <div v-if="$vuetify.breakpoint.smAndUp" class="d-flex flex-row flex-wrap justify-center">
+        <v-card v-for="stat in stats" :key="stat.title"
+                class="ml-3 mt-3 stat-card card-rounded" hover>
+          <v-card-text class="d-flex align-center">
+            <div>
+              <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
+            </div>
+            <div class="ml-3">
+              <div class="text-h5">{{ stat.title }}</div>
+              <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
+            </div>
+          </v-card-text>
+        </v-card>
+      </div>
+      <Swiper :number-of-elements="2" :per-page-custom="[1,1,2,3,4]" v-else>
+        <swiper-slide :key="1" style="height: 100%">
+          <v-card class="card-rounded">
+            <v-card-text style="width: inherit">
+              <v-card v-for="(stat, index) in stats.slice(0,2)" :key="stat.title"
+                      class="stat-card" outlined hover
+                      :class="{ 'mt-3' : index !== 0 }">
+                <v-card-text class="d-flex align-center" style="width: inherit">
+                  <div>
+                    <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
+                  </div>
+                  <div class="ml-3">
+                    <div class="text-h5">{{ stat.title }}</div>
+                    <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-card-text>
+          </v-card>
+        </swiper-slide>
+        <swiper-slide :key="2" style="height: 100%">
+          <v-card class="card-rounded">
+            <v-card-text style="width: inherit">
+              <v-card v-for="(stat, index) in stats.slice(2)" :key="stat.title"
+                      class="stat-card card-rounded" hover outlined
+                      :class="{ 'mt-3' : index !== 0 }">
+                <v-card-text class="d-flex align-center" style="width: inherit">
+                  <div>
+                    <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
+                  </div>
+                  <div class="ml-3">
+                    <div class="text-h5">{{ stat.title }}</div>
+                    <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-card-text>
+          </v-card>
+        </swiper-slide>
+      </Swiper>
     </div>
   </div>
 </template>
 
 <script>
 import openapi from '@/api/openapi';
+import Swiper from '@/components/Swiper.vue';
 
 export default {
   name: 'CommunityStats',
+  components: { Swiper },
   props: {
     headline: {
       type: String,

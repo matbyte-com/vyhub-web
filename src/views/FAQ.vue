@@ -41,13 +41,14 @@
     <v-expansion-panels class="mt-4" flat>
       <draggable :list="questions" :disabled="!$checkProp('faq_edit')"
                  @change="updateFaqEnabled = true" style="width: 100%">
-        <v-expansion-panel v-for="question in questions" :key="question.id" class="mb-3">
+        <v-expansion-panel v-for="(question, index) in questions" :key="question.id" class="mb-3">
           <v-card class="vh-faq card-rounded" flat>
             <v-expansion-panel-header>
               <div class="d-flex align-center flex-wrap">
                 <v-icon v-if="question.icon" class="mr-2">{{ question.icon }}</v-icon>
                 <b>
-                  {{ question.title }}
+                  <span class="primary--text">{{ String(index + 1).padStart(2, '0') }}.</span>
+                  <span class="ml-2">{{ question.title }}</span>
                 </b>
                 <v-spacer />
                 <v-btn outlined color="primary" small v-if="$checkProp('faq_edit')"
@@ -199,4 +200,7 @@ export default {
 </script>
 
 <style scoped>
+::v-deep .v-expansion-panel-header__icon i {
+  color: var(--v-primary-base) !important;
+}
 </style>
