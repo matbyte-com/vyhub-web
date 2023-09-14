@@ -2,33 +2,52 @@
   <div>
     <v-app-bar :fixed="fixed" :dense="dense" :app="app" :color="backgroundColor"
                :flat="!app" style="z-index: 4;" :src="backgroundImage">
-      <!-- burger menu on the left-->
       <!-- Logo -->
-      <div class="d-flex align-center"
-           :class="{ 'container' : !$vuetify.breakpoint.xs }">
+      <div class="d-flex align-center grow"
+           :class="{ 'container' : $vuetify.breakpoint.mdAndUp }">
+        <!-- burger menu on the left-->
+        <v-menu offset-y v-if="$vuetify.breakpoint.smAndDown">
+          <template v-slot:activator="{ on, attrs }">
+            <v-app-bar-nav-icon v-on="on" v-bind="attrs"></v-app-bar-nav-icon>
+          </template>
+          <v-list dense>
+            <!-- render navlinks -->
+            <v-list-item v-for="(l, index) in links"
+                         :key="index" :href="(!utils.localLink(l) ? l.link : null)"
+                         :to="utils.localLink(l) ? utils.getLocalLink(l) : null">
+              <v-icon v-if="l.icon" left>{{ l.icon }}</v-icon>
+              <v-list-item-title>{{ l.btnText }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
         <div>
           <v-img alt="Community Logo" class="shrink py-1" contain v-if="logoUrl" :src="logoUrl"
                  transition="scale-transition" :width="logo_width" height="50"/>
         </div>
         <!-- Do not overflow on bigger screens -->
         <div v-if="$vuetify.breakpoint.mdAndUp" class="mr-1">
-          <v-toolbar-title class="ml-3" :class="{ 'white--text': whiteText }">
+          <v-toolbar-title class="ml-3" :class="{ 'white--text': whiteText }"
+                           style="cursor: default">
             {{ headline }}
           </v-toolbar-title>
         </div>
         <!-- Overflow ellipsis (...) on smaller screens -->
-        <v-toolbar-title v-else class="ml-3" :class="{ 'white--text': whiteText }">
+        <v-toolbar-title v-else class="ml-3 mr-1" :class="{ 'white--text': whiteText }"
+                         style="cursor: default">
           {{ headline }}
         </v-toolbar-title>
-        <v-spacer />
-        <v-btn v-for="l in links" :key="l.text" :class="{ 'white--text': whiteText }"
-               text class="my-1" :href="(!utils.localLink(l) ? l.link : null)"
-               :to="utils.localLink(l) ? utils.getLocalLink(l) : null">
-          <v-icon :left="!(l.btnText == null || l.btnText === '')" v-if="l.icon">
-            {{ l.icon }}
-          </v-icon>
-          {{ l.btnText }}
-        </v-btn>
+        <v-spacer v-if="$vuetify.breakpoint.mdAndUp" />
+        <div class="d-flex flex-wrap align-center" v-if="$vuetify.breakpoint.mdAndUp">
+          <v-btn v-for="l in links" :key="l.text" :class="{ 'white--text': whiteText }"
+                 text class="my-1" :href="(!utils.localLink(l) ? l.link : null)"
+                 :to="utils.localLink(l) ? utils.getLocalLink(l) : null">
+            <v-icon :left="!(l.btnText == null || l.btnText === '')" v-if="l.icon">
+              {{ l.icon }}
+            </v-icon>
+            {{ l.btnText }}
+          </v-btn>
+        </div>
         <v-spacer />
         <v-btn color="primary card-rounded" large depressed v-if="!$store.getters.isLoggedIn"
                @click="showLoginDialog"
