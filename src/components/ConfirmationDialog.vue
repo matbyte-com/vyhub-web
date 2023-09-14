@@ -5,7 +5,9 @@
         {{ errorMessage }}
       </v-alert>
       <div class="body-1 mt-2 text-center">
-        {{ text }}
+        <slot>
+          {{ text }}
+        </slot>
       </div>
       <div v-if="useTextField && !countdown">
         <v-text-field v-model="confirmationTextFieldInput" :label="confirmationTextFieldLabel"/>
@@ -19,7 +21,7 @@
       <v-col>
         <v-btn text
                :disabled="disabled"
-               color="error"
+               :color="btnColor"
                type="submit"
                :loading="loading"
                @click="submit">
@@ -73,6 +75,10 @@ export default {
     btnIcon: {
       type: String,
       default: 'mdi-check',
+    },
+    btnColor: {
+      type: String,
+      default: 'error',
     },
     btnText: String,
     btnCancelText: String,
