@@ -301,6 +301,18 @@ export default {
       keywords: ['shop', 'stats', 'top donators', 'donation goal', 'store'],
       component: 'ShopInformation',
       previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ShopStats.png',
+      schema: {
+        type: 'object',
+        properties: {
+          imageCardUrl: {
+            title: i18n.t('imageURL'),
+            type: 'string',
+            'x-props': {
+              clearable: true,
+            },
+          },
+        },
+      },
     },
     {
       title: 'Shop Categories',

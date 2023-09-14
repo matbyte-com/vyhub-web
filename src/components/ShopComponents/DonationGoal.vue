@@ -11,12 +11,14 @@
         </v-btn>
       </v-card-title>
       <v-card-text style="width: inherit" :class="textClasses">
-        <v-progress-linear rounded striped
-                           :value="donationProgress" height="20" class="progress-bar">
+        <v-card flat>
+          <v-progress-linear rounded striped
+                             :value="donationProgress" height="20" class="progress-bar">
         <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
           {{ donationProgress }}%
         </span>
-        </v-progress-linear>
+          </v-progress-linear>
+        </v-card>
         <div class="text-center mt-1">
           <v-fade-transition>
                 <span v-if="donationGoal && donationGoal.currency" class="subtitle-1">
