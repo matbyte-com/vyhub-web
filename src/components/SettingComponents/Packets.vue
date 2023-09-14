@@ -256,7 +256,9 @@ export default {
       const new_data = data;
 
       new_data.category_id = data.category.id;
-      new_data.payment_gateway_ids = data.payment_gateways.map((gw) => gw.id);
+      if (data.payment_gateways) {
+        new_data.payment_gateway_ids = data.payment_gateways.map((gw) => gw.id);
+      }
       new_data.reward_ids = data.rewards.map((reward) => reward.id);
       delete new_data.category;
       delete new_data.payment_gateways;
