@@ -60,7 +60,7 @@
             <v-img :src="$store.getters.user.avatar"
                    lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
           </v-avatar>
-          <span class="ml-1 mr-1">
+          <span class="ml-1 mr-1" :class="{ 'white--text': whiteText }">
             {{ $store.getters.user.username }}
           </span>
         </v-chip>
