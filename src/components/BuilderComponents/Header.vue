@@ -8,7 +8,7 @@
         <!-- burger menu on the left-->
         <v-menu offset-y v-if="$vuetify.breakpoint.smAndDown">
           <template v-slot:activator="{ on, attrs }">
-            <v-app-bar-nav-icon v-on="on" v-bind="attrs"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon :class="{ 'white--text': whiteText }" v-on="on" v-bind="attrs"/>
           </template>
           <v-list dense>
             <!-- render navlinks -->

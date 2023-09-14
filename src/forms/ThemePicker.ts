@@ -102,6 +102,7 @@ function returnForm() {
     delete ret.properties.success;
     delete ret.properties.error;
     delete ret.properties.warning;
+    delete ret.properties.header_container;
   }
   return ret;
 }
