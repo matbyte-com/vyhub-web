@@ -245,11 +245,16 @@ const router = new VueRouter({
   routes,
 });
 
-function showLoginDialog(to: Route, from: Route) {
-  router.push({
-    path: from.path,
-    query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(to.fullPath) },
-  });
+function showLoginDialog(to: Route, from: Route, link_refresh_token: string | null) {
+  const return_url = UtilService.data().utils.getFullUrl(to.fullPath);
+
+  if (link_refresh_token != null) {
+    const query = { login: 'true', link_refresh_token };
+    router.push({ path: from.path, query });
+  } else {
+    const query = { login: 'true', return_url };
+    router.push({ path: from.path, query });
+  }
 }
 
 // Handle Route requires Login
@@ -259,28 +264,45 @@ router.beforeEach(async (to, from, next) => {
   let success = false;
 
   if (refreshToken != null && typeof refreshToken === 'string') {
-    try {
-      await AuthService.login(refreshToken);
-      Vue.prototype.$notify({
-        title: i18n.t('_login.messages.loginSuccess'),
-        type: 'success',
-      });
-      success = true;
-      console.log('Successful login!');
-    } catch (e) {
-      console.log(e);
-      Vue.prototype.$notify({
-        title: i18n.t('_login.messages.loginError'),
-        type: 'error',
-      });
-      showLoginDialog(to, from);
+    if (!store.getters.isLoggedIn) {
+      try {
+        await AuthService.login(refreshToken);
+        Vue.prototype.$notify({
+          title: i18n.t('_login.messages.loginSuccess'),
+          type: 'success',
+        });
+        success = true;
+        console.log('Successful login!');
+      } catch (e) {
+        console.log(e);
+        Vue.prototype.$notify({
+          title: i18n.t('_login.messages.loginError'),
+          type: 'error',
+        });
+        showLoginDialog(to, from, null);
+      }
+    } else {
+      const query = {
+        ...to.query,
+        login: 'true',
+        link_refresh_token: refreshToken,
+        refresh_token: undefined,
+      };
+
+      if (to.name != null) {
+        next({ name: to.name, query });
+      } else {
+        next({ query });
+      }
+
+      // showLoginDialog(to, from, refreshToken);
     }
   } else if ((to.query.login !== 'true')
     && (to.matched.some((record) => record.meta.requiresAuth))) {
     // this route requires auth
     if (!store.getters.isLoggedIn) {
       console.log('Showing login dialog.');
-      showLoginDialog(to, from);
+      showLoginDialog(to, from, null);
     } else {
       success = true;
     }

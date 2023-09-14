@@ -68,6 +68,36 @@
         </div>
       </div>
     </Dialog>
+    <ConfirmationDialog :width="600" ref="linkUsersDialog" text="-" :btn-text="$t('confirm')"
+                        @submit="confirmLink" @cancel="cancelLink" btn-color="success">
+      <div v-if="userToLink && $store.getters.isLoggedIn">
+        <div class="text-center my-3">
+          {{  $t('_user.messages.linkAccountConfirm') }}
+        </div>
+        <v-row>
+          <v-col cols="12" md="6" class="text-center">
+            <v-avatar>
+              <v-img :src="$store.getters.user.avatar" contain
+                     alt="avatar"/>
+            </v-avatar>
+            <br/>
+            {{ $store.getters.user.username }}
+            <br/>
+            {{ $store.getters.user.type }}
+          </v-col>
+          <v-col cols="12" md="6" class="text-center">
+            <v-avatar>
+              <v-img :src="userToLink.avatar" contain
+                     alt="avatar"/>
+            </v-avatar>
+            <br/>
+            {{ userToLink.username }}
+            <br/>
+            {{ userToLink.type }}
+          </v-col>
+        </v-row>
+      </div>
+    </ConfirmationDialog>
   </div>
 </template>
 
@@ -77,10 +107,12 @@ import Dialog from '@/components/Dialog.vue';
 import UserService from '@/services/UserService';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
+import axios from 'axios';
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 
 export default {
   name: 'Login.vue',
-  components: { Dialog },
+  components: { ConfirmationDialog, Dialog },
   data() {
     return {
       dialog: null,
@@ -89,15 +121,39 @@ export default {
       authCommand: null,
       authRequest: null,
       intervalId: null,
+      userToLink: null,
+      userToLinkAccessToken: null,
     };
   },
   watch: {
     $route(to) {
       this.dialog = to.query.login === 'true';
+
+      if (this.$route.query.link_refresh_token != null && this.$store.getters.isLoggedIn) {
+        this.fetchUserToLink(this.$route.query.link_refresh_token).then((userToLink) => {
+          if (userToLink != null) {
+            delete this.$route.query.link_refresh_token;
+            this.$refs.linkUsersDialog.show();
+          } else {
+            this.$notify({
+              title: this.$t('_user.messages.couldNotLinkUsers'),
+              type: 'error',
+            });
+          }
+        }).catch(() => {
+          this.$notify({
+            title: this.$t('_user.messages.couldNotLinkUsers'),
+            type: 'error',
+          });
+        });
+      }
     },
     dialog() {
       if (this.dialog === false) {
-        this.$router.replace({ path: this.$route.path, query: null });
+        const query = { ...this.$route.query };
+        delete query.login;
+        delete query.link_refresh_token;
+        this.$router.replace({ path: this.$route.path, query });
       } else {
         this.fetchBackends();
       }
@@ -141,6 +197,21 @@ export default {
     EventBus.on('social_config_edited', this.fetchBackends);
   },
   methods: {
+    async fetchUserToLink(refresh_token) {
+      const { access_token } = await AuthService.getToken(refresh_token);
+
+      const api = await openapi;
+
+      const otherUser = (await api.user_getCurrentUser(null, null, { headers: { Authorization: `Bearer ${access_token}` } })).data;
+
+      this.userToLinkAccessToken = access_token;
+
+      if (otherUser && !this.$checkLinked(otherUser, this.$store.getters.user)) {
+        this.userToLink = otherUser;
+      }
+
+      return this.userToLink;
+    },
     show() {
       this.dialog = true;
     },
@@ -150,20 +221,39 @@ export default {
       });
     },
     redirectToSocial(backend) {
-      window.location.href = AuthService.getSocialAuthUrl(
+      const url = AuthService.getSocialAuthUrl(
         backend.id,
         this.$route.query.return_url,
         (this.authRequest != null ? this.authRequest.id : null),
       );
+
+      window.location.href = url;
     },
     async startSocial(backend) {
-      if (this.$store.getters.isLoggedIn) {
-        (await openapi).auth_prepareSocial().then(() => {
-          this.redirectToSocial(backend);
+      this.redirectToSocial(backend);
+    },
+    async confirmLink() {
+      const api = await openapi;
+
+      api.auth_linkUser(null, { access_token: this.userToLinkAccessToken }).then(() => {
+        this.$notify({
+          title: this.$t('_user.messages.linkedAccounts'),
+          type: 'success',
         });
-      } else {
-        this.redirectToSocial(backend);
-      }
+        this.$refs.linkUsersDialog.closeAndReset();
+        this.cancelLink();
+        this.dialog = false;
+      }).catch(() => {
+        this.$notify({
+          title: this.$t('_user.messages.couldNotLinkUsers'),
+          type: 'error',
+        });
+        this.$refs.linkUsersDialog.loading = false;
+      });
+    },
+    async cancelLink() {
+      this.userToLink = null;
+      this.userToLinkAccessToken = null;
     },
     async startAuthRequest(backend) {
       this.authDialogType = backend.type;

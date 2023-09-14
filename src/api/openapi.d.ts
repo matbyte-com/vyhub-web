@@ -2000,6 +2000,15 @@ declare namespace Components {
             };
         }
         /**
+         * LinkUserModel
+         */
+        export interface LinkUserModel {
+            /**
+             * Access Token
+             */
+            access_token: string;
+        }
+        /**
          * LogCategory
          * An enumeration.
          */
@@ -4438,12 +4447,7 @@ declare namespace Components {
              * User Activities
              */
             user_activities?: /* UserActivityModelAdd */ UserActivityModelAdd[];
-            /**
-             * Secrets
-             */
-            secrets?: {
-                [key: string]: any;
-            };
+            secrets?: /* ServerSecretsModel */ ServerSecretsModel;
         }
         /**
          * ServerModelShort
@@ -6181,9 +6185,11 @@ declare namespace Paths {
             export type $200 = any;
         }
     }
-    namespace AuthPrepareSocial {
+    namespace AuthLinkUser {
+        export type RequestBody = /* LinkUserModel */ Components.Schemas.LinkUserModel;
         namespace Responses {
-            export type $200 = any;
+            export type $200 = /* UserModel */ Components.Schemas.UserModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
     namespace AuthRevokeToken {
@@ -11043,13 +11049,15 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
   /**
-   * auth_prepareSocial - Prepare Social
+   * auth_linkUser - Link User
+   * 
+   * Link current user with another user.
    */
-  'auth_prepareSocial'(
+  'auth_linkUser'(
     parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
+    data?: Paths.AuthLinkUser.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.AuthPrepareSocial.Responses.$200>
+  ): OperationResponse<Paths.AuthLinkUser.Responses.$200>
   /**
    * auth_startSocial - Start Social
    */
@@ -11300,54 +11308,6 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GeneralGetCustomerJourney.Responses.$200>
-  /**
-   * general_getCommunityStats - Get Community Stats
-   */
-  'general_getCommunityStats'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.GeneralGetCommunityStats.Responses.$200>
-  /**
-   * design_getSections - Get Sections
-   */
-  'design_getSections'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignGetSections.Responses.$200>
-  /**
-   * design_createSection - Create Section
-   */
-  'design_createSection'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: Paths.DesignCreateSection.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignCreateSection.Responses.$200>
-  /**
-   * design_editSection - Edit Section
-   */
-  'design_editSection'(
-    parameters?: Parameters<Paths.DesignEditSection.PathParameters> | null,
-    data?: Paths.DesignEditSection.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignEditSection.Responses.$200>
-  /**
-   * design_deleteSection - Delete Section
-   */
-  'design_deleteSection'(
-    parameters?: Parameters<Paths.DesignDeleteSection.PathParameters> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignDeleteSection.Responses.$200>
-  /**
-   * design_updateOrder - Update Order
-   */
-  'design_updateOrder'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: Paths.DesignUpdateOrder.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.DesignUpdateOrder.Responses.$200>
   /**
    * user_getCurrentUser - Get Current User
    */
@@ -13298,15 +13258,17 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.AuthRevokeToken.Responses.$200>
   }
-  ['/auth/social/prepare']: {
+  ['/auth/link']: {
     /**
-     * auth_prepareSocial - Prepare Social
+     * auth_linkUser - Link User
+     * 
+     * Link current user with another user.
      */
-    'get'(
+    'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
+      data?: Paths.AuthLinkUser.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.AuthPrepareSocial.Responses.$200>
+    ): OperationResponse<Paths.AuthLinkUser.Responses.$200>
   }
   ['/auth/social/{backend}/start']: {
     /**
@@ -13595,62 +13557,6 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GeneralGetCustomerJourney.Responses.$200>
-  }
-  ['/general/community-stats']: {
-    /**
-     * general_getCommunityStats - Get Community Stats
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.GeneralGetCommunityStats.Responses.$200>
-  }
-  ['/design/']: {
-    /**
-     * design_getSections - Get Sections
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignGetSections.Responses.$200>
-    /**
-     * design_createSection - Create Section
-     */
-    'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: Paths.DesignCreateSection.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignCreateSection.Responses.$200>
-  }
-  ['/design/{uuid}']: {
-    /**
-     * design_deleteSection - Delete Section
-     */
-    'delete'(
-      parameters?: Parameters<Paths.DesignDeleteSection.PathParameters> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignDeleteSection.Responses.$200>
-    /**
-     * design_editSection - Edit Section
-     */
-    'patch'(
-      parameters?: Parameters<Paths.DesignEditSection.PathParameters> | null,
-      data?: Paths.DesignEditSection.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignEditSection.Responses.$200>
-  }
-  ['/design/order']: {
-    /**
-     * design_updateOrder - Update Order
-     */
-    'put'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: Paths.DesignUpdateOrder.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.DesignUpdateOrder.Responses.$200>
   }
   ['/user/current']: {
     /**
