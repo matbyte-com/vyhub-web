@@ -49,7 +49,8 @@
           </v-btn>
         </div>
         <v-spacer />
-        <v-btn color="primary card-rounded" large depressed v-if="!$store.getters.isLoggedIn"
+        <v-btn color="primary card-rounded" :large="$vuetify.breakpoint.mdAndUp"
+               depressed v-if="!$store.getters.isLoggedIn"
                @click="showLoginDialog"
                :class="{ 'glow-effect':utils.customerJourneyActive('login') }">
           {{ $t('_header.labels.login') }}
