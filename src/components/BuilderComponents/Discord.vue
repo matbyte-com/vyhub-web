@@ -18,7 +18,7 @@
     <v-col cols="12" md="6" :class="{ 'text-start': !inverted && $vuetify.breakpoint.mdAndUp,
      'text-end': inverted && $vuetify.breakpoint.mdAndUp,
       'text-center': $vuetify.breakpoint.smAndDown }">
-      <div v-html="discordWidget"></div>
+      <div style="max-width: 100%" v-html="discordWidget"></div>
     </v-col>
   </v-row>
 </div>

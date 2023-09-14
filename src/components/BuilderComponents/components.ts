@@ -323,6 +323,26 @@ export default {
       },
     },
     {
+      title: 'Shop Recommended Packets',
+      keywords: ['shop', 'categories', 'packets', 'packages'],
+      component: 'ShopRecommendedPackets',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/123.png',
+      schema: {
+        type: 'object',
+        properties: {
+          callToAction: {
+            title: i18n.t('_component._form.btnText'),
+            type: 'string',
+          },
+        },
+      },
+      defaults: {
+        title: 'Store',
+        subtitle: 'Get your in-game perks here!',
+        callToAction: 'View more!',
+      },
+    },
+    {
       title: 'New Users',
       keywords: ['new users', 'new', 'players', 'users', 'gamer'],
       component: 'NewUsers',
@@ -405,7 +425,7 @@ export default {
       },
       defaults: {
         headline: 'Join our Discord',
-        discordWidget: '<iframe src="https://discord.com/widget?id=847059571351486504&theme=dark" width="400" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>',
+        discordWidget: '<iframe src="https://discord.com/widget?id=847059571351486504&theme=dark" width="100%" max-width="400" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>',
       },
     },
     {

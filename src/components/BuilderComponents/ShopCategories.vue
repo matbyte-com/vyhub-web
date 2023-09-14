@@ -34,7 +34,7 @@ import Swiper from '@/components/Swiper.vue';
 export default {
   name: 'ShopPreview',
   components: { Swiper },
-  props: ['headline', 'subtitle', 'callToAction'],
+  props: ['callToAction'],
   data() {
     return {
       categories: null,
