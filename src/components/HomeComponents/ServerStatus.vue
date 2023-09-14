@@ -53,7 +53,6 @@
                     mdi-information
                   </v-icon>
                 </v-btn>
-
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn small color="success" depressed v-bind="attrs" v-on="on"
@@ -67,7 +66,7 @@
                   </template>
                   <span>{{ $t('connect') }}</span>
                 </v-tooltip>
-            </v-col>
+              </v-col>
             </v-row>
           </div>
         </v-card-text>

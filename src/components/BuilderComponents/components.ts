@@ -410,6 +410,24 @@ export default {
       component: 'ServerStatus',
     },
     {
+      title: 'Server Status 2',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/123.png',
+      keywords: ['server', 'status', 'logo'],
+      component: 'ServerStatus2',
+      schema: {
+        type: 'object',
+        properties: {
+          imageCardUrl: {
+            title: i18n.t('imageURL'),
+            type: 'string',
+            'x-props': {
+              clearable: true,
+            },
+          },
+        },
+      },
+    },
+    {
       title: 'Discord',
       keywords: ['discord', 'voice', 'join'],
       component: 'Discord',

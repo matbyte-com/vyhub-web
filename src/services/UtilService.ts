@@ -254,13 +254,24 @@ export default {
           }
         },
         copyServerAddress(server: any) {
-          console.log('JOOO');
           if (!['MINECRAFT'].includes(server.type)) return;
           navigator.clipboard.writeText(server.address);
           Vue.notify({
             title: String(i18n.t('_messages.copyClipboard')),
             type: 'success',
           });
+        },
+        getStatusColor(server: any) {
+          switch (server.status) {
+            case 'UNKNOWN':
+              return '';
+            case 'ONLINE':
+              return 'success';
+            case 'OFFLINE':
+              return 'error';
+            default:
+              return '';
+          }
         },
         localLink(btn: any) {
           if (!btn.link) return false;
