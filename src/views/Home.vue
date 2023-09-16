@@ -21,7 +21,7 @@
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
     <v-fade-transition>
-      <v-card v-if="blocksToShow == null" width="100vw" height="100vh">
+      <v-card v-if="blocksToShow == null" width="100vw" height="calc(100vh - 108px)" flat tile>
         <div style="position: absolute; left: 50%; top: 50%">
           <v-progress-circular indeterminate size="50" />
         </div>
