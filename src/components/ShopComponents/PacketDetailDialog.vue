@@ -26,12 +26,20 @@
                 outlined
                 class="font-weight-bold text-center mt-2 mb-0"
                 v-if="packet.active_for != null || packet.recurring">
-                <v-icon color="secondary" left v-if="packet.recurring">
-                  mdi-calendar-sync
-                </v-icon>
-                <v-icon color="secondary" v-else>mdi-clock-end</v-icon>
-                <span v-if="packet.recurring">{{ $t('every') }}</span>
-                {{ utils.formatLength(packet.active_for) }}
+                  <v-icon color="secondary" left v-if="packet.recurring">
+                    mdi-calendar-sync
+                  </v-icon>
+                  <v-icon color="secondary" v-else>mdi-clock-end</v-icon>
+                  <span v-if="packet.recurring">
+                    <span v-if="utils.isSingularTimeunit(packet.active_for)">
+                      {{ utils.isSingularTimeunit(packet.active_for) }}
+                    </span>
+                    <span v-else>
+                      {{ $t('every') }}
+                      {{ utils.formatLength(packet.active_for) }}
+                    </span>
+                  </span>
+                <span v-else>{{ utils.formatLength(packet.active_for) }}</span>
               </v-alert>
             </v-card>
           </v-col>

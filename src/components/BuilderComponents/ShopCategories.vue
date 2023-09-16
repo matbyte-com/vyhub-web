@@ -6,7 +6,8 @@
         <Swiper :number-of-elements="categories.length" :per-page-custom="[1,2,3,3,3]">
           <swiper-slide style="height: 100%"
                         v-for="category in categories" :key="category.id">
-            <v-card class="img-hover-zoom overflow-hidden mt-3 mb-3 card-rounded" hover
+            <v-card class="img-hover-zoom overflow-hidden mt-3 mb-3 card-rounded mx-auto"
+                    hover max-width="300px"
                     :to="{ name: 'ShopCategory', params: { categoryId: category.id} }">
               <div style="overflow: hidden">
                 <v-img style="width: 100%" :aspect-ratio="2"

@@ -21,9 +21,11 @@
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
     <v-fade-transition>
-      <div v-if="blocksToShow == null" style="position: absolute; left: 50%; top: 50%">
-        <v-progress-circular indeterminate size="50" />
-      </div>
+      <v-card v-if="blocksToShow == null" width="100vw" height="100vh">
+        <div style="position: absolute; left: 50%; top: 50%">
+          <v-progress-circular indeterminate size="50" />
+        </div>
+      </v-card>
     </v-fade-transition>
     <!-- Side Menu -->
     <v-navigation-drawer

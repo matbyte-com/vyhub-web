@@ -3,7 +3,7 @@
     <v-row justify="center" v-if="$vuetify.breakpoint.mdAndUp">
       <v-col cols="6" md="4" lg="3" v-for="(card, index) in cards" :key="index"
              class="d-flex flex-column">
-        <v-card class="grow-on-hover feature-card flex-grow-1 card-rounded text-center">
+        <v-card class="grow-on-hover feature-card flex-grow-1 card-rounded text-center mt-8">
           <div class="icon-wrapper">
             <v-card class="icon-rounded d-inline-block pa-1" flat>
               <v-icon size="75">{{ card.icon }}</v-icon>

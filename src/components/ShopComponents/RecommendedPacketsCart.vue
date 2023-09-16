@@ -5,9 +5,9 @@
     <h2 class="text-h6">{{ $t('_shop.labels.recommended') }}</h2>
   </v-card-title>
   <v-card-text>
-    <Swiper :number-of-elements="recommendedPackets.length" :per-page-custom="[1,2,2,3,3]">
+    <Swiper :number-of-elements="recommendedPackets.length" :per-page-custom="[1,2,2,3,4]">
       <swiper-slide v-for="p in recommendedPackets" :key="p.id" style="height: 85px;">
-        <v-card class="card-rounded d-block" height="80px" width="100%"
+        <v-card class="card-rounded d-block" height="80px" width="100%" max-width="500px"
                 @click="selectedPacket = p; $refs.detailDialog.show()">
           <div class="d-flex">
             <v-img :src="p.image_url" :alt="p.title" max-width="40%" max-height="80px"

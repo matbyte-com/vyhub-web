@@ -37,6 +37,12 @@ export default {
             largest: 1,
           }));
         },
+        isSingularTimeunit(seconds: number) {
+          if (seconds === 2592000) return i18n.t('everyMonth');
+          if (seconds === 31536000) return i18n.t('everyYear');
+          if (seconds === 86400) return i18n.t('everyDay');
+          return false;
+        },
         notifyUnexpectedError(detail: object) {
           return;
 

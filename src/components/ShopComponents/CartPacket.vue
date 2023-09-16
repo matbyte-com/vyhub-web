@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="vh-cart-packet card-rounded" outlined>
+    <v-card class="vh-cart-packet card-rounded" outlined min-height="120px">
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="3" md="3" lg="3" xl="2" align-self="center" class="text-center">
@@ -28,8 +28,13 @@
                     .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                     {{ cartPacket.currency.symbol }}
                     <div v-if="cartPacket.recurring != null">
-                      {{ $t('every') }}
-                      {{ utils.formatLength(cartPacket.recurring) }}
+                      <span v-if="utils.isSingularTimeunit(cartPacket.recurring)">
+                        {{ utils.isSingularTimeunit(cartPacket.recurring) }}
+                      </span>
+                      <span v-else>
+                        {{ $t('every') }}
+                        {{ utils.formatLength(cartPacket.recurring) }}
+                      </span>
                     </div>
                   </div>
                   <div v-if="cartPacket.discount">
@@ -80,7 +85,6 @@
         <UserLink v-if="cartPacket.target_user" :user="cartPacket.target_user" />
       </template>
     </DialogForm>
-    <!-- TODO Make Packet Dialog Available for Cart Packets -->
     <PacketDetailDialog ref="detailDialog" :cart-packet="true" :packet="cartPacket.packet"
                         :hide-buy-btns="openPurchase"/>
   </div>

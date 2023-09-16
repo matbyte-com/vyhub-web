@@ -135,6 +135,14 @@
                     </v-card-text>
                   </v-card>
                 </v-col>
+                <!-- No payment gateways available -->
+                <v-col cols="6" sm="6" md="4" lg="3">
+                  <v-card outlined>
+                    <v-card-text class="text-center">
+                      {{ $t('noDataAvailable') }}
+                    </v-card-text>
+                  </v-card>
+                </v-col>
               </v-row>
               <v-row v-else>
                 <v-col cols="6" md="3" xl="2" v-for="i in 4" :key="i">
@@ -227,7 +235,6 @@
     </v-row>
 
     <!-- Skeleton loaders -->
-    <!-- TODO Replace Skeleton Loaders with something better -->
     <v-row v-else>
       <v-col lg="9" md="8">
         <div>
@@ -489,6 +496,12 @@ export default {
       this.$refs.selectAddressDialog.close();
     },
     async startCheckout() {
+      // Set error when no gateway is selected
+      if (this.selectedGateway == null) {
+        this.errorMessage = this.$t('_shop.messages.selectGateway');
+        return;
+      }
+
       // SKip checks when open purchase
       if (this.openPurchase == null) {
         // Check for missing address or email and wobble
