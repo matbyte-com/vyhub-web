@@ -3,17 +3,17 @@
     <v-row v-if="errorMsg != null">
       <v-col cols="12" class="mt-4">
         <v-alert
-          type="error"
-        >
+          type="error">
           {{ errorMsg }}
         </v-alert>
       </v-col>
     </v-row>
     <v-text-field v-if="!hideTitleInput" :label="$t('title')"
-                  v-model="title"></v-text-field>
+                  v-model="title" />
     <editor v-model="content" :class="hideTitleInput ? 'mt-3' : ''"/>
     <template v-slot:actions>
-      <v-btn text color="primary" @click="$emit('submit', obj)" v-if="content !== ''">
+      <v-btn text color="primary" @click="$emit('submit', obj)" v-if="content !== ''"
+             :disabled="!hideTitleInput && (title == null || title === '')">
         <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
         <v-icon v-if="!loading" left>mdi-check</v-icon>
         <div v-if="!loading">

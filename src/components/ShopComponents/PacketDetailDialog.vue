@@ -108,7 +108,7 @@
               <v-btn color="info" large block
                      v-if="!$store.getters.isLoggedIn"
                      @click="$router.push({ path: $route.path,
-                     query: { login: 'true', return_url: getReturnUrl() }})">
+                     query: { login: 'true', return_url: utils.getFullUrl($route.path) }})">
                 <v-icon left>mdi-lock</v-icon>
                 {{ $t('_shop.labels.loginToBuy') }}
               </v-btn>
@@ -140,7 +140,7 @@
                     :min="packet.price_with_discount.credits"/>
                 </v-form>
               </div>
-              <div class="d-flex align-center mb-1">
+              <div class="d-flex align-center mb-1" v-if="$store.getters.isLoggedIn">
                 <v-btn color="primary" ref="addToCartBtn" :loading="loading" depressed large
                        :disabled="!minPriceFormValid"
                        @click="addToCart()" class="cta-btn button-rounded" style="width: 66%">

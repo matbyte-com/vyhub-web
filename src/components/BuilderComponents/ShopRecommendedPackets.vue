@@ -4,13 +4,15 @@
       <v-col cols="11" sm="10" md="10" lg="9" xl="8"
              style="max-height: 500px">
         <Swiper :number-of-elements="packets.length" :per-page-custom="[1,2,3,3,4]">
-          <swiper-slide v-for="packet in packets" :key="packet.id">
-            <v-card class="img-hover-zoom overflow-hidden mt-3 mb-3 card-rounded mx-auto"
-                    hover max-width="300px"
+          <swiper-slide v-for="packet in packets" :key="packet.id"
+                        style="height: auto;">
+            <v-card class="img-hover-zoom overflow-hidden mt-3 mb-3 card-rounded mx-auto
+             d-flex flex-column"
+                    hover max-width="350px" height="95%"
                     :to="{ name: 'ShopCategory', params: { categoryId: packet.category.id} }">
               <div>
                 <v-img :src="packet.image_url" :alt="packet.title"
-                       class="card-rounded-top">
+                       class="card-rounded-top" max-height="200px">
                   <div class="d-flex flex-column" style="height: 100%;">
                     <v-row justify="center" align="center"
                            style="height: 100%; text-shadow: #000000 2px 2px 2px;"
@@ -23,6 +25,7 @@
               </div>
               <div class="text-center text-h5 mt-3">{{ packet.title }}</div>
               <div class="text-center mt-1">{{ packet.subtitle }}</div>
+              <v-spacer />
               <div class="text-center mt-3 pb-3">
                 <v-btn outlined color="primary"
                        :to="{ name: 'ShopCategory', params: { categoryId: packet.category.id} }">

@@ -7,10 +7,11 @@
             <v-expansion-panel v-for="(q, index) in questions" :key="index">
               <v-expansion-panel-header class="vh-home-faq-header">
                 <div>
-                  <v-icon left v-if="q.icon">{{ q.icon }}</v-icon>
                   <b>
-                    <span class="primary--text">{{ String(index + 1).padStart(2, '0') }}.</span>
-                    <span class="ml-2">{{ q.question }}</span>
+                    <span class="primary--text mr-2">{{ String(index + 1).padStart(2, '0') }}.
+                    </span>
+                    <v-icon left v-if="q.icon">{{ q.icon }}</v-icon>
+                    <span class="">{{ q.question }}</span>
                   </b>
                 </div>
               </v-expansion-panel-header>
