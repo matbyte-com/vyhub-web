@@ -3,7 +3,7 @@
     <v-row class="justify-center">
       <v-col class="d-flex align-center"
              :class="{ 'order-2 text-start': inverted && $vuetify.breakpoint.mdAndUp,
-          'text-end': !inverted && $vuetify.breakpoint.mdAndUp,
+          'justify-end text-end': !inverted && $vuetify.breakpoint.mdAndUp,
            'justify-center text-center': $vuetify.breakpoint.smAndDown }"
              cols="12" md="6">
         <div>
@@ -15,19 +15,26 @@
    'text-end': inverted && $vuetify.breakpoint.mdAndUp,
     'text-center': $vuetify.breakpoint.smAndDown }" v-if="newsToShow.length > 0">
         <div>
-          <v-card v-for="n in newsToShow" :key="n.id" :img="n.background_url"
-                  class="card-rounded mb-3" :to="{ name: 'News' }" :max-height="maxColumnHeight">
-            <v-card-title :class="{ 'grey-title': !n.background_url &&
+          <v-card outlined class="card-rounded">
+            <v-card-text>
+              <div v-for="(n, index) in newsToShow" :key="n.id">
+                <v-card outlined :max-height="maxColumnHeight" :to="{ name: 'News' }"
+                        :img="n.background_url">
+                  <v-card-title :class="{ 'grey-title': !n.background_url &&
                        !$vuetify.theme.dark }">
               <span
                 :class="{ 'white--text' : !$vuetify.theme.dark && n.invert_title_color,
                  'black--text' : $vuetify.theme.dark && n.invert_title_color }">
                 {{ n.subject }}
               </span>
-            </v-card-title>
-            <v-card-text class="ql-editor">
-              <p class="content-preview" :style="`height: ${maxColumnHeight - 68}px`"
-                 v-html="n.content"/>
+                  </v-card-title>
+                  <v-card-text class="ql-editor">
+                    <p class="content-preview" :style="`height: ${maxColumnHeight - 68}px`"
+                       v-html="n.content" style="cursor: pointer"/>
+                  </v-card-text>
+                </v-card>
+                <v-divider class="mb-2 mt-2" v-if="index === 0 && newsToShow.length > 1"/>
+              </div>
             </v-card-text>
           </v-card>
         </div>
