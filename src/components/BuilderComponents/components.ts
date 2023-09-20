@@ -183,6 +183,26 @@ export default {
             format: 'hexcolor',
             'x-cols': 6,
           },
+          container: {
+            type: 'boolean',
+            title: i18n.t('_component._form.container'),
+            'x-cols': 6,
+            'x-display': 'switch',
+            'x-class': 'pt-4',
+          },
+          backgroundColor2: {
+            type: 'string',
+            title: i18n.t('_theme.backgroundColor'),
+            format: 'hexcolor',
+            'x-cols': 6,
+            'x-class': 'pl-1',
+          },
+          marginTop: {
+            type: 'string',
+            title: i18n.t('_component._form.marginTop'),
+            'x-cols': 4,
+            'x-class': 'pl-1',
+          },
         },
       },
       defaults: {
