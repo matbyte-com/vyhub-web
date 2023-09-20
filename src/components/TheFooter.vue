@@ -33,6 +33,7 @@
 <script>
 import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
 import config from '@/config';
+import emitter from '@/services/EventBus';
 import { version } from '../../package.json';
 
 export default {
@@ -42,6 +43,9 @@ export default {
       version,
       config,
     };
+  },
+  beforeMount() {
+    emitter.on('navItemsUpdated', this.links);
   },
   computed: {
     links() {

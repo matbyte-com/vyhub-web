@@ -5,16 +5,16 @@
     </v-card>
     <v-row>
       <v-col cols="12" md="8" lg="9" class="d-flex flex-column align-content-space-between">
-        <transition enter-active-class="animate__fadeIn animate__animated"
-                    leave-active-class="absolute">
-          <router-view />
+        <transition mode="out-in"
+                    enter-active-class="animate__animated animate__fadeIn animate__faster">
+          <router-view  />
         </transition>
       </v-col>
       <v-col cols="12" md="4" lg="3" class="d-flex flex-column">
         <v-card class="card-rounded" v-if="!$vuetify.breakpoint.smAndDown" flat>
           <ShopStatsSide />
         </v-card>
-        <div class="card-rounded" :class="{ 'mt-6':!$vuetify.breakpoint.smAndDown }" flat>
+        <div class="card-rounded" :class="{ 'mt-6':!$vuetify.breakpoint.smAndDown }">
           <RecommendedPacketsSide />
         </div>
       </v-col>

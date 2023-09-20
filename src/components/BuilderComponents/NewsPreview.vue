@@ -20,13 +20,12 @@
               <div v-for="(n, index) in newsToShow" :key="n.id">
                 <v-card outlined :max-height="maxColumnHeight" :to="{ name: 'News' }"
                         :img="n.background_url">
-                  <v-card-title :class="{ 'grey-title': !n.background_url &&
-                       !$vuetify.theme.dark }">
-              <span
+                  <v-card-title>
+                    <span
                 :class="{ 'white--text' : !$vuetify.theme.dark && n.invert_title_color,
                  'black--text' : $vuetify.theme.dark && n.invert_title_color }">
                 {{ n.subject }}
-              </span>
+                    </span>
                   </v-card-title>
                   <v-card-text class="ql-editor">
                     <p class="content-preview" :style="`height: ${maxColumnHeight - 68}px`"

@@ -116,7 +116,7 @@
           <v-col cols="6" md="4" lg="4" v-for="cp in availableComponentsSearch" :key="cp.component"
                  class="list-complete-item">
             <v-card @click="addComponent(cp)"
-                    class="">
+                    class="" hover>
               <v-img style="background-color: #e0e0e0"
                      :src="cp.previewImage" height="100px" contain/>
               <div class="text-center text-h5">

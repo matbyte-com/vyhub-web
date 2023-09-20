@@ -133,6 +133,8 @@ export default {
       api.navigation_getNavigationLinks().then((rsp) => {
         this.$store.commit('SET_NAV_ITEMS', rsp.data);
         this.links = rsp.data;
+        // Caught in Footer
+        EventBus.emit('navItemsUpdated');
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
     getNavItemsFromCache() {

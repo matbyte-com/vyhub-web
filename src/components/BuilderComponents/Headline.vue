@@ -12,10 +12,10 @@
         <h1 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h1>
         <p class="text-subtitle-1 mt-3" :class="{ 'white--text': whiteText }">{{ subtitle }}</p>
         <div class="d-flex flex-row flex-wrap justify-center">
-          <v-btn depressed rounded v-for="(button, index) in buttons" :key="index" class="ml-3"
-                 :href="(!localLink(button) ? button.link : null)"
-                 :to="localLink(button) ? getLocalLink(button) : null">
-            {{ button.btnText }}
+          <v-btn depressed rounded v-for="(l, index) in buttons" :key="index" class="ml-3"
+                 :href="(!utils.localLink(l) ? l.link : null)"
+                 :to="utils.localLink(l) ? utils.getLocalLink(l) : null">
+            {{ l.btnText }}
           </v-btn>
         </div>
       </div>
@@ -31,20 +31,6 @@ export default {
   computed: {
     getBackgroundColor() {
       return this.backgroundColor2 ? this.backgroundColor2 : '';
-    },
-  },
-  methods: {
-    getLocalLink(btn) {
-      if (!btn.link) return '';
-      if (this.localLink) { return btn.link.substring(window.location.origin.length); }
-      return btn.link;
-    },
-    localLink(btn) {
-      if (!btn.link) return false;
-      if (window) {
-        return !!btn.link.includes(window.location.hostname);
-      }
-      return false;
     },
   },
 };

@@ -4,10 +4,10 @@
       <slot />
     </div>
     <v-card flat tile :color="backgroundColor" :img="imageUrl" :height="height"
-            class="wrapper-card transparent" v-else :style="`margin-top: ${getMarginTop}`">
-      <div class="pt-3 pb-3" :style="{ backgroundColor: getBackgroundColor }">
+            class="wrapper-card transparent" v-else>
+      <div class="pt-3 pb-3" :style="`background-color: ${getBackgroundColor}`">
         <v-container class="d-flex align-center justify-center wrapper-container pt-0 mt-0">
-          <div>
+          <div :style="`margin-top: ${getMarginTop}`">
             <div class="text-center" v-if="!noTitleInWrapper">
               <h2 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h2>
               <p class="text-subtitle-1" :class="{ 'white--text': whiteText }">{{ subtitle }}</p>
