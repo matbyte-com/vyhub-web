@@ -6,11 +6,14 @@
   </v-card-title>
   <v-card-text>
     <Swiper :number-of-elements="recommendedPackets.length" :per-page-custom="[1,2,2,3,4]">
-      <swiper-slide v-for="p in recommendedPackets" :key="p.id" style="height: 85px;">
-        <v-card class="card-rounded d-block" height="80px" width="100%" max-width="500px"
+      <swiper-slide v-for="p in recommendedPackets" :key="p.id" style="height: 95px;">
+        <v-card class="card-rounded d-block" height="90px" width="100%" max-width="500px"
                 @click="selectedPacket = p; $refs.detailDialog.show()">
-          <div class="d-flex">
-            <v-img :src="p.image_url" :alt="p.title" max-width="40%" max-height="80px"
+          <div class="d-flex" style="width: 100%">
+            <v-img :src="p.image_url" :alt="p.title"
+                   height="90px"
+                   width="40%"
+                   max-width="150px"
                    class="card-rounded">
               <div class="d-flex flex-column" style="height: 100%;">
                 <v-row justify="center" align="center"
@@ -21,7 +24,7 @@
                 </v-row>
               </div>
             </v-img>
-            <div class="pa-2 d-flex flex-column grow" style="height: 66px; max-width: 55%;">
+            <div class="pa-2 d-flex flex-column grow" style="height: 76px;">
               <h3 class="font-weight-bold text-wrap overflow-hidden"
                   style="font-size: 0.95em; line-height: 1.4em; height: 40px">
                 {{ p.title }}

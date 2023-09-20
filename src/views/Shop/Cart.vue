@@ -136,7 +136,7 @@
                   </v-card>
                 </v-col>
                 <!-- No payment gateways available -->
-                <v-col cols="6" sm="6" md="4" lg="3">
+                <v-col cols="6" sm="6" md="4" lg="3" v-if="gateways.length === 0">
                   <v-card outlined>
                     <v-card-text class="text-center">
                       {{ $t('noDataAvailable') }}
@@ -284,8 +284,6 @@
     </v-card>
     <cancel-purchase-confirmation-dialog ref="cancelPurchaseConfirmationDialog"
                          @submit="cancelPurchase(openPurchase)"/>
-    <!--
-    <CheckoutDialog ref="checkoutDialog" @cancel="cancelPurchase(openPurchase)"></CheckoutDialog>-->
     <v-dialog v-model="redirectDialog" max-width="500px" persistent>
         <v-card class="card-rounded text-center pa-3">
           <h2 class="text-h5 text-capitalize mb-2">{{ $t('_shop.labels.pleaseWait') }}</h2>

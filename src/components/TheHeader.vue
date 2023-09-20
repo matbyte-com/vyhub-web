@@ -4,7 +4,7 @@
                :light="$store.getters.theme && $store.getters.theme.light_header"
                :dark="$store.getters.theme && !$store.getters.theme.light_header"
                style="z-index: 200;">
-      <div class="d-flex align-center grow"
+      <div class="d-flex align-center grow" style="width: 100%"
            :class="{ 'container' : $store.getters.theme && $store.getters.theme.header_container
             && $vuetify.breakpoint.mdAndUp }">
         <!-- burger menu on the left-->

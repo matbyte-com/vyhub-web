@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row class="justify-center">
-      <v-col cols="12" md="6" lg="5" xl="3">
+      <v-col cols="12" sm="8" md="6" lg="5" xl="3">
         <v-card class="card-rounded">
           <v-card-title class="d-block">
             {{ $t('_shop.labels.payment') }}
@@ -90,21 +90,17 @@
                   {{ $t('_shop.messages.paymentProcessing') }}
                 </div>
               </div>
-              <div v-if="debit.status === 'FINISHED'">
-                <div>
-                  <v-icon color="success" size="80" >
-                    mdi-check-circle-outline
-                  </v-icon>
+              <div v-if="debit.status === 'FINISHED'" class="text-center">
+                <div class="d-inline-block">
+                  <SuccessIcon class="animate__animated animate__zoomIn animate__faster"/>
                 </div>
                 <div class="body-1 mt-3">
                   {{ $t('_shop.messages.paymentSuccess') }}
                 </div>
               </div>
-              <div v-if="debit.status === 'CANCELLED'">
-                <div>
-                  <v-icon color="error" size="80" v-if="debit.status === 'CANCELLED'">
-                    mdi-close-circle-outline
-                  </v-icon>
+              <div v-if="debit.status === 'CANCELLED'" class="text-center">
+                <div class="d-inline-block">
+                  <ErrorIcon class="animate__animated animate__bounceIn animate__faster"/>
                 </div>
                 <div class="body-1">
                   {{ $t('_shop.messages.paymentCancelled') }}
@@ -146,12 +142,14 @@
 <script>
 import GenForm from '@/components/GenForm.vue';
 import CheckoutCouponCodeForm from '@/forms/CheckoutCouponCodeForm';
+import SuccessIcon from '@/components/Icons/SuccessIcon.vue';
+import ErrorIcon from '@/components/Icons/ErrorIcon.vue';
 import openapi from '../../api/openapi';
 import ShopService from '../../services/ShopService';
 
 export default {
   name: 'Checkout',
-  components: { GenForm },
+  components: { ErrorIcon, SuccessIcon, GenForm },
   data() {
     return {
       debitId: null,

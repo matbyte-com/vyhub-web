@@ -26,7 +26,7 @@
               <v-spacer v-if="$vuetify.breakpoint.smAndDown"/>
               <h3 class="text-h6">{{ category.name }}</h3>
               <v-spacer />
-              <v-btn depressed color="primary" v-if="!$vuetify.breakpoint.smAndDown">
+              <v-btn depressed color="primary" class="ml-1" v-if="!$vuetify.breakpoint.smAndDown">
                 <span v-if="$vuetify.breakpoint.lgAndUp">{{ $t('viewMore') }}</span>
                 <span v-else>{{ $t('view') }}</span>
               </v-btn>
