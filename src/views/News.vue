@@ -100,7 +100,7 @@
         </v-card>
         <!-- Display News -->
         <PageTitleFlat :title="$t('_home.news')" v-if="getNews.length !== 0"
-                       :class="{ 'mt-3': getNewsOfTheDay.length !== 0,
+                       :class="{ 'mt-4': getNewsOfTheDay.length !== 0,
                         'mb-4': $vuetify.breakpoint.mdAndUp }"
                        :hide-triangle="$vuetify.breakpoint.smAndDown"
                        :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
