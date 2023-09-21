@@ -45,12 +45,13 @@
                       class="stat-card card-rounded" hover outlined
                       :class="{ 'mt-3' : index !== 0 }">
                 <v-card-text class="d-flex align-center" style="width: inherit">
-                  <div>
-                    <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
-                  </div>
                   <div class="ml-3">
                     <div class="text-h5">{{ stat.title }}</div>
-                    <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
+                    <div class="text-h4 number">{{ currentCount[stat.key] }}</div>
+                  </div>
+                  <v-spacer />
+                  <div>
+                    <v-icon class="number" size="70px">{{ stat.icon }}</v-icon>
                   </div>
                 </v-card-text>
               </v-card>
