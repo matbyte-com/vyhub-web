@@ -5,7 +5,7 @@
              class="d-flex flex-column">
         <v-card class="grow-on-hover feature-card flex-grow-1 card-rounded text-center mt-8">
           <div class="icon-wrapper">
-            <v-card class="icon-rounded d-inline-block pa-1" flat>
+            <v-card class="icon-rounded d-inline-block pa-1 v-card-non-transparent" flat>
               <v-icon size="75">{{ card.icon }}</v-icon>
             </v-card>
           </div>
@@ -30,7 +30,7 @@
           <v-card class="grow-on-hover feature-card flex-grow-1 card-rounded text-center"
                   style="width: inherit">
             <div class="icon-wrapper">
-              <v-card class="icon-rounded d-inline-block pa-1" flat>
+              <v-card class="icon-rounded d-inline-block pa-1 v-card-non-transparent" flat>
                 <v-icon size="75">{{ card.icon }}</v-icon>
               </v-card>
             </div>

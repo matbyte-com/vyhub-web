@@ -3,14 +3,16 @@
     <div class="vh-home-community-stats">
       <div v-if="$vuetify.breakpoint.smAndUp" class="d-flex flex-row flex-wrap justify-center">
         <v-card v-for="stat in stats" :key="stat.title"
-                class="ml-3 mt-3 stat-card card-rounded" hover>
-          <v-card-text class="d-flex align-center">
-            <div>
-              <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
-            </div>
-            <div class="ml-3">
+                class="ml-5 mt-8 stat-card card-rounded">
+          <div class="icon-wrapper text-center">
+            <v-card class="icon-rounded d-inline-block pa-3 v-card-non-transparent" flat>
+              <v-icon size="50">{{ stat.icon }}</v-icon>
+            </v-card>
+          </div>
+          <v-card-text>
+            <div class="mt-8">
               <div class="text-h5">{{ stat.title }}</div>
-              <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
+              <div class="text-h4 number text-center">{{ currentCount[stat.key] }}</div>
             </div>
           </v-card-text>
         </v-card>
@@ -23,12 +25,13 @@
                       class="stat-card" outlined hover
                       :class="{ 'mt-3' : index !== 0 }">
                 <v-card-text class="d-flex align-center" style="width: inherit">
-                  <div>
-                    <v-icon class="number" size="50px">{{ stat.icon }}</v-icon>
-                  </div>
                   <div class="ml-3">
                     <div class="text-h5">{{ stat.title }}</div>
-                    <div class="text-h4 text-center number">{{ currentCount[stat.key] }}</div>
+                    <div class="text-h4 number">{{ currentCount[stat.key] }}</div>
+                  </div>
+                  <v-spacer />
+                  <div>
+                    <v-icon class="number" size="70px">{{ stat.icon }}</v-icon>
                   </div>
                 </v-card-text>
               </v-card>
@@ -155,7 +158,29 @@ export default {
   transition: all .2s ease-in-out;
 }
 
-.stat-card:hover .number {
+.stat-card {
+  transition: all .2s ease-in-out;
+}
+
+.stat-card:hover {
+  scale: 1.05;
+}
+
+.stat-card:hover .number, .stat-card:hover i{
   color: var(--v-primary-base);
 }
+.icon-wrapper {
+  width: 100%;
+  position: absolute;
+  top: -40px;
+}
+.icon-rounded {
+  border-radius: 50%;
+  border: solid;
+  border-width: 5px;
+  border-color: var(--v-primary-base);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>
