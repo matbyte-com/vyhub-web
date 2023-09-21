@@ -3,7 +3,7 @@
     <div class="vh-home-community-stats">
       <div v-if="$vuetify.breakpoint.smAndUp" class="d-flex flex-row flex-wrap justify-center">
         <v-card v-for="stat in stats" :key="stat.title"
-                class="ml-5 mt-8 stat-card card-rounded">
+                class="ml-5 mt-10 stat-card card-rounded">
           <div class="icon-wrapper text-center">
             <v-card class="icon-rounded d-inline-block pa-3 v-card-non-transparent" flat>
               <v-icon size="50">{{ stat.icon }}</v-icon>

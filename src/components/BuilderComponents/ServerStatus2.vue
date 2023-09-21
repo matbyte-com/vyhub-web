@@ -1,7 +1,7 @@
 <template>
   <v-card class="card-rounded vh-home-shop-stats" :img="imageCardUrl" flat>
     <v-card-text>
-      <v-row :justify="$vuetify.breakpoint.smAndDown ? 'center' : ''">
+      <v-row :justify="$vuetify.breakpoint.smAndDown ? 'center' : 'start'">
         <v-col cols="11" sm="9" md="6" Lg="5">
           <div class="text-h4 mb-2" :class="{ 'white--text' : whiteText }">
             {{ $t('server') }}
@@ -88,7 +88,6 @@ import openapiCached from '@/api/openapiCached';
 
 export default {
   name: 'ServerStatus2',
-  components: { },
   props: ['imageCardUrl', 'whiteText'],
   data() {
     return {

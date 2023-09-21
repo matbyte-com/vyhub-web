@@ -10,7 +10,7 @@ export default {
       title: 'Header',
       keywords: ['header', 'welcome', 'headline', 'navigation'],
       component: 'Header',
-      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/123.png',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Header.png',
       no_wrap: true,
       schema: {
         type: 'object',
@@ -113,7 +113,7 @@ export default {
       title: 'Headline',
       keywords: ['headline', 'welcome'],
       component: 'Headline',
-      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Header.png',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Headline.png',
       no_wrap: true,
       schema: {
         type: 'object',
@@ -358,7 +358,7 @@ export default {
       title: 'Shop Recommended Packets',
       keywords: ['shop', 'categories', 'packets', 'packages'],
       component: 'ShopRecommendedPackets',
-      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/123.png',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ShopRecommendedPackets.png',
       schema: {
         type: 'object',
         properties: {
@@ -431,7 +431,7 @@ export default {
     },
     {
       title: 'Server Status 2',
-      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/123.png',
+      previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ServerStatus2.png',
       keywords: ['server', 'status', 'logo'],
       component: 'ServerStatus2',
       schema: {
@@ -445,6 +445,10 @@ export default {
             },
           },
         },
+      },
+      defaults: {
+        imageCardUrl: 'https://media.discordapp.net/attachments/1078311411530346587/1154421955039068220/servers-transformed_cleanup.png?width=1033&height=579',
+        whiteText: true,
       },
     },
     {
