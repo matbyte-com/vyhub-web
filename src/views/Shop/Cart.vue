@@ -196,7 +196,7 @@
             <v-form v-model="allChecked" ref="checkboxesForm" lazy-validation>
               <v-checkbox required v-for="checkbox in checkboxes" v-bind:key="checkbox.id"
                           hide-details="auto"
-                          :rules="[v => !!v || $t('_shop.messages.mustAgree')]" class="mt-0">
+                          :rules="[v => !!v || $t('_shop.messages.mustAgree')]" class="mt-1">
                 <template v-slot:label>
                   <div v-if="checkbox.url != null">
                     <a :href="checkbox.url" target="_blank" @click.stop>
@@ -236,7 +236,7 @@
 
     <!-- Skeleton loaders -->
     <v-row v-else>
-      <v-col lg="9" md="8">
+      <v-col cols="12" lg="9" md="8">
         <div>
           <v-skeleton-loader v-for="n in 3" class="mb-3"
                              v-bind:key="n"
