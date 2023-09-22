@@ -40,6 +40,7 @@ function returnForm() {
         type: 'boolean',
         title: i18n.t('_theme.darkmode'),
         'x-display': 'switch',
+        'x-cols': 7,
       },
       image: {
         type: 'string',
@@ -85,6 +86,7 @@ function returnForm() {
         default: false,
         'x-display': 'switch',
         description: i18n.t('_theme.communityNameDescription'),
+        'x-cols': 6,
       },
       custom_css: {
         type: 'string',

@@ -26,6 +26,7 @@ function form(forum_enabled = false) {
         title: i18n.t('_settings.showTicket'),
         'x-display': 'switch',
         default: false,
+        'x-cols': 7,
       },
       enable_forum: {
         type: 'boolean',
@@ -33,18 +34,21 @@ function form(forum_enabled = false) {
         'x-display': 'switch',
         readOnly: !forum_enabled,
         default: false,
+        'x-cols': 7,
       },
       enable_team: {
         type: 'boolean',
         title: i18n.t('_settings.showTeam'),
         'x-display': 'switch',
         default: false,
+        'x-cols': 7,
       },
       enable_faq: {
         type: 'boolean',
         title: i18n.t('_settings.showFaq'),
         'x-display': 'switch',
         default: false,
+        'x-cols': 7,
       },
       language: {
         type: 'string',

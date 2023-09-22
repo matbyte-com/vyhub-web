@@ -6,7 +6,7 @@
     :max-width="maxWidth"
     style="z-index: 200;"
     :fullscreen="$vuetify.breakpoint.xsOnly">
-    <v-card class="card-rounded">
+    <v-card :class="{ 'card-rounded' : !$vuetify.breakpoint.xsOnly }">
       <v-card-title class="primary white--text">
         <v-icon :if="icon != null" left color="white">{{ icon }}</v-icon>
         <span>{{ title }}</span>

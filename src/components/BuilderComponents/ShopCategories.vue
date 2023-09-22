@@ -14,7 +14,7 @@
                 <v-img max-height="200px"
                        :src="category.image_url" :alt="category.name" />
               </div>
-              <div class="text-center text-h5 mt-3">{{ category.name }}</div>
+              <div class="text-center text-h5 mt-3 mx-1">{{ category.name }}</div>
               <v-spacer/>
               <div class="text-center mt-3 pb-3">
                 <v-btn outlined color="primary"

@@ -12,6 +12,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Start',
+    meta: { noContainer: true, noHeader: true },
     component: () => import('../views/Start.vue'),
   },
   {

@@ -23,8 +23,8 @@
                   </div>
                 </v-img>
               </div>
-              <div class="text-center text-h5 mt-3">{{ packet.title }}</div>
-              <div class="text-center mt-1">{{ packet.subtitle }}</div>
+              <div class="text-center text-h5 mt-3 mx-1">{{ packet.title }}</div>
+              <div class="text-center mt-1 mx-1">{{ packet.subtitle }}</div>
               <v-spacer />
               <div class="text-center mt-3 pb-3">
                 <v-btn outlined color="primary"
