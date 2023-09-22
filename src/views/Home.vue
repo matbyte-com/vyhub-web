@@ -115,13 +115,15 @@
         <transition-group tag="div" class="mt-3 row" name="list-complete">
           <v-col cols="6" md="4" lg="4" v-for="cp in availableComponentsSearch" :key="cp.component"
                  class="list-complete-item">
-            <v-card @click="addComponent(cp)"
-                    class="" hover>
+            <v-card @click="addComponent(cp)" style="height: 100%"
+                    class="d-flex flex-column flex-grow-1" hover>
               <v-img style="background-color: #e0e0e0"
                      :src="cp.previewImage" height="100px" contain/>
+              <v-spacer />
               <div class="text-center text-h5">
                 {{ cp.title }}
               </div>
+              <v-spacer />
             </v-card>
           </v-col>
           <v-col v-if="availableComponentsSearch.length === 0" :key="1">
