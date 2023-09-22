@@ -27,7 +27,7 @@
               <div class="text-center mt-1 mx-1">{{ packet.subtitle }}</div>
               <v-spacer />
               <div class="text-center mt-3 pb-3">
-                <v-btn outlined color="primary"
+                <v-btn depressed color="primary"
                        :to="{ name: 'ShopCategory', params: { categoryId: packet.category.id} }">
                   {{ callToAction }}
                 </v-btn>

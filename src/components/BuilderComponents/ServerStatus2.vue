@@ -51,17 +51,17 @@
                 </v-col>
                 <!-- Connection Link -->
                 <v-col class="text-right">
-                  <v-btn class="mr-1 cta-btn"
+                  <v-btn class="mr-1 cta-btn" depressed
                          v-if="server.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3']
                      .includes(server.type)"
-                         :to="{ name: 'ServerDashboard', params: { id: server.id } }" outlined>
+                         :to="{ name: 'ServerDashboard', params: { id: server.id } }">
                     <v-icon :left="$vuetify.breakpoint.smAndDown">
                       mdi-badge-account-horizontal
                     </v-icon>
                     <span v-if="$vuetify.breakpoint.smAndDown">{{ $t('dashboard') }}</span>
                   </v-btn>
                   <v-btn v-if="server.status === 'ONLINE' && $vuetify.breakpoint.mdAndUp"
-                         outlined :href="utils.getConnectionLink(server)" color="primary"
+                         depressed :href="utils.getConnectionLink(server)" color="primary"
                          @click="utils.copyServerAddress(server)" class="cta-btn">
                     <div v-if="utils.getConnectionLink(server)" class="d-flex align-center">
                       <v-icon left>mdi-connection</v-icon>

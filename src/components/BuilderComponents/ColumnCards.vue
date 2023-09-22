@@ -14,7 +14,7 @@
             <p v-html="card.content"></p>
             <v-spacer />
             <div>
-              <v-btn outlined color="primary"
+              <v-btn depressed color="primary"
                      :href="(!utils.localLink(card) ? card.link : null)"
                      :to="utils.localLink(card) ? utils.getLocalLink(card) : null">
                 {{ card.btnText }}
@@ -40,7 +40,7 @@
               <p v-html="card.content"></p>
               <v-spacer />
               <div>
-                <v-btn outlined color="primary"
+                <v-btn depressed color="primary"
                        :href="(!utils.localLink(card) ? card.link : null)"
                        :to="utils.localLink(card) ? utils.getLocalLink(card) : null">
                   {{ card.btnText }}

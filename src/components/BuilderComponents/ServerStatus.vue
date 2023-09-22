@@ -38,7 +38,7 @@
             <v-spacer />
             <div class="d-flex justify-center align-center mt-3">
               <v-btn v-if="s.status === 'ONLINE' && $vuetify.breakpoint.mdAndUp"
-                     outlined :href="utils.getConnectionLink(s)" color="primary"
+                     depressed :href="utils.getConnectionLink(s)" color="primary"
                      @click="utils.copyServerAddress(s)" class="cta-btn">
                 <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
                   <v-icon left>mdi-connection</v-icon>
@@ -51,7 +51,7 @@
               </v-btn>
               <v-btn class="ml-1 cta-btn"
                      v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
-                     :to="{ name: 'ServerDashboard', params: { id: s.id } }" outlined>
+                     :to="{ name: 'ServerDashboard', params: { id: s.id } }" depressed>
                 <v-icon :left="$vuetify.breakpoint.smAndDown">mdi-badge-account-horizontal</v-icon>
                 <span v-if="$vuetify.breakpoint.smAndDown">{{ $t('dashboard') }}</span>
               </v-btn>
@@ -101,8 +101,8 @@
             </div>
             <v-spacer />
             <div class="d-flex justify-center align-center mt-3">
-              <v-btn v-if="s.status === 'ONLINE' && $vuetify.breakpoint.mdAndUp"
-                     outlined :href="utils.getConnectionLink(s)" color="primary"
+              <v-btn v-if="s.status === 'ONLINE' && $vuetify.breakpoint.mdAndUp" depressed
+                     :href="utils.getConnectionLink(s)" color="primary"
                      @click="utils.copyServerAddress(s)" class="cta-btn">
                 <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
                   <v-icon left>mdi-connection</v-icon>
@@ -115,11 +115,11 @@
               </v-btn>
               <v-btn class="ml-1 cta-btn"
                      v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
-                     :to="{ name: 'ServerDashboard', params: { id: s.id } }" outlined>
+                     :to="{ name: 'ServerDashboard', params: { id: s.id } }" depressed>
                 <v-icon :left="$vuetify.breakpoint.smAndDown">mdi-badge-account-horizontal</v-icon>
                 <span v-if="$vuetify.breakpoint.smAndDown">{{ $t('dashboard') }}</span>
               </v-btn>
-              <v-chip v-if="s.status === 'OFFLINE'" color="error" outlined label>
+              <v-chip v-if="s.status === 'OFFLINE'" color="error" label>
                 <v-icon small left>mdi-alert-circle</v-icon>
                 {{ $t('_server.labels.offline') }}
               </v-chip>

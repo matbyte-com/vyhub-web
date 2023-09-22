@@ -17,7 +17,7 @@
               <div class="text-center text-h5 mt-3 mx-1">{{ category.name }}</div>
               <v-spacer/>
               <div class="text-center mt-3 pb-3">
-                <v-btn outlined color="primary"
+                <v-btn color="primary" depressed
                        :to="{ name: 'ShopCategory', params: { categoryId: category.id} }">
                   {{ callToAction }}
                 </v-btn>
