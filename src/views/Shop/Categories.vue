@@ -24,7 +24,7 @@
               max-height="300px" />
             <div class="d-flex align-center mx-1 mb-1 justify-center">
               <v-spacer v-if="$vuetify.breakpoint.smAndDown"/>
-              <h3 class="text-h6">{{ category.name }}</h3>
+              <h3 class="text-h6 text-break">{{ category.name }}</h3>
               <v-spacer />
               <v-btn depressed color="primary" class="ml-1" v-if="!$vuetify.breakpoint.smAndDown">
                 <span v-if="$vuetify.breakpoint.lgAndUp">{{ $t('viewMore') }}</span>
