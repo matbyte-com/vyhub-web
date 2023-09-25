@@ -266,6 +266,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (refreshToken != null && typeof refreshToken === 'string') {
     if (!store.getters.isLoggedIn) {
+      // If user is not logged in, try to login with refresh token
       try {
         await AuthService.login(refreshToken);
         Vue.prototype.$notify({
@@ -283,6 +284,8 @@ router.beforeEach(async (to, from, next) => {
         showLoginDialog(to, from, null);
       }
     } else {
+      // If the user is already logged in, redirect to the same page with login=true
+      // to trigger the login dialog to finish account linking
       const query = {
         ...to.query,
         login: 'true',
@@ -293,14 +296,13 @@ router.beforeEach(async (to, from, next) => {
       if (to.name != null) {
         next({ name: to.name, query, params: to.params });
       } else {
-        next({ name: 'Start', query });
+        next({ name: 'News', query });
       }
-
-      // showLoginDialog(to, from, refreshToken);
     }
   } else if ((to.query.login !== 'true')
     && (to.matched.some((record) => record.meta.requiresAuth))) {
-    // this route requires auth
+    // If the route requires auth, user is not logged in and login is not true,
+    // redirect to the same page with login=true
     if (!store.getters.isLoggedIn) {
       console.log('Showing login dialog.');
       showLoginDialog(to, from, null);
@@ -316,10 +318,20 @@ router.beforeEach(async (to, from, next) => {
 
     if (reqProp == null || AccessControlService.methods.$checkProp(reqProp)) {
       const query = { ...to.query };
-      delete query.login;
-      delete query.return_url;
 
-      next({ query });
+      // If refresh_token is present, remove it from query
+      if (query.refresh_token || query.link_refresh_token) {
+        delete query.refresh_token;
+        delete query.link_refresh_token;
+
+        if (to.name != null) {
+          next({ name: to.name, query, params: to.params });
+        } else {
+          next({ name: 'News', query });
+        }
+      } else {
+        next();
+      }
     } else {
       console.log(`Property ${reqProp} missing.`);
       next({
