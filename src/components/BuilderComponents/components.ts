@@ -21,6 +21,19 @@ export default {
             'x-props': {
               clearable: true,
             },
+            'x-cols': 6,
+          },
+          logo_width: {
+            type: 'integer',
+            minimum: 50,
+            maximum: 150,
+            title: i18n.t('_theme.logoWidth'),
+            'x-display': 'slider',
+            'x-props': {
+              'thumb-label': 'always',
+            },
+            'x-class': 'pl-3 mt-5',
+            'x-cols': 6,
           },
           headline: {
             title: i18n.t('_component._form.headline'),

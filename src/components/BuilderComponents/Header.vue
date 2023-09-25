@@ -21,22 +21,26 @@
           </v-list>
         </v-menu>
 
-        <div>
-          <v-img alt="Community Logo" class="shrink py-1" contain v-if="logoUrl" :src="logoUrl"
-                 transition="scale-transition" :width="logo_width" height="50"/>
-        </div>
+        <router-link :to="{ name: 'news' }" v-if="logoUrl">
+          <v-img alt="Community Logo" class="py-1" :src="logoUrl" :width="logo_width"
+                 transition="scale-transition" height="60" contain/>
+        </router-link>
         <!-- Do not overflow on bigger screens -->
         <div v-if="$vuetify.breakpoint.mdAndUp" class="mr-1">
-          <v-toolbar-title class="ml-3" :class="{ 'white--text': whiteText }"
-                           style="cursor: default">
-            {{ headline }}
-          </v-toolbar-title>
+          <router-link :to="{ name: 'News' }" style="cursor: pointer; color: inherit"
+                       class="text-decoration-none" >
+            <v-toolbar-title class="ml-3" :class="{ 'white--text': whiteText }">
+              {{ headline }}
+            </v-toolbar-title>
+          </router-link>
         </div>
         <!-- Overflow ellipsis (...) on smaller screens -->
-        <v-toolbar-title v-else class="ml-3 mr-1" :class="{ 'white--text': whiteText }"
-                         style="cursor: default">
-          {{ headline }}
-        </v-toolbar-title>
+        <router-link v-else :to="{ name: 'News' }" style="cursor: pointer; color: inherit"
+                     class="text-decoration-none" >
+          <v-toolbar-title class="ml-3 mr-1" :class="{ 'white--text': whiteText }">
+            {{ headline }}
+          </v-toolbar-title>
+        </router-link>
         <v-spacer v-if="$vuetify.breakpoint.mdAndUp" />
         <div class="d-flex flex-wrap align-center" v-if="$vuetify.breakpoint.mdAndUp">
           <v-btn v-for="l in links" :key="l.text" :class="{ 'white--text': whiteText }"
