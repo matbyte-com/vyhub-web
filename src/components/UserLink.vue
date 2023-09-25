@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <span v-if="user">
     <v-chip v-if="!disabledLink && !simple" :small="small"
             :to="{ name: 'UserDashboard', params: {id: user.id}}"
             :outlined="isOutlined" :color="color">
