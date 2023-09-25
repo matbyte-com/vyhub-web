@@ -148,18 +148,18 @@
       <!-- Sidebar -->
       <v-col ref="StatusCol" cols="4">
         <div v-if="$vuetify.breakpoint.mdAndUp">
-          <ServerStatus ref="serverStatus"/>
-          <v-card class="mt-3 card-rounded vh-news-donation-goal"
+          <ServerStatus class="mb-3" ref="serverStatus"/>
+          <v-card class="mb-3 card-rounded vh-news-donation-goal"
                   flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.donation_goal_enabled">
             <DonationGoal class="pt-3"/>
           </v-card>
-          <v-card class="mt-3 card-rounded vh-news-top-donators"
+          <v-card class="mb-3 card-rounded vh-news-top-donators"
                   flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.top_donators_enabled">
             <TopDonators class="pt-3"/>
           </v-card>
-          <NewUsers class="mt-3" />
+          <NewUsers class="" />
         </div>
       </v-col>
     </v-row>
