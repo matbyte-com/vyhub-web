@@ -186,7 +186,7 @@ const routes: Array<RouteConfig> = [
     path: '*',
     name: '404 Path not found',
     redirect() {
-      return '/';
+      return '/news';
     },
   },
 ];
