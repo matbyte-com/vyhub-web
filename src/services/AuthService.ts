@@ -135,7 +135,7 @@ export default {
     }
   },
   authRequestCommands: {
-    MINECRAFT: '/login {uuid}',
+    MINECRAFT: '/vylogin {uuid}',
     TEAMSPEAK3: '!login {uuid}',
   },
 };
