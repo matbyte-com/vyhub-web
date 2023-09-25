@@ -198,9 +198,7 @@ export default {
 
       const access_token = await this.generateToken();
 
-      this.mcCommands.push(`vh_config api_key ${access_token}`);
-      this.mcCommands.push(`vh_config api_url ${config.backend_url}`);
-      this.mcCommands.push(`vh_config server_id ${this.server.id}`);
+      this.mcCommands.push(`vh_setup ${access_token} ${config.backend_url} ${this.server.id}`);
     },
     async generateDiscordBotLink() {
       const api = (await openapi);
