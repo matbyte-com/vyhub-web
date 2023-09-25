@@ -240,9 +240,18 @@ export default Vue.extend({
       }
     },
     async setApiInterceptor() {
+      const last_errors = {};
       const client = await openapi;
       client.interceptors.response.use((response) => response,
         (err) => {
+          // Do not display error when same error was displayed within the last 3 seconds
+          if (err.response.status in last_errors
+            && Date.now() - last_errors[err.response.status] < 3000) {
+            last_errors[err.response.status] = Date.now();
+            return Promise.reject(err);
+          }
+          last_errors[err.response.status] = Date.now();
+
           const notificationObject = this.utils.formatErrorMessage(err);
           this.$notify({
             title: notificationObject.title,
