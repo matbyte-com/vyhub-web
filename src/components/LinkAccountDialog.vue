@@ -71,31 +71,35 @@
     <ConfirmationDialog :width="600" ref="linkUsersDialog" text="-" :btn-text="$t('confirm')"
                         @submit="confirmLink" @cancel="cancelLink" btn-color="success">
       <div v-if="userToLink && $store.getters.isLoggedIn">
-        <div class="text-center my-3">
+        <div class="text-center my-5">
           {{  $t('_user.messages.linkAccountConfirm') }}
         </div>
-        <v-row>
-          <v-col cols="12" md="6" class="text-center">
-            <v-avatar>
-              <v-img :src="$store.getters.user.avatar" contain
-                     alt="avatar"/>
-            </v-avatar>
-            <br/>
-            {{ $store.getters.user.username }}
-            <br/>
-            {{ $store.getters.user.type }}
-          </v-col>
-          <v-col cols="12" md="6" class="text-center">
-            <v-avatar>
-              <v-img :src="userToLink.avatar" contain
-                     alt="avatar"/>
-            </v-avatar>
-            <br/>
-            {{ userToLink.username }}
-            <br/>
-            {{ userToLink.type }}
-          </v-col>
-        </v-row>
+        <v-card class="mt-6 card-rounded" outlined>
+          <v-card-text>
+            <v-row>
+              <v-col cols="12" md="6" class="text-center">
+                <v-avatar>
+                  <v-img :src="$store.getters.user.avatar" contain
+                         alt="avatar"/>
+                </v-avatar>
+                <br/>
+                {{ $store.getters.user.username }}
+                <br/>
+                {{ $store.getters.user.type }}
+              </v-col>
+              <v-col cols="12" md="6" class="text-center">
+                <v-avatar>
+                  <v-img :src="userToLink.avatar" contain
+                         alt="avatar"/>
+                </v-avatar>
+                <br/>
+                {{ userToLink.username }}
+                <br/>
+                {{ userToLink.type }}
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
       </div>
     </ConfirmationDialog>
   </div>
