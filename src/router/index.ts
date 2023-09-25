@@ -291,9 +291,9 @@ router.beforeEach(async (to, from, next) => {
       };
 
       if (to.name != null) {
-        next({ name: to.name, query });
+        next({ name: to.name, query, params: to.params });
       } else {
-        next({ query });
+        next({ name: 'Start', query });
       }
 
       // showLoginDialog(to, from, refreshToken);
