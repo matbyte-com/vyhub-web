@@ -73,7 +73,6 @@
         </div>
       </div>
     </v-app-bar>
-    <LinkAccountDialog ref="linkAccountDialog" />
     <PersonalSettings ref="userSelfSettings" :user="$store.getters.user"
                       @user-changed="refreshUser"
                       v-if="$store.getters.isLoggedIn">
@@ -86,7 +85,6 @@ import ProfileMenu from '@/components/HeaderComponents/ProfileMenu.vue';
 import BurgerMenu from '@/components/HeaderComponents/BurgerMenu.vue';
 import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
 import Search from '@/components/HeaderComponents/Search.vue';
-import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import Notification from '@/components/HeaderComponents/Notification.vue';
 import AuthService from '@/services/AuthService';
 import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
@@ -106,7 +104,6 @@ export default {
     NavigationLink,
     Search,
     Credits,
-    LinkAccountDialog,
     Notification,
     HelpCircle,
   },

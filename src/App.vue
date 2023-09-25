@@ -2,6 +2,7 @@
   <v-app>
 
     <VueNotification />
+    <LinkAccountDialog />
     <TheHeader v-if="!$route.meta.noHeader"/>
 
     <v-main :style="backgroundColor">
@@ -96,6 +97,7 @@ import ForumService from '@/services/ForumService';
 import CustomerJourney from '@/components/CustomerJourney.vue';
 import VueGtag from 'vue-gtag';
 import { register } from 'swiper/element';
+import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
@@ -114,6 +116,7 @@ export default Vue.extend({
     VueNotification,
     TheHeader,
     TheFooter,
+    LinkAccountDialog,
   },
 
   data: () => ({
