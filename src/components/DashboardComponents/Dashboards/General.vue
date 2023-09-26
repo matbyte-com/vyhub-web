@@ -37,7 +37,7 @@
                 <BansAndWarnings :user="user"/>
               </v-col>
             </v-row>
-            <v-row v-if="$checkProp('user_log') || $checkProp('user_comment_show')">
+            <v-row v-if="$checkProp('user_log_show') || $checkProp('user_comment_show')">
               <v-col>
                 <v-card flat class="card-rounded">
                   <v-tabs grow>
@@ -47,7 +47,7 @@
                       </v-icon>
                       {{ $t('comments') }}
                     </v-tab>
-                    <v-tab v-if="$checkProp('user_log')">
+                    <v-tab v-if="$checkProp('user_log_show')">
                       <v-icon left>
                         mdi-format-list-bulleted
                       </v-icon>
@@ -56,7 +56,7 @@
                     <v-tab-item v-if="$checkProp('user_comment_show')">
                       <UserComments :user="user"/>
                     </v-tab-item>
-                    <v-tab-item v-if="$checkProp('user_log')">
+                    <v-tab-item v-if="$checkProp('user_log_show')">
                       <UserLogEntries :user="user"/>
                     </v-tab-item>
                   </v-tabs>
