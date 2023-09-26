@@ -117,7 +117,6 @@ export default {
               },
             ],
           },
-          /*
           {
             title: 'FiveM',
             items: [
@@ -265,7 +264,7 @@ export default {
                 ],
               },
             ],
-          }, */
+          },
           {
             title: 'Garry\'s Mod',
             items: [
