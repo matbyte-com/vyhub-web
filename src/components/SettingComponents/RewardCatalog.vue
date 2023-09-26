@@ -249,9 +249,7 @@ export default {
                 scripts: [
                   {
                     name: 'Access to reserved slots',
-                    description: 'Allow the player to join when the server is full. Add the player
-                     to a donator group which is then whitelisted to use reserved slots using
-                      plugins like ULX or Proper Reserved Slots',
+                    description: 'Allow the player to join when the server is full. Add the player to a donator group which is then whitelisted to use reserved slots using plugins like ULX or Proper Reserved Slots',
                   },
                   {
                     name: 'Ability to change phone number',
