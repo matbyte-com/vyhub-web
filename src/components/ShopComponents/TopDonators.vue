@@ -7,7 +7,8 @@
                    :title="shopConfig.top_donators_display_title" icon="mdi-podium"/>
       </v-card-title>
       <v-card-text style="width: inherit">
-        <div class="d-flex align-center mt-3" style="overflow-x: auto; height: 55px"
+        <div class="d-flex align-center mt-3"
+             style="overflow-x: auto; height: 55px; overflow-y: hidden"
              v-if="topDonators && topDonators.donators.length > 0">
           <v-spacer/>
           <v-fade-transition>
