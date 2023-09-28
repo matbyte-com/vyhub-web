@@ -29,6 +29,7 @@
     </v-fade-transition>
     <!-- Side Menu -->
     <v-navigation-drawer
+      style="z-index: 201"
       v-if="$checkProp('theme_edit')"
       v-model="editDrawer"
       :right="drawerRight"
