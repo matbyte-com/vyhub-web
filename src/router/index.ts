@@ -320,7 +320,7 @@ router.beforeEach(async (to, from, next) => {
       const query = { ...to.query };
 
       // If refresh_token is present, remove it from query
-      if (query.refresh_token || query.link_refresh_token) {
+      if (!query.login && (query.refresh_token || query.link_refresh_token)) {
         delete query.refresh_token;
         delete query.link_refresh_token;
 
