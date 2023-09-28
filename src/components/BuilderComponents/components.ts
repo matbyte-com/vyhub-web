@@ -7,14 +7,14 @@ const API_URL = Common.apiURL;
 export default {
   components: [
     {
-      title: 'Default Header (APP)',
+      title: 'Default Header',
       keywords: ['header', 'welcome', 'headline', 'navigation'],
       component: 'DefaultHeader',
       previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Header.png',
       no_wrap: true,
     },
     {
-      title: 'Header',
+      title: 'Custom Header',
       keywords: ['header', 'welcome', 'headline', 'navigation'],
       component: 'Header',
       previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/Header.png',
