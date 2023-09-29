@@ -55,7 +55,6 @@
               </div>
             </router-link>
           </div>
-          <!-- TODO Coloring of Card - Light and DarkMode -->
           <!-- Small Screens -->
           <div v-else class="pt-3 px-3">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
@@ -156,7 +155,7 @@
                     <v-btn small outlined @click.stop="openEditPostDialog(post)"
                            color="primary"
                            class="mr-2"
-                           v-if="postEditable">
+                           v-if="postEditable(post)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn small outlined
@@ -338,6 +337,11 @@ export default {
         this.admins = this.topic.admins;
       });
     },
+    postEditable(post) {
+      if (!this.topic || !this.$store.getters.user || !this.posts) return false;
+      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.topic.admins)
+        || (this.$store.getters.user.id === post.creator.id && this.topic.edit_post));
+    },
     openEditPostDialog(post) {
       this.$refs.editPostDialog.show(post);
       this.$refs.editPostDialog.content = post.content;
@@ -472,11 +476,6 @@ export default {
     },
   },
   computed: {
-    postEditable() {
-      if (!this.topic || !this.$store.getters.user || !this.posts) return false;
-      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.topic.admins)
-        || (this.$store.getters.user.id === this.post.creator.id && this.topic.edit_post));
-    },
     threadIcon() {
       if (!this.thread) return null;
       if (this.thread.pinned) return 'mdi-pin';
