@@ -117,7 +117,7 @@
                depressed class="ml-1 grow cta-btn" color="primary"
                @click="addToCart()">
           <v-icon left>mdi-cart</v-icon>
-          {{ $t('_shop.labels.addToCart17CharsMax') }}
+          {{ $t('_shop.labels.addToCart13CharsMax') }}
         </v-btn>
         <v-btn v-else large depressed class="ml-1 grow cta-btn" color="primary"
                @click="$refs.detailDialog.show()">

@@ -26,12 +26,16 @@
             <swiper-slide>
               <ServerStatus :outlined="true" ref="serverStatus" />
             </swiper-slide>
-            <swiper-slide v-if="$store.getters.shopConfig">
-              <v-card class="card-rounded pt-3" outlined>
-                <DonationGoal v-if="$store.getters.shopConfig.donation_goal_enabled"/>
+            <swiper-slide v-if="$store.getters.shopConfig &&
+             ($store.getters.shopConfig.donation_goal_enabled ||
+              $store.getters.shopConfig.top_donators_enabled)">
+              <v-card class="card-rounded pt-3" outlined
+                      v-if="$store.getters.shopConfig.donation_goal_enabled">
+                <DonationGoal />
               </v-card>
-              <v-card class="card-rounded mt-3 pt-3" outlined>
-                <TopDonators v-if="$store.getters.shopConfig.top_donators_enabled"/>
+              <v-card class="card-rounded mt-3 pt-3" outlined
+                      v-if="$store.getters.shopConfig.top_donators_enabled">
+                <TopDonators />
               </v-card>
             </swiper-slide>
             <swiper-slide>
