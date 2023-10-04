@@ -111,22 +111,6 @@
   overflow: hidden;
 }
 
-/* Scrollbar Styling */
-/* Works on Firefox */
-* {
-  scrollbar-width: thin;
-}
-
-/* Works on Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  width: 12px;
-}
-
-*::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-}
-
-/* Hide Scrollbar Buttons */
-::-webkit-scrollbar-button {
-  display:none;
+::-webkit-scrollbar {
+  height: 6px /* adjust as necessary */
 }

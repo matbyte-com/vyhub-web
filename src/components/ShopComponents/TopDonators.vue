@@ -8,7 +8,7 @@
       </v-card-title>
       <v-card-text style="width: inherit">
         <div class="d-flex align-center mt-3"
-             style="overflow-x: auto; height: 55px; overflow-y: hidden"
+             style="overflow-x: auto; height: 65px; overflow-y: hidden;"
              v-if="topDonators && topDonators.donators.length > 0">
           <v-spacer/>
           <v-fade-transition>

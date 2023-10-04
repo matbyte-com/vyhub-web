@@ -1,14 +1,14 @@
 <template>
 <div>
-  <v-card-text>
-    <v-tabs v-model="tab" grow v-show="numberOfTabs !== 1">
-      <v-tab class="square" v-if="$store.getters.shopConfig.donation_goal_enabled">
-        <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-flag-checkered</v-icon></v-tab>
-      <v-tab class="square" v-if="$store.getters.shopConfig.top_donators_enabled">
-        <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-podium</v-icon></v-tab>
-      <v-tab class="square" v-if="$store.getters.shopConfig.last_donators_enabled">
-        <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-clock-end</v-icon></v-tab>
-    </v-tabs>
+  <v-tabs v-model="tab" grow v-show="numberOfTabs !== 1">
+    <v-tab class="square" v-if="$store.getters.shopConfig.donation_goal_enabled">
+      <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-flag-checkered</v-icon></v-tab>
+    <v-tab class="square" v-if="$store.getters.shopConfig.top_donators_enabled">
+      <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-podium</v-icon></v-tab>
+    <v-tab class="square" v-if="$store.getters.shopConfig.last_donators_enabled">
+      <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-clock-end</v-icon></v-tab>
+  </v-tabs>
+  <div>
     <v-tabs-items v-model="tab">
       <v-tab-item v-if="$store.getters.shopConfig.donation_goal_enabled">
         <DonationGoal :no-shop-btn="true" class="mt-3" :no-icon="true" :center-headline="true"/>
@@ -20,7 +20,7 @@
         <LastDonators class="mt-3" :no-icon="true" :center-headline="true" />
       </v-tab-item>
     </v-tabs-items>
-  </v-card-text>
+  </div>
 </div>
 </template>
 
