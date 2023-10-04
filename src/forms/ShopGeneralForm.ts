@@ -34,13 +34,23 @@ export default {
       title: i18n.t('_shop.labels.enableTopDonators'),
       description: i18n.t('_shop.labels.widgetDescription'),
       default: 'true',
-      'x-cols': 6,
+      'x-cols': 4,
     },
     top_donators_limit: {
       type: 'integer',
       title: i18n.t('_shop.labels.topDonatorsLimit'),
       minimum: '1',
-      'x-cols': 6,
+      'x-cols': 4,
+      'x-class': 'pl-1',
+    },
+    top_donators_days_limit: {
+      type: 'integer',
+      title: i18n.t('_shop.labels.topDonatorsDaysLimit'),
+      'x-class': 'pl-1',
+      'x-props': {
+        clearable: true,
+      },
+      'x-cols': 4,
     },
     last_donators_enabled: {
       type: 'boolean',

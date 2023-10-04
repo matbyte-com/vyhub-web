@@ -3,7 +3,7 @@
     <SettingTitle docPath="/guide/shop/general">{{ $t('shop') }}</SettingTitle>
 
     <v-row>
-      <v-col sm="12" md="6">
+      <v-col sm="12" md="7">
         <h6 class="text-h6">{{ $t('general') }}</h6>
         <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
                  :optionsExtra="{editMode: 'inline'}"

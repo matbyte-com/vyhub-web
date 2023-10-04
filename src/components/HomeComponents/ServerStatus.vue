@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card v-if="servers && nonEmptyBundles.length > 0"
-            class="vh-server-status card-rounded" flat :outlined="outlined">
+            class="vh-server-status card-rounded mb-3" flat :outlined="outlined">
       <v-card-title class="pb-0">
         <CardTitle :title="$t('server')" icon="mdi-server" />
       </v-card-title>
@@ -71,7 +71,7 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-card class="card-rounded pa-3" flat v-if="servers == null">
+    <v-card class="card-rounded pa-3 mb-3" flat v-if="servers == null">
       <v-skeleton-loader type="paragraph"/>
     </v-card>
     <Dialog ref="serverDetailsDialog" :title="$t('_server.labels.details')" icon="mdi-server">

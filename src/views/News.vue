@@ -148,7 +148,7 @@
       <!-- Sidebar -->
       <v-col ref="StatusCol" cols="4">
         <div v-if="$vuetify.breakpoint.mdAndUp">
-          <ServerStatus class="mb-3" ref="serverStatus"/>
+          <ServerStatus ref="serverStatus"/>
           <v-card class="mb-3 card-rounded vh-news-donation-goal"
                   flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.donation_goal_enabled">
