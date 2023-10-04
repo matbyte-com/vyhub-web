@@ -52,7 +52,7 @@
                                   flat>
                             <v-icon>{{ topic.icon }}</v-icon>
                           </v-card>
-                          <div class="align-self-center text-ellipsis">
+                          <div class="align-self-center text-ellipsis my-2">
                             <div class="text-ellipsis"
                                  style="font-size: 1.3em;"
                                  :class="{ 'fill-height':!topic.description }">

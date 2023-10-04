@@ -28,12 +28,12 @@
                      color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
                 <v-icon small>mdi-delete</v-icon>
               </v-btn>
-              <v-btn depressed v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
-                     color="success" @click="$refs.addPostDialog.show()" class="ml-1" small>
-                <v-icon left>mdi-plus</v-icon>
-                {{ $t('_forum.addPost') }}
-              </v-btn>
             </div>
+            <v-btn depressed v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
+                   color="success" @click="$refs.addPostDialog.show()" class="ml-1" small>
+              <v-icon left>mdi-plus</v-icon>
+              {{ $t('_forum.addPost') }}
+            </v-btn>
           </div>
         </template>
       </PageTitleFlat>
