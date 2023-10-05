@@ -53,7 +53,7 @@
         2. {{ $t('_server.instructions.COMMON.runCommands') }}
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateCommands()">
+        <v-btn color="primary" @click="generateMcCommands()">
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
@@ -226,11 +226,11 @@ export default {
       this.commands.push(`${prefix} server_id "${this.server.id}"`);
     },
     async generateMcCommands() {
-      this.mcCommands = [];
+      this.commands = [];
 
       const access_token = await this.generateToken();
 
-      this.mcCommands.push(`vh_setup ${access_token} ${config.backend_url} ${this.server.id}`);
+      this.commands.push(`vh_setup ${access_token} ${config.backend_url} ${this.server.id}`);
     },
     async generateDiscordBotLink() {
       const api = (await openapi);
