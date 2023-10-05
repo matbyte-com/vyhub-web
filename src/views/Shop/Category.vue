@@ -108,7 +108,7 @@ export default {
     async fetchCategories() {
       (await openapi).packet_getCategories()
         .then((rsp) => {
-          this.categories = rsp.data;
+          this.categories = rsp.data.filter((cat) => cat.enabled);
           this.tab = rsp.data.findIndex((cat) => cat.id === this.$route.params.categoryId);
         });
     },
