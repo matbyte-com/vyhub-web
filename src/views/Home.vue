@@ -83,7 +83,7 @@
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-form ref="form" @submit.prevent="">
-                  <v-jsf :options="vjsfOptions"
+                  <v-jsf :options="vjsfOptions" style="z-index: 202"
                          @input="component.edited = true; componentEdited=true"
                          v-model="component.props_data" :schema="getComponentSchema(component)"/>
                 </v-form>
