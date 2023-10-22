@@ -61,7 +61,7 @@
                       mdi-shield-sword-outline
                     </v-icon>
                     <span>
-                      {{ $t('_ticket.staff') }}
+                      {{ $t('staff') }}
                     </span>
                   </v-chip>
                 </div>
