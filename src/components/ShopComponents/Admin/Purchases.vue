@@ -396,6 +396,8 @@ export default {
     async fetchData(queryParams = null) {
       const api = await openapi;
 
+      this.updateCurrentPurchase();
+
       api.shop_getPurchases({
         status: this.selectedStatus,
         ...(queryParams != null ? queryParams : this.$refs.purchaseTable.getQueryParameters()),
