@@ -69,6 +69,16 @@
                              :cancel-text="null" />
                   </div>
                 </div>
+                <div v-else-if="debit.payment_gateway.type === 'PAYPAL_LEGACY'">
+                  <div>
+                    <v-icon color="info" size="80" >
+                      mdi-dots-horizontal-circle-outline
+                    </v-icon>
+                  </div>
+                  <div class="body-1">
+                    {{ $t('_shop.messages.paymentProcessing') }}
+                  </div>
+                </div>
                 <div v-else>
                   <div>
                     <v-icon color="info" size="80" v-if="debit.status === 'STARTED'">

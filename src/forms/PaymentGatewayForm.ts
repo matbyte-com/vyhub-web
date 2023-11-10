@@ -148,6 +148,27 @@ function gatewayFields(gatewayType: string) {
     };
   }
 
+  if (gatewayType === 'PAYPAL_LEGACY') {
+    return {
+      environment: {
+        type: [
+          'string',
+        ],
+        title: i18n.t('environment'),
+        enum: [
+          'SANDBOX',
+          'PRODUCTION',
+        ],
+      },
+      email: {
+        type: [
+          'string',
+        ],
+        title: `${i18n.t('email')} (PayPal)`,
+      },
+    };
+  }
+
   return {};
 }
 

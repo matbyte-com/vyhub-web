@@ -64,6 +64,26 @@ export default {
       }
 
       return true;
+    } else if (action.type === 'form') {
+      const { fields, method, url } = action.data;
+
+      // Create an HTML form with hidden fields
+      const form = document.createElement('form');
+      form.method = method;
+      form.action = url;
+
+      // Add a hidden field for each one
+      Object.keys(fields).forEach((fieldName) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = fieldName;
+        input.value = fields[fieldName];
+        form.appendChild(input);
+      });
+
+      // Submit Form
+      document.body.appendChild(form);
+      form.submit();
     }
 
     throw new Error('Payment action failed.');

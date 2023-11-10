@@ -122,7 +122,11 @@ export default {
       gatewayTypes: {
         PAYPAL: {
           label: this.$t('_gateway.labels.paypal'),
-          icon: 'mdi-credit-card-outline',
+          icon: 'mdi-parking',
+        },
+        PAYPAL_LEGACY: {
+          label: this.$t('_gateway.labels.paypalLegacy'),
+          icon: 'mdi-parking',
         },
         STRIPE: {
           label: this.$t('_gateway.labels.stripe'),
