@@ -177,6 +177,12 @@ function form(gatewayType: string) {
     type: 'object',
     required: ['name', 'type'],
     properties: {
+      type: {
+        type: 'string',
+        title: i18n.t('type'),
+        default: gatewayType,
+        readOnly: true,
+      },
       name: {
         type: 'string',
         title: i18n.t('name'),
@@ -195,16 +201,10 @@ function form(gatewayType: string) {
           placeholder: i18n.t('_settings.httpPlaceholder'),
         },
       },
-      type: {
-        type: 'string',
-        title: i18n.t('type'),
-        default: gatewayType,
-        readOnly: true,
-      },
       enabled: {
         type: 'boolean',
         title: i18n.t('enabled'),
-        default: false,
+        default: true,
       },
       attributes: {
         type: 'object',

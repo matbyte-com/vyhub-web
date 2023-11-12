@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/shop/payment_gateway">
+    <SettingTitle ref="title" docPath="/guide/shop/payment_gateway">
       {{ $t('paymentGateways') }}
     </SettingTitle>
 
@@ -55,7 +55,22 @@
       icon="mdi-currency-usd"
       :submitText="$t('create')"
       @submit="createGateway"
-      :title="$t('_gateway.labels.create')"/>
+      :title="$t('_gateway.labels.create')">
+      <template slot="type-before">
+        <v-alert type="info" class="mt-2" v-if="$refs.title">
+          <a :href="$refs.title.docLink" target="_blank">
+            {{ $t('followInstructionsInDocs') }}
+          </a>
+        </v-alert>
+        <v-alert type="warning" class="mt-2 font-weight-bold"
+                 v-if="gatewayType === 'PAYPAL_LEGACY'">
+          {{ $t('_gateway.labels.paypalLegacyHint') }}
+        </v-alert>
+        <v-alert type="info" class="mt-2" v-else-if="gatewayType === 'PAYPAL'">
+          {{ $t('_gateway.labels.paypalHint') }}
+        </v-alert>
+      </template>
+    </DialogForm>
     <DialogForm
       ref="editGatewayDialog"
       :form-schema="gatewaySchema"
@@ -63,6 +78,15 @@
       :submitText="$t('edit')"
       @submit="editGateway"
       :title="$t('_gateway.labels.edit')">
+      <template slot="type-before">
+        <v-alert type="warning" class="mt-2 font-weight-bold"
+                 v-if="gatewayType === 'PAYPAL_LEGACY'">
+          {{ $t('_gateway.labels.paypalLegacyHint') }}
+        </v-alert>
+        <v-alert type="info" class="mt-2" v-else-if="gatewayType === 'PAYPAL'">
+          {{ $t('_gateway.labels.paypalHint') }}
+        </v-alert>
+      </template>
       <template slot="attributes-before">
         <div class="text-center font-weight-bold">
           {{ $t('_gateway.messages.formAttributeChangeExplanation') }}
@@ -125,7 +149,7 @@ export default {
           icon: 'mdi-parking',
         },
         PAYPAL_LEGACY: {
-          label: this.$t('_gateway.labels.paypalLegacy'),
+          label: this.$t('_gateway.labels.paypalEasy'),
           icon: 'mdi-parking',
         },
         STRIPE: {
