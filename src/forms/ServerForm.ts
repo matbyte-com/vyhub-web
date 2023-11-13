@@ -126,6 +126,9 @@ export default {
         {
           ...serverTypeFields('FIVEM'),
         },
+        {
+          ...serverTypeFields('RUST'),
+        },
       ],
     },
     {

@@ -93,6 +93,12 @@ export default {
       if (server.type === 'TEAMSPEAK3') {
         return '$teamspeak';
       }
+      if (server.type === 'RUST') {
+        return '$rust';
+      }
+      if (server.type === '7D2D') {
+        return '$7D2D';
+      }
       if (server.icon) {
         return server.icon;
       }

@@ -53,7 +53,7 @@
         2. {{ $t('_server.instructions.COMMON.runCommands') }}
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateMcCommands()">
+        <v-btn color="primary" @click="generateCommandsShort()">
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
@@ -176,6 +176,39 @@
         3. {{ $t('_server.instructions.COMMON.wait') }}
       </div>
     </div>
+
+    <!-- RUST -->
+    <div v-if="server.type === 'RUST'">
+      <div class="font-weight-bold">1. {{ $t('_server.instructions.RUST.download') }}</div>
+      <div class="mt-1 text-center">
+        <a href="https://github.com/matbyte-com/vyhub-umod/releases" target="_blank">
+          <v-btn color="primary">
+            <v-icon left>mdi-download</v-icon>
+            {{ $t('download') }}
+          </v-btn>
+        </a>
+      </div>
+
+      <div class="font-weight-bold mt-4">
+        2. {{ $t('_server.instructions.COMMON.runCommands') }}
+      </div>
+      <div v-if="commands == null" class="mt-1 text-center">
+        <v-btn color="primary" @click="generateCommandsShort()">
+          <v-icon left>mdi-repeat</v-icon>
+          {{ $t('generate') }}
+        </v-btn>
+      </div>
+      <div v-if="commands != null" class="mt-1">
+        <div v-for="cmd in commands" :key="cmd">
+          <code>{{ cmd }}</code>
+          <br/>
+        </div>
+      </div>
+
+      <div class="font-weight-bold mt-4">
+        3. {{ $t('_server.instructions.COMMON.wait') }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -225,7 +258,7 @@ export default {
       this.commands.push(`${prefix} api_url "${config.backend_url}"`);
       this.commands.push(`${prefix} server_id "${this.server.id}"`);
     },
-    async generateMcCommands() {
+    async generateCommandsShort() {
       this.commands = [];
 
       const access_token = await this.generateToken();

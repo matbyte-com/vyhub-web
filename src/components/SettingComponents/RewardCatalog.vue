@@ -121,6 +121,16 @@ export default {
             title: 'FiveM',
             items: [
               {
+                name: 'Chat',
+                scripts: [
+                  {
+                    name: 'Server-wide Purchase Message',
+                    description: 'Sends a chat message to all players that informs about a purchase',
+                    command: 'say "%nick% just purchased %packet_title% for %purchase_amount%',
+                  },
+                ],
+              },
+              {
                 name: 'ESX',
                 scripts: [
                   {
@@ -450,6 +460,16 @@ export default {
             title: 'Minecraft',
             items: [
               {
+                name: 'Chat',
+                scripts: [
+                  {
+                    name: 'Server-wide Purchase Message',
+                    description: 'Sends a chat message to all players that informs about a purchase',
+                    command: 'say "%nick% just purchased %packet_title% for %purchase_amount%',
+                  },
+                ],
+              },
+              {
                 name: 'Economy Inc',
                 scripts: [
                   {
@@ -535,7 +555,7 @@ export default {
                   {
                     name: 'Give portable crafting table',
                     description: 'Give portable crafting table to player.',
-                    command: '/craftingtable give %nick%',
+                    command: 'craftingtable give %nick%',
                   },
                 ],
               },
@@ -553,6 +573,137 @@ export default {
                   {
                     name: 'Access to a player specific plot',
                     description: 'Give the player his own plot where they can build safely without the fear of destruction by other players. A Plugin could be WorldGuard.',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            title: 'Rust',
+            items: [
+              {
+                name: 'Chat',
+                scripts: [
+                  {
+                    name: 'Server-wide Purchase Message',
+                    description: 'Sends a chat message to all players that informs about a purchase',
+                    command: 'say <color=green>"%nick%</color> just purchased <color=red>%packet_title%</color> for <color=green>%purchase_amount%</color>"',
+                  },
+                ],
+              },
+              {
+                name: 'Backpacks by WhiteThunder',
+                scripts: [
+                  {
+                    name: 'Give player access to backpack',
+                    description: 'Giving the player access to a backpack with more storage is a cool benefit. You should use the permission system of oxide to do this.',
+                  },
+                ],
+              },
+              {
+                name: 'Box Sorter Lite by haggbart',
+                scripts: [
+                  {
+                    name: 'Give player access to an sorter, which makes loot sorting a breeze',
+                    description: 'Giving the player access to a sorter is a pretty cool benefit. You should use the permission system of oxide to do this.',
+                  },
+                ],
+              },
+              {
+                name: 'Carbon',
+                scripts: [
+                  {
+                    name: 'Add user to group',
+                    description: 'Add user to given group.',
+                    command: 'carbon.usergroup add %steamid64% {{group}}',
+                    properties: {
+                      group: {
+                        name: 'Group',
+                        type: 'text',
+                      },
+                    },
+                  },
+                  {
+                    name: 'Remove group from user',
+                    description: 'Remove group from user.',
+                    command: 'carbon.usergroup add %steamid64% {{group}}',
+                    properties: {
+                      group: {
+                        name: 'Group',
+                        type: 'text',
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'Oxide / Umod',
+                scripts: [
+                  {
+                    name: 'Add user to group',
+                    description: 'Add user to given group.',
+                    command: 'oxide.usergroup add %steamid64% {{group}}',
+                    properties: {
+                      group: {
+                        name: 'Group',
+                        type: 'text',
+                      },
+                    },
+                  },
+                  {
+                    name: 'Remove group from user',
+                    description: 'Remove group from user.',
+                    command: 'oxide.usergroup add %steamid64% {{group}}',
+                    properties: {
+                      group: {
+                        name: 'Group',
+                        type: 'text',
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'Items / Resources / Weapons',
+                scripts: [
+                  {
+                    name: 'Give resources / items to player',
+                    description: 'Give the player resources or items.',
+                    command: 'inventory.giveto %steamid64% {{item}} {{amount}}',
+                    properties: {
+                      item: {
+                        name: 'Item / Resource (Short Name)',
+                        type: 'text',
+                      },
+                      amount: {
+                        name: 'Amount',
+                        type: 'number',
+                      },
+                    },
+                  },
+                  {
+                    name: 'Give arms (weapons) to player',
+                    description: 'Give the player arms.',
+                    command: 'inventory.givearm %steamid64% {{arm}} {{amount}}',
+                    properties: {
+                      item: {
+                        name: 'Arm / Weapon (Short Name)',
+                        type: 'text',
+                      },
+                      amount: {
+                        name: 'Amount',
+                        type: 'number',
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'Further Ideas',
+                scripts: [
+                  {
+                    name: 'Access to reserved slots',
+                    description: 'Allows the player to join when the server is full. Add the player to a donator group which is then whitelisted to use reserved slots using other plugins.',
                   },
                 ],
               },
