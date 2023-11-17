@@ -150,18 +150,7 @@ export default {
       }
     },
     getConnectionLink(server) {
-      // TODO Add New Servers here for proper functioning of the connection link
-      switch (server.type) {
-        case 'GMOD':
-          return `steam://connect/${server.address}:${server.port}`;
-        case 'DISCORD':
-          return server.extra?.inviteLink;
-        case 'TEAMSPEAK3':
-          return `ts3server://${server.address}?port=${server.port}`;
-        default:
-          console.log('Could not find server type to calculate server-connection-address');
-          return null;
-      }
+      return this.utils.getConnectionLink(server);
     },
   },
   computed: {

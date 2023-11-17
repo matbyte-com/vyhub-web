@@ -254,6 +254,8 @@ export default {
               return server.extra?.inviteLink;
             case 'TEAMSPEAK3':
               return `ts3server://${server.address}?port=${server.port}`;
+            case 'RUST':
+              return `steam://connect/${server.address}:${server.port}`;
             default:
               console.log('Could not find server type to calculate server-connection-address');
               return null;
