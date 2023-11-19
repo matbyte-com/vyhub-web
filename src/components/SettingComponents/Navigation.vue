@@ -49,8 +49,7 @@
                  icon="mdi-content-save-cog"
                  :title="$t('_navigation.editCmsPage')"
                  @submit="editCmsPage">
-
-      <template slot="title-after">
+      <template v-slot:title-after>
         <v-alert
           type="warning" outlined
           dense
@@ -158,12 +157,12 @@
                   <v-row :class="!link.enabled ? 'text--disabled' : ''">
                     <v-col cols="6" sm="3" md="3" class="d-flex align-center">
                       <v-icon left v-if="link.icon">
-                        {{ link.icon }}
+                        {{ sublink.icon }}
                       </v-icon>
                       <v-icon left v-else>
                         mdi-dots-square
                       </v-icon>
-                      {{ link.title }}
+                      {{ sublink.title }}
                     </v-col>
                     <v-col cols="5" sm="3">
                       {{ sublink.link }}
