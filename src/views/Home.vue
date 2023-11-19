@@ -147,6 +147,7 @@ import '@koumoul/vjsf/lib/deps/third-party';
 import i18n from '@/plugins/i18n';
 import axios from 'axios';
 import openapi from '@/api/openapi';
+import openapiCached from '@/api/openapiCached';
 
 const homepageComponents = {};
 
@@ -166,6 +167,7 @@ export default {
   },
   beforeMount() {
     this.fetchData();
+    this.redirectWhenDisabled();
   },
   data() {
     return {
@@ -193,6 +195,18 @@ export default {
     };
   },
   methods: {
+    async redirectWhenDisabled() {
+      if (!this.$store.getters.theme) {
+        (await openapiCached).general_getTheme().then((rsp) => {
+          const theme = rsp.data;
+          if (!theme.enable_landingpage) {
+            this.$router.replace({ name: 'News' });
+          }
+        });
+      } else if (!this.$store.getters.theme.enable_landingpage) {
+        this.$router.replace({ name: 'News' });
+      }
+    },
     async fetchData() {
       (await openapi).design_getSections().then((rsp) => {
         this.blocks = rsp.data;
@@ -371,8 +385,7 @@ export default {
           || cp.keywords.filter((k) => k.toLowerCase()
             .includes(this.addComponentSearch.toLowerCase())).length > 0);
     },
-  }
-  ,
+  },
 };
 </script>
 
