@@ -134,6 +134,7 @@
 import openapi from '@/api/openapi';
 import ShopService from '@/services/ShopService';
 import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
+import UtilService from '@/services/UtilService';
 
 export default {
   name: 'PacketCard',
@@ -164,6 +165,13 @@ export default {
   },
   methods: {
     async addToCart() {
+      if (!this.$store.getters.isLoggedIn) {
+        this.$router.push({
+          path: this.$route.path,
+          query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path) },
+        });
+        return;
+      }
       // Simpler Version of Add-To-Cart
       this.loading = true;
 
