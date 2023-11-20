@@ -15,7 +15,7 @@
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
-      <v-list dense class="text-uppercase pt-0 pb-0">
+      <v-list dense class="text-uppercase">
         <v-list-item v-for="(tab, index) in allowedTabs || []"
                      :key="index"
                      :href="(tab.cms_page_id === null && !utils.localLink(tab) ? tab.link : null)"

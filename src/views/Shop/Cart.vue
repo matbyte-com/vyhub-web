@@ -157,30 +157,9 @@
       </v-col>
 
       <!-- Cart total, address and checkout -->
-      <v-col>
-        <!-- Discount -->
-        <v-card class="vh-cart-discount card-rounded" flat>
-          <v-card-actions>
-            <v-text-field dense outlined :label="$t('_shop.labels.discountCode')"
-                          @keydown.enter="applyDiscount" v-model="couponCode"
-                          :style="couponStyle"
-                          :hide-details="couponError == null"
-                          :error-messages="couponError">
-              <template slot="prepend-inner">
-                <v-icon>
-                  mdi-ticket-percent
-                </v-icon>
-              </template>
-              <template slot="append">
-                <v-icon @click="applyDiscount" color="primary">
-                  mdi-check
-                </v-icon>
-              </template>
-            </v-text-field>
-          </v-card-actions>
-        </v-card>
+      <v-col cols="12" lg="4" xl="3">
         <!-- Cart total -->
-        <v-card class="vh-cart-total mt-3 card-rounded" flat>
+        <v-card class="vh-cart-total card-rounded" flat>
           <v-alert type="error" v-if="errorMessage">
             {{ errorMessage }}
           </v-alert>
@@ -230,6 +209,51 @@
               {{ openPurchase ? $t('_shop.labels.payNow') : $t('_shop.labels.purchaseNow') }}
             </v-btn>
           </v-card-actions>
+        </v-card>
+        <!-- Discount Codes -->
+        <v-card class="vh-cart-discount card-rounded mt-3" flat>
+          <v-card-actions>
+            <v-text-field dense outlined :label="$t('_shop.labels.discountCode')"
+                          @keydown.enter="applyDiscount" v-model="couponCode"
+                          :style="couponStyle"
+                          :hide-details="couponError == null"
+                          :error-messages="couponError">
+              <template slot="prepend-inner">
+                <v-icon>
+                  mdi-ticket-percent
+                </v-icon>
+              </template>
+              <template slot="append">
+                <v-icon @click="applyDiscount" color="primary">
+                  mdi-check
+                </v-icon>
+              </template>
+            </v-text-field>
+          </v-card-actions>
+        </v-card>
+        <!-- Your Accounts -->
+        <v-card class="vh-cart-accounts card-rounded mt-3" flat>
+          <v-card-title>
+            <v-icon left>mdi-account-group</v-icon>
+            {{ $t('_shop.labels.yourAccounts') }}
+          </v-card-title>
+          <v-card-text v-if="$store.getters.isLoggedIn">
+            <div>
+              <v-chip style="width: 100%" outlined>
+                <v-icon left>{{ UserService.userTypeIcons[$store.getters.user.type] }}</v-icon>
+                {{ $store.getters.user.username }}
+              </v-chip>
+            </div>
+            <div v-if="$store.getters.user.linked_users">
+              <div v-for="acc in $store.getters.user.linked_users"
+                   :key="acc.id" class="mt-1">
+                <v-chip style="width: 100%" outlined>
+                  <v-icon left>{{ UserService.userTypeIcons[acc.type] }}</v-icon>
+                  {{ acc.username }}
+                </v-chip>
+              </div>
+            </div>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -308,6 +332,7 @@ import RecommendedPacketsCart from '@/components/ShopComponents/RecommendedPacke
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapiCached from '@/api/openapiCached';
 import EventBus from '@/services/EventBus';
+import UserService from '@/services/UserService';
 import openapi from '../../api/openapi';
 import CancelPurchaseConfirmationDialog
   from '../../components/ShopComponents/CancelPurchaseConfirmationDialog.vue';
@@ -646,6 +671,9 @@ export default {
     },
   },
   computed: {
+    UserService() {
+      return UserService;
+    },
     currentAddress() {
       return this.$store.getters.address;
     },
