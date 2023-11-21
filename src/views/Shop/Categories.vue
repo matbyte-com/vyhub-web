@@ -17,7 +17,7 @@
                :key="category.id"
                class="d-flex align-content-space-between">
           <v-card :to=" { name: 'ShopCategory',
-           params: {categoryId: category.id }}" color="" flat outlined
+           params: {categoryId: category.name }}" color="" flat outlined
                   class="flex-grow-1 flex-column d-flex">
             <v-img
               :src="category.image_url" class="ma-1 img-rounded"

@@ -40,7 +40,7 @@
       <v-card-text>
         <v-tabs v-model="tab" v-if="$vuetify.breakpoint.mdAndUp">
           <v-tab v-for="c in categories" :key="c.id" class="animate__animated"
-                 @click="$router.push({ params: { categoryId: c.id } }); fetchPackets();">
+                 @click="$router.push({ params: { categoryId: c.name } }); fetchPackets();">
             {{ c.name }}
           </v-tab>
           <v-skeleton-loader v-if="!categories" type="button" />
@@ -109,7 +109,8 @@ export default {
       (await openapi).packet_getCategories()
         .then((rsp) => {
           this.categories = rsp.data.filter((cat) => cat.enabled);
-          this.tab = rsp.data.findIndex((cat) => cat.id === this.$route.params.categoryId);
+          this.tab = rsp.data.findIndex((cat) => cat.id === this.$route.params.categoryId
+            || cat.name === this.$route.params.categoryId);
         });
     },
     insertCategoryIntoArray(sourceArray, index) {

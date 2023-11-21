@@ -79,7 +79,7 @@ const routes: Array<RouteConfig> = [
         meta: { title: i18n.t('_pageTitle.shop') },
       },
       {
-        path: 'category/:categoryId',
+        path: ':categoryId',
         name: 'ShopCategory',
         component: () => import('@/views/Shop/Category.vue'),
         meta: { title: i18n.t('_pageTitle.shopCategory') },
