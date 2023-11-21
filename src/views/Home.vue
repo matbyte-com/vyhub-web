@@ -15,8 +15,8 @@
              :subtitle="block.props_data ? block.props_data.subtitle : null"
              :background-color="block.props_data ? block.props_data.backgroundColor : null"
              :image-url="block.props_data ? block.props_data.imageUrl : null"
-             :white-text="block.props_data.whiteText ? block.props_data.whiteText : null"
-             :margin-top="block.props_data.marginTop ? block.props_data.marginTop : 0"
+             :white-text="block.props_data ? block.props_data.whiteText : null"
+             :margin-top="block.props_data ? block.props_data.marginTop : 0"
              :no-title-in-wrapper="block.type === 'NewsPreview'">
       <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
     </wrapper>
