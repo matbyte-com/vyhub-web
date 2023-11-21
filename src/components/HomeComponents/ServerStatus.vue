@@ -128,7 +128,7 @@ export default {
   methods: {
     async fetchData() {
       (await openapiCached).server_getServers().then((rsp) => {
-        this.servers = rsp.data;
+        this.servers = rsp.data.sort((a, b) => a - b);
       });
       (await openapiCached).server_getBundles().then((rsp) => {
         this.bundles = rsp.data;
