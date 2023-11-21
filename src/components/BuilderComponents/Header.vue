@@ -44,6 +44,7 @@
         <v-spacer v-if="$vuetify.breakpoint.mdAndUp" />
         <div class="d-flex flex-wrap align-center" v-if="$vuetify.breakpoint.mdAndUp">
           <v-btn v-for="l in links" :key="l.text" :class="{ 'white--text': whiteText }"
+                 :target="l.targetBlank? '_blank' : ''"
                  text class="my-1" :href="(!utils.localLink(l) ? l.link : null)"
                  :to="utils.localLink(l) ? utils.getLocalLink(l) : null">
             <v-icon :left="!(l.btnText == null || l.btnText === '')" v-if="l.icon">

@@ -102,6 +102,10 @@ export default {
                   title: i18n.t('url'),
                   type: 'string',
                 },
+                targetBlank: {
+                  title: i18n.t('_component._form.openInNewTab'),
+                  type: 'boolean',
+                },
               },
             },
           },
