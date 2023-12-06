@@ -1,16 +1,22 @@
 <template>
     <div>
-      <v-chip class="white--text" v-if="status === 'CANCELLED'">{{ $t('cancelled') }}</v-chip>
-      <v-chip class="white--text" v-if="status === 'OPEN'" color="info">{{ $t('open') }}</v-chip>
-      <v-chip class="white--text" v-if="status === 'FINISHED'" color="green">{{ $t('finished') }}
+      <v-chip class="white--text" v-if="status === 'CANCELLED'">
+        {{ $t('_shop.purchaseStatus.cancelled') }}
+      </v-chip>
+      <v-chip class="white--text" v-if="status === 'OPEN'" color="info">
+        {{ $t('_shop.purchaseStatus.open') }}
+      </v-chip>
+      <v-chip class="white--text" v-if="status === 'FINISHED'" color="green">
+        {{ $t('_shop.purchaseStatus.finished') }}
       </v-chip>
       <v-chip class="white--text" v-if="status === 'REVOKED'" color="orange">
-        {{ $t('_purchases.labels.revoked') }}
+        {{ $t('_shop.purchaseStatus.revoked') }}
       </v-chip>
       <v-chip class="white--text" v-if="status === 'REFUNDED'" color="red">
-        {{ $t('_purchases.labels.refunded') }}
+        {{ $t('_shop.purchaseStatus.refunded') }}
       </v-chip>
-      <v-chip class="white--text" v-if="status === 'RECURRING'" color="purple">{{ $t('recurring') }}
+      <v-chip class="white--text" v-if="status === 'RECURRING'" color="purple">
+        {{ $t('_shop.purchaseStatus.recurring') }}
       </v-chip>
     </div>
 </template>
