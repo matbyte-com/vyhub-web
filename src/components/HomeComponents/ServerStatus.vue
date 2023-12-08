@@ -128,14 +128,15 @@ export default {
   methods: {
     async fetchData() {
       (await openapiCached).server_getServers().then((rsp) => {
-        this.servers = rsp.data.sort((a, b) => a - b);
+        this.servers = rsp.data;
       });
       (await openapiCached).server_getBundles().then((rsp) => {
         this.bundles = rsp.data;
       });
     },
     getServer(bundleId) {
-      return this.servers.filter((s) => s.serverbundle_id === bundleId);
+      return this.servers.filter((s) => s.serverbundle_id === bundleId)
+        .sort((a, b) => a.name.localeCompare(b.name));
     },
     getStatusColor(server) {
       switch (server.status) {
