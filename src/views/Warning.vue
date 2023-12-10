@@ -3,6 +3,8 @@
     <DeleteConfirmationDialog ref="deleteWarningDialog" @submit="deleteWarning"/>
     <DialogForm ref="addWarningDialog" @submit="addWarning" :form-schema="WarningAddForm"
                 :title="$t('_warning.add')" icon="mdi-account-alert"/>
+    <DialogForm ref="editWarningDialog" @submit="editWarning" :form-schema="WarningEditForm"
+                :title="$t('_warning.edit')" icon="mdi-account-alert"/>
     <PageTitleFlat :title="$t('_warning.title')" :hide-triangle="true"
                    :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
     <v-card class="vh-warns card-rounded-bottom" flat
@@ -17,6 +19,7 @@
           default-sort-by="created_on"
           :default-sort-desc="true"
           @reload="fetchData"
+          @click:row="showDetails"
           >
           <template v-slot:header>
             <v-row>
@@ -84,32 +87,103 @@
           <template v-slot:item.actions="{ item }">
             <div class="d-flex">
               <v-spacer />
+              <v-btn v-if="$checkProp('warning_edit')" depressed small color="error"
+                     @click="showDetails(item)">
+                <v-icon left>
+                  mdi-eye
+                </v-icon>
+                {{ $t('details') }}
+              </v-btn>
               <div v-if="$checkProp('warning_edit') && item.status !== 'EXPIRED'">
-                <v-btn depressed small v-if="item.disabled !== true"
+                <v-btn class="ml-1" depressed small v-if="item.disabled !== true"
                        @click="toggleDisable(item)">
                   <v-icon left>
                     mdi-pause
                   </v-icon>
                   {{ $t('disable') }}
                 </v-btn>
-                <v-btn depressed small v-else @click="toggleDisable(item)">
+                <v-btn class="ml-1" depressed small v-else @click="toggleDisable(item)">
                   <v-icon left>
                     mdi-play
                   </v-icon>
                   {{ $t('enable') }}
                 </v-btn>
               </div>
-              <v-btn outlined v-if="$checkProp('warning_delete')" color="error" small
-                     @click="openDeleteWarningDialog(item)" class="ml-1">
-                <v-icon>
-                  mdi-delete
-                </v-icon>
-              </v-btn>
             </div>
           </template>
         </PaginatedDataTable>
       </v-card-text>
     </v-card>
+    <Dialog
+      ref="warnDetailDialog"
+      icon="mdi-account-cancel"
+      :title="$t('_warning.labels.details')"
+      :max-width="800"
+      v-model="warningDetailShown">
+      <template>
+        <h6 class="text-h6 mb-2  mt-3">{{ $t('details') }}</h6>
+        <v-simple-table>
+          <template v-slot:default>
+            <tbody>
+              <tr v-for="raw in ['id', 'reason']" :key="raw">
+                <td>{{ $t(raw) }}</td>
+                <td>{{ currentWarning[raw] }}</td>
+              </tr>
+              <tr>
+                <td>{{ $t('user') }}</td>
+                <td><UserLink :user="currentWarning.user" /></td>
+              </tr>
+              <tr>
+                <td>{{ $t('bundle') }}</td>
+                <td>
+                  {{ currentWarning.serverbundle.name }}
+                </td>
+              </tr>
+              <tr>
+                <td>{{ $t('creator') }}</td>
+                <td><UserLink :user="currentWarning.creator" /></td>
+              </tr>
+              <tr>
+                <td>{{ $t('createdOn') }}</td>
+                <td>{{ new Date(currentWarning.created_on).toLocaleString() }}</td>
+              </tr>
+              <tr>
+                <td>{{ $t('status') }}</td>
+                <td v-if="currentWarning.active">
+                  <v-chip color="green" text-color="white">
+                    {{ $t('active') }}
+                  </v-chip>
+                </td>
+                <td v-else>
+                  <v-chip v-if="currentWarning.disabled" color="grey" text-color="white">
+                    {{ $t('disabled') }}
+                  </v-chip>
+                  <v-chip v-else color="orange" text-color="white">
+                    {{ $t('expired') }}
+                  </v-chip>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </template>
+      <template v-slot:actions>
+        <div v-if="currentWarning != null && $checkProp('warning_edit')">
+          <v-btn text color="primary" @click="openEditWarningDialog(currentWarning)">
+            <v-icon left>
+              mdi-pencil
+            </v-icon>
+            {{ $t('edit') }}
+          </v-btn>
+          <v-btn text color="error" @click="openDeleteWarningDialog(currentWarning)">
+            <v-icon left>
+              mdi-delete
+            </v-icon>
+            {{ $t('delete') }}
+          </v-btn>
+        </div>
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -119,8 +193,10 @@ import openapi from '@/api/openapi';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import DialogForm from '@/components/DialogForm.vue';
 import WarningAddForm from '@/forms/WarningAddForm';
+import WarningEditForm from '@/forms/WarningEditForm';
 import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
+import Dialog from '../components/Dialog.vue';
 
 export default {
   name: 'Warning.vue',
@@ -130,10 +206,13 @@ export default {
     DialogForm,
     DeleteConfirmationDialog,
     UserLink,
+    Dialog,
   },
   data() {
     return {
       warnings: null,
+      warningDetailShown: false,
+      currentWarning: null,
       bundles: [],
       headers: [
         { value: 'color-status', sortable: false, width: '1px' },
@@ -147,6 +226,7 @@ export default {
         },
       ],
       WarningAddForm,
+      WarningEditForm,
       selectedBundles: [],
       totalItems: 0,
     };
@@ -195,6 +275,26 @@ export default {
         this.fetchData();
       });
     },
+    openEditWarningDialog(item) {
+      this.$refs.editWarningDialog.setData(item);
+      this.$refs.editWarningDialog.show();
+    },
+    async editWarning() {
+      const dialogData = this.$refs.editWarningDialog.getData();
+      const data = {};
+      data.serverbundle_id = this.currentWarning.serverbundle.id;
+      data.user_id = this.currentWarning.user.id;
+      data.reason = dialogData.reason;
+      (await openapi).warning_editWarning(this.currentWarning.id, data).then(() => {
+        this.$refs.editWarningDialog.closeAndReset();
+        this.fetchData();
+        this.warningDetailShown = false;
+        this.$notify({
+          title: this.$t('_messages.editSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => this.$refs.editWarningDialog.setError(err));
+    },
     openDeleteWarningDialog(item) {
       this.$refs.deleteWarningDialog.show(item);
     },
@@ -202,6 +302,7 @@ export default {
       (await openapi).warning_deleteWarning(item.id).then(() => {
         this.$refs.deleteWarningDialog.closeAndReset();
         this.fetchData();
+        this.warningDetailShown = false;
         this.$notify({
           title: this.$t('_messages.deleteSuccess'),
           type: 'success',
@@ -224,6 +325,11 @@ export default {
       }).catch((err) => {
         this.$refs.addWarningDialog.setError(err);
       });
+    },
+    showDetails(item) {
+      this.$router.push({ name: 'Warnings', params: { warningId: item.id } });
+      this.currentWarning = item;
+      this.warningDetailShown = true;
     },
   },
 };

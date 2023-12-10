@@ -1,5 +1,7 @@
 <template>
   <div>
+    <ConfirmationDialog ref="deleteThreadDialog"
+                                @submit="deleteThread" />
     <ThreadAddDialog ref="addPostDialog"
                      :dialog-title="`${$t('_forum.addPost')}`"
                      @submit="newPost" :hide-title-input="true"/>
@@ -82,12 +84,17 @@
                     :total-visible="5"
                     @input="fetchData"/>
       <v-spacer/>
+      <v-btn v-if="$checkProp('ticket_edit') && thread.status === 'CLOSED'"
+             color="error" depressed @click="$refs.deleteThreadDialog.show()">
+        <v-icon left>mdi-delete</v-icon>
+        <span>{{ $t('delete') }}</span>
+      </v-btn>
       <v-btn v-if="thread.ban" color="primary" :to="{ name: 'Bans',
        params: {banId: thread.ban.id} }" class="mr-3">
         <v-icon left>mdi-eye</v-icon>
         {{ $t('_forum.showBan') }}
       </v-btn>
-      <v-btn v-if="$checkProp('ticket_edit')"
+      <v-btn v-if="$checkProp('ticket_edit')" class="ml-3"
              :color="thread.status === 'CLOSED' ? 'success' : 'error'"
              @click="toggleStatus" depressed>
         <div v-if="thread.status === 'CLOSED'">
@@ -112,6 +119,7 @@
 </template>
 
 <script>
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import openapi from '../api/openapi';
 import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 import PageTitleFlat from '../components/PageTitleFlat.vue';
@@ -119,6 +127,7 @@ import PageTitleFlat from '../components/PageTitleFlat.vue';
 export default {
   name: 'Thread',
   components: {
+    ConfirmationDialog,
     ThreadAddDialog,
     PageTitleFlat,
   },
@@ -178,6 +187,15 @@ export default {
         this.thread = rsp.data;
         this.$notify({
           title: this.$t('_messages.toggleSuccess'),
+          type: 'success',
+        });
+      });
+    },
+    async deleteThread() {
+      (await openapi).forum_deleteThread(this.threadId).then(() => {
+        this.$router.push({ name: 'Ticket' });
+        this.$notify({
+          title: this.$t('_messages.deleteSuccess'),
           type: 'success',
         });
       });
