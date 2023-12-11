@@ -108,12 +108,16 @@
             <DataTable
               :headers="gameserverHeaders"
               :items="server"
-              :showSearch="true"
-            >
+              :showSearch="true">
               <template v-slot:header>
                 <SettingTitle :divider="false" doc-path="/guide/server">
                   {{ $t('_settings.gameserver') }}
                 </SettingTitle>
+              </template>
+              <template v-slot:item.name="{ item }">
+                  <div :class="{ 'text--disabled': item.hidden }">
+                      {{ item.name }}
+                  </div>
               </template>
               <template v-slot:item.serverbundle_id="{ item }">
                 {{ getBundle(item) }}

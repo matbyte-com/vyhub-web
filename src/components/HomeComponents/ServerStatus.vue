@@ -57,7 +57,7 @@
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn small color="success" depressed v-bind="attrs" v-on="on"
-                         v-if="getConnectionLink(server) != null"
+                         @click="utils.copyServerAddress(server)"
                          :href="getConnectionLink(server)"
                          class="ml-1">
                     <v-icon>
@@ -128,7 +128,7 @@ export default {
   methods: {
     async fetchData() {
       (await openapiCached).server_getServers().then((rsp) => {
-        this.servers = rsp.data;
+        this.servers = rsp.data.filter((s) => !s.hidden);
       });
       (await openapiCached).server_getBundles().then((rsp) => {
         this.bundles = rsp.data;

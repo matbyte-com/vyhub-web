@@ -106,6 +106,12 @@ export default {
           minimum: 1,
           maximum: 65535,
         },
+        hidden: {
+          type: 'boolean',
+          title: i18n.t('_server.labels.hidden'),
+          default: false,
+          'x-display': 'switch',
+        },
       },
     },
     {
