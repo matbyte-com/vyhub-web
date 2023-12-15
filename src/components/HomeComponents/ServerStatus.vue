@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card v-if="servers && nonEmptyBundles.length > 0"
+    <v-card v-if="nonEmpty"
             class="vh-server-status card-rounded mb-3" flat :outlined="outlined">
       <v-card-title class="pb-0">
         <CardTitle :title="$t('server')" icon="mdi-server" />
@@ -107,9 +107,9 @@
 </template>
 
 <script>
-import openapiCached from '@/api/openapiCached';
 import CardTitle from '@/components/CardTitle.vue';
 import Dialog from '@/components/Dialog.vue';
+import openapi from '@/api/openapi';
 
 export default {
   name: 'ServerStatus',
@@ -120,6 +120,8 @@ export default {
       servers: null,
       bundles: [],
       currentServer: null,
+      bundlesLoaded: false,
+      serversLoaded: false,
     };
   },
   beforeMount() {
@@ -127,11 +129,13 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapiCached).server_getServers().then((rsp) => {
+      (await openapi).server_getServers().then((rsp) => {
         this.servers = rsp.data.filter((s) => !s.hidden);
+        this.serversLoaded = true;
       });
-      (await openapiCached).server_getBundles().then((rsp) => {
+      (await openapi).server_getBundles().then((rsp) => {
         this.bundles = rsp.data;
+        this.bundlesLoaded = true;
       });
     },
     getServer(bundleId) {
@@ -163,6 +167,21 @@ export default {
       return this.bundles.filter(
         (b) => this.servers.filter((s) => s.serverbundle_id === b.id).length > 0,
       );
+    },
+    nonEmpty() {
+      return this.servers && this.nonEmptyBundles.length > 0;
+    },
+  },
+  watch: {
+    serversLoaded() {
+      if (this.bundlesLoaded && this.serversLoaded) {
+        this.$emit('loaded', this.nonEmpty);
+      }
+    },
+    bundlesLoaded() {
+      if (this.bundlesLoaded && this.serversLoaded) {
+        this.$emit('loaded', this.nonEmpty);
+      }
     },
   },
 };

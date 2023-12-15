@@ -23,23 +23,23 @@
       <v-col cols="12" v-if="$vuetify.breakpoint.smAndDown">
         <v-card class="card-rounded pa-3" flat>
           <Swiper :number-of-elements="3" :per-page-custom="[1,2,3,3,3]">
-            <swiper-slide>
-              <ServerStatus :outlined="true" ref="serverStatus" />
+            <swiper-slide v-if="showServers">
+              <ServerStatus @loaded="updateServerWidget" :outlined="true" ref="serverStatus"/>
             </swiper-slide>
             <swiper-slide v-if="$store.getters.shopConfig &&
              ($store.getters.shopConfig.donation_goal_enabled ||
               $store.getters.shopConfig.top_donators_enabled)">
               <v-card class="card-rounded pt-3" outlined
                       v-if="$store.getters.shopConfig.donation_goal_enabled">
-                <DonationGoal />
+                <DonationGoal/>
               </v-card>
               <v-card class="card-rounded mt-3 pt-3" outlined
                       v-if="$store.getters.shopConfig.top_donators_enabled">
-                <TopDonators />
+                <TopDonators/>
               </v-card>
             </swiper-slide>
             <swiper-slide>
-              <NewUsers :outlined="true" />
+              <NewUsers :outlined="true"/>
             </swiper-slide>
           </Swiper>
         </v-card>
@@ -71,11 +71,11 @@
           <v-card-title :class="{ 'grey-title': !message.background_url &&
                          !$vuetify.theme.dark }">
             <span
-              :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
+                :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
                'black--text' : $vuetify.theme.dark && message.invert_title_color }">
               {{ message.subject }}
             </span>
-            <v-spacer />
+            <v-spacer/>
             <span v-if="$checkProp('news_edit')" class="text-right">
               <v-btn outlined color="primary" small
                      @click="openEditMessageDialog(message)" class="mr-1">
@@ -119,7 +119,7 @@
                'black--text' : $vuetify.theme.dark && message.invert_title_color }">
               {{ message.subject }}
             </span>
-            <v-spacer />
+            <v-spacer/>
             <span v-if="$checkProp('news_edit')" class="text-right">
               <v-btn outlined color="primary" small
                      @click="openEditMessageDialog(message)" class="mr-1">
@@ -146,13 +146,13 @@
         </v-card>
         <!-- Skeleton Loader -->
         <v-card class="card-rounded pa-3" flat v-if="fetching">
-          <v-skeleton-loader type="paragraph@2" />
+          <v-skeleton-loader type="paragraph@2"/>
         </v-card>
       </v-col>
       <!-- Sidebar -->
       <v-col ref="StatusCol" cols="4">
         <div v-if="$vuetify.breakpoint.mdAndUp">
-          <ServerStatus ref="serverStatus"/>
+          <ServerStatus v-if="showServers" @loaded="updateServerWidget" ref="serverStatus"/>
           <v-card class="mb-3 card-rounded vh-news-donation-goal"
                   flat v-if="$store.getters.shopConfig &&
            $store.getters.shopConfig.donation_goal_enabled">
@@ -163,7 +163,7 @@
            $store.getters.shopConfig.top_donators_enabled">
             <TopDonators class="pt-3"/>
           </v-card>
-          <NewUsers class="" />
+          <NewUsers class=""/>
         </div>
       </v-col>
     </v-row>
@@ -207,6 +207,7 @@ export default {
       fetching: false,
       messageAddSchema: NewsAddForm.returnForm(),
       message: '',
+      showServers: true,
     };
   },
   mounted() {
@@ -227,7 +228,7 @@ export default {
     scroll() {
       window.onscroll = () => {
         const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 10
-          >= document.documentElement.offsetHeight;
+            >= document.documentElement.offsetHeight;
         if (bottomOfWindow && !this.fetching && !this.exhausted) {
           this.page += 1;
           this.fetchNews(this.page);
@@ -303,6 +304,9 @@ export default {
           });
         }).catch((err) => this.$refs.messageEditDialog.setError(err));
     },
+    updateServerWidget(nonEmpty) {
+      this.showServers = nonEmpty;
+    },
   },
   computed: {
     getNews() {
@@ -325,5 +329,5 @@ export default {
   border-color: var(--v-primary-base)
 
 .grey-title
-  background-color: rgb(255,255,255)
+  background-color: rgb(255, 255, 255)
 </style>
