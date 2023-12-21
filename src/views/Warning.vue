@@ -59,7 +59,7 @@
             </v-row>
           </template>
           <template v-slot:footer-right v-if="$checkProp('warning_edit')">
-            <v-btn outlined color="success" @click="$refs.addWarningDialog.show()">
+            <v-btn outlined color="success" @click="openAddWarningDialog()">
               <v-icon left>mdi-plus</v-icon>
               <span>{{ $t("_warning.add") }}</span>
             </v-btn>
@@ -294,6 +294,13 @@ export default {
           type: 'success',
         });
       }).catch((err) => this.$refs.editWarningDialog.setError(err));
+    },
+    openAddWarningDialog() {
+      const { user_id } = this.$route.query;
+      if (user_id) {
+        this.$refs.addWarningDialog.setData({ user: { id: user_id } });
+      }
+      this.$refs.addWarningDialog.show();
     },
     openDeleteWarningDialog(item) {
       this.$refs.deleteWarningDialog.show(item);
