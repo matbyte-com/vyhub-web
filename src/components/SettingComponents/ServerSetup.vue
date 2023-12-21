@@ -178,7 +178,7 @@
     </div>
 
     <!-- RUST -->
-    <div v-if="server.type === 'RUST'">
+    <div v-if="server.type === 'RUST' || server.type === 'SEVEN_DAYS'">
       <div class="font-weight-bold">1. {{ $t('_server.instructions.RUST.download') }}</div>
       <div class="mt-1 text-center">
         <a href="https://github.com/matbyte-com/vyhub-umod/releases" target="_blank">

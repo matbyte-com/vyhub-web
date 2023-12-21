@@ -173,6 +173,8 @@ export default {
           return 'https://cdn.steamstatic.com/steam/apps/252490/header.jpg';
         case 'FiveM':
           return 'https://cdn.steamstatic.com/steam/apps/252490/header.jpg';
+        case 'SEVEN_DAYS':
+          return 'https://cdn.akamai.steamstatic.com/steam/apps/251570/header.jpg?t=1702072288';
         default:
           return 'https://cdn.vyhub.net/central/games/teamspeak.jpeg';
       }

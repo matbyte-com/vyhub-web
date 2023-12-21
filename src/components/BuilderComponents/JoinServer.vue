@@ -96,8 +96,8 @@ export default {
       if (server.type === 'RUST') {
         return '$rust';
       }
-      if (server.type === '7D2D') {
-        return '$7D2D';
+      if (server.type === 'SEVEN_DAYS') {
+        return '$sevenDays';
       }
       if (server.icon) {
         return server.icon;

@@ -135,6 +135,9 @@ export default {
         {
           ...serverTypeFields('RUST'),
         },
+        {
+          ...serverTypeFields('SEVEN_DAYS'),
+        },
       ],
     },
     {
