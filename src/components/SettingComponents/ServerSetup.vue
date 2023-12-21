@@ -177,7 +177,7 @@
       </div>
     </div>
 
-    <!-- RUST -->
+    <!-- RUST & 7 Days To Die-->
     <div v-if="server.type === 'RUST' || server.type === 'SEVEN_DAYS'">
       <div class="font-weight-bold">1. {{ $t('_server.instructions.RUST.download') }}</div>
       <div class="mt-1 text-center">
