@@ -260,7 +260,7 @@ export default {
           }
         },
         copyServerAddress(server: any) {
-          if (!['MINECRAFT', 'RUST', 'SEVEN_DAYS'].includes(server.type)) return;
+          if (!['MINECRAFT', 'RUST', 'SEVEN_DAYS', 'ASA'].includes(server.type)) return;
           navigator.clipboard.writeText(server.address);
           Vue.notify({
             title: String(i18n.t('_messages.copyClipboard')),

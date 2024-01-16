@@ -87,6 +87,9 @@ export default {
       if (server.type === 'MINECRAFT') {
         return 'mdi-minecraft';
       }
+      if (server.type === 'ASA') {
+        return '$asa';
+      }
       if (server.type === 'FIVEM') {
         return '$fivem';
       }

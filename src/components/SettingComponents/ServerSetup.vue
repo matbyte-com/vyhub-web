@@ -209,6 +209,39 @@
         3. {{ $t('_server.instructions.COMMON.wait') }}
       </div>
     </div>
+
+    <!-- ASA -->
+    <div v-if="server.type === 'ASA'">
+      <div class="font-weight-bold">1. {{ $t('_server.instructions.ASA.download') }}</div>
+      <div class="mt-1 text-center">
+        <a href="https://github.com/matbyte-com/vyhub-asa/releases" target="_blank">
+          <v-btn color="primary">
+            <v-icon left>mdi-download</v-icon>
+            {{ $t('download') }}
+          </v-btn>
+        </a>
+      </div>
+
+      <div class="font-weight-bold mt-4">
+        2. {{ $t('_server.instructions.COMMON.runCommands') }}
+      </div>
+      <div v-if="commands == null" class="mt-1 text-center">
+        <v-btn color="primary" @click="generateAsaCommand()">
+          <v-icon left>mdi-repeat</v-icon>
+          {{ $t('generate') }}
+        </v-btn>
+      </div>
+      <div v-if="commands != null" class="mt-1">
+        <div v-for="cmd in commands" :key="cmd">
+          <code>{{ cmd }}</code>
+          <br/>
+        </div>
+      </div>
+
+      <div class="font-weight-bold mt-4">
+        3. {{ $t('_server.instructions.COMMON.wait') }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -264,6 +297,12 @@ export default {
       const access_token = await this.generateToken();
 
       this.commands.push(`vh_setup ${access_token} ${config.backend_url} ${this.server.id}`);
+    },
+    async generateAsaCommand() {
+      this.commands = [];
+      const access_token = await this.generateToken();
+      this.commands.push(`vh_setup ${access_token} ${config.backend_url} ${this.server.id}
+       ${this.server.serverbundle_id}`);
     },
     async generateDiscordBotLink() {
       const api = (await openapi);

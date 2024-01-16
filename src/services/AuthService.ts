@@ -138,5 +138,6 @@ export default {
     MINECRAFT: '/vylogin {uuid}',
     TEAMSPEAK3: '!login {uuid}',
     FIVEM: '/vylogin {uuid}',
+    ASA: '/vylogin {uuid}',
   },
 };

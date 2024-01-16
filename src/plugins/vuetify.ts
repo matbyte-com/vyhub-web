@@ -28,6 +28,7 @@ import RustIcon from '@/components/Icons/Rust.vue';
 import FiveMIcon from '@/components/Icons/FiveM.vue';
 import GModIcon from '@/components/Icons/GMod.vue';
 import SevenDaysIcon from '@/components/Icons/7Days.vue';
+import AsaIcon from '@/components/Icons/Asa.vue';
 
 Vue.use(Vuetify);
 
@@ -73,6 +74,9 @@ export default new Vuetify({
       },
       sevenDays: {
         component: SevenDaysIcon,
+      },
+      asa: {
+        component: AsaIcon,
       },
     },
   },

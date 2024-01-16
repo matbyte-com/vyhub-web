@@ -55,7 +55,9 @@
         <br/>
         <a target="_blank" href="https://docs.vyhub.net/latest/game/gmod/" class="mr-2"><v-btn small>GMOD</v-btn></a>
         <a target="_blank" href="https://docs.vyhub.net/latest/game/minecraft/" class="mr-2"><v-btn small>Minecraft</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/discord/" class="mr-2"><v-btn small>Discord</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/rust/" class="mr-2"><v-btn small>Rust</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/7days/" class="mr-2"><v-btn small>7 Days to Die</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/asa/" class="mr-2"><v-btn small>Ark Ascended</v-btn></a>
       </template>
     </DialogForm>
     <DialogForm

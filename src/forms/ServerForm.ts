@@ -138,6 +138,9 @@ export default {
         {
           ...serverTypeFields('SEVEN_DAYS'),
         },
+        {
+          ...serverTypeFields('ASA'),
+        },
       ],
     },
     {

@@ -6,6 +6,7 @@ export default {
     MINECRAFT: 'mdi-minecraft',
     TEAMSPEAK3: '$teamspeak',
     FIVEM: '$fivem',
+    ASA: '$asa',
   },
   userExternalLink(type: string, id: string) {
     switch (type) {
@@ -15,6 +16,8 @@ export default {
         return `https://discord.com/users/${id}`;
       case 'MINECRAFT':
         return `https://namemc.com/profile/${id}`;
+      case 'RUST':
+        return `https://ruststats.gg/rust-stats/user/${id}`;
       default:
         return null;
     }
