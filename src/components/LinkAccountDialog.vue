@@ -68,7 +68,8 @@
         </div>
       </div>
     </Dialog>
-    <ConfirmationDialog :width="600" ref="linkUsersDialog" text="-" :btn-text="$t('confirm')"
+    <ConfirmationDialog :persistent="true"
+                        :width="600" ref="linkUsersDialog" text="-" :btn-text="$t('confirm')"
                         @submit="confirmLink" @cancel="cancelLink" btn-color="success">
       <div v-if="userToLink && $store.getters.isLoggedIn">
         <div class="text-center my-5">
