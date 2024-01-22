@@ -1,5 +1,6 @@
 <template>
-  <Dialog v-model="dialog" :max-width="width" :title="title" icon="mdi-help-circle">
+  <Dialog v-model="dialog" :max-width="width" :title="title" icon="mdi-help-circle"
+          :persistent="persistent">
     <template v-if="errorMessage != null || text != null || confirmationTextField != null">
       <v-alert type="error" v-if="errorMessage != null" class="mt-2">
         {{ errorMessage }}
@@ -91,6 +92,10 @@ export default {
       default: i18n.t('areYouSure'),
     },
     countdown: {
+      type: Boolean,
+      default: false,
+    },
+    persistent: {
       type: Boolean,
       default: false,
     },
