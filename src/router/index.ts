@@ -87,7 +87,7 @@ const routes: Array<RouteConfig> = [
     ],
   },
   {
-    path: '/shop/cart',
+    path: '/cart',
     name: 'ShopCart',
     meta: { title: i18n.t('_pageTitle.shopCart'), requiresAuth: true },
     component: () => import('../views/Shop/Cart.vue'),

@@ -1,54 +1,79 @@
 <template>
   <div>
-    <RecommendedPacketsCart @cartChanged="fetchData" />
+    <RecommendedPacketsCart @cartChanged="fetchData"/>
     <v-row v-if="cartPackets != null" class="mt-4" :dense="$vuetify.breakpoint.mdAndDown">
       <!-- Cart packets -->
       <v-col cols="12" lg="8" xl="9">
-        <!-- Page Title -->
-        <PageTitleFlat :title="openPurchase?$t('_shop.labels.unfinishedPurchase')
-        :$t('_shop.labels.cart')" :hide-triangle="true"
-                       :no-bottom-border-radius="true"/>
-        <!-- Cart Packets -->
-        <!-- Either show cart-packets or open-purchase packets -->
-        <v-card class="vh-cart-packets card-rounded-bottom" flat
-                style="border-top-right-radius: 0; border-top-left-radius: 0">
-          <v-card-text>
-            <transition-group name="packet-list">
-              <CartPacket
-                class="mt-1"
-                v-for="cartPacket in packetsToShow" v-bind:key="cartPacket.id"
-                :cart-packet="cartPacket" :show-remove="!openPurchase" :open-purchase="openPurchase"
-                @remove="removeCartPacket(cartPacket.id)"
-                @removeDiscount="removeDiscount(cartPacket.discount.id)"
-                @targetUserChanged="fetchData">
-              </CartPacket>
-              <!-- Remove All Btn -->
-              <div class="text-right" v-if="cartPackets.length > 0 || openPurchase" :key="3">
-                <v-btn small color="error" @click="clearCart" depressed v-if="!openPurchase"
-                       class="text-right vh-remove-all-packets mt-1">
-                  <v-icon left>mdi-delete</v-icon>
-                  {{ $t('_shop.labels.removeAllPackets') }}
-                </v-btn>
-                <v-btn v-else color="error" text class="mt-1"
-                       @click="$refs.cancelPurchaseConfirmationDialog.show()">
-                  <v-icon left>mdi-close</v-icon>
-                  {{ $t('_shop.labels.cancelPurchase') }}
+        <!-- Unfinished Purchases -->
+        <div v-if="openPurchase">
+          <PageTitleFlat :title="$t('_shop.labels.unfinishedPurchase')" :hide-triangle="true"
+                         :no-bottom-border-radius="true"/>
+          <v-card class="vh-cart-packets-open-purchase card-rounded-bottom" flat
+                  style="border-top-right-radius: 0; border-top-left-radius: 0">
+            <v-card-text>
+              <transition-group name="packet-list">
+                <CartPacket
+                    class="mt-1"
+                    v-for="cartPacket in openPurchase.cart_packets" v-bind:key="cartPacket.id"
+                    :cart-packet="cartPacket" :show-remove="!openPurchase"
+                    :open-purchase="openPurchase"
+                    @remove="removeCartPacket(cartPacket.id)"
+                    @removeDiscount="removeDiscount(cartPacket.discount.id)"
+                    @targetUserChanged="fetchData">
+                </CartPacket>
+                <div class="text-right" :key="3">
+                  <v-btn color="error" text class="mt-1"
+                         @click="$refs.cancelPurchaseConfirmationDialog.show()">
+                    <v-icon left>mdi-close</v-icon>
+                    {{ $t('_shop.labels.cancelPurchase') }}
+                  </v-btn>
+                </div>
+              </transition-group>
+            </v-card-text>
+          </v-card>
+        </div>
+        <div :class="{ 'mt-3': openPurchase }"
+             v-if="cartPackets && (!openPurchase || cartPackets.length > 0)">
+          <!-- Cart Packets -->
+          <PageTitleFlat :title="$t('_shop.labels.cart')" :hide-triangle="true"
+                         :no-bottom-border-radius="true"/>
+          <!-- Either show cart-packets or open-purchase packets -->
+          <v-card class="vh-cart-packets card-rounded-bottom" flat
+                  style="border-top-right-radius: 0; border-top-left-radius: 0">
+            <v-card-text>
+              <transition-group name="packet-list">
+                <CartPacket
+                    class="mt-1"
+                    v-for="cartPacket in cartPackets" v-bind:key="cartPacket.id"
+                    :cart-packet="cartPacket"
+                    :show-remove="!openPurchase" :open-purchase="openPurchase"
+                    @remove="removeCartPacket(cartPacket.id)"
+                    @removeDiscount="removeDiscount(cartPacket.discount.id)"
+                    @targetUserChanged="fetchData">
+                </CartPacket>
+                <!-- Remove All Btn -->
+                <div class="text-right" v-if="cartPackets.length > 0" :key="3">
+                  <v-btn small color="error" @click="clearCart" depressed
+                         class="text-right vh-remove-all-packets mt-1">
+                    <v-icon left>mdi-delete</v-icon>
+                    {{ $t('_shop.labels.removeAllPackets') }}
+                  </v-btn>
+                </div>
+              </transition-group>
+              <!-- Cart Empty -->
+              <div v-if="!openPurchase && cartPackets.length === 0" :key="1">
+                {{ $t('_shop.messages.cartEmpty') }}
+                <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
+                       active-class="no-active">
+                  {{ $t('shop') }}
+                  <v-icon right>
+                    mdi-arrow-right
+                  </v-icon>
                 </v-btn>
               </div>
-            </transition-group>
-            <!-- Cart Empty -->
-            <div v-if="!openPurchase && cartPackets.length === 0" :key="1">
-              {{ $t('_shop.messages.cartEmpty') }}
-              <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
-                     active-class="no-active">
-                {{ $t('shop') }}
-                <v-icon right>
-                  mdi-arrow-right
-                </v-icon>
-              </v-btn>
-            </div>
-          </v-card-text>
-        </v-card>
+            </v-card-text>
+          </v-card>
+        </div>
         <!-- Address and Email -->
         <v-card class="card-rounded mt-3 vh-address-email-cart animate__animated"
                 v-if="!openPurchase"
@@ -74,7 +99,7 @@
                       </v-card-title>
                       <v-card-text class="body-1">
                         <Address hidden incognito
-                                 v-if="currentAddress != null" :address="currentAddress" />
+                                 v-if="currentAddress != null" :address="currentAddress"/>
                         <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
                       </v-card-text>
                       <v-card-actions>
@@ -109,7 +134,7 @@
                   :class="{ 'card-next-step': billingAddressDrawer == null }">
             <v-card-title class="d-block">
               <h2 class="text-h6">{{ $t('_shop.messages.selectGateway') }}</h2>
-              <v-divider class="mt-3" />
+              <v-divider class="mt-3"/>
             </v-card-title>
             <v-card-text>
               <v-row v-if="gateways">
@@ -124,7 +149,7 @@
                       <div class="d-flex justify-center">
                         <v-img contain class="mb-1" height="50"
                                :src="getImgUrl(gateway)" :alt="gateway.name"
-                               v-if="getImgUrl(gateway) != null" />
+                               v-if="getImgUrl(gateway) != null"/>
                         <div v-else>
                           <h4 class="text-h4">{{ gateway.type }}</h4>
                         </div>
@@ -168,7 +193,7 @@
             {{ openPurchase ? $t('_shop.labels.total') : $t('_shop.labels.cartTotal') }}
           </v-card-title>
           <v-card-text class="body-1">
-            <CartTotal :price="price" />
+            <CartTotal :price="price"/>
           </v-card-text>
           <!-- Checkboxes (hide when open purchase)-->
           <div class="px-3" v-if="checkboxes != null && !openPurchase">
@@ -190,7 +215,7 @@
             </v-form>
           </div>
           <v-card-text v-else-if="!openPurchase">
-            <v-skeleton-loader type="heading" />
+            <v-skeleton-loader type="heading"/>
           </v-card-text>
           <!-- Checkout button -->
           <v-card-text class="red--text text-center" v-if="showDetails">
@@ -264,13 +289,12 @@
         <div>
           <v-skeleton-loader v-for="n in 3" class="mb-3"
                              v-bind:key="n"
-                             type="card-heading, list-item-avatar, actions" />
+                             type="card-heading, list-item-avatar, actions"/>
         </div>
-        <v-skeleton-loader type="button" class="mt-3" />
       </v-col>
       <v-col>
         <v-skeleton-loader type="article"/>
-        <v-skeleton-loader type="article, actions" class="mt-3" />
+        <v-skeleton-loader type="article, actions" class="mt-3"/>
       </v-col>
     </v-row>
 
@@ -307,13 +331,13 @@
     <v-card>
     </v-card>
     <cancel-purchase-confirmation-dialog ref="cancelPurchaseConfirmationDialog"
-                         @submit="cancelPurchase(openPurchase)"/>
+                                         @submit="cancelPurchase(openPurchase)"/>
     <v-dialog v-model="redirectDialog" max-width="500px" persistent>
-        <v-card class="card-rounded text-center pa-3">
-          <h2 class="text-h5 text-capitalize mb-2">{{ $t('_shop.labels.pleaseWait') }}</h2>
-          <p>{{ $t('_shop.labels.redirectDescription') }}</p>
-          <v-progress-circular indeterminate class="mb-3 mt-3" size="50" color="primary" />
-        </v-card>
+      <v-card class="card-rounded text-center pa-3">
+        <h2 class="text-h5 text-capitalize mb-2">{{ $t('_shop.labels.pleaseWait') }}</h2>
+        <p>{{ $t('_shop.labels.redirectDescription') }}</p>
+        <v-progress-circular indeterminate class="mb-3 mt-3" size="50" color="primary"/>
+      </v-card>
     </v-dialog>
   </div>
 </template>
@@ -390,7 +414,7 @@ export default {
           country_code: this.$store.getters.address.country.code,
         };
       } else {
-        cartData = { };
+        cartData = {};
       }
 
       api.shop_getCart(cartData)
