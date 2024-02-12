@@ -27,7 +27,7 @@
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-chip v-for="(prop, index) in item.properties" :key="index" small
-                          :color="prop.granted ? 'primary' : 'grey'" class="mr-1 mb-1 mt-1">
+                          :color="prop.granted ? 'success' : 'error'" class="mr-1 mb-1 mt-1">
                     {{ prop.name }}
                     <span v-if="prop.value !== null">
                     : {{ prop.value }}
@@ -37,12 +37,11 @@
               </v-expansion-panel>
             </v-expansion-panels>
             <v-chip v-else v-for="(prop, index) in item.properties" :key="index" small
-                    :color="prop.granted ? 'primary' : 'grey'" class="mr-1 mb-1">
+                    :color="prop.granted ? 'success' : 'error'" class="mr-1 mb-1">
               {{ prop.name }}
               <span v-if="prop.value !== null">
-              : {{ prop.value }}
-            </span>
-              {{ prop.granted }}
+                : {{ prop.value }}
+              </span>
             </v-chip>
           </div>
         </template>
