@@ -131,7 +131,12 @@ export default {
       if (this.categories == null) {
         return '';
       }
-      return this.categories.find((cat) => cat.id === this.$route.params.categoryId);
+      let category = null;
+      category = this.categories.find((cat) => cat.name === this.$route.params.categoryId);
+      if (!category) {
+        category = this.categories.find((cat) => cat.id === this.$route.params.categoryId);
+      }
+      return category;
     },
     subcategories() {
       const cats = {};
