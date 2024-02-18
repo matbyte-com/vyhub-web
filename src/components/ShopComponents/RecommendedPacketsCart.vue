@@ -10,7 +10,7 @@
         <v-card class="card-rounded d-block" height="90px" width="100%" max-width="500px"
                 @click="selectedPacket = p; $refs.detailDialog.show()">
           <div class="d-flex" style="width: 100%">
-            <v-img :src="p.image_url" :alt="p.title"
+            <v-img :src="p.image_url" :alt="p.title" v-if="p.image_url"
                    height="90px"
                    width="40%"
                    max-width="150px"

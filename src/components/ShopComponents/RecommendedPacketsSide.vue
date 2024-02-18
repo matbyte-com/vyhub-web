@@ -12,7 +12,7 @@
                  class="d-flex">
             <v-card class="card-rounded d-block" width="100%"
                     @click="selectedPacket = p; $refs.detailDialog.show()">
-              <v-img :src="p.image_url" :alt="p.title">
+              <v-img :src="p.image_url" :alt="p.title" v-if="p.image_url">
                 <div class="d-flex flex-column ml-3 mr-3" style="height: 80px;">
                   <v-row align="center" justify="center" v-if="p.title_in_image"
                          class="title-in-image text-center white--text text-h6"
