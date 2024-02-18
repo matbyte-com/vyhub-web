@@ -168,7 +168,7 @@ export default {
       if (!this.$store.getters.isLoggedIn) {
         this.$router.push({
           path: this.$route.path,
-          query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path) },
+          query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path), shop: true },
         });
         return;
       }

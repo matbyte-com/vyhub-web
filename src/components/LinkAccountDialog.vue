@@ -2,15 +2,19 @@
   <div>
     <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="title"
             text-class="mb-0 pb-0" action-class="mt-0 pt-1">
-      <v-card outlined
-              type="info" dense v-if="$store.getters.isLoggedIn" class="mt-3 description-card">
+      <v-card outlined type="info" dense v-if="$store.getters.isLoggedIn || $route.query.shop"
+              class="mt-3 description-card">
         <v-card-text>
           <v-row no-gutters>
             <v-col cols="10">
-              {{ $t('_user.userLinkDescription') }}
+              <span v-if="$store.getters.isLoggedIn">{{ $t('_user.userLinkDescription') }}</span>
+              <span v-else>{{ $t('_user.userLoginShopDescription') }}</span>
             </v-col>
             <v-col class="d-flex align-center justify-end">
-              <v-icon color="secondary" large>mdi-exclamation</v-icon>
+              <v-icon v-if="$store.getters.isLoggedIn" color="secondary" large>
+                mdi-exclamation
+              </v-icon>
+              <v-icon v-else color="secondary" large>mdi-information-outline</v-icon>
             </v-col>
           </v-row>
         </v-card-text>
@@ -32,21 +36,17 @@
       <div v-if="backends == null" class="text-center mt-5">
         <v-progress-circular
           indeterminate
-          color="primary"
-        ></v-progress-circular>
+          color="primary"/>
       </div>
-      <v-divider class="mt-1"/>
+      <v-divider class="mt-1" v-if="!$route.query.shop"/>
       <template v-slot:actions>
-        <v-list class="pa-0 mt-0 ml-2 mr-2" style="width: 100%" dense>
+        <v-list class="pa-0 mt-0 ml-2 mr-2" style="width: 100%" dense v-if="!$route.query.shop">
           <v-list-item @click="startAuth(backends.find((b) => b.type === 'CENTRAL'))">
             <v-list-item-icon>
               <v-icon>{{ getIcon('CENTRAL') }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>{{ $t(`_user.type.CENTRAL.name`) }}</v-list-item-title>
-              <!--<div class="grey--text text-subtitle-2">
-                {{ $t(`_user.type.CENTRAL.info`) }}
-              </div>-->
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -60,8 +60,7 @@
         </div>
         <div v-if="authCommand != null" class="mt-2">
           <v-text-field readonly :value="authCommand"
-                        @focus="$event.target.select()">
-          </v-text-field>
+                        @focus="$event.target.select()" />
         </div>
         <div v-else class="mt-2">
           <v-progress-circular indeterminate color="primary"></v-progress-circular>

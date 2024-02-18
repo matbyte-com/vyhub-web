@@ -8,7 +8,8 @@
         <v-row>
           <!-- Image column -->
           <v-col cols="12" sm="5">
-            <v-card class="pa-1" flat outlined>
+            <v-card class="pa-1" flat outlined
+                    v-if="packet.image_url || packet.active_for != null || packet.recurring">
               <v-img :src="packet.image_url" style="border-radius: 3px">
                 <div class="d-flex" style="height: 100%">
                   <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2
@@ -51,7 +52,7 @@
             </h1>
             <!-- Price -->
             <div v-if="!cartPacket">
-              <div v-if="!packet.custom_price" class="mt-2"
+              <div v-if="!packet.custom_price" class="mt-2 mb-1"
                    :class="{ 'd-flex justify-center align-center': $vuetify.breakpoint.xs }">
                 <div class="ml-1" style="line-height: 0.9em"
                      :class="{ 'text-center': $vuetify.breakpoint.xs }">
@@ -108,7 +109,11 @@
               <v-btn color="info" large block
                      v-if="!$store.getters.isLoggedIn"
                      @click="$router.push({ path: $route.path,
-                     query: { login: 'true', return_url: utils.getFullUrl($route.path) }})">
+                     query: {
+                        login: 'true',
+                        return_url: utils.getFullUrl($route.path),
+                        shop: true
+                     }})">
                 <v-icon left>mdi-lock</v-icon>
                 {{ $t('_shop.labels.loginToBuy') }}
               </v-btn>
@@ -159,7 +164,8 @@
           </v-col>
         </v-row>
         <!-- Description -->
-        <v-card class="flex d-flex flex-column vh-shop-package-description transparent" flat>
+        <v-card class="flex d-flex flex-column vh-shop-package-description transparent" flat
+                v-if="packet.description">
           <v-card-title class="px-0 mx-0">
             <v-icon color="primary" left>mdi-star-four-points</v-icon>
             <span class="font-weight-bold" style="font-size: larger;">
