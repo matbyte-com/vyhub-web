@@ -194,8 +194,6 @@ export default {
       let packet = null;
       if (!data) {
         packet = this.$refs.addPacketDialog.getData();
-        packet.enabled = true;
-        packet.buyable = true;
       } else {
         packet = data;
       }
@@ -264,13 +262,15 @@ export default {
       delete new_data.payment_gateways;
       delete new_data.rewards;
 
-      new_data.relations = data.relations.map((rel) => {
-        const newRel = rel;
-        newRel.packet_right_id = rel.packet_right.id;
-        delete newRel.packet_left;
-        delete newRel.packet_right;
-        return newRel;
-      });
+      if (data.relations) {
+        new_data.relations = data.relations.map((rel) => {
+          const newRel = rel;
+          newRel.packet_right_id = rel.packet_right.id;
+          delete newRel.packet_left;
+          delete newRel.packet_right;
+          return newRel;
+        });
+      }
 
       if (data.active_for != null) {
         new_data.active_for = data.active_for * 60 * 60 * 24;

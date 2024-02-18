@@ -194,7 +194,11 @@ function form() {
   };
   if (!utilService.data().utils.showAdvancedSettings()) {
     delete res.allOf[0].properties.enabled;
+    delete res.allOf[0].properties.buyable_active;
+    delete res.allOf[0].properties.buyable_inactive;
+    delete res.allOf[0].properties.abstract;
     delete res.allOf[1].properties.payment_gateways;
+    delete res.allOf[2];
   }
   return res;
 }

@@ -592,6 +592,39 @@ export default {
                 ],
               },
               {
+                name: 'Plugins by Mevent',
+                scripts: [
+                  {
+                    name: 'Crafts',
+                    description: 'Crafting system that allows you to create items, cars, vehicles, recyclers, etc!',
+                  },
+                  {
+                    name: 'Helpful Supply',
+                    description: 'Adds to your server supply signals, which can be divided into categories of loot, such as: medicine, weapons, clothing, explosives, and others.',
+                  },
+                  {
+                    name: 'Necronomicon',
+                    description: 'A player puts all his blueprints in a book and then he can gift that book to another one who can unlock all of the blueprints the player had So it allows players to put all their blueprints in a book that can be unrwaped',
+                  },
+                  {
+                    name: 'Genie',
+                    description: 'Adds a Genie Lamp to the game, which you can unwrap and receive an award. This will greatly diversify the game on your server. My advice is to add them to your underwater crates and use Dynamic Config to set up rewards over the course of the wipe ',
+                  },
+                  {
+                    name: 'Car Sharing',
+                    description: 'Adds to your server the ability to rent a car and ride it all over the map. You can also install bots in which you can rent a car.',
+                  },
+                  {
+                    name: 'skills',
+                    description: 'Plugin adds a system of 18+ different skills',
+                  },
+                  {
+                    name: 'Bank System',
+                    description: 'Adds a banking system to the game. It is an extended system of economics.',
+                  },
+                ],
+              },
+              {
                 name: 'Backpacks by WhiteThunder',
                 scripts: [
                   {

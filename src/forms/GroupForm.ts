@@ -95,6 +95,7 @@ function returnForm() {
 
   if (!utilService.data().utils.showAdvancedSettings()) {
     delete res.allOf[1].properties.negative_properties;
+    delete res.allOf[0].properties.max_ban_length;
   }
   return res;
 }
