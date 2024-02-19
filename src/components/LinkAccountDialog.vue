@@ -63,7 +63,12 @@
                         @focus="$event.target.select()" />
         </div>
         <div v-else class="mt-2">
-          <v-progress-circular indeterminate color="primary"></v-progress-circular>
+          <v-progress-circular indeterminate color="primary" />
+        </div>
+        <div v-if="authDialogType === 'MINECRAFT'">
+          <!-- Minecraft Instructional Video -->
+          <video width="500" height="280" style="border-radius: 10px"
+                 autoplay playsinline loop src="https://cdn.vyhub.net/vyhub/minecraft-login.mp4" />
         </div>
       </div>
     </Dialog>
