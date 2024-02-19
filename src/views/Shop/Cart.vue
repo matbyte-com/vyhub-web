@@ -283,7 +283,7 @@
     </v-row>
 
     <!-- Skeleton loaders -->
-    <v-row v-else>
+    <v-row v-else class="mt-1">
       <v-col cols="12" lg="8" xl="9">
         <div>
           <v-skeleton-loader v-for="n in 3" class="mb-3"
