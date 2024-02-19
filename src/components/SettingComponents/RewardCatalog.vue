@@ -259,7 +259,7 @@ export default {
                 scripts: [
                   {
                     name: 'Access to reserved slots',
-                    description: 'Allow the player to join when the server is full. Add the player to a donator group which is then whitelisted to use reserved slots using plugins like ULX or Proper Reserved Slots',
+                    description: 'Allow the player to join when the server is full. Add the player to a group which is then whitelisted to use reserved slots using plugins like ULX or Proper Reserved Slots',
                   },
                   {
                     name: 'Ability to change phone number',
@@ -370,8 +370,8 @@ export default {
                 scripts: [
                   {
                     name: 'Add user to group',
-                    description: 'Add user to given group.',
-                    command: 'sam setrank %nick% {{group}}',
+                    description: 'Add user to given group. It is recommended to use VyHub memberships instead.',
+                    command: 'sam setrankid "%steamid32%" "{{group}}"',
                     properties: {
                       group: {
                         name: 'Group',
@@ -386,8 +386,8 @@ export default {
                 scripts: [
                   {
                     name: 'Add user to group',
-                    description: 'Add user to given group.',
-                    command: 'ulx adduser %nick% {{group}}',
+                    description: 'Add user to given group. It is recommended to use VyHub memberships instead.',
+                    command: 'ulx adduserid "%steamid32%" "{{group}}"',
                     properties: {
                       group: {
                         name: 'Group',
@@ -564,11 +564,11 @@ export default {
                 scripts: [
                   {
                     name: 'Access to reserved slots',
-                    description: 'Allows the player to join when the server is full. Add the player to a donator group which is then whitelisted to use reserved slots using other plugins.',
+                    description: 'Allows the player to join when the server is full. Add the player to a group which is then whitelisted to use reserved slots using other plugins.',
                   },
                   {
                     name: 'Access to some special /warp points',
-                    description: 'Add the player to a donator group which is then whitelisted to use reserved slots using other plugins.',
+                    description: 'Add the player to a group which is then whitelisted to use reserved slots using other plugins.',
                   },
                   {
                     name: 'Access to a player specific plot',
@@ -736,7 +736,7 @@ export default {
                 scripts: [
                   {
                     name: 'Access to reserved slots',
-                    description: 'Allows the player to join when the server is full. Add the player to a donator group which is then whitelisted to use reserved slots using other plugins.',
+                    description: 'Allows the player to join when the server is full. Add the player to a group which is then whitelisted to use reserved slots using other plugins.',
                   },
                 ],
               },
