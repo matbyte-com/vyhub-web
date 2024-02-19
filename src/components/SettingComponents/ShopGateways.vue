@@ -89,7 +89,7 @@
       </template>
       <template slot="attributes-before">
         <div class="text-center font-weight-bold">
-          {{ $t('_gateway.messages.formAttributeChangeExplanation') }}
+          {{ $t('_gateway.messages.attributeChangeExplanation') }}
         </div>
       </template>
       <template slot="attributes-after"
@@ -249,7 +249,7 @@ export default {
       this.gatewayType = gateway.type;
       this.selectedGateway = gateway;
 
-      const data = { ...gateway };
+      const data = { ...gateway, attributes: gateway.safe_attributes };
 
       this.$refs.editGatewayDialog.setData(data);
       this.$refs.editGatewayDialog.show(gateway);
