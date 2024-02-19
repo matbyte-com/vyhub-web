@@ -889,6 +889,10 @@ declare namespace Components {
              */
             requirement_set_id?: string; // uuid
             /**
+             * Wrapper
+             */
+            wrapper: boolean;
+            /**
              * Content
              */
             content?: string;
@@ -909,6 +913,10 @@ declare namespace Components {
              * Requirement Set Id
              */
             requirement_set_id?: string; // uuid
+            /**
+             * Wrapper
+             */
+            wrapper?: boolean;
         }
         /**
          * CmsPageModelPatch
@@ -926,6 +934,10 @@ declare namespace Components {
              * Requirement Set Id
              */
             requirement_set_id?: string; // uuid
+            /**
+             * Wrapper
+             */
+            wrapper?: boolean;
         }
         /**
          * CmsPageModelShort
@@ -943,6 +955,10 @@ declare namespace Components {
              * Requirement Set Id
              */
             requirement_set_id?: string; // uuid
+            /**
+             * Wrapper
+             */
+            wrapper: boolean;
         }
         /**
          * CommentModel
@@ -965,6 +981,27 @@ declare namespace Components {
              * Date
              */
             date: string; // date-time
+        }
+        /**
+         * CommunityStatModel
+         */
+        export interface CommunityStatModel {
+            /**
+             * Online Players
+             */
+            online_players?: number;
+            /**
+             * Registered Players
+             */
+            registered_players?: number;
+            /**
+             * Hours Played
+             */
+            hours_played?: number;
+            /**
+             * Active Users
+             */
+            active_users?: number;
         }
         /**
          * CountryModel
@@ -1618,6 +1655,23 @@ declare namespace Components {
             PurchaseStatus;
         }
         /**
+         * ForumStatsModel
+         */
+        export interface ForumStatsModel {
+            /**
+             * Posts Count
+             */
+            posts_count: number;
+            /**
+             * Threads Count
+             */
+            threads_count: number;
+            /**
+             * Reactions Count
+             */
+            reactions_count: number;
+        }
+        /**
          * FrontendURLModel
          */
         export interface FrontendURLModel {
@@ -1976,6 +2030,21 @@ declare namespace Components {
             favicon_url?: string; // uri
         }
         /**
+         * LastPurchaseModel
+         */
+        export interface LastPurchaseModel {
+            /**
+             * Amount Total
+             */
+            amount_total: number;
+            currency: /* CurrencyModel */ CurrencyModel;
+            user: /* UserModelShort */ UserModelShort;
+            /**
+             * Last Update
+             */
+            last_update: string; // date-time
+        }
+        /**
          * LegalModel
          */
         export interface LegalModel {
@@ -2008,11 +2077,6 @@ declare namespace Components {
              */
             access_token: string;
         }
-        /**
-         * LogCategory
-         * An enumeration.
-         */
-        export type LogCategory = "SYSTEM" | "USER" | "BAN" | "SHOP" | "PACKET" | "GROUP" | "NEWS" | "REQUIREMENT" | "DESIGN" | "WARNING" | "SERVER" | "DISCORD" | "FAQ" | "ADVERT" | "NAVIGATION" | "FORUM" | "TEAMSPEAK3" | "API" | "OTHER";
         /**
          * LogModel
          */
@@ -3106,6 +3170,10 @@ declare namespace Components {
              */
             id: string; // uuid
             currency: /* CurrencyModel */ CurrencyModel;
+            /**
+             * Description
+             */
+            description?: string;
         }
         /**
          * PacketModelVeryShort
@@ -3455,6 +3523,12 @@ declare namespace Components {
              * Image Url
              */
             image_url?: string; // uri
+            /**
+             * Safe Attributes
+             */
+            safe_attributes: {
+                [name: string]: string | any[];
+            };
         }
         /**
          * PaymentGatewayModelAdd
@@ -3516,10 +3590,61 @@ declare namespace Components {
             image_url?: string; // uri
         }
         /**
+         * PaymentGatewayModelShort
+         */
+        export interface PaymentGatewayModelShort {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Subtitle
+             */
+            subtitle?: string;
+            type: /**
+             * PaymentGatewayType
+             * An enumeration.
+             */
+            PaymentGatewayType;
+            /**
+             * Support Recurring
+             */
+            support_recurring: boolean;
+            /**
+             * Deletable
+             */
+            deletable: boolean;
+            /**
+             * Enabled
+             */
+            enabled: boolean;
+            /**
+             * Image Url
+             */
+            image_url?: string; // uri
+        }
+        /**
          * PaymentGatewayType
          * An enumeration.
          */
-        export type PaymentGatewayType = "PAYPAL" | "STRIPE" | "PAYSAFECARD" | "COUPON" | "CREDITS" | "FREE";
+        export type PaymentGatewayType = "PAYPAL" | "PAYPAL_LEGACY" | "STRIPE" | "PAYSAFECARD" | "COUPON" | "CREDITS" | "FREE";
+        /**
+         * PopularLabelModel
+         */
+        export interface PopularLabelModel {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color?: string; // color
+        }
         /**
          * PostModel
          */
@@ -3538,9 +3663,17 @@ declare namespace Components {
             created: string; // date-time
             creator?: /* UserModelShort */ UserModelShort;
             /**
+             * Thread Id
+             */
+            thread_id: string; // uuid
+            /**
              * Last Edit
              */
             last_edit?: string; // date-time
+            /**
+             * Reactions
+             */
+            reactions: /* PostReactionModel */ PostReactionModel[];
         }
         /**
          * PostModelAdd
@@ -3611,10 +3744,42 @@ declare namespace Components {
             created: string; // date-time
             creator?: /* UserModelShort */ UserModelShort;
             /**
+             * Thread Id
+             */
+            thread_id: string; // uuid
+            /**
              * Last Edit
              */
             last_edit?: string; // date-time
+            /**
+             * Reactions
+             */
+            reactions: /* PostReactionModel */ PostReactionModel[];
             thread?: /* ThreadModelExtraShort */ ThreadModelExtraShort;
+        }
+        /**
+         * PostReactionModel
+         */
+        export interface PostReactionModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            post: /* PostModelExtraShort */ PostModelExtraShort;
+            user: /* UserModelNoLinkedExtraShort */ UserModelNoLinkedExtraShort;
+        }
+        /**
+         * PostReactionModelAdd
+         */
+        export interface PostReactionModelAdd {
+            /**
+             * Name
+             */
+            name: string;
         }
         /**
          * PropertyModel
@@ -4348,6 +4513,10 @@ declare namespace Components {
                 [key: string]: any;
             };
             /**
+             * Hidden
+             */
+            hidden: boolean;
+            /**
              * Id
              */
             id: string; // uuid
@@ -4393,6 +4562,10 @@ declare namespace Components {
             extra?: {
                 [key: string]: any;
             };
+            /**
+             * Hidden
+             */
+            hidden: boolean;
             secrets?: /* ServerSecretsModel */ ServerSecretsModel;
         }
         /**
@@ -4438,6 +4611,10 @@ declare namespace Components {
             extra?: {
                 [key: string]: any;
             };
+            /**
+             * Hidden
+             */
+            hidden?: boolean;
             /**
              * Is Alive
              * Set to true if the PATCH request comes from a server signalling that the server is alive. This will cause an update of the `last_update` attribute.
@@ -4493,7 +4670,7 @@ declare namespace Components {
          * ServerType
          * An enumeration.
          */
-        export type ServerType = "GMOD" | "MINECRAFT" | "TEAMSPEAK3" | "DISCORD";
+        export type ServerType = "GMOD" | "MINECRAFT" | "TEAMSPEAK3" | "DISCORD" | "FIVEM" | "RUST" | "SEVEN_DAYS" | "ASA";
         /**
          * ServerbundleModel
          */
@@ -4514,10 +4691,6 @@ declare namespace Components {
              * Multigroup
              */
             multigroup: boolean;
-            /**
-             * Color
-             */
-            color: string; // color
             server_type: /**
              * ServerType
              * An enumeration.
@@ -4537,10 +4710,6 @@ declare namespace Components {
              * Name
              */
             name: string;
-            /**
-             * Color
-             */
-            color: string; // color
             /**
              * Server Type
              */
@@ -4567,10 +4736,6 @@ declare namespace Components {
              */
             name?: string;
             /**
-             * Color
-             */
-            color?: string; // color
-            /**
              * Icon
              */
             icon?: string;
@@ -4595,10 +4760,6 @@ declare namespace Components {
              * Name
              */
             name: string;
-            /**
-             * Color
-             */
-            color: string; // color
             /**
              * Icon
              */
@@ -4637,9 +4798,21 @@ declare namespace Components {
              */
             top_donators_limit?: number;
             /**
+             * Top Donators Days Limit
+             */
+            top_donators_days_limit?: number;
+            /**
              * Top Donators Display Title
              */
             top_donators_display_title?: string;
+            /**
+             * Last Donators Enabled
+             */
+            last_donators_enabled?: boolean;
+            /**
+             * Last Donators Display Title
+             */
+            last_donators_display_title?: string;
             /**
              * Default Currency
              */
@@ -4692,9 +4865,21 @@ declare namespace Components {
              */
             top_donators_limit?: number;
             /**
+             * Top Donators Days Limit
+             */
+            top_donators_days_limit?: number;
+            /**
              * Top Donators Display Title
              */
             top_donators_display_title?: string;
+            /**
+             * Last Donators Enabled
+             */
+            last_donators_enabled?: boolean;
+            /**
+             * Last Donators Display Title
+             */
+            last_donators_display_title?: string;
             /**
              * Default Currency
              */
@@ -4862,6 +5047,10 @@ declare namespace Components {
          */
         export interface ThemeConfigModel {
             /**
+             * Enable Landingpage
+             */
+            enable_landingpage?: boolean;
+            /**
              * Dark
              */
             dark?: boolean;
@@ -4885,6 +5074,10 @@ declare namespace Components {
              * Light Header
              */
             light_header?: boolean;
+            /**
+             * Header Container
+             */
+            header_container?: boolean;
             /**
              * Footer
              */
@@ -4921,6 +5114,36 @@ declare namespace Components {
              * Custom Css
              */
             custom_css?: string;
+        }
+        /**
+         * ThreadLabelModel
+         */
+        export interface ThreadLabelModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color?: string; // color
+        }
+        /**
+         * ThreadLabelModelAdd
+         */
+        export interface ThreadLabelModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Color
+             */
+            color?: string; // color
         }
         /**
          * ThreadModel
@@ -4964,6 +5187,10 @@ declare namespace Components {
              * Pinned
              */
             pinned?: boolean;
+            /**
+             * Labels
+             */
+            labels: /* ThreadLabelModel */ ThreadLabelModel[];
         }
         /**
          * ThreadModelAdd
@@ -5731,6 +5958,10 @@ declare namespace Components {
              * Identifier
              */
             identifier: string;
+            /**
+             * Username
+             */
+            username?: string;
         }
         /**
          * UserModelLinkedShort
@@ -5860,6 +6091,10 @@ declare namespace Components {
              * Admin
              */
             admin?: boolean;
+            /**
+             * Username
+             */
+            username?: string;
         }
         /**
          * UserModelShort
@@ -5908,7 +6143,7 @@ declare namespace Components {
          * UserType
          * An enumeration.
          */
-        export type UserType = "CENTRAL" | "STEAM" | "DISCORD" | "MINECRAFT" | "TEAMSPEAK3";
+        export type UserType = "CENTRAL" | "STEAM" | "DISCORD" | "MINECRAFT" | "TEAMSPEAK3" | "FIVEM" | "ASA";
         /**
          * ValidationError
          */
@@ -5991,6 +6226,19 @@ declare namespace Components {
              * User Id
              */
             user_id: string; // uuid
+        }
+        /**
+         * WarningModelPatch
+         */
+        export interface WarningModelPatch {
+            /**
+             * Reason
+             */
+            reason?: string;
+            /**
+             * Disabled
+             */
+            disabled?: boolean;
         }
         /**
          * WarningModelReduced
@@ -6138,9 +6386,21 @@ declare namespace Paths {
              * Backend
              */
             export type Backend = string;
+            /**
+             * Return Url
+             * URL to redirect after login.
+             */
+            export type ReturnUrl = string;
         }
         export interface PathParameters {
             backend: /* Backend */ Parameters.Backend;
+        }
+        export interface QueryParameters {
+            return_url?: /**
+             * Return Url
+             * URL to redirect after login.
+             */
+            Parameters.ReturnUrl;
         }
         namespace Responses {
             export type $200 = any;
@@ -6663,6 +6923,27 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ForumAddLabel {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* ThreadLabelModelAdd */ Components.Schemas.ThreadLabelModelAdd;
+        namespace Responses {
+            export type $200 = /* ThreadLabelModel */ Components.Schemas.ThreadLabelModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace ForumCreatePost {
         namespace Parameters {
             /**
@@ -6681,6 +6962,27 @@ declare namespace Paths {
         export type RequestBody = /* PostModelAdd */ Components.Schemas.PostModelAdd;
         namespace Responses {
             export type $200 = /* PostModel */ Components.Schemas.PostModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumCreateReaction {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* PostReactionModelAdd */ Components.Schemas.PostReactionModelAdd;
+        namespace Responses {
+            export type $200 = /* PostReactionModel */ Components.Schemas.PostReactionModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -6705,7 +7007,47 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ForumDeleteLabel {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.DepsVyhubCommonApiHelpersSuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace ForumDeletePost {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.DepsVyhubCommonApiHelpersSuccessModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumDeleteReaction {
         namespace Parameters {
             /**
              * Uuid
@@ -6869,6 +7211,14 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ForumGetPopularLabels {
+        namespace Responses {
+            /**
+             * Response Get Popular Labels Forum Label  Get
+             */
+            export type $200 = /* PopularLabelModel */ Components.Schemas.PopularLabelModel[];
+        }
+    }
     namespace ForumGetPosts {
         namespace Parameters {
             /**
@@ -6897,6 +7247,11 @@ declare namespace Paths {
         namespace Responses {
             export type $200 = /* Page[PostModelWithThread] */ Components.Schemas.PagePostModelWithThread;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumGetStats {
+        namespace Responses {
+            export type $200 = /* ForumStatsModel */ Components.Schemas.ForumStatsModel;
         }
     }
     namespace ForumGetThread {
@@ -7265,12 +7620,7 @@ declare namespace Paths {
     }
     namespace GeneralGetCommunityStats {
         namespace Responses {
-            /**
-             * Response Get Community Stats General Community Stats Get
-             */
-            export interface $200 {
-                [name: string]: number;
-            }
+            export type $200 = /* CommunityStatModel */ Components.Schemas.CommunityStatModel;
         }
     }
     namespace GeneralGetConfig {
@@ -7555,15 +7905,6 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
-    namespace LogGetCategories {
-        namespace Responses {
-            export type $200 = /**
-             * LogCategory
-             * An enumeration.
-             */
-            Components.Schemas.LogCategory[];
-        }
-    }
     namespace LogGetLabels {
         namespace Parameters {
             /**
@@ -7625,11 +7966,6 @@ declare namespace Paths {
              */
             export type $200 = /* LogModel */ Components.Schemas.LogModel[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
-        }
-    }
-    namespace LogGetOldLogCsv {
-        namespace Responses {
-            export type $200 = any;
         }
     }
     namespace NavigationCreateNavigationLink {
@@ -9237,6 +9573,14 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ShopGetAvailableGateways {
+        namespace Responses {
+            /**
+             * Response Get Available Gateways Shop Purchase Gateway  Get
+             */
+            export type $200 = /* PaymentGatewayModelShort */ Components.Schemas.PaymentGatewayModelShort[];
+        }
+    }
     namespace ShopGetBusinessAddress {
         namespace Responses {
             export type $200 = /* AddressModel */ Components.Schemas.AddressModel;
@@ -9472,6 +9816,14 @@ declare namespace Paths {
             export type $200 = /* PaymentGatewayModel */ Components.Schemas.PaymentGatewayModel[];
         }
     }
+    namespace ShopGetLastDonators {
+        namespace Responses {
+            /**
+             * Response Get Last Donators Shop Last Donators Get
+             */
+            export type $200 = /* LastPurchaseModel */ Components.Schemas.LastPurchaseModel[];
+        }
+    }
     namespace ShopGetPacketCategoryStatistic {
         namespace Parameters {
             /**
@@ -9506,7 +9858,11 @@ declare namespace Paths {
              * Category Id
              * Filter by category
              */
-            export type CategoryId = string; // uuid
+            export type CategoryId = /**
+             * Category Id
+             * Filter by category
+             */
+            string /* uuid */ | string;
             /**
              * Country Code
              * Country for price calculation
@@ -9526,7 +9882,7 @@ declare namespace Paths {
              * Category Id
              * Filter by category
              */
-            Parameters.CategoryId /* uuid */;
+            Parameters.CategoryId;
             recommended?: /* Recommended */ Parameters.Recommended;
             limit?: /* Limit */ Parameters.Limit;
             country_code?: /**
@@ -9582,7 +9938,7 @@ declare namespace Paths {
             /**
              * Response Get Purchase Gateways Shop Purchase  Uuid  Gateway Get
              */
-            export type $200 = /* PaymentGatewayModel */ Components.Schemas.PaymentGatewayModel[];
+            export type $200 = /* PaymentGatewayModelShort */ Components.Schemas.PaymentGatewayModelShort[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -10651,7 +11007,7 @@ declare namespace Paths {
              * UserType
              * If searching a user by its identifier, search users of this type.
              */
-            export type Type = "CENTRAL" | "STEAM" | "DISCORD" | "MINECRAFT" | "TEAMSPEAK3";
+            export type Type = "CENTRAL" | "STEAM" | "DISCORD" | "MINECRAFT" | "TEAMSPEAK3" | "FIVEM" | "ASA";
         }
         export interface PathParameters {
             identifier: /**
@@ -10843,6 +11199,39 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace WarningEditWarning {
+        namespace Parameters {
+            /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            export type MorphUserId = string; // uuid
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export interface QueryParameters {
+            morph_user_id?: /**
+             * Morph User Id
+             * Morph system user into given user. Requires user_morph property.
+             */
+            Parameters.MorphUserId /* uuid */;
+        }
+        export type RequestBody = /* WarningModelPatch */ Components.Schemas.WarningModelPatch;
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace WarningGetConfig {
         namespace Responses {
             export type $200 = /* WarningConfigModel */ Components.Schemas.WarningConfigModel;
@@ -10977,6 +11366,26 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace WebhookPaypalIpn {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace WebhookPaysafecardNotification {
         namespace Parameters {
             /**
@@ -11070,7 +11479,7 @@ export interface OperationMethods {
    * auth_finishSocial - Finish Social
    */
   'auth_finishSocial'(
-    parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
+    parameters?: Parameters<Paths.AuthFinishSocial.PathParameters & Paths.AuthFinishSocial.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
@@ -11078,7 +11487,7 @@ export interface OperationMethods {
    * auth_finishSocial - Finish Social
    */
   'auth_finishSocial'(
-    parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
+    parameters?: Parameters<Paths.AuthFinishSocial.PathParameters & Paths.AuthFinishSocial.QueryParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
@@ -11308,6 +11717,54 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.GeneralGetCustomerJourney.Responses.$200>
+  /**
+   * general_getCommunityStats - Get Community Stats
+   */
+  'general_getCommunityStats'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.GeneralGetCommunityStats.Responses.$200>
+  /**
+   * design_getSections - Get Sections
+   */
+  'design_getSections'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignGetSections.Responses.$200>
+  /**
+   * design_createSection - Create Section
+   */
+  'design_createSection'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.DesignCreateSection.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignCreateSection.Responses.$200>
+  /**
+   * design_editSection - Edit Section
+   */
+  'design_editSection'(
+    parameters?: Parameters<Paths.DesignEditSection.PathParameters> | null,
+    data?: Paths.DesignEditSection.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignEditSection.Responses.$200>
+  /**
+   * design_deleteSection - Delete Section
+   */
+  'design_deleteSection'(
+    parameters?: Parameters<Paths.DesignDeleteSection.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignDeleteSection.Responses.$200>
+  /**
+   * design_updateOrder - Update Order
+   */
+  'design_updateOrder'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.DesignUpdateOrder.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.DesignUpdateOrder.Responses.$200>
   /**
    * user_getCurrentUser - Get Current User
    */
@@ -12010,6 +12467,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.WarningGetWarning.Responses.$200>
   /**
+   * warning_editWarning - Edit Warning
+   */
+  'warning_editWarning'(
+    parameters?: Parameters<Paths.WarningEditWarning.PathParameters & Paths.WarningEditWarning.QueryParameters> | null,
+    data?: Paths.WarningEditWarning.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.WarningEditWarning.Responses.$200>
+  /**
    * warning_deleteWarning - Delete Warning
    */
   'warning_deleteWarning'(
@@ -12300,6 +12765,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200>
   /**
+   * shop_getAvailableGateways - Get Available Gateways
+   */
+  'shop_getAvailableGateways'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetAvailableGateways.Responses.$200>
+  /**
    * shop_startPayment - Start Payment
    */
   'shop_startPayment'(
@@ -12428,6 +12901,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDonationGoal.Responses.$200>
   /**
+   * shop_getLastDonators - Get Last Donators
+   */
+  'shop_getLastDonators'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopGetLastDonators.Responses.$200>
+  /**
    * shop_getTopDonators - Get Top Donators
    */
   'shop_getTopDonators'(
@@ -12510,6 +12991,16 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketGetAppliedRewardsByUser.Responses.$200>
   /**
+   * packet_addRewardToAppliedPackets - Add Reward To Applied Packets
+   * 
+   * Adds rewards to existing applied_packets, which do not have the reward yet. All rewards from the limit up to now are affected. Only commits the action when the commit parameter is true. Otherwise return the number of elements to change.
+   */
+  'packet_addRewardToAppliedPackets'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.PacketAddRewardToAppliedPackets.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.PacketAddRewardToAppliedPackets.Responses.$200>
+  /**
    * packet_editAppliedReward - Edit Applied Reward
    */
   'packet_editAppliedReward'(
@@ -12525,16 +13016,6 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PacketDeleteAppliedReward.Responses.$200>
-  /**
-   * packet_addRewardToAppliedPackets - Add Reward To Applied Packets
-   * 
-   * Adds rewards to existing applied_packets, which do not have the reward yet. All rewards from the limit up to now are affected. Only commits the action when the commit parameter is true. Otherwise return the number of elements to change.
-   */
-  'packet_addRewardToAppliedPackets'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: Paths.PacketAddRewardToAppliedPackets.RequestBody,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.PacketAddRewardToAppliedPackets.Responses.$200>
   /**
    * packet_getCategories - Get Categories
    */
@@ -12848,14 +13329,6 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.LogGetLog.Responses.$200>
   /**
-   * log_getCategories - Get Categories
-   */
-  'log_getCategories'(
-    parameters?: Parameters<UnknownParamsObject> | null,
-    data?: any,
-    config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.LogGetCategories.Responses.$200>
-  /**
    * log_getLabels - Get Labels
    */
   'log_getLabels'(
@@ -12864,15 +13337,13 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.LogGetLabels.Responses.$200>
   /**
-   * log_getOldLogCsv - Get Old Log Csv
-   * 
-   * Get logs from versions < 1.5.0 as CSV file
+   * webhook_paypalIpn - Paypal Ipn
    */
-  'log_getOldLogCsv'(
-    parameters?: Parameters<UnknownParamsObject> | null,
+  'webhook_paypalIpn'(
+    parameters?: Parameters<Paths.WebhookPaypalIpn.PathParameters> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.LogGetOldLogCsv.Responses.$200>
+  ): OperationResponse<Paths.WebhookPaypalIpn.Responses.$200>
   /**
    * webhook_paypalEvent - Paypal Event
    */
@@ -13052,6 +13523,30 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumToggleStatus.Responses.$200>
   /**
+   * forum_addLabel - Add Label
+   */
+  'forum_addLabel'(
+    parameters?: Parameters<Paths.ForumAddLabel.PathParameters> | null,
+    data?: Paths.ForumAddLabel.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumAddLabel.Responses.$200>
+  /**
+   * forum_getPopularLabels - Get Popular Labels
+   */
+  'forum_getPopularLabels'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumGetPopularLabels.Responses.$200>
+  /**
+   * forum_deleteLabel - Delete Label
+   */
+  'forum_deleteLabel'(
+    parameters?: Parameters<Paths.ForumDeleteLabel.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumDeleteLabel.Responses.$200>
+  /**
    * forum_getThreadPosts - Get Thread Posts
    */
   'forum_getThreadPosts'(
@@ -13084,6 +13579,24 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumDeletePost.Responses.$200>
   /**
+   * forum_createReaction - Create Reaction
+   * 
+   * Add reaction to post specified by path parameter.
+   */
+  'forum_createReaction'(
+    parameters?: Parameters<Paths.ForumCreateReaction.PathParameters> | null,
+    data?: Paths.ForumCreateReaction.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumCreateReaction.Responses.$200>
+  /**
+   * forum_deleteReaction - Delete Reaction
+   */
+  'forum_deleteReaction'(
+    parameters?: Parameters<Paths.ForumDeleteReaction.PathParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumDeleteReaction.Responses.$200>
+  /**
    * forum_getPosts - Get Posts
    */
   'forum_getPosts'(
@@ -13091,6 +13604,14 @@ export interface OperationMethods {
     data?: any,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumGetPosts.Responses.$200>
+  /**
+   * forum_getStats - Get Stats
+   */
+  'forum_getStats'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumGetStats.Responses.$200>
   /**
    * import_getGextensionPackets - Get Gextension Packets
    */
@@ -13285,7 +13806,7 @@ export interface PathsDictionary {
      * auth_finishSocial - Finish Social
      */
     'get'(
-      parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
+      parameters?: Parameters<Paths.AuthFinishSocial.PathParameters & Paths.AuthFinishSocial.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
@@ -13293,7 +13814,7 @@ export interface PathsDictionary {
      * auth_finishSocial - Finish Social
      */
     'post'(
-      parameters?: Parameters<Paths.AuthFinishSocial.PathParameters> | null,
+      parameters?: Parameters<Paths.AuthFinishSocial.PathParameters & Paths.AuthFinishSocial.QueryParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.AuthFinishSocial.Responses.$200>
@@ -13557,6 +14078,62 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.GeneralGetCustomerJourney.Responses.$200>
+  }
+  ['/general/community-stats']: {
+    /**
+     * general_getCommunityStats - Get Community Stats
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.GeneralGetCommunityStats.Responses.$200>
+  }
+  ['/design/']: {
+    /**
+     * design_getSections - Get Sections
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignGetSections.Responses.$200>
+    /**
+     * design_createSection - Create Section
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.DesignCreateSection.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignCreateSection.Responses.$200>
+  }
+  ['/design/{uuid}']: {
+    /**
+     * design_deleteSection - Delete Section
+     */
+    'delete'(
+      parameters?: Parameters<Paths.DesignDeleteSection.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignDeleteSection.Responses.$200>
+    /**
+     * design_editSection - Edit Section
+     */
+    'patch'(
+      parameters?: Parameters<Paths.DesignEditSection.PathParameters> | null,
+      data?: Paths.DesignEditSection.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignEditSection.Responses.$200>
+  }
+  ['/design/order']: {
+    /**
+     * design_updateOrder - Update Order
+     */
+    'put'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.DesignUpdateOrder.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.DesignUpdateOrder.Responses.$200>
   }
   ['/user/current']: {
     /**
@@ -14390,6 +14967,14 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.WarningDeleteWarning.Responses.$200>
+    /**
+     * warning_editWarning - Edit Warning
+     */
+    'patch'(
+      parameters?: Parameters<Paths.WarningEditWarning.PathParameters & Paths.WarningEditWarning.QueryParameters> | null,
+      data?: Paths.WarningEditWarning.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.WarningEditWarning.Responses.$200>
   }
   ['/shop/gateway/']: {
     /**
@@ -14717,6 +15302,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetPurchaseGateways.Responses.$200>
   }
+  ['/shop/purchase/gateway/']: {
+    /**
+     * shop_getAvailableGateways - Get Available Gateways
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetAvailableGateways.Responses.$200>
+  }
   ['/shop/checkout/']: {
     /**
      * shop_startPayment - Start Payment
@@ -14869,6 +15464,16 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDonationGoal.Responses.$200>
   }
+  ['/shop/last_donators']: {
+    /**
+     * shop_getLastDonators - Get Last Donators
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopGetLastDonators.Responses.$200>
+  }
   ['/shop/top-donators']: {
     /**
      * shop_getTopDonators - Get Top Donators
@@ -14963,6 +15568,18 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketGetAppliedRewardsByUser.Responses.$200>
   }
+  ['/packet/reward/applied/reward']: {
+    /**
+     * packet_addRewardToAppliedPackets - Add Reward To Applied Packets
+     * 
+     * Adds rewards to existing applied_packets, which do not have the reward yet. All rewards from the limit up to now are affected. Only commits the action when the commit parameter is true. Otherwise return the number of elements to change.
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.PacketAddRewardToAppliedPackets.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.PacketAddRewardToAppliedPackets.Responses.$200>
+  }
   ['/packet/reward/applied/{uuid}']: {
     /**
      * packet_deleteAppliedReward - Delete Applied Reward
@@ -14980,18 +15597,6 @@ export interface PathsDictionary {
       data?: Paths.PacketEditAppliedReward.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PacketEditAppliedReward.Responses.$200>
-  }
-  ['/packet/reward/applied/reward']: {
-    /**
-     * packet_addRewardToAppliedPackets - Add Reward To Applied Packets
-     * 
-     * Adds rewards to existing applied_packets, which do not have the reward yet. All rewards from the limit up to now are affected. Only commits the action when the commit parameter is true. Otherwise return the number of elements to change.
-     */
-    'post'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: Paths.PacketAddRewardToAppliedPackets.RequestBody,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.PacketAddRewardToAppliedPackets.Responses.$200>
   }
   ['/packet/category']: {
     /**
@@ -15357,16 +15962,6 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.LogGetLog.Responses.$200>
   }
-  ['/log/type']: {
-    /**
-     * log_getCategories - Get Categories
-     */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
-      data?: any,
-      config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.LogGetCategories.Responses.$200>
-  }
   ['/log/labels']: {
     /**
      * log_getLabels - Get Labels
@@ -15377,17 +15972,15 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.LogGetLabels.Responses.$200>
   }
-  ['/log/old/csv']: {
+  ['/webhook/paypal/ipn/{uuid}']: {
     /**
-     * log_getOldLogCsv - Get Old Log Csv
-     * 
-     * Get logs from versions < 1.5.0 as CSV file
+     * webhook_paypalIpn - Paypal Ipn
      */
-    'get'(
-      parameters?: Parameters<UnknownParamsObject> | null,
+    'post'(
+      parameters?: Parameters<Paths.WebhookPaypalIpn.PathParameters> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.LogGetOldLogCsv.Responses.$200>
+    ): OperationResponse<Paths.WebhookPaypalIpn.Responses.$200>
   }
   ['/webhook/paypal/{uuid}']: {
     /**
@@ -15595,6 +16188,36 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumToggleStatus.Responses.$200>
   }
+  ['/forum/thread/{uuid}/label']: {
+    /**
+     * forum_addLabel - Add Label
+     */
+    'post'(
+      parameters?: Parameters<Paths.ForumAddLabel.PathParameters> | null,
+      data?: Paths.ForumAddLabel.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumAddLabel.Responses.$200>
+  }
+  ['/forum/label/']: {
+    /**
+     * forum_getPopularLabels - Get Popular Labels
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumGetPopularLabels.Responses.$200>
+  }
+  ['/forum/label/{uuid}']: {
+    /**
+     * forum_deleteLabel - Delete Label
+     */
+    'delete'(
+      parameters?: Parameters<Paths.ForumDeleteLabel.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumDeleteLabel.Responses.$200>
+  }
   ['/forum/thread/{uuid}/posts']: {
     /**
      * forum_getThreadPosts - Get Thread Posts
@@ -15633,6 +16256,28 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumEditPost.Responses.$200>
   }
+  ['/forum/post/{uuid}/reaction']: {
+    /**
+     * forum_createReaction - Create Reaction
+     * 
+     * Add reaction to post specified by path parameter.
+     */
+    'post'(
+      parameters?: Parameters<Paths.ForumCreateReaction.PathParameters> | null,
+      data?: Paths.ForumCreateReaction.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumCreateReaction.Responses.$200>
+  }
+  ['/forum/reaction/{uuid}']: {
+    /**
+     * forum_deleteReaction - Delete Reaction
+     */
+    'delete'(
+      parameters?: Parameters<Paths.ForumDeleteReaction.PathParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumDeleteReaction.Responses.$200>
+  }
   ['/forum/post']: {
     /**
      * forum_getPosts - Get Posts
@@ -15642,6 +16287,16 @@ export interface PathsDictionary {
       data?: any,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumGetPosts.Responses.$200>
+  }
+  ['/forum/stats']: {
+    /**
+     * forum_getStats - Get Stats
+     */
+    'get'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumGetStats.Responses.$200>
   }
   ['/import/gextension/packet']: {
     /**
