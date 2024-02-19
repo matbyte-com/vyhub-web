@@ -22,7 +22,7 @@
             <v-img v-if="category.image_url"
               :src="category.image_url" class="ma-1 img-rounded"
               max-height="300px" />
-            <v-sheet class="mb-1" height="200px">
+            <v-sheet class="mb-1" height="200px" v-else>
               <div class="d-flex align-center justify-center" style="height: 100%;">
                 <v-icon color="primary" size="150">mdi-gift</v-icon>
               </div>
