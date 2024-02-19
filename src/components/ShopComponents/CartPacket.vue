@@ -4,11 +4,11 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="3" md="3" lg="3" xl="2" align-self="center" class="text-center">
-            <v-img
+            <PacketImage
               @click="showPacket"
               style="cursor: pointer; border-radius: 5px"
-              :src="cartPacket.packet.image_url"
-            ></v-img>
+              :packet="cartPacket.packet"
+            ></PacketImage>
           </v-col>
           <v-col>
             <div class="text-h6" @click="showPacket" style="cursor: pointer;">
@@ -96,10 +96,13 @@ import DialogForm from '@/components/DialogForm.vue';
 import CartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 import UserLink from '@/components/UserLink.vue';
 import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
+import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
   name: 'CartPacket',
-  components: { PacketDetailDialog, UserLink, DialogForm },
+  components: {
+    PacketImage, PacketDetailDialog, UserLink, DialogForm,
+  },
   data() {
     return {
       cartPacketTargetUserForm: CartPacketTargetUserForm,

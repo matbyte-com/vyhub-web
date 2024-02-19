@@ -14,7 +14,7 @@
               :key="userPacket.id" class="d-flex flex-column"
               cols="6" sm="4" md="6" lg="3" xl="6">
               <v-card @click="showUserPacketDetails(userPacket)" class="flex-grow-1" outlined>
-                <v-img height="90" :src="userPacket.packet.image_url"
+                <PacketImage height="90" :packet="userPacket.packet"
                        :style="(userPacket.active ? '' : 'filter: grayscale(100%)')">
                   <v-chip
                     small
@@ -23,7 +23,7 @@
                     class="ma-2" style="float: left; filter: none;">
                     <v-icon small>mdi-power</v-icon>
                   </v-chip>
-                </v-img>
+                </PacketImage>
                 <v-card-subtitle class="pa-2 text-center">
                   {{ userPacket.packet.title }}
                 </v-card-subtitle>
@@ -60,13 +60,16 @@
 
 <script>
 import openapi from '@/api/openapi';
+import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 import DataIterator from '../DataIterator.vue';
 import Dialog from '../Dialog.vue';
 import BoolIcon from '../BoolIcon.vue';
 
 export default {
   name: 'Packets.vue',
-  components: { BoolIcon, DataIterator, Dialog },
+  components: {
+    PacketImage, BoolIcon, DataIterator, Dialog,
+  },
   data() {
     return {
       userPackets: [],

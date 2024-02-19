@@ -19,9 +19,14 @@
           <v-card :to=" { name: 'ShopCategory',
            params: {categoryId: category.name }}" color="" flat outlined
                   class="flex-grow-1 flex-column d-flex">
-            <v-img
+            <v-img v-if="category.image_url"
               :src="category.image_url" class="ma-1 img-rounded"
               max-height="300px" />
+            <v-sheet class="mb-1" height="200px">
+              <div class="d-flex align-center justify-center" style="height: 100%;">
+                <v-icon color="primary" size="150">mdi-gift</v-icon>
+              </div>
+            </v-sheet>
             <div class="d-flex align-center mx-1 mb-1 justify-center">
               <v-spacer v-if="$vuetify.breakpoint.smAndDown"/>
               <h3 class="text-h6 text-break">{{ category.name }}</h3>

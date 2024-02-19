@@ -10,7 +10,7 @@
         <v-card class="card-rounded d-block" height="90px" width="100%" max-width="500px"
                 @click="selectedPacket = p; $refs.detailDialog.show()">
           <div class="d-flex" style="width: 100%">
-            <v-img :src="p.image_url" :alt="p.title" v-if="p.image_url"
+            <PacketImage :packet="p" :alt="p.title"
                    height="90px"
                    width="40%"
                    max-width="150px"
@@ -23,7 +23,7 @@
                   {{ p.title_in_image }}
                 </v-row>
               </div>
-            </v-img>
+            </PacketImage>
             <div class="pa-2 d-flex flex-column grow" style="height: 76px;">
               <h3 class="font-weight-bold text-wrap overflow-hidden"
                   style="font-size: 0.95em; line-height: 1.4em; height: 40px">
@@ -66,10 +66,11 @@ import openapi from '@/api/openapi';
 import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
 import ShopService from '@/services/ShopService';
 import Swiper from '@/components/Swiper.vue';
+import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
   name: 'RecommendedPackets',
-  components: { Swiper, PacketDetailDialog },
+  components: { PacketImage, Swiper, PacketDetailDialog },
   data() {
     return {
       recommendedPackets: null,

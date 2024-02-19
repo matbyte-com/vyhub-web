@@ -8,9 +8,8 @@
         <v-row>
           <!-- Image column -->
           <v-col cols="12" sm="5">
-            <v-card class="pa-1" flat outlined
-                    v-if="packet.image_url || packet.active_for != null || packet.recurring">
-              <v-img :src="packet.image_url" style="border-radius: 3px">
+            <v-card class="pa-1" flat outlined>
+              <PacketImage :packet="packet" style="border-radius: 3px">
                 <div class="d-flex" style="height: 100%">
                   <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2
                            font-weight-bold white--text"
@@ -19,7 +18,7 @@
                     {{ packet.title_in_image }}
                   </v-row>
                 </div>
-              </v-img>
+              </PacketImage>
               <v-alert
                 dense
                 text
@@ -192,10 +191,11 @@ import ShopService from '@/services/ShopService';
 import DialogForm from '@/components/DialogForm.vue';
 import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 import EventBus from '@/services/EventBus';
+import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
   name: 'PacketDetailDialog',
-  components: { DialogForm },
+  components: { PacketImage, DialogForm },
   props: ['packet', 'cartPacket', 'hideBuyBtns'],
   data() {
     return {

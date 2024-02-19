@@ -11,7 +11,7 @@
                     hover max-width="350px" height="95%"
                     :to="{ name: 'ShopCategory', params: { categoryId: packet.category.id} }">
               <div>
-                <v-img :src="packet.image_url" :alt="packet.title"
+                <PacketImage :packet="packet" :alt="packet.title"
                        class="card-rounded-top" max-height="200px">
                   <div class="d-flex flex-column" style="height: 100%;">
                     <v-row justify="center" align="center"
@@ -21,7 +21,7 @@
                       {{ packet.title_in_image }}
                     </v-row>
                   </div>
-                </v-img>
+                </PacketImage>
               </div>
               <div class="text-center text-h5 mt-3 mx-1">{{ packet.title }}</div>
               <div class="text-center mt-1 mx-1">{{ packet.subtitle }}</div>
@@ -43,11 +43,12 @@
 <script>
 import Swiper from '@/components/Swiper.vue';
 import openapi from '@/api/openapi';
+import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
   name: 'RecommendedPackets',
   props: ['callToAction'],
-  components: { Swiper },
+  components: { PacketImage, Swiper },
   data() {
     return {
       packets: null,

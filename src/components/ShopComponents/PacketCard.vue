@@ -3,7 +3,7 @@
           :class="{'card-rounded': $vuetify.breakpoint.smAndDown}" height="100%"
           :color="flat ? 'transparent' : ''" :flat="flat">
     <v-hover v-slot:default="{ hover }">
-      <v-img :src="packet.image_url"
+      <PacketImage :packet="packet"
              @click="$refs.detailDialog.show()"
              class="white--text img-rounded ma-1" max-height="200px" style="cursor: pointer;">
         <div class="d-flex flex-column" style="height: 100%">
@@ -75,7 +75,7 @@
             </div>
           </v-overlay>
         </v-fade-transition>
-      </v-img>
+      </PacketImage>
     </v-hover>
     <v-card-text class="vh-packet-card-text flex-grow-1 d-flex flex-column"
                  style="width: inherit">
@@ -135,10 +135,11 @@ import openapi from '@/api/openapi';
 import ShopService from '@/services/ShopService';
 import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
 import UtilService from '@/services/UtilService';
+import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
   name: 'PacketCard',
-  components: { PacketDetailDialog },
+  components: { PacketImage, PacketDetailDialog },
   data() {
     return {
       hover: false,
