@@ -285,15 +285,18 @@
     <!-- Skeleton loaders -->
     <v-row v-else class="mt-1">
       <v-col cols="12" lg="8" xl="9">
-        <div>
-          <v-skeleton-loader v-for="n in 3" class="mb-3"
-                             v-bind:key="n"
+        <v-card class="card-rounded" v-for="n in 3" :key="n" flat>
+          <v-skeleton-loader class="mb-3"
                              type="card-heading, list-item-avatar, actions"/>
-        </div>
+        </v-card>
       </v-col>
       <v-col>
-        <v-skeleton-loader type="article"/>
-        <v-skeleton-loader type="article, actions" class="mt-3"/>
+        <v-card flat class="card-rounded">
+          <v-skeleton-loader type="article"/>
+        </v-card>
+        <v-card flat class="card-rounded mt-3">
+          <v-skeleton-loader type="article, actions"/>
+        </v-card>
       </v-col>
     </v-row>
 
