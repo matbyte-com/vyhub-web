@@ -181,6 +181,17 @@ export default {
         }
       }
     },
+    '$vuetify.breakpoint.xs': function (val) {
+      if (val && this.$store.getters.isLoggedIn) {
+        this.linksRight.push({
+          title: 'personalSettings',
+          icon: 'mdi-account',
+          link: `${this.$route.path}?personal_settings=true`,
+        });
+      } else {
+        this.linksRight = this.linksRight.filter((l) => l.title !== 'personalSettings');
+      }
+    },
   },
   beforeMount() {
     this.getNavItems();
@@ -190,6 +201,14 @@ export default {
     // Event Emitted in App.vue after Theme was updated
     EventBus.on('themeUpdatedAfter', this.getLogo);
     EventBus.on('themeUpdated', this.getNavItems);
+
+    if (this.$store.getters.isLoggedIn && this.$vuetify.breakpoint.xs) {
+      this.linksRight.push({
+        title: 'personalSettings',
+        icon: 'mdi-account',
+        link: `${this.$route.path}?personal_settings=true`,
+      });
+    }
   },
   created() {
     this.getNavItemsFromCache();
