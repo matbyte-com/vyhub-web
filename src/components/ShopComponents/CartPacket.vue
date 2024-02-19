@@ -47,7 +47,7 @@
                   </div>
                 </v-col>
               </v-row>
-              <v-row dense v-if="cartPacket.price.credits">
+              <v-row dense v-if="cartPacket.price.credits != null ">
                 <v-col>
                   <div class="subtitle-2">
                     {{ cartPacket.price.credits }}

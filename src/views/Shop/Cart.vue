@@ -49,8 +49,7 @@
                     :show-remove="!openPurchase" :open-purchase="openPurchase"
                     @remove="removeCartPacket(cartPacket.id)"
                     @removeDiscount="removeDiscount(cartPacket.discount.id)"
-                    @targetUserChanged="fetchData">
-                </CartPacket>
+                    @targetUserChanged="fetchData" />
                 <!-- Remove All Btn -->
                 <div class="text-right" v-if="cartPackets.length > 0" :key="3">
                   <v-btn small color="error" @click="clearCart" depressed
@@ -285,7 +284,7 @@
 
     <!-- Skeleton loaders -->
     <v-row v-else>
-      <v-col cols="12" lg="9" md="8">
+      <v-col cols="12" lg="8" xl="9">
         <div>
           <v-skeleton-loader v-for="n in 3" class="mb-3"
                              v-bind:key="n"
@@ -699,6 +698,9 @@ export default {
       return UserService;
     },
     currentAddress() {
+      // Open Address Drawer when no address is set
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      if (this.$store.getters.address == null) this.billingAddressDrawer = 0;
       return this.$store.getters.address;
     },
     checkboxes() {

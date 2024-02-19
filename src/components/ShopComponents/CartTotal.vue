@@ -25,15 +25,15 @@
         </div>
       </v-col>
     </v-row>
-    <v-row align="center" v-if="false && price.credits != null">
+    <v-row align="center" v-if="price.credits != null">
       <v-divider></v-divider>
       <span class="mr-3 ml-3">{{ $t('or') }}</span>
       <v-divider></v-divider>
     </v-row>
-    <v-row v-if="false && price.credits != null">
+    <v-row v-if="price.credits != null">
       <v-col>
         <div class="font-weight-bold">
-          {{ $t('_shop.labels.credits') }}
+          {{ $store.getters.shopConfig.credits_display_title }}
           <div class="float-right">
             {{ price.credits }}
           </div>

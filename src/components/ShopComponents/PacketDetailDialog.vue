@@ -104,7 +104,7 @@
               </p>
             </v-list>-->
             <!-- Buy Button -->
-            <div :class="{ 'mt-7': $vuetify.breakpoint.xs }" v-if="!hideBuyBtns">
+            <div :class="{ 'mt-7': $vuetify.breakpoint.xs }" v-if="!hideBuyBtns" class="mt-1">
               <v-btn color="info" large block
                      v-if="!$store.getters.isLoggedIn"
                      @click="$router.push({ path: $route.path,
