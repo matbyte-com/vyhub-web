@@ -30,29 +30,22 @@
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>
-                <h2>
-                  <v-row dense align="center" justify="center">
-                    <v-col cols="1">
-                      <v-icon>{{ userTypeIcons[item.type] }}</v-icon>
-                    </v-col>
-                    <v-col>
-                      {{ item.username }}
-                    </v-col>
-                  </v-row>
+                <h2 class="d-flex align-center">
+                  <v-icon left>{{ userTypeIcons[item.type] }}</v-icon>
+                  {{ item.username }}
                 </h2>
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ item.id }}
+                {{ item.identifier }}
               </v-list-item-subtitle>
-              <v-list-item-subtitle v-for="linked in item.linked_users" :key="linked.id">
-                <v-row dense align="center" justify="center">
-                  <v-col cols="1">
-                    <v-icon>{{ userTypeIcons[linked.type] }}</v-icon>
-                  </v-col>
-                  <v-col>
-                    {{ linked.username }}
-                  </v-col>
-                </v-row>
+              <v-list-item-subtitle class="mt-2 ml-2">
+                <v-chip small v-for="linked in item.linked_users" :key="linked.id"
+                class="mr-2">
+                  <span class="d-flex align-center">
+                  <v-icon left>{{ userTypeIcons[linked.type] }}</v-icon>
+                  {{ linked.username }}
+                </span>
+                </v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -95,14 +88,13 @@ export default {
         this.isSteam32 = true;
         const steam32 = query.replace(/\s/g, '');
         query = this.utils.getSteamid64(steam32);
-        console.log(`Converted STEAM ID: ${query}`);
       }
 
       this.isLoading = true;
 
       // Lazily load input items
-      api.user_getUsers({ query, limit: 10 }).then((rsp) => {
-        this.items = rsp.data;
+      api.user_getUsers({ query, size: 10, sort_by: 'username' }).then((rsp) => {
+        this.items = rsp.data.items;
       }).catch((reason) => {
         console.log(reason);
       }).finally(() => {

@@ -1,6 +1,6 @@
 <template>
   <DataTable
-    :externalSearch="showSearch"
+    :external-search="showSearch"
     :server-items-length="totalItems"
     :items-per-page.sync="itemsPerPage"
     :page.sync="page"

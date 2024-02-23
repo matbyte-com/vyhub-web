@@ -16,7 +16,7 @@
           <v-col lg="2" md="4" sm="12">
             <v-text-field
               v-model="search"
-              label="Search"
+              :label="$t('search')"
             ></v-text-field>
           </v-col>
         </v-row>
