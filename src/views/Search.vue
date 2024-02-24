@@ -147,6 +147,11 @@ export default {
 
       let query = this.search;
 
+      if (!query) {
+        this.items = [];
+        return;
+      }
+
       this.$router.push({ query: { query } });
 
       if (query && query.match(/^\s*STEAM_[0-5]:[01]:\d+\s*$/)) {
