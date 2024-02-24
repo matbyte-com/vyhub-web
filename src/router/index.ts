@@ -183,6 +183,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/FAQ.vue'),
   },
   {
+    path: '/search',
+    name: 'Search',
+    meta: { title: i18n.t('_pageTitle.search') },
+    component: () => import('../views/Search.vue'),
+  },
+  {
     path: '*',
     name: '404 Path not found',
     redirect() {

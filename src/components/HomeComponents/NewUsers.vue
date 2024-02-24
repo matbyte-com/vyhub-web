@@ -52,8 +52,8 @@ export default {
     async fetchData() {
       const api = await openapi;
 
-      api.user_getUsers({ limit: 4, sort: 'registered_on', desc: true }).then((rsp) => {
-        this.newUsers = rsp.data;
+      api.user_getUsers({ size: 4, sort_by: 'registered_on', desc: true }).then((rsp) => {
+        this.newUsers = rsp.data.items;
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);

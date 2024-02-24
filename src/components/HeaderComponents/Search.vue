@@ -17,13 +17,14 @@
       item-text="username"
       item-value="id"
       append-icon=""
+      auto-select-first
       return-object
       v-on:change="showUser"
       :filter="searchFilter"
       @keydown.esc="search = null">
       <template slot="item"
                 slot-scope="{ item }">
-        <v-list tile>
+        <v-list tile v-if="item.id !== 'advanced'">
           <v-list-item>
             <v-list-item-avatar>
               <img :src="item.avatar" alt="avatar">
@@ -50,6 +51,9 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
+        <div v-else>
+          {{ $t('advanced') }}...
+        </div>
       </template>
     </v-autocomplete>
 </template>
@@ -57,6 +61,7 @@
 <script>
 import userService from '@/services/UserService';
 import openapi from '@/api/openapi';
+import pDebounce from 'p-debounce';
 
 export default {
   name: 'Search',
@@ -66,13 +71,19 @@ export default {
       items: [],
       isLoading: false,
       search: null,
+      debouncedSearch: pDebounce(this.doSearch, 300),
       userTypeIcons: userService.userTypeIcons,
       isSteam32: false,
     };
   },
   watch: {
-    async search(query_input) {
-      let query = query_input;
+    search() {
+      this.debouncedSearch();
+    },
+  },
+  methods: {
+    async doSearch() {
+      let query = this.search;
       const api = await openapi;
 
       // Items have already been requested
@@ -84,7 +95,7 @@ export default {
         this.items = [];
         return;
       }
-      if (query.match(/^\s*STEAM_[0-5]:[01]:\d+\s*$/)) {
+      if (query && query.match(/^\s*STEAM_[0-5]:[01]:\d+\s*$/)) {
         this.isSteam32 = true;
         const steam32 = query.replace(/\s/g, '');
         query = this.utils.getSteamid64(steam32);
@@ -93,8 +104,9 @@ export default {
       this.isLoading = true;
 
       // Lazily load input items
-      api.user_getUsers({ query, size: 10, sort_by: 'username' }).then((rsp) => {
+      api.user_getUsers({ query, size: 7, sort_by: 'username' }).then((rsp) => {
         this.items = rsp.data.items;
+        this.items.push({ id: 'advanced', username: '...' });
       }).catch((reason) => {
         console.log(reason);
       }).finally(() => {
@@ -102,13 +114,19 @@ export default {
         this.isSteam32 = false;
       });
     },
-  },
-  methods: {
     showUser(user) {
       if (user != null) {
         this.searchClosed = true;
         this.items = [];
-        this.$router.push({ name: 'UserDashboard', params: { id: user.id } });
+
+        if (user.id === 'advanced') {
+          this.$router.push({ name: 'Search', query: { query: this.search } });
+        } else {
+          this.$router.push({ name: 'UserDashboard', params: { id: user.id } });
+        }
+
+        this.search = null;
+        this.$refs.input.reset();
       }
     },
     searchFilter() {
@@ -132,4 +150,8 @@ export default {
       max-width: 45px
       .v-input__slot
         background: transparent !important
+
+  .v-input.expanding-search.v-input--is-focused .v-icon
+    color: white !important
+    caret-color: white !important
 </style>
