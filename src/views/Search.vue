@@ -1,11 +1,11 @@
 <template>
   <div>
-    <PageTitleFlat :title="$t('_pageTitle.search')"
-                   :hide-triangle="$vuetify.breakpoint.smAndDown"
-                   :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
-    <v-row class="mt-2">
+    <v-row>
       <v-col cols="12" md="8">
-        <v-card>
+        <PageTitleFlat :title="$t('_pageTitle.search')"
+                       :hide-triangle="$vuetify.breakpoint.smAndDown"
+                       :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+        <v-card class="mt-3 card-rounded" flat>
           <v-card-title>
             <v-icon left>mdi-magnify</v-icon>
             {{ $t('_search.labels.searchUsers') }}
@@ -64,7 +64,7 @@
         </v-card>
       </v-col>
       <v-col cols="12" md="4">
-        <v-card>
+        <v-card class="card-rounded" flat>
           <v-card-title>
             <v-icon left>mdi-account-clock</v-icon>
             {{ $t('_search.labels.recentlyActiveUsers') }}
