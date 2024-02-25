@@ -1,6 +1,6 @@
 {
   "name": "vyhub",
-  9"version": "2.0.1",
+  "version": "2.0.19",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
