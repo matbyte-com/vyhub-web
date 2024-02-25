@@ -31,6 +31,14 @@ export default {
         type: 'string',
       },
     },
+    admin_group_ids: {
+      ...Common.groupSelectField,
+      title: i18n.t('_forum.topicAdminGroup'),
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
     icon: Common.iconPicker,
     edit_post: {
       type: 'boolean',

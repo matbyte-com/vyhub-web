@@ -104,7 +104,7 @@
                                 <div class="d-flex align-center">
                                   <UserLink :simple="true"
                                             :user="topic.last_post.creator"
-                                            class="mr-1"></UserLink>
+                                            class="mr-1 text-ellipsis" />
                                   •
                                   {{ utils.formatTimeForForum(topic.last_post.created) }}
                                 </div>
@@ -351,6 +351,7 @@ export default {
       const data = item;
       this.$refs.editTopicDialog.show(data);
       data.admin_ids = data.admins.map((admin) => admin.id);
+      data.admin_group_ids = data.admin_groups.map((admin) => admin.id);
       data.topic_category_id = categoryId;
       this.$refs.editTopicDialog.setData(data);
     },

@@ -17,5 +17,10 @@ export default {
       title: i18n.t('message'),
       'x-display': 'textarea',
     },
+    visible_to_user: {
+      type: 'boolean',
+      title: i18n.t('_dashboard.comments.visibleToUser'),
+      default: false,
+    },
   },
 };

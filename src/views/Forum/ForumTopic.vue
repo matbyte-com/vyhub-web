@@ -37,8 +37,12 @@
             <template v-slot:header>
               <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
                           @change="fetchTopic" class="text-capitalize"/>
-              <div v-if="topic.admins.length >= 1">
+              <div v-if="topic.admins.length >= 1 || topic.admin_groups.length >= 1">
                 {{ $t('_forum.topicAdmins') }}
+                <v-chip outlined small v-for="admin in topic.admin_groups" :key="admin.id"
+                        :color="admin.color" text-color="white" class="mr-1">
+                  {{ admin.name }}
+                </v-chip>
                 <UserLink v-for="admin in topic.admins" small
                           :key="admin.id" :user="admin" class="mr-1"/>
               </div>
@@ -118,7 +122,7 @@
                 <v-spacer />
                 <div v-if="item.last_post">
                   <div :class="{ 'font-weight-bold' : !item.is_read }">
-                    {{ topic.posts_total }} {{ $t('_forum.posts') }}
+                    {{ item.posts_total }} {{ $t('_forum.posts') }}
                   </div>
                   <span v-if="topic.last_post" :class="{ 'font-weight-bold' : !item.is_read }">
                 {{ utils.formatTimeForForum(item.last_post.created) }}
@@ -202,6 +206,7 @@ export default {
       const topicId = this.$route.params.id;
       (await openapi).forum_getTopic(topicId).then((rsp) => {
         if (rsp.data) {
+          rsp.data.admin_groups.sort((a, b) => a.permission_level + b.permission_level);
           this.topic = rsp.data;
           this.breadcrumbs = [
             { text: this.$t('title'), to: { name: 'Forum' } },

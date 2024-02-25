@@ -3,7 +3,7 @@
     <v-card class="vh-dashboard-comment card-rounded" flat>
       <v-card-text>
         <CommentsTable type="user" :obj-id="user.id" :show-search="false"
-                       class="mt-5"
+                       class="mt-5" :noAddBtn="readOnly"
                        ref="userCommentsTable" />
       </v-card-text>
     </v-card>
@@ -15,7 +15,13 @@ import CommentsTable from '@/components/Comments/CommentsTable.vue';
 
 export default {
   components: { CommentsTable },
-  props: { user: Object },
+  props: {
+    user: Object,
+    readOnly: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
     };
