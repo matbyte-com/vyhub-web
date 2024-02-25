@@ -29,6 +29,11 @@
                 <Groups :user="user"/>
               </v-col>
             </v-row>
+            <v-row v-if="forumEnabled">
+              <v-col>
+                <UserForumStats :user="user" />
+              </v-col>
+            </v-row>
           </v-col>
           <v-col cols="12" xl="6">
             <v-row v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
@@ -37,11 +42,13 @@
                 <BansAndWarnings :user="user"/>
               </v-col>
             </v-row>
-            <v-row v-if="$checkProp('user_log_show') || $checkProp('user_comment_show')">
+            <v-row v-if="$checkProp('user_log_show') || $checkProp('user_comment_show')
+            || user.id === $store.getters.user.id">
               <v-col>
                 <v-card flat class="card-rounded">
                   <v-tabs grow>
-                    <v-tab v-if="$checkProp('user_comment_show')">
+                    <v-tab
+                      v-if="$checkProp('user_comment_show') || isCurrentUser">
                       <v-icon left>
                         mdi-comment
                       </v-icon>
@@ -53,8 +60,10 @@
                       </v-icon>
                       {{ $t('logs') }}
                     </v-tab>
-                    <v-tab-item v-if="$checkProp('user_comment_show')">
-                      <UserComments :user="user"/>
+                    <v-tab-item
+                      v-if="$checkProp('user_comment_show') || isCurrentUser">
+                      <UserComments :readOnly="isCurrentUser && !$checkProp('user_comment_show')"
+                      :user="user"/>
                     </v-tab-item>
                     <v-tab-item v-if="$checkProp('user_log_show')">
                       <UserLogEntries :user="user"/>
@@ -76,14 +85,15 @@ import LinkedAccounts from '@/components/DashboardComponents/LinkedAccounts.vue'
 import Packets from '@/components/DashboardComponents/Packets.vue';
 import ProfilePicture from '@/components/DashboardComponents/ProfilePicture.vue';
 import AttributeGraph from '@/components/DashboardComponents/AttributeGraph.vue';
-import CommentsTable from '@/components/Comments/CommentsTable.vue';
 import UserComments from '@/components/DashboardComponents/UserComments.vue';
+import UserForumStats from '@/components/DashboardComponents/UserForumStats.vue';
 import BansAndWarnings from '../BansAndWarnings.vue';
 import UserLogEntries from '../UserLogEntries.vue';
 
 export default {
   name: 'General.vue',
   components: {
+    UserForumStats,
     UserComments,
     UserLogEntries,
     BansAndWarnings,
@@ -93,8 +103,17 @@ export default {
     Packets,
     Groups,
   },
+  data() {
+    return {
+      isCurrentUser: false,
+      forumEnabled: localStorage.getItem('vuex') ? JSON.parse(JSON.parse(localStorage.getItem('vuex')).generalConfig.enable_forum) : false,
+    };
+  },
   props: {
     user: Object,
+  },
+  beforeMount() {
+    this.isCurrentUser = this.user.id === this.$store.getters.user.id;
   },
 };
 </script>

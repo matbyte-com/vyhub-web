@@ -4,6 +4,21 @@
       <PageTitleFlat :title="thread.title" :icon="threadIcon"
                      :hide-triangle="$vuetify.breakpoint.smAndDown"
                      :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
+        <template v-slot:end>
+          <div class="d-flex justify-end">
+            <v-chip v-for="(label, index) in thread.labels" :key="label.id" class="white--text"
+                    :color="label.color" :small="true"
+                    :style="{
+                   'border-top-right-radius': index === (thread.labels.length - 1) ? '20px' : '0',
+                    'border-bottom-right-radius':
+                    index === (thread.labels.length - 1) ? '20px' : '0',
+                    'border-top-left-radius': index === 0 ? '20px' : '0',
+                    'border-bottom-left-radius': index === 0 ? '20px' : '0'
+                   }">
+              {{ label.name }}
+            </v-chip>
+          </div>
+        </template>
         <template v-slot:subtitle>
           <div class="d-flex align-center">
             <div class="white--text thread-breadcrumbs">
@@ -76,8 +91,8 @@
               <v-card-text class="d-flex align-center">
                 <div v-if="post.creator && thread.creator
                     && post.creator.id === thread.creator.id">
-                  <v-chip color="#1c1c1c" small label>
-                    <span class="white--text">OP</span>
+                  <v-chip color="#1c1c1c" small label class="vh-forum-post-op">
+                    OP
                   </v-chip>
                 </div>
                 <!-- Post created -->
@@ -94,13 +109,6 @@
                       <span>{{ $t('_forum.admin') }}</span>
                     </v-chip>
                   </span>
-                  <!-- Labels only on first post -->
-                  <div v-if="index === 0" class="text-right">
-                    <v-chip v-for="label in thread.labels" :key="label.id" label
-                            class="mr-1 mb-1 white--text" :color="label.color" small>
-                      {{ label.name }}
-                    </v-chip>
-                  </div>
                 </div>
               </v-card-text>
               <!-- ADMIN HINT END -->
@@ -159,7 +167,7 @@
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn small outlined
-                           v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)"
+                           v-if="postEditable(post)"
                            @click.stop="$refs.deletePostConfirmationDialog.show(post)"
                            color="error"
                            class="">
@@ -177,15 +185,33 @@
                     :length="totalPages"
                     :total-visible="5"
                     @input="fetchData"/>
-      <div class="mt-3" v-if="thread.status !== 'CLOSED' && posts.length > 3
-      && $vuetify.breakpoint.mdAndUp">
+      <div class="mt-3" v-if="(thread.status !== 'CLOSED' || $checkTopicAdmin(topic.admins))
+      && posts.length >= 1 && $vuetify.breakpoint.mdAndUp && $store.getters.isLoggedIn">
         <v-card flat outlined class="card-rounded">
           <v-card-text>
+            <v-card v-if="threadIsOld" color="warning darken-1" flat class="small-card mb-2">
+              <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
+                <v-icon class="mr-2">mdi-information-box</v-icon>
+                {{ $t('_forum.messages.oldThread') }}
+              </v-card-text>
+            </v-card>
+            <v-card v-if="thread.status === 'CLOSED'" color="warning darken-1"
+                    flat class="small-card mb-2">
+              <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
+                <v-icon class="mr-2">mdi-information-box</v-icon>
+                {{ $t('_forum.messages.closedThread') }}
+              </v-card-text>
+            </v-card>
             <editor v-model="message.content"/>
-            <v-btn class="mt-3" depressed color="success" @click="newPost(message.content)">
-              <v-icon left>mdi-plus</v-icon>
-              {{ $t('_forum.addPost') }}
-            </v-btn>
+            <div class="d-flex">
+              <v-btn class="mt-3" depressed color="success" @click="newPost(message.content)">
+                <v-icon left>mdi-plus</v-icon>
+                {{ $t('_forum.addPost') }}
+              </v-btn>
+              <v-checkbox class="ml-4" v-if="$checkTopicAdmin(topic.admins)"
+                          v-model="closeWithPost"
+                          :label="$t('_forum.lockWithAnswer')"/>
+            </div>
           </v-card-text>
         </v-card>
       </div>
@@ -264,6 +290,8 @@ export default {
       icons: ['😀', '😂', '🤨', '😐', '😕', '🙄', '👍', '👎', '❤️', '🏆'],
       menuOpen: false,
       cooldown: false,
+      closeWithPost: false,
+      threadIsOld: false,
     };
   },
   beforeMount() {
@@ -288,8 +316,6 @@ export default {
         .then((rsp) => {
           this.totalPages = Math.ceil(rsp.data.total / rsp.data.size);
           if (!this.lastPage) {
-            // Calculate the total reactions and decide whether user reacted or not
-            // Object: post.accumulated_reactions = { "💯": { "count": 3, "has_reacted": false }
             const posts = rsp.data.items;
             posts.forEach((p) => {
               // eslint-disable-next-line no-param-reassign
@@ -317,6 +343,13 @@ export default {
               });
             });
             this.posts = posts;
+            const lastPostDate = new Date(this.posts[this.posts.length - 1].created);
+            const today = new Date();
+            const diffTime = Math.abs(today - lastPostDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays > 90) {
+              this.threadIsOld = true;
+            }
           } else {
             this.page = this.totalPages;
             this.lastPage = false;
@@ -335,6 +368,7 @@ export default {
       (await openapi).forum_getTopic(topicId).then((rsp) => {
         this.topic = rsp.data;
         this.admins = this.topic.admins;
+        // this.admins += this.topic.admin_groups;
       });
     },
     postEditable(post) {
@@ -347,22 +381,33 @@ export default {
       this.$refs.editPostDialog.content = post.content;
     },
     async newPost(content) {
-      const data = this.$refs.addPostDialog.getData();
+      const data = this.$refs.addPostDialog.getData() || {};
       if (content) { data.content = content; }
       if (data.content === '') {
         this.$refs.addPostDialog.setError(this.$t('_forum.messages.emptyPost'));
         return;
       }
-      (await openapi).forum_createPost(this.threadId, data).then(() => {
-        this.$refs.addPostDialog.close();
-        this.fetchData();
-        this.$notify({
-          title: this.$t('_messages.addSuccess'),
-          type: 'success',
+      let wait = false;
+      if (this.thread.status === 'CLOSED' && this.$checkTopicAdmin(this.topic.admins)) {
+        this.toggleStatus(true);
+        wait = true;
+      }
+      // We wait 50ms to ensure the dialog is reopened if an Admin answered on a closed thread
+      setTimeout(async () => {
+        (await openapi).forum_createPost(this.threadId, data).then(() => {
+          this.$refs.addPostDialog.close();
+          this.fetchData();
+          this.$notify({
+            title: this.$t('_messages.addSuccess'),
+            type: 'success',
+          });
+          if (this.closeWithPost) {
+            this.toggleStatus(true);
+          }
+        }).catch((err) => {
+          this.$refs.addPostDialog.setError(err);
         });
-      }).catch((err) => {
-        this.$refs.addPostDialog.setError(err);
-      });
+      }, wait ? 50 : 0);
     },
     async deletePost(item) {
       (await openapi).forum_deletePost(item.id).then(() => {
@@ -423,13 +468,15 @@ export default {
         this.$refs.deleteThreadConfirmationDialog.setError(err);
       });
     },
-    async toggleStatus() {
+    async toggleStatus(silent = false) {
       (await openapi).forum_toggleStatus(this.threadId).then((rsp) => {
         this.thread = rsp.data;
-        this.$notify({
-          title: this.$t('_messages.toggleSuccess'),
-          type: 'success',
-        });
+        if (!silent) {
+          this.$notify({
+            title: this.$t('_messages.toggleSuccess'),
+            type: 'success',
+          });
+        }
       });
     },
     getReactionAccumulated(post, icon) {
@@ -439,8 +486,6 @@ export default {
     },
     async toggleReaction(post, icon) {
       // eslint-disable-next-line max-len
-      // post und icon übergeben, dann in post.reactions mit dem icon und der eigenen USer ID das richtige Reaction Object finden -> Id nehmen und löschen
-      // wenn none, dann create otherwise delete
       if (this.cooldown) return;
       this.cooldown = true;
       if (post.accumulated_reactions[icon].has_reacted) {
@@ -472,7 +517,7 @@ export default {
       }
       setTimeout(() => {
         this.cooldown = false;
-      }, 250);
+      }, 200);
     },
   },
   computed: {
@@ -503,5 +548,9 @@ export default {
 
 .reaction-btn {
   transition: all 0.2s ease-in-out;
+}
+
+.small-card {
+  height: 40px;
 }
 </style>

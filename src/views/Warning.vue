@@ -96,13 +96,13 @@
               </v-btn>
               <div v-if="$checkProp('warning_edit') && item.status !== 'EXPIRED'">
                 <v-btn class="ml-1" depressed small v-if="item.disabled !== true"
-                       @click="toggleDisable(item)">
+                       @click.stop="toggleDisable(item)">
                   <v-icon left>
                     mdi-pause
                   </v-icon>
                   {{ $t('disable') }}
                 </v-btn>
-                <v-btn class="ml-1" depressed small v-else @click="toggleDisable(item)">
+                <v-btn class="ml-1" depressed small v-else @click.stop="toggleDisable(item)">
                   <v-icon left>
                     mdi-play
                   </v-icon>
@@ -155,10 +155,10 @@
                   </v-chip>
                 </td>
                 <td v-else>
-                  <v-chip v-if="currentWarning.disabled" color="grey" text-color="white">
+                  <v-chip v-if="currentWarning.disabled" color="orange" text-color="white">
                     {{ $t('disabled') }}
                   </v-chip>
-                  <v-chip v-else color="orange" text-color="white">
+                  <v-chip v-else color="red" text-color="white">
                     {{ $t('expired') }}
                   </v-chip>
                 </td>
@@ -255,11 +255,11 @@ export default {
       const add = (this.$vuetify.theme.dark ? 'darken-4' : '');
 
       if (item.disabled) {
-        return `gray ${add}`;
+        return `orange ${add}`;
       }
 
       if (!item.active) {
-        return `orange ${add}`;
+        return `red ${add}`;
       }
 
       return `green ${add}`;
