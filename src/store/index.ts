@@ -20,6 +20,7 @@ const getDefaultState = () => ({
   activeCustomerJourneyStep: null,
   hideWelcomeOverlay: null,
   homePageComponents: null,
+  userMemberships: null,
 });
 
 export default new Vuex.Store({
@@ -43,6 +44,7 @@ export default new Vuex.Store({
     activeCustomerJourneyStep: (state) => state.activeCustomerJourneyStep,
     hideWelcomeOverlay: (state) => state.hideWelcomeOverlay,
     homePageComponents: (state) => state.homePageComponents,
+    userMemberships: (state) => state.userMemberships,
   },
   mutations: {
     RESET: (state) => {
@@ -89,6 +91,9 @@ export default new Vuex.Store({
     SET_HOMEPAGE_COMPONENTS: (state, homepageComponents) => {
       state.homePageComponents = homepageComponents;
     },
+    SET_USER_MEMBERSHIPS: (state, userMemberships) => {
+      state.userMemberships = userMemberships;
+    },
     LOGOUT: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -100,6 +105,7 @@ export default new Vuex.Store({
       state.cartPacketCount = 0;
       state.creditAccount = null;
       state.navItems = null;
+      state.userMemberships = null;
     },
   },
   actions: {
@@ -132,6 +138,9 @@ export default new Vuex.Store({
     },
     setHomePageComponents: ({ commit }, { homePageComponents }) => {
       commit('SET_HOMEPAGE_COMPONENTS', homePageComponents);
+    },
+    setUserMemberships: ({ commit }, { userMemberships }) => {
+      commit('SET_USER_MEMBERSHIPS', userMemberships);
     },
   },
   modules: {

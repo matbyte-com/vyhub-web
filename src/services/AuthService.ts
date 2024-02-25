@@ -6,6 +6,7 @@ import openapiCached from '@/api/openapiCached';
 import { authGetTokenResponse } from '@/api/api.d';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
+import UserService from '@/services/UserService';
 
 export default {
   async login(_refreshToken: string) {
@@ -105,6 +106,7 @@ export default {
   async refreshUser(tryRefresh = false) {
     try {
       const user: object = await this.fetchUserData();
+      await UserService.setUserMemberships();
 
       await store.dispatch('setUserData', { user });
 

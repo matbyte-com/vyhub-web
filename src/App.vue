@@ -98,6 +98,7 @@ import CustomerJourney from '@/components/CustomerJourney.vue';
 import VueGtag from 'vue-gtag';
 import { register } from 'swiper/element';
 import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
+import UserService from '@/services/UserService';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
@@ -147,6 +148,7 @@ export default Vue.extend({
     async fetchData() {
       await this.setTheme();
       await this.getGeneralConfig();
+      await UserService.setUserMemberships();
     },
     async getGeneralConfig() {
       await this.utils.getGeneralConfig().then(() => {
