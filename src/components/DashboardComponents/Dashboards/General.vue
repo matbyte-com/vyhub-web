@@ -13,7 +13,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" md="7" lg="8" xl="9" order-sm="2" order-md="2"  order="2">
+      <v-col cols="12" md="7" lg="8" xl="9" order-sm="2" order-md="2" order="2">
         <v-row>
           <v-col cols="12" xl="8" class="d-flex">
             <AttributeGraph :user="user" class="flex-md-grow-1"/>
@@ -31,7 +31,7 @@
             </v-row>
             <v-row v-if="forumEnabled">
               <v-col>
-                <UserForumStats :user="user" />
+                <UserForumStats :user="user"/>
               </v-col>
             </v-row>
           </v-col>
@@ -63,7 +63,7 @@
                     <v-tab-item
                       v-if="$checkProp('user_comment_show') || isCurrentUser">
                       <UserComments :readOnly="isCurrentUser && !$checkProp('user_comment_show')"
-                      :user="user"/>
+                                    :user="user"/>
                     </v-tab-item>
                     <v-tab-item v-if="$checkProp('user_log_show')">
                       <UserLogEntries :user="user"/>
@@ -106,11 +106,17 @@ export default {
   data() {
     return {
       isCurrentUser: false,
-      forumEnabled: localStorage.getItem('vuex') ? JSON.parse(JSON.parse(localStorage.getItem('vuex')).generalConfig.enable_forum) : false,
     };
   },
   props: {
     user: Object,
+  },
+  computed: {
+    forumEnabled() {
+      if (this.$store.getters.generalConfig
+        && this.$store.getters.generalConfig.forum_enabled) return true;
+      return false;
+    },
   },
   beforeMount() {
     this.isCurrentUser = this.user.id === this.$store.getters.user.id;

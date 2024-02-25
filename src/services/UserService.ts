@@ -1,3 +1,6 @@
+import openapi from '@/api/openapi';
+import store from '@/store';
+
 export default {
   userTypeIcons: {
     CENTRAL: '$vyhub',
@@ -21,5 +24,11 @@ export default {
       default:
         return null;
     }
+  },
+  async setUserMemberships() {
+    if (!store.getters.user) return;
+    const user_id = store.getters.user.id;
+    const rsp = await (await openapi).user_getMemberships(user_id);
+    store.commit('SET_USER_MEMBERSHIPS', rsp.data);
   },
 };
