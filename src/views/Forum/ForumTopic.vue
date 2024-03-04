@@ -131,7 +131,15 @@
               </div>
             </template>
             <template v-slot:footer-right>
-              <v-btn color="success" outlined
+              <v-tooltip bottom v-if="$checkIsForumBanned()">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon v-bind="attrs" v-on="on" color="error" class="mr-2">
+                    mdi-gavel
+                  </v-icon>
+                </template>
+                {{ $t('_forum.messages.banned') }}
+              </v-tooltip>
+              <v-btn color="success" outlined :disabled="$checkIsForumBanned()"
                      @click="$refs.addThreadDialog.show()"
                      v-if="!topic.prohibit_create_threads && $store.getters.isLoggedIn
                      || ($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))">
