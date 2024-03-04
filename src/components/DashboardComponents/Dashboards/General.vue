@@ -114,7 +114,7 @@ export default {
   computed: {
     forumEnabled() {
       if (this.$store.getters.generalConfig
-        && this.$store.getters.generalConfig.forum_enabled) return true;
+        && this.$store.getters.generalConfig.enable_forum) return true;
       return false;
     },
   },

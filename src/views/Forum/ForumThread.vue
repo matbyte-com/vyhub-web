@@ -32,7 +32,7 @@
               </span>
             </div>
             <v-spacer />
-            <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(topic.admins)">
+            <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins)">
               <v-btn color="success" outlined small class="ml-5 mr-1"
                      @click="openThreadTitleEditDialog(thread)">
                 <v-icon left>mdi-pencil</v-icon>
@@ -44,7 +44,8 @@
                 <v-icon small>mdi-delete</v-icon>
               </v-btn>
             </div>
-            <v-btn depressed v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
+            <v-btn :disabled="$checkIsForumBanned()" depressed
+                   v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
                    color="success" @click="$refs.addPostDialog.show()" class="ml-1" small>
               <v-icon left>mdi-plus</v-icon>
               {{ $t('_forum.addPost') }}
@@ -69,6 +70,14 @@
                 {{ post.creator.username }}
               </div>
             </router-link>
+            <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
+              <v-chip small v-for="membership in post.creator.memberships"
+                      :key="membership.id" :color="membership.group.color"
+                      text-color="white" outlined class="mt-2 d-block">
+                <p class="text-ellipsis">{{ membership.group.name }}</p>
+              </v-chip>
+            </div>
+
           </div>
           <!-- Small Screens -->
           <div v-else class="pt-3 px-3">
@@ -82,6 +91,13 @@
                 {{ post.creator.username }}
               </div>
             </router-link>
+            <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
+              <v-chip small v-for="membership in post.creator.memberships"
+                      :key="membership.id" :color="membership.group.color"
+                      text-color="white" outlined class="mt-2 d-block text-center">
+                <p class="text-ellipsis">{{ membership.group.name }}</p>
+              </v-chip>
+            </div>
           </div>
           <v-divider vertical v-if="$vuetify.breakpoint.smAndUp"/>
           <div style="width: 100%">
@@ -102,13 +118,11 @@
                 <!-- ORIGINAL POSTER HINT END -->
                 <!-- ADMIN HINT -->
                 <div class="ml-auto">
-                  <span v-for="admin in topic.admins" :key="admin.id">
-                    <v-chip round v-if="post.creator.id === admin.id"
-                            outlined color="red" small>
-                      <v-icon small left>mdi-shield-sword-outline</v-icon>
-                      <span>{{ $t('_forum.admin') }}</span>
-                    </v-chip>
-                  </span>
+                  <v-chip round outlined color="red" small
+                          v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins, post.creator)">
+                    <v-icon small left>mdi-shield-sword-outline</v-icon>
+                    <span>{{ $t('_forum.admin') }}</span>
+                  </v-chip>
                 </div>
               </v-card-text>
               <!-- ADMIN HINT END -->
@@ -185,32 +199,42 @@
                     :length="totalPages"
                     :total-visible="5"
                     @input="fetchData"/>
-      <div class="mt-3" v-if="(thread.status !== 'CLOSED' || $checkTopicAdmin(topic.admins))
-      && posts.length >= 1 && $vuetify.breakpoint.mdAndUp && $store.getters.isLoggedIn">
+      <div class="mt-3" v-if="(thread.status !== 'CLOSED'
+      || ($checkProp('forum_edit') || $checkTopicAdmin(admins))) && posts.length >= 1
+      && $vuetify.breakpoint.mdAndUp && $store.getters.isLoggedIn">
         <v-card flat outlined class="card-rounded">
           <v-card-text>
-            <v-card v-if="threadIsOld" color="warning darken-1" flat class="small-card mb-2">
+            <v-card v-if="$checkIsForumBanned()" color="error darken-1"
+                    flat class="small-card mb-2">
+              <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
+                <v-icon class="mr-2">mdi-information-box</v-icon>
+                {{ $t('_forum.messages.banned') }}
+              </v-card-text>
+            </v-card>
+            <v-card v-if="!$checkIsForumBanned() && threadIsOld" color="warning darken-1"
+                    flat class="small-card mb-2">
               <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
                 <v-icon class="mr-2">mdi-information-box</v-icon>
                 {{ $t('_forum.messages.oldThread') }}
               </v-card-text>
             </v-card>
-            <v-card v-if="thread.status === 'CLOSED'" color="warning darken-1"
-                    flat class="small-card mb-2">
+            <v-card v-if="!$checkIsForumBanned() && thread.status === 'CLOSED'"
+                    color="warning darken-1" flat class="small-card mb-2">
               <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
                 <v-icon class="mr-2">mdi-information-box</v-icon>
                 {{ $t('_forum.messages.closedThread') }}
               </v-card-text>
             </v-card>
-            <editor v-model="message.content"/>
+            <editor v-if="!$checkIsForumBanned()" v-model="message.content"/>
             <div class="d-flex">
-              <v-btn class="mt-3" depressed color="success" @click="newPost(message.content)">
+              <v-btn class="mt-3" depressed color="success" v-if="!$checkIsForumBanned()"
+                     @click="newPost(message.content)">
                 <v-icon left>mdi-plus</v-icon>
                 {{ $t('_forum.addPost') }}
               </v-btn>
-              <v-checkbox class="ml-4" v-if="$checkTopicAdmin(topic.admins)"
-                          v-model="closeWithPost"
-                          :label="$t('_forum.lockWithAnswer')"/>
+              <v-checkbox class="ml-4" v-if="!$checkIsForumBanned()
+              && ($checkProp('forum_edit') || $checkTopicAdmin(admins))"
+                          v-model="closeWithPost" :label="$t('_forum.lockWithAnswer')"/>
             </div>
           </v-card-text>
         </v-card>
@@ -341,6 +365,9 @@ export default {
                   p.accumulated_reactions[i] = { count: 0, has_reacted: false };
                 }
               });
+
+              // eslint-disable-next-line no-param-reassign
+              p.creator.memberships = this.sortedMemberships(p.creator.memberships);
             });
             this.posts = posts;
             const lastPostDate = new Date(this.posts[this.posts.length - 1].created);
@@ -367,13 +394,12 @@ export default {
       const topicId = this.thread.topic.id;
       (await openapi).forum_getTopic(topicId).then((rsp) => {
         this.topic = rsp.data;
-        this.admins = this.topic.admins;
-        // this.admins += this.topic.admin_groups;
+        this.admins = [...this.topic.admins, ...this.topic.admin_groups];
       });
     },
     postEditable(post) {
       if (!this.topic || !this.$store.getters.user || !this.posts) return false;
-      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.topic.admins)
+      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins)
         || (this.$store.getters.user.id === post.creator.id && this.topic.edit_post));
     },
     openEditPostDialog(post) {
@@ -388,7 +414,7 @@ export default {
         return;
       }
       let wait = false;
-      if (this.thread.status === 'CLOSED' && this.$checkTopicAdmin(this.topic.admins)) {
+      if (this.thread.status === 'CLOSED' && (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins))) {
         this.toggleStatus(true);
         wait = true;
       }
@@ -518,6 +544,10 @@ export default {
       setTimeout(() => {
         this.cooldown = false;
       }, 200);
+    },
+    sortedMemberships(memberships) {
+      if (!memberships || memberships.length === 0) return [];
+      return [memberships.sort((a, b) => b.group.permission_level - a.group.permission_level)[0]];
     },
   },
   computed: {
