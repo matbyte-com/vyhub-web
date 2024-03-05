@@ -16,7 +16,7 @@
           <span v-if="$store.getters.generalConfig != null">
           — {{ $store.getters.generalConfig.community_name }}
         </span>
-          <span v-if="config.branding == null || config.branding">
+          <span v-if="!removeBranding">
           —
           <a class="text-decoration-none white--text" href="https://vyhub.net">
             Powered by VyHub
@@ -41,13 +41,16 @@ export default {
   data() {
     return {
       version,
-      config,
     };
   },
   beforeMount() {
     emitter.on('navItemsUpdated', this.links);
   },
   computed: {
+    removeBranding() {
+      return this.$store.getters.generalConfig != null
+        && this.$store.getters.generalConfig.remove_branding;
+    },
     links() {
       return this.$store.getters.navItems;
     },
