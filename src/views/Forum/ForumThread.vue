@@ -73,7 +73,8 @@
             <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
               <v-chip small v-for="membership in post.creator.memberships"
                       :key="membership.id" :color="membership.group.color"
-                      text-color="white" outlined class="mt-2 d-block">
+                      :text-color="$vuetify.theme.dark ? 'white' : 'black'" outlined
+                      class="mt-2 d-block">
                 <p class="text-ellipsis">{{ membership.group.name }}</p>
               </v-chip>
             </div>
@@ -94,7 +95,8 @@
             <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
               <v-chip small v-for="membership in post.creator.memberships"
                       :key="membership.id" :color="membership.group.color"
-                      text-color="white" outlined class="mt-2 d-block text-center">
+                      :text-color="$vuetify.theme.dark ? 'white' : 'black'" outlined
+                      class="mt-2 d-block text-center">
                 <p class="text-ellipsis">{{ membership.group.name }}</p>
               </v-chip>
             </div>
@@ -107,7 +109,8 @@
               <v-card-text class="d-flex align-center">
                 <div v-if="post.creator && thread.creator
                     && post.creator.id === thread.creator.id">
-                  <v-chip color="#1c1c1c" small label class="vh-forum-post-op">
+                  <v-chip :color="$vuetify.theme.dark ? '#1c1c1c' : '#c5c5c5'" small label
+                          class="vh-forum-post-op">
                     OP
                   </v-chip>
                 </div>
