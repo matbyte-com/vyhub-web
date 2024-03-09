@@ -416,27 +416,22 @@ export default {
         this.$refs.addPostDialog.setError(this.$t('_forum.messages.emptyPost'));
         return;
       }
-      let wait = false;
       if (this.thread.status === 'CLOSED' && (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins))) {
-        this.toggleStatus(true);
-        wait = true;
+        await this.toggleStatus(true);
       }
-      // We wait 50ms to ensure the dialog is reopened if an Admin answered on a closed thread
-      setTimeout(async () => {
-        (await openapi).forum_createPost(this.threadId, data).then(() => {
-          this.$refs.addPostDialog.close();
-          this.fetchData();
-          this.$notify({
-            title: this.$t('_messages.addSuccess'),
-            type: 'success',
-          });
-          if (this.closeWithPost) {
-            this.toggleStatus(true);
-          }
-        }).catch((err) => {
-          this.$refs.addPostDialog.setError(err);
+      (await openapi).forum_createPost(this.threadId, data).then(() => {
+        this.$refs.addPostDialog.close();
+        this.fetchData();
+        this.$notify({
+          title: this.$t('_messages.addSuccess'),
+          type: 'success',
         });
-      }, wait ? 50 : 0);
+        if (this.closeWithPost) {
+          this.toggleStatus(true);
+        }
+      }).catch((err) => {
+        this.$refs.addPostDialog.setError(err);
+      });
     },
     async deletePost(item) {
       (await openapi).forum_deletePost(item.id).then(() => {

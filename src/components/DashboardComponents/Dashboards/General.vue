@@ -43,7 +43,7 @@
               </v-col>
             </v-row>
             <v-row v-if="$checkProp('user_log_show') || $checkProp('user_comment_show')
-            || user.id === $store.getters.user.id">
+            || isCurrentUser">
               <v-col>
                 <v-card flat class="card-rounded">
                   <v-tabs grow>
