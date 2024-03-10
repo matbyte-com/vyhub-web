@@ -346,22 +346,26 @@ export default {
             const posts = rsp.data.items;
             posts.forEach((p) => {
               // eslint-disable-next-line no-param-reassign
-              p.accumulated_reactions = { };
+              p.accumulated_reactions = {};
+
               // eslint-disable-next-line no-param-reassign
-              p.accumulated_reactions = (p.reactions.reduce((acc, obj) => {
+              p.accumulated_reactions = p.reactions.reduce((acc, obj) => {
                 if (!acc[obj.name]) {
-                  acc[obj.name] = { count: 0, has_reacted: false };
+                  acc[obj.name] = { count: 1, has_reacted: false };
+                } else {
+                  acc[obj.name].count += 1;
                 }
-                acc[obj.name].count += 1;
-                if (this.$store.getters.user && p.reactions.length > 0) {
+
+                if (this.$store.getters.user) {
                   const user_id = this.$store.getters.user.id;
-                  if (p.reactions.some((reaction) => reaction.user
-                    && reaction.user.id === user_id)) {
+                  if (obj.user && obj.user.id === user_id) {
                     acc[obj.name].has_reacted = true;
                   }
                 }
+
                 return acc;
-              }, {}));
+              }, {});
+
               this.icons.forEach((i) => {
                 if (!(i in p.accumulated_reactions)) {
                   // eslint-disable-next-line no-param-reassign
@@ -372,6 +376,7 @@ export default {
               // eslint-disable-next-line no-param-reassign
               p.creator.memberships = this.sortedMemberships(p.creator.memberships);
             });
+
             this.posts = posts;
             const lastPostDate = new Date(this.posts[this.posts.length - 1].created);
             const today = new Date();
