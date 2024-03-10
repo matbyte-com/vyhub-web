@@ -8,7 +8,7 @@
     v-bind="$attrs" v-on="$listeners"
   >
     <template v-slot:no-data>
-      <div class="text-center mt-2 subtitle-2 text--disabled">
+      <div class="text-center mt-4 subtitle-2 text--disabled">
         {{ $t('noDataAvailable') }}
       </div>
     </template>

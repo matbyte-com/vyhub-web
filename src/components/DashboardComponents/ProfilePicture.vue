@@ -30,7 +30,7 @@
         text
         color="success"
         outlined
-        class="font-weight-bold mt-3 mb-0"
+        class="font-weight-bold mt-3"
         width="100%">
         <span class="d-flex align-center justify-space-between">
           <span>
@@ -52,6 +52,7 @@
           </span>
         </span>
       </v-alert>
+      <slot></slot>
     </v-card-text>
     <confirmation-dialog ref="adminDeleteConfirmationDialog"
                          :title="$t('_dashboard.labels.removeAdminTitle')"

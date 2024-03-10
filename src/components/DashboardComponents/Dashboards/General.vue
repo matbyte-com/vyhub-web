@@ -4,7 +4,12 @@
       <v-col cols="12" md="5" lg="4" xl="3" order-md="1" order-sm="1" order="1">
         <v-row>
           <v-col>
-            <ProfilePicture :user="user"/>
+            <ProfilePicture :user="user">
+              <BansAndWarnings :user="user"
+                               v-if="$store.getters.isLoggedIn &&
+                             $checkLinked($store.getters.user, user) ||
+                  ($checkProp('ban_show') && $checkProp('warning_show'))" />
+            </ProfilePicture>
           </v-col>
         </v-row>
         <v-row>
@@ -29,17 +34,11 @@
                 <Groups :user="user"/>
               </v-col>
             </v-row>
+          </v-col>
+          <v-col cols="12" xl="6">
             <v-row v-if="forumEnabled">
               <v-col>
                 <UserForumStats :user="user"/>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col cols="12" xl="6">
-            <v-row v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
-                  ($checkProp('ban_show') && $checkProp('warning_show'))">
-              <v-col>
-                <BansAndWarnings :user="user"/>
               </v-col>
             </v-row>
             <v-row v-if="$checkProp('user_log_show') || $checkProp('user_comment_show')

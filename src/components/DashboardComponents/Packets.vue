@@ -1,38 +1,44 @@
 <template>
   <v-card class="vh-dashboard-packets card-rounded" flat>
-    <v-card-title>
-      <v-icon class="mr-2">mdi-gift-open</v-icon>
-      {{ $t('packets') }}
-      <v-spacer></v-spacer>
-    </v-card-title>
-    <v-card-text>
-      <DataIterator :items="userPackets" :showPageSelector="false">
-        <template v-slot:default="props">
-          <v-row>
-            <v-col
-              v-for="userPacket in props.items"
-              :key="userPacket.id" class="d-flex flex-column"
-              cols="6" sm="4" md="6" lg="3" xl="6">
-              <v-card @click="showUserPacketDetails(userPacket)" class="flex-grow-1" outlined>
-                <PacketImage height="90" :packet="userPacket.packet"
-                       :style="(userPacket.active ? '' : 'filter: grayscale(100%)')">
-                  <v-chip
-                    small
-                    v-if="!userPacket.active"
-                    color="error"
-                    class="ma-2" style="float: left; filter: none;">
-                    <v-icon small>mdi-power</v-icon>
-                  </v-chip>
-                </PacketImage>
-                <v-card-subtitle class="pa-2 text-center">
-                  {{ userPacket.packet.title }}
-                </v-card-subtitle>
-              </v-card>
-            </v-col>
-          </v-row>
-        </template>
-      </DataIterator>
-    </v-card-text>
+    <v-tabs grow>
+      <v-tab>
+        <v-icon left>mdi-gift-open</v-icon>
+        {{ $t('packets') }}
+      </v-tab>
+      <v-tab-item>
+        <v-card class="card-rounded" flat style="background-color: transparent !important;">
+          <v-card-text>
+            <DataIterator :items="userPackets" :showPageSelector="false">
+              <template v-slot:default="props">
+                <v-row>
+                  <v-col
+                    v-for="userPacket in props.items"
+                    :key="userPacket.id" class="d-flex flex-column"
+                    cols="6" sm="4" md="6" lg="3" xl="6">
+                    <v-card @click="showUserPacketDetails(userPacket)" class="flex-grow-1" outlined>
+                      <PacketImage height="90" :packet="userPacket.packet"
+                                   :style="(userPacket.active ? '' : 'filter: grayscale(100%)')">
+                        <v-chip
+                          small
+                          v-if="!userPacket.active"
+                          color="error"
+                          class="ma-2" style="float: left; filter: none;">
+                          <v-icon small>mdi-power</v-icon>
+                        </v-chip>
+                      </PacketImage>
+                      <v-card-subtitle class="pa-2 text-center">
+                        {{ userPacket.packet.title }}
+                      </v-card-subtitle>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </template>
+            </DataIterator>
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
+
     <Dialog :title="$t('_packet.labels.details')" icon="mdi-gift-open" v-model="packetDetailShown">
       <v-simple-table v-if="currentUserPacket != null">
         <tbody>

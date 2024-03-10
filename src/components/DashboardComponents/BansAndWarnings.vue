@@ -1,36 +1,32 @@
 <template>
-  <v-card class="flex-grow-1 vh-dashboard-bans-and-warnings card-rounded" flat>
-    <v-card-text>
-      <v-row>
-        <v-col>
-          <v-btn block depressed :color="(banCount ? 'error darken-2' : 'gray')"
-                  :to="{ name: 'Bans', query: { user_id: user.id } }">
-            <v-icon left>
-              mdi-account-cancel
-            </v-icon>
-            {{ $t('bans') }}:
-            <span>
-            &nbsp;
-            {{ banCount }}
-            </span>
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-btn :color="(warningCount ? 'warning darken-2' : 'gray')" block depressed
-                  :to="{ name: 'Warnings', query: { user_id: user.id } }">
-            <v-icon left>
-              mdi-account-alert
-            </v-icon>
-            {{ $t('warnings') }}:
-            <span>
-            &nbsp;
-            {{ warningCount }}
-          </span>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+  <v-row class="vh-dashboard-bans-and-warnings">
+    <v-col class="pb-0">
+      <v-btn block depressed :color="(banCount ? 'error darken-2' : 'gray')"
+              :to="{ name: 'Bans', query: { user_id: user.id } }">
+        <v-icon left>
+          mdi-account-cancel
+        </v-icon>
+        {{ $t('bans') }}:
+        <span>
+        &nbsp;
+        {{ banCount }}
+        </span>
+      </v-btn>
+    </v-col>
+    <v-col>
+      <v-btn :color="(warningCount ? 'warning darken-2' : 'gray')" block depressed
+              :to="{ name: 'Warnings', query: { user_id: user.id } }">
+        <v-icon left>
+          mdi-account-alert
+        </v-icon>
+        {{ $t('warnings') }}:
+        <span>
+        &nbsp;
+        {{ warningCount }}
+      </span>
+      </v-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

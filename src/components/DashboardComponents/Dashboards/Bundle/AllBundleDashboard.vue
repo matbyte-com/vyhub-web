@@ -13,7 +13,11 @@
             <v-row v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
                 ($checkProp('ban_show') && $checkProp('warning_show'))">
               <v-col>
-                <BansAndWarnings :user="user" :bundle="bundle"/>
+                <v-card class="card-rounded">
+                  <v-card-text>
+                    <BansAndWarnings :user="user" :bundle="bundle"/>
+                  </v-card-text>
+                </v-card>
               </v-col>
             </v-row>
           </v-col>

@@ -19,7 +19,7 @@ export default {
     },
     visible_to_user: {
       type: 'boolean',
-      title: i18n.t('_dashboard.comments.visibleToUser'),
+      title: i18n.t('_dashboard.labels.visibleToUser'),
       default: false,
     },
   },
