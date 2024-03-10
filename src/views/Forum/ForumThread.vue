@@ -184,7 +184,7 @@
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-btn small outlined
-                           v-if="postEditable(post)"
+                           v-if="postEditable(post) && posts[0].id !== post.id"
                            @click.stop="$refs.deletePostConfirmationDialog.show(post)"
                            color="error"
                            class="">
