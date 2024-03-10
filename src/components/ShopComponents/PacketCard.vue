@@ -6,7 +6,7 @@
       <PacketImage :packet="packet"
              @click="$refs.detailDialog.show()"
              class="white--text img-rounded ma-1" max-height="200px" style="cursor: pointer;">
-        <div class="d-flex flex-column" style="height: 100%">
+        <div class="d-flex flex-column" style="height: 100%" @click="$refs.detailDialog.show()">
           <v-fade-transition>
             <v-row justify="center" align="center"
                    class="text-center ml-2 mr-2 font-weight-bold title-in-image"
