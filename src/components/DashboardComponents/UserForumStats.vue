@@ -1,5 +1,5 @@
 <template>
-  <v-card class="card-rounded">
+  <v-card class="card-rounded" flat>
     <v-tabs grow>
       <v-tab>
         <v-icon left>
