@@ -102,6 +102,7 @@ export default {
       const data = this.$refs.form.getData();
       data.news = this.shopNews;
       (await openapi).shop_editConfig(null, data).then(() => {
+        this.utils.getShopConfig();
         this.$notify({
           title: this.$t('_messages.editSuccess'),
           type: 'success',
