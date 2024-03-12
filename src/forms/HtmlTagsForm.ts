@@ -26,7 +26,7 @@ export default {
     },
     image_url: {
       type: ['string', 'null'],
-      title: i18n.t('imageUrl'),
+      title: i18n.t('_settings.labels.previewImageURL'),
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
