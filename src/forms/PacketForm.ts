@@ -17,7 +17,7 @@ function form() {
         title: i18n.t('general'),
         type: 'object',
         required: [
-          'title', 'category', 'abstract', 'enabled', 'buyable', 'buyable_active', 'buyable_inactive',
+          'title', 'category', 'enabled', 'buyable',
         ],
         properties: {
           title: {
