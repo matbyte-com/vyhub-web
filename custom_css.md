@@ -28,6 +28,7 @@
 | vh-forum                       | Forum.vue              |
 | vh-forum-topic                 | ForumTopic.vue         |
 | vh-forum-post                  | ForumThread.vue        |
+| vh-forum-post-op               | "                      |
 | vh-ban                         | Ban.vue                |
 | vh-warns                       | Warning.vue            |
 | vh-shop-packages               | Category.vue           |
