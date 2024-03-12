@@ -102,7 +102,6 @@
                 <v-spacer/>
                 <div>
                   <v-chip v-if="user.warnings.length > 0"
-                          class="mr-2"
                           color="warning darken-1"
                           small>
                     <v-icon left>
@@ -113,6 +112,7 @@
                     </span>
                   </v-chip>
                   <v-chip v-if="user.bans.length > 0"
+                          class="ml-2"
                           small color="error darken-2">
                     <v-icon left>
                       mdi-account-cancel
@@ -156,7 +156,7 @@
                             :total-items="currentUser.warnings.length"
                             :user="currentUser"
                             :serverbundle="server.serverbundle"
-                            @edit="reloadCurrentUserWarnings(); reloadCurrentUserBans()"/>
+                            @edit="fetchUserActivity"/>
             </div>
             <div class="mt-4">
               <BanTable v-if="$checkProp('ban_show') ||
@@ -165,7 +165,7 @@
                         :total-items="currentUser.bans.length"
                         :user="currentUser"
                         :serverbundle="server.serverbundle"
-                        @edit="reloadCurrentUserBans"/>
+                        @edit="fetchUserActivity"/>
             </div>
           </v-card-text>
         </v-card>
@@ -255,17 +255,6 @@ export default {
     listActive(item) {
       if (!this.currentUser) return false;
       return item.id === this.currentUser.id;
-    },
-    async reloadCurrentUserWarnings() {
-      (await openapi).warning_getWarnings({ user_id: this.currentUser.id, size: 100 })
-        .then((rsp) => {
-          this.currentUser.warnings = rsp.data.items;
-        });
-    },
-    async reloadCurrentUserBans() {
-      (await openapi).ban_getBans({ user_id: this.currentUser.id, size: 100 }).then((rsp) => {
-        this.currentUser.bans = rsp.data.items;
-      });
     },
     serverChanged(server) {
       this.$router.push({ name: 'ServerDashboard', params: { id: server.id } });
