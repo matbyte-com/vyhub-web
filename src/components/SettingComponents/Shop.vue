@@ -8,7 +8,14 @@
         <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
                  :optionsExtra="{editMode: 'inline'}"
                  :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true"
-                 :action-button-top-margin="3"/>
+                 :action-button-top-margin="3">
+          <template v-slot:checkout_checkboxes-after>
+            <div class="mt-5">
+              <span class="subtitle-1">{{ $t('news') }}</span>
+              <Editor v-model="shopNews" />
+            </div>
+          </template>
+        </GenForm>
       </v-col>
       <v-col>
         <h6 class="text-h6">{{ $t('_shop.labels.businessAddress') }}</h6>
@@ -39,6 +46,7 @@
 import GenForm from '@/components/GenForm.vue';
 import ShopGeneralForm from '@/forms/ShopGeneralForm';
 import openapi from '@/api/openapi';
+import Editor from '@/components/Editor.vue';
 import SettingTitle from './SettingTitle.vue';
 import BusinessAddressForm from '../../forms/BusinessAddressForm';
 import DialogForm from '../DialogForm.vue';
@@ -47,13 +55,18 @@ import Address from '../Address.vue';
 export default {
   name: 'Shop',
   components: {
-    Address, DialogForm, SettingTitle, GenForm,
+    Editor,
+    Address,
+    DialogForm,
+    SettingTitle,
+    GenForm,
   },
   data() {
     return {
       formSchema: ShopGeneralForm,
       businessAddress: null,
       addressFormSchema: BusinessAddressForm,
+      shopNews: null,
     };
   },
   mounted() {
@@ -70,6 +83,8 @@ export default {
           data.checkout_checkboxes = [];
         }
 
+        this.shopNews = data.news;
+
         this.$refs.form.setData(data);
       }).catch((err) => {
         console.log(err);
@@ -85,6 +100,7 @@ export default {
     },
     async saveData() {
       const data = this.$refs.form.getData();
+      data.news = this.shopNews;
       (await openapi).shop_editConfig(null, data).then(() => {
         this.$notify({
           title: this.$t('_messages.editSuccess'),

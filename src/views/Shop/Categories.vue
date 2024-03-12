@@ -3,7 +3,16 @@
   <PageTitleFlat :title="$t('_shop.shopTitle')"
                  :hide-triangle="$vuetify.breakpoint.smAndDown"
                  :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
-  <v-card class="card-rounded-bottom flex-grow-1 vh-cart-categories"
+  <v-card class="mt-4 mb-2 card-rounded vh-shop-news" v-if="newsContent">
+    <v-card-text>
+      <div class="d-flex">
+        <h2 class="text-h5">{{ $t('news') }}</h2>
+        <v-divider class="ml-3 mb-1 divider-strong align-self-end"/>
+      </div>
+      <div class="mt-2 ql-editor" v-html="newsContent"></div>
+    </v-card-text>
+  </v-card>
+  <v-card class="card-rounded-bottom flex-grow-1 vh-cart-categories vh-shop-categories"
           :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }"
           flat>
@@ -79,6 +88,11 @@ export default {
             this.$router.replace({ name: 'ShopCategory', params: { categoryId: this.categories[0].id } });
           }
         });
+    },
+  },
+  computed: {
+    newsContent() {
+      return this.$store.getters.shopConfig.news;
     },
   },
 };
