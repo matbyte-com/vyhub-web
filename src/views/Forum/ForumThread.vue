@@ -122,7 +122,7 @@
                 <!-- ADMIN HINT -->
                 <div class="ml-auto">
                   <v-chip round outlined color="red" small
-                          v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins, post.creator)">
+                          v-if="$checkTopicAdmin(admins, post.creator)">
                     <v-icon small left>mdi-shield-sword-outline</v-icon>
                     <span>{{ $t('_forum.admin') }}</span>
                   </v-chip>

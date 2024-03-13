@@ -2,21 +2,25 @@ import store from '@/store';
 
 export interface UserModel {
   id: string; // uuid
+  memberships: { group: { id: string } }[];
 }
 
 export default {
   methods: {
     $checkTopicAdmin(admins: UserModel[], specificUser: UserModel | null): boolean {
-      const { userMemberships } = store.getters;
-
       if (specificUser && admins.some((admin) => admin.id === specificUser.id)) {
         return true;
       }
 
-      if (userMemberships == null) return false;
+      let memberships = null;
+      if (specificUser) {
+        memberships = specificUser.memberships;
+      } else {
+        memberships = store.getters.userMemberships;
+      }
+      if (memberships == null) return false;
       const adminGroupIds = admins.map((admin) => admin.id);
-      // eslint-disable-next-line max-len
-      return userMemberships?.some((membership: {
+      return memberships?.some((membership: {
         group: { id: string; };
       }) => adminGroupIds.includes(membership.group.id));
     },
