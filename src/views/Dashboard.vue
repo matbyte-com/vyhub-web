@@ -1,7 +1,15 @@
 <template>
   <div>
     <div v-if="user">
-      <PageTitleFlat :title="user.username" :no-bottom-border-radius="true"/>
+      <PageTitleFlat :title="user.username" :no-bottom-border-radius="true">
+        <template v-slot:end>
+          <span class="d-flex justify-end mr-1">
+            <v-btn icon @click="$refs.deleteDialog.show()" small outlined depressed>
+              <v-icon small>mdi-delete</v-icon>
+            </v-btn>
+          </span>
+        </template>
+      </PageTitleFlat>
       <v-card class="vh-dashboard-tabs card-rounded-bottom no-top-border-radius" flat>
         <v-card-text>
           <v-tabs v-model="activeTabIndex">
@@ -68,6 +76,9 @@
         </v-col>
       </v-row>
     </div>
+    <DeleteConfirmationDialog ref="deleteDialog" countdown
+                              @submit="deleteUser"
+                              :text="$t('_dashboard.messages.deleteUserText')" />
   </div>
 </template>
 
@@ -76,9 +87,11 @@ import openapiCached from '@/api/openapiCached';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
+import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 
 export default {
   components: {
+    DeleteConfirmationDialog,
     PageTitleFlat,
   },
   data() {
@@ -116,9 +129,24 @@ export default {
       if (this.$route.params.component) {
         this.activeTab = this.$route.params.component[0].toUpperCase()
           + this.$route.params.component.slice(1);
-        if (this.activeTab === 'General') { this.activeTabIndex = 0; }
-        if (this.activeTab === 'Purchases') { this.activeTabIndex = 1; }
+        if (this.activeTab === 'General') {
+          this.activeTabIndex = 0;
+        }
+        if (this.activeTab === 'Purchases') {
+          this.activeTabIndex = 1;
+        }
       }
+    },
+    async deleteUser() {
+      (await openapi).user_deleteUser(this.user.id).then(() => {
+        this.$router.push('/');
+      }).catch((err) => {
+        this.$refs.deleteDialog.setError(err);
+        this.$notify({
+          title: this.$t('_messages.deleteSuccess'),
+          type: 'success',
+        });
+      });
     },
   },
   beforeMount() {
