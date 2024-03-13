@@ -92,6 +92,11 @@ export default {
       description: i18n.t('_shop.labels.taxIncludedInPacketPriceDescription'),
       default: 'false',
     },
+    packet_list_view: {
+      type: 'boolean',
+      title: i18n.t('_shop.labels.showPacketsAsList'),
+      default: 'false',
+    },
     invoice_logo_url: {
       type: 'string',
       title: i18n.t('_shop.labels.invoiceLogoURL'),

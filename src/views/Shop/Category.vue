@@ -51,13 +51,19 @@
               <h2>{{ subcat }}</h2>
               <v-divider class="ml-3" />
             </div>
-            <v-row>
-              <v-col cols="12" sm="6" md="6" lg="4" xl="3"
-                     v-for="packet in _packets" :key="packet.id"
-                     class="">
-                <PacketCard :packet="packet" />
-              </v-col>
-            </v-row>
+            <div>
+              <div v-if="$store.getters.shopConfig.packet_list_view">
+                <PacketListEntry class="mt-2"
+                                 :packet="packet" v-for="packet in _packets" :key="packet.id" />
+              </div>
+              <v-row v-else>
+                <v-col cols="12" sm="6" md="6" lg="4" xl="3"
+                       v-for="packet in _packets" :key="packet.id"
+                       class="">
+                  <PacketCard :packet="packet" />
+                </v-col>
+              </v-row>
+            </div>
           </div>
         </div>
         <div v-else>
@@ -79,10 +85,11 @@
 import PacketCard from '@/components/ShopComponents/PacketCard.vue';
 import openapiCached from '@/api/openapiCached';
 import PageTitleFlat from '@/components/PageTitleFlat.vue';
+import PacketListEntry from '@/components/ShopComponents/PacketListEntry.vue';
 import openapi from '../../api/openapi';
 
 export default {
-  components: { PageTitleFlat, PacketCard },
+  components: { PacketListEntry, PageTitleFlat, PacketCard },
   data() {
     return {
       tab: null,

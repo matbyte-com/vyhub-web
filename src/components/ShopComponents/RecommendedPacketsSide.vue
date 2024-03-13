@@ -8,7 +8,7 @@
     <v-card-text>
       <div v-if="$vuetify.breakpoint.mdAndUp">
         <v-row v-if="recommendedPackets" dense>
-          <v-col cols="3" md="6" lg="6" xl="4" v-for="p in recommendedPackets" :key="p.id"
+          <v-col cols="12" lg="6" xl="4" v-for="p in recommendedPackets" :key="p.id"
                  class="d-flex">
             <v-card class="card-rounded d-block" width="100%"
                     @click="selectedPacket = p; $refs.detailDialog.show()">
