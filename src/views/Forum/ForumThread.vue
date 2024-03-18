@@ -60,9 +60,10 @@
         <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
           <!-- Avatar -->
           <!-- Large Screens -->
-          <div class="pa-3 text-center" style="width: 150px" v-if="$vuetify.breakpoint.smAndUp">
+          <div class="pa-3 text-center" style="width: 200px" v-if="$vuetify.breakpoint.smAndUp">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
-                         class="text-decoration-none" style="color: inherit">
+                         class="text-decoration-none" style="color: inherit"
+                         v-if="!post.creator.deleted">
               <v-avatar size="80">
                 <v-img class="mx-auto" :src="post.creator.avatar" />
               </v-avatar>
@@ -70,15 +71,32 @@
                 {{ post.creator.username }}
               </div>
             </router-link>
-            <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
-              <v-chip small v-for="membership in post.creator.memberships"
-                      :key="membership.id" :color="membership.group.color"
-                      :text-color="$vuetify.theme.dark ? 'white' : 'black'" outlined
-                      class="mt-2 d-block">
-                <p class="text-ellipsis">{{ membership.group.name }}</p>
-              </v-chip>
+            <div v-else>
+              <v-avatar size="80">
+                <v-img class="mx-auto" :src="post.creator.avatar" />
+              </v-avatar>
+              <div class="text-h6">
+                {{ post.creator.username }}
+              </div>
+              <v-icon color="red" class="mt-2">mdi-account-remove</v-icon>
             </div>
-
+            <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
+              <div v-for="membership in post.creator.memberships" :key="membership.id"
+                   class="justify-center">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-chip small :color="membership.group.color" v-bind="attrs" v-on="on"
+                            :text-color="$vuetify.theme.dark ? 'white' : 'black'" outlined
+                            class="mt-2" style="max-width: 150px">
+                      <div style="max-width: 150px; width: 100%;">
+                        <p class="text-ellipsis mt-4">{{ membership.group.name }}</p>
+                      </div>
+                    </v-chip>
+                  </template>
+                  {{ membership.group.name }}
+                </v-tooltip>
+              </div>
+            </div>
           </div>
           <!-- Small Screens -->
           <div v-else class="pt-3 px-3">
@@ -157,7 +175,8 @@
                                `background-color: ${$vuetify.theme.currentTheme.primary}1A;
                                 border-color: ${$vuetify.theme.currentTheme.primary}` : ''"
                                style="min-width: 30px; border-color: transparent"
-                               @click="toggleReaction(post, icon)">
+                               @click="toggleReaction(post, icon)"
+                               @click.right.prevent="showAllReactors(post, icon)">
                           <span class="reaction-icon">{{ icon }}</span>
                           <span class="ml-1 animate__animated animate__fadeInUp animate__faster"
                                 v-if="getReactionAccumulated(post, icon).count !== 0">
@@ -186,8 +205,7 @@
                     <v-btn small outlined
                            v-if="postEditable(post) && posts[0].id !== post.id"
                            @click.stop="$refs.deletePostConfirmationDialog.show(post)"
-                           color="error"
-                           class="">
+                           color="error">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </div>
@@ -242,7 +260,8 @@
           </v-card-text>
         </v-card>
       </div>
-      <div v-if="thread.status === 'CLOSED'">
+      <div v-if="thread.status === 'CLOSED'
+      && !($checkProp('forum_edit') || $checkTopicAdmin(admins))">
         <v-row class="justify-center mt-3">
           <v-col cols="4" lg="2" sm="3">
             <v-alert outlined color="red" class="text-center">
@@ -264,6 +283,34 @@
                                 @submit="deletePost" />
       <DeleteConfirmationDialog ref="deleteThreadConfirmationDialog"
                                 @submit="deleteThread" />
+      <v-dialog ref="showAllReactorsDialog" v-model="menuOpen" max-width="350px">
+        <template v-if="selectedReaction">
+          <v-card class="card-rounded">
+            <v-card-title class="text-h5 primary">
+              {{ selectedReaction.emoji }} | {{ $t('_forum.reactions') }}
+            </v-card-title>
+            <v-card-text>
+              <v-list>
+                <template v-for="(user, index) in selectedReaction.users">
+                  <v-list-item :key="user.id" class="align-center"
+                               :to="{ name: 'UserDashboard', params: { id: user.id } }">
+                    <v-list-item-avatar class="mr-2">
+                      <v-avatar size="30">
+                        <v-img :src="user.avatar" />
+                      </v-avatar>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ user.username }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-divider v-if="index < selectedReaction.users.length - 1"
+                             :key="`divider-${index}`"/>
+                </template>
+              </v-list>
+            </v-card-text>
+          </v-card>
+        </template>
+      </v-dialog>
     </div>
     <div v-else>
       <PageTitleFlat />
@@ -319,6 +366,7 @@ export default {
       cooldown: false,
       closeWithPost: false,
       threadIsOld: false,
+      selectedReaction: null,
     };
   },
   beforeMount() {
@@ -373,8 +421,17 @@ export default {
                 }
               });
 
-              // eslint-disable-next-line no-param-reassign
-              p.creator.memberships = this.sortedMemberships(p.creator.memberships);
+              if (!p.creator) {
+                // eslint-disable-next-line no-param-reassign
+                p.creator = {
+                  username: 'Deleted User',
+                  avatar: 'https://cdn.vyhub.net/vyhub/avatars/default.png',
+                  deleted: true,
+                };
+              } else {
+                // eslint-disable-next-line no-param-reassign
+                p.creator.memberships = this.sortedMemberships(p.creator.memberships);
+              }
             });
 
             this.posts = posts;
@@ -551,6 +608,21 @@ export default {
     sortedMemberships(memberships) {
       if (!memberships || memberships.length === 0) return [];
       return [memberships.sort((a, b) => b.group.permission_level - a.group.permission_level)[0]];
+    },
+    showAllReactors(post, selectedEmoji) {
+      this.selectedReaction = {};
+      if (post.reactions && post.reactions.length > 0) {
+        this.selectedReaction.users = post.reactions
+          .filter((reaction) => reaction.name === selectedEmoji)
+          .map((reaction) => reaction.user);
+      } else {
+        this.selectedReaction.users = [];
+      }
+      this.selectedReaction.emoji = selectedEmoji;
+
+      if (this.selectedReaction.users.length > 0) {
+        this.menuOpen = true;
+      }
     },
   },
   computed: {

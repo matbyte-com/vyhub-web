@@ -48,7 +48,7 @@
               </div>
             </template>
             <template v-slot:item.last_post="{ item }">
-              <div v-if="item.last_post" class="d-flex align-center">
+              <div v-if="item.last_post && item.last_post.creator" class="d-flex align-center">
                 <v-spacer/>
                 <div class="mr-3 align-center d-flex">
                   <v-tooltip bottom v-if="item.pinned === false">
@@ -89,7 +89,7 @@
               </div>
             </template>
             <template v-slot:item.title="{ item }">
-              <div class="d-flex align-center">
+              <div class="d-flex align-center" v-if="item.creator">
                 <router-link
                   :to="{ name: 'UserDashboard', params: { id: item.creator.id } }">
                   <v-avatar class="ma-1 mr-2">

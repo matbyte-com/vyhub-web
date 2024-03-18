@@ -64,10 +64,10 @@
 
 <script>
 import PacketCard from '@/components/ShopComponents/PacketCard.vue';
-import openapi from '@/api/openapi';
 import Swiper from '@/components/Swiper.vue';
 import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
 import PacketImage from '@/components/ShopComponents/PacketImage.vue';
+import openapiCached from '@/api/openapiCached';
 
 export default {
   name: 'RecommendedPacketsSide',
@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      (await openapi).shop_getPackets({ recommended: true, limit: 6 }).then((rsp) => {
+      (await openapiCached).shop_getPackets({ recommended: true, limit: 6 }).then((rsp) => {
         this.recommendedPackets = rsp.data;
       });
     },
