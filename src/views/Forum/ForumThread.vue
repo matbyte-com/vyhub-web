@@ -101,15 +101,25 @@
           <!-- Small Screens -->
           <div v-else class="pt-3 px-3">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
-                         class="text-decoration-none d-flex justify-center align-center"
-                         style="color: inherit">
+                         class="text-decoration-none d-block text-center"
+                         style="color: inherit"
+                         v-if="!post.creator.deleted">
               <v-avatar size="40">
                 <v-img class="mx-auto" :src="post.creator.avatar" />
               </v-avatar>
-              <div class="text-h6 ml-1">
+              <div class="text-h6">
                 {{ post.creator.username }}
               </div>
             </router-link>
+            <div v-else class="d-block text-center">
+              <v-avatar size="40">
+                <v-img class="mx-auto" :src="post.creator.avatar" />
+              </v-avatar>
+              <div class="text-h6">
+                {{ post.creator.username }}
+              </div>
+              <v-icon color="red">mdi-account-remove</v-icon>
+            </div>
             <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
               <v-chip small v-for="membership in post.creator.memberships"
                       :key="membership.id" :color="membership.group.color"
@@ -150,7 +160,7 @@
               <v-divider/>
               <v-card-text>
                 <!-- IMPORTANT - TOP -->
-                <span v-html="post.content" class="ql-editor pa-0"/>
+                <span v-html="post.content" class="ql-editor pa-0 text-break" />
               </v-card-text>
               <v-divider /> <!-- IMPORTANT - BOTTOM -->
               <div class="px-3 py-1">
