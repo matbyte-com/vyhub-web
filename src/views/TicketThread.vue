@@ -28,9 +28,9 @@
            'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0 }"
               v-for="(post, index) in posts" :key="post.id">
         <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
-          <div class="pa-3 text-center" style="width: 150px" v-if="$vuetify.breakpoint.smAndUp">
+          <div class="pa-3 text-center" style="width: 200px" v-if="$vuetify.breakpoint.smAndUp">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
-                         class="stylelint" style="color: inherit">
+                         class="stylelint" style="color: inherit" v-if="!post.creator.deleted">
               <v-avatar size="80">
                 <v-img class="mx-auto" :src="post.creator.avatar" />
               </v-avatar>
@@ -38,11 +38,20 @@
                 {{ post.creator.username }}
               </div>
             </router-link>
+            <div v-else>
+              <v-avatar size="80">
+                <v-img class="mx-auto" src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+              </v-avatar>
+              <div class="text-h6">
+                {{ $t('deletedUser') }}
+              </div>
+              <v-icon color="red" class="mt-2">mdi-account-remove</v-icon>
+            </div>
           </div>
           <div v-else class="pa-3">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
                          class="stylelint d-flex justify-center align-center"
-                         style="color: inherit">
+                         style="color: inherit" v-if="!post.creator.deleted">
               <v-avatar size="40">
                 <v-img class="mx-auto" :src="post.creator.avatar" />
               </v-avatar>
@@ -50,6 +59,15 @@
                 {{ post.creator.username }}
               </div>
             </router-link>
+            <div v-else class="d-block text-center">
+              <v-avatar size="40">
+                <v-img class="mx-auto" src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+              </v-avatar>
+              <div class="text-h6 ml-1">
+                {{ $t('deletedUser') }}
+              </div>
+              <v-icon color="red" class="mt-2">mdi-account-remove</v-icon>
+            </div>
           </div>
           <v-divider vertical v-if="$vuetify.breakpoint.smAndUp"/>
           <div style="width: 100%">
@@ -57,8 +75,8 @@
               <v-card-text class="d-flex">
                 {{ utils.formatDate(post.created) }}
                 <div class="ml-auto">
-                  <v-chip round v-if="post.creator.id !== thread.creator.id"
-                          color="primary" small>
+                  <v-chip v-if="post.creator.id !== thread.creator.id && !post.creator.deleted"
+                          color="primary" small round>
                     <v-icon small left>
                       mdi-shield-sword-outline
                     </v-icon>
@@ -159,6 +177,15 @@ export default {
       (await openapi)
         .forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 25 }).then((rsp) => {
           this.posts = rsp.data.items;
+          for (let i = 0; i < this.posts.length; i += 1) {
+            if (!this.posts[i].creator) {
+              this.posts[i].creator = {
+                username: this.$t('deletedUser'),
+                avatar: 'https://cdn.vyhub.net/vyhub/avatars/default.png',
+                deleted: true,
+              };
+            }
+          }
           this.totalPages = Math.ceil(rsp.data.total / rsp.data.size);
         });
     },

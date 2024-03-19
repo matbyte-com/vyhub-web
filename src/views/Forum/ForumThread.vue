@@ -434,7 +434,7 @@ export default {
               if (!p.creator) {
                 // eslint-disable-next-line no-param-reassign
                 p.creator = {
-                  username: 'Deleted User',
+                  username: this.$t('deletedUser'),
                   avatar: 'https://cdn.vyhub.net/vyhub/avatars/default.png',
                   deleted: true,
                 };

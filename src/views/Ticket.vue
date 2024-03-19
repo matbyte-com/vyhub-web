@@ -104,6 +104,24 @@ export default {
       })
         .then((rsp) => {
           this.tickets = rsp.data.items; this.totalItems = rsp.data.total;
+          for (let i = 0; i < this.tickets.length; i += 1) {
+            delete this.tickets[i].last_post.creator;
+            delete this.tickets[i].creator;
+            if (!this.tickets[i].creator) {
+              this.tickets[i].creator = {
+                username: this.$t('deletedUser'),
+                avatar: 'https://cdn.vyhub.net/vyhub/avatars/default.png',
+              };
+            }
+            if (!this.tickets[i].last_post.creator) {
+              this.tickets[i].last_post = {
+                creator: {
+                  username: this.$t('deletedUser'),
+                  avatar: 'https://cdn.vyhub.net/vyhub/avatars/default.png',
+                },
+              };
+            }
+          }
         });
     },
     async newThread() {
