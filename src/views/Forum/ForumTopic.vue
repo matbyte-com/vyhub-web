@@ -89,8 +89,8 @@
               </div>
             </template>
             <template v-slot:item.title="{ item }">
-              <div class="d-flex align-center" v-if="item.creator">
-                <router-link
+              <div class="d-flex align-center">
+                <router-link v-if="item.creator"
                   :to="{ name: 'UserDashboard', params: { id: item.creator.id } }">
                   <v-avatar class="ma-1 mr-2">
                     <v-img :src="item.creator.avatar"/>

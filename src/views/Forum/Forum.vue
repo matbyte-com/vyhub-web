@@ -86,7 +86,7 @@
                             </div>
                             <div class="d-flex justify-end"
                                  v-if="topic.last_post !== null && $vuetify.breakpoint.mdAndUp">
-                              <router-link
+                              <router-link v-if="topic.last_post.creator"
                                 :to="{ name: 'UserDashboard',
                          params: { id: topic.last_post.creator.id } }">
                                 <v-avatar class="ma-1 mr-2">

@@ -11,6 +11,7 @@
         <v-list-item-content>
           <div class="d-flex align-center">
             <router-link
+              v-if="post.creator"
               :to="{ name: 'UserDashboard',
                            params: { id: post.creator.id } }">
               <v-avatar class="ma-1 mr-2" size="30">
@@ -27,7 +28,7 @@
                   {{ post.thread.title }}
                 </router-link>
               </div>
-              <div class="text--disabled">
+              <div class="text--disabled" v-if="post.creator">
                 <span class="vh-forum-link">
                   {{ utils.formatTimeForForum(post.created) }} {{ $t('_forum.by') }}
                 </span>
@@ -52,6 +53,7 @@
         <v-list-item-content>
           <div class="d-flex align-center">
             <router-link
+              v-if="thread.creator"
               :to="{ name: 'UserDashboard',
                            params: { id: thread.creator.id } }">
               <v-avatar class="ma-1 mr-2" size="35">
@@ -67,7 +69,7 @@
                   {{ thread.title }}
                 </router-link>
               </div>
-              <div class="text--disabled">
+              <div class="text--disabled" v-if="thread.creator">
                 <span class="vh-forum-link">
                   {{ utils.formatTimeForForum(thread.created) }} {{ $t('_forum.by') }}
                 </span>
