@@ -20,7 +20,7 @@
         </div>
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateCommands()">
+        <v-btn color="primary" @click="generateCommandsShort(true)">
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
@@ -291,12 +291,16 @@ export default {
       this.commands.push(`${prefix} api_url "${config.backend_url}"`);
       this.commands.push(`${prefix} server_id "${this.server.id}"`);
     },
-    async generateCommandsShort() {
+    async generateCommandsShort(quotes = false) {
       this.commands = [];
 
       const access_token = await this.generateToken();
 
-      this.commands.push(`vh_setup ${access_token} ${config.backend_url} ${this.server.id}`);
+      if (quotes) {
+        this.commands.push(`vh_setup "${access_token}" "${config.backend_url}" "${this.server.id}"`);
+      } else {
+        this.commands.push(`vh_setup ${access_token} ${config.backend_url} ${this.server.id}`);
+      }
     },
     async generateAsaCommand() {
       this.commands = [];
