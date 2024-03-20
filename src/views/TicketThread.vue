@@ -30,7 +30,7 @@
         <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
           <div class="pa-3 text-center" style="width: 200px" v-if="$vuetify.breakpoint.smAndUp">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
-                         class="stylelint" style="color: inherit" v-if="!post.creator.deleted">
+                         class="stylelint" style="color: inherit" v-if="post.creator">
               <v-avatar size="80">
                 <v-img class="mx-auto" :src="post.creator.avatar" />
               </v-avatar>
@@ -75,7 +75,8 @@
               <v-card-text class="d-flex">
                 {{ utils.formatDate(post.created) }}
                 <div class="ml-auto">
-                  <v-chip v-if="post.creator.id !== thread.creator.id && !post.creator.deleted"
+                  <v-chip v-if="post.creator && thread.creator &&
+                  post.creator.id !== thread.creator.id && !post.creator.deleted"
                           color="primary" small round>
                     <v-icon small left>
                       mdi-shield-sword-outline
