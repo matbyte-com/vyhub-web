@@ -3,7 +3,7 @@
     <div v-if="user">
       <PageTitleFlat :title="user.username" :no-bottom-border-radius="true">
         <template v-slot:end>
-          <span class="d-flex justify-end mr-1">
+          <span class="d-flex justify-end mr-1" v-if="$checkAdmin()">
             <v-btn icon @click="$refs.deleteDialog.show()" small outlined depressed>
               <v-icon small>mdi-delete</v-icon>
             </v-btn>
