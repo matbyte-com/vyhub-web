@@ -33,7 +33,8 @@
       </v-card>
       <div class="mt-5">
         <keep-alive>
-          <component :is="componentInstance" :bundle="activeBundle" :user="user">
+          <component :is="componentInstance" :bundle="activeBundle" :user="user"
+                     @user-updated="fetchData">
           </component>
         </keep-alive>
       </div>

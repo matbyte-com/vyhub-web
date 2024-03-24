@@ -4,7 +4,7 @@
       <v-col cols="12" md="5" lg="4" xl="3" order-md="1" order-sm="1" order="1">
         <v-row>
           <v-col>
-            <ProfilePicture :user="user">
+            <ProfilePicture :user="user" @user-updated="userUpdated">
               <BansAndWarnings :user="user"
                                v-if="$store.getters.isLoggedIn &&
                              $checkLinked($store.getters.user, user) ||
@@ -119,6 +119,11 @@ export default {
   },
   beforeMount() {
     this.isCurrentUser = this.user.id === this.$store.getters.user.id;
+  },
+  methods: {
+    userUpdated() {
+      this.$emit('user-updated');
+    },
   },
 };
 </script>

@@ -116,6 +116,7 @@ export default {
           title: this.$t('_messages.removeSuccess'),
           type: 'success',
         });
+        this.$emit('user-updated');
       }).catch((err) => {
         this.$refs.adminDeleteConfirmationDialog.setError(err);
       });
