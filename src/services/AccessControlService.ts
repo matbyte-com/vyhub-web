@@ -21,6 +21,13 @@ interface Property {
 
 export default {
   methods: {
+    $checkAdmin(): boolean {
+      if (store.getters.isLoggedIn) {
+        return store.getters.user.admin === true;
+      }
+
+      return false;
+    },
     $checkProp(prop: string, bundleId?: string): boolean {
       // return True if user is admin
       if (store.getters.isLoggedIn) {
