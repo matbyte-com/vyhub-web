@@ -50,6 +50,13 @@ function returnForm() {
             'x-display': 'switch',
             default: false,
           },
+          protected: {
+            type: 'boolean',
+            title: i18n.t('_group.labels.protected'),
+            description: i18n.t('_group.labels.protectedDescription'),
+            'x-display': 'switch',
+            default: false,
+          },
         },
       },
       {

@@ -295,6 +295,7 @@ export default {
       obj.mappings = item.mappings;
       // obj.advanced_properties = advProps;
       obj.is_team = item.is_team;
+      obj.protected = item.protected;
       this.$refs.editGroupDialog.show(item);
       this.$nextTick(() => {
         this.$refs.editGroupDialog.setData(obj);
