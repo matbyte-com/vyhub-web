@@ -15,6 +15,8 @@
       <template v-slot:header>
         <v-col cols="12" xl="9" class="pa-0 ma-0">
           <v-select outlined hide-details dense
+                    class="animate__animated"
+                    :class="{animate__headShake:selectWobble === true}"
                     :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
                     return-object
                     :label="$t('category')"
@@ -127,6 +129,7 @@ export default {
       packetSchema: PacketForm.form(),
       categories: [],
       currentCategory: null,
+      selectWobble: false,
     };
   },
   beforeMount() {
@@ -311,6 +314,10 @@ export default {
     Sortable.create(table, {
       onEnd: ({ newIndex, oldIndex }) => {
         if (this.currentCategory == null) {
+          this.selectWobble = true;
+          setTimeout(() => {
+            this.selectWobble = false;
+          }, 500);
           this.$notify({
             type: 'warning',
             title: this.$t('_packet.messages.sortOnlyWithCategory'),
