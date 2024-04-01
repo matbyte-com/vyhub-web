@@ -13,9 +13,9 @@
       </v-col>
       <v-col cols="12" md="6" :class="{ 'text-start': !inverted && $vuetify.breakpoint.mdAndUp,
    'text-end': inverted && $vuetify.breakpoint.mdAndUp,
-    'text-center': $vuetify.breakpoint.smAndDown }" v-if="newsToShow.length > 0">
-        <div>
-          <v-card outlined class="card-rounded">
+    'text-center': $vuetify.breakpoint.smAndDown }" v-if="newsToShow !== null">
+        <div v-if="newsToShow.length > 0">
+          <v-card outlined class="card-rounded" flat>
             <v-card-text>
               <div v-for="(n, index) in newsToShow" :key="n.id">
                 <v-card outlined :max-height="maxColumnHeight" :to="{ name: 'News' }"
@@ -34,6 +34,13 @@
                 </v-card>
                 <v-divider class="mb-2 mt-2" v-if="index === 0 && newsToShow.length > 1"/>
               </div>
+            </v-card-text>
+          </v-card>
+        </div>
+        <div v-else>
+          <v-card outlined class="card-rounded" flat>
+            <v-card-text>
+              {{ $t('noDataAvailable') }}
             </v-card-text>
           </v-card>
         </div>
