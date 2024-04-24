@@ -414,8 +414,8 @@ export default {
                   acc[obj.name].count += 1;
                 }
 
-                if (this.currentUser) {
-                  const user_id = this.currentUser.id;
+                if (this.$store.getters.user) {
+                  const user_id = this.$store.getters.user.id;
                   if (obj.user && obj.user.id === user_id) {
                     acc[obj.name].has_reacted = true;
                   }
@@ -473,9 +473,9 @@ export default {
       });
     },
     postEditable(post) {
-      if (!this.topic || !this.currentUser || !this.posts) return false;
+      if (!this.topic || !this.$store.getters.user || !this.posts) return false;
       return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins)
-        || (this.currentUser.id === post.creator.id && this.topic.edit_post));
+        || (this.$store.getters.user.id === post.creator.id && this.topic.edit_post));
     },
     openEditPostDialog(post) {
       this.$refs.editPostDialog.show(post);
@@ -586,7 +586,7 @@ export default {
       this.cooldown = true;
       if (post.accumulated_reactions[icon].has_reacted) {
         const reaction = post.reactions
-          .find((r) => r.user && r.user.id === this.currentUser.id && r.name === icon);
+          .find((r) => r.user && r.user.id === this.$store.getters.user.id && r.name === icon);
         if (!reaction) {
           console.log(`Users ${icon} reaction could not be found`);
           return;
