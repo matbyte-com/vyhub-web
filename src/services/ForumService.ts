@@ -12,22 +12,15 @@ export default {
         return true;
       }
 
-      let memberships = null;
-      if (specificUser) {
-        memberships = specificUser.memberships;
-      } else {
-        memberships = store.getters.userMemberships;
-      }
-      if (memberships == null) return false;
+      const memberships = specificUser?.memberships || store.getters.userMemberships;
+      if (!memberships) return false;
       const adminGroupIds = admins.map((admin) => admin.id);
-      return memberships?.some((membership: {
-        group: { id: string; };
-      }) => adminGroupIds.includes(membership.group.id));
+      return memberships.some((membership: {
+        group: { id: string; }; }) => adminGroupIds.includes(membership.group.id));
     },
     $checkIsForumBanned(): boolean {
       const { properties } = store.getters;
-      if (properties == null) return false;
-      return properties.some((property: { name: string }) => property.name === 'forum_post');
+      return properties?.some((property: { name: string, granted: boolean }) => property.name === 'forum_post' && !property.granted) || false;
     },
   },
 };

@@ -32,7 +32,7 @@
               </span>
             </div>
             <v-spacer />
-            <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins)">
+            <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins, currentUser)">
               <v-btn color="success" outlined small class="ml-5 mr-1"
                      @click="openThreadTitleEditDialog(thread)">
                 <v-icon left>mdi-pencil</v-icon>
@@ -231,7 +231,7 @@
                     :total-visible="5"
                     @input="fetchData"/>
       <div class="mt-3" v-if="(thread.status !== 'CLOSED'
-      || ($checkProp('forum_edit') || $checkTopicAdmin(admins))) && posts.length >= 1
+      || ($checkProp('forum_edit') || $checkTopicAdmin(admins, currentUser))) && posts.length >= 1
       && $vuetify.breakpoint.mdAndUp && $store.getters.isLoggedIn">
         <v-card flat outlined class="card-rounded">
           <v-card-text>
@@ -264,14 +264,14 @@
                 {{ $t('_forum.addPost') }}
               </v-btn>
               <v-checkbox class="ml-4" v-if="!$checkIsForumBanned()
-              && ($checkProp('forum_edit') || $checkTopicAdmin(admins))"
+              && ($checkProp('forum_edit') || $checkTopicAdmin(admins, currentUser))"
                           v-model="closeWithPost" :label="$t('_forum.lockWithAnswer')"/>
             </div>
           </v-card-text>
         </v-card>
       </div>
       <div v-if="thread.status === 'CLOSED'
-      && !($checkProp('forum_edit') || $checkTopicAdmin(admins))">
+      && !($checkProp('forum_edit') || $checkTopicAdmin(admins, currentUser))">
         <v-row class="justify-center mt-3">
           <v-col cols="4" lg="2" sm="3">
             <v-alert outlined color="red" class="text-center">
@@ -377,6 +377,7 @@ export default {
       closeWithPost: false,
       threadIsOld: false,
       selectedReaction: null,
+      currentUser: null,
     };
   },
   beforeMount() {
@@ -387,6 +388,7 @@ export default {
       this.lastPage = true;
     }
     this.threadId = this.$route.params.id;
+    this.currentUser = this.$store.getters.user;
     this.fetchData();
     this.getThread();
   },
@@ -414,8 +416,8 @@ export default {
                   acc[obj.name].count += 1;
                 }
 
-                if (this.$store.getters.user) {
-                  const user_id = this.$store.getters.user.id;
+                if (this.currentUser) {
+                  const user_id = this.currentUser.id;
                   if (obj.user && obj.user.id === user_id) {
                     acc[obj.name].has_reacted = true;
                   }
@@ -473,9 +475,9 @@ export default {
       });
     },
     postEditable(post) {
-      if (!this.topic || !this.$store.getters.user || !this.posts) return false;
-      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins)
-        || (this.$store.getters.user.id === post.creator.id && this.topic.edit_post));
+      if (!this.topic || !this.currentUser || !this.posts) return false;
+      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins, this.currentUser)
+        || (this.currentUser.id === post.creator.id && this.topic.edit_post));
     },
     openEditPostDialog(post) {
       this.$refs.editPostDialog.show(post);
@@ -488,7 +490,7 @@ export default {
         this.$refs.addPostDialog.setError(this.$t('_forum.messages.emptyPost'));
         return;
       }
-      if (this.thread.status === 'CLOSED' && (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins))) {
+      if (this.thread.status === 'CLOSED' && (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins, this.currentUser))) {
         await this.toggleStatus(true);
       }
       (await openapi).forum_createPost(this.threadId, data).then(() => {
@@ -586,7 +588,7 @@ export default {
       this.cooldown = true;
       if (post.accumulated_reactions[icon].has_reacted) {
         const reaction = post.reactions
-          .find((r) => r.user && r.user.id === this.$store.getters.user.id && r.name === icon);
+          .find((r) => r.user && r.user.id === this.currentUser.id && r.name === icon);
         if (!reaction) {
           console.log(`Users ${icon} reaction could not be found`);
           return;
