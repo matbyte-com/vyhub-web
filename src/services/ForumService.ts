@@ -8,7 +8,9 @@ export interface UserModel {
 export default {
   methods: {
     $checkTopicAdmin(admins: UserModel[], specificUser: UserModel | null): boolean {
-      if (specificUser && admins.some((admin) => admin.id === specificUser.id)) {
+      // eslint-disable-next-line no-param-reassign
+      specificUser = specificUser || store.getters.user;
+      if (specificUser && admins.some((admin) => admin.id === specificUser?.id)) {
         return true;
       }
 

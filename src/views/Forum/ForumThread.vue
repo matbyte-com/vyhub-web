@@ -32,7 +32,7 @@
               </span>
             </div>
             <v-spacer />
-            <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins, currentUser)">
+            <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins)">
               <v-btn color="success" outlined small class="ml-5 mr-1"
                      @click="openThreadTitleEditDialog(thread)">
                 <v-icon left>mdi-pencil</v-icon>
@@ -231,7 +231,7 @@
                     :total-visible="5"
                     @input="fetchData"/>
       <div class="mt-3" v-if="(thread.status !== 'CLOSED'
-      || ($checkProp('forum_edit') || $checkTopicAdmin(admins, currentUser))) && posts.length >= 1
+      || ($checkProp('forum_edit') || $checkTopicAdmin(admins))) && posts.length >= 1
       && $vuetify.breakpoint.mdAndUp && $store.getters.isLoggedIn">
         <v-card flat outlined class="card-rounded">
           <v-card-text>
@@ -264,14 +264,14 @@
                 {{ $t('_forum.addPost') }}
               </v-btn>
               <v-checkbox class="ml-4" v-if="!$checkIsForumBanned()
-              && ($checkProp('forum_edit') || $checkTopicAdmin(admins, currentUser))"
+              && ($checkProp('forum_edit') || $checkTopicAdmin(admins))"
                           v-model="closeWithPost" :label="$t('_forum.lockWithAnswer')"/>
             </div>
           </v-card-text>
         </v-card>
       </div>
       <div v-if="thread.status === 'CLOSED'
-      && !($checkProp('forum_edit') || $checkTopicAdmin(admins, currentUser))">
+      && !($checkProp('forum_edit') || $checkTopicAdmin(admins))">
         <v-row class="justify-center mt-3">
           <v-col cols="4" lg="2" sm="3">
             <v-alert outlined color="red" class="text-center">
@@ -377,7 +377,6 @@ export default {
       closeWithPost: false,
       threadIsOld: false,
       selectedReaction: null,
-      currentUser: null,
     };
   },
   beforeMount() {
@@ -388,7 +387,6 @@ export default {
       this.lastPage = true;
     }
     this.threadId = this.$route.params.id;
-    this.currentUser = this.$store.getters.user;
     this.fetchData();
     this.getThread();
   },
@@ -476,7 +474,7 @@ export default {
     },
     postEditable(post) {
       if (!this.topic || !this.currentUser || !this.posts) return false;
-      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins, this.currentUser)
+      return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins)
         || (this.currentUser.id === post.creator.id && this.topic.edit_post));
     },
     openEditPostDialog(post) {
@@ -490,7 +488,7 @@ export default {
         this.$refs.addPostDialog.setError(this.$t('_forum.messages.emptyPost'));
         return;
       }
-      if (this.thread.status === 'CLOSED' && (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins, this.currentUser))) {
+      if (this.thread.status === 'CLOSED' && (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins))) {
         await this.toggleStatus(true);
       }
       (await openapi).forum_createPost(this.threadId, data).then(() => {
