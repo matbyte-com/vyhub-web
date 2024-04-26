@@ -24,8 +24,8 @@
         </GenForm>
       </v-col>
     </v-row>
-    <v-divider class="mt-3"/>
-    <div class="mt-3">
+    <v-divider class="mt-5"/>
+    <div class="mt-5">
       <Support />
     </div>
   </div>

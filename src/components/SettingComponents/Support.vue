@@ -26,15 +26,16 @@
           </v-col>
         </v-row>
       <v-card flat>
-          <v-textarea outlined hide-details="true" class="mt-3" v-model="supportMessage"
-                      :label="$t('_support.supportQuestions')"/>
+        <v-textarea outlined hide-details="true" class="mt-3" v-model="supportMessage"
+                    :label="$t('_support.supportQuestions')"/>
       </v-card>
         <div class="d-flex align-center">
           <v-switch v-model="supportAnswerYes" class="align-self-center"
                     :label="$t('_support.reply?')" />
-          <v-text-field v-if="supportAnswerYes" dense outlined hide-details="true" class="ml-3"
-                        v-model="supportMail" :label="$t('email')" style="max-width: 230px"
-                        rules=""/>
+          <v-card flat class="ml-3">
+            <v-text-field v-if="supportAnswerYes" dense outlined hide-details="true"
+                          v-model="supportMail" :label="$t('email')" style="max-width: 230px"/>
+          </v-card>
           <v-spacer />
           <v-btn depressed color="primary" @click="sendSupportRequest" :disabled="!supportMessage">
             {{ $t('_support.send') }}
@@ -91,11 +92,18 @@ export default {
           content: this.supportMessage,
         };
       }
-      (await openapi).general_sendFeedbackMail(null, data).then(() => {
-        this.$notify({
-          title: this.$t('_messages.createSuccess'),
-          type: 'success',
-        });
+      (await openapi).general_sendFeedbackMail(null, data).then((rsp) => {
+        if (rsp.data.success) {
+          this.$notify({
+            title: this.$t('_messages.createSuccess'),
+            type: 'success',
+          });
+        } else {
+          this.$notify({
+            title: this.$t('unexpectedError'),
+            type: 'error',
+          });
+        }
       });
     },
   },
