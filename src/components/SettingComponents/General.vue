@@ -24,6 +24,10 @@
         </GenForm>
       </v-col>
     </v-row>
+    <v-divider class="mt-3"/>
+    <div class="mt-3">
+      <Support />
+    </div>
   </div>
 </template>
 
@@ -34,17 +38,40 @@ import HtmlTagsForm from '@/forms/HtmlTagsForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import AddOnChip from '@/components/SettingComponents/AddOnChip.vue';
+import Support from '@/components/SettingComponents/Support.vue';
 import SettingTitle from './SettingTitle.vue';
 import i18n from '../../plugins/i18n';
 
 export default {
   name: 'General',
-  components: { AddOnChip, SettingTitle, GenForm },
+  components: {
+    AddOnChip, SettingTitle, GenForm, Support,
+  },
   data() {
     return {
       formSchema: null,
       data: null,
       htmlTagSchema: HtmlTagsForm,
+      supportMethods: [
+        {
+          title: 'Discord',
+          link: 'https://discord.gg/QycQpd2AQP',
+          description: this.$t('_support.discordDescription'),
+          icon: '$discord',
+        },
+        {
+          title: 'Docs',
+          link: 'https://docs.vyhub.net',
+          description: this.$t('_support.documentationDescription'),
+          icon: 'mdi-book-open-variant',
+        },
+        {
+          title: 'Youtube',
+          link: 'https://www.youtube.com/channel/UCjCxWjHbqoSZmp2l05LWAFg',
+          description: this.$t('_support.youtubeDescription'),
+          icon: 'mdi-youtube',
+        },
+      ],
     };
   },
   beforeMount() {
@@ -109,5 +136,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
