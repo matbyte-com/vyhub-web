@@ -201,7 +201,7 @@ function form(gatewayType: string) {
         type: ['string', 'null'],
         title: i18n.t('imageURL'),
         description: i18n.t('_gateway.labels.imageUrlDescription'),
-        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
+        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
         'x-props': {
           clearable: true,
           placeholder: i18n.t('_settings.httpPlaceholder'),

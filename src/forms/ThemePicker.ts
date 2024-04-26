@@ -45,7 +45,7 @@ function returnForm() {
       image: {
         type: 'string',
         title: i18n.t('_theme.backgroundImageURL'),
-        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
+        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
         'x-props': {
           clearable: true,
           placeholder: i18n.t('_settings.httpPlaceholder'),
@@ -60,7 +60,7 @@ function returnForm() {
       logo: {
         type: 'string',
         title: i18n.t('_theme.logoURL'),
-        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
+        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
         'x-props': {
           clearable: true,
           placeholder: i18n.t('_settings.httpPlaceholder'),
