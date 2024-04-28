@@ -60,6 +60,14 @@ function serverTypeFields(serverType: string) {
         title: i18n.t('password'),
       },
     };
+  } else if (serverType === 'SOURCE') {
+    required_secrets = [];
+    properties_secrets = {
+      password: {
+        type: 'string',
+        title: i18n.t('_server.labels.rconPassword'),
+      },
+    };
   }
 
   return {
@@ -140,6 +148,9 @@ export default {
         },
         {
           ...serverTypeFields('ASA'),
+        },
+        {
+          ...serverTypeFields('SOURCE'),
         },
       ],
     },

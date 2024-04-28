@@ -250,6 +250,8 @@ export default {
           switch (server.type) {
             case 'GMOD':
               return `steam://connect/${server.address}:${server.port}`;
+            case 'SOURCE':
+              return `steam://connect/${server.address}:${server.port}`;
             case 'DISCORD':
               return server.extra?.inviteLink;
             case 'TEAMSPEAK3':

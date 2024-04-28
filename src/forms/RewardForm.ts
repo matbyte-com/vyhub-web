@@ -40,6 +40,18 @@ const on_event_reduced = [
   },
 ];
 
+const serversSelectField = {
+  type: 'array',
+  title: i18n.t('_reward.labels.limitToServers'),
+  description: i18n.t('_reward.labels.limitToServersDescription'),
+  items: {
+    type: 'string',
+  },
+  'x-fromUrl': `${Common.apiURL}/server/?serverbundle_id={serverbundle.id}`,
+  'x-itemKey': 'id',
+  'x-itemTitle': 'name',
+};
+
 function rewardTypeFields(rewardType: string) {
   let properties = {};
   let required: Array<string> = [];
@@ -66,6 +78,7 @@ function rewardTypeFields(rewardType: string) {
   if (rewardType === 'COMMAND') {
     required = ['command'];
     properties = {
+      serversSelectField,
       command: {
         type: 'string',
         title: i18n.t('command'),
@@ -74,6 +87,7 @@ function rewardTypeFields(rewardType: string) {
   } else if (rewardType === 'SCRIPT') {
     required = ['script'];
     properties = {
+      serversSelectField,
       script: {
         type: 'string',
         title: i18n.t('script'),
@@ -175,13 +189,16 @@ function form() {
   return {
     type: 'object',
     allOf: [{
-      required: ['name', 'serverbundle', 'type'],
+      required: ['name', 'type'],
       properties: {
         name: {
           type: 'string',
           title: i18n.t('name'),
         },
-        serverbundle: Common.serverbundleSelectField,
+        serverbundle: {
+          ...Common.serverbundleSelectField,
+          type: ['object', 'null'],
+        },
       },
     },
     {

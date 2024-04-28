@@ -154,7 +154,7 @@ export default {
       const data = this.$refs.createRewardDialog.getData();
 
       data.order = 0;
-      data.serverbundle_id = data.serverbundle.id;
+      data.serverbundle_id = (data.serverbundle ? data.serverbundle.id : null);
       delete data.serverbundle;
 
       const api = await openapi;
@@ -177,7 +177,7 @@ export default {
       const data = this.$refs.editRewardDialog.getData();
 
       data.order = 0;
-      data.serverbundle_id = data.serverbundle.id;
+      data.serverbundle_id = (data.serverbundle ? data.serverbundle.id : null);
       delete data.serverbundle;
 
       const api = await openapi;
