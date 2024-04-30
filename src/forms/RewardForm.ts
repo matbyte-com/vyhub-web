@@ -74,11 +74,12 @@ function rewardTypeFields(rewardType: string) {
       default: false,
     },
   };
+  let serversSelectFieldOptional = {};
 
   if (rewardType === 'COMMAND') {
     required = ['command'];
+    serversSelectFieldOptional = serversSelectField;
     properties = {
-      serversSelectField,
       command: {
         type: 'string',
         title: i18n.t('command'),
@@ -86,8 +87,8 @@ function rewardTypeFields(rewardType: string) {
     };
   } else if (rewardType === 'SCRIPT') {
     required = ['script'];
+    serversSelectFieldOptional = serversSelectField;
     properties = {
-      serversSelectField,
       script: {
         type: 'string',
         title: i18n.t('script'),
@@ -170,11 +171,38 @@ function rewardTypeFields(rewardType: string) {
         type: 'string',
         const: rewardType,
       },
-      on_event: {
-        type: 'string',
-        title: i18n.t('_reward.labels.onEvent'),
-        oneOf: (on_event_set === 'full' ? on_event_full : on_event_reduced),
+      on_event_group: {
+        type: 'object',
+        allOf: [
+          {
+            properties: {
+              on_event: {
+                type: 'string',
+                title: i18n.t('_reward.labels.onEvent'),
+                oneOf: on_event_reduced,
+                'x-if': 'root.serverbundle and root.serverbundle.server_type == "SOURCE"',
+                'x-options': {
+                  evalMethod: 'evalExpr',
+                },
+              },
+            },
+          },
+          {
+            properties: {
+              on_event: {
+                type: 'string',
+                title: i18n.t('_reward.labels.onEvent'),
+                oneOf: (on_event_set === 'full' ? on_event_full : on_event_reduced),
+                'x-if': 'not root.serverbundle or root.serverbundle.server_type != "SOURCE"',
+                'x-options': {
+                  evalMethod: 'evalExpr',
+                },
+              },
+            },
+          },
+        ],
       },
+      limit_servers: serversSelectFieldOptional,
       ...otherOptions,
       data: {
         type: 'object',
