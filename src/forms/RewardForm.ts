@@ -1,6 +1,7 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
 import store from '@/store';
+import utilService from '@/services/UtilService';
 
 const on_event_full = [
   {
@@ -190,6 +191,7 @@ function rewardTypeFields(rewardType: string) {
             },
           },
           {
+            required: ['on_event'],
             properties: {
               on_event: {
                 type: 'string',
@@ -216,7 +218,7 @@ function rewardTypeFields(rewardType: string) {
 }
 
 function form() {
-  return {
+  const res = {
     type: 'object',
     allOf: [{
       required: ['name', 'type'],
@@ -263,6 +265,19 @@ function form() {
     },
     ],
   };
+  if (!utilService.data().utils.showAdvancedSettings()) {
+    if (res.allOf[1] && res.allOf[1].oneOf) {
+      // eslint-disable-next-line guard-for-in,no-restricted-syntax
+      for (const property of res.allOf[1].oneOf) {
+        if (property.properties && property.properties.limit_servers) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          delete property.properties.limit_servers;
+        }
+      }
+    }
+  }
+  return res;
 }
 
 export default form();
