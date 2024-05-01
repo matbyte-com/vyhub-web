@@ -242,6 +242,11 @@
         3. {{ $t('_server.instructions.COMMON.wait') }}
       </div>
     </div>
+
+    <!-- No setup -->
+    <div v-if="['SOURCE'].includes(server.type)">
+      <div class="font-weight-bold">{{ $t('_server.instructions.COMMON.noSetup') }}</div>
+    </div>
   </div>
 </template>
 
