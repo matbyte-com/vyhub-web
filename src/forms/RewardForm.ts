@@ -45,7 +45,7 @@ const serversSelectField = {
   title: i18n.t('_reward.labels.limitToServers'),
   description: i18n.t('_reward.labels.limitToServersDescription'),
   items: {
-    type: 'string',
+    type: 'object',
   },
   'x-fromUrl': `${Common.apiURL}/server/?serverbundle_id={serverbundle.id}`,
   'x-itemKey': 'id',
