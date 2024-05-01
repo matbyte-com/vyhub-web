@@ -105,7 +105,7 @@ export default {
         });
     },
     showDetails(purchase) {
-      this.$router.push({ path: '/shop/admin/purchases', query: { purchase_id: purchase.id } });
+      this.$router.push({ path: '/admin/shop/purchases', query: { purchase_id: purchase.id } });
     },
     getCoupons(item) {
       if (!item) { return ''; }
