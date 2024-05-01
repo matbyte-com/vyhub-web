@@ -62,11 +62,13 @@ function rewardTypeFields(rewardType: string) {
       type: 'boolean',
       title: i18n.t('_reward.labels.once'),
       default: false,
+      description: i18n.t('_reward.labels.onceDescription'),
     },
     once_from_all: {
       type: 'boolean',
       title: i18n.t('_reward.labels.onceFromAll'),
       default: false,
+      description: i18n.t('_reward.labels.onceFromAllDescription'),
     },
     reactivate_on_extend: {
       type: 'boolean',
@@ -226,6 +228,7 @@ function form() {
         serverbundle: {
           ...Common.serverbundleSelectField,
           type: ['object', 'null'],
+          description: i18n.t('_reward.labels.serverbundleDescription'),
         },
       },
     },
