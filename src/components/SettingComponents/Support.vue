@@ -92,18 +92,22 @@ export default {
           content: this.supportMessage,
         };
       }
+
+      if (!this.supportMessage || this.supportMessage.length < 7) {
+        this.$notify({
+          title: this.$t('_messages.error'),
+          message: this.$t('_support.messages.tooShort'),
+          type: 'error',
+        });
+        return;
+      }
+
       (await openapi).general_sendFeedbackMail(null, data).then((rsp) => {
-        if (rsp.data.success) {
-          this.$notify({
-            title: this.$t('_messages.createSuccess'),
-            type: 'success',
-          });
-        } else {
-          this.$notify({
-            title: this.$t('unexpectedError'),
-            type: 'error',
-          });
-        }
+        this.$notify({
+          title: this.$t('_support.messages.requestSendSuccess'),
+          type: 'success',
+        });
+        this.supportMessage = null;
       });
     },
   },
