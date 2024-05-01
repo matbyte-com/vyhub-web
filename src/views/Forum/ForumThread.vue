@@ -424,6 +424,53 @@ export default {
                 return acc;
               }, {});
 
+              // eslint-disable-next-line no-param-reassign
+              p.content = p.content.replace(
+                /<iframe([^>]*)src="([^"]+)"([^>]*)><\/iframe>/g,
+                (_, iframeAttrsBefore, src, iframeAttrsAfter) => {
+                  const iFrameID = `iFrame${Math.random().toString(36).slice(2, 9)}`;
+                  const spoilerDiv = `
+                    <div class="vh-iframe-closed" style="
+                        border: 2px solid var(--v-warning-darken3);
+                        cursor: pointer;
+                        width: 30%;
+                        min-height: 100px;
+                        text-align: center;
+                        transition: all 0.3s ease;
+                        border-radius: 10px;
+                        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                        background-color: rgba(100, 100, 100, 0.4);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                      " onclick="
+                        var iframe = document.getElementById('${iFrameID}');
+                        iframe.src = iframe.getAttribute('data-src');
+                        iframe.style.display = 'block';
+                        this.style.opacity = '0';
+                        setTimeout(() => { this.style.display = 'none'; }, 500);
+                    ">
+                      <i class="vh-iframe-icon v-icon mdi mdi-eye-off" style="
+                          font-size: 40px;
+                          color: var(--v-warning-darken3);
+                          transition: all 0.3s ease;
+                      "></i>
+                      <p class="vh-iframe-text" style="color: var(--v-warning-darken3); font-size: 14px;">${src}</p>
+                  </div>`;
+                  const iFrameElement = `
+                  <iframe id="${iFrameID}" data-src="${src}" ${iframeAttrsBefore} style="
+                      display: none;
+                      width: 100%;
+                      height: 500px;
+                      border: none;
+                      border-top: 2px solid var(--v-warning-darken3);
+                      border-radius: 0 0 10px 10px;
+                  " class="vh-iframe-open" ${iframeAttrsAfter}></iframe>`;
+                  return `<div style="display: flex; justify-content: center;">${spoilerDiv}</div>${iFrameElement}`;
+                },
+              );
+
               this.icons.forEach((i) => {
                 if (!(i in p.accumulated_reactions)) {
                   // eslint-disable-next-line no-param-reassign
