@@ -95,7 +95,7 @@ export default {
 
       if (!this.supportMessage || this.supportMessage.length < 7) {
         this.$notify({
-          title: this.$t('_messages.error'),
+          title: this.$t('error'),
           message: this.$t('_support.messages.tooShort'),
           type: 'error',
         });
