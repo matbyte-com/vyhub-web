@@ -438,7 +438,7 @@ export default {
                         text-align: center;
                         transition: all 0.3s ease;
                         border-radius: 10px;
-                        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
                         background-color: rgba(100, 100, 100, 0.4);
                         display: flex;
                         flex-direction: column;
@@ -448,8 +448,7 @@ export default {
                         var iframe = document.getElementById('${iFrameID}');
                         iframe.src = iframe.getAttribute('data-src');
                         iframe.style.display = 'block';
-                        this.style.opacity = '0';
-                        setTimeout(() => { this.style.display = 'none'; }, 500);
+                        this.style.display = 'none';
                     ">
                       <i class="vh-iframe-icon v-icon mdi mdi-eye-off" style="
                           font-size: 40px;
