@@ -134,7 +134,7 @@ function returnForm(links: {}[], disabled?: false) {
               pattern: '(^https?://.+$)|(/.*)',
               readOnly: disabled,
               'x-props': {
-                placeholder: 'https://vhyub.net',
+                placeholder: 'https://vyhub.net',
               },
               'x-options': {
                 fieldColProps: {
