@@ -55,7 +55,8 @@
           dense
         >{{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
-        <v-expansion-panels flat>
+        {{ htmlContentExpansionPanel }}
+        <v-expansion-panels flat v-model="htmlContentExpansionPanel">
           <v-expansion-panel>
             <v-expansion-panel-header>
               <v-row>
@@ -362,6 +363,7 @@ export default {
       rawHtmlInput: '',
       updateLinkEnabled: false,
       expansionPanels: null,
+      htmlContentExpansionPanel: null,
       links: null,
       cmsPages: null,
       currentLocation: 'HEADER',
@@ -394,6 +396,18 @@ export default {
   beforeMount() {
     this.getNavItems();
     this.getCmsPages();
+  },
+  watch: {
+    rawHtmlInput(newInput, oldInput) {
+      if (oldInput && newInput) {
+        this.htmlInput = null;
+      }
+    },
+    htmlInput(newInput, oldInput) {
+      if (oldInput && newInput) {
+        this.rawHtmlInput = null;
+      }
+    },
   },
   methods: {
     async getNavItems() {
