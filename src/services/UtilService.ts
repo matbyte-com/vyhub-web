@@ -285,7 +285,7 @@ export default {
           if (!btn.link) return false;
           if (btn.link.startsWith('/')) return true;
           if (window) {
-            return !!btn.link.includes(window.location.hostname);
+            return btn.link.startsWith(window.location.origin);
           }
           return false;
         },
