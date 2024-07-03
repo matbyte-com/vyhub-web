@@ -160,7 +160,7 @@
         2. {{ $t('_server.instructions.COMMON.runCommands') }}
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateCommands()">
+        <v-btn color="primary" @click="generateCommandsShort(true)">
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
@@ -173,7 +173,15 @@
       </div>
 
       <div class="font-weight-bold mt-4">
-        3. {{ $t('_server.instructions.COMMON.wait') }}
+        3. {{ $t('_server.instructions.FIVEM.server_cfg') }}
+        <br/>
+        <div>
+          <code>add_ace resource.vyhub-fivem command allow</code>
+        </div>
+      </div>
+
+      <div class="font-weight-bold mt-4">
+        4. {{ $t('_server.instructions.COMMON.wait') }}
       </div>
     </div>
 
