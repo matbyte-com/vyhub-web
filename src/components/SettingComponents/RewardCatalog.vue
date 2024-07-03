@@ -126,7 +126,7 @@ export default {
                   {
                     name: 'Server-wide Purchase Message',
                     description: 'Sends a chat message to all players that informs about a purchase',
-                    command: 'say "%nick% just purchased %packet_title% for %purchase_amount%',
+                    command: 'say "%nick% just purchased %packet_title% for %purchase_amount%"',
                   },
                 ],
               },
@@ -136,7 +136,7 @@ export default {
                   {
                     name: 'Add User to Group',
                     description: 'Adds the player to a group',
-                    script: 'setgroup PLAYER {{group}}',
+                    command: 'setgroup %id% {{group}}',
                     properties: {
                       group: {
                         name: 'Group',
@@ -147,7 +147,7 @@ export default {
                   {
                     name: 'Give Car',
                     description: 'Gives the player a car',
-                    script: 'givecar PLAYER {{car}}',
+                    command: 'givecar %id% {{car}}',
                     properties: {
                       car: {
                         name: 'Car',
@@ -158,7 +158,7 @@ export default {
                   {
                     name: 'Give Money',
                     description: 'Gives the player money',
-                    script: 'giveaccountmoney PLAYER {{account}} {{amount}}',
+                    command: 'giveaccountmoney %id% {{account}} {{amount}}',
                     properties: {
                       account: {
                         name: 'Account (bank/money/black)',
@@ -173,7 +173,7 @@ export default {
                   {
                     name: 'Give Weapon',
                     description: 'Gives the player a weapon',
-                    script: 'giveweapon PLAYER {{weapon}} {{ammo}}',
+                    command: 'giveweapon %id% {{weapon}} {{ammo}}',
                     properties: {
                       weapon: {
                         name: 'Weapon',
@@ -188,7 +188,7 @@ export default {
                   {
                     name: 'Give Weapon Component',
                     description: 'Gives the player a weapon component',
-                    script: 'giveweaponcomponent PLAYER {{weapon}} {{component}}',
+                    command: 'giveweaponcomponent %id% {{weapon}} {{component}}',
                     properties: {
                       weapon: {
                         name: 'Weapon',
@@ -208,7 +208,7 @@ export default {
                   {
                     name: 'Give Pet',
                     description: 'Gives the player a pet',
-                    script: 'petadmin create PLAYER {{pet}}',
+                    command: 'petadmin create %id% {{pet}}',
                     properties: {
                       pet: {
                         name: 'Pet',
@@ -224,7 +224,7 @@ export default {
                   {
                     name: 'Give Points',
                     description: 'Gives the player points',
-                    script: 'givepoints PLAYER {{amount}}',
+                    command: 'givepoints %id% {{amount}}',
                     properties: {
                       amount: {
                         name: 'Amount',
@@ -240,7 +240,7 @@ export default {
                   {
                     name: 'Give Money',
                     description: 'Gives the player money',
-                    script: 'givemoney PLAYER {{type}} {{amount}}',
+                    command: 'givemoney %id% {{type}} {{amount}}',
                     properties: {
                       type: {
                         name: 'Type (bank/cash/...)',
