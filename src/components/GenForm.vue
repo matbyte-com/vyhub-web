@@ -80,12 +80,14 @@ export default {
   },
   methods: {
     validateAndRun() {
-      if (this.$refs.form.validate()) {
-        this.$emit('submit');
-      } else {
-        this.$emit('notValid');
-        this.loading = false;
-      }
+      setTimeout(() => {
+        if (this.$refs.form.validate()) {
+          this.$emit('submit');
+        } else {
+          this.$emit('notValid');
+          this.loading = false;
+        }
+      }, 500);
     },
     cancelForm() {
       this.loading = false;
