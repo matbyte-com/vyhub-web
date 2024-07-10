@@ -13,7 +13,8 @@
           <router-view  />
         </transition>
       </v-col>
-      <v-col v-if="anyShopStatsEnabled || this.recommendedPackets" cols="12" md="4" lg="3"
+      <v-col v-if="anyShopStatsEnabled || this.recommendedPackets"
+             cols="12" md="4" lg="3"
              class="d-flex flex-column">
         <v-card class="card-rounded" flat
                 v-if="!$vuetify.breakpoint.smAndDown && anyShopStatsEnabled">
@@ -55,6 +56,9 @@ export default {
   computed: {
     anyShopStatsEnabled() {
       if (!this.$store.getters.shopConfig) { return false; }
+
+      if (!this.$store.getters.shopConfig.show_widgets_on_shop_page) { return false; }
+
       return this.$store.getters.shopConfig.last_donators_enabled
         || this.$store.getters.shopConfig.top_donators_enabled
         || this.$store.getters.shopConfig.donation_goal_enabled;

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="vh-shop-stats">
   <v-tabs v-model="tab" grow v-show="numberOfTabs !== 1">
     <v-tab class="square" v-if="$store.getters.shopConfig.donation_goal_enabled">
       <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-flag-checkered</v-icon></v-tab>
@@ -11,13 +11,14 @@
   <div>
     <v-tabs-items v-model="tab">
       <v-tab-item v-if="$store.getters.shopConfig.donation_goal_enabled">
-        <DonationGoal :no-shop-btn="true" class="mt-3" :no-icon="true" :center-headline="true"/>
+        <DonationGoal :no-shop-btn="true" class="mt-3 vh-shop-donation-goal" :no-icon="true"
+                      :center-headline="true"/>
       </v-tab-item>
       <v-tab-item v-if="$store.getters.shopConfig.top_donators_enabled">
-        <TopDonators class="mt-3" :no-icon="true" :center-headline="true" />
+        <TopDonators class="mt-3 vh-shop-top-donators" :no-icon="true" :center-headline="true" />
       </v-tab-item>
       <v-tab-item v-if="$store.getters.shopConfig.last_donators_enabled">
-        <LastDonators class="mt-3" :no-icon="true" :center-headline="true" />
+        <LastDonators class="mt-3 vh-shop-last-donators" :no-icon="true" :center-headline="true" />
       </v-tab-item>
     </v-tabs-items>
   </div>

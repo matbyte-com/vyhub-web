@@ -1,5 +1,5 @@
 <template>
-<div style="min-height: 105px">
+<div style="min-height: 105px" class="vh-last-donators">
   <v-card-title v-if="!noTitle" class="pb-0 pt-0">
     <CardTitle :no-icon="noIcon" :centered="centerHeadline"
                :title="shopConfig.last_donators_display_title" icon="mdi-clock-end"/>

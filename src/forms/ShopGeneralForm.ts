@@ -14,6 +14,13 @@ export default {
       title: i18n.t('_shop.labels.creditsDisplayTitle'),
       description: i18n.t('_shop.labels.creditsDisplayTitleDescription'),
     },
+    show_widgets_on_shop_page: {
+      type: 'boolean',
+      'x-display': 'switch',
+      title: i18n.t('_shop.labels.showWidgetsOnShopPage'),
+      description: i18n.t('_shop.labels.showWidgetsOnShopPageDesc'),
+      default: 'true',
+    },
     donation_goal_enabled: {
       type: 'boolean',
       'x-display': 'switch',
