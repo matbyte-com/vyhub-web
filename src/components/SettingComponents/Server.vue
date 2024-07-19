@@ -172,8 +172,15 @@
     <Dialog icon="mdi-download-network" :title="$t('_server.labels.setup')" :max-width="700"
             ref="serverSetupDialog">
       <div>
-        <ServerSetup ref="serverSetup" :server="serverSetupServer"></ServerSetup>
+        <ServerSetup ref="serverSetup" :server="serverSetupServer" />
       </div>
+
+      <template v-slot:actions>
+        <v-icon left>mdi-book-open</v-icon>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/integrations/">
+          {{ $t('documentation') }}
+        </a>
+      </template>
     </Dialog>
     <Dialog icon="mdi-key-chain" :title="$t('_serverbundle.labels.apiKeys')" :max-width="500"
             ref="bundleApiKeysDialog" :with-id="true">

@@ -5,7 +5,7 @@
       <div class="font-weight-bold">1. {{ $t('_server.instructions.GMOD.download') }}</div>
       <div class="mt-1 text-center">
         <a href="https://github.com/matbyte-com/vyhub-gmod/releases" target="_blank">
-          <v-btn color="primary">
+          <v-btn color="primary" depressed>
             <v-icon left>mdi-download</v-icon>
             {{ $t('download') }}
           </v-btn>
@@ -20,15 +20,14 @@
         </div>
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateCommandsShort(true)">
+        <v-btn color="primary" @click="generateCommandsShort(true)" depressed>
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
       </div>
       <div v-if="commands != null" class="mt-1">
         <div v-for="cmd in commands" :key="cmd">
-          <code>{{ cmd }}</code>
-          <br/>
+          <ServerSetupTextField :cmd="cmd" class="mt-3"/>
         </div>
       </div>
 
@@ -42,7 +41,7 @@
       <div class="font-weight-bold">1. {{ $t('_server.instructions.MINECRAFT.download') }}</div>
       <div class="mt-1 text-center">
         <a href="https://github.com/matbyte-com/vyhub-minecraft/releases" target="_blank">
-          <v-btn color="primary">
+          <v-btn color="primary" depressed>
             <v-icon left>mdi-download</v-icon>
             {{ $t('download') }}
           </v-btn>
@@ -53,15 +52,14 @@
         2. {{ $t('_server.instructions.COMMON.runCommands') }}
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateCommandsShort()">
+        <v-btn color="primary" @click="generateCommandsShort()" depressed>
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
       </div>
       <div v-if="commands != null" class="mt-1">
         <div v-for="cmd in commands" :key="cmd">
-          <code>{{ cmd }}</code>
-          <br/>
+          <ServerSetupTextField :cmd="cmd" class="mt-3"/>
         </div>
       </div>
 
@@ -75,7 +73,7 @@
       <div class="font-weight-bold">1. {{ $t('_server.instructions.DISCORD.createApp') }}</div>
       <div class="mt-1 text-center">
         <a href="https://docs.vyhub.net/latest/guide/authorization#discord" target="_blank">
-          <v-btn color="primary">
+          <v-btn color="primary" depressed>
             <v-icon left>mdi-book-open-variant</v-icon>
             {{ $t('instructions') }}
           </v-btn>
@@ -87,7 +85,7 @@
       </div>
       <div class="mt-1 text-center">
         <a href="https://docs.vyhub.net/latest/game/discord#setup" target="_blank">
-          <v-btn color="primary">
+          <v-btn color="primary" depressed>
             <v-icon left>mdi-book-open-variant</v-icon>
             {{ $t('instructions') }}
           </v-btn>
@@ -99,12 +97,12 @@
       </div>
       <div class="mt-1 text-center">
         <a :href="discordBotLink" target="_blank">
-          <v-btn color="primary">
+          <v-btn color="primary" depressed>
             <v-icon left>mdi-plus</v-icon>
             {{ $t('add') }}
           </v-btn>
         </a>
-        <v-btn text icon @click="generateDiscordBotLink" color="primary" class="ml-1">
+        <v-btn text icon @click="generateDiscordBotLink" color="primary" class="ml-1" depressed>
           <v-icon>mdi-reload</v-icon>
         </v-btn>
       </div>
@@ -112,7 +110,7 @@
         4. {{ $t('_server.instructions.DISCORD.restartBot') }}
       </div>
       <div class="text-center">
-        <v-btn @click="restartDiscordBot" color="primary" class="ml-1"
+        <v-btn @click="restartDiscordBot" color="primary" class="ml-1" depressed
                :disabled="botRestarted > 0">
           <v-icon left>mdi-reload</v-icon>
           <div v-if="botRestarted === 0">{{ $t('_server.instructions.DISCORD.restart') }}</div>
@@ -126,15 +124,16 @@
       <div class="font-weight-bold">{{ $t('_server.instructions.TEAMSPEAK3.headline') }}</div>
       {{ $t('_server.instructions.TEAMSPEAK3.botNotConnected') }}
       <div class="mt-1 text-center">
-        <v-btn color="primary" href="https://docs.vyhub.net/latest/game/teamspeak" target="_blank">
+        <v-btn color="primary" href="https://docs.vyhub.net/latest/game/teamspeak"
+               target="_blank" depressed>
           <v-icon left>mdi-book-open-variant</v-icon>
           {{ $t('documentation') }}
         </v-btn>
-        <v-btn color="primary" class="ml-3" :to="{ name: 'Log' }">
+        <v-btn color="primary" class="ml-3" :to="{ name: 'Log' }" depressed>
           <v-icon left>mdi-format-list-bulleted</v-icon>
           {{ $t('logs') }}
         </v-btn>
-        <v-btn @click="restartTs3Bot" color="primary" class="ml-3"
+        <v-btn @click="restartTs3Bot" color="primary" class="ml-3" depressed
                :disabled="botRestarted > 0">
           <v-icon left>mdi-reload</v-icon>
           <div v-if="botRestarted === 0">{{ $t('_server.instructions.DISCORD.restart') }}</div>
@@ -149,7 +148,7 @@
       <div class="font-weight-bold">1. {{ $t('_server.instructions.FIVEM.download') }}</div>
       <div class="mt-1 text-center">
         <a href="https://github.com/matbyte-com/vyhub-fivem/releases" target="_blank">
-          <v-btn color="primary">
+          <v-btn color="primary" depressed>
             <v-icon left>mdi-download</v-icon>
             {{ $t('download') }}
           </v-btn>
@@ -160,15 +159,14 @@
         2. {{ $t('_server.instructions.COMMON.runCommands') }}
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateCommandsShort(true)">
+        <v-btn color="primary" @click="generateCommandsShort(true)" depressed>
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
       </div>
       <div v-if="commands != null" class="mt-1">
         <div v-for="cmd in commands" :key="cmd">
-          <code>{{ cmd }}</code>
-          <br/>
+          <ServerSetupTextField :cmd="cmd" class="mt-3"/>
         </div>
       </div>
 
@@ -190,7 +188,20 @@
       <div class="font-weight-bold">1. {{ $t('_server.instructions.RUST.download') }}</div>
       <div class="mt-1 text-center">
         <a href="https://github.com/matbyte-com/vyhub-umod/releases" target="_blank">
-          <v-btn color="primary">
+          <v-btn color="primary" depressed>
+            <v-icon left>mdi-download</v-icon>
+            {{ $t('download') }}
+          </v-btn>
+        </a>
+      </div>
+
+      <div v-if="server.type === 'RUST'"
+           class="font-weight-bold mt-4">
+        1.5 {{ $t('_server.instructions.RUST.imageLibrary') }}
+      </div>
+      <div class="mt-1 text-center">
+        <a href="https://umod.org/plugins/image-library" target="_blank">
+          <v-btn color="primary" depressed>
             <v-icon left>mdi-download</v-icon>
             {{ $t('download') }}
           </v-btn>
@@ -201,15 +212,14 @@
         2. {{ $t('_server.instructions.COMMON.runCommands') }}
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateCommandsShort()">
+        <v-btn color="primary" @click="generateCommandsShort()" depressed>
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
       </div>
       <div v-if="commands != null" class="mt-1">
         <div v-for="cmd in commands" :key="cmd">
-          <code>{{ cmd }}</code>
-          <br/>
+          <ServerSetupTextField :cmd="cmd" class="mt-3"/>
         </div>
       </div>
 
@@ -223,7 +233,7 @@
       <div class="font-weight-bold">1. {{ $t('_server.instructions.ASA.download') }}</div>
       <div class="mt-1 text-center">
         <a href="https://github.com/matbyte-com/vyhub-asa/releases" target="_blank">
-          <v-btn color="primary">
+          <v-btn color="primary" depressed>
             <v-icon left>mdi-download</v-icon>
             {{ $t('download') }}
           </v-btn>
@@ -234,15 +244,14 @@
         2. {{ $t('_server.instructions.COMMON.runCommands') }}
       </div>
       <div v-if="commands == null" class="mt-1 text-center">
-        <v-btn color="primary" @click="generateAsaCommand()">
+        <v-btn color="primary" @click="generateAsaCommand()" depressed>
           <v-icon left>mdi-repeat</v-icon>
           {{ $t('generate') }}
         </v-btn>
       </div>
       <div v-if="commands != null" class="mt-1">
         <div v-for="cmd in commands" :key="cmd">
-          <code>{{ cmd }}</code>
-          <br/>
+          <ServerSetupTextField :cmd="cmd" class="mt-3"/>
         </div>
       </div>
 
@@ -261,9 +270,13 @@
 <script>
 import openapi from '@/api/openapi';
 import config from '@/config';
+import ServerSetupTextField from '@/components/SettingComponents/ServerSetupTextField.vue';
 
 export default {
   name: 'ServerSetup',
+  components: {
+    ServerSetupTextField,
+  },
   props: {
     server: Object,
   },
@@ -318,8 +331,7 @@ export default {
     async generateAsaCommand() {
       this.commands = [];
       const access_token = await this.generateToken();
-      this.commands.push(`vh_setup ${access_token} ${config.backend_url} ${this.server.id}
-       ${this.server.serverbundle_id}`);
+      this.commands.push(`/vh_setup ${access_token} ${config.backend_url} ${this.server.id} ${this.server.serverbundle_id}`);
     },
     async generateDiscordBotLink() {
       const api = (await openapi);
