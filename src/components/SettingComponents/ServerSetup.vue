@@ -232,7 +232,7 @@
     <div v-if="server.type === 'ASA'">
       <div class="font-weight-bold">1. {{ $t('_server.instructions.ASA.download') }}</div>
       <div class="mt-1 text-center">
-        <a href="https://github.com/matbyte-com/vyhub-asa/releases" target="_blank">
+        <a href="https://github.com/matbyte-com/vyhub-ark-sa/releases" target="_blank">
           <v-btn color="primary" depressed>
             <v-icon left>mdi-download</v-icon>
             {{ $t('download') }}
