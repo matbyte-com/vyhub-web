@@ -141,10 +141,11 @@
                           class="vh-forum-post-op">
                     OP
                   </v-chip>
+                  <b class="ml-2 mr-1">·</b>
                 </div>
                 <!-- Post created -->
                 <span class="font-weight-light ml-1">
-                  <b class="mr-1">·</b>{{ utils.formatDate(post.created) }}
+                  {{ utils.formatDate(post.created) }}
                 </span>
                 <!-- ORIGINAL POSTER HINT END -->
                 <!-- ADMIN HINT -->
