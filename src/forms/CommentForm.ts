@@ -16,6 +16,7 @@ export default {
       type: 'string',
       title: i18n.t('message'),
       'x-display': 'textarea',
+      maxLength: 400,
     },
     visible_to_user: {
       type: 'boolean',

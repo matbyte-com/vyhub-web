@@ -17,6 +17,7 @@ export default {
     title: {
       type: 'string',
       title: i18n.t('title'),
+      maxLength: 150,
     },
     description: {
       type: 'string',
