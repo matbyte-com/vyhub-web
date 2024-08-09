@@ -20,16 +20,16 @@
     </template>
     <template v-slot:actions v-if="submitText != null || cancelText != null">
       <v-btn v-if="submitText != null"
-             text color="primary" @click="submit">
+             variant="text" color="primary" @click="submit">
         <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
-        <v-icon v-if="!loading" left>mdi-check</v-icon>
+        <v-icon v-if="!loading" start>mdi-check</v-icon>
         <div v-if="!loading">
           {{ submitText }}
         </div>
       </v-btn>
       <v-btn v-if="cancelText != null" color="lighten-5"
-             text @click="cancelForm">
-        <v-icon left>mdi-close</v-icon>
+             variant="text" @click="cancelForm">
+        <v-icon start>mdi-close</v-icon>
         {{ cancelText }}
       </v-btn>
     </template>

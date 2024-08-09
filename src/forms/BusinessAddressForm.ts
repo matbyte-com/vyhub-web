@@ -5,7 +5,7 @@ const form = JSON.parse(JSON.stringify(AddressForm));
 
 form.properties.vat_number = {
   type: 'string',
-  title: i18n.t('_address.labels.vat_number'),
+  title: i18n.global.t('_address.labels.vat_number'),
 };
 
 export default form;

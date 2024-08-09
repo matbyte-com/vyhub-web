@@ -2,17 +2,17 @@
   <span v-if="user">
     <v-chip v-if="!disabledLink && !simple" :small="small"
             :to="{ name: 'UserDashboard', params: {id: user.id}}"
-            :outlined="isOutlined" :color="color">
-      <v-icon small>mdi-account</v-icon>
+            :variant="isOutlined ? 'outlined' : undefined" :color="color">
+      <v-icon size="small">mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
     <v-chip v-if="disabledLink && !simple" :small="small"
-            :outlined="outline" :color="color">
-      <v-icon small>mdi-account</v-icon>
+            :variant="outline ? 'outlined' : undefined" :color="color">
+      <v-icon size="small">mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
     <span v-if="simple">
-      <v-icon small>mdi-account</v-icon>
+      <v-icon size="small">mdi-account</v-icon>
 <router-link :to="{ name: 'UserDashboard', params: {id: user.id}}">{{ user.username }}</router-link>
     </span>
   </span>

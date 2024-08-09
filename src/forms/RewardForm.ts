@@ -6,45 +6,45 @@ import utilService from '@/services/UtilService';
 const on_event_full = [
   {
     const: 'DIRECT',
-    title: i18n.t('_reward.labels._events.direct'),
+    title: i18n.global.t('_reward.labels._events.direct'),
   },
   {
     const: 'CONNECT',
-    title: i18n.t('_reward.labels._events.connect'),
+    title: i18n.global.t('_reward.labels._events.connect'),
   },
   /* {
     const: 'DISCONNECT',
-    title: i18n.t('_reward.labels._events.disconnect'),
+    title: i18n.global.t('_reward.labels._events.disconnect'),
   }, */
   {
     const: 'SPAWN',
-    title: i18n.t('_reward.labels._events.spawn'),
+    title: i18n.global.t('_reward.labels._events.spawn'),
   },
   {
     const: 'DEATH',
-    title: i18n.t('_reward.labels._events.death'),
+    title: i18n.global.t('_reward.labels._events.death'),
   },
   {
     const: 'DISABLE',
-    title: i18n.t('_reward.labels._events.disable'),
+    title: i18n.global.t('_reward.labels._events.disable'),
   },
 ];
 
 const on_event_reduced = [
   {
     const: 'DIRECT',
-    title: i18n.t('_reward.labels._events.direct'),
+    title: i18n.global.t('_reward.labels._events.direct'),
   },
   {
     const: 'DISABLE',
-    title: i18n.t('_reward.labels._events.disable'),
+    title: i18n.global.t('_reward.labels._events.disable'),
   },
 ];
 
 const serversSelectField = {
   type: 'array',
-  title: i18n.t('_reward.labels.limitToServers'),
-  description: i18n.t('_reward.labels.limitToServersDescription'),
+  title: i18n.global.t('_reward.labels.limitToServers'),
+  description: i18n.global.t('_reward.labels.limitToServersDescription'),
   items: {
     type: 'object',
   },
@@ -61,19 +61,19 @@ function rewardTypeFields(rewardType: string) {
   let otherOptions: Object = {
     once: {
       type: 'boolean',
-      title: i18n.t('_reward.labels.once'),
+      title: i18n.global.t('_reward.labels.once'),
       default: false,
-      description: i18n.t('_reward.labels.onceDescription'),
+      description: i18n.global.t('_reward.labels.onceDescription'),
     },
     once_from_all: {
       type: 'boolean',
-      title: i18n.t('_reward.labels.onceFromAll'),
+      title: i18n.global.t('_reward.labels.onceFromAll'),
       default: false,
-      description: i18n.t('_reward.labels.onceFromAllDescription'),
+      description: i18n.global.t('_reward.labels.onceFromAllDescription'),
     },
     reactivate_on_extend: {
       type: 'boolean',
-      title: i18n.t('_reward.labels.reactivateOnExtend'),
+      title: i18n.global.t('_reward.labels.reactivateOnExtend'),
       default: false,
     },
   };
@@ -85,7 +85,7 @@ function rewardTypeFields(rewardType: string) {
     properties = {
       command: {
         type: 'string',
-        title: i18n.t('command'),
+        title: i18n.global.t('command'),
       },
     };
   } else if (rewardType === 'SCRIPT') {
@@ -94,7 +94,7 @@ function rewardTypeFields(rewardType: string) {
     properties = {
       script: {
         type: 'string',
-        title: i18n.t('script'),
+        title: i18n.global.t('script'),
         'x-display': 'textarea',
       },
     };
@@ -116,7 +116,7 @@ function rewardTypeFields(rewardType: string) {
     properties = {
       group_id: {
         type: 'group',
-        title: i18n.t('group'),
+        title: i18n.global.t('group'),
         'x-fromUrl': `${Common.apiURL}/group/`,
         'x-itemKey': 'id',
         'x-itemTitle': 'name',
@@ -129,33 +129,33 @@ function rewardTypeFields(rewardType: string) {
     properties = {
       method: {
         type: 'string',
-        title: i18n.t('method'),
+        title: i18n.global.t('method'),
         enum: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
       },
       url: {
         type: 'string',
-        title: i18n.t('url'),
+        title: i18n.global.t('url'),
       },
       max_tries: {
         type: 'integer',
-        title: i18n.t('_reward.labels.maxRetries'),
+        title: i18n.global.t('_reward.labels.maxRetries'),
         minimum: 1,
         default: 3,
         maximum: 10,
       },
       headers: {
         type: 'array',
-        title: i18n.t('_reward.labels.headers'),
+        title: i18n.global.t('_reward.labels.headers'),
         items: {
           type: 'object',
           properties: {
             key: {
               type: 'string',
-              title: i18n.t('_reward.labels.headerKey'),
+              title: i18n.global.t('_reward.labels.headerKey'),
             },
             value: {
               type: 'string',
-              title: i18n.t('_reward.labels.headerValue'),
+              title: i18n.global.t('_reward.labels.headerValue'),
             },
           },
         },
@@ -170,7 +170,7 @@ function rewardTypeFields(rewardType: string) {
     required: requiredTop,
     properties: {
       type: {
-        title: i18n.t('type'),
+        title: i18n.global.t('type'),
         type: 'string',
         const: rewardType,
       },
@@ -181,7 +181,7 @@ function rewardTypeFields(rewardType: string) {
             properties: {
               on_event: {
                 type: 'string',
-                title: i18n.t('_reward.labels.onEvent'),
+                title: i18n.global.t('_reward.labels.onEvent'),
                 oneOf: on_event_reduced,
                 'x-if': 'root.serverbundle and root.serverbundle.server_type == "SOURCE"',
                 'x-options': {
@@ -195,7 +195,7 @@ function rewardTypeFields(rewardType: string) {
             properties: {
               on_event: {
                 type: 'string',
-                title: i18n.t('_reward.labels.onEvent'),
+                title: i18n.global.t('_reward.labels.onEvent'),
                 oneOf: (on_event_set === 'full' ? on_event_full : on_event_reduced),
                 'x-if': 'not root.serverbundle or root.serverbundle.server_type != "SOURCE"',
                 'x-options': {
@@ -225,12 +225,12 @@ function form() {
       properties: {
         name: {
           type: 'string',
-          title: i18n.t('name'),
+          title: i18n.global.t('name'),
         },
         serverbundle: {
           ...Common.serverbundleSelectField,
           type: ['object', 'null'],
-          description: i18n.t('_reward.labels.serverbundleDescription'),
+          description: i18n.global.t('_reward.labels.serverbundleDescription'),
         },
       },
     },
@@ -238,15 +238,15 @@ function form() {
       type: 'object',
       oneOf: [
         {
-          title: i18n.t('_reward.labels._types.command'),
+          title: i18n.global.t('_reward.labels._types.command'),
           ...rewardTypeFields('COMMAND'),
         },
         {
-          title: i18n.t('_reward.labels._types.script'),
+          title: i18n.global.t('_reward.labels._types.script'),
           ...rewardTypeFields('SCRIPT'),
         },
         {
-          title: i18n.t('_reward.labels._types.credits',
+          title: i18n.global.t('_reward.labels._types.credits',
             {
               credits_display_title:
                 store.getters.shopConfig.credits_display_title.toLowerCase(),
@@ -254,11 +254,11 @@ function form() {
           ...rewardTypeFields('CREDITS'),
         },
         {
-          title: i18n.t('_reward.labels._types.membership'),
+          title: i18n.global.t('_reward.labels._types.membership'),
           ...rewardTypeFields('MEMBERSHIP'),
         },
         {
-          title: i18n.t('_reward.labels._types.http'),
+          title: i18n.global.t('_reward.labels._types.http'),
           ...rewardTypeFields('HTTP'),
         },
       ],

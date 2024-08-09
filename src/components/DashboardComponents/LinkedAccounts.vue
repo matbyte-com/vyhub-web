@@ -9,10 +9,10 @@
               <v-row v-if="(userSelf || ($store.getters.user && $store.getters.user.admin))
      && !bundle" no-gutters>
                 <v-col>
-                  <v-btn depressed color="success" :to="{path: $route.path,
+                  <v-btn variant="flat" color="success" :to="{path: $route.path,
       query: { login: 'true', return_url: getReturnUrl() } }"
                          block :disabled="!userSelf">
-                    <v-icon left>
+                    <v-icon start>
                       mdi-account-plus
                     </v-icon>
                     {{ $t("_dashboard.labels.linkNewAccount") }}
@@ -20,7 +20,7 @@
                 </v-col>
                 <v-col cols="2" v-if="$store.getters.user &&
              $store.getters.user.admin" class="mr-1">
-                  <v-btn block depressed class="ml-1" @click="showExistingUserLinkDialog">
+                  <v-btn block variant="flat" class="ml-1" @click="showExistingUserLinkDialog">
                     <v-icon>mdi-link-variant-remove</v-icon>
                   </v-btn>
                 </v-col>
@@ -33,16 +33,16 @@
               hide-default-footer>
               <template v-slot:default="{ items }">
                 <v-card class="mb-2" v-for="acc in items"
-                        :key="acc.id" outlined>
+                        :key="acc.id" border>
                   <v-card-title class="pb-0">
                     <v-card :href="openExternalProfileLink(acc.type, acc.identifier)"
                             target="_blank"
                             width="100%" flat color="transparent">
                       <div class="d-flex align-center justify-space-between">
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
+                        <v-tooltip location="bottom">
+                          <template v-slot:activator="{ props }">
                             <div class="d-flex align-center">
-                              <v-icon class="mr-2" v-bind="attrs" v-on="on">
+                              <v-icon class="mr-2" v-bind="props">
                                 {{ userTypeIcons[acc.type] }}
                               </v-icon>
                               {{ acc.username }}
@@ -60,7 +60,7 @@
                     </v-card>
                   </v-card-title>
                   <v-card-subtitle class="mt-0 pt-0">
-                    <div class="text--disabled caption" style="
+                    <div class="text--disabled text-caption" style="
                  pointer-events: initial;">
                   <span v-if="acc.activities.length > 0">
                     {{ $t('_dashboard.labels.last_online') }}:
@@ -83,7 +83,7 @@
               && Object.keys(attributes[acc.id]).length > 0">
                     <v-row>
                       <v-col>
-                        <v-simple-table
+                        <v-table
                           dense v-if="attributeDefinitions != null">
                           <tbody>
                           <tr
@@ -97,7 +97,7 @@
                             </td>
                           </tr>
                           </tbody>
-                        </v-simple-table>
+                        </v-table>
                       </v-col>
                     </v-row>
                   </v-card-text>
@@ -134,7 +134,7 @@
                   </v-col>
                   <v-col cols="12" sm="2" class="d-flex text-center justify-center align-center">
                     <div><v-icon>mdi-link-variant</v-icon></div>
-                    <v-btn outlined small color="error" class="ml-3"
+                    <v-btn variant="outlined" size="small" color="error" class="ml-3"
                            @click="$refs.linkDeleteConfirmationDialog.show(link)">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>

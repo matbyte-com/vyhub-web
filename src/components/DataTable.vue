@@ -18,9 +18,9 @@
             v-model="searchModel"
             :label="$t('search')"
             hide-details
-            outlined
-            dense
-            @input="$emit('search', searchModel)">
+            variant="outlined"
+            density="compact"
+            @update:model-value="$emit('search', searchModel)">
             <template v-slot:prepend-inner>
               <v-icon>
                 mdi-magnify

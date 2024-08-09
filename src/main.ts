@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Axios from 'axios';
-import Notifications from 'vue-notification';
+// import Notifications from 'vue-notification';
 import VueApexCharts from 'vue-apexcharts';
 import VueNativeNotification from 'vue-native-notification';
 import * as Sentry from '@sentry/vue';
@@ -20,7 +20,7 @@ Axios.defaults.baseURL = config.backend_url;
 Axios.defaults.headers.common['Content-Type'] = 'application/json';
 Axios.defaults.headers.common.Accept = 'application/json';
 
-Vue.use(Notifications);
+// Vue.use(Notifications);
 Vue.use(VueApexCharts);
 Vue.use(VueNativeNotification);
 

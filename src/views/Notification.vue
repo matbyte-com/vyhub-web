@@ -10,8 +10,8 @@
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
     <v-card-text class="pt-1">
       <v-fade-transition>
-        <v-btn depressed color="primary" v-if="newMessages" @click="fetchData()" class="mt-3">
-          <v-icon left>
+        <v-btn variant="flat" color="primary" v-if="newMessages" @click="fetchData()" class="mt-3">
+          <v-icon start>
             mdi-sync
           </v-icon>
           {{ $t('_notification.newNotifications') }}
@@ -32,10 +32,10 @@
           <div class="d-flex align-center">
             <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
             <v-btn
-              outlined
+              variant="outlined"
               color="primary"
               @click="$refs.markAsReadDialog.show">
-              <v-icon left>
+              <v-icon start>
                 mdi-playlist-check
               </v-icon>
               {{ $t('_notification.markAllAsRead') }}
@@ -46,17 +46,17 @@
               dense
               v-model="showOnlyReadItems"
               :label="$t('_notification.hideReadNotifications')"
-              @change="fetchData"
+              @update:model-value="fetchData"
               class="mr-3 align-self-center mt-0 pt-0">
             </v-checkbox>
             <v-menu offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-btn
-                  outlined
+                  variant="outlined"
                   color="primary"
-                  v-bind="attrs"
-                  v-on="on">
-                  <v-icon left>
+                 
+                  v-bind="props">
+                  <v-icon start>
                     mdi-filter
                   </v-icon>
                   {{ $t('type') }}
@@ -71,7 +71,7 @@
                 v-model="selectedCat"
                 :label="$t(`_notification.type.${category.toLowerCase()}`)"
                 :value="category"
-                @change="fetchData"
+                @update:model-value="fetchData"
               ></v-checkbox>
               <a class="ma-1" @click="selectedCat = []; fetchData()">{{ $t('reset') }}</a>
             </v-menu>
@@ -101,18 +101,18 @@
         </template>
         <template v-slot:item.action="{ item }" >
           <div class="text-right">
-            <v-tooltip left v-if="item.link">
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs"
-                        v-on="on" class="mr-1">
+            <v-tooltip location="left" v-if="item.link">
+              <template v-slot:activator="{ props }">
+                <v-icon
+                        v-bind="props" class="mr-1">
                   mdi-open-in-new
                 </v-icon>
               </template>
               <span>{{ $t('_notification.isLink') }}</span>
             </v-tooltip>
-            <v-tooltip left>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn text v-bind="attrs" v-on="on" @click.stop="toggleReadStatus(item)">
+            <v-tooltip location="left">
+              <template v-slot:activator="{ props }">
+                <v-btn variant="text" v-bind="props" @click.stop="toggleReadStatus(item)">
                   <v-icon v-if="item.read">
                     mdi-email-outline
                   </v-icon>

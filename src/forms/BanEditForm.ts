@@ -9,11 +9,11 @@ export default {
   properties: {
     reason: {
       type: 'string',
-      title: i18n.t('reason'),
+      title: i18n.global.t('reason'),
     },
     length: {
       type: 'integer',
-      title: i18n.t('_ban.labels.lengthInMinutes'),
+      title: i18n.global.t('_ban.labels.lengthInMinutes'),
       minimum: 1,
     },
     serverbundle: Common.serverbundleSelectField,

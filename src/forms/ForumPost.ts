@@ -8,7 +8,7 @@ export default {
   properties: {
     content: {
       type: 'string',
-      title: i18n.t('_forum.content'),
+      title: i18n.global.t('_forum.content'),
     },
   },
 };

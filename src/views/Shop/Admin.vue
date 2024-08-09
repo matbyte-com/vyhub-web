@@ -12,7 +12,7 @@
                  class="justify-start"
                  @click="$router.push({ name: 'ShopAdmin',
                                     params: { component: tab.name} })">
-            <v-icon left>{{ tab.icon }}</v-icon>
+            <v-icon start>{{ tab.icon }}</v-icon>
             <span>{{ tab.title }}</span>
           </v-tab>
         </v-tabs>

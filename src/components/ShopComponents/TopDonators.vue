@@ -12,19 +12,19 @@
              v-if="topDonators && topDonators.donators.length > 0">
           <v-spacer/>
           <v-fade-transition>
-          <span class="mr-2 subtitle-1 text-no-wrap" v-show="finished"
+          <span class="mr-2 text-subtitle-1 text-no-wrap" v-show="finished"
                 v-if="topDonators && topDonators.donators.length > 0">
             {{ Math.round(topDonators.donators[0].purchases_total) }} {{ currencySymbol }}
           </span>
           </v-fade-transition>
-          <v-tooltip bottom v-for="(donator, index) in donatorsToShow"
+          <v-tooltip location="bottom" v-for="(donator, index) in donatorsToShow"
                      :key="index">
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{ props }">
               <router-link :to="{ name: 'UserDashboard',
                      params: {id: donator.user.id}}">
-                <v-avatar size="55" v-bind="attrs" class="animate__animated animate__backInDown
+                <v-avatar size="55" class="animate__animated animate__backInDown
                animate__fast"
-                          v-on="on" :style="`margin-right: -10px; z-index: ${index}`">
+                          v-bind="props" :style="`margin-right: -10px; z-index: ${index}`">
                   <v-img :src="donator.user.avatar"
                          lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
                          alt="Avatar"/>
@@ -36,7 +36,7 @@
         </span>
           </v-tooltip>
           <v-fade-transition>
-          <span style="margin-left: 18px" class="subtitle-1 text-no-wrap"
+          <span style="margin-left: 18px" class="text-subtitle-1 text-no-wrap"
                 v-if="topDonators && topDonators.donators.length > 0"
                 v-show="finished">
             {{ Math.round(topDonators.donators[topDonators.donators.length - 1]

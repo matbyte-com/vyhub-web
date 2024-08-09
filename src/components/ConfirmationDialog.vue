@@ -5,7 +5,7 @@
       <v-alert type="error" v-if="errorMessage != null" class="mt-2">
         {{ errorMessage }}
       </v-alert>
-      <div class="body-1 mt-2 text-center">
+      <div class="text-body-1 mt-2 text-center">
         <slot>
           {{ text }}
         </slot>
@@ -20,13 +20,13 @@
     </template>
     <template v-slot:actions>
       <v-col>
-        <v-btn text
+        <v-btn variant="text"
                :disabled="disabled"
                :color="btnColor"
                type="submit"
                :loading="loading"
                @click="submit">
-          <v-icon left>{{ btnIcon }}</v-icon>
+          <v-icon start>{{ btnIcon }}</v-icon>
           <span v-if="disabled && !useTextField">
             ({{ counter }})
           </span>
@@ -37,8 +37,8 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col>
-        <v-btn text @click="cancel">
-          <v-icon left>mdi-close</v-icon>
+        <v-btn variant="text" @click="cancel">
+          <v-icon start>mdi-close</v-icon>
           <span v-if="btnCancelText">{{ btnCancelText }}</span>
           <span v-else>{{ $t('cancel') }}</span>
         </v-btn>
@@ -89,7 +89,7 @@ export default {
     },
     title: {
       type: String,
-      default: i18n.t('areYouSure'),
+      default: i18n.global.t('areYouSure'),
     },
     countdown: {
       type: Boolean,

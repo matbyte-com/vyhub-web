@@ -19,18 +19,18 @@ function form(forum_enabled = false) {
     properties: {
       community_name: {
         type: 'string',
-        title: i18n.t('communityName'),
+        title: i18n.global.t('communityName'),
       },
       enable_ticket: {
         type: 'boolean',
-        title: i18n.t('_settings.showTicket'),
+        title: i18n.global.t('_settings.showTicket'),
         'x-display': 'switch',
         default: false,
         'x-cols': 7,
       },
       enable_forum: {
         type: 'boolean',
-        title: i18n.t('_settings.showForum'),
+        title: i18n.global.t('_settings.showForum'),
         'x-display': 'switch',
         readOnly: !forum_enabled,
         default: false,
@@ -38,34 +38,34 @@ function form(forum_enabled = false) {
       },
       enable_team: {
         type: 'boolean',
-        title: i18n.t('_settings.showTeam'),
+        title: i18n.global.t('_settings.showTeam'),
         'x-display': 'switch',
         default: false,
         'x-cols': 7,
       },
       enable_faq: {
         type: 'boolean',
-        title: i18n.t('_settings.showFaq'),
+        title: i18n.global.t('_settings.showFaq'),
         'x-display': 'switch',
         default: false,
         'x-cols': 7,
       },
       language: {
         type: 'string',
-        title: i18n.t('_settings.language'),
+        title: i18n.global.t('_settings.language'),
         oneOf,
         'x-display': 'autocomplete',
       },
       enable_customer_journey: {
         type: 'boolean',
-        title: i18n.t('_settings.showFirstSteps'),
+        title: i18n.global.t('_settings.showFirstSteps'),
         'x-display': 'switch',
-        description: i18n.t('_settings.showFirstStepsDescription'),
+        description: i18n.global.t('_settings.showFirstStepsDescription'),
       },
       google_analytics_tag: {
         type: ['string', 'null'],
         title: 'Google Analytics Tag',
-        description: i18n.t('_settings.googleAnalyticsTagDescription'),
+        description: i18n.global.t('_settings.googleAnalyticsTagDescription'),
         // pattern: 'UA-\\d{4,10}-\\d{1,4}',
         'x-props': {
           clearable: true,

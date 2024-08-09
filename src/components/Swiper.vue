@@ -14,7 +14,7 @@
              class="d-flex flex-column">
           <v-spacer />
           <v-btn :disabled="isBeginning"
-                 fab small depressed outlined
+                 fab size="small" variant="flat" variant="outlined"
                  @click="prev"><v-icon>mdi-chevron-left</v-icon></v-btn>
           <v-spacer />
         </div>
@@ -22,7 +22,7 @@
              class="d-flex flex-column">
           <v-spacer />
         <v-btn :disabled="isEnd"
-               fab small depressed outlined
+               fab size="small" variant="flat" variant="outlined"
                @click="next"><v-icon>mdi-chevron-right</v-icon></v-btn>
           <v-spacer />
         </div>

@@ -12,7 +12,7 @@
           dense
           v-model="showApprovedDebits"
           :label="$t('_purchases.labels.showApprovedDebits')"
-          @change="fetchData"
+          @update:model-value="fetchData"
           class="mr-3 align-self-center mt-0 pt-0">
         </v-checkbox>
       </template>
@@ -23,20 +23,20 @@
         {{ item ? `${item.amount_total} ${item.purchase.currency.symbol}` : '' }}
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn depressed small color="error"
+        <v-btn variant="flat" size="small" color="error"
                @click="showDetails(item.purchase)">
-          <v-icon left>
+          <v-icon start>
             mdi-eye
           </v-icon>
           {{ $t('details') }}
         </v-btn>
-        <v-btn depressed small color="success" @click="$refs.debitConfirmationDialog.show(item)"
+        <v-btn variant="flat" size="small" color="success" @click="$refs.debitConfirmationDialog.show(item)"
                class="ml-1" :disabled="item.status !== 'STARTED'
                || item.purchase.status !== 'OPEN'">
-          <v-icon left>mdi-check</v-icon>
+          <v-icon start>mdi-check</v-icon>
           {{ $t('_purchases.labels.confirm') }}
         </v-btn>
-        <v-btn depressed small color="error" class="ml-1"
+        <v-btn variant="flat" size="small" color="error" class="ml-1"
                :disabled="item.status !== 'STARTED'"
                @click="$refs.debitDeclineDialog.show(item)">
           <v-icon>mdi-close</v-icon>

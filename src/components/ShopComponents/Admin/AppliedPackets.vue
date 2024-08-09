@@ -12,14 +12,14 @@
           <v-row>
             <v-col class="d-flex align-center">
               <v-menu offset-y :close-on-content-click="false">
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{ props }">
                   <v-btn
-                    outlined
+                    variant="outlined"
                     color="primary"
-                    v-bind="attrs"
-                    v-on="on"
+                   
+                    v-bind="props"
                   >
-                    <v-icon left>
+                    <v-icon start>
                       mdi-filter
                     </v-icon>
                     {{ $t('active') }}
@@ -36,12 +36,12 @@
           </v-row>
         </template>
         <template v-slot:footer-right>
-          <v-btn outlined color="success" @click="$refs.addAppliedPacketDialog.show()"
+          <v-btn variant="outlined" color="success" @click="$refs.addAppliedPacketDialog.show()"
                  v-if="$checkProp('applied_packet_edit')">
-            <v-icon left>mdi-plus</v-icon>
+            <v-icon start>mdi-plus</v-icon>
             {{ $t('_purchases.labels.addAppliedPacket') }}
           </v-btn>
-          <v-btn class="ml-1" outlined color="success" @click="$refs.appliedRewardSyncDialog.show()"
+          <v-btn class="ml-1" variant="outlined" color="success" @click="$refs.appliedRewardSyncDialog.show()"
                  v-if="$checkProp('applied_packet_edit')">
             <v-icon>mdi-sync</v-icon>
           </v-btn>
@@ -64,9 +64,9 @@
         </template>
         <template v-slot:item.actions="{ item }">
           <div class="text-right">
-            <v-btn depressed small color="error"
+            <v-btn variant="flat" size="small" color="error"
                    @click="showDetails(item)">
-              <v-icon left>
+              <v-icon start>
                 mdi-eye
               </v-icon>
               {{ $t('details') }}
@@ -116,9 +116,9 @@
               </span>
             </template>
             <template v-slot:footer-right>
-              <v-btn outlined color="success" @click="$refs.addAppliedRewardDialog.show()"
+              <v-btn variant="outlined" color="success" @click="$refs.addAppliedRewardDialog.show()"
                      v-if="$checkProp('applied_packet_edit')">
-                <v-icon left>mdi-plus</v-icon>
+                <v-icon start>mdi-plus</v-icon>
                 {{ $t('_reward.labels.addAppliedReward') }}
               </v-btn>
             </template>
@@ -137,9 +137,9 @@
               </v-chip>
             </template>
             <template v-slot:item.actions="{ item }">
-              <v-btn text color="error" small
+              <v-btn variant="text" color="error" size="small"
                      @click="$refs.deleteAppliedRewardDialog.show(item)">
-                <v-icon left>
+                <v-icon start>
                   mdi-delete
                 </v-icon>
                 {{ $t('delete') }}
@@ -148,15 +148,15 @@
           </data-table>
         </template>
         <template v-slot:actions>
-          <v-btn text color="primary" small @click="showEditDialog(currentItem)" class="mr-1">
-            <v-icon left>
+          <v-btn variant="text" color="primary" size="small" @click="showEditDialog(currentItem)" class="mr-1">
+            <v-icon start>
               mdi-pencil
             </v-icon>
             {{ $t('edit') }}
           </v-btn>
-          <v-btn text color="error" small
+          <v-btn variant="text" color="error" size="small"
                  @click="$refs.deleteAppliedPacketDialog.show(currentItem)">
-            <v-icon left>
+            <v-icon start>
               mdi-delete
             </v-icon>
             {{ $t('_packet.labels.deleteAppliedPacket') }}

@@ -11,18 +11,18 @@ function returnForm(disableServerTypeSelectField = false, selected = 'GMOD') {
     properties: {
       name: {
         type: 'string',
-        title: i18n.t('name'),
+        title: i18n.global.t('name'),
       },
       multigroup: {
         type: 'boolean',
-        title: i18n.t('_settings.multigroup'),
-        description: i18n.t('_settings.multigroupDescription'),
+        title: i18n.global.t('_settings.multigroup'),
+        description: i18n.global.t('_settings.multigroupDescription'),
       },
       icon: Common.iconPicker,
       server_type: Common.serverTypeSelectField(disableServerTypeSelectField, selected),
       default_group: {
         ...Common.groupSelectField,
-        title: i18n.t('_settings.defaultGroup'),
+        title: i18n.global.t('_settings.defaultGroup'),
       },
     },
   };

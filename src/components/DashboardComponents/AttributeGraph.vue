@@ -1,6 +1,6 @@
 <template>
   <v-card width="100%" class="vh-dashboard-attribute-graph card-rounded" flat>
-    <v-tabs background-color="primary" center-active dark>
+    <v-tabs bg-color="primary" center-active dark>
       <v-tab v-for="def in accumulatedDefinitions" :key="def.id" @click="activeDef = def">
         {{ def.title }}
       </v-tab>

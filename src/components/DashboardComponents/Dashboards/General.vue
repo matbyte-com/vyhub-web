@@ -24,14 +24,14 @@
             <AttributeGraph :user="user" class="flex-md-grow-1"/>
           </v-col>
           <v-col cols="12" xl="4" class="d-flex">
-            <Packets :user="user" class="flex-md-grow-1"/>
+            <UserPackets :user="user" class="flex-md-grow-1"/>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" xl="6">
             <v-row>
               <v-col>
-                <Groups :user="user"/>
+                <UserGroups :user="user"/>
               </v-col>
             </v-row>
           </v-col>
@@ -48,13 +48,13 @@
                   <v-tabs grow>
                     <v-tab
                       v-if="$checkProp('user_comment_show') || isCurrentUser">
-                      <v-icon left>
+                      <v-icon start>
                         mdi-comment
                       </v-icon>
                       {{ $t('comments') }}
                     </v-tab>
                     <v-tab v-if="$checkProp('user_log_show')">
-                      <v-icon left>
+                      <v-icon start>
                         mdi-format-list-bulleted
                       </v-icon>
                       {{ $t('logs') }}
@@ -79,9 +79,7 @@
 </template>
 
 <script>
-import Groups from '@/components/DashboardComponents/Groups.vue';
 import LinkedAccounts from '@/components/DashboardComponents/LinkedAccounts.vue';
-import Packets from '@/components/DashboardComponents/Packets.vue';
 import ProfilePicture from '@/components/DashboardComponents/ProfilePicture.vue';
 import AttributeGraph from '@/components/DashboardComponents/AttributeGraph.vue';
 import UserComments from '@/components/DashboardComponents/UserComments.vue';
@@ -99,8 +97,6 @@ export default {
     AttributeGraph,
     ProfilePicture,
     LinkedAccounts,
-    Packets,
-    Groups,
   },
   data() {
     return {

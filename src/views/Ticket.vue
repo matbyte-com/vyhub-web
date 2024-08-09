@@ -18,7 +18,7 @@
           class="cursor"
         >
           <template v-slot:header>
-            <v-checkbox v-model="show_closed" :label="$t('_forum.showClosed')" @change="fetchData"
+            <v-checkbox v-model="show_closed" :label="$t('_forum.showClosed')" @update:model-value="fetchData"
                         class="text-capitalize">
             </v-checkbox>
           </template>
@@ -50,9 +50,9 @@
             </span>
           </template>
           <template v-slot:footer-right>
-            <v-btn color="success" outlined
+            <v-btn color="success" variant="outlined"
                    @click="$refs.addThreadDialog.show()">
-              <v-icon left>mdi-plus</v-icon>
+              <v-icon start>mdi-plus</v-icon>
               <span>{{ $t('_forum.addTicket') }}</span>
             </v-btn>
           </template>

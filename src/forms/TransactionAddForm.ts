@@ -8,11 +8,11 @@ export default {
   properties: {
     description: {
       type: 'string',
-      title: i18n.t('description'),
+      title: i18n.global.t('description'),
     },
     amount: {
       type: 'number',
-      title: i18n.t('amount'),
+      title: i18n.global.t('amount'),
     },
   },
 };

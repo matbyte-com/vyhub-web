@@ -1,8 +1,8 @@
 <template>
   <div class="outer-div pa-1" style="display: inline-block">
-    <v-chip small href="https://app.vyhub.net/dashboard" target="_blank"
+    <v-chip size="small" href="https://app.vyhub.net/dashboard" target="_blank"
             style="background-color: rgba(255,83,0,0); font-size: large" text-color="white">
-      {{ addonTitle }} {{ $t('add-on') }} <v-icon color="white" right>mdi-star</v-icon>
+      {{ addonTitle }} {{ $t('add-on') }} <v-icon color="white" end>mdi-star</v-icon>
     </v-chip>
   </div>
 </template>

@@ -24,13 +24,13 @@ const routes: Array<RouteConfig> = [
   {
     path: '/news',
     name: 'News',
-    meta: { title: i18n.t('_pageTitle.news') },
+    meta: { title: i18n.global.t('_pageTitle.news') },
     component: () => import('../views/News.vue'),
   },
   {
     path: '/user',
     name: 'Dashboard',
-    meta: { title: i18n.t('_pageTitle.dashboard'), requiresAuth: true },
+    meta: { title: i18n.global.t('_pageTitle.dashboard'), requiresAuth: true },
     component: () => import('../views/Redirect/Dashboard.vue'),
   },
   {
@@ -51,7 +51,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/Settings.vue'),
     meta: {
       requiresAuth: true,
-      title: i18n.t('_pageTitle.settings'),
+      title: i18n.global.t('_pageTitle.settings'),
       reqProp: 'admin_menu',
       noContainer: true,
     },
@@ -59,13 +59,13 @@ const routes: Array<RouteConfig> = [
   {
     path: '/bans/:banId?',
     name: 'Bans',
-    meta: { title: i18n.t('_pageTitle.bans') },
+    meta: { title: i18n.global.t('_pageTitle.bans') },
     component: () => import('@/views/Ban.vue'),
   },
   {
     path: '/warnings/:warningId?',
     name: 'Warnings',
-    meta: { title: i18n.t('_pageTitle.warnings') },
+    meta: { title: i18n.global.t('_pageTitle.warnings') },
     component: () => import('@/views/Warning.vue'),
   },
   {
@@ -76,33 +76,33 @@ const routes: Array<RouteConfig> = [
         path: '',
         name: 'Shop',
         component: () => import('@/views/Shop/Categories.vue'),
-        meta: { title: i18n.t('_pageTitle.shop') },
+        meta: { title: i18n.global.t('_pageTitle.shop') },
       },
       {
         path: ':categoryId',
         name: 'ShopCategory',
         component: () => import('@/views/Shop/Category.vue'),
-        meta: { title: i18n.t('_pageTitle.shopCategory') },
+        meta: { title: i18n.global.t('_pageTitle.shopCategory') },
       },
     ],
   },
   {
     path: '/cart',
     name: 'ShopCart',
-    meta: { title: i18n.t('_pageTitle.shopCart'), requiresAuth: true },
+    meta: { title: i18n.global.t('_pageTitle.shopCart'), requiresAuth: true },
     component: () => import('../views/Shop/Cart.vue'),
   },
   {
     path: '/shop/checkout/:debitId/:action',
     name: 'ShopCheckout',
-    meta: { title: i18n.t('_pageTitle.shop'), requiresAuth: true },
+    meta: { title: i18n.global.t('_pageTitle.shop'), requiresAuth: true },
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
     path: '/admin/shop/:component?',
     name: 'ShopAdmin',
     component: () => import('@/views/Shop/Admin.vue'),
-    meta: { requiresAuth: true, title: i18n.t('_pageTitle.shopAdministration'), reqProp: 'admin_menu' },
+    meta: { requiresAuth: true, title: i18n.global.t('_pageTitle.shopAdministration'), reqProp: 'admin_menu' },
   },
   {
     path: '/cms/:title',
@@ -113,79 +113,79 @@ const routes: Array<RouteConfig> = [
   {
     path: '/notification',
     name: 'Notification',
-    meta: { title: i18n.t('_pageTitle.notifications'), requiresAuth: true },
+    meta: { title: i18n.global.t('_pageTitle.notifications'), requiresAuth: true },
     component: () => import('../views/Notification.vue'),
   },
   {
     path: '/notification/:id',
     name: 'Notification Link',
-    meta: { title: i18n.t('_pageTitle.notificationLink') },
+    meta: { title: i18n.global.t('_pageTitle.notificationLink') },
     component: () => import('../views/NotificationLink.vue'),
   },
   {
     path: '/log',
     name: 'Log',
-    meta: { title: i18n.t('_pageTitle.log'), requiresAuth: true },
+    meta: { title: i18n.global.t('_pageTitle.log'), requiresAuth: true },
     component: () => import('../views/Log.vue'),
   },
   {
     path: '/legal',
     name: 'Legal',
-    meta: { title: i18n.t('_pageTitle.legal') },
+    meta: { title: i18n.global.t('_pageTitle.legal') },
     component: () => import('../views/Legal.vue'),
   },
   {
     path: '/ticket',
     name: 'Ticket',
-    meta: { title: i18n.t('_pageTitle.ticket'), requiresAuth: true },
+    meta: { title: i18n.global.t('_pageTitle.ticket'), requiresAuth: true },
     component: () => import('../views/Ticket.vue'),
   },
   {
     path: '/ticket/:id',
     name: 'TicketThread',
-    meta: { title: i18n.t('_pageTitle.ticket') },
+    meta: { title: i18n.global.t('_pageTitle.ticket') },
     component: () => import('../views/TicketThread.vue'),
   },
   {
     path: '/forum/',
     name: 'Forum',
-    meta: { title: i18n.t('_pageTitle.forum') },
+    meta: { title: i18n.global.t('_pageTitle.forum') },
     component: () => import('../views/Forum/Forum.vue'),
   },
   {
     path: '/forum/topic/:id',
     name: 'ForumTopic',
-    meta: { title: i18n.t('_pageTitle.forum') },
+    meta: { title: i18n.global.t('_pageTitle.forum') },
     component: () => import('../views/Forum/ForumTopic.vue'),
   },
   {
     path: '/forum/thread/:id',
     name: 'ForumThread',
-    meta: { title: i18n.t('_pageTitle.forum') },
+    meta: { title: i18n.global.t('_pageTitle.forum') },
     component: () => import('../views/Forum/ForumThread.vue'),
   },
   {
     path: '/team',
     name: 'Team',
-    meta: { title: i18n.t('_pageTitle.team') },
+    meta: { title: i18n.global.t('_pageTitle.team') },
     component: () => import('../views/Team.vue'),
   },
   {
     path: '/server-dashboard/:id',
     name: 'ServerDashboard',
-    meta: { title: i18n.t('_pageTitle.serverDashboard') },
+    meta: { title: i18n.global.t('_pageTitle.serverDashboard') },
     component: () => import('../views/ServerDashboard.vue'),
   },
   {
     path: '/faq',
     name: 'FAQ',
-    meta: { title: i18n.t('_pageTitle.faq') },
+    meta: { title: i18n.global.t('_pageTitle.faq') },
     component: () => import('../views/FAQ.vue'),
   },
   {
     path: '/search',
     name: 'Search',
-    meta: { title: i18n.t('_pageTitle.search') },
+    meta: { title: i18n.global.t('_pageTitle.search') },
     component: () => import('../views/Search.vue'),
   },
   {
@@ -276,7 +276,7 @@ router.beforeEach(async (to, from, next) => {
       try {
         await AuthService.login(refreshToken);
         Vue.prototype.$notify({
-          title: i18n.t('_login.messages.loginSuccess'),
+          title: i18n.global.t('_login.messages.loginSuccess'),
           type: 'success',
         });
         success = true;
@@ -284,7 +284,7 @@ router.beforeEach(async (to, from, next) => {
       } catch (e) {
         console.log(e);
         Vue.prototype.$notify({
-          title: i18n.t('_login.messages.loginError'),
+          title: i18n.global.t('_login.messages.loginError'),
           type: 'error',
         });
         showLoginDialog(to, from, null);

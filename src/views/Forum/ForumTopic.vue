@@ -8,7 +8,7 @@
           <div class="d-flex align-center">
             <div class="text-ellipsis mt-1" style="width: 50%; max-width: 300px">
               <router-link :to="{ name: 'Forum' }"
-                           class="white--text">
+                           class="text-white">
                 {{ topic.topic_category.title }}</router-link>
               / {{ topic.title }}
             </div>
@@ -36,10 +36,10 @@
             class="cursor">
             <template v-slot:header>
               <v-checkbox v-model="hide_closed" :label="$t('_forum.hideClosed')"
-                          @change="fetchTopic" class="text-capitalize"/>
+                          @update:model-value="fetchTopic" class="text-capitalize"/>
               <div v-if="topic.admins.length >= 1 || topic.admin_groups.length >= 1">
                 {{ $t('_forum.topicAdmins') }}
-                <v-chip outlined small v-for="admin in topic.admin_groups" :key="admin.id"
+                <v-chip variant="outlined" size="small" v-for="admin in topic.admin_groups" :key="admin.id"
                         :color="admin.color" text-color="white" class="mr-1">
                   {{ admin.name }}
                 </v-chip>
@@ -51,24 +51,24 @@
               <div v-if="item.last_post && item.last_post.creator" class="d-flex align-center">
                 <v-spacer/>
                 <div class="mr-3 align-center d-flex">
-                  <v-tooltip bottom v-if="item.pinned === false">
-                    <template v-slot:activator="{ on }">
-                      <v-icon v-on="on" v-if="item.status === 'CLOSED'">mdi-lock</v-icon>
+                  <v-tooltip location="bottom" v-if="item.pinned === false">
+                    <template v-slot:activator="{ props }">
+                      <v-icon v-bind="props" v-if="item.status === 'CLOSED'">mdi-lock</v-icon>
                     </template>
                     <span> {{ $t('_forum.locked') }} </span>
                   </v-tooltip>
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-icon v-on="on" v-if="item.pinned === true" class="mr-1 mdi-rotate-45">
+                  <v-tooltip location="bottom">
+                    <template v-slot:activator="{ props }">
+                      <v-icon v-bind="props" v-if="item.pinned === true" class="mr-1 mdi-rotate-45">
                         mdi-pin
                       </v-icon>
                     </template>
                     <span> {{ $t('_forum.pinned') }} </span>
                   </v-tooltip>
                   <div class="d-flex align-center">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on }">
-                        <v-icon class="mr-1" v-on="on">mdi-comment</v-icon>
+                    <v-tooltip location="bottom">
+                      <template v-slot:activator="{ props }">
+                        <v-icon class="mr-1" v-bind="props">mdi-comment</v-icon>
                       </template>
                       <span> {{ $t('_forum.numberOfPosts') }} </span>
                     </v-tooltip>
@@ -110,7 +110,7 @@
                   <span>
                     {{ new Date(item.created).toLocaleDateString() }}
                   </span>
-                  <v-chip label x-small class="white--text ml-1" :color="l.color"
+                  <v-chip label size="x-small" class="text-white ml-1" :color="l.color"
                           v-for="l in item.labels" :key="l.id">
                     {{ l.name }}
                   </v-chip>
@@ -131,19 +131,19 @@
               </div>
             </template>
             <template v-slot:footer-right>
-              <v-tooltip bottom v-if="$checkIsForumBanned()">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon v-bind="attrs" v-on="on" color="error" class="mr-2">
+              <v-tooltip location="bottom" v-if="$checkIsForumBanned()">
+                <template v-slot:activator="{ props }">
+                  <v-icon v-bind="props" color="error" class="mr-2">
                     mdi-gavel
                   </v-icon>
                 </template>
                 {{ $t('_forum.messages.banned') }}
               </v-tooltip>
-              <v-btn color="success" outlined :disabled="$checkIsForumBanned()"
+              <v-btn color="success" variant="outlined" :disabled="$checkIsForumBanned()"
                      @click="$refs.addThreadDialog.show()"
                      v-if="!topic.prohibit_create_threads && $store.getters.isLoggedIn
                      || ($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))">
-                <v-icon left>mdi-plus</v-icon>
+                <v-icon start>mdi-plus</v-icon>
                 <span>{{ $t('_forum.addThread') }}</span>
               </v-btn>
             </template>

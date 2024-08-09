@@ -2,7 +2,7 @@
   <div class="d-flex flex-grow-1 flex-column">
     <!-- Smartphone navigation -->
     <v-navigation-drawer app
-                         bottom v-if="$vuetify.breakpoint.smAndDown" v-model="navigationDrawer">
+                         location="bottom" v-if="$vuetify.breakpoint.smAndDown" v-model="navigationDrawer">
       <v-card-title class="pb-0 mb-0 d-block">
         {{ $t('categories') }}
         <v-divider />
@@ -23,7 +23,7 @@
     <v-card color="primary" flat class="no-bottom-border-radius card-rounded-top"
             @click="navigationDrawer = true"
             v-if="$vuetify.breakpoint.smAndDown && selectedCategory">
-      <v-card-title class="white--text">
+      <v-card-title class="text-white">
         <div style="width: 24px"/>
         <v-spacer />
           <strong>{{ selectedCategory.name }}</strong>

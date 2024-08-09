@@ -8,7 +8,7 @@
     v-bind="$attrs" v-on="$listeners"
   >
     <template v-slot:no-data>
-      <div class="text-center mt-4 subtitle-2 text--disabled">
+      <div class="text-center mt-4 text-subtitle-2 text--disabled">
         {{ $t('noDataAvailable') }}
       </div>
     </template>
@@ -19,8 +19,8 @@
             v-model="searchVal"
             :label="$t('search')"
             hide-details
-            outlined
-            dense
+            variant="outlined"
+            density="compact"
           >
             <template v-slot:prepend-inner>
               <v-icon>
@@ -43,10 +43,10 @@
           <slot name="footer-left"></slot>
         </div>
         <div v-if="showPageSelector && numberOfPages > 1">
-          <span class="grey--text">Items per page</span>
+          <span class="text-grey">Items per page</span>
           <v-menu offset-y >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn dark text color="primary" class="ml-2" v-bind="attrs" v-on="on">
+            <template v-slot:activator="{ props }">
+              <v-btn dark variant="text" color="primary" class="ml-2" v-bind="props">
                 {{ currentItemsPerPage }}
                 <v-icon>mdi-chevron-down</v-icon>
               </v-btn>
@@ -64,13 +64,13 @@
         </div>
 
         <div class="text-right" v-if="numberOfPages > 1">
-          <span class="mr-4 grey--text">
+          <span class="mr-4 text-grey">
             {{ page }} of {{ numberOfPages }}
           </span>
-          <v-btn small fab dark color="primary" class="mr-1" @click="formerPage">
+          <v-btn size="small" fab dark color="primary" class="mr-1" @click="formerPage">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn small fab dark color="primary" class="ml-1" @click="nextPage" >
+          <v-btn size="small" fab dark color="primary" class="ml-1" @click="nextPage" >
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
         </div>

@@ -14,7 +14,7 @@ function returnForm() {
     },
     allOf: [
       {
-        title: i18n.t('general'),
+        title: i18n.global.t('general'),
         type: 'object',
         required: [
           'name',
@@ -23,18 +23,18 @@ function returnForm() {
         properties: {
           name: {
             type: 'string',
-            title: i18n.t('name'),
+            title: i18n.global.t('name'),
           },
           permission_level: {
             type: 'integer',
-            title: i18n.t('_settings.permissionLevel'),
+            title: i18n.global.t('_settings.permissionLevel'),
             minimum: 0,
             maximum: 100000,
           },
           max_ban_length: {
             type: ['integer'],
-            title: i18n.t('_group.maxBanLengthInDays'),
-            description: i18n.t('_group.maxBanLengthInDaysDescription'),
+            title: i18n.global.t('_group.maxBanLengthInDays'),
+            description: i18n.global.t('_group.maxBanLengthInDaysDescription'),
             default: null,
             minimum: 0,
             maximum: 365,
@@ -45,22 +45,22 @@ function returnForm() {
           color: Common.colorPicker(),
           is_team: {
             type: 'boolean',
-            title: i18n.t('_group.isTeam'),
-            description: i18n.t('_group.isTeamDescription'),
+            title: i18n.global.t('_group.isTeam'),
+            description: i18n.global.t('_group.isTeamDescription'),
             'x-display': 'switch',
             default: false,
           },
           protected: {
             type: 'boolean',
-            title: i18n.t('_group.labels.protected'),
-            description: i18n.t('_group.labels.protectedDescription'),
+            title: i18n.global.t('_group.labels.protected'),
+            description: i18n.global.t('_group.labels.protectedDescription'),
             'x-display': 'switch',
             default: false,
           },
         },
       },
       {
-        title: i18n.t('properties'),
+        title: i18n.global.t('properties'),
         type: 'object',
         properties: {
           properties: Common.propertiesSelector,
@@ -69,7 +69,7 @@ function returnForm() {
             items: {
               type: 'string',
             },
-            title: i18n.t('_property.negatedProperties'),
+            title: i18n.global.t('_property.negatedProperties'),
             'x-fromUrl': `${API_URL}/group/negative-property/`,
             'x-itemTitle': 'description',
             'x-itemKey': 'name',
@@ -77,12 +77,12 @@ function returnForm() {
         },
       },
       {
-        title: i18n.t('mappings'),
+        title: i18n.global.t('mappings'),
         type: 'object',
         properties: {
           mappings: {
             type: 'array',
-            title: i18n.t('mappings'),
+            title: i18n.global.t('mappings'),
             items: {
               type: 'object',
               required: ['name'],
@@ -90,7 +90,7 @@ function returnForm() {
                 serverbundle_id: Common.serverbundleIdSelectField,
                 name: {
                   type: 'string',
-                  title: i18n.t('_group.mappings.name'),
+                  title: i18n.global.t('_group.mappings.name'),
                 },
               },
             },

@@ -34,14 +34,14 @@
        </template>
        <template v-slot:item.actions="{ item }">
          <div class="text-right">
-           <v-btn outlined color="primary" small disabled
+           <v-btn variant="outlined" color="primary" size="small" disabled
                   @click="openEditRequirementSetDialog(item)" class="mr-1">
              <v-icon>
                mdi-pencil
              </v-icon>
            </v-btn>
-           <v-btn outlined color="error"
-                  small @click="openDeleteRequirementDialog(item)">
+           <v-btn variant="outlined" color="error"
+                  size="small" @click="openDeleteRequirementDialog(item)">
              <v-icon>
                mdi-delete
              </v-icon>
@@ -51,8 +51,8 @@
        <template v-slot:footer-right>
          <v-btn color="success"
                 @click="openRequirementAddDialog($refs.requirementSetEditDialog.getItem())"
-                outlined>
-           <v-icon left>mdi-plus</v-icon>
+                variant="outlined">
+           <v-icon start>mdi-plus</v-icon>
            <span>{{ $t('_settings.addRequirement') }}</span>
          </v-btn>
        </template>
@@ -64,8 +64,8 @@
        {{ $t('_settings.formulaSymbolAnd') }}</p>
      <v-text-field v-model="formula" label="Formula"></v-text-field>
      <v-btn @click="validateFormula" :disabled="!formula" :loading="formulaBtnLoading"
-            class="primary" depressed>
-       <v-icon v-if="formulaScss" large color="success">mdi-check</v-icon>
+            class="bg-primary" variant="flat">
+       <v-icon v-if="formulaScss" size="large" color="success">mdi-check</v-icon>
        <span v-else>{{ $t('_settings.editFormula') }}</span>
      </v-btn>
      <v-row v-if="formulaMsg != null">
@@ -80,7 +80,7 @@
      <v-row class="align-center px-3 mt-1">
        <UserSelect v-model="testUser"/>
        <v-btn color="primary" @click="testRequirementSetAgainstUser" :disabled="!testUser"
-              class="ml-3" depressed>{{ $t('test') }}</v-btn>
+              class="ml-3" variant="flat">{{ $t('test') }}</v-btn>
        <bool-icon class="animate__animated animate__heartBeat ml-3"
                   v-if="testResult !== null" :value="testResult"/>
        <div class="ml-1">{{ testResult }}</div>
@@ -99,18 +99,18 @@
      :items="requirementSets">
      <template v-slot:item.actions="{ item }">
        <div class="text-right">
-         <v-btn outlined color="primary" small
+         <v-btn variant="outlined" color="primary" size="small"
                 @click="openEditRequirementSetDialog(item)" class="mr-1">
            <v-icon>mdi-pencil</v-icon>
          </v-btn>
-         <v-btn outlined color="error" small @click="openDeleteRequirementSetDialog(item)">
+         <v-btn variant="outlined" color="error" size="small" @click="openDeleteRequirementSetDialog(item)">
            <v-icon>mdi-delete</v-icon>
          </v-btn>
        </div>
      </template>
      <template v-slot:footer-right>
-       <v-btn color="success" @click="$refs.requirementSetAddDialog.show()" outlined>
-         <v-icon left>mdi-plus</v-icon>
+       <v-btn color="success" @click="$refs.requirementSetAddDialog.show()" variant="outlined">
+         <v-icon start>mdi-plus</v-icon>
          <span>{{ $t('_settings.addRequirementSet') }}</span>
        </v-btn>
      </template>

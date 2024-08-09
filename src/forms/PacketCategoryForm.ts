@@ -7,15 +7,15 @@ export default {
   properties: {
     name: {
       type: 'string',
-      title: i18n.t('name'),
+      title: i18n.global.t('name'),
     },
     image_url: {
       ...Common.imageURLField,
-      description: i18n.t('_packetCategory.labels.imageDetail'),
+      description: i18n.global.t('_packetCategory.labels.imageDetail'),
     },
     enabled: {
       type: 'boolean',
-      title: i18n.t('enabled'),
+      title: i18n.global.t('enabled'),
       default: true,
     },
   },

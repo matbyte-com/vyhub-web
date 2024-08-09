@@ -25,7 +25,7 @@
             <div v-if="debit != null && !loading" class="text-center mb-3">
               <div v-if="debit.status === 'STARTED'">
                 <div v-if="debit.payment_gateway.type === 'CREDITS'">
-                  <div class="body-1">
+                  <div class="text-body-1">
                     {{ $t('_shop.messages.confirmCreditsPayment',
                     {
                       credits: debit.credits,
@@ -35,17 +35,17 @@
                   </div>
                   <div class="mt-5">
                     <v-btn color="success" @click="confirmCreditPayment">
-                      <v-icon left>mdi-check</v-icon>
+                      <v-icon start>mdi-check</v-icon>
                       {{ $t('confirm') }}
                     </v-btn>
                     <v-btn class="ml-1" @click="cancelPayment">
-                      <v-icon left>mdi-close</v-icon>
+                      <v-icon start>mdi-close</v-icon>
                       {{ $t('cancel') }}
                     </v-btn>
                   </div>
                 </div>
                 <div v-else-if="debit.payment_gateway.type === 'COUPON'" class="text-left">
-                  <div class="body-1">
+                  <div class="text-body-1">
                     <div>
                       {{ $t('_shop.messages.confirmCouponPayment',
                       { gateway_name: this.debit.payment_gateway.name }) }}
@@ -75,7 +75,7 @@
                       mdi-dots-horizontal-circle-outline
                     </v-icon>
                   </div>
-                  <div class="body-1">
+                  <div class="text-body-1">
                     {{ $t('_shop.messages.paymentProcessing') }}
                   </div>
                 </div>
@@ -85,7 +85,7 @@
                       mdi-dots-horizontal-circle-outline
                     </v-icon>
                   </div>
-                  <div class="body-1">
+                  <div class="text-body-1">
                     {{ $t('_shop.messages.paymentPending') }}
                   </div>
                 </div>
@@ -96,7 +96,7 @@
                     mdi-dots-horizontal-circle-outline
                   </v-icon>
                 </div>
-                <div class="body-1">
+                <div class="text-body-1">
                   {{ $t('_shop.messages.paymentProcessing') }}
                 </div>
               </div>
@@ -104,7 +104,7 @@
                 <div class="d-inline-block">
                   <SuccessIcon class="animate__animated animate__zoomIn animate__faster"/>
                 </div>
-                <div class="body-1 mt-3">
+                <div class="text-body-1 mt-3">
                   {{ $t('_shop.messages.paymentSuccess') }}
                 </div>
               </div>
@@ -112,7 +112,7 @@
                 <div class="d-inline-block">
                   <ErrorIcon class="animate__animated animate__bounceIn animate__faster"/>
                 </div>
-                <div class="body-1">
+                <div class="text-body-1">
                   {{ $t('_shop.messages.paymentCancelled') }}
                 </div>
               </div>
@@ -122,19 +122,19 @@
                     mdi-close-circle-outline
                   </v-icon>
                 </div>
-                <div class="body-1">
+                <div class="text-body-1">
                   {{ $t('_shop.messages.paymentFailed') }}
                 </div>
               </div>
             </div>
           </v-card-text>
           <v-card-actions v-if="debit != null">
-            <v-btn color="primary" text @click="$router.push({ name: 'ShopCart' })"
+            <v-btn color="primary" variant="text" @click="$router.push({ name: 'ShopCart' })"
                    v-if="debit.status !== 'FINISHED'">
               <v-icon>mdi-arrow-left</v-icon>
               {{ $t('_shop.labels.cart') }}
             </v-btn>
-            <v-btn color="primary" text @click="$router.push({ name: 'Dashboard' })"
+            <v-btn color="primary" variant="text" @click="$router.push({ name: 'Dashboard' })"
                    v-if="debit.status === 'FINISHED'">
               <v-icon>mdi-arrow-right</v-icon>
               {{ $t('dashboard') }}

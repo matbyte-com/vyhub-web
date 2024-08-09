@@ -8,7 +8,7 @@ export default {
   properties: {
     name: {
       type: 'string',
-      title: i18n.t('name'),
+      title: i18n.global.t('name'),
     },
   },
 };

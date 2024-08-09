@@ -10,17 +10,17 @@ export default {
     user: Common.userSelectField,
     reason: {
       type: 'string',
-      title: i18n.t('reason'),
+      title: i18n.global.t('reason'),
     },
     length: {
       type: 'integer',
-      title: i18n.t('_ban.labels.lengthInMinutes'),
+      title: i18n.global.t('_ban.labels.lengthInMinutes'),
       minimum: 1,
-      description: i18n.t('_ban.labels.infiniteBandDescription'),
+      description: i18n.global.t('_ban.labels.infiniteBandDescription'),
     },
     serverbundle: {
       ...Common.serverbundleSelectField,
-      description: i18n.t('_ban.labels.bundleDescription'),
+      description: i18n.global.t('_ban.labels.bundleDescription'),
     },
   },
 };

@@ -2,11 +2,11 @@
 <div class="vh-shop-stats">
   <v-tabs v-model="tab" grow v-show="numberOfTabs !== 1">
     <v-tab class="square" v-if="$store.getters.shopConfig.donation_goal_enabled">
-      <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-flag-checkered</v-icon></v-tab>
+      <v-icon :size="$vuetify.breakpoint.lgAndUp ? 'large' : undefined">mdi-flag-checkered</v-icon></v-tab>
     <v-tab class="square" v-if="$store.getters.shopConfig.top_donators_enabled">
-      <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-podium</v-icon></v-tab>
+      <v-icon :size="$vuetify.breakpoint.lgAndUp ? 'large' : undefined">mdi-podium</v-icon></v-tab>
     <v-tab class="square" v-if="$store.getters.shopConfig.last_donators_enabled">
-      <v-icon :large="$vuetify.breakpoint.lgAndUp">mdi-clock-end</v-icon></v-tab>
+      <v-icon :size="$vuetify.breakpoint.lgAndUp ? 'large' : undefined">mdi-clock-end</v-icon></v-tab>
   </v-tabs>
   <div>
     <v-tabs-items v-model="tab">

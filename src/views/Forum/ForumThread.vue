@@ -6,8 +6,8 @@
                      :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
         <template v-slot:end>
           <div class="d-flex justify-end">
-            <v-chip v-for="(label, index) in thread.labels" :key="label.id" class="white--text"
-                    :color="label.color" :small="true"
+            <v-chip v-for="(label, index) in thread.labels" :key="label.id" class="text-white"
+                    :color="label.color" :size="true ? 'small' : undefined"
                     :style="{
                    'border-top-right-radius': index === (thread.labels.length - 1) ? '20px' : '0',
                     'border-bottom-right-radius':
@@ -21,10 +21,10 @@
         </template>
         <template v-slot:subtitle>
           <div class="d-flex align-center">
-            <div class="white--text thread-breadcrumbs">
-              <router-link :to="{ name: 'Forum' }" class="white--text">
+            <div class="text-white thread-breadcrumbs">
+              <router-link :to="{ name: 'Forum' }" class="text-white">
                 {{ topic.topic_category.title }}</router-link>
-              / <router-link class="white--text"
+              / <router-link class="text-white"
                              :to="{ name: 'ForumTopic', params: { id: topic.id } }">
               {{ topic.title }}</router-link>
               / <span>
@@ -33,27 +33,27 @@
             </div>
             <v-spacer />
             <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins)">
-              <v-btn color="success" outlined small class="ml-5 mr-1"
+              <v-btn color="success" variant="outlined" size="small" class="ml-5 mr-1"
                      @click="openThreadTitleEditDialog(thread)">
-                <v-icon left>mdi-pencil</v-icon>
+                <v-icon start>mdi-pencil</v-icon>
                 <span>{{ $t('edit') }}</span>
               </v-btn>
-              <v-btn outlined small
+              <v-btn variant="outlined" size="small"
                      style="min-width: 18px; width: 18px"
                      color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
-                <v-icon small>mdi-delete</v-icon>
+                <v-icon size="small">mdi-delete</v-icon>
               </v-btn>
             </div>
-            <v-btn :disabled="$checkIsForumBanned()" depressed
+            <v-btn :disabled="$checkIsForumBanned()" variant="flat"
                    v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
-                   color="success" @click="$refs.addPostDialog.show()" class="ml-1" small>
-              <v-icon left>mdi-plus</v-icon>
+                   color="success" @click="$refs.addPostDialog.show()" class="ml-1" size="small">
+              <v-icon start>mdi-plus</v-icon>
               {{ $t('_forum.addPost') }}
             </v-btn>
           </div>
         </template>
       </PageTitleFlat>
-      <v-card flat outlined class="vh-forum-post card-rounded-bottom mb-3"
+      <v-card flat border class="vh-forum-post card-rounded-bottom mb-3"
               v-for="(post, index) in posts" :key="post.id"
               :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown || index !== 0,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0}">
@@ -83,10 +83,10 @@
             <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
               <div v-for="membership in post.creator.memberships" :key="membership.id"
                    class="justify-center">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-chip small :color="membership.group.color" v-bind="attrs" v-on="on"
-                            :text-color="$vuetify.theme.dark ? 'white' : 'black'" outlined
+                <v-tooltip location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-chip size="small" :color="membership.group.color" v-bind="props"
+                            :text-color="$vuetify.theme.dark ? 'white' : 'black'" variant="outlined"
                             class="mt-2" style="max-width: 150px">
                       <div style="max-width: 150px; width: 100%;">
                         <p class="text-ellipsis mt-4">{{ membership.group.name }}</p>
@@ -121,9 +121,9 @@
               <v-icon color="red">mdi-account-remove</v-icon>
             </div>
             <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
-              <v-chip small v-for="membership in post.creator.memberships"
+              <v-chip size="small" v-for="membership in post.creator.memberships"
                       :key="membership.id" :color="membership.group.color"
-                      :text-color="$vuetify.theme.dark ? 'white' : 'black'" outlined
+                      :text-color="$vuetify.theme.dark ? 'white' : 'black'" variant="outlined"
                       class="mt-2 d-block text-center">
                 <p class="text-ellipsis">{{ membership.group.name }}</p>
               </v-chip>
@@ -137,7 +137,7 @@
               <v-card-text class="d-flex align-center">
                 <div v-if="post.creator && thread.creator
                     && post.creator.id === thread.creator.id">
-                  <v-chip :color="$vuetify.theme.dark ? '#1c1c1c' : '#c5c5c5'" small label
+                  <v-chip :color="$vuetify.theme.dark ? '#1c1c1c' : '#c5c5c5'" size="small" label
                           class="vh-forum-post-op">
                     OP
                   </v-chip>
@@ -150,9 +150,9 @@
                 <!-- ORIGINAL POSTER HINT END -->
                 <!-- ADMIN HINT -->
                 <div class="ml-auto">
-                  <v-chip round outlined color="red" small
+                  <v-chip round variant="outlined" color="red" size="small"
                           v-if="$checkTopicAdmin(admins, post.creator)">
-                    <v-icon small left>mdi-shield-sword-outline</v-icon>
+                    <v-icon size="small" start>mdi-shield-sword-outline</v-icon>
                     <span>{{ $t('_forum.admin') }}</span>
                   </v-chip>
                 </div>
@@ -180,7 +180,7 @@
                         <!-- BTN when logged in -->
                         <v-btn :class="{ 'text--disabled':
                                getReactionAccumulated(post, icon).count === 0}"
-                               small outlined depressed v-if="$store.getters.isLoggedIn"
+                               size="small" variant="outlined" variant="flat" v-if="$store.getters.isLoggedIn"
                                class="pa-1 ma-0 reaction-btn"
                                :style="getReactionAccumulated(post, icon).has_reacted ?
                                `background-color: ${$vuetify.theme.currentTheme.primary}1A;
@@ -207,13 +207,13 @@
                   </div>
                   <v-spacer />
                   <div class="d-flex align-center justify-end">
-                    <v-btn small outlined @click.stop="openEditPostDialog(post)"
+                    <v-btn size="small" variant="outlined" @click.stop="openEditPostDialog(post)"
                            color="primary"
                            class="mr-2"
                            v-if="postEditable(post)">
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn small outlined
+                    <v-btn size="small" variant="outlined"
                            v-if="postEditable(post) && posts[0].id !== post.id"
                            @click.stop="$refs.deletePostConfirmationDialog.show(post)"
                            color="error">
@@ -230,20 +230,20 @@
                     v-model="page"
                     :length="totalPages"
                     :total-visible="5"
-                    @input="fetchData"/>
+                    @update:model-value="fetchData"/>
       <div class="mt-3" v-if="(thread.status !== 'CLOSED'
       || ($checkProp('forum_edit') || $checkTopicAdmin(admins))) && posts.length >= 1
       && $vuetify.breakpoint.mdAndUp && $store.getters.isLoggedIn">
-        <v-card flat outlined class="card-rounded">
+        <v-card flat border class="card-rounded">
           <v-card-text>
-            <v-card v-if="$checkIsForumBanned()" color="error darken-1"
+            <v-card v-if="$checkIsForumBanned()" color="error-darken-1"
                     flat class="small-card mb-2">
               <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
                 <v-icon class="mr-2">mdi-information-box</v-icon>
                 {{ $t('_forum.messages.banned') }}
               </v-card-text>
             </v-card>
-            <v-card v-if="!$checkIsForumBanned() && threadIsOld" color="warning darken-1"
+            <v-card v-if="!$checkIsForumBanned() && threadIsOld" color="warning-darken-1"
                     flat class="small-card mb-2">
               <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
                 <v-icon class="mr-2">mdi-information-box</v-icon>
@@ -251,7 +251,7 @@
               </v-card-text>
             </v-card>
             <v-card v-if="!$checkIsForumBanned() && thread.status === 'CLOSED'"
-                    color="warning darken-1" flat class="small-card mb-2">
+                    color="warning-darken-1" flat class="small-card mb-2">
               <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
                 <v-icon class="mr-2">mdi-information-box</v-icon>
                 {{ $t('_forum.messages.closedThread') }}
@@ -259,9 +259,9 @@
             </v-card>
             <editor v-if="!$checkIsForumBanned()" v-model="message.content"/>
             <div class="d-flex">
-              <v-btn class="mt-3" depressed color="success" v-if="!$checkIsForumBanned()"
+              <v-btn class="mt-3" variant="flat" color="success" v-if="!$checkIsForumBanned()"
                      @click="newPost(message.content)">
-                <v-icon left>mdi-plus</v-icon>
+                <v-icon start>mdi-plus</v-icon>
                 {{ $t('_forum.addPost') }}
               </v-btn>
               <v-checkbox class="ml-4" v-if="!$checkIsForumBanned()
@@ -275,7 +275,7 @@
       && !($checkProp('forum_edit') || $checkTopicAdmin(admins))">
         <v-row class="justify-center mt-3">
           <v-col cols="4" lg="2" sm="3">
-            <v-alert outlined color="red" class="text-center">
+            <v-alert variant="outlined" color="red" class="text-center">
               {{ $t('_forum.locked') }}
             </v-alert>
           </v-col>
@@ -297,7 +297,7 @@
       <v-dialog ref="showAllReactorsDialog" v-model="menuOpen" max-width="350px">
         <template v-if="selectedReaction">
           <v-card class="card-rounded">
-            <v-card-title class="text-h5 primary">
+            <v-card-title class="text-h5 bg-primary">
               {{ selectedReaction.emoji }} | {{ $t('_forum.reactions') }}
             </v-card-title>
             <v-card-text>
@@ -310,9 +310,9 @@
                         <v-img :src="user.avatar" />
                       </v-avatar>
                     </v-list-item-avatar>
-                    <v-list-item-content>
+                    
                       <v-list-item-title>{{ user.username }}</v-list-item-title>
-                    </v-list-item-content>
+                    
                   </v-list-item>
                   <v-divider v-if="index < selectedReaction.users.length - 1"
                              :key="`divider-${index}`"/>

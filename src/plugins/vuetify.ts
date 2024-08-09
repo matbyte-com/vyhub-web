@@ -1,4 +1,15 @@
 import Vue from 'vue';
+import {createVuetify} from "vuetify";
+
+const vuetify = createVuetify({
+
+})
+
+Vue.use(vuetify);
+
+export default vuetify;
+
+/*import Vue from 'vue';
 import Vuetify from 'vuetify';
 import {
   VTooltip,
@@ -96,3 +107,4 @@ export default new Vuetify({
     },
   },
 });
+*/

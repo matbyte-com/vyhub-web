@@ -5,7 +5,7 @@
       v-if="(link.sublinks || []).length > 0"
       v-on:click.stop="">
       <template v-slot:activator>
-        <v-icon left>{{ link.icon }}</v-icon>
+        <v-icon start>{{ link.icon }}</v-icon>
         <v-list-item-title>{{ link.title }}</v-list-item-title>
       </template>
       <div v-for="(tab, index) in link.sublinks" :key="index">
@@ -14,7 +14,7 @@
                      :href="tab.cms_page_id === null && !localLink(tab) ? tab.link : null"
                      :to="tab.cms_page_id || localLink(tab) ? getLocalLink(tab) : null"
                      link>
-          <v-icon left>{{ tab.icon }}</v-icon>
+          <v-icon start>{{ tab.icon }}</v-icon>
           <v-list-item-title>{{ tab.title }}</v-list-item-title>
         </v-list-item>
       </div>
@@ -25,7 +25,7 @@
                       link.link : null)"
                  :to="(link.cms_page_id || localLink(link) ?
                       getLocalLink(link) : null)" :class="subSubLink ? 'ml-3' : ''">
-      <v-icon left>{{ link.icon }}</v-icon>
+      <v-icon start>{{ link.icon }}</v-icon>
       <v-list-item-title>{{ link.title }}</v-list-item-title>
     </v-list-item>
   </div>

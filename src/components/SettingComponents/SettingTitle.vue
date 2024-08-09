@@ -3,9 +3,9 @@
     <div class="d-flex align-center">
       <h5 class="text-h5"><slot></slot></h5>
       <v-spacer />
-      <v-tooltip left v-if="docLink">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon small v-bind="attrs" v-on="on" :href="docLink" target="_blank">
+      <v-tooltip location="left" v-if="docLink">
+        <template v-slot:activator="{ props }">
+          <v-btn icon size="small" v-bind="props" :href="docLink" target="_blank">
             <v-icon>
               mdi-book-open-variant
             </v-icon>

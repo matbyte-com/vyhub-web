@@ -6,11 +6,11 @@ export default {
   properties: {
     name: {
       type: 'string',
-      title: i18n.t('name'),
+      title: i18n.global.t('name'),
     },
     properties: {
       ...Common.propertiesSelector,
-      title: i18n.t('extraProperties'),
+      title: i18n.global.t('extraProperties'),
     },
   },
 };

@@ -17,15 +17,15 @@ export default {
     },
     begin: {
       type: 'string',
-      title: i18n.t('begin'),
+      title: i18n.global.t('begin'),
       format: 'date-time',
       default: new Date(),
     },
     end: {
       type: 'string',
-      title: i18n.t('end'),
+      title: i18n.global.t('end'),
       format: 'date-time',
-      description: i18n.t('_dashboard.labels.membershipEndDescription'),
+      description: i18n.global.t('_dashboard.labels.membershipEndDescription'),
     },
     serverbundle_id: {
       ...Common.serverbundleSelectField,

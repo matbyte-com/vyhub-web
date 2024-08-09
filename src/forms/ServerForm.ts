@@ -12,18 +12,18 @@ function serverTypeFields(serverType: string) {
     properties = {
       res_slots: {
         type: 'integer',
-        title: i18n.t('_server.labels.numberOfReservedSlots'),
+        title: i18n.global.t('_server.labels.numberOfReservedSlots'),
         minimum: 0,
         default: 0,
       },
       res_slots_keep_free: {
         type: 'boolean',
-        title: i18n.t('_server.labels.keepReservedSlotsFree'),
+        title: i18n.global.t('_server.labels.keepReservedSlotsFree'),
         default: false,
       },
       res_slots_hide: {
         type: 'boolean',
-        title: i18n.t('_server.labels.hideReservedSlots'),
+        title: i18n.global.t('_server.labels.hideReservedSlots'),
         default: false,
       },
     };
@@ -32,7 +32,7 @@ function serverTypeFields(serverType: string) {
     properties = {
       joinBotLink: {
         'x-slots': {
-          before: i18n.t('_server.labels.discordEnterIdAsAddress'),
+          before: i18n.global.t('_server.labels.discordEnterIdAsAddress'),
         },
       },
     };
@@ -43,8 +43,8 @@ function serverTypeFields(serverType: string) {
     properties = {
       query_port: {
         type: 'integer',
-        title: i18n.t('_server.labels.sshQueryPort'),
-        description: i18n.t('_server.labels.queryPortDescription'),
+        title: i18n.global.t('_server.labels.sshQueryPort'),
+        description: i18n.global.t('_server.labels.queryPortDescription'),
         default: 1,
         minimum: 1,
         maximum: 65535,
@@ -53,11 +53,11 @@ function serverTypeFields(serverType: string) {
     properties_secrets = {
       username: {
         type: 'string',
-        title: i18n.t('username'),
+        title: i18n.global.t('username'),
       },
       password: {
         type: 'string',
-        title: i18n.t('password'),
+        title: i18n.global.t('password'),
       },
     };
   } else if (serverType === 'SOURCE') {
@@ -65,7 +65,7 @@ function serverTypeFields(serverType: string) {
     properties_secrets = {
       password: {
         type: 'string',
-        title: i18n.t('_server.labels.rconPassword'),
+        title: i18n.global.t('_server.labels.rconPassword'),
       },
     };
   }
@@ -75,7 +75,7 @@ function serverTypeFields(serverType: string) {
     required: ['type'],
     properties: {
       type: {
-        title: i18n.t('type'),
+        title: i18n.global.t('type'),
         type: 'string',
         const: serverType,
       },
@@ -101,22 +101,22 @@ export default {
       properties: {
         name: {
           type: 'string',
-          title: i18n.t('name'),
+          title: i18n.global.t('name'),
         },
         address: {
           type: 'string',
-          title: i18n.t('address'),
+          title: i18n.global.t('address'),
         },
         port: {
           type: 'integer',
-          title: i18n.t('port'),
+          title: i18n.global.t('port'),
           default: 1,
           minimum: 1,
           maximum: 65535,
         },
         hidden: {
           type: 'boolean',
-          title: i18n.t('_server.labels.hidden'),
+          title: i18n.global.t('_server.labels.hidden'),
           default: false,
           'x-display': 'switch',
         },

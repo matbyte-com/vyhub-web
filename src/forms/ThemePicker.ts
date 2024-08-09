@@ -11,7 +11,7 @@ function returnForm() {
     properties: {
       enable_landingpage: {
         type: 'boolean',
-        title: i18n.t('_theme.enable_landingpage'),
+        title: i18n.global.t('_theme.enable_landingpage'),
         'x-display': 'switch',
       },
       header: {
@@ -20,13 +20,13 @@ function returnForm() {
       },
       light_header: {
         type: 'boolean',
-        title: i18n.t('_theme.lightHeaderColor'),
+        title: i18n.global.t('_theme.lightHeaderColor'),
         'x-display': 'switch',
         'x-cols': 4,
       },
       header_container: {
         type: 'boolean',
-        title: i18n.t('_theme.headerContainer'),
+        title: i18n.global.t('_theme.headerContainer'),
         'x-display': 'switch',
         'x-cols': 4,
       },
@@ -38,17 +38,17 @@ function returnForm() {
       error: common.colorPicker('_theme.errorColor'),
       dark: {
         type: 'boolean',
-        title: i18n.t('_theme.darkmode'),
+        title: i18n.global.t('_theme.darkmode'),
         'x-display': 'switch',
         'x-cols': 7,
       },
       image: {
         type: 'string',
-        title: i18n.t('_theme.backgroundImageURL'),
+        title: i18n.global.t('_theme.backgroundImageURL'),
         pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
         'x-props': {
           clearable: true,
-          placeholder: i18n.t('_settings.httpPlaceholder'),
+          placeholder: i18n.global.t('_settings.httpPlaceholder'),
         },
         'x-cols': 6,
       },
@@ -59,20 +59,20 @@ function returnForm() {
       },
       logo: {
         type: 'string',
-        title: i18n.t('_theme.logoURL'),
+        title: i18n.global.t('_theme.logoURL'),
         pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
         'x-props': {
           clearable: true,
-          placeholder: i18n.t('_settings.httpPlaceholder'),
+          placeholder: i18n.global.t('_settings.httpPlaceholder'),
         },
-        description: i18n.t('_theme.logoDescription'),
+        description: i18n.global.t('_theme.logoDescription'),
         'x-cols': 6,
       },
       logo_width: {
         type: 'integer',
         minimum: 50,
         maximum: 150,
-        title: i18n.t('_theme.logoWidth'),
+        title: i18n.global.t('_theme.logoWidth'),
         'x-display': 'slider',
         'x-props': {
           'thumb-label': 'always',
@@ -82,15 +82,15 @@ function returnForm() {
       },
       show_community_name: {
         type: 'boolean',
-        title: i18n.t('_theme.showCommunityName'),
+        title: i18n.global.t('_theme.showCommunityName'),
         default: false,
         'x-display': 'switch',
-        description: i18n.t('_theme.communityNameDescription'),
+        description: i18n.global.t('_theme.communityNameDescription'),
         'x-cols': 6,
       },
       custom_css: {
         type: 'string',
-        title: i18n.t('_theme.customCss'),
+        title: i18n.global.t('_theme.customCss'),
         'x-display': 'textarea',
         'x-props': {
           clearable: true,

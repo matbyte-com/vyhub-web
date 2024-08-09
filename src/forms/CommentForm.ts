@@ -14,13 +14,13 @@ export default {
     },
     message: {
       type: 'string',
-      title: i18n.t('message'),
+      title: i18n.global.t('message'),
       'x-display': 'textarea',
       maxLength: 400,
     },
     visible_to_user: {
       type: 'boolean',
-      title: i18n.t('_dashboard.labels.visibleToUser'),
+      title: i18n.global.t('_dashboard.labels.visibleToUser'),
       default: false,
     },
   },

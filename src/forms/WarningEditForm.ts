@@ -6,7 +6,7 @@ export default {
   properties: {
     reason: {
       type: 'string',
-      title: i18n.t('_warning.reason'),
+      title: i18n.global.t('_warning.reason'),
     },
   },
 };

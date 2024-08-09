@@ -29,11 +29,11 @@
             <swiper-slide v-if="$store.getters.shopConfig &&
              ($store.getters.shopConfig.donation_goal_enabled ||
               $store.getters.shopConfig.top_donators_enabled)">
-              <v-card class="card-rounded pt-3" outlined
+              <v-card class="card-rounded pt-3" border
                       v-if="$store.getters.shopConfig.donation_goal_enabled">
                 <DonationGoal/>
               </v-card>
-              <v-card class="card-rounded mt-3 pt-3" outlined
+              <v-card class="card-rounded mt-3 pt-3" border
                       v-if="$store.getters.shopConfig.top_donators_enabled">
                 <TopDonators/>
               </v-card>
@@ -54,9 +54,9 @@
                        :class="{ 'mb-4': $vuetify.breakpoint.mdAndUp }">
           <template v-slot:end v-if="$checkProp('news_edit')">
             <div class="text-end">
-              <v-btn color="success" depressed small
+              <v-btn color="success" variant="flat" size="small"
                      @click="showAddMessageDialog" data-cy="new-message-button">
-                <v-icon left>mdi-plus</v-icon>
+                <v-icon start>mdi-plus</v-icon>
                 <span>{{ $t('_home.addNews') }}</span>
               </v-btn>
             </div>
@@ -77,13 +77,13 @@
             </span>
             <v-spacer/>
             <span v-if="$checkProp('news_edit')" class="text-right">
-              <v-btn outlined color="primary" small
+              <v-btn variant="outlined" color="primary" size="small"
                      @click="openEditMessageDialog(message)" class="mr-1">
                 <v-icon>
                   mdi-pencil
                 </v-icon>
               </v-btn>
-              <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+              <v-btn variant="outlined" color="error" size="small" @click="openDeleteMessageDialog(message)">
                 <v-icon>
                   mdi-delete
                 </v-icon>
@@ -108,7 +108,7 @@
                         'mb-4': $vuetify.breakpoint.mdAndUp }"
                        :hide-triangle="$vuetify.breakpoint.smAndDown"
                        :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
-        <v-card flat outlined
+        <v-card flat border
                 :class="{ 'card-rounded-top':!$vuetify.breakpoint.smAndDown || index !== 0,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0 }"
                 class="mb-3 vh-news card-rounded animate__animated animate__fadeIn animate__faster"
@@ -121,13 +121,13 @@
             </span>
             <v-spacer/>
             <span v-if="$checkProp('news_edit')" class="text-right">
-              <v-btn outlined color="primary" small
+              <v-btn variant="outlined" color="primary" size="small"
                      @click="openEditMessageDialog(message)" class="mr-1">
                 <v-icon>
                   mdi-pencil
                 </v-icon>
               </v-btn>
-              <v-btn outlined color="error" small @click="openDeleteMessageDialog(message)">
+              <v-btn variant="outlined" color="error" size="small" @click="openDeleteMessageDialog(message)">
                 <v-icon>
                   mdi-delete
                 </v-icon>
@@ -243,11 +243,11 @@ export default {
       const data = this.$refs.messageAddDialog.getData();
       data.content = this.message;
       if (!this.message) {
-        this.$refs.messageAddDialog.setErrorMessage(i18n.t('_home.messages.messageEmpty'));
+        this.$refs.messageAddDialog.setErrorMessage(i18n.global.t('_home.messages.messageEmpty'));
         return;
       }
       if (data.content.length > this.maxInputLength) {
-        this.$refs.messageAddDialog.setErrorMessage(i18n.t('maxInputExceeded', { length: config.html_max_input_length }),
+        this.$refs.messageAddDialog.setErrorMessage(i18n.global.t('maxInputExceeded', { length: config.html_max_input_length }),
           { length: config.html_max_input_length });
         return;
       }
@@ -286,7 +286,7 @@ export default {
     },
     async editMessage(message) {
       if (!this.message) {
-        this.$refs.messageEditDialog.setErrorMessage(i18n.t('_home.messages.messageEmpty'));
+        this.$refs.messageEditDialog.setErrorMessage(i18n.global.t('_home.messages.messageEmpty'));
         return;
       }
       const data = this.$refs.messageEditDialog.getData();

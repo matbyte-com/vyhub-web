@@ -8,7 +8,7 @@ export default {
         discord: {
           type: 'boolean',
           'x-display': 'switch',
-          title: i18n.t('discord'),
+          title: i18n.global.t('discord'),
           default: false,
         },
       },
@@ -29,18 +29,18 @@ export default {
         properties: {
           discord_oauth_client_id: {
             type: 'string',
-            title: i18n.t('_authorization.discordOauthClientId'),
+            title: i18n.global.t('_authorization.discordOauthClientId'),
             pattern: '^[0-9]*$',
             default: '',
           },
           discord_oauth_client_secret: {
             type: 'string',
-            title: i18n.t('_authorization.discordOauthClientSecret'),
+            title: i18n.global.t('_authorization.discordOauthClientSecret'),
             default: '',
           },
           discord_bot_token: {
             type: 'string',
-            title: i18n.t('_authorization.discordBotToken'),
+            title: i18n.global.t('_authorization.discordBotToken'),
             default: '',
           },
         },

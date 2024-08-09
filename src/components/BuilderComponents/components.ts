@@ -23,7 +23,7 @@ export default {
         type: 'object',
         properties: {
           logoUrl: {
-            title: i18n.t('_theme.logoURL'),
+            title: i18n.global.t('_theme.logoURL'),
             type: 'string',
             'x-props': {
               clearable: true,
@@ -34,7 +34,7 @@ export default {
             type: 'integer',
             minimum: 50,
             maximum: 150,
-            title: i18n.t('_theme.logoWidth'),
+            title: i18n.global.t('_theme.logoWidth'),
             'x-display': 'slider',
             'x-props': {
               'thumb-label': 'always',
@@ -43,18 +43,18 @@ export default {
             'x-cols': 6,
           },
           headline: {
-            title: i18n.t('_component._form.headline'),
+            title: i18n.global.t('_component._form.headline'),
             type: 'string',
           },
           backgroundColor: {
             type: 'string',
-            title: i18n.t('_theme.backgroundColor'),
+            title: i18n.global.t('_theme.backgroundColor'),
             format: 'hexcolor',
             'x-cols': 6,
           },
           whiteText: {
             type: 'boolean',
-            title: i18n.t('_component.whiteText'),
+            title: i18n.global.t('_component.whiteText'),
             'x-cols': 6,
             'x-display': 'switch',
             'x-props': {
@@ -63,7 +63,7 @@ export default {
           },
           app: {
             type: 'boolean',
-            title: i18n.t('_component._form.app'),
+            title: i18n.global.t('_component._form.app'),
             'x-display': 'switch',
             'x-props': {
               'hide-details': 'auto',
@@ -71,7 +71,7 @@ export default {
           },
           fixed: {
             type: 'boolean',
-            title: i18n.t('_component._form.fixed'),
+            title: i18n.global.t('_component._form.fixed'),
             'x-display': 'switch',
             'x-props': {
               'hide-details': 'auto',
@@ -79,7 +79,7 @@ export default {
           },
           dense: {
             type: 'boolean',
-            title: i18n.t('_component._form.dense'),
+            title: i18n.global.t('_component._form.dense'),
             'x-cols': 6,
             'x-display': 'switch',
             'x-props': {
@@ -95,15 +95,15 @@ export default {
               properties: {
                 icon: Common.iconPicker,
                 btnText: {
-                  title: i18n.t('title'),
+                  title: i18n.global.t('title'),
                   type: 'string',
                 },
                 link: {
-                  title: i18n.t('url'),
+                  title: i18n.global.t('url'),
                   type: 'string',
                 },
                 targetBlank: {
-                  title: i18n.t('_component._form.openInNewTab'),
+                  title: i18n.global.t('_component._form.openInNewTab'),
                   type: 'boolean',
                 },
               },
@@ -143,18 +143,18 @@ export default {
         type: 'object',
         properties: {
           title: {
-            title: i18n.t('title'),
+            title: i18n.global.t('title'),
             type: 'string',
             'x-cols': 6,
           },
           subtitle: {
-            title: i18n.t('subtitle'),
+            title: i18n.global.t('subtitle'),
             type: 'string',
             'x-cols': 6,
             'x-class': 'pl-1',
           },
           logoUrl: {
-            title: i18n.t('_theme.logoURL'),
+            title: i18n.global.t('_theme.logoURL'),
             type: 'string',
             'x-props': {
               clearable: true,
@@ -168,23 +168,23 @@ export default {
               required: ['btnText', 'link'],
               properties: {
                 btnText: {
-                  title: i18n.t('title'),
+                  title: i18n.global.t('title'),
                   type: 'string',
                 },
                 link: {
-                  title: i18n.t('url'),
+                  title: i18n.global.t('url'),
                   type: 'string',
                 },
               },
             },
           },
           height: {
-            title: i18n.t('_component._form.height'),
+            title: i18n.global.t('_component._form.height'),
             type: 'string',
             'x-cols': 6,
           },
           imageUrl: {
-            title: i18n.t('_theme.backgroundImageURL'),
+            title: i18n.global.t('_theme.backgroundImageURL'),
             type: 'string',
             'x-cols': 6,
             'x-props': {
@@ -194,7 +194,7 @@ export default {
           },
           whiteText: {
             type: 'boolean',
-            title: i18n.t('_component.whiteText'),
+            title: i18n.global.t('_component.whiteText'),
             'x-cols': 6,
             'x-display': 'switch',
             'x-props': {
@@ -203,27 +203,27 @@ export default {
           },
           backgroundColor: {
             type: 'string',
-            title: i18n.t('_theme.backgroundColor'),
+            title: i18n.global.t('_theme.backgroundColor'),
             format: 'hexcolor',
             'x-cols': 6,
           },
           container: {
             type: 'boolean',
-            title: i18n.t('_component._form.container'),
+            title: i18n.global.t('_component._form.container'),
             'x-cols': 6,
             'x-display': 'switch',
             'x-class': 'pt-4',
           },
           backgroundColor2: {
             type: 'string',
-            title: i18n.t('_theme.backgroundColor'),
+            title: i18n.global.t('_theme.backgroundColor'),
             format: 'hexcolor',
             'x-cols': 6,
             'x-class': 'pl-1',
           },
           marginTop: {
             type: 'string',
-            title: i18n.t('_component._form.marginTop'),
+            title: i18n.global.t('_component._form.marginTop'),
             'x-cols': 4,
             'x-class': 'pl-1',
           },
@@ -257,15 +257,15 @@ export default {
               required: ['imageUrl'],
               properties: {
                 title: {
-                  title: i18n.t('title'),
+                  title: i18n.global.t('title'),
                   type: 'string',
                 },
                 subtitle: {
-                  title: i18n.t('subtitle'),
+                  title: i18n.global.t('subtitle'),
                   type: 'string',
                 },
                 imageUrl: {
-                  title: i18n.t('imageURL'),
+                  title: i18n.global.t('imageURL'),
                   type: 'string',
                   'x-props': {
                     clearable: true,
@@ -276,7 +276,7 @@ export default {
           },
           whiteText: {
             type: 'boolean',
-            title: i18n.t('_component.whiteText'),
+            title: i18n.global.t('_component.whiteText'),
             'x-cols': 6,
             'x-display': 'switch',
             'x-class': 'mt-5',
@@ -286,7 +286,7 @@ export default {
             default: true,
           },
           height: {
-            title: i18n.t('_component._form.height'),
+            title: i18n.global.t('_component._form.height'),
             type: 'number',
             'x-cols': 6,
           },
@@ -317,11 +317,11 @@ export default {
         type: 'object',
         properties: {
           maxColumnHeight: {
-            title: i18n.t('_component._form.maxColumnHeight'),
+            title: i18n.global.t('_component._form.maxColumnHeight'),
             type: 'string',
           },
           inverted: {
-            title: i18n.t('_component._form.inverted'),
+            title: i18n.global.t('_component._form.inverted'),
             type: 'boolean',
           },
         },
@@ -349,7 +349,7 @@ export default {
         type: 'object',
         properties: {
           imageCardUrl: {
-            title: i18n.t('imageURL'),
+            title: i18n.global.t('imageURL'),
             type: 'string',
             'x-props': {
               clearable: true,
@@ -367,7 +367,7 @@ export default {
         type: 'object',
         properties: {
           callToAction: {
-            title: i18n.t('_component._form.btnText'),
+            title: i18n.global.t('_component._form.btnText'),
             type: 'string',
           },
         },
@@ -387,7 +387,7 @@ export default {
         type: 'object',
         properties: {
           callToAction: {
-            title: i18n.t('_component._form.btnText'),
+            title: i18n.global.t('_component._form.btnText'),
             type: 'string',
           },
         },
@@ -407,7 +407,7 @@ export default {
         type: 'object',
         properties: {
           limit: {
-            title: i18n.t('_component._form.limit'),
+            title: i18n.global.t('_component._form.limit'),
             type: 'number',
             minimum: 1,
             maximum: 100,
@@ -415,7 +415,7 @@ export default {
         },
       },
       defaults: {
-        title: i18n.t('_user.labels.newUsers'),
+        title: i18n.global.t('_user.labels.newUsers'),
         limit: 4,
       },
     },
@@ -429,7 +429,7 @@ export default {
         properties: {
           servers: {
             type: 'array',
-            title: i18n.t('servers'),
+            title: i18n.global.t('servers'),
             items: {
               type: 'string',
             },
@@ -438,7 +438,7 @@ export default {
             'x-itemTitle': 'name',
           },
           logoUrl: {
-            title: i18n.t('_theme.logoURL'),
+            title: i18n.global.t('_theme.logoURL'),
             type: 'string',
             'x-props': {
               clearable: true,
@@ -462,7 +462,7 @@ export default {
         type: 'object',
         properties: {
           imageCardUrl: {
-            title: i18n.t('imageURL'),
+            title: i18n.global.t('imageURL'),
             type: 'string',
             'x-props': {
               clearable: true,
@@ -484,19 +484,19 @@ export default {
         type: 'object',
         properties: {
           headline: {
-            title: i18n.t('_component._form.headline'),
+            title: i18n.global.t('_component._form.headline'),
             type: 'string',
           },
           inviteLink: {
-            title: i18n.t('_component._form.inviteLink'),
+            title: i18n.global.t('_component._form.inviteLink'),
             type: 'string',
           },
           discordWidget: {
-            title: i18n.t('_component._form.discordWidget'),
+            title: i18n.global.t('_component._form.discordWidget'),
             type: 'string',
           },
           inverted: {
-            title: i18n.t('_component._form.inverted'),
+            title: i18n.global.t('_component._form.inverted'),
             type: 'boolean',
           },
         },
@@ -531,23 +531,23 @@ export default {
               type: 'object',
               properties: {
                 title: {
-                  title: i18n.t('title'),
+                  title: i18n.global.t('title'),
                   type: 'string',
                 },
                 icon: {
-                  title: i18n.t('icon'),
+                  title: i18n.global.t('icon'),
                   type: 'string',
                 },
                 content: {
-                  title: i18n.t('content'),
+                  title: i18n.global.t('content'),
                   type: 'string',
                 },
                 btnText: {
-                  title: i18n.t('_component._form.btnText'),
+                  title: i18n.global.t('_component._form.btnText'),
                   type: 'string',
                 },
                 link: {
-                  title: i18n.t('link'),
+                  title: i18n.global.t('link'),
                   type: 'string',
                 },
               },
@@ -593,11 +593,11 @@ export default {
               type: 'object',
               properties: {
                 question: {
-                  title: i18n.t('_component._form.question'),
+                  title: i18n.global.t('_component._form.question'),
                   type: 'string',
                 },
                 answer: {
-                  title: i18n.t('_component._form.answer'),
+                  title: i18n.global.t('_component._form.answer'),
                   type: 'string',
                 },
                 icon: Common.iconPicker,
@@ -636,15 +636,15 @@ export default {
               type: 'object',
               properties: {
                 title: {
-                  title: i18n.t('title'),
+                  title: i18n.global.t('title'),
                   type: 'string',
                 },
                 content: {
-                  title: i18n.t('content'),
+                  title: i18n.global.t('content'),
                   type: 'string',
                 },
                 imageUrl: {
-                  title: i18n.t('imageURL'),
+                  title: i18n.global.t('imageURL'),
                   type: 'string',
                   'x-props': {
                     clearable: true,

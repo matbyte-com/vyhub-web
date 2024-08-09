@@ -16,17 +16,17 @@ export default {
     },
     title: {
       type: 'string',
-      title: i18n.t('title'),
+      title: i18n.global.t('title'),
       maxLength: 150,
     },
     description: {
       type: 'string',
-      title: i18n.t('description'),
+      title: i18n.global.t('description'),
       maxLength: 75,
     },
     admin_ids: {
       ...Common.userSelectField,
-      title: i18n.t('_forum.topicAdminUser'),
+      title: i18n.global.t('_forum.topicAdminUser'),
       type: 'array',
       items: {
         type: 'string',
@@ -34,7 +34,7 @@ export default {
     },
     admin_group_ids: {
       ...Common.groupSelectField,
-      title: i18n.t('_forum.topicAdminGroup'),
+      title: i18n.global.t('_forum.topicAdminGroup'),
       type: 'array',
       items: {
         type: 'string',
@@ -44,15 +44,15 @@ export default {
     edit_post: {
       type: 'boolean',
       'x-display': 'switch',
-      title: i18n.t('_forum.allowEditPost'),
-      description: i18n.t('_forum.allowEditPostDescription'),
+      title: i18n.global.t('_forum.allowEditPost'),
+      description: i18n.global.t('_forum.allowEditPostDescription'),
       default: false,
     },
     prohibit_create_threads: {
       type: 'boolean',
       'x-display': 'switch',
-      title: i18n.t('_forum.prohibitCreateThreads'),
-      description: i18n.t('_forum.prohibitCreateThreadsDescription'),
+      title: i18n.global.t('_forum.prohibitCreateThreads'),
+      description: i18n.global.t('_forum.prohibitCreateThreadsDescription'),
       default: false,
     },
   },

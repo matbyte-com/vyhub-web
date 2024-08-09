@@ -1,7 +1,7 @@
 <template>
 <div>
   <span class="text-h5">
-    <v-icon left>
+    <v-icon start>
       mdi-account-alert
     </v-icon>
     {{ $t('warnings') }}
@@ -15,8 +15,8 @@
     :default-sort-desc="true"
   >
     <template v-slot:footer-right v-if="$checkProp('warning_edit')">
-      <v-btn outlined color="success" @click="openAddWarningDialog()">
-        <v-icon left>mdi-plus</v-icon>
+      <v-btn variant="outlined" color="success" @click="openAddWarningDialog()">
+        <v-icon start>mdi-plus</v-icon>
         <span>{{ $t("_warning.add") }}</span>
       </v-btn>
     </template>
@@ -35,21 +35,21 @@
       <div class="d-flex">
         <v-spacer />
         <div v-if="$checkProp('warning_edit') && item.status !== 'EXPIRED'">
-          <v-btn depressed small v-if="item.disabled !== true"
+          <v-btn variant="flat" size="small" v-if="item.disabled !== true"
                  @click="toggleDisable(item)">
-            <v-icon left>
+            <v-icon start>
               mdi-pause
             </v-icon>
             {{ $t('disable') }}
           </v-btn>
-          <v-btn depressed small v-else @click="toggleDisable(item)">
-            <v-icon left>
+          <v-btn variant="flat" size="small" v-else @click="toggleDisable(item)">
+            <v-icon start>
               mdi-play
             </v-icon>
             {{ $t('enable') }}
           </v-btn>
         </div>
-        <v-btn outlined v-if="$checkProp('warning_delete')" color="error" small
+        <v-btn variant="outlined" v-if="$checkProp('warning_delete')" color="error" size="small"
                @click="openDeleteWarningDialog(item)" class="ml-1">
           <v-icon>
             mdi-delete

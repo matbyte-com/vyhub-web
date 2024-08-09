@@ -5,24 +5,24 @@
       v-if="(allowedTabs || []).length > 0"
       open-on-hover
       offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn text class="nav-btn pr-0 pl-2"
+      <template v-slot:activator="{ props }">
+        <v-btn variant="text" class="nav-btn pr-0 pl-2"
                :class="{ 'active-btn-light' : listActive && lightHeader,
                 'v-btn--active' : listActive && !lightHeader }"
-               v-bind="attrs" v-on="on">
-          <v-icon left v-if="link.icon">{{ link.icon }}</v-icon>
+               v-bind="props">
+          <v-icon start v-if="link.icon">{{ link.icon }}</v-icon>
           <span>{{ link.title }}</span>
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
-      <v-list dense class="text-uppercase">
+      <v-list density="compact" class="text-uppercase">
         <v-list-item v-for="(tab, index) in allowedTabs || []"
                      :key="index"
                      :href="(tab.cms_page_id === null && !utils.localLink(tab) ? tab.link : null)"
                      :to="(tab.cms_page_id || utils.localLink(tab) ?
                       utils.getLocalLink(tab) : null)">
           <v-list-item-title>
-            <v-icon left v-if="tab.icon">{{ tab.icon}}</v-icon>
+            <v-icon start v-if="tab.icon">{{ tab.icon}}</v-icon>
             <span>{{ tab.title }}</span>
           </v-list-item-title>
         </v-list-item>
@@ -30,12 +30,12 @@
     </v-menu>
     <!-- simple button when no tabs are existent -->
     <v-btn
-      text :dark="dark"
+      variant="text" :dark="dark"
       v-if="(allowedTabs || []).length === 0" class="nav-btn px-3"
-      :active-class="lightHeader ? 'active-btn-light' : ''"
+      :selected-class="lightHeader ? 'active-btn-light' : ''"
       :href="(link.cms_page_id === null && !utils.localLink(link) ? link.link : null)"
       :to="(link.cms_page_id || utils.localLink(link) ? utils.getLocalLink(link) : null)">
-      <v-icon left class="" v-if="link.icon">{{ link.icon }}</v-icon>
+      <v-icon start class="" v-if="link.icon">{{ link.icon }}</v-icon>
       <span>{{ link.title }}</span>
     </v-btn>
   </div>

@@ -15,25 +15,25 @@
       <template v-slot:item.properties="{ item }" >
         <v-expansion-panels v-if="scopeToList(item.scope).length > 5" flat>
           <v-expansion-panel>
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
               {{ $t('properties') }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-chip v-for="(prop, index) in scopeToList(item.scope)" :key="index" small
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-chip v-for="(prop, index) in scopeToList(item.scope)" :key="index" size="small"
                       color="primary" class="mr-1 mb-1">
                 {{ prop }}
               </v-chip>
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-chip v-else v-for="(prop, index) in scopeToList(item.scope)" :key="index" small
+        <v-chip v-else v-for="(prop, index) in scopeToList(item.scope)" :key="index" size="small"
                 color="primary" class="mr-1 mb-1">
           {{ prop }}
         </v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
-          <v-btn outlined color="warning" small @click="revokeToken(item)">
+          <v-btn variant="outlined" color="warning" size="small" @click="revokeToken(item)">
             <v-icon>
               mdi-cancel
             </v-icon>
@@ -41,8 +41,8 @@
         </div>
       </template>
       <template v-slot:footer-right>
-        <v-btn color="success" @click="$refs.createTokenDialog.show()" outlined>
-          <v-icon left>mdi-plus</v-icon>
+        <v-btn color="success" @click="$refs.createTokenDialog.show()" variant="outlined">
+          <v-icon start>mdi-plus</v-icon>
           <span>{{ $t('_api.labels.createKey') }}</span>
         </v-btn>
       </template>

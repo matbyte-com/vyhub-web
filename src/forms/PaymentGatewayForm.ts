@@ -7,7 +7,7 @@ function gatewayFields(gatewayType: string) {
         type: [
           'string',
         ],
-        title: i18n.t('environment'),
+        title: i18n.global.t('environment'),
         enum: [
           'SANDBOX',
           'PRODUCTION',
@@ -59,7 +59,7 @@ function gatewayFields(gatewayType: string) {
           'array',
         ],
         default: [],
-        title: i18n.t('paymentMethods'),
+        title: i18n.global.t('paymentMethods'),
         items: {
           type: 'string',
           enum: [
@@ -101,16 +101,16 @@ function gatewayFields(gatewayType: string) {
       },
       accept_pending: {
         type: 'string',
-        title: i18n.t('_gateway.labels.acceptPending'),
-        description: i18n.t('_gateway.labels.acceptPendingDescription'),
+        title: i18n.global.t('_gateway.labels.acceptPending'),
+        description: i18n.global.t('_gateway.labels.acceptPendingDescription'),
         oneOf: [
           {
             const: 'true',
-            title: i18n.t('_gateway.labels.acceptPending'),
+            title: i18n.global.t('_gateway.labels.acceptPending'),
           },
           {
             const: 'false',
-            title: i18n.t('_gateway.labels.doNotAcceptPending'),
+            title: i18n.global.t('_gateway.labels.doNotAcceptPending'),
           },
         ],
       },
@@ -129,7 +129,7 @@ function gatewayFields(gatewayType: string) {
         type: [
           'string',
         ],
-        title: i18n.t('environment'),
+        title: i18n.global.t('environment'),
         enum: [
           'SANDBOX',
           'PRODUCTION',
@@ -139,16 +139,16 @@ function gatewayFields(gatewayType: string) {
         type: [
           'string',
         ],
-        title: i18n.t('clientCert'),
-        description: i18n.t('_gateway.labels.clientCertDescription'),
+        title: i18n.global.t('clientCert'),
+        description: i18n.global.t('_gateway.labels.clientCertDescription'),
         'x-display': 'textarea',
       },
       client_key: {
         type: [
           'string',
         ],
-        title: i18n.t('clientKey'),
-        description: i18n.t('_gateway.labels.clientCertDescription'),
+        title: i18n.global.t('clientKey'),
+        description: i18n.global.t('_gateway.labels.clientCertDescription'),
         'x-display': 'textarea',
       },
     };
@@ -160,7 +160,7 @@ function gatewayFields(gatewayType: string) {
         type: [
           'string',
         ],
-        title: i18n.t('environment'),
+        title: i18n.global.t('environment'),
         enum: [
           'SANDBOX',
           'PRODUCTION',
@@ -170,7 +170,7 @@ function gatewayFields(gatewayType: string) {
         type: [
           'string',
         ],
-        title: `${i18n.t('email')} (PayPal)`,
+        title: `${i18n.global.t('email')} (PayPal)`,
       },
     };
   }
@@ -185,31 +185,31 @@ function form(gatewayType: string) {
     properties: {
       type: {
         type: 'string',
-        title: i18n.t('type'),
+        title: i18n.global.t('type'),
         default: gatewayType,
         readOnly: true,
       },
       name: {
         type: 'string',
-        title: i18n.t('name'),
+        title: i18n.global.t('name'),
       },
       subtitle: {
         type: 'string',
-        title: i18n.t('subtitle'),
+        title: i18n.global.t('subtitle'),
       },
       image_url: {
         type: ['string', 'null'],
-        title: i18n.t('imageURL'),
-        description: i18n.t('_gateway.labels.imageUrlDescription'),
+        title: i18n.global.t('imageURL'),
+        description: i18n.global.t('_gateway.labels.imageUrlDescription'),
         pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
         'x-props': {
           clearable: true,
-          placeholder: i18n.t('_settings.httpPlaceholder'),
+          placeholder: i18n.global.t('_settings.httpPlaceholder'),
         },
       },
       enabled: {
         type: 'boolean',
-        title: i18n.t('enabled'),
+        title: i18n.global.t('enabled'),
         default: true,
       },
       attributes: {

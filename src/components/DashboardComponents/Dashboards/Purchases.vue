@@ -13,8 +13,8 @@
                 <v-row>
                   <v-col>
                     <div class="text-right">
-                      <v-btn depressed color="success" @click="$refs.creditHistoryDialog.show()">
-                        <v-icon left>mdi-circle-multiple</v-icon>
+                      <v-btn variant="flat" color="success" @click="$refs.creditHistoryDialog.show()">
+                        <v-icon start>mdi-circle-multiple</v-icon>
                         {{ $store.getters.shopConfig.credits_display_title }}
                       </v-btn>
                     </div>
@@ -30,7 +30,7 @@
                     lg="6"
                     xl="4"
                     class="d-flex">
-                    <v-card class="flex-grow-1 card-rounded" outlined>
+                    <v-card class="flex-grow-1 card-rounded" border>
                       <v-card-title class="subheading font-weight-bold">
                         # {{ purchase.id }}
                       </v-card-title>
@@ -38,25 +38,25 @@
                       <v-card-text>
                         <v-row>
                           <v-col>
-                            <div class="subtitle-1">
+                            <div class="text-subtitle-1">
                               {{ $t('details') }}
                             </div>
-                            <v-list dense>
+                            <v-list density="compact">
                               <v-list-item>
-                                <v-list-item-content>
+                                
                                   {{ $t('date') }}
-                                </v-list-item-content>
-                                <v-list-item-content>
+                                
+                                
                                   {{ new Date(purchase.date).toLocaleString() }}
-                                </v-list-item-content>
+                                
                               </v-list-item>
                               <v-list-item>
-                                <v-list-item-content>
+                                
                                   {{ $t('status') }}
-                                </v-list-item-content>
-                                <v-list-item-content>
+                                
+                                
                                   <PurchaseStatusChip :status="purchase.status" />
-                                </v-list-item-content>
+                                
                               </v-list-item>
                             </v-list>
                           </v-col>
@@ -64,7 +64,7 @@
 
                         <v-row>
                           <v-col>
-                            <div class="subtitle-1">
+                            <div class="text-subtitle-1">
                               {{ $t('packets') }}
                             </div>
 
@@ -81,7 +81,7 @@
 
                         <v-row>
                           <v-col>
-                            <div class="subtitle-1">
+                            <div class="text-subtitle-1">
                               {{ $t('payments') }}
                             </div>
                             <DataTable :items="filterFinishedDebits(purchase.debits)"
@@ -93,7 +93,7 @@
                                 {{ utils.formatDate(item.date) }}
                               </template>
                               <template v-slot:item.invoice="{ item }">
-                                <v-btn color="primary" outlined small
+                                <v-btn color="primary" variant="outlined" size="small"
                                        :disabled="!item.invoice_available"
                                        @click="downloadInvoice(item)">
                                   <v-icon>
@@ -117,10 +117,10 @@
                         </v-row>
                       </v-card-text>
                       <v-card-actions v-if="purchase.status === 'RECURRING'">
-                        <v-btn text color="error"
+                        <v-btn variant="text" color="error"
                                @click="$refs.confirmSubCancelDialog.show(purchase)"
                                v-if="purchase.status === 'RECURRING'">
-                          <v-icon left>mdi-cancel</v-icon>
+                          <v-icon start>mdi-cancel</v-icon>
                           {{ $t('_purchases.labels.cancelSubscription') }}
                         </v-btn>
                       </v-card-actions>

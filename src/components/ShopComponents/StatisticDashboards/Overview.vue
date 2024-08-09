@@ -3,12 +3,12 @@
     <v-col cols="12" lg="8">
       <v-card v-if="debitStats != null">
         <v-card-title>
-          <v-icon left>mdi-currency-usd</v-icon>
+          <v-icon start>mdi-currency-usd</v-icon>
           {{ $t('revenue') }}
           <v-spacer></v-spacer>
-          <v-select hide-details dense outlined v-model="selectedSalesInterval"
+          <v-select hide-details density="compact" variant="outlined" v-model="selectedSalesInterval"
                     style="z-index: 20"
-                    :items="intervalItems" item-text="name" item-value="value"></v-select>
+                    :items="intervalItems" item-title="name" item-value="value"></v-select>
         </v-card-title>
         <v-card-text>
           <DebitChart :data="debitStats" :currency="currency"></DebitChart>
@@ -20,7 +20,7 @@
         <v-col cols="4" lg="12" xl="6">
           <v-card>
             <v-card-title>
-              <v-icon left>mdi-numeric</v-icon>
+              <v-icon start>mdi-numeric</v-icon>
               {{ $t('_purchases.labels.salesCount') }}
             </v-card-title>
             <v-card-text>
@@ -33,7 +33,7 @@
         <v-col cols="4" lg="12" xl="6">
           <v-card>
             <v-card-title>
-              <v-icon left>mdi-cash-register</v-icon>
+              <v-icon start>mdi-cash-register</v-icon>
               {{ $t('_purchases.labels.totalRevenue') }}
             </v-card-title>
             <v-card-text>
@@ -50,14 +50,14 @@
         <v-col cols="4" lg="12" xl="6">
           <v-card>
             <v-card-title>
-              <v-icon left>mdi-cash</v-icon>
+              <v-icon start>mdi-cash</v-icon>
               {{ $t('_purchases.labels.activeSubscriptions') }}
               <v-spacer />
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
+              <v-tooltip location="bottom">
+                <template v-slot:activator="{ props }">
                   <v-icon
-                    v-bind="attrs"
-                    v-on="on"
+                   
+                    v-bind="props"
                   >
                     mdi-information
                   </v-icon>
@@ -75,14 +75,14 @@
         <v-col cols="4" lg="12" xl="6">
           <v-card>
             <v-card-title>
-              <v-icon left>mdi-calendar-refresh</v-icon>
+              <v-icon start>mdi-calendar-refresh</v-icon>
               {{ $t('_purchases.labels.monthlyRevenue') }}
               <v-spacer />
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
+              <v-tooltip location="bottom">
+                <template v-slot:activator="{ props }">
                   <v-icon
-                    v-bind="attrs"
-                    v-on="on"
+                   
+                    v-bind="props"
                   >
                     mdi-information
                   </v-icon>
@@ -104,7 +104,7 @@
         <v-col cols="4" lg="12" xl="6">
           <v-card>
             <v-card-title>
-              <v-icon left>mdi-circle-multiple</v-icon>
+              <v-icon start>mdi-circle-multiple</v-icon>
               {{ $t('_purchases.labels.creditsSpent') }}
             </v-card-title>
             <v-card-text>
@@ -117,7 +117,7 @@
         <v-col cols="4" lg="12" xl="6">
           <v-card>
             <v-card-title>
-              <v-icon left>mdi-percent</v-icon>
+              <v-icon start>mdi-percent</v-icon>
               {{ $t('_purchases.labels.averagePurchaseAmount') }}
             </v-card-title>
             <v-card-text>
@@ -131,7 +131,7 @@
         <v-col cols="12" md="6" lg="12">
           <v-card>
             <v-card-title>
-              <v-icon left>mdi-earth</v-icon>
+              <v-icon start>mdi-earth</v-icon>
               {{ $t('_purchases.labels.revenueByCountry') }}
             </v-card-title>
             <v-card-text>
@@ -144,7 +144,7 @@
         <v-col cols="12" md="6" lg="12">
           <v-card>
             <v-card-title>
-              <v-icon left>mdi-gift-open</v-icon>
+              <v-icon start>mdi-gift-open</v-icon>
               {{ $t('_purchases.labels.revenueByCategory') }}
             </v-card-title>
             <v-card-text>

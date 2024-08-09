@@ -2,7 +2,7 @@
   <v-card class="card-rounded" flat>
     <v-tabs grow>
       <v-tab>
-        <v-icon left>
+        <v-icon start>
           mdi-chart-bar
         </v-icon>
         {{ $t('statistics') }}
@@ -31,7 +31,7 @@
         </v-card>
       </v-tab-item>
       <v-tab>
-        <v-icon left>
+        <v-icon start>
           mdi-format-list-bulleted
         </v-icon>
         {{ $t('_forum.lastActivity') }}

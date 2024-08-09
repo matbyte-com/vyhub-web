@@ -1,11 +1,11 @@
 <template>
   <v-card v-if="user != null" class="vh-email flex-grow-1 d-flex flex-column card-rounded"
-          :outlined="outlined">
+          :border="outlined">
     <v-card-title>
-      <v-icon left>mdi-email</v-icon>
+      <v-icon start>mdi-email</v-icon>
       {{ $t('email') }}
     </v-card-title>
-    <v-card-text class="body-1 mb-0 pb-0">
+    <v-card-text class="text-body-1 mb-0 pb-0">
       <div v-if="!showInput">
         <div v-if="user.email != null">
           {{ user.email }}
@@ -18,12 +18,12 @@
     </v-card-text>
     <v-spacer />
     <v-card-actions>
-      <v-btn text color="primary" @click="this.showInputFunc" v-if="!showInput">
-        <v-icon left>mdi-pencil</v-icon>
+      <v-btn variant="text" color="primary" @click="this.showInputFunc" v-if="!showInput">
+        <v-icon start>mdi-pencil</v-icon>
         {{ $t('edit') }}
       </v-btn>
-      <v-btn v-else text color="success" @click="this.updateMail">
-        <v-icon left>mdi-check</v-icon>
+      <v-btn v-else variant="text" color="success" @click="this.updateMail">
+        <v-icon start>mdi-check</v-icon>
         {{ $t('update') }}
       </v-btn>
     </v-card-actions>

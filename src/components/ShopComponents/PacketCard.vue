@@ -1,11 +1,11 @@
 <template>
-  <v-card class="flex-column d-flex vh-packet-card"  outlined
+  <v-card class="flex-column d-flex vh-packet-card"  border
           :class="{'card-rounded': $vuetify.breakpoint.smAndDown}" height="100%"
           :color="flat ? 'transparent' : ''" :flat="flat">
     <v-hover v-slot:default="{ hover }">
       <PacketImage :packet="packet"
              @click="$refs.detailDialog.show()"
-             class="white--text img-rounded ma-1" max-height="200px" style="cursor: pointer;">
+             class="text-white img-rounded ma-1" max-height="200px" style="cursor: pointer;">
         <div class="d-flex flex-column" style="height: 100%" @click="$refs.detailDialog.show()">
           <v-fade-transition>
             <v-row justify="center" align="center"
@@ -20,7 +20,7 @@
           <div class="d-flex justify-space-between pa-1 mt-auto" v-if="!small">
             <v-chip v-if="packet.credits != null">
               <div class="d-flex align-center">
-                <v-icon left>mdi-circle-multiple</v-icon>
+                <v-icon start>mdi-circle-multiple</v-icon>
                 {{ packet.credits }}
               </div>
             </v-chip>
@@ -28,7 +28,7 @@
             <div v-if="packet.price_with_discount != null
                     && packet.price_with_discount.total !==
                      packet.price_without_discount.total">
-              <v-chip color="green lighten-2" text-color="white">
+              <v-chip color="green-lighten-2" text-color="white">
                 <span class="strikethrough-diagonal text--disabled">
                   {{ utils.formatDecimal(packet.price_without_discount.total) }}
                   {{ packet.currency.symbol }}
@@ -64,11 +64,11 @@
           </div>
         </div>
         <v-fade-transition>
-          <v-overlay absolute :value="hover"
+          <v-overlay absolute :model-value="hover"
                      v-if="packet.abstract != null && packet.abstract.length > 0 && hover &&
                     !disableHover">
             <div
-              class="d-flex text-h6 white--text"
+              class="d-flex text-h6 text-white"
               style="height: 100%;">
               <ul class="ma-2">
                 <li v-for="point in packet.abstract" :key="point">{{ point }}</li>
@@ -92,7 +92,7 @@
           </div>
         </div>
         <!-- Price when small view is activated -->
-        <div v-if="small" class="green--text font-weight-bold mt-1">
+        <div v-if="small" class="text-green font-weight-bold mt-1">
         <span v-if="packet.price_with_discount != null">
           {{
             packet.price_with_discount.total
@@ -110,19 +110,19 @@
       </div>
       <v-spacer />
       <div class="d-flex mt-2" v-if="!small">
-        <v-btn large style="width: 44px; min-width: 44px"
-               class="pa-0 cta-btn" @click="$refs.detailDialog.show()" outlined>
-          <v-icon large>mdi-information-slab-symbol</v-icon>
+        <v-btn size="large" style="width: 44px; min-width: 44px"
+               class="pa-0 cta-btn" @click="$refs.detailDialog.show()" variant="outlined">
+          <v-icon size="large">mdi-information-slab-symbol</v-icon>
         </v-btn>
-        <v-btn large :loading="loading" v-if="!packet.custom_price"
-               depressed class="ml-1 grow cta-btn" color="primary"
+        <v-btn size="large" :loading="loading" v-if="!packet.custom_price"
+               variant="flat" class="ml-1 grow cta-btn" color="primary"
                @click="addToCart()">
-          <v-icon left>mdi-cart</v-icon>
+          <v-icon start>mdi-cart</v-icon>
           {{ $t('_shop.labels.addToCart13CharsMax') }}
         </v-btn>
-        <v-btn v-else large depressed class="ml-1 grow cta-btn" color="primary"
+        <v-btn v-else size="large" variant="flat" class="ml-1 grow cta-btn" color="primary"
                @click="$refs.detailDialog.show()">
-          <v-icon left>mdi-open-in-new</v-icon>
+          <v-icon start>mdi-open-in-new</v-icon>
           {{ $t('view') }}
         </v-btn>
       </div>

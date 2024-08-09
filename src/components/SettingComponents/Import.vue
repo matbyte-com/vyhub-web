@@ -28,11 +28,11 @@
                 <GenForm :form-schema="gextensionSchema" hide-buttons ref="gexForm">
                   <template slot="custom-import-1">
                     <div v-for="table in tables1" v-bind:key="table" class="mb-3">
-                      <div class="subtitle-2">{{ table.toUpperCase() }}</div>
+                      <div class="text-subtitle-2">{{ table.toUpperCase() }}</div>
                       <div class="d-flex align-center">
                         <v-progress-linear
                           height="25"
-                          :value="((progress[table].total) ?
+                          :model-value="((progress[table].total) ?
                         ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
                           :striped="progress[table].more === true"
@@ -46,11 +46,11 @@
                             ?
                           </strong>
                         </v-progress-linear>
-                        <v-btn color="success" small class="ml-2" @click="startImport(table)"
+                        <v-btn color="success" size="small" class="ml-2" @click="startImport(table)"
                                :disabled="inProgress" v-if="currenTable !== table">
                           {{ $t('start') }}
                         </v-btn>
-                        <v-btn color="error" small class="ml-2" @click="cancelImport" v-else>
+                        <v-btn color="error" size="small" class="ml-2" @click="cancelImport" v-else>
                           {{ $t('cancel') }}
                         </v-btn>
                       </div>
@@ -58,11 +58,11 @@
                   </template>
                   <template slot="custom-import-2">
                     <div v-for="table in tables2" v-bind:key="table" class="mb-3">
-                      <div class="subtitle-2">{{ table.toUpperCase() }}</div>
+                      <div class="text-subtitle-2">{{ table.toUpperCase() }}</div>
                       <div class="d-flex align-center">
                         <v-progress-linear
                           height="25"
-                          :value="((progress[table].total) ?
+                          :model-value="((progress[table].total) ?
                         ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
                           :striped="progress[table].more === true"
@@ -76,11 +76,11 @@
                             ?
                           </strong>
                         </v-progress-linear>
-                        <v-btn color="success" small class="ml-2" @click="startImport(table)"
+                        <v-btn color="success" size="small" class="ml-2" @click="startImport(table)"
                                :disabled="inProgress" v-if="currenTable !== table">
                           {{ $t('start') }}
                         </v-btn>
-                        <v-btn color="error" small class="ml-2" @click="cancelImport" v-else>
+                        <v-btn color="error" size="small" class="ml-2" @click="cancelImport" v-else>
                           {{ $t('cancel') }}
                         </v-btn>
                       </div>
@@ -88,11 +88,11 @@
                   </template>
                   <template slot="custom-import-3">
                     <div v-for="table in tables3" v-bind:key="table" class="mb-3">
-                      <div class="subtitle-2">{{ table.toUpperCase() }}</div>
+                      <div class="text-subtitle-2">{{ table.toUpperCase() }}</div>
                       <div class="d-flex align-center">
                         <v-progress-linear
                           height="25"
-                          :value="((progress[table].total) ?
+                          :model-value="((progress[table].total) ?
                         ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
                           :striped="progress[table].more === true"
@@ -106,11 +106,11 @@
                             ?
                           </strong>
                         </v-progress-linear>
-                        <v-btn color="success" small class="ml-2" @click="startImport(table)"
+                        <v-btn color="success" size="small" class="ml-2" @click="startImport(table)"
                                :disabled="inProgress" v-if="currenTable !== table">
                           {{ $t('start') }}
                         </v-btn>
-                        <v-btn color="error" small class="ml-2" @click="cancelImport" v-else>
+                        <v-btn color="error" size="small" class="ml-2" @click="cancelImport" v-else>
                           {{ $t('cancel') }}
                         </v-btn>
                       </div>

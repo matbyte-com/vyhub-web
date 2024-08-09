@@ -1,7 +1,7 @@
 <template>
   <div>
   <span class="text-h5">
-    <v-icon left>
+    <v-icon start>
       mdi-account-alert
     </v-icon>
     {{ $t('bans') }}
@@ -14,8 +14,8 @@
     :defaultSortDesc="true"
     :totalItems="totalItems">
     <template v-slot:footer-right v-if="$checkProp('ban_add')">
-      <v-btn outlined color="success" @click="showAddDialog">
-        <v-icon left>mdi-plus</v-icon>
+      <v-btn variant="outlined" color="success" @click="showAddDialog">
+        <v-icon start>mdi-plus</v-icon>
         <span>{{ $t('_ban.labels.add') }}</span>
       </v-btn>
     </template>
@@ -38,20 +38,20 @@
     <template v-slot:item.actions="{ item }">
       <div class="d-flex" v-if="$checkProp('ban_edit')">
         <v-spacer />
-        <v-btn depressed small @click="unbanBan(item)"
+        <v-btn variant="flat" size="small" @click="unbanBan(item)"
                v-if="item.status === 'ACTIVE'">
-          <v-icon left>mdi-lock-open</v-icon>
+          <v-icon start>mdi-lock-open</v-icon>
           {{ $t('_ban.labels.unban') }}
         </v-btn>
-        <v-btn depressed small @click="rebanBan(item)"
+        <v-btn variant="flat" size="small" @click="rebanBan(item)"
                v-if="item.status === 'UNBANNED'">
-          <v-icon left>mdi-lock</v-icon>
+          <v-icon start>mdi-lock</v-icon>
           {{ $t('_ban.labels.reban') }}
         </v-btn>
-        <v-btn small class="ml-1" outlined color="primary" @click="showEditDialog(item)">
+        <v-btn size="small" class="ml-1" variant="outlined" color="primary" @click="showEditDialog(item)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn class="ml-1" small outlined color="error" @click="$refs.deleteBanDialog.show(item)">
+        <v-btn class="ml-1" size="small" variant="outlined" color="error" @click="$refs.deleteBanDialog.show(item)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </div>

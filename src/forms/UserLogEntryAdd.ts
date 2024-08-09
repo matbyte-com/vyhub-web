@@ -8,7 +8,7 @@ export default {
   properties: {
     message: {
       type: 'string',
-      title: i18n.t('message'),
+      title: i18n.global.t('message'),
     },
   },
 };

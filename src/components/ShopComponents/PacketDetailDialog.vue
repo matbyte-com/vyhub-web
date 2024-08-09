@@ -8,11 +8,10 @@
         <v-row>
           <!-- Image column -->
           <v-col cols="12" sm="5">
-            <v-card class="pa-1" flat outlined>
+            <v-card class="pa-1" flat border>
               <PacketImage :packet="packet" style="border-radius: 3px">
                 <div class="d-flex" style="height: 100%">
-                  <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2
-                           font-weight-bold white--text"
+                  <v-row align="center" justify="center" class="text-h4 text-center ml-2 mr-2 font-weight-bold text-white"
                          style="text-shadow: #000000 2px 2px 2px;"
                          v-if="packet.title_in_image">
                     {{ packet.title_in_image }}
@@ -20,13 +19,13 @@
                 </div>
               </PacketImage>
               <v-alert
-                dense
+                density="compact"
                 text
                 color="secondary"
-                outlined
+                variant="outlined"
                 class="font-weight-bold text-center mt-2 mb-0"
                 v-if="packet.active_for != null || packet.recurring">
-                  <v-icon color="secondary" left v-if="packet.recurring">
+                  <v-icon color="secondary" start v-if="packet.recurring">
                     mdi-calendar-sync
                   </v-icon>
                   <v-icon color="secondary" v-else>mdi-clock-end</v-icon>
@@ -105,7 +104,7 @@
             </v-list>-->
             <!-- Buy Button -->
             <div :class="{ 'mt-7': $vuetify.breakpoint.xs }" v-if="!hideBuyBtns" class="mt-1">
-              <v-btn color="info" large block
+              <v-btn color="info" size="large" block
                      v-if="!$store.getters.isLoggedIn"
                      @click="$router.push({ path: $route.path,
                      query: {
@@ -113,7 +112,7 @@
                         return_url: utils.getFullUrl($route.path),
                         shop: true
                      }})">
-                <v-icon left>mdi-lock</v-icon>
+                <v-icon start>mdi-lock</v-icon>
                 {{ $t('_shop.labels.loginToBuy') }}
               </v-btn>
               <div v-if="packet.custom_price && !cartPacket">
@@ -145,13 +144,13 @@
                 </v-form>
               </div>
               <div class="d-flex align-center mb-1" v-if="$store.getters.isLoggedIn">
-                <v-btn color="primary" ref="addToCartBtn" :loading="loading" depressed large
+                <v-btn color="primary" ref="addToCartBtn" :loading="loading" variant="flat" size="large"
                        :disabled="!minPriceFormValid"
                        @click="addToCart()" class="cta-btn button-rounded" style="width: 66%">
-                  <v-icon left>mdi-cart-arrow-down</v-icon>
+                  <v-icon start>mdi-cart-arrow-down</v-icon>
                   {{ $t('_shop.labels.addToCart') }}
                 </v-btn>
-                <v-btn color="secondary" class="cta-btn button-rounded ml-1" depressed large
+                <v-btn color="secondary" class="cta-btn button-rounded ml-1" variant="flat" size="large"
                        style="width: 33%" :disabled="!minPriceFormValid"
                        @click="$refs.giftPacketDialog.show()">
                   <v-icon>
@@ -163,10 +162,10 @@
           </v-col>
         </v-row>
         <!-- Description -->
-        <v-card class="flex d-flex flex-column vh-shop-package-description transparent" flat
+        <v-card class="flex d-flex flex-column vh-shop-package-description bg-transparent" flat
                 v-if="packet.description">
           <v-card-title class="px-0 mx-0">
-            <v-icon color="primary" left>mdi-star-four-points</v-icon>
+            <v-icon color="primary" start>mdi-star-four-points</v-icon>
             <span class="font-weight-bold" style="font-size: larger;">
               {{ $t('_shop.labels.productDescription') }}
             </span>

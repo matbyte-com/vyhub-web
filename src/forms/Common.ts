@@ -15,7 +15,7 @@ const countryOptions = Object.entries(countries.getCodeList())
 export default {
   userIdSelectField: {
     type: 'string',
-    title: i18n.t('user'),
+    title: i18n.global.t('user'),
     'x-fromUrl': `${API_URL}/user/?query={q}&size=10`,
     'x-itemKey': 'id',
     'x-itemTitle': 'username',
@@ -24,7 +24,7 @@ export default {
   },
   userSelectField: {
     type: 'object',
-    title: i18n.t('user'),
+    title: i18n.global.t('user'),
     'x-fromUrl': `${API_URL}/user/?query={q}&size=10`,
     'x-itemKey': 'id',
     'x-itemTitle': 'username',
@@ -33,14 +33,14 @@ export default {
   },
   serverbundleIdSelectField: {
     type: 'string',
-    title: i18n.t('serverbundle'),
+    title: i18n.global.t('serverbundle'),
     'x-fromUrl': `${API_URL}/server/bundle/`,
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
   serverbundleSelectField: {
     type: 'object',
-    title: i18n.t('serverbundle'),
+    title: i18n.global.t('serverbundle'),
     'x-fromUrl': `${API_URL}/server/bundle/`,
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
@@ -48,7 +48,7 @@ export default {
   serverbundleSelectFieldByType(dt = 'object', type_key = 'type') {
     return {
       type: dt,
-      title: i18n.t('serverbundle'),
+      title: i18n.global.t('serverbundle'),
       'x-fromUrl': `${API_URL}/server/bundle/?server_type={${type_key}}`,
       'x-itemKey': 'id',
       'x-itemTitle': 'name',
@@ -57,7 +57,7 @@ export default {
   serverTypeSelectField(disabled = false, selected = 'GMOD') {
     const form = {
       type: 'string',
-      title: i18n.t('type'),
+      title: i18n.global.t('type'),
       default: selected,
       readOnly: disabled,
       'x-fromUrl': `${API_URL}/server/type/`,
@@ -66,14 +66,14 @@ export default {
   },
   forumSelectCategory: {
     type: 'object',
-    title: i18n.t('category'),
+    title: i18n.global.t('category'),
     'x-fromUrl': `${API_URL}/forum/topic/category/`,
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
   forumSelectTopicLabels: {
     type: 'object',
-    title: i18n.t('category'),
+    title: i18n.global.t('category'),
     'x-fromUrl': `${API_URL}/forum/topic/category/`,
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
@@ -81,10 +81,10 @@ export default {
   colorPicker(title = 'color', description?: string, colors?: string[][], inputs = true) {
     const form = {
       type: 'string',
-      title: i18n.t(title),
+      title: i18n.global.t(title),
       format: 'hexcolor',
       default: '#000000',
-      description: (description != null ? i18n.t(description) : null),
+      description: (description != null ? i18n.global.t(description) : null),
       'x-cols': 6,
       'x-props': {
         showSwatches: true,
@@ -98,21 +98,21 @@ export default {
   },
   packetCategorySelectField: {
     type: 'object',
-    title: i18n.t('category'),
+    title: i18n.global.t('category'),
     'x-fromUrl': `${API_URL}/packet/category/`,
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
   packetSelectField: {
     type: 'object',
-    title: i18n.t('packet'),
+    title: i18n.global.t('packet'),
     'x-fromUrl': `${API_URL}/packet/?query={q}`,
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
   packetsSelectField: {
     type: 'array',
-    title: i18n.t('packets'),
+    title: i18n.global.t('packets'),
     'x-fromUrl': `${API_URL}/shop/packet/`,
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
@@ -122,14 +122,14 @@ export default {
   },
   rewardSelectField: {
     type: 'object',
-    title: i18n.t('_purchases.labels.reward'),
+    title: i18n.global.t('_purchases.labels.reward'),
     'x-fromUrl': `${API_URL}/packet/reward/?query={q}`,
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
   rewardsSelectField: {
     type: 'array',
-    title: i18n.t('rewards'),
+    title: i18n.global.t('rewards'),
     items: {
       type: 'object',
     },
@@ -139,16 +139,16 @@ export default {
   },
   requirementSetSelectField: {
     type: 'object',
-    title: i18n.t('requirementSet'),
+    title: i18n.global.t('requirementSet'),
     'x-fromUrl': `${API_URL}/requirement/set`,
     'x-itemKey': 'id',
     'x-itemTitle': 'name',
   },
   iconPicker: {
-    title: i18n.t('icon'),
+    title: i18n.global.t('icon'),
     type: ['string', 'null'],
     'x-slots': {
-      'append-outer': `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.t('_forms.labels.iconDescription')}</a>`,
+      'append-outer': `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.global.t('_forms.labels.iconDescription')}</a>`,
     },
     'x-itemIcon': 'icon',
     'x-itemTitle': 'icon',
@@ -156,12 +156,12 @@ export default {
   },
   countryCodeField: {
     type: 'string',
-    title: i18n.t('country'),
+    title: i18n.global.t('country'),
     oneOf: countryOptions,
   },
   imageURLField: {
     type: ['string', 'null'],
-    title: i18n.t('imageURL'),
+    title: i18n.global.t('imageURL'),
     pattern: '^https?://.+$',
     'x-props': {
       clearable: true,
@@ -170,7 +170,7 @@ export default {
   // PropertyPicker Component needs to be put in the custom properties slot
   propertiesSelector: {
     type: 'array',
-    title: i18n.t('properties'),
+    title: i18n.global.t('properties'),
     'x-display': 'custom-properties',
     items: {
       type: 'string',
@@ -178,23 +178,23 @@ export default {
   },
   advancedProperties: {
     type: 'object',
-    title: i18n.t('advancedProperties'),
+    title: i18n.global.t('advancedProperties'),
     properties: {
       server_group: {
         type: 'string',
-        title: i18n.t('_properties.server_group'),
+        title: i18n.global.t('_properties.server_group'),
       },
     },
   },
   groupSelectField: {
-    title: i18n.t('group'),
+    title: i18n.global.t('group'),
     type: 'object',
     'x-fromUrl': `${API_URL}/group/`,
     'x-itemTitle': 'name',
     'x-itemKey': 'id',
   },
   groupSelectFieldMulti: {
-    title: i18n.t('group'),
+    title: i18n.global.t('group'),
     type: 'array',
     items: {
       type: 'string',
@@ -205,7 +205,7 @@ export default {
   },
   currency_code: {
     type: 'string',
-    title: i18n.t('_packet.labels.currency'),
+    title: i18n.global.t('_packet.labels.currency'),
     enum: cc.codes(),
   },
   apiURL: API_URL,

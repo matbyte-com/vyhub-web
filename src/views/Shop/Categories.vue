@@ -26,7 +26,7 @@
                :key="category.id"
                class="d-flex align-content-space-between">
           <v-card :to=" { name: 'ShopCategory',
-           params: {categoryId: category.name }}" color="" flat outlined
+           params: {categoryId: category.name }}" color="" flat border
                   class="flex-grow-1 flex-column d-flex">
             <v-img v-if="category.image_url"
               :src="category.image_url" class="ma-1 img-rounded"
@@ -40,7 +40,7 @@
               <v-spacer v-if="$vuetify.breakpoint.smAndDown"/>
               <h3 class="text-h6 text-break">{{ category.name }}</h3>
               <v-spacer />
-              <v-btn depressed color="primary" class="ml-1" v-if="!$vuetify.breakpoint.lgAndDown">
+              <v-btn variant="flat" color="primary" class="ml-1" v-if="!$vuetify.breakpoint.lgAndDown">
                 <span v-if="$vuetify.breakpoint.lgAndUp">{{ $t('viewMore') }}</span>
                 <span v-else>{{ $t('view') }}</span>
               </v-btn>

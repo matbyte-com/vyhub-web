@@ -1,11 +1,11 @@
 <template>
   <div v-if="credits !== 0">
-    <v-btn text v-if="!listItem" @click="$refs.creditHistoryDialog.show()">
+    <v-btn variant="text" v-if="!listItem" @click="$refs.creditHistoryDialog.show()">
       {{ credits }}
-      <v-icon right>mdi-circle-multiple</v-icon>
+      <v-icon end>mdi-circle-multiple</v-icon>
     </v-btn>
     <v-list-item v-else @click="$refs.creditHistoryDialog.show()">
-      <v-icon left>
+      <v-icon start>
         mdi-circle-multiple
       </v-icon>
       <v-list-item-title>

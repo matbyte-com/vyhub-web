@@ -1,10 +1,10 @@
 <template>
-  <v-card outlined >
+  <v-card border >
     <div class="d-flex align-center justify-center">
       <span>
         {{ $t('_settings.advancedSettings') }}
       </span>
-      <v-switch v-model="model" class="ml-2" @change="toggleAdvancedSettings"/>
+      <v-switch v-model="model" class="ml-2" @update:model-value="toggleAdvancedSettings"/>
     </div>
   </v-card>
 </template>

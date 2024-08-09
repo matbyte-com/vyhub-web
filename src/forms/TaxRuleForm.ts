@@ -7,18 +7,18 @@ export default {
   properties: {
     country_code: {
       ...Common.countryCodeField,
-      description: i18n.t('_taxRule.messages.allCountriesDetail'),
+      description: i18n.global.t('_taxRule.messages.allCountriesDetail'),
     },
     percentage: {
       type: 'number',
-      title: i18n.t('percentage'),
+      title: i18n.global.t('percentage'),
       minimum: 0,
     },
     info: {
       type: ['string', 'null'],
-      title: i18n.t('info'),
+      title: i18n.global.t('info'),
       'x-display': 'textarea',
-      description: i18n.t('_taxRule.messages.infoDetail'),
+      description: i18n.global.t('_taxRule.messages.infoDetail'),
     },
   },
 };

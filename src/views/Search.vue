@@ -7,7 +7,7 @@
                        :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
         <v-card class="mt-3 card-rounded" flat>
           <v-card-title>
-            <v-icon left>mdi-magnify</v-icon>
+            <v-icon start>mdi-magnify</v-icon>
             {{ $t('_search.labels.searchUsers') }}
           </v-card-title>
           <v-card-text>
@@ -23,9 +23,9 @@
               <template v-slot:top>
                 <v-text-field
                   autofocus
-                  @input="debouncedSearch"
-                  outlined
-                  dense
+                  @update:model-value="debouncedSearch"
+                  variant="outlined"
+                  density="compact"
                   v-model="search"
                   :label="$t('search')"
                 ></v-text-field>
@@ -33,16 +33,16 @@
               <template v-slot:item.identifier="{ item }">
                 <div class="d-flex align-center justify-end">
                   {{ item.identifier }}
-                  <v-icon right>{{ UserService.userTypeIcons[item.type] }}</v-icon>
+                  <v-icon end>{{ UserService.userTypeIcons[item.type] }}</v-icon>
                 </div>
               </template>
               <template v-slot:item.linked_users="{ item }">
                 <router-link :to="{ name: 'UserDashboard', params: { id: linked.id } }"
                              v-for="linked in item.linked_users" :key="linked.id"
                              style="text-decoration: none; color: inherit;" class="mr-2">
-                  <v-chip small>
+                  <v-chip size="small">
                     <span class="d-flex align-center">
-                      <v-icon left>{{ UserService.userTypeIcons[linked.type] }}</v-icon>
+                      <v-icon start>{{ UserService.userTypeIcons[linked.type] }}</v-icon>
                       {{ linked.username }}
                     </span>
                   </v-chip>
@@ -66,7 +66,7 @@
       <v-col cols="12" md="4">
         <v-card class="card-rounded" flat>
           <v-card-title>
-            <v-icon left>mdi-account-clock</v-icon>
+            <v-icon start>mdi-account-clock</v-icon>
             {{ $t('_search.labels.recentlyActiveUsers') }}
           </v-card-title>
           <v-card-text>

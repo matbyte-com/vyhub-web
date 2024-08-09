@@ -25,14 +25,14 @@
             <v-row>
               <v-col class="d-flex align-center">
                 <v-menu offset-y :close-on-content-click="false">
-                  <template v-slot:activator="{ on, attrs }">
+                  <template v-slot:activator="{ props }">
                     <v-btn
-                      outlined
+                      variant="outlined"
                       color="primary"
-                      v-bind="attrs"
-                      v-on="on"
+                     
+                      v-bind="props"
                     >
-                      <v-icon left>
+                      <v-icon start>
                         mdi-filter
                       </v-icon>
                       {{ $t('bundle') }}
@@ -47,11 +47,11 @@
                     v-model="selectedBundles"
                     :label="bundle.name"
                     :value="bundle.id"
-                    @change="fetchData()"
+                    @update:model-value="fetchData()"
                   ></v-checkbox>
                   <a class="ma-1" @click="selectedBundles = []; fetchData()">{{ $t('reset') }}</a>
                 </v-menu>
-                <v-alert type="info" color="primary" dense v-if="$route.query.user_id"
+                <v-alert type="info" color="primary" density="compact" v-if="$route.query.user_id"
                          class="mt-4 ml-3">
                   {{ $t('_warning.showUserWarnings', { id: $route.query.user_id }) }}
                 </v-alert>
@@ -59,8 +59,8 @@
             </v-row>
           </template>
           <template v-slot:footer-right v-if="$checkProp('warning_edit')">
-            <v-btn outlined color="success" @click="openAddWarningDialog()">
-              <v-icon left>mdi-plus</v-icon>
+            <v-btn variant="outlined" color="success" @click="openAddWarningDialog()">
+              <v-icon start>mdi-plus</v-icon>
               <span>{{ $t("_warning.add") }}</span>
             </v-btn>
           </template>
@@ -87,23 +87,23 @@
           <template v-slot:item.actions="{ item }">
             <div class="d-flex">
               <v-spacer />
-              <v-btn v-if="$checkProp('warning_edit')" depressed small color="error"
+              <v-btn v-if="$checkProp('warning_edit')" variant="flat" size="small" color="error"
                      @click="showDetails(item)">
-                <v-icon left>
+                <v-icon start>
                   mdi-eye
                 </v-icon>
                 {{ $t('details') }}
               </v-btn>
               <div v-if="$checkProp('warning_edit') && item.status !== 'EXPIRED'">
-                <v-btn class="ml-1" depressed small v-if="item.disabled !== true"
+                <v-btn class="ml-1" variant="flat" size="small" v-if="item.disabled !== true"
                        @click.stop="toggleDisable(item)">
-                  <v-icon left>
+                  <v-icon start>
                     mdi-pause
                   </v-icon>
                   {{ $t('disable') }}
                 </v-btn>
-                <v-btn class="ml-1" depressed small v-else @click.stop="toggleDisable(item)">
-                  <v-icon left>
+                <v-btn class="ml-1" variant="flat" size="small" v-else @click.stop="toggleDisable(item)">
+                  <v-icon start>
                     mdi-play
                   </v-icon>
                   {{ $t('enable') }}
@@ -122,7 +122,7 @@
       v-model="warningDetailShown">
       <template>
         <h6 class="text-h6 mb-2  mt-3">{{ $t('details') }}</h6>
-        <v-simple-table>
+        <v-table>
           <template v-slot:default>
             <tbody>
               <tr v-for="raw in ['id', 'reason']" :key="raw">
@@ -165,18 +165,18 @@
               </tr>
             </tbody>
           </template>
-        </v-simple-table>
+        </v-table>
       </template>
       <template v-slot:actions>
         <div v-if="currentWarning != null && $checkProp('warning_edit')">
-          <v-btn text color="primary" @click="openEditWarningDialog(currentWarning)">
-            <v-icon left>
+          <v-btn variant="text" color="primary" @click="openEditWarningDialog(currentWarning)">
+            <v-icon start>
               mdi-pencil
             </v-icon>
             {{ $t('edit') }}
           </v-btn>
-          <v-btn text color="error" @click="openDeleteWarningDialog(currentWarning)">
-            <v-icon left>
+          <v-btn variant="text" color="error" @click="openDeleteWarningDialog(currentWarning)">
+            <v-icon start>
               mdi-delete
             </v-icon>
             {{ $t('delete') }}

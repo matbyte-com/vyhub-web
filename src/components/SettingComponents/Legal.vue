@@ -10,9 +10,9 @@
         <Editor v-model="content"/>
       </v-card-text>
     </v-card>
-    <v-btn :loading="loading" depressed color="primary" class="mt-3" @click="updateLegal">
+    <v-btn :loading="loading" variant="flat" color="primary" class="mt-3" @click="updateLegal">
       <span v-if="success">
-        <v-icon large color="success">
+        <v-icon size="large" color="success">
           mdi-check
         </v-icon>
       </span>
@@ -54,7 +54,7 @@ export default {
     },
     async updateLegal() {
       if (this.content === '') {
-        this.errorMsg = i18n.t('_settings.contentEmpty');
+        this.errorMsg = i18n.global.t('_settings.contentEmpty');
         return;
       }
       this.loading = true;

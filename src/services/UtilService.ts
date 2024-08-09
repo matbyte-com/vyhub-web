@@ -38,16 +38,16 @@ export default {
           }));
         },
         isSingularTimeunit(seconds: number) {
-          if (seconds === 2592000) return i18n.t('everyMonth');
-          if (seconds === 31536000) return i18n.t('everyYear');
-          if (seconds === 86400) return i18n.t('everyDay');
+          if (seconds === 2592000) return i18n.global.t('everyMonth');
+          if (seconds === 31536000) return i18n.global.t('everyYear');
+          if (seconds === 86400) return i18n.global.t('everyDay');
           return false;
         },
         notifyUnexpectedError(detail: object) {
           return;
 
           Vue.notify({
-            title: i18n.t('unexpectedErrorOccurred').toString(),
+            title: i18n.global.t('unexpectedErrorOccurred').toString(),
             text: JSON.stringify(detail),
             type: 'error',
           });
@@ -94,7 +94,7 @@ export default {
             return '-';
           }
           if (new Date(datetime).getTime() > new Date().getTime() - unitMeasures.d) {
-            return i18n.t('_notification.timeAgo', { time: this.formatElapsedTime(new Date().getTime() - new Date(datetime).getTime()) });
+            return i18n.global.t('_notification.timeAgo', { time: this.formatElapsedTime(new Date().getTime() - new Date(datetime).getTime()) });
           }
           return new Date(datetime).toLocaleDateString();
         },
@@ -162,9 +162,9 @@ export default {
             };
           }
 
-          if (errDet != null && i18n.te(`_errors.${errDet.code}`)) {
-            returnObject.title = String(i18n.t('error'));
-            returnObject.text = String(i18n.t(`_errors.${errDet.code}`, {
+          if (errDet != null && i18n.global.te(`_errors.${errDet.code}`)) {
+            returnObject.title = String(i18n.global.t('error'));
+            returnObject.text = String(i18n.global.t(`_errors.${errDet.code}`, {
               ...errDet.detail,
               msg: errDet.msg,
             }));
@@ -181,11 +181,11 @@ export default {
             } else {
               msg = err.response.data;
             }
-            returnObject.title = `${i18n.t('unexpectedError')} ${err.response.status}`;
+            returnObject.title = `${i18n.global.t('unexpectedError')} ${err.response.status}`;
             returnObject.text = msg;
             returnObject.type = 'error';
           } else {
-            returnObject.title = `${i18n.t('unexpectedError')}`;
+            returnObject.title = `${i18n.global.t('unexpectedError')}`;
             returnObject.text = '-';
             returnObject.type = 'error';
           }
@@ -265,7 +265,7 @@ export default {
           if (!['MINECRAFT', 'RUST', 'SEVEN_DAYS', 'ASA'].includes(server.type)) return;
           navigator.clipboard.writeText(server.address);
           Vue.notify({
-            title: String(i18n.t('_messages.copyClipboard')),
+            title: String(i18n.global.t('_messages.copyClipboard')),
             type: 'success',
           });
         },

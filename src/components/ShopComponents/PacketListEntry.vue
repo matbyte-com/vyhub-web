@@ -1,12 +1,12 @@
 <template>
-  <v-card class="vh-packet-card card-rounded"  outlined
+  <v-card class="vh-packet-card card-rounded"  border
           :class="{'card-rounded': $vuetify.breakpoint.smAndDown}" height="100%"
           :color="flat ? 'transparent' : ''" :flat="flat">
     <v-card-text class="vh-packet-card-text">
       <v-row align="center">
         <v-col cols="12" md="3"  xl="1" @click="$refs.detailDialog.show()">
           <PacketImage :packet="packet"
-                       class="white--text img-rounded ma-1"  style="cursor: pointer;">
+                       class="text-white img-rounded ma-1"  style="cursor: pointer;">
           </PacketImage>
         </v-col>
         <v-col cols="12" md="9" xl="5" @click="$refs.detailDialog.show()"
@@ -26,7 +26,7 @@
           <span v-if="packet.price_with_discount != null
                   && packet.price_with_discount.total !==
                    packet.price_without_discount.total">
-            <v-chip color="green lighten-2" text-color="white" class="my-1">
+            <v-chip color="green-lighten-2" text-color="white" class="my-1">
               <span class="strikethrough-diagonal text--disabled">
                 {{ utils.formatDecimal(packet.price_without_discount.total) }}
                 {{ packet.currency.symbol }}
@@ -62,26 +62,26 @@
           </v-chip>
           <v-chip v-if="packet.credits != null" class="my-1 ml-2">
             <div class="d-flex align-center">
-              <v-icon left>mdi-circle-multiple</v-icon>
+              <v-icon start>mdi-circle-multiple</v-icon>
               {{ packet.credits }}
             </div>
           </v-chip>
         </v-col>
         <v-col>
           <div class="d-flex">
-            <v-btn large style="width: 44px; min-width: 44px"
-                   class="pa-0 cta-btn" @click="$refs.detailDialog.show()" outlined>
-              <v-icon large>mdi-information-slab-symbol</v-icon>
+            <v-btn size="large" style="width: 44px; min-width: 44px"
+                   class="pa-0 cta-btn" @click="$refs.detailDialog.show()" variant="outlined">
+              <v-icon size="large">mdi-information-slab-symbol</v-icon>
             </v-btn>
-            <v-btn large :loading="loading" v-if="!packet.custom_price"
-                   depressed class="ml-1 grow cta-btn" color="primary"
+            <v-btn size="large" :loading="loading" v-if="!packet.custom_price"
+                   variant="flat" class="ml-1 grow cta-btn" color="primary"
                    @click="addToCart()">
-              <v-icon left>mdi-cart</v-icon>
+              <v-icon start>mdi-cart</v-icon>
               {{ $t('_shop.labels.addToCart13CharsMax') }}
             </v-btn>
-            <v-btn v-else large depressed class="ml-1 grow cta-btn" color="primary"
+            <v-btn v-else size="large" variant="flat" class="ml-1 grow cta-btn" color="primary"
                    @click="$refs.detailDialog.show()">
-              <v-icon left>mdi-open-in-new</v-icon>
+              <v-icon start>mdi-open-in-new</v-icon>
               {{ $t('view') }}
             </v-btn>
           </div>

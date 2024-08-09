@@ -8,46 +8,46 @@ export default {
   properties: {
     name: {
       type: 'string',
-      title: i18n.t('name'),
+      title: i18n.global.t('name'),
     },
     percentage: {
       type: 'number',
-      title: i18n.t('percentage'),
+      title: i18n.global.t('percentage'),
       minimum: 0,
     },
     code: {
       type: ['string', 'null'],
-      title: i18n.t('code'),
+      title: i18n.global.t('code'),
       //  default: uuidv4().substr(0, 18),
     },
     enabled: {
       type: 'boolean',
-      title: i18n.t('enabled'),
+      title: i18n.global.t('enabled'),
       default: true,
     },
     begin: {
       type: 'string',
-      title: i18n.t('begin'),
+      title: i18n.global.t('begin'),
       format: 'date-time',
       default: new Date(),
     },
     end: {
       type: ['string', 'null'],
-      title: i18n.t('end'),
+      title: i18n.global.t('end'),
       format: 'date-time',
     },
     max_usages: {
       type: 'integer',
-      title: i18n.t('maxUsages'),
+      title: i18n.global.t('maxUsages'),
     },
     max_usages_per_user: {
       type: ['integer', 'null'],
-      title: i18n.t('_discount.labels.maxUsagesPerUser'),
+      title: i18n.global.t('_discount.labels.maxUsagesPerUser'),
       minimum: 1,
     },
     all_packets: {
       type: 'boolean',
-      title: i18n.t('_discount.labels.allPackets'),
+      title: i18n.global.t('_discount.labels.allPackets'),
       default: true,
     },
     packets: Common.packetsSelectField,

@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueI18n from 'vue-i18n';
+import { createI18n } from 'vue-i18n';
 
 const dateTimeFormats: any = {
   en: {
@@ -21,7 +21,7 @@ const dateTimeFormats: any = {
 };
 
 function loadLocaleMessages() {
-  const locales = require.context(
+  /*const locales = require.context(
     '@/lang',
     true,
     /[A-Za-z0-9-_,\s]+\.json$/i,
@@ -37,14 +37,36 @@ function loadLocaleMessages() {
       }
     }
   });
+  return messages;*/
+  const locales = import.meta.glob('@/lang/*.json', { eager: true });
+
+  const messages: any = {};
+
+  for (const path in locales) {
+    const matched = path.match(/([A-Za-z0-9-_]+)\./i);
+    if (matched && matched.length > 1) {
+      const locale: string = matched[1];
+      messages[locale] = locales[path];
+    }
+  }
+
   return messages;
 }
 
-Vue.use(VueI18n);
+const i18n = createI18n({
+  datetimeFormats: dateTimeFormats,
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: loadLocaleMessages(),
+})
+
+Vue.use(i18n);
+
+export default i18n;
 // eslint-disable-next-line import/prefer-default-export
-export default new VueI18n({
+/*export default new VueI18n({
   dateTimeFormats,
   locale: 'en',
   fallbackLocale: 'en',
   messages: loadLocaleMessages(),
-});
+});*/

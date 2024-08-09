@@ -16,11 +16,11 @@ function returnForm(links: {}[], disabled?: false) {
         properties: {
           title: {
             type: 'string',
-            title: i18n.t('_navigation.linkTitle'),
+            title: i18n.global.t('_navigation.linkTitle'),
           },
           subLink: {
             type: 'boolean',
-            title: i18n.t('_navigation.sublink'),
+            title: i18n.global.t('_navigation.sublink'),
             'x-cols': 4,
             'x-class': 'mt-4',
           },
@@ -37,7 +37,7 @@ function returnForm(links: {}[], disabled?: false) {
           properties: {
             parent_navigation_link_id: {
               type: ['string', 'null'],
-              title: i18n.t('_navigation.parentNavigationLink'),
+              title: i18n.global.t('_navigation.parentNavigationLink'),
               oneOf: links,
               'x-options': {
                 fieldColProps: {
@@ -52,7 +52,7 @@ function returnForm(links: {}[], disabled?: false) {
           properties: {
             location: {
               type: 'string',
-              title: i18n.t('_navigation.location'),
+              title: i18n.global.t('_navigation.location'),
               'x-options': {
                 fieldColProps: {
                   cols: 8,
@@ -61,15 +61,15 @@ function returnForm(links: {}[], disabled?: false) {
               oneOf: [
                 {
                   const: 'HEADER',
-                  title: i18n.t('_navigation._location.header'),
+                  title: i18n.global.t('_navigation._location.header'),
                 },
                 {
                   const: 'FOOTER',
-                  title: i18n.t('_navigation._location.footer'),
+                  title: i18n.global.t('_navigation._location.footer'),
                 },
                 {
                   const: 'HELP',
-                  title: i18n.t('_navigation._location.help'),
+                  title: i18n.global.t('_navigation._location.help'),
                 },
               ],
             },
@@ -85,13 +85,13 @@ function returnForm(links: {}[], disabled?: false) {
           enabled: {
             type: 'boolean',
             default: 'true',
-            title: i18n.t('_navigation.enabled'),
+            title: i18n.global.t('_navigation.enabled'),
             'x-cols': 4,
             'x-class': 'mt-4',
           },
           req_prop: {
             type: 'string',
-            title: i18n.t('_navigation.reqProp'),
+            title: i18n.global.t('_navigation.reqProp'),
             'x-options': {
               fieldColProps: {
                 cols: 8,
@@ -101,16 +101,16 @@ function returnForm(links: {}[], disabled?: false) {
           icon: Common.iconPicker,
           linkType: {
             type: 'string',
-            title: i18n.t('type'),
+            title: i18n.global.t('type'),
             readOnly: disabled,
             oneOf: [
               {
                 const: 'link',
-                title: i18n.t('_navigation.link'),
+                title: i18n.global.t('_navigation.link'),
               },
               {
                 const: 'html',
-                title: i18n.t('_navigation.htmlContent'),
+                title: i18n.global.t('_navigation.htmlContent'),
               },
             ],
             default: 'link',
@@ -130,7 +130,7 @@ function returnForm(links: {}[], disabled?: false) {
           properties: {
             link: {
               type: 'string',
-              title: i18n.t('_navigation.link'),
+              title: i18n.global.t('_navigation.link'),
               pattern: '(^https?://.+$)|(/.*)',
               readOnly: disabled,
               'x-props': {
@@ -148,7 +148,7 @@ function returnForm(links: {}[], disabled?: false) {
           properties: {
             cms_page_id: {
               type: 'string',
-              title: i18n.t('_navigation.cmsPage'),
+              title: i18n.global.t('_navigation.cmsPage'),
               'x-fromUrl': `${API_URL}/general/html`,
               'x-itemTitle': 'title',
               'x-itemKey': 'id',

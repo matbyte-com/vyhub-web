@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="vh-cart-packet card-rounded" outlined min-height="120px">
+    <v-card class="vh-cart-packet card-rounded" border min-height="120px">
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="3" md="3" lg="3" xl="2" align-self="center" class="text-center">
@@ -14,7 +14,7 @@
             <div class="text-h6" @click="showPacket" style="cursor: pointer;">
               {{ cartPacket.packet.title }}
             </div>
-            <div class="subtitle-2" v-if="cartPacket.packet.subtitle">
+            <div class="text-subtitle-2" v-if="cartPacket.packet.subtitle">
               {{ cartPacket.packet.subtitle }}
             </div>
           </v-col>
@@ -38,10 +38,10 @@
                     </div>
                   </div>
                   <div v-if="cartPacket.discount">
-                <span class="caption">
+                <span class="text-caption">
                   -{{ cartPacket.discount.percentage }}% {{ cartPacket.discount.name }}
                 </span>
-                    <v-icon @click="$emit('removeDiscount')" v-if="showRemove" small>
+                    <v-icon @click="$emit('removeDiscount')" v-if="showRemove" size="small">
                       mdi-close
                     </v-icon>
                   </div>
@@ -49,7 +49,7 @@
               </v-row>
               <v-row dense v-if="cartPacket.price.credits != null ">
                 <v-col>
-                  <div class="subtitle-2">
+                  <div class="text-subtitle-2">
                     {{ cartPacket.price.credits }}
                     {{ $store.getters.shopConfig.credits_display_title }}
                   </div>
@@ -57,13 +57,13 @@
               </v-row>
             </div>
             <div class="d-flex align-center ml-5" v-if="showRemove && cartPacket">
-              <v-btn outlined :small="!cartPacket.target_user"
+              <v-btn variant="outlined" :size="!cartPacket.target_user ? 'small' : undefined"
                      color="secondary" class="mr-1" :fab="!cartPacket.target_user"
                      @click="openTargetUserEditDialog">
-                <v-icon :left="cartPacket.target_user !== null">mdi-gift-open</v-icon>
+                <v-icon :start="cartPacket.target_user !== null">mdi-gift-open</v-icon>
                 <span v-if="cartPacket.target_user">{{ cartPacket.target_user.username }}</span>
               </v-btn>
-              <v-btn fab outlined small color="error"
+              <v-btn fab variant="outlined" size="small" color="error"
                      @click="$emit('remove')">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -71,7 +71,7 @@
           </v-col>
         </v-row>
         <div v-if="cartPacket.target_user && !showRemove">
-          <v-icon color="secondary" left>mdi-gift-open</v-icon>
+          <v-icon color="secondary" start>mdi-gift-open</v-icon>
           <UserLink :small="true" :user="cartPacket.target_user" />
         </div>
       </v-card-text>

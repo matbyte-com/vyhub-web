@@ -1,20 +1,20 @@
 <template>
   <v-card>
-    <v-card-title class="red lighten-1">
-      <v-icon left>mdi-step-forward</v-icon>
+    <v-card-title class="bg-red-lighten-1">
+      <v-icon start>mdi-step-forward</v-icon>
       {{ $t('_firstSteps.firstSteps') }}
       <v-spacer/>
-      <v-icon large @click="$emit('close')">mdi-close</v-icon>
+      <v-icon size="large" @click="$emit('close')">mdi-close</v-icon>
     </v-card-title>
     <v-card-text>
-      <v-list dense>
+      <v-list density="compact">
         <v-list-item v-for="(step, index) in steps" :key="step.id" style="cursor:pointer;"
                      :class="{ 'list-item-active': selectedStep === index,
                                'black--text': selectedStep === index}">
           <v-list-item-content @click="selectJourney(index)">
             <v-list-item-title class="d-flex align-center">
-              <v-icon left v-if="!stepIsFulfilled(index)">mdi-circle-outline</v-icon>
-              <v-icon left v-else color="success" class="animate__animated animate__bounceIn">
+              <v-icon start v-if="!stepIsFulfilled(index)">mdi-circle-outline</v-icon>
+              <v-icon start v-else color="success" class="animate__animated animate__bounceIn">
                 mdi-check-circle-outline
               </v-icon>
               {{ step.title }}
@@ -27,22 +27,22 @@
       <v-divider/>
       <div v-if="selectedStep !== null">
         <v-fade-transition>
-          <v-list dense class="ml-3">
+          <v-list density="compact" class="ml-3">
             <v-list-item v-for="substep in steps[selectedStep].steps" :key="substep.id"
                          :to="substep.link" active-class="no-active">
-              <v-list-item-content>
+              
                 <v-list-item-title class="d-flex align-center">
-                  <v-icon left v-if="!substepIsFulfilled(substep.journeyStep)">
+                  <v-icon start v-if="!substepIsFulfilled(substep.journeyStep)">
                     mdi-circle-outline
                   </v-icon>
-                  <v-icon left v-else color="success" class="animate__animated animate__bounceIn">
+                  <v-icon start v-else color="success" class="animate__animated animate__bounceIn">
                     mdi-check-circle-outline
                   </v-icon>
                   {{ substep.title }}
                   <v-spacer/>
                   <v-icon v-if="substep.link">mdi-chevron-right</v-icon>
                 </v-list-item-title>
-              </v-list-item-content>
+              
             </v-list-item>
             <v-list-item v-for="s in 4 - steps[selectedStep].steps.length" :key="s" />
           </v-list>
@@ -51,21 +51,21 @@
       <v-divider/>
       <div class="mt-2">Questions, Bugs, Feature Requests? Contact us!</div>
       <div class="d-flex mt-1">
-        <v-btn class="red lighten-2" href="https://docs.vyhub.net" target="_blank">
-          <v-icon left>
+        <v-btn class="bg-red-lighten-2" href="https://docs.vyhub.net" target="_blank">
+          <v-icon start>
             mdi-help-circle-outline
           </v-icon>
           <span>Docs</span>
         </v-btn>
-        <v-btn class="red lighten-2 ml-2" href="https://discord.gg/QycQpd2AQP" target="_blank">
-          <v-icon left>
+        <v-btn class="bg-red-lighten-2 ml-2" href="https://discord.gg/QycQpd2AQP" target="_blank">
+          <v-icon start>
             $discord
           </v-icon>
           <span>Discord</span>
         </v-btn>
-        <v-btn class="red lighten-2 ml-2"
+        <v-btn class="bg-red-lighten-2 ml-2"
                :href="`mailto:support@matbyte.com?subject=Feedback Demo Route: ${$route.path}`">
-          <v-icon left>
+          <v-icon start>
             mdi-email
           </v-icon>
           <span>Contact</span>

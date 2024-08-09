@@ -2,10 +2,10 @@
   <div>
     <v-card class="vh-dashboard-logs card-rounded" flat>
       <v-card-title>
-        <v-btn :icon="logsShown" outlined color="primary" @click="showLogs">
+        <v-btn :icon="logsShown" variant="outlined" color="primary" @click="showLogs">
           <v-icon v-if="logsShown">mdi-refresh</v-icon>
           <span v-else>
-            <v-icon left>mdi-eye</v-icon>
+            <v-icon start>mdi-eye</v-icon>
             {{ $t('show') }}
           </span>
         </v-btn>

@@ -5,24 +5,24 @@
       {{ tab.title }}
     </v-tab>
     <v-tab-item v-for="tab in tabs.items" :key="tab.title">
-      <v-select :items="serverbundles" dense v-model="serverbundle_id" validate-on-blur
+      <v-select :items="serverbundles" density="compact" v-model="serverbundle_id" validate-on="blur"
                 item-value="id"
                 :error="serverbundleSelectError" :rules="[v => !!v || $t('required')]"
-                item-text="name" hide-details="auto" :label="$t('serverbundle')" class="mt-3"/>
-      <v-text-field outlined dense hide-details :label="$t('search')" v-model="search"
+                item-title="name" hide-details="auto" :label="$t('serverbundle')" class="mt-3"/>
+      <v-text-field variant="outlined" density="compact" hide-details :label="$t('search')" v-model="search"
                prepend-inner-icon="mdi-magnify" class="mt-3" />
       <v-expansion-panels class="mb-5">
         <v-expansion-panel v-for="item in searchedRewards" :key="item.name">
-          <v-expansion-panel-header>
+          <v-expansion-panel-title>
             {{ item.name }}
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <v-expansion-panels>
               <v-expansion-panel v-for="script in item.scripts" :key="script.name">
-                <v-expansion-panel-header>
+                <v-expansion-panel-title>
                   {{ script.name }}
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
                   <div class="mb-1 ml-3" v-html="script.description">
                   </div>
                   <v-divider v-if="script.script || script.command" class="mb-4" />
@@ -39,8 +39,8 @@
                                 :key="key"
                                 :label="property.name"
                                 v-model="tabs.values[key]"
-                                outlined
-                                dense
+                                variant="outlined"
+                                density="compact"
                                 :type="property.type === 'number' ? 'number' : 'text'"
                               />
                             </div>
@@ -51,8 +51,8 @@
                                 :key="key"
                                 :label="property.name"
                                 v-model="tabs.values[key]"
-                                outlined
-                                dense
+                                variant="outlined"
+                                density="compact"
                                 chips
                                 multiple
                                 :type="property.type === 'number' ? 'number' : 'text'"
@@ -64,14 +64,14 @@
                     </v-col>
                   </v-row>
                   <v-btn v-if="script.script || script.command"
-                         small outlined color="success" @click="createTemplateReward(script, item)">
-                    <v-icon left>mdi-plus</v-icon>
+                         size="small" variant="outlined" color="success" @click="createTemplateReward(script, item)">
+                    <v-icon start>mdi-plus</v-icon>
                     <span>{{ $t('_reward.labels.create') }}</span>
                   </v-btn>
-                </v-expansion-panel-content>
+                </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
       <span v-if="tab.title !== 'Discord' && tab.title !== 'Teamspeak 3 (TS3)'">

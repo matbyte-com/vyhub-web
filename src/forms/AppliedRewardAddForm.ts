@@ -8,7 +8,7 @@ export default {
     reward: {
       ...Common.rewardsSelectField,
       type: 'object',
-      title: i18n.t('_purchases.labels.reward'),
+      title: i18n.global.t('_purchases.labels.reward'),
     },
   },
 };

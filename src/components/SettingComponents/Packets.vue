@@ -14,7 +14,7 @@
       :showSearch="true">
       <template v-slot:header>
         <v-col cols="12" xl="9" class="pa-0 ma-0">
-          <v-select outlined hide-details dense
+          <v-select variant="outlined" hide-details density="compact"
                     class="animate__animated"
                     :class="{animate__headShake:selectWobble === true}"
                     :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
@@ -22,30 +22,30 @@
                     :label="$t('category')"
                     clearable
                     v-model="currentCategory"
-                    :items="categories" item-value="id" item-text="name">
+                    :items="categories" item-value="id" item-title="name">
           </v-select>
         </v-col>
       </template>
       <template v-slot:item.flags="{ item }">
         <div v-if="item.flags.length === 0">-</div>
         <v-chip v-for="flag in item.flags" :color="flag.color + ' lighten-1'" v-bind:key="flag.text"
-                small class="mr-1">
+                size="small" class="mr-1">
           {{ flag.text }}
         </v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
-          <v-btn icon color="secondary" small @click="copyPacket(item)" class="mr-1">
-            <v-icon small>
+          <v-btn icon color="secondary" size="small" @click="copyPacket(item)" class="mr-1">
+            <v-icon size="small">
               mdi-content-copy
             </v-icon>
           </v-btn>
-          <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
+          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn outlined color="error" small @click="$refs.deletePacketDialog.show(item)"
+          <v-btn variant="outlined" color="error" size="small" @click="$refs.deletePacketDialog.show(item)"
                  :disabled="!item.deletable">
             <v-icon>
               mdi-delete
@@ -56,9 +56,9 @@
     </DataTable>
     <div class="d-flex">
       <v-spacer />
-      <v-btn outlined color="success" @click="showAddPacketDialog"
+      <v-btn variant="outlined" color="success" @click="showAddPacketDialog"
              :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }">
-        <v-icon left>mdi-plus</v-icon>
+        <v-icon start>mdi-plus</v-icon>
         <span>{{ $t('_packet.labels.add') }}</span>
       </v-btn>
     </div>

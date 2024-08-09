@@ -12,7 +12,7 @@ function returnForm() {
     properties: {
       subject: {
         type: 'string',
-        title: i18n.t('_home.messageSubject'),
+        title: i18n.global.t('_home.messageSubject'),
       },
       background_url: {
         ...Common.imageURLField,
@@ -20,7 +20,7 @@ function returnForm() {
       },
       invert_title_color: {
         type: 'boolean',
-        title: i18n.t('_home.invertTitleColor'),
+        title: i18n.global.t('_home.invertTitleColor'),
         default: false,
         'x-cols': 5,
         'x-class': 'ml-5 my-auto',
@@ -31,16 +31,16 @@ function returnForm() {
       },
       type: {
         type: 'string',
-        title: i18n.t('type'),
+        title: i18n.global.t('type'),
         default: 'DEFAULT',
         oneOf: [
           {
             const: 'DEFAULT',
-            title: i18n.t('_home.news'),
+            title: i18n.global.t('_home.news'),
           },
           {
             const: 'PINNED',
-            title: i18n.t('_home.newsOfTheDay'),
+            title: i18n.global.t('_home.newsOfTheDay'),
           },
         ],
       },

@@ -1,13 +1,13 @@
 <template>
   <v-menu open-on-hover offset-y eager>
-    <template v-slot:activator="{ on, attrs }">
+    <template v-slot:activator="{ props }">
       <v-btn icon
              style="min-width: 30px; width: 34px; height: 34px"
-             v-bind="attrs" v-on="on" v-if="menuLinks.length > 0">
+             v-bind="props" v-if="menuLinks.length > 0">
         <v-icon>mdi-help-circle</v-icon>
       </v-btn>
     </template>
-    <v-list dense>
+    <v-list density="compact">
       <div v-for="(link, index) in menuLinks"
            :key="index">
        <ListItemLink :sub-sub-link="false" :link="link"/>

@@ -9,16 +9,16 @@ export default {
   properties: {
     title: {
       type: 'string',
-      title: i18n.t('_advert.formTitle'),
+      title: i18n.global.t('_advert.formTitle'),
     },
     content: {
       type: 'string',
-      title: i18n.t('_advert.formContent'),
+      title: i18n.global.t('_advert.formContent'),
       'x-display': 'textarea',
     },
     enabled: {
       type: 'boolean',
-      title: i18n.t('_advert.formEnabled'),
+      title: i18n.global.t('_advert.formEnabled'),
       default: false,
     },
     color: Common.colorPicker(),

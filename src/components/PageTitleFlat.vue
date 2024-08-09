@@ -4,15 +4,15 @@
            'no-bottom-border-radius': noBottomBorderRadius,
            'card-rounded': !isMenu, 'card-rounded-bottom': isMenu &&
             !noBottomBorderRadius}" style="min-height: 30px">
-    <v-card-text class="pa-2 ml-1 white--text" v-if="!$slots.empty">
+    <v-card-text class="pa-2 ml-1 text-white" v-if="!$slots.empty">
       <transition enter-active-class="animate__fadeIn animate__animated"
                   leave-active-class="absolute">
         <v-row class="justify-center align-center">
           <v-col v-if="$slots.start"><slot name="start" /></v-col>
           <v-col :class="{ 'justify-center' : $slots.start || centered}"
                  class="d-flex align-center">
-            <v-icon :large="!$vuetify.breakpoint.smAndDown"
-                    color="white" left v-if="icon">{{ icon }}</v-icon>
+            <v-icon :size="!$vuetify.breakpoint.smAndDown ? 'large' : undefined"
+                    color="white" start v-if="icon">{{ icon }}</v-icon>
             <h1 :class="headlineClasses">{{ title }}</h1>
           </v-col>
           <v-col v-if="$slots.end"><slot name="end" /></v-col>

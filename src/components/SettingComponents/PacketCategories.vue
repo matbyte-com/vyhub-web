@@ -16,12 +16,12 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
-          <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
+          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn outlined color="error" small @click="$refs.deleteCategoryDialog.show(item)">
+          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteCategoryDialog.show(item)">
             <v-icon>
               mdi-delete
             </v-icon>
@@ -32,9 +32,9 @@
     <v-divider class="mb-3"/>
     <div class="d-flex">
       <v-spacer />
-      <v-btn outlined color="success" @click="$refs.createCategoryDialog.show()"
+      <v-btn variant="outlined" color="success" @click="$refs.createCategoryDialog.show()"
              :class="{ 'glow-effect':utils.customerJourneyActive('add-category') }">
-        <v-icon left>mdi-plus</v-icon>
+        <v-icon start>mdi-plus</v-icon>
         <span>{{ $t('_packetCategory.labels.create') }}</span>
       </v-btn>
     </div>

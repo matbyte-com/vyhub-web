@@ -11,7 +11,7 @@
                  :action-button-top-margin="3">
           <template v-slot:checkout_checkboxes-after>
             <div class="mt-5">
-              <span class="subtitle-1">{{ $t('news') }}</span>
+              <span class="text-subtitle-1">{{ $t('news') }}</span>
               <Editor v-model="shopNews" />
             </div>
           </template>
@@ -20,13 +20,13 @@
       <v-col>
         <h6 class="text-h6">{{ $t('_shop.labels.businessAddress') }}</h6>
         <v-card>
-          <v-card-text class="body-1">
+          <v-card-text class="text-body-1">
             <Address v-if="businessAddress != null" :address="businessAddress"></Address>
             <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
           </v-card-text>
           <v-card-actions>
-            <v-btn text color="success" @click="$refs.addressChangeDialog.show()">
-              <v-icon left>mdi-pencil</v-icon>
+            <v-btn variant="text" color="success" @click="$refs.addressChangeDialog.show()">
+              <v-icon start>mdi-pencil</v-icon>
               {{ $t('change') }}
             </v-btn>
           </v-card-actions>

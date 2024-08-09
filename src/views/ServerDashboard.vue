@@ -2,15 +2,15 @@
   <div v-if="server">
     <div>
       <v-menu offset-y width="100%" v-model="menuOpen">
-        <template v-slot:activator="{ on, attrs }">
-          <div v-bind="attrs" v-on="on">
+        <template v-slot:activator="{ props }">
+          <div v-bind="props">
             <PageTitleFlat :title="server.name" :hide-triangle="true" :is-menu="true"
                            :no-bottom-border-radius="$vuetify.breakpoint.mdAndDown">
               <template v-slot:start>
                 <v-card class="pa-1" flat style="width: 100px; background-color: green"
                         v-if="server.status === 'ONLINE'">
-                  <v-progress-linear rounded :value="getPlayerOnlineProgress(server)" height="18"
-                                     class="white--text">
+                  <v-progress-linear rounded :model-value="getPlayerOnlineProgress(server)" height="18"
+                                     class="text-white">
                     <strong v-if="server.status === 'ONLINE'">
                       <span v-if="server.users_current != null">
                         {{ server.users_current }}
@@ -43,7 +43,7 @@
             <v-list-item v-for="server in availableServerDashboards" :key="server.id"
                          @click="serverChanged(server)"
                          :input-value="$route.params.id === server.id">
-              <v-icon left>{{ server.serverbundle.icon }}</v-icon>{{ server.name }}
+              <v-icon start>{{ server.serverbundle.icon }}</v-icon>{{ server.name }}
             </v-list-item>
           </v-list>
         </v-card>
@@ -60,8 +60,8 @@
                 v-model="userSearchModel"
                 :label="$t('search')"
                 hide-details
-                outlined
-                dense>
+                variant="outlined"
+                density="compact">
                 <template v-slot:prepend-inner>
                   <v-icon>
                     mdi-magnify
@@ -102,9 +102,9 @@
                 <v-spacer/>
                 <div>
                   <v-chip v-if="user.warnings.length > 0"
-                          color="warning darken-1"
-                          small>
-                    <v-icon left>
+                          color="warning-darken-1"
+                          size="small">
+                    <v-icon start>
                       mdi-account-alert
                     </v-icon>
                     <span>
@@ -113,8 +113,8 @@
                   </v-chip>
                   <v-chip v-if="user.bans.length > 0"
                           class="ml-2"
-                          small color="error darken-2">
-                    <v-icon left>
+                          size="small" color="error-darken-2">
+                    <v-icon start>
                       mdi-account-cancel
                     </v-icon>
                     <span>

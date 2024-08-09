@@ -4,11 +4,11 @@
     <v-card-title class="pb-0">
       <CardTitle icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
     </v-card-title>
-    <v-list dense v-if="latestPosts">
+    <v-list density="compact" v-if="latestPosts">
       <v-list-item v-for="post in latestPosts" :key="post.id" class="listItem pt-0 pb-0"
                    :to="{ name: 'ForumThread', params: { id: post.thread.id },
                     query: {lastPage: true}}">
-        <v-list-item-content>
+        
           <div class="d-flex align-center">
             <router-link
               v-if="post.creator"
@@ -36,7 +36,7 @@
               </div>
             </div>
           </div>
-        </v-list-item-content>
+        
       </v-list-item>
     </v-list>
     <v-skeleton-loader dark style="background-color: rgba(0,0,0,0)"
@@ -47,10 +47,10 @@
     <v-card-title class="d-block pb-0">
       <CardTitle icon="mdi-forum" :title="$t('_forum.latestThreads')"/>
     </v-card-title>
-    <v-list dense v-if="latestThreads">
+    <v-list density="compact" v-if="latestThreads">
       <v-list-item v-for="thread in latestThreads" :key="thread.id" class="listItem"
                    :to="{ name: 'ForumThread', params: { id: thread.id } }">
-        <v-list-item-content>
+        
           <div class="d-flex align-center">
             <router-link
               v-if="thread.creator"
@@ -77,7 +77,7 @@
               </div>
             </div>
           </div>
-        </v-list-item-content>
+        
       </v-list-item>
     </v-list>
     <v-skeleton-loader dark style="background-color: rgba(0,0,0,0)"

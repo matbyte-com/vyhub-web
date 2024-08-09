@@ -2,7 +2,7 @@
 <div v-if="account" class="mt-3">
   <span class="text-h5">
     {{ account.balance }}
-  <v-icon right>mdi-circle-multiple</v-icon>
+  <v-icon end>mdi-circle-multiple</v-icon>
   </span>
   <DataTable :headers="headers"
              :items="account.transactions"
@@ -17,8 +17,8 @@
       <span>{{ new Date(item.date).toLocaleString() }}</span>
     </template>
     <template v-slot:footer-right v-if="$checkProp('account_edit')">
-      <v-btn outlined color="success" @click="$refs.transactionAddDialog.show()">
-        <v-icon left>mdi-plus</v-icon>
+      <v-btn variant="outlined" color="success" @click="$refs.transactionAddDialog.show()">
+        <v-icon start>mdi-plus</v-icon>
         <span>{{ $t("add") }}</span>
       </v-btn>
     </template>

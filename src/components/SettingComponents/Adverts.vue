@@ -14,7 +14,7 @@
                              :class="!advert.enabled ? 'text--disabled' : ''"
                              style="border-style: solid; border-width: 1px"
                              :style="{ 'border-color': advert.color }">
-            <v-expansion-panel-header>
+            <v-expansion-panel-title>
             <v-row class="d-flex align-center">
               <v-col cols="12">
                 {{ advert.title }}
@@ -29,16 +29,16 @@
                   <v-chip class="mr-1" :color='serverbundle.color'
                           :text-color="$vuetify.theme.dark ? 'white' : 'black'"
                           v-for="serverbundle in advert.serverbundles"
-                          :key="serverbundle.id" @click.stop outlined small>
+                          :key="serverbundle.id" @click.stop variant="outlined" size="small">
                     {{ serverbundle.name }}
                   </v-chip>
-                  <v-btn outlined color="primary" small
+                  <v-btn variant="outlined" color="primary" size="small"
                          @click.stop="openAdvertEditDialog(advert)" class="ml-1 mr-1">
                     <v-icon>
                       mdi-pencil
                     </v-icon>
                   </v-btn>
-                  <v-btn class="mr-2" outlined color="error" small
+                  <v-btn class="mr-2" variant="outlined" color="error" size="small"
                          @click.stop="$refs.deleteAdvertConfirmationDialog.show(advert)">
                     <v-icon>
                       mdi-delete
@@ -47,23 +47,23 @@
                 </div>
               </v-col>
             </v-row>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
               {{ advert.content }}
-            </v-expansion-panel-content>
+            </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </draggable>
     <v-divider class="my-3" />
     <div class="d-flex flex-wrap">
       <v-spacer />
-      <v-btn @click="$refs.addAdvertDialog.show()" color="success" outlined>
-        <v-icon left>mdi-plus</v-icon>
+      <v-btn @click="$refs.addAdvertDialog.show()" color="success" variant="outlined">
+        <v-icon start>mdi-plus</v-icon>
         <span>{{ $t('_advert.add') }}</span>
       </v-btn>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs}">
-          <v-btn outlined color="primary" class="ml-5" v-on="on" v-bind="attrs"
+      <v-tooltip location="bottom">
+        <template v-slot:activator="{ props}">
+          <v-btn variant="outlined" color="primary" class="ml-5" v-bind="props"
                  style="border-top-right-radius: 0; border-bottom-right-radius: 0"
                  @click="updateLinkOrder" :disabled="!updateAdvertEnabled">
             <v-icon>mdi-check</v-icon>
@@ -73,9 +73,9 @@
             {{ $t('_settings.labels.updateOrder') }}
           </span>
       </v-tooltip>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs}">
-          <v-btn outlined color="primary" v-on="on" v-bind="attrs"
+      <v-tooltip location="bottom">
+        <template v-slot:activator="{ props}">
+          <v-btn variant="outlined" color="primary" v-bind="props"
                  style="border-bottom-left-radius: 0; border-top-left-radius: 0"
                  @click="fetchData" :disabled="!updateAdvertEnabled">
             <v-icon>mdi-backspace-outline</v-icon>

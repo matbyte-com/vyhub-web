@@ -41,9 +41,9 @@
               Follow the tutorial in the bottom right to get started. <br>
             </div>
             <v-btn @click="closeOverlay()" class="mt-5"
-                   x-large color="success">
+                   size="x-large" color="success">
               Get Started
-              <v-icon large>
+              <v-icon size="large">
                 mdi-chevron-right
               </v-icon>
             </v-btn>
@@ -58,11 +58,11 @@
 
     <!-- floating first steps button -->
     <v-fade-transition v-if="showCustomerJourney">
-      <v-menu top :close-on-content-click="false" :close-on-click="false" v-model="firstSteps">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn fab dark x-large style="background-color: rgba(255,255,255,0.7)"
-                 fixed right bottom v-bind="attrs" v-on="on">
-            <v-btn fab large class="red darken-2">
+      <v-menu location="top" :close-on-content-click="false" persistent v-model="firstSteps">
+        <template v-slot:activator="{ props }">
+          <v-btn fab dark size="x-large" style="background-color: rgba(255,255,255,0.7)"
+                 fixed location="right bottom"  v-bind="props">
+            <v-btn fab size="large" class="bg-red-darken-2">
               <v-icon dark>mdi-help</v-icon>
             </v-btn>
           </v-btn>
@@ -74,9 +74,9 @@
     <!-- Floating Alert to remember to set legal -->
     <router-link to="settings/legal" class="text-center" v-if="showLegalReminder">
       <v-alert dark style="left: 50%; top: 10%; margin-left: -150px; position: fixed"
-               width="300px" class="red darken-2"
+               width="300px" class="bg-red-darken-2"
                bottom to="settings/legal">
-        <v-icon dark left>mdi-alert</v-icon>
+        <v-icon dark start>mdi-alert</v-icon>
         {{ $t('_legal.showLegalReminder') }}
       </v-alert>
     </router-link>

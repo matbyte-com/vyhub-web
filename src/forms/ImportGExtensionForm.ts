@@ -9,8 +9,8 @@ export default {
   'x-display': 'stepper',
   allOf: [
     {
-      title: i18n.t('_import.gextension.labels.basicData'),
-      description: i18n.t('_import.gextension.messages.basicDataDescription'),
+      title: i18n.global.t('_import.gextension.labels.basicData'),
+      description: i18n.global.t('_import.gextension.messages.basicDataDescription'),
       type: 'object',
       required: [
         'url',
@@ -19,22 +19,22 @@ export default {
       properties: {
         url: {
           type: 'string',
-          title: i18n.t('_import.gextension.labels.url'),
-          description: i18n.t('_import.gextension.labels.urlDescription'),
+          title: i18n.global.t('_import.gextension.labels.url'),
+          description: i18n.global.t('_import.gextension.labels.urlDescription'),
           pattern: '^http(s?)://.+$',
           default: 'https://',
         },
         api_key: {
           'x-display': 'password',
           type: 'string',
-          title: i18n.t('apiKey'),
-          description: i18n.t('_import.gextension.labels.apiKeyDescription'),
+          title: i18n.global.t('apiKey'),
+          description: i18n.global.t('_import.gextension.labels.apiKeyDescription'),
         },
       },
     },
     {
-      title: i18n.t('_import.gextension.labels.groupServerbundleUser'),
-      description: i18n.t('_import.gextension.messages.import1Description'),
+      title: i18n.global.t('_import.gextension.labels.groupServerbundleUser'),
+      description: i18n.global.t('_import.gextension.messages.import1Description'),
       type: 'object',
       properties: {
         import_buttons_1: {
@@ -43,8 +43,8 @@ export default {
       },
     },
     {
-      title: i18n.t('_import.gextension.labels.furtherData'),
-      description: i18n.t('_import.gextension.messages.import2Description'),
+      title: i18n.global.t('_import.gextension.labels.furtherData'),
+      description: i18n.global.t('_import.gextension.messages.import2Description'),
       type: 'object',
       properties: {
         import_buttons_2: {
@@ -53,23 +53,23 @@ export default {
       },
     },
     {
-      title: i18n.t('packets'),
-      description: i18n.t('_import.gextension.messages.packetsDataDescription'),
+      title: i18n.global.t('packets'),
+      description: i18n.global.t('_import.gextension.messages.packetsDataDescription'),
       type: 'object',
       properties: {
         excluded_rewards: {
           ...Common.rewardsSelectField,
-          title: i18n.t('_import.gextension.labels.excludedRewards'),
+          title: i18n.global.t('_import.gextension.labels.excludedRewards'),
         },
         packet_translations: {
           type: 'array',
-          title: i18n.t('_import.gextension.labels.packetTranslations'),
+          title: i18n.global.t('_import.gextension.labels.packetTranslations'),
           items: {
             type: 'object',
             required: ['gex_packet', 'packet'],
             properties: {
               gex_packet: {
-                title: i18n.t('_import.gextension.labels.gexPacket'),
+                title: i18n.global.t('_import.gextension.labels.gexPacket'),
                 type: 'object',
                 'x-fromUrl': `${Common.apiURL}/import/gextension/packet?url={url}&api_key={api_key}`,
                 'x-itemKey': 'id',

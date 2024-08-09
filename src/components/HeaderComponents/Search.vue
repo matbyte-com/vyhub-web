@@ -9,18 +9,18 @@
       class="expanding-search"
       hide-details="auto"
       :class="{ 'closed' : searchClosed && !search }"
-      filled dense clearable
+      variant="filled" density="compact" clearable
       hide-no-data
       :items="items"
-      :search-input.sync="search"
+      :search.sync="search"
       :loading="isLoading"
-      item-text="username"
+      item-title="username"
       item-value="id"
       append-icon=""
       auto-select-first
       return-object
-      v-on:change="showUser"
-      :filter="searchFilter"
+      v-on:update:model-value="showUser"
+      :customFilter="searchFilter"
       @keydown.esc="search = null">
       <template slot="item"
                 slot-scope="{ item }">
@@ -29,10 +29,10 @@
             <v-list-item-avatar>
               <img :src="item.avatar" alt="avatar">
             </v-list-item-avatar>
-            <v-list-item-content>
+            
               <v-list-item-title>
                 <h2 class="d-flex align-center">
-                  <v-icon left>{{ userTypeIcons[item.type] }}</v-icon>
+                  <v-icon start>{{ userTypeIcons[item.type] }}</v-icon>
                   {{ item.username }}
                 </h2>
               </v-list-item-title>
@@ -40,15 +40,15 @@
                 {{ item.identifier }}
               </v-list-item-subtitle>
               <v-list-item-subtitle class="mt-2 ml-2">
-                <v-chip small v-for="linked in item.linked_users" :key="linked.id"
+                <v-chip size="small" v-for="linked in item.linked_users" :key="linked.id"
                 class="mr-2">
                   <span class="d-flex align-center">
-                  <v-icon left>{{ userTypeIcons[linked.type] }}</v-icon>
+                  <v-icon start>{{ userTypeIcons[linked.type] }}</v-icon>
                   {{ linked.username }}
                 </span>
                 </v-chip>
               </v-list-item-subtitle>
-            </v-list-item-content>
+            
           </v-list-item>
         </v-list>
         <div v-else>

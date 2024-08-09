@@ -5,14 +5,14 @@ export default {
   properties: {
     title: {
       type: 'string',
-      title: i18n.t('title'),
-      description: i18n.t('_settings.communityDescriptionDescr'),
+      title: i18n.global.t('title'),
+      description: i18n.global.t('_settings.communityDescriptionDescr'),
     },
     description: {
       type: 'string',
       'x-display': 'textarea',
-      title: i18n.t('_settings.communityDescription'),
-      description: i18n.t('_settings.communityDescriptionDescr'),
+      title: i18n.global.t('_settings.communityDescription'),
+      description: i18n.global.t('_settings.communityDescriptionDescr'),
     },
     favicon_url: {
       type: ['string', 'null'],
@@ -20,19 +20,19 @@ export default {
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
-        placeholder: i18n.t('_settings.httpPlaceholder'),
+        placeholder: i18n.global.t('_settings.httpPlaceholder'),
       },
-      description: i18n.t('_settings.communityDescriptionDescr'),
+      description: i18n.global.t('_settings.communityDescriptionDescr'),
     },
     image_url: {
       type: ['string', 'null'],
-      title: i18n.t('_settings.labels.previewImageURL'),
+      title: i18n.global.t('_settings.labels.previewImageURL'),
       pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
       'x-props': {
         clearable: true,
-        placeholder: i18n.t('_settings.httpPlaceholder'),
+        placeholder: i18n.global.t('_settings.httpPlaceholder'),
       },
-      description: i18n.t('_settings.communityDescriptionDescr'),
+      description: i18n.global.t('_settings.communityDescriptionDescr'),
     },
   },
 };

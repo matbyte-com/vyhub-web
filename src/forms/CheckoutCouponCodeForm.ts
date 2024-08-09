@@ -9,7 +9,7 @@ export default {
     couponArray: {
       type: 'array',
       'x-itemTitle': 'title',
-      title: i18n.t('_shop.labels.couponCode'),
+      title: i18n.global.t('_shop.labels.couponCode'),
       items: {
         type: 'object',
         required: [
@@ -18,7 +18,7 @@ export default {
         properties: {
           coupon: {
             type: 'string',
-            title: i18n.t('_shop.labels.couponCode'),
+            title: i18n.global.t('_shop.labels.couponCode'),
           },
         },
       },

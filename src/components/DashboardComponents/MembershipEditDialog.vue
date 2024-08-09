@@ -7,9 +7,9 @@
     <template v-slot:end-after>
       <ConfirmationDialog ref="endMembershipConfirmation" @submit="endMembership"
                           :btn-text="$t('_membership.labels.endMembership')"/>
-      <v-btn color="error" text outlined @click="$refs.endMembershipConfirmation.show()"
+      <v-btn color="error" variant="text" variant="outlined" @click="$refs.endMembershipConfirmation.show()"
              :disabled="!membership.active">
-        <v-icon left>
+        <v-icon start>
           mdi-stop-circle
         </v-icon>
         <span>

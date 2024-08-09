@@ -26,17 +26,17 @@
       </v-row>
       <v-alert
         v-if="user.admin"
-        dense
+        density="compact"
         text
         color="success"
-        outlined
+        variant="outlined"
         class="font-weight-bold mt-3"
         width="100%">
         <span class="d-flex align-center justify-space-between">
           <span>
           </span>
           <span>
-            <v-icon color="success" left>
+            <v-icon color="success" start>
               mdi-shield-account
             </v-icon>
             <span>
@@ -45,7 +45,7 @@
           </span>
           <span class="justify-end">
             <v-btn icon color="error" v-if="$store.getters.user && $store.getters.user.admin"
-                   @click="$refs.adminDeleteConfirmationDialog.show()" x-small
+                   @click="$refs.adminDeleteConfirmationDialog.show()" size="x-small"
                    class="justify-end">
             <v-icon>mdi-close-circle</v-icon>
           </v-btn>

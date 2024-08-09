@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="subtitle-1">{{ label }}</span>
+    <span class="text-subtitle-1">{{ label }}</span>
     <Editor v-model="content" v-on="{...on, change}" class="mt-1"/>
   </div>
 </template>

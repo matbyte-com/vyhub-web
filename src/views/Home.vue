@@ -5,11 +5,11 @@
          v-if="$checkProp('theme_edit')">
       <v-card tile style="background-color: #646464A3;"
            class="pa-1 mt-1">
-        <v-icon large @click="editDrawer = !editDrawer">mdi-cog</v-icon>
+        <v-icon size="large" @click="editDrawer = !editDrawer">mdi-cog</v-icon>
       </v-card>
     </div>
     <!-- Rendering of Components -->
-    <wrapper v-for="block in blocksToShow" :key="block.id" :no_wrap="block.no_wrap"
+    <BuilderWrapper v-for="block in blocksToShow" :key="block.id" :no_wrap="block.no_wrap"
              :title="block.props_data ? block.props_data.title : null"
              :height="block.props_data ? block.props_data.height : null"
              :subtitle="block.props_data ? block.props_data.subtitle : null"
@@ -18,8 +18,8 @@
              :white-text="block.props_data ? block.props_data.whiteText : null"
              :margin-top="block.props_data ? block.props_data.marginTop : 0"
              :no-title-in-wrapper="block.type === 'NewsPreview'">
-      <component :is="block.type" v-bind="block.props_data">{{ block.slot }}</component>
-    </wrapper>
+      <component :is="`Builder${block.type}`" v-bind="block.props_data">{{ block.slot }}</component>
+    </BuilderWrapper>
     <v-fade-transition>
       <v-card v-if="blocksToShow == null" width="100vw" height="calc(100vh - 108px)" flat tile>
         <div style="position: absolute; left: 50%; top: 50%">
@@ -32,18 +32,18 @@
       style="z-index: 201"
       v-if="$checkProp('theme_edit')"
       v-model="editDrawer"
-      :right="drawerRight"
+      :location="drawerRight ? 'right' : undefined"
       :permanent="newComponentDialog"
       app
-      bottom
+      location="bottom"
       width="400px"
       temporary>
-      <v-list-item class="elevation-3" dense>
-        <v-list-item-content>
+      <v-list-item class="elevation-3" density="compact">
+
           <v-list-item-title class="d-flex align-center">
             {{ $t('_component.components') }}
             <v-spacer/>
-            <v-icon left @click="drawerRight = !drawerRight">
+            <v-icon start @click="drawerRight = !drawerRight">
               {{ drawerRight ? 'mdi-border-left-variant' : 'mdi-border-right-variant' }}
             </v-icon>
             <v-icon
@@ -53,26 +53,26 @@
               mdi-close
             </v-icon>
           </v-list-item-title>
-        </v-list-item-content>
+
       </v-list-item>
       <v-divider/>
       <div style="max-height: 75vh; overflow-y: auto">
-        <v-expansion-panels accordion flat tile v-model="panelExposed" >
+        <v-expansion-panels variant="accordion" flat tile v-model="panelExposed" >
           <draggable v-model="blocks" @change="orderUpdated = true" style="width: 100%;
          border-style: none" :disabled="panelExposed != null">
             <v-expansion-panel v-for="(component, index) in blocks" :key="index">
-              <v-expansion-panel-header class="py-0 my-0">
+              <v-expansion-panel-title class="py-0 my-0">
                 <div :class="{ 'text-decoration-line-through' : component.deleted }">
                   {{ getComponentTitle(component) }}
                 </div>
                 <v-spacer/>
                 <div class="text-right">
                   <v-fade-transition>
-                    <v-icon small v-show="panelExposed == null">
+                    <v-icon size="small" v-show="panelExposed == null">
                       mdi-drag-variant
                     </v-icon>
                   </v-fade-transition>
-                  <v-icon small class="ml-1" olor="secondary" @click.stop="copyBlock(component)">
+                  <v-icon size="small" class="ml-1" olor="secondary" @click.stop="copyBlock(component)">
                     mdi-content-copy
                   </v-icon>
                   <v-icon :color="component.deleted ? '' : 'error'"
@@ -80,30 +80,30 @@
                     mdi-delete
                   </v-icon>
                 </div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text>
                 <v-form ref="form" @submit.prevent="">
                   <v-jsf :options="vjsfOptions" style="z-index: 202"
                          @input="component.edited = true; componentEdited=true"
                          v-model="component.props_data" :schema="getComponentSchema(component)"/>
                 </v-form>
-              </v-expansion-panel-content>
+              </v-expansion-panel-text>
             </v-expansion-panel>
           </draggable>
         </v-expansion-panels>
       </div>
       <v-list-item>
-        <v-list-item-content>
-          <v-btn outlined
+
+          <v-btn variant="outlined"
                  @click="$refs.addComponentDialog.show();newComponentDialog = true;">
-            <v-icon left>mdi-plus</v-icon>
+            <v-icon start>mdi-plus</v-icon>
             {{ $t('_component.addComponent') }}
           </v-btn>
-        </v-list-item-content>
+
       </v-list-item>
       <v-list-item>
-        <v-btn small text @click="fetchData"><v-icon>mdi-restore</v-icon></v-btn>
-        <v-btn depressed class="ml-3 grow" color="success" :disabled="!saveButton"
+        <v-btn size="small" variant="text" @click="fetchData"><v-icon>mdi-restore</v-icon></v-btn>
+        <v-btn variant="flat" class="ml-3 grow" color="success" :disabled="!saveButton"
                @click="savePage">Save</v-btn>
       </v-list-item>
     </v-navigation-drawer>
@@ -111,7 +111,7 @@
             :max-width="1000"
             @close="newComponentDialog = false">
       <div style="height: 80vh">
-        <v-text-field outlined hide-details="auto" dense class="mt-3" append-icon="mdi-magnify"
+        <v-text-field variant="outlined" hide-details="auto" density="compact" class="mt-3" append-icon="mdi-magnify"
                       v-model="addComponentSearch" :label="$t('search')"/>
         <transition-group tag="div" class="mt-3 row" name="list-complete">
           <v-col cols="6" md="4" lg="4" v-for="cp in availableComponentsSearch" :key="cp.component"
@@ -138,32 +138,24 @@
 
 <script>
 import components from '@/components/BuilderComponents/components';
-import Wrapper from '@/components/BuilderComponents/Wrapper.vue';
 import Dialog from '@/components/Dialog.vue';
 import draggable from 'vuedraggable';
 import VJsf from '@koumoul/vjsf';
-import '@koumoul/vjsf/dist/main.css';
-import '@koumoul/vjsf/lib/deps/third-party';
+import { v2compat } from "@koumoul/vjsf/compat/v2";
+// import '@koumoul/vjsf/dist/main.css';
+// import '@koumoul/vjsf/lib/deps/third-party';
 import i18n from '@/plugins/i18n';
 import axios from 'axios';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
 
-const homepageComponents = {};
-
-// eslint-disable-next-line array-callback-return
-components.components.map((component) => {
-  homepageComponents[component.component] = () => import(`@/components/BuilderComponents/${component.component}.vue`);
-});
 
 export default {
   name: 'Home.vue',
   components: {
     VJsf,
     Dialog,
-    Wrapper,
     draggable,
-    ...homepageComponents,
   },
   beforeMount() {
     this.fetchData();
@@ -348,7 +340,7 @@ export default {
           },
         };
       }
-      return schema;
+      return v2compat(schema);
     },
     closeDrawer() {
       this.$refs.closeDrawerIcon.$el.classList.add('animate__rotateOut');

@@ -5,12 +5,12 @@
     </SettingTitle>
     <v-row>
       <v-col cols="12">
-        <v-card outlined flat class="fill-height transparent">
+        <v-card border flat class="fill-height bg-transparent">
           <v-card-text>
             <SettingTitle :divider="false" doc-path="/guide/serverbundle">
               {{ $t('serverbundle') }}
             </SettingTitle>
-            <v-simple-table>
+            <v-table>
               <thead>
               <tr>
                 <th>{{ $t('name') }}</th>
@@ -26,8 +26,8 @@
                   <td>
                     <v-chip :color="bundle.color ? bundle.color : '#000000'"
                             :text-color="$vuetify.theme.dark ? 'white' : 'black'"
-                            outlined>
-                      <v-icon left>{{ bundle.icon }}</v-icon>
+                            variant="outlined">
+                      <v-icon start>{{ bundle.icon }}</v-icon>
                       {{ bundle.name }}
                     </v-chip>
                   </td>
@@ -43,7 +43,7 @@
                   </span>
                   </td>
                   <td class="text-right">
-                    <v-btn outlined color="info" small class="mr-1"
+                    <v-btn variant="outlined" color="info" size="small" class="mr-1"
                            :disabled="bundle.server_type === 'DISCORD' ||
                         bundle.server_type === 'TEAMSPEAK3'"
                            @click="showAPIKeysDialog(bundle)">
@@ -51,13 +51,13 @@
                         mdi-key-chain
                       </v-icon>
                     </v-btn>
-                    <v-btn outlined color="primary" small
+                    <v-btn variant="outlined" color="primary" size="small"
                            @click="openEditBundleDialog(bundle)" class="mr-1">
                       <v-icon>
                         mdi-pencil
                       </v-icon>
                     </v-btn>
-                    <v-btn outlined color="error" small @click="openDeleteBundleDialog(bundle)">
+                    <v-btn variant="outlined" color="error" size="small" @click="openDeleteBundleDialog(bundle)">
                       <v-icon>
                         mdi-delete
                       </v-icon>
@@ -65,17 +65,17 @@
                   </td>
                 </tr>
               </draggable>
-            </v-simple-table>
+            </v-table>
             <v-divider />
             <div class="text-right mt-3">
-              <v-btn color="success" @click="$refs.addBundleDialog.show()" outlined
+              <v-btn color="success" @click="$refs.addBundleDialog.show()" variant="outlined"
                      :class="{ 'glow-effect':utils.customerJourneyActive('add-bundle') }">
-                <v-icon left>mdi-plus</v-icon>
+                <v-icon start>mdi-plus</v-icon>
                 <span>{{ $t('_settings.labels.addBundle') }}</span>
               </v-btn>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs}">
-                  <v-btn outlined color="primary" class="ml-5" v-on="on" v-bind="attrs"
+              <v-tooltip location="bottom">
+                <template v-slot:activator="{ props}">
+                  <v-btn variant="outlined" color="primary" class="ml-5" v-bind="props"
                          style="border-top-right-radius: 0; border-bottom-right-radius: 0"
                          @click="updateBundleOrder" :disabled="!updateBundleEnabled">
                     <v-icon>mdi-check</v-icon>
@@ -85,9 +85,9 @@
                     {{ $t('_settings.labels.updateOrder') }}
                   </span>
               </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs}">
-                  <v-btn outlined color="primary" v-on="on" v-bind="attrs"
+              <v-tooltip location="bottom">
+                <template v-slot:activator="{ props}">
+                  <v-btn variant="outlined" color="primary" v-bind="props"
                          style="border-bottom-left-radius: 0; border-top-left-radius: 0"
                          @click="fetchData" :disabled="!updateBundleEnabled">
                     <v-icon>mdi-backspace-outline</v-icon>
@@ -103,7 +103,7 @@
       </v-col>
       <!-- Server -->
       <v-col>
-        <v-card outlined flat class="fill-height transparent">
+        <v-card border flat class="fill-height bg-transparent">
           <v-card-text>
             <DataTable
               :headers="gameserverHeaders"
@@ -123,38 +123,38 @@
                 {{ getBundle(item) }}
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-btn depressed color="success" small class="mr-1"
+                <v-btn variant="flat" color="success" size="small" class="mr-1"
                        :class="{ 'glow-effect':utils.customerJourneyActive('connect-server') }"
-                       @click="showServerSetupDialog(item);" :outlined="item.status === 'ONLINE'">
-                  <v-icon :left="item.status !== 'ONLINE'">
+                       @click="showServerSetupDialog(item);" :variant="item.status === 'ONLINE' ? 'outlined' : undefined">
+                  <v-icon :start="item.status !== 'ONLINE'">
                     mdi-download-network
                   </v-icon>
                   <span v-if="item.status !== 'ONLINE'">
                     {{ $t('setup') }}
                   </span>
                 </v-btn>
-                <v-btn outlined color="primary" small class="mr-1"
+                <v-btn variant="outlined" color="primary" size="small" class="mr-1"
                        @click="openEditServerDialog(item)">
                   <v-icon>
                     mdi-pencil
                   </v-icon>
                 </v-btn>
-                <v-btn outlined color="error" small @click="openDeleteServerDialog(item)">
+                <v-btn variant="outlined" color="error" size="small" @click="openDeleteServerDialog(item)">
                   <v-icon>
                     mdi-delete
                   </v-icon>
                 </v-btn>
               </template>
               <template v-slot:footer-right>
-                <v-tooltip bottom :disabled="bundles !== null && bundles.length !== 0">
-                  <template v-slot:activator="{ on, attrs }">
-                    <div v-bind="attrs"
-                         v-on="on">
-                      <v-btn color="success" outlined @click="$refs.createServerDialog.show()"
+                <v-tooltip location="bottom" :disabled="bundles !== null && bundles.length !== 0">
+                  <template v-slot:activator="{ props }">
+                    <div
+                         v-bind="props">
+                      <v-btn color="success" variant="outlined" @click="$refs.createServerDialog.show()"
                              :disabled="bundles === null || bundles.length === 0"
                              :class="{ 'glow-effect':
                              utils.customerJourneyActive('add-server') }">
-                        <v-icon left>mdi-plus</v-icon>
+                        <v-icon start>mdi-plus</v-icon>
                         <span>{{ $t('_settings.labels.addServer') }}</span>
                       </v-btn>
                     </div>
@@ -176,7 +176,7 @@
       </div>
 
       <template v-slot:actions>
-        <v-icon left>mdi-book-open</v-icon>
+        <v-icon start>mdi-book-open</v-icon>
         <a target="_blank" href="https://docs.vyhub.net/latest/game/integrations/">
           {{ $t('documentation') }}
         </a>
@@ -186,7 +186,7 @@
             ref="bundleApiKeysDialog" :with-id="true">
       <v-card class="mt-2" v-if="createdToken != null" color="success">
         <v-card-subtitle>
-          <div class="subtitle-2">
+          <div class="text-subtitle-2">
             {{ $t('_api.labels.createdKey') }}:
           </div>
           <div class="font-weight-bold">
@@ -194,7 +194,7 @@
               @focus="$event.target.select()"
               append-icon="mdi-content-copy"
               @click:append="utils.textToClipboard(createdToken.access_token);"
-              readonly :value="createdToken.access_token">
+              readonly :model-value="createdToken.access_token">
             </v-text-field>
           </div>
           <div>
@@ -202,7 +202,7 @@
           </div>
         </v-card-subtitle>
         <v-card-text>
-          <div class="subtitle-2">
+          <div class="text-subtitle-2">
             {{ $t('properties') }}:
           </div>
           <div>
@@ -221,12 +221,12 @@
                 {{ token.name }}
               </div>
             </div>
-            <v-chip color="warning" small v-if="token.revoked" class="ml-3">
+            <v-chip color="warning" size="small" v-if="token.revoked" class="ml-3">
               {{ $t('revoked') }}
             </v-chip>
           </span>
           <span v-if="!token.revoked">
-            <v-btn color="warning" text small depressed @click="revokeToken(token)">
+            <v-btn color="warning" variant="text" size="small" variant="flat" @click="revokeToken(token)">
               <v-icon>
                 mdi-cancel
               </v-icon>
@@ -234,7 +234,7 @@
           </span>
         </v-card-subtitle>
         <v-card-text>
-          <div class="subtitle-2">
+          <div class="text-subtitle-2">
             {{ $t('properties') }}:
           </div>
           <div>
@@ -303,8 +303,8 @@
       <template v-slot:form-after
                 v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'">
         <a target="_blank" href="https://docs.vyhub.net/latest/game/discord/">
-          <v-btn small color="info">
-            <v-icon left>
+          <v-btn size="small" color="info">
+            <v-icon start>
               mdi-magnify
             </v-icon>
             {{$t('_server.labels.guildIdDocs')}}

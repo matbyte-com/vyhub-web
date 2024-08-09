@@ -22,9 +22,9 @@
                     @targetUserChanged="fetchData">
                 </CartPacket>
                 <div class="text-right" :key="3">
-                  <v-btn color="error" text class="mt-1"
+                  <v-btn color="error" variant="text" class="mt-1"
                          @click="$refs.cancelPurchaseConfirmationDialog.show()">
-                    <v-icon left>mdi-close</v-icon>
+                    <v-icon start>mdi-close</v-icon>
                     {{ $t('_shop.labels.cancelPurchase') }}
                   </v-btn>
                 </div>
@@ -52,9 +52,9 @@
                     @targetUserChanged="fetchData" />
                 <!-- Remove All Btn -->
                 <div class="text-right" v-if="cartPackets.length > 0" :key="3">
-                  <v-btn small color="error" @click="clearCart" depressed
+                  <v-btn size="small" color="error" @click="clearCart" variant="flat"
                          class="text-right vh-remove-all-packets mt-1">
-                    <v-icon left>mdi-delete</v-icon>
+                    <v-icon start>mdi-delete</v-icon>
                     {{ $t('_shop.labels.removeAllPackets') }}
                   </v-btn>
                 </div>
@@ -62,10 +62,10 @@
               <!-- Cart Empty -->
               <div v-if="!openPurchase && cartPackets.length === 0" :key="1">
                 {{ $t('_shop.messages.cartEmpty') }}
-                <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" depressed
-                       active-class="no-active">
+                <v-btn class="ml-3" color="primary" :to="{ name: 'Shop' }" variant="flat"
+                       selected-class="no-active">
                   {{ $t('shop') }}
-                  <v-icon right>
+                  <v-icon end>
                     mdi-arrow-right
                   </v-icon>
                 </v-btn>
@@ -81,34 +81,34 @@
                   'card-error': billingCardError }" flat>
           <v-expansion-panels v-model="billingAddressDrawer" flat>
             <v-expansion-panel>
-              <v-expansion-panel-header class="px-5 pb-0 pt-0">
+              <v-expansion-panel-title class="px-5 pb-0 pt-0">
                 <div>
                   <h2 class="text-h6">{{ $t('_shop.labels.billingAddress') }}</h2>
                 </div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content eager>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text eager>
                 <v-row class="d-flex">
                   <v-col cols="12" sm="6" class="mt-0 pt-0">
                     <!-- Billing address -->
-                    <v-card class="animate__animated vh-cart-address mt-3 card-rounded" outlined
+                    <v-card class="animate__animated vh-cart-address mt-3 card-rounded" border
                             :class="{animate__headShake:addressWobble === true}">
                       <v-card-title>
-                        <v-icon left>mdi-map-marker</v-icon>
+                        <v-icon start>mdi-map-marker</v-icon>
                         {{ $t('_shop.labels.billingAddress') }}
                       </v-card-title>
-                      <v-card-text class="body-1">
+                      <v-card-text class="text-body-1">
                         <Address hidden incognito
                                  v-if="currentAddress != null" :address="currentAddress"/>
                         <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
                       </v-card-text>
                       <v-card-actions>
-                        <v-btn text color="success" @click="$refs.addressAddDialog.show()">
-                          <v-icon left>mdi-plus</v-icon>
+                        <v-btn variant="text" color="success" @click="$refs.addressAddDialog.show()">
+                          <v-icon start>mdi-plus</v-icon>
                           {{ $t('add') }}
                         </v-btn>
-                        <v-btn text color="primary"
+                        <v-btn variant="text" color="primary"
                                @click="queryAddresses(); $refs.selectAddressDialog.show()">
-                          <v-icon left>mdi-format-list-text</v-icon>
+                          <v-icon start>mdi-format-list-text</v-icon>
                           {{ $t('select') }}
                         </v-btn>
                       </v-card-actions>
@@ -122,7 +122,7 @@
                            :class="{animate__headShake:emailWobble === true}"/>
                   </v-col>
                 </v-row>
-              </v-expansion-panel-content>
+              </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
         </v-card>
@@ -143,7 +143,7 @@
                           class="flex-grow-1 card-rounded gateway-card no-active"
                           :class="{'card-active': gateway.id === selectedGateway,
                          'card-inactive': gateway.id !== selectedGateway}"
-                          outlined>
+                          border>
                     <v-card-text class="text-center">
                       <div class="d-flex justify-center">
                         <v-img contain class="mb-1" height="50"
@@ -161,7 +161,7 @@
                 </v-col>
                 <!-- No payment gateways available -->
                 <v-col cols="6" sm="6" md="4" lg="3" v-if="gateways.length === 0">
-                  <v-card outlined>
+                  <v-card border>
                     <v-card-text class="text-center">
                       {{ $t('noDataAvailable') }}
                     </v-card-text>
@@ -188,10 +188,10 @@
             {{ errorMessage }}
           </v-alert>
           <v-card-title>
-            <v-icon left>mdi-cart</v-icon>
+            <v-icon start>mdi-cart</v-icon>
             {{ openPurchase ? $t('_shop.labels.total') : $t('_shop.labels.cartTotal') }}
           </v-card-title>
-          <v-card-text class="body-1">
+          <v-card-text class="text-body-1">
             <CartTotal :price="price"/>
           </v-card-text>
           <!-- Checkboxes (hide when open purchase)-->
@@ -217,7 +217,7 @@
             <v-skeleton-loader type="heading"/>
           </v-card-text>
           <!-- Checkout button -->
-          <v-card-text class="red--text text-center" v-if="showDetails">
+          <v-card-text class="text-red text-center" v-if="showDetails">
             <span v-if="currentAddress == null">
               {{ $t('_shop.messages.selectBillingAddressFirst') }}
             </span>
@@ -226,10 +226,10 @@
             </span>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" depressed block class="cta-btn"
+            <v-btn color="primary" variant="flat" block class="cta-btn"
                    :disabled="cartPackets.length === 0 && !openPurchase"
                    @click="startCheckout">
-              <v-icon left>mdi-cart-arrow-right</v-icon>
+              <v-icon start>mdi-cart-arrow-right</v-icon>
               {{ openPurchase ? $t('_shop.labels.payNow') : $t('_shop.labels.purchaseNow') }}
             </v-btn>
           </v-card-actions>
@@ -237,7 +237,7 @@
         <!-- Discount Codes -->
         <v-card class="vh-cart-discount card-rounded mt-3" flat>
           <v-card-actions>
-            <v-text-field dense outlined :label="$t('_shop.labels.discountCode')"
+            <v-text-field density="compact" variant="outlined" :label="$t('_shop.labels.discountCode')"
                           @keydown.enter="applyDiscount" v-model="couponCode"
                           :style="couponStyle"
                           :hide-details="couponError == null"
@@ -258,21 +258,21 @@
         <!-- Your Accounts -->
         <v-card class="vh-cart-accounts card-rounded mt-3" flat>
           <v-card-title>
-            <v-icon left>mdi-account-group</v-icon>
+            <v-icon start>mdi-account-group</v-icon>
             {{ $t('_shop.labels.yourAccounts') }}
           </v-card-title>
           <v-card-text v-if="$store.getters.isLoggedIn">
             <div>
-              <v-chip style="width: 100%" outlined>
-                <v-icon left>{{ UserService.userTypeIcons[$store.getters.user.type] }}</v-icon>
+              <v-chip style="width: 100%" variant="outlined">
+                <v-icon start>{{ UserService.userTypeIcons[$store.getters.user.type] }}</v-icon>
                 {{ $store.getters.user.username }}
               </v-chip>
             </div>
             <div v-if="$store.getters.user.linked_users">
               <div v-for="acc in $store.getters.user.linked_users"
                    :key="acc.id" class="mt-1">
-                <v-chip style="width: 100%" outlined>
-                  <v-icon left>{{ UserService.userTypeIcons[acc.type] }}</v-icon>
+                <v-chip style="width: 100%" variant="outlined">
+                  <v-icon start>{{ UserService.userTypeIcons[acc.type] }}</v-icon>
                   {{ acc.username }}
                 </v-chip>
               </div>
@@ -316,7 +316,7 @@
             <v-row dense>
               <v-col lg="6" md="12" v-for="address in addresses" v-bind:key="address.id"
                      class="d-flex">
-                <v-card outlined @click="selectAddress(address)" class="flex-grow-1 card-rounded">
+                <v-card border @click="selectAddress(address)" class="flex-grow-1 card-rounded">
                   <v-card-text>
                     <Address :address="address"></Address>
                   </v-card-text>

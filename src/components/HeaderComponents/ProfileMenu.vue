@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-menu open-on-hover offset-y eager>
-      <template v-slot:activator="{ on, attrs }">
-        <v-chip pill v-bind="attrs" v-on="on" class="header lighten-2">
-          <v-avatar left>
+      <template v-slot:activator="{ props }">
+        <v-chip pill v-bind="props" class="header lighten-2">
+          <v-avatar start>
             <v-img :src="$store.getters.user.avatar"
                    lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
           </v-avatar>
@@ -12,19 +12,19 @@
           </span>
         </v-chip>
       </template>
-      <v-list dense>
+      <v-list density="compact">
         <LinkAccountListItem />
         <PersonalSettingsLinkItem />
         <v-list-item v-for="(link, index) in menuLinks"
                      :key="index"
                      :to="link.link">
-          <v-icon left>{{ link.icon }}</v-icon>
+          <v-icon start>{{ link.icon }}</v-icon>
           <v-list-item-title>
             {{ $t(link.title) }}
           </v-list-item-title>
         </v-list-item>
         <v-list-item @click="logout">
-          <v-icon left>mdi-logout-variant</v-icon>
+          <v-icon start>mdi-logout-variant</v-icon>
           <v-list-item-title>{{ $t('_header.labels.logout') }}</v-list-item-title>
         </v-list-item>
       </v-list>

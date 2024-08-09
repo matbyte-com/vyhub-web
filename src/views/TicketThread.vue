@@ -23,7 +23,7 @@
       </template>
     </PageTitleFlat>
     <div v-if="thread">
-      <v-card flat outlined class="vh-forum-post card-rounded mb-3"
+      <v-card flat border class="vh-forum-post card-rounded mb-3"
               :class="{ 'card-rounded-top':!$vuetify.breakpoint.smAndDown && index === 0,
            'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0 }"
               v-for="(post, index) in posts" :key="post.id">
@@ -77,8 +77,8 @@
                 <div class="ml-auto">
                   <v-chip v-if="post.creator && thread.creator &&
                   post.creator.id !== thread.creator.id && !post.creator.deleted"
-                          color="primary" small round>
-                    <v-icon small left>
+                          color="primary" size="small" round>
+                    <v-icon size="small" start>
                       mdi-shield-sword-outline
                     </v-icon>
                     <span>
@@ -101,32 +101,32 @@
                     v-model="page"
                     :length="totalPages"
                     :total-visible="5"
-                    @input="fetchData"/>
+                    @update:model-value="fetchData"/>
       <v-spacer/>
       <v-btn v-if="$checkProp('ticket_edit') && thread.status === 'CLOSED'"
-             color="error" depressed @click="$refs.deleteThreadDialog.show()">
-        <v-icon left>mdi-delete</v-icon>
+             color="error" variant="flat" @click="$refs.deleteThreadDialog.show()">
+        <v-icon start>mdi-delete</v-icon>
         <span>{{ $t('delete') }}</span>
       </v-btn>
       <v-btn v-if="thread.ban" color="primary" :to="{ name: 'Bans',
        params: {banId: thread.ban.id} }" class="mr-3">
-        <v-icon left>mdi-eye</v-icon>
+        <v-icon start>mdi-eye</v-icon>
         {{ $t('_forum.showBan') }}
       </v-btn>
       <v-btn v-if="$checkProp('ticket_edit')" class="ml-3"
              :color="thread.status === 'CLOSED' ? 'success' : 'error'"
-             @click="toggleStatus" depressed>
+             @click="toggleStatus" variant="flat">
         <div v-if="thread.status === 'CLOSED'">
-          <v-icon left>mdi-lock-open-variant</v-icon>
+          <v-icon start>mdi-lock-open-variant</v-icon>
           <span>{{ $t('_forum.open') }}</span>
         </div>
         <div v-else>
-          <v-icon left>mdi-lock</v-icon>
+          <v-icon start>mdi-lock</v-icon>
           <span>{{ $t('_forum.close') }}</span>
         </div>
       </v-btn>
-      <v-btn color="success" depressed class="ml-3" @click="$refs.addPostDialog.show()">
-        <v-icon left>mdi-plus</v-icon>
+      <v-btn color="success" variant="flat" class="ml-3" @click="$refs.addPostDialog.show()">
+        <v-icon start>mdi-plus</v-icon>
         <span>{{ $t('_forum.addPost') }}</span>
       </v-btn>
     </div>

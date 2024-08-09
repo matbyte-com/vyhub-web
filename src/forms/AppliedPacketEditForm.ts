@@ -6,21 +6,21 @@ export default {
   properties: {
     status: {
       type: 'string',
-      title: i18n.t('status'),
+      title: i18n.global.t('status'),
       oneOf: [
         {
           const: 'ENABLED',
-          title: i18n.t('enabled'),
+          title: i18n.global.t('enabled'),
         },
         {
           const: 'DISABLED',
-          title: i18n.t('disabled'),
+          title: i18n.global.t('disabled'),
         },
       ],
     },
     end: {
       type: ['string', 'null'],
-      title: i18n.t('end'),
+      title: i18n.global.t('end'),
       format: 'date-time',
     },
   },

@@ -6,14 +6,14 @@
         <CardTitle :no-icon="noIcon" :centered="centerHeadline"
                    :title="shopConfig.donation_goal_display_title" icon="mdi-flag-checkered"/>
         <v-spacer v-if="!noShopBtn" />
-        <v-btn v-if="!noShopBtn" outlined class="mt-1" small :to="{ name: 'Shop' }">
+        <v-btn v-if="!noShopBtn" variant="outlined" class="mt-1" size="small" :to="{ name: 'Shop' }">
           <span>{{ $t('shop') }}</span>
         </v-btn>
       </v-card-title>
       <v-card-text style="width: inherit" :class="textClasses">
         <v-card flat>
           <v-progress-linear rounded striped
-                             :value="donationProgress" height="20" class="progress-bar">
+                             :model-value="donationProgress" height="20" class="progress-bar">
         <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
           {{ donationProgress }}%
         </span>
@@ -21,7 +21,7 @@
         </v-card>
         <div class="text-center mt-1">
           <v-fade-transition>
-                <span v-if="donationGoal && donationGoal.currency" class="subtitle-1">
+                <span v-if="donationGoal && donationGoal.currency" class="text-subtitle-1">
         {{ utils.formatDecimal(donationGoal.current) }}{{donationGoal.currency.symbol}}
         / {{ utils.formatDecimal(donationGoal.goal) }}{{donationGoal.currency.symbol}}
         {{ $t('_shop.labels.perMonth') }}</span>

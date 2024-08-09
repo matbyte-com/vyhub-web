@@ -7,8 +7,8 @@
     style="z-index: 200;"
     :fullscreen="$vuetify.breakpoint.xsOnly">
     <v-card :class="{ 'card-rounded' : !$vuetify.breakpoint.xsOnly }">
-      <v-card-title class="primary white--text">
-        <v-icon :if="icon != null" left color="white">{{ icon }}</v-icon>
+      <v-card-title class="bg-primary text-white">
+        <v-icon :if="icon != null" start color="white">{{ icon }}</v-icon>
         <span>{{ title }}</span>
         <v-spacer />
         <v-icon color="white" @click="cancel">mdi-close</v-icon>

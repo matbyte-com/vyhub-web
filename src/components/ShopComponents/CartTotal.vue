@@ -42,7 +42,7 @@
     </v-row>
     <v-row v-if="price.tax_info">
       <v-col>
-        <div class="font-italic body-2 text-center" v-if="price.tax_info">
+        <div class="font-italic text-body-2 text-center" v-if="price.tax_info">
           {{ price.tax_info }}
         </div>
       </v-col>

@@ -4,9 +4,9 @@
                      :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
         <template v-slot:end>
           <div class="text-right">
-            <v-btn depressed v-if="$checkProp('edit_team')" color="success" small
+            <v-btn variant="flat" v-if="$checkProp('edit_team')" color="success" size="small"
                    @click="showEditDialog">
-              <v-icon left>mdi-pencil</v-icon>
+              <v-icon start>mdi-pencil</v-icon>
               {{ $t('edit') }}
             </v-btn>
           </div>
@@ -17,7 +17,7 @@
            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
       <v-tabs v-model="tab">
         <v-tab v-for="bundle in serverbundles" :key="bundle.id">
-          <v-icon left :color="bundle.color">
+          <v-icon start :color="bundle.color">
             {{ bundle.icon }}
           </v-icon>
           <span :style="`color: ${bundle.color}`">
@@ -29,7 +29,7 @@
     <v-row v-for="group in getCurrentTabGroups" :key="group.id" class="justify-center mt-10 mb-3">
 
       <v-col class="text-center" cols="12">
-        <v-chip :color="group.color ? group.color : '#000000'" large
+        <v-chip :color="group.color ? group.color : '#000000'" size="large"
                 :text-color="$vuetify.theme.dark ? 'black' : 'white'" label>
           <h2 class="display-h5">{{ group.name }}</h2>
         </v-chip>

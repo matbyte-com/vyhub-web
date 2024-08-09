@@ -15,14 +15,14 @@ export default {
     },
     begin: {
       type: 'string',
-      title: i18n.t('begin'),
-      description: i18n.t('_reward.labels.packetSyncLimitDescription'),
+      title: i18n.global.t('begin'),
+      description: i18n.global.t('_reward.labels.packetSyncLimitDescription'),
       format: 'date-time',
     },
     end: {
       type: 'string',
-      title: i18n.t('end'),
-      description: i18n.t('_reward.labels.packetSyncLimitDescription'),
+      title: i18n.global.t('end'),
+      description: i18n.global.t('_reward.labels.packetSyncLimitDescription'),
       format: 'date-time',
     },
   },

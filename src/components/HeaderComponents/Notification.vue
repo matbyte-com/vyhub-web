@@ -1,20 +1,20 @@
 <template>
   <div class="text-center">
     <v-menu
-      @input="newMessages = false"
+      @update:model-value="newMessages = false"
       open-on-hover
       offset-y>
-      <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator="{ props }">
         <v-badge color="warning"
-                 :value="newMessages"
+                 :model-value="newMessages"
                  dot
                  transition="fade-transition"
                  offset-x="10px"
                  offset-y="10px">
           <v-btn icon
                  style="min-width: 30px; width: 34px; height: 34px"
-                 v-bind="attrs"
-                 v-on="on">
+                
+                 v-bind="props">
             <v-icon>
               mdi-bell-outline
             </v-icon>
@@ -22,7 +22,7 @@
         </v-badge>
       </template>
       <v-card min-width="150px">
-        <v-list dense max-height="300px" class="overflow-y-auto">
+        <v-list density="compact" max-height="300px" class="overflow-y-auto">
           <v-list-item v-if="notifications.length===0">
             <v-list-item-title>
               {{ $t('_notification.noNotification') }}
@@ -44,10 +44,10 @@
         </v-list>
         <v-divider />
         <v-card-actions>
-          <v-btn color="primary" small outlined to="/notification" class="mr-5">
+          <v-btn color="primary" size="small" variant="outlined" to="/notification" class="mr-5">
             {{ $t('_notification.viewAll') }}
           </v-btn>
-          <v-btn x-small outlined @click="requestPermission" v-if="reqNotificationButton">
+          <v-btn size="x-small" variant="outlined" @click="requestPermission" v-if="reqNotificationButton">
             {{ $t('_notification.browserNotifications') }}
           </v-btn>
         </v-card-actions>

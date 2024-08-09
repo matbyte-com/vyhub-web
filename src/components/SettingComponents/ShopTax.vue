@@ -10,8 +10,8 @@
       :sort-by="['country']"
       :showSearch="true">
       <template v-slot:footer-right>
-        <v-btn outlined color="success" @click="$refs.createTaxRuleDialog.show()">
-          <v-icon left>mdi-plus</v-icon>
+        <v-btn variant="outlined" color="success" @click="$refs.createTaxRuleDialog.show()">
+          <v-icon start>mdi-plus</v-icon>
           <span>{{ $t('_taxRule.labels.create') }}</span>
         </v-btn>
       </template>
@@ -24,7 +24,7 @@
         </div>
         <div v-else>
           <v-chip color="primary">
-            <v-icon left>mdi-earth</v-icon>
+            <v-icon start>mdi-earth</v-icon>
             {{ $t('all') }}
           </v-chip>
         </div>
@@ -34,7 +34,7 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
-          <v-btn outlined color="error" small @click="$refs.deleteTaxRuleDialog.show(item)">
+          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteTaxRuleDialog.show(item)">
             <v-icon>
               mdi-delete
             </v-icon>

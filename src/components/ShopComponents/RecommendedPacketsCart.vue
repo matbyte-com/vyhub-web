@@ -18,7 +18,7 @@
               <div class="d-flex flex-column" style="height: 100%;">
                 <v-row justify="center" align="center"
                        style="height: 100%; text-shadow: #000000 2px 2px 2px;"
-                       class="white--text text-h6 text-center title-in-image ml-1 mr-1"
+                       class="text-white text-h6 text-center title-in-image ml-1 mr-1"
                        v-if="p.title_in_image">
                   {{ p.title_in_image }}
                 </v-row>
@@ -37,7 +37,7 @@
                   {{ p.currency.symbol }}
                 </span>
                 <v-spacer v-if="p.price_with_discount.total !== p.price_without_discount.total"/>
-                <span class="primary--text" style="font-size: large">
+                <span class="text-primary" style="font-size: large">
                   {{ p.price_with_discount.total
                         .toLocaleString(undefined, {minimumFractionDigits: 2})}}
                   {{ p.currency.symbol }}

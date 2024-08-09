@@ -19,7 +19,7 @@
                     $store.getters.user &&
                     $store.getters.user.id === comment.creator_id) ||
                     ($checkProp(`${type}_comment_delete`))"
-                             outlined color="error" small
+                             variant="outlined" color="error" size="small"
                              @click="$refs.commentDeleteConfirm.show(comment)">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
@@ -29,8 +29,8 @@
           </v-list-item>
         </template>
         <template v-slot:footer-left v-if="!noAddBtn">
-          <v-btn outlined color="success" @click="$refs.commentAddDialog.show()">
-            <v-icon left>mdi-comment-plus</v-icon>
+          <v-btn variant="outlined" color="success" @click="$refs.commentAddDialog.show()">
+            <v-icon start>mdi-comment-plus</v-icon>
             {{ $t('comment') }}
           </v-btn>
         </template>

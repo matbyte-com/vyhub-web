@@ -14,7 +14,7 @@
         <template v-slot:item.name="{ item }">
           <v-chip :color="item.color ? item.color : '#000000'"
                   :text-color="$vuetify.theme.dark ? 'white' : 'black'"
-                  outlined>
+                  variant="outlined">
             {{ item.name }}
           </v-chip>
         </template>
@@ -22,21 +22,21 @@
           <div class="pa-1">
             <v-expansion-panels v-if="Object.keys(item.properties).length > 5" flat>
               <v-expansion-panel>
-                <v-expansion-panel-header>
+                <v-expansion-panel-title>
                   {{ $t('properties') }}
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-chip v-for="(prop, index) in item.properties" :key="index" small
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                  <v-chip v-for="(prop, index) in item.properties" :key="index" size="small"
                           :color="prop.granted ? 'success' : 'error'" class="mr-1 mb-1 mt-1">
                     {{ prop.name }}
                     <span v-if="prop.value !== null">
                     : {{ prop.value }}
                   </span>
                   </v-chip>
-                </v-expansion-panel-content>
+                </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>
-            <v-chip v-else v-for="(prop, index) in item.properties" :key="index" small
+            <v-chip v-else v-for="(prop, index) in item.properties" :key="index" size="small"
                     :color="prop.granted ? 'success' : 'error'" class="mr-1 mb-1">
               {{ prop.name }}
               <span v-if="prop.value !== null">
@@ -47,24 +47,24 @@
         </template>
         <template v-slot:item.actions="{ item }">
           <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.lgAndDown }">
-            <v-btn icon color="secondary" small @click="copyGroup(item)" class="mr-xl-1 mt-xl-0">
-              <v-icon small>
+            <v-btn icon color="secondary" size="small" @click="copyGroup(item)" class="mr-xl-1 mt-xl-0">
+              <v-icon size="small">
                 mdi-content-copy
               </v-icon>
             </v-btn>
-            <v-btn outlined color="success" small
+            <v-btn variant="outlined" color="success" size="small"
                    @click="openShowMemberDialog(item)" class="mr-xl-1 mt-1 mt-xl-0">
               <v-icon>
                 mdi-account-group
               </v-icon>
             </v-btn>
-            <v-btn outlined color="primary" small
+            <v-btn variant="outlined" color="primary" size="small"
                    @click="openEditGroupDialog(item)" class="mr-xl-1 mt-1 mt-xl-0">
               <v-icon>
                 mdi-pencil
               </v-icon>
             </v-btn>
-            <v-btn outlined color="error" small @click="openDeleteGroupDialog(item)"
+            <v-btn variant="outlined" color="error" size="small" @click="openDeleteGroupDialog(item)"
                    class="mt-1 mt-xl-0">
               <v-icon>
                 mdi-delete
@@ -73,9 +73,9 @@
           </div>
         </template>
         <template v-slot:footer-right>
-          <v-btn color="success" @click="$refs.addGroupDialog.show()" outlined
+          <v-btn color="success" @click="$refs.addGroupDialog.show()" variant="outlined"
                  :class="{ 'glow-effect':utils.customerJourneyActive('add-group') }">
-            <v-icon left>mdi-plus</v-icon>
+            <v-icon start>mdi-plus</v-icon>
             <span>{{ $t('_settings.labels.addGroup') }}</span>
           </v-btn>
         </template>
@@ -112,7 +112,7 @@
           : '∞') }}
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-btn outlined color="primary" small @click="openEditMembershipDialog(item)">
+          <v-btn variant="outlined" color="primary" size="small" @click="openEditMembershipDialog(item)">
             <v-icon>
               mdi-pencil
             </v-icon>

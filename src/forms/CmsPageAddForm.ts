@@ -7,7 +7,7 @@ export default {
   properties: {
     title: {
       type: 'string',
-      title: i18n.t('title'),
+      title: i18n.global.t('title'),
     },
     requirement_set_id: {
       ...Common.requirementSetSelectField,
@@ -15,7 +15,7 @@ export default {
     },
     wrapper: {
       type: 'boolean',
-      title: i18n.t('wrapper'),
+      title: i18n.global.t('wrapper'),
       'x-display': 'switch',
     },
   },

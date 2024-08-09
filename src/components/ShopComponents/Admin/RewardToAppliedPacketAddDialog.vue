@@ -10,10 +10,10 @@
              :form-schema="appliedRewardSyncSchema" @submit="syncAppliedRewards"/>
     <template v-slot:actions v-if="amount_to_add != null">
       <v-btn class="mr-4" @click="syncAppliedRewards"
-             depressed color="primary" type="submit">
+             variant="flat" color="primary" type="submit">
         {{ $t('submit') }}
       </v-btn>
-      <v-btn color="lighten-5" depressed @click="amount_to_add = null">
+      <v-btn color="lighten-5" variant="flat" @click="amount_to_add = null">
         {{ $t('back') }}
       </v-btn>
     </template>

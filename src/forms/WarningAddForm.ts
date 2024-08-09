@@ -8,7 +8,7 @@ export default {
     user: Common.userSelectField,
     reason: {
       type: 'string',
-      title: i18n.t('_warning.reason'),
+      title: i18n.global.t('_warning.reason'),
     },
     serverbundle: Common.serverbundleSelectField,
   },

@@ -6,24 +6,24 @@ export default {
   properties: {
     time_to_live: {
       type: 'integer',
-      title: i18n.t('_warning.ttl'),
+      title: i18n.global.t('_warning.ttl'),
       'x-props': {
-        placeholder: i18n.t('_warning.ttlPlaceholder'),
+        placeholder: i18n.global.t('_warning.ttlPlaceholder'),
       },
-      description: i18n.t('_warning.ttlDescription'),
+      description: i18n.global.t('_warning.ttlDescription'),
     },
     count_till_ban: {
       type: 'integer',
-      title: i18n.t('_warning.countTillBan'),
+      title: i18n.global.t('_warning.countTillBan'),
       minimum: 0,
-      description: i18n.t('_warning.countTillBanDesc'),
+      description: i18n.global.t('_warning.countTillBanDesc'),
     },
     ban_length: {
       type: 'integer',
       'x-props': {
-        placeholder: i18n.t('_ban.labels.lengthInMinutes'),
+        placeholder: i18n.global.t('_ban.labels.lengthInMinutes'),
       },
-      title: i18n.t('_warning.banLength'),
+      title: i18n.global.t('_warning.banLength'),
       minimum: 1,
     },
   },

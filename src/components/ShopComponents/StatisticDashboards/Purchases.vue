@@ -4,12 +4,12 @@
       <v-col v-if="purchaseCountIntervalItems != null" cols="12" lg="6">
         <v-card class="mt-6">
           <v-card-title>
-            <v-icon left>mdi-counter</v-icon>
+            <v-icon start>mdi-counter</v-icon>
             {{ $t('_purchases.labels.salesCount') }}
             <v-spacer></v-spacer>
-            <v-select hide-details dense outlined v-model="selectedInterval"
+            <v-select hide-details density="compact" variant="outlined" v-model="selectedInterval"
                       style="z-index: 20"
-                      :items="intervalItems" item-text="name" item-value="value"></v-select>
+                      :items="intervalItems" item-title="name" item-value="value"></v-select>
           </v-card-title>
           <v-card-text>
             <PurchaseNumberChart :data="purchaseCountIntervalItems"></PurchaseNumberChart>
@@ -19,7 +19,7 @@
       <v-col v-if="heatmapItems != null" cols="12" lg="6">
         <v-card class="mt-6">
           <v-card-title>
-            <v-icon left>mdi-counter</v-icon>
+            <v-icon start>mdi-counter</v-icon>
             {{ $t('_purchases.labels.salesCount') }}
           </v-card-title>
           <v-card-text>

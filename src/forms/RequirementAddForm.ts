@@ -26,19 +26,19 @@ const types: ITypes = {
 };
 
 const operators: IOperators = {
-  EQ: { const: 'EQ', title: i18n.t('_requirement.operators.EQ').toString(), icon: 'mdi-equal' },
-  NEQ: { const: 'NEQ', title: i18n.t('_requirement.operators.NEQ').toString(), icon: 'mdi-not-equal' },
-  GEQ: { const: 'GEQ', title: i18n.t('_requirement.operators.GEQ').toString(), icon: 'mdi-greater-than-or-equal' },
-  LEQ: { const: 'LEQ', title: i18n.t('_requirement.operators.LEQ').toString(), icon: 'mdi-less-than-or-equal' },
-  LT: { const: 'LT', title: i18n.t('_requirement.operators.LT').toString(), icon: 'mdi-less-than' },
-  GT: { const: 'GT', title: i18n.t('_requirement.operators.GT').toString(), icon: 'mdi-greater-than' },
-  ACTIVE: { const: 'ACTIVE', title: i18n.t('_requirement.operators.ACTIVE').toString(), icon: 'mdi-gift-open' },
-  INACTIVE: { const: 'INACTIVE', title: i18n.t('_requirement.operators.INACTIVE').toString(), icon: 'mdi-gift' },
-  NEVER_ACTIVE: { const: 'NEVER_ACTIVE', title: i18n.t('_requirement.operators.NEVER_ACTIVE').toString(), icon: 'mdi-gift-off' },
-  ONLY_ACTIVE: { const: 'ONLY_ACTIVE', title: i18n.t('_requirement.operators.ONLY_ACTIVE').toString(), icon: 'mdi-gift-open-outline' },
-  ONLY_INACTIVE: { const: 'ONLY_INACTIVE', title: i18n.t('_requirement.operators.ONLY_INACTIVE').toString(), icon: 'mdi-gift-outline' },
-  HAVE: { const: 'HAVE', title: i18n.t('_requirement.operators.HAVE').toString(), icon: 'mdi-check' },
-  NHAVE: { const: 'NHAVE', title: i18n.t('_requirement.operators.NHAVE').toString(), icon: 'mdi-close' },
+  EQ: { const: 'EQ', title: i18n.global.t('_requirement.operators.EQ').toString(), icon: 'mdi-equal' },
+  NEQ: { const: 'NEQ', title: i18n.global.t('_requirement.operators.NEQ').toString(), icon: 'mdi-not-equal' },
+  GEQ: { const: 'GEQ', title: i18n.global.t('_requirement.operators.GEQ').toString(), icon: 'mdi-greater-than-or-equal' },
+  LEQ: { const: 'LEQ', title: i18n.global.t('_requirement.operators.LEQ').toString(), icon: 'mdi-less-than-or-equal' },
+  LT: { const: 'LT', title: i18n.global.t('_requirement.operators.LT').toString(), icon: 'mdi-less-than' },
+  GT: { const: 'GT', title: i18n.global.t('_requirement.operators.GT').toString(), icon: 'mdi-greater-than' },
+  ACTIVE: { const: 'ACTIVE', title: i18n.global.t('_requirement.operators.ACTIVE').toString(), icon: 'mdi-gift-open' },
+  INACTIVE: { const: 'INACTIVE', title: i18n.global.t('_requirement.operators.INACTIVE').toString(), icon: 'mdi-gift' },
+  NEVER_ACTIVE: { const: 'NEVER_ACTIVE', title: i18n.global.t('_requirement.operators.NEVER_ACTIVE').toString(), icon: 'mdi-gift-off' },
+  ONLY_ACTIVE: { const: 'ONLY_ACTIVE', title: i18n.global.t('_requirement.operators.ONLY_ACTIVE').toString(), icon: 'mdi-gift-open-outline' },
+  ONLY_INACTIVE: { const: 'ONLY_INACTIVE', title: i18n.global.t('_requirement.operators.ONLY_INACTIVE').toString(), icon: 'mdi-gift-outline' },
+  HAVE: { const: 'HAVE', title: i18n.global.t('_requirement.operators.HAVE').toString(), icon: 'mdi-check' },
+  NHAVE: { const: 'NHAVE', title: i18n.global.t('_requirement.operators.NHAVE').toString(), icon: 'mdi-close' },
 };
 
 function checkIfTypeSB(requirementType: string) {
@@ -57,7 +57,7 @@ function requirementTypeField(requirementType: string) {
     properties = {
       operator: {
         type: 'string',
-        title: i18n.t('_requirement.requirementOperator'),
+        title: i18n.global.t('_requirement.requirementOperator'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         oneOf: [
@@ -72,7 +72,7 @@ function requirementTypeField(requirementType: string) {
     properties = {
       operator: {
         type: 'string',
-        title: i18n.t('_requirement.requirementOperator'),
+        title: i18n.global.t('_requirement.requirementOperator'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         oneOf: [
@@ -87,7 +87,7 @@ function requirementTypeField(requirementType: string) {
       key: checkIfTypeSB(requirementType),
       value: {
         type: 'integer',
-        title: i18n.t('_requirement.permissionLevel'),
+        title: i18n.global.t('_requirement.permissionLevel'),
         minimum: 0,
         maximum: 100,
       },
@@ -97,7 +97,7 @@ function requirementTypeField(requirementType: string) {
     properties = {
       operator: {
         type: 'string',
-        title: i18n.t('_requirement.requirementOperator'),
+        title: i18n.global.t('_requirement.requirementOperator'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         oneOf: [
@@ -108,7 +108,7 @@ function requirementTypeField(requirementType: string) {
       key: checkIfTypeSB(requirementType),
       value: {
         type: 'string',
-        title: i18n.t('_requirement.propertyName'),
+        title: i18n.global.t('_requirement.propertyName'),
       },
     };
   } else if (requirementType === 'USER_ATTRIBUTE') {
@@ -116,7 +116,7 @@ function requirementTypeField(requirementType: string) {
     properties = {
       operator: {
         type: 'string',
-        title: i18n.t('_requirement.requirementOperator'),
+        title: i18n.global.t('_requirement.requirementOperator'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         oneOf: [
@@ -130,11 +130,11 @@ function requirementTypeField(requirementType: string) {
       },
       key: {
         type: 'string',
-        title: i18n.t('_requirement.attributeName'),
+        title: i18n.global.t('_requirement.attributeName'),
       },
       value: {
         type: 'string',
-        title: i18n.t('_requirement.attributeValue'),
+        title: i18n.global.t('_requirement.attributeValue'),
       },
     };
   } else if (requirementType === 'PACKET') {
@@ -142,7 +142,7 @@ function requirementTypeField(requirementType: string) {
     properties = {
       operator: {
         type: 'string',
-        title: i18n.t('_requirement.requirementOperator'),
+        title: i18n.global.t('_requirement.requirementOperator'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         oneOf: [
@@ -160,7 +160,7 @@ function requirementTypeField(requirementType: string) {
     properties = {
       operator: {
         type: 'string',
-        title: i18n.t('_requirement.requirementOperator'),
+        title: i18n.global.t('_requirement.requirementOperator'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         oneOf: [
@@ -174,7 +174,7 @@ function requirementTypeField(requirementType: string) {
       },
       value: {
         type: 'string',
-        title: i18n.t('_requirement.date'),
+        title: i18n.global.t('_requirement.date'),
         format: 'date-time',
       },
     };
@@ -183,7 +183,7 @@ function requirementTypeField(requirementType: string) {
     properties = {
       operator: {
         type: 'string',
-        title: i18n.t('_requirement.requirementOperator'),
+        title: i18n.global.t('_requirement.requirementOperator'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         oneOf: [
@@ -210,7 +210,7 @@ function returnForm() {
   const oneOf: { properties: object }[] = [];
   Object.entries(types).forEach(([key, value]) => {
     const reqType = {
-      title: i18n.t(`_requirement.types.${key}`),
+      title: i18n.global.t(`_requirement.types.${key}`),
       icon: value.icon.toString(),
       ...requirementTypeField(key),
     };
@@ -225,7 +225,7 @@ function returnForm() {
     properties: {
       type: {
         type: 'object',
-        title: i18n.t('_requirement.requirementType'),
+        title: i18n.global.t('_requirement.requirementType'),
         'x-display': 'icon',
         'x-itemIcon': 'icon',
         oneOf,

@@ -10,12 +10,12 @@ export default {
     start: {
       type: 'string',
       format: 'date',
-      title: i18n.t('start'),
+      title: i18n.global.t('start'),
     },
     end: {
       type: 'string',
       format: 'date',
-      title: i18n.t('end'),
+      title: i18n.global.t('end'),
     },
   },
 };

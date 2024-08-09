@@ -12,14 +12,14 @@
           <v-row>
             <v-col class="d-flex align-center">
               <v-menu offset-y :close-on-content-click="false">
-                <template v-slot:activator="{ on, attrs }">
+                <template v-slot:activator="{ props }">
                   <v-btn
-                    outlined
+                    variant="outlined"
                     color="primary"
-                    v-bind="attrs"
-                    v-on="on"
+                   
+                    v-bind="props"
                   >
-                    <v-icon left>
+                    <v-icon start>
                       mdi-filter
                     </v-icon>
                     {{ $t('status') }}
@@ -34,7 +34,7 @@
                   v-model="selectedStatus"
                   :label="$t(`_shop.purchaseStatus.${st.toLowerCase()}`)"
                   :value="st"
-                  @change="newStatus"
+                  @update:model-value="newStatus"
                 ></v-checkbox>
                 <a class="ma-1" @click="selectedStatus = []; fetchData()">
                   {{ $t('reset') }}</a>
@@ -71,9 +71,9 @@
           </span>
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-btn depressed small color="error"
+          <v-btn variant="flat" size="small" color="error"
                  @click="showDetails(item)">
-            <v-icon left>
+            <v-icon start>
               mdi-eye
             </v-icon>
             {{ $t('details') }}
@@ -93,66 +93,66 @@
                 <div class="text-h6 mt-3">
                   {{ $t('details') }}
                 </div>
-                <v-list dense>
+                <v-list density="compact">
                   <v-list-item>
-                    <v-list-item-content>
+                    
                       {{ $t('id') }}
-                    </v-list-item-content>
-                    <v-list-item-content>
+                    
+                    
                       {{ currentPurchase.id }}
-                    </v-list-item-content>
+                    
                   </v-list-item>
                   <v-list-item>
-                    <v-list-item-content>
+                    
                       {{ $t('user') }}
-                    </v-list-item-content>
-                    <v-list-item-content>
+                    
+                    
                       <span><UserLink :user="currentPurchase.user"></UserLink></span>
-                    </v-list-item-content>
+                    
                   </v-list-item>
                   <v-list-item>
-                    <v-list-item-content>
+                    
                       {{ $t('date') }}
-                    </v-list-item-content>
-                    <v-list-item-content>
+                    
+                    
                       {{ new Date(currentPurchase.date).toLocaleString() }}
-                    </v-list-item-content>
+                    
                   </v-list-item>
                   <v-list-item>
-                    <v-list-item-content>
+                    
                       {{ $t('status') }}
-                    </v-list-item-content>
-                    <v-list-item-content>
+                    
+                    
                       <PurchaseStatusChip :status="currentPurchase.status"></PurchaseStatusChip>
-                    </v-list-item-content>
+                    
                   </v-list-item>
                   <v-list-item v-if="currentPurchase.credits_used">
-                    <v-list-item-content>
+                    
                       {{ $store.getters.shopConfig.credits_display_title }}
-                    </v-list-item-content>
-                    <v-list-item-content>
+                    
+                    
                       {{ currentPurchase.credits }}
-                    </v-list-item-content>
+                    
                   </v-list-item>
                   <v-list-item v-if="!currentPurchase.credits_used">
-                    <v-list-item-content>
+                    
                       {{ $t('_purchases.labels.amountNet') }}
-                    </v-list-item-content>
-                    <v-list-item-content>
+                    
+                    
                       {{ currentPurchase.amount_net
                       .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                       {{ currentPurchase.currency.symbol }}
-                    </v-list-item-content>
+                    
                   </v-list-item>
                   <v-list-item v-if="!currentPurchase.credits_used">
-                    <v-list-item-content>
+                    
                       {{ $t('_purchases.labels.amountTotal') }}
-                    </v-list-item-content>
-                    <v-list-item-content>
+                    
+                    
                       {{ currentPurchase.amount_total
                       .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                       {{ currentPurchase.currency.symbol }}
-                    </v-list-item-content>
+                    
                   </v-list-item>
                 </v-list>
               </v-col>
@@ -165,7 +165,7 @@
                 </div>
 
                 <div>
-                  <v-simple-table>
+                  <v-table>
                     <template>
                       <thead>
                         <tr>
@@ -200,7 +200,7 @@
                             {{ $store.getters.shopConfig.credits_display_title }}
                           </td>
                           <td>
-                            <v-chip v-if="cp.discount != null" color="info" small>
+                            <v-chip v-if="cp.discount != null" color="info" size="small">
                               -{{ cp.discount.percentage }}% {{ cp.discount.name }}
                             </v-chip>
                             <div v-else>
@@ -210,7 +210,7 @@
                         </tr>
                       </tbody>
                     </template>
-                  </v-simple-table>
+                  </v-table>
                 </div>
               </v-col>
             </v-row>
@@ -220,7 +220,7 @@
                 <div class="text-h6">
                   {{ $t('payments') }}
                 </div>
-                <v-simple-table>
+                <v-table>
                   <template>
                     <thead>
                     <tr>
@@ -260,7 +260,7 @@
                         {{ $store.getters.shopConfig.credits_display_title }}
                       </td>
                       <td>
-                        <v-btn color="primary" outlined small :disabled="!debit.invoice_available"
+                        <v-btn color="primary" variant="outlined" size="small" :disabled="!debit.invoice_available"
                                @click="downloadInvoice(debit)">
                           <v-icon>
                             mdi-file-download
@@ -270,39 +270,39 @@
                     </tr>
                     </tbody>
                   </template>
-                </v-simple-table>
+                </v-table>
               </v-col>
             </v-row>
           </div>
         </template>
         <template v-slot:actions>
           <div v-if="currentPurchase != null && $checkProp('purchase_edit')">
-            <v-btn text color="green" @click="checkPurchase(currentPurchase)">
-              <v-icon left>mdi-credit-card-refresh</v-icon>
+            <v-btn variant="text" color="green" @click="checkPurchase(currentPurchase)">
+              <v-icon start>mdi-credit-card-refresh</v-icon>
               {{ $t('refresh') }}
             </v-btn>
-            <v-btn text color="error" @click="$refs.confirmSubCancelDialog.show(currentPurchase)"
+            <v-btn variant="text" color="error" @click="$refs.confirmSubCancelDialog.show(currentPurchase)"
                    v-if="currentPurchase.status === 'RECURRING'">
-              <v-icon left>mdi-cancel</v-icon>
+              <v-icon start>mdi-cancel</v-icon>
               {{ $t('_purchases.labels.cancelSubscription') }}
             </v-btn>
-            <v-btn text color="warning" @click="revokePurchase(currentPurchase)"
+            <v-btn variant="text" color="warning" @click="revokePurchase(currentPurchase)"
                    v-if="currentPurchase.status === 'FINISHED'">
-              <v-icon left>mdi-cancel</v-icon>
+              <v-icon start>mdi-cancel</v-icon>
               {{ $t('_purchases.labels.revoke') }}
             </v-btn>
-            <v-btn text color="warning" @click="unrevokePurchase(currentPurchase)"
+            <v-btn variant="text" color="warning" @click="unrevokePurchase(currentPurchase)"
                    v-if="currentPurchase.status === 'REVOKED'">
-              <v-icon left>mdi-check</v-icon>
+              <v-icon start>mdi-check</v-icon>
               {{ $t('_purchases.labels.unrevoke') }}
             </v-btn>
-            <v-btn text color="error" @click="$refs.confirmRefundDialog.show(currentPurchase)"
+            <v-btn variant="text" color="error" @click="$refs.confirmRefundDialog.show(currentPurchase)"
                    v-if="currentPurchase.refundable">
-              <v-icon left>mdi-cash-refund</v-icon>
+              <v-icon start>mdi-cash-refund</v-icon>
               {{ $t('_purchases.labels.refund') }}
             </v-btn>
-            <v-btn text color="error" @click="$refs.confirmDeleteDialog.show(currentPurchase)">
-              <v-icon left>mdi-delete</v-icon>
+            <v-btn variant="text" color="error" @click="$refs.confirmDeleteDialog.show(currentPurchase)">
+              <v-icon start>mdi-delete</v-icon>
               {{ $t('delete') }}
             </v-btn>
           </div>

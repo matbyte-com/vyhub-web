@@ -1,9 +1,9 @@
 <template>
   <v-menu offset-y>
-    <template v-slot:activator="{ on, attrs }">
-      <v-app-bar-nav-icon v-on="on" v-bind="attrs"></v-app-bar-nav-icon>
+    <template v-slot:activator="{ props }">
+      <v-app-bar-nav-icon v-bind="props"></v-app-bar-nav-icon>
     </template>
-    <v-list dense>
+    <v-list density="compact">
       <!-- render navlinks -->
       <div v-for="(navLink, index) in navLinks" :key="index">
         <ListItemLink :link="navLink"/>
@@ -11,7 +11,7 @@
       <!-- render helpMenu -->
       <v-list-group v-on:click.stop="">
         <template v-slot:activator>
-          <v-icon left>mdi-account-circle</v-icon>
+          <v-icon start>mdi-account-circle</v-icon>
           <v-list-item-title>{{$t('help')}}</v-list-item-title>
         </template>
         <div v-for="helpLink in helpLinks" :key="helpLink.id">
@@ -29,17 +29,17 @@
         <LinkAccountListItem />
         <v-list-item v-for="(menuLink, index) in menuLinks"
                      :key="index" :to="menuLink.link">
-          <v-icon left>{{ menuLink.icon }}</v-icon>
+          <v-icon start>{{ menuLink.icon }}</v-icon>
           <v-list-item-title>{{ $t(menuLink.title) }}</v-list-item-title>
         </v-list-item>
         <v-list-item @click="emitLogout">
-          <v-icon left>mdi-logout-variant</v-icon>
+          <v-icon start>mdi-logout-variant</v-icon>
           <v-list-item-title>{{ $t('_header.labels.logout') }}</v-list-item-title>
         </v-list-item>
       </div>
       <div v-else>
         <v-list-item @click="emitLogin">
-          <v-icon left>
+          <v-icon start>
             mdi-login
           </v-icon>
           <v-list-item-title>{{ $t('_header.labels.login') }}</v-list-item-title>

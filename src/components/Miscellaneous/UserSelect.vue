@@ -4,14 +4,14 @@
       v-model="selectedUser"
       :items="userOptions"
       item-value="id"
-      item-text="username"
+      item-title="username"
       item-icon="avatar"
       :loading="loadingUsers"
-      :search-input.sync="searchInput"
+      :search.sync="searchInput"
       :no-data-text="$t('noDataAvailable')"
       :menu-props="{ maxHeight: '200px' }"
       :debounce-search="300"
-      @update:search-input="fetchUsers"
+      @update:search="fetchUsers"
       label="User"/>
   </div>
 </template>

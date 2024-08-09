@@ -4,13 +4,13 @@
       <v-row class="align-center justify-space-between" dense>
         <v-col cols="12" lg="9">
           <v-menu offset-y style="z-index: 21" :close-on-content-click="false">
-            <template v-slot:activator="{ on, attrs }">
+            <template v-slot:activator="{ props }">
               <v-btn
-                outlined
+                variant="outlined"
                 :class="currentRangeBtn === 'range' ? 'v-btn--active' : ''"
                 color="primary"
-                v-bind="attrs"
-                v-on="on">
+               
+                v-bind="props">
                 {{ $t('_purchases.labels.range') }}
               </v-btn>
             </template>
@@ -19,17 +19,17 @@
               v-model="timeRange"
               :max="tomorrow.toISOString()" @change="currentRangeBtn = 'range'"/>
           </v-menu>
-          <v-btn outlined class="ml-1" :class="currentRangeBtn === 'allTime' ? 'v-btn--active' : ''"
+          <v-btn variant="outlined" class="ml-1" :class="currentRangeBtn === 'allTime' ? 'v-btn--active' : ''"
                  @click="timeRange = null; currentRangeBtn = 'allTime'">
             {{ $t('_purchases.labels.allTime') }}
           </v-btn>
-          <v-btn outlined class="ml-1"
+          <v-btn variant="outlined" class="ml-1"
                  :class="currentRangeBtn === 'thisYear' ? 'v-btn--active' : ''"
                  @click="timeRange = [firstOfThisYear.toISOString(), tomorrow.toISOString()];
                  currentRangeBtn = 'thisYear'">
             {{ $t('_purchases.labels.thisYear') }}
           </v-btn>
-          <v-btn outlined class="ml-1"
+          <v-btn variant="outlined" class="ml-1"
                  :class="currentRangeBtn === 'thisMonth' ? 'v-btn--active' : ''"
                  @click="timeRange = [firstOfThisMonth.toISOString(), tomorrow.toISOString()];
                  currentRangeBtn = 'thisMonth'">
@@ -37,13 +37,13 @@
           </v-btn>
         </v-col>
         <v-col cols="6" lg="3" class="d-flex align-center">
-          <v-select :items="dashboards" v-model="currentDashboard" hide-details outlined dense
-                    item-text="name" item-value="value"/>
-          <v-select item-text="name" item-value="code" :items="currencies"
+          <v-select :items="dashboards" v-model="currentDashboard" hide-details variant="outlined" density="compact"
+                    item-title="name" item-value="value"/>
+          <v-select item-title="name" item-value="code" :items="currencies"
                     v-model="currentCurrency"
                     hide-details class="ml-1"
-                    outlined
-                    dense
+                    variant="outlined"
+                    density="compact"
                     return-object/>
         </v-col>
       </v-row>

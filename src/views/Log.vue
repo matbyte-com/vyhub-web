@@ -13,7 +13,7 @@
               transition="scale-transition"
               offset-y
               min-width="auto">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-text-field
                   v-model="startDate"
                   :label="$t('start')"
@@ -21,8 +21,8 @@
                   hide-details
                   readonly
                   class="ml-3"
-                  v-bind="attrs"
-                  v-on="on"
+                 
+                  v-bind="props"
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -38,7 +38,7 @@
               transition="scale-transition"
               offset-y
               min-width="auto">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-text-field
                   v-model="startTime"
                   :label="$t('start')"
@@ -46,8 +46,8 @@
                   hide-details
                   readonly
                   class="ml-3"
-                  v-bind="attrs"
-                  v-on="on"
+                 
+                  v-bind="props"
                 ></v-text-field>
               </template>
               <v-time-picker
@@ -64,7 +64,7 @@
               transition="scale-transition"
               offset-y
               min-width="auto">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-text-field
                   class="ml-5"
                   v-model="endDate"
@@ -72,8 +72,8 @@
                   prepend-icon="mdi-calendar"
                   readonly
                   hide-details
-                  v-bind="attrs"
-                  v-on="on"
+                 
+                  v-bind="props"
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -89,7 +89,7 @@
               transition="scale-transition"
               offset-y
               min-width="auto">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-text-field
                   class="ml-3"
                   v-model="endTime"
@@ -97,8 +97,8 @@
                   prepend-icon="mdi-clock-time-four-outline"
                   hide-details
                   readonly
-                  v-bind="attrs"
-                  v-on="on"
+                 
+                  v-bind="props"
                 ></v-text-field>
               </template>
               <v-time-picker
@@ -110,14 +110,14 @@
           </v-col>
           <v-col cols="6" md="4" xl="2">
             <v-menu offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-btn
                   class="ml-3"
-                  outlined
+                  variant="outlined"
                   color="primary"
-                  v-bind="attrs"
-                  v-on="on">
-                  <v-icon left>
+                 
+                  v-bind="props">
+                  <v-icon start>
                     mdi-filter
                   </v-icon>
                   {{ $t('_log.labels.level') }}
@@ -136,14 +136,14 @@
               <a class="ma-1" @click="selectedSeverity = null;">{{ $t('reset') }}</a>
             </v-menu>
             <v-menu offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ props }">
                 <v-btn
                   class="ml-3"
-                  outlined
+                  variant="outlined"
                   color="primary"
-                  v-bind="attrs"
-                  v-on="on">
-                  <v-icon left>
+                 
+                  v-bind="props">
+                  <v-icon start>
                     mdi-filter
                   </v-icon>
                   {{ $t('category') }}
@@ -167,9 +167,9 @@
               v-model="search"
               :label="$t('search')"
               hide-details
-              outlined
+              variant="outlined"
               class="ml-3"
-              dense
+              density="compact"
               @change="fetchLogs">
               <template v-slot:prepend-inner>
                 <v-icon>
@@ -179,19 +179,19 @@
             </v-text-field>
           </v-col>
           <v-col cols="12" sm="6" md="4" xl="2" class="text-center">
-            <v-btn class="ml-3" outlined color="primary" icon
+            <v-btn class="ml-3" variant="outlined" color="primary" icon
                    @click="$refs.labelFilterDialog.show()">
               <v-icon>
                 mdi-filter-plus
               </v-icon>
             </v-btn>
-            <v-btn class="ml-3" outlined color="error" icon
+            <v-btn class="ml-3" variant="outlined" color="error" icon
                    @click="resetFilters" :disabled="Object.keys(this.filteredLabels).length === 0">
               <v-icon>
                 mdi-filter-off
               </v-icon>
             </v-btn>
-            <v-btn class="ml-3" outlined color="primary" icon
+            <v-btn class="ml-3" variant="outlined" color="primary" icon
                    @click="fetchData">
               <v-icon>
                 mdi-refresh
@@ -225,15 +225,15 @@
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
               <div class=" mt-3">
-                <span class="subtitle-1 mb-1">{{ $t('message') }}:</span>
+                <span class="text-subtitle-1 mb-1">{{ $t('message') }}:</span>
                 <div>{{ item.message }}</div>
               </div>
               <div class=" mt-3">
-                <span class="subtitle-1 mb-1">{{ $t('date') }}:</span>
+                <span class="text-subtitle-1 mb-1">{{ $t('date') }}:</span>
                 <div>{{ item.date }}</div>
               </div>
               <div class="my-2">
-                <span class="subtitle-1">{{ $t('labels') }}:</span>
+                <span class="text-subtitle-1">{{ $t('labels') }}:</span>
                 <br/>
                 <LogLabel :label="label" :value="value"
                           @click="selectedFilters = {}; selectedFilters[label] = value;"
@@ -252,9 +252,9 @@
             </div>
           </template>
           <template v-slot:item.severity="{ item }">
-            <v-tooltip left>
-              <template v-slot:activator="{ on, attrs }">
-                <div v-bind="attrs" v-on="on">
+            <v-tooltip location="left">
+              <template v-slot:activator="{ props }">
+                <div v-bind="props">
                   <v-icon color="info" v-if="item.severity === 'INFO'">mdi-information</v-icon>
                   <v-icon color="warning" v-if="item.severity === 'WARNING'">mdi-alert</v-icon>
                   <v-icon color="error" v-if="item.severity === 'ERROR'">mdi-alert-circle</v-icon>

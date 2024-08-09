@@ -7,9 +7,9 @@
                        :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
           <template v-slot:end>
             <div v-if="$checkProp('forum_edit')" class="d-flex flex-column">
-              <v-btn class="ml-auto" color="success" small depressed
+              <v-btn class="ml-auto" color="success" size="small" variant="flat"
                      @click="$refs.editTopicCategoriesDialog.show()">
-                <v-icon left>mdi-card-multiple</v-icon>
+                <v-icon start>mdi-card-multiple</v-icon>
                 <span>{{ $t('_forum.manageTopicCategories') }}</span>
               </v-btn>
             </div>
@@ -42,7 +42,7 @@
                 </template>
                 <div v-for="topic in category.topics" :key="topic.id" class="topic">
                   <v-divider style="border-width: 1px;"/>
-                  <v-list-item dense link :to="{ name: 'ForumTopic', params: { id: topic.id } }">
+                  <v-list-item density="compact" link :to="{ name: 'ForumTopic', params: { id: topic.id } }">
                     <v-list-item-content class="pa-0 ma-0">
                       <v-row no-gutters style="width: 100%">
                         <!-- Topic Title -->
@@ -69,16 +69,16 @@
                                class="d-flex align-center justify-end">
                             <div class="d-flex align-center mr-1"
                                  v-if="$vuetify.breakpoint.lgAndUp">
-                              <v-tooltip bottom>
-                                <template v-slot:activator="{ on }">
-                                  <v-icon class="ml-1 mr-1" v-on="on">mdi-comment-multiple</v-icon>
+                              <v-tooltip location="bottom">
+                                <template v-slot:activator="{ props }">
+                                  <v-icon class="ml-1 mr-1" v-bind="props">mdi-comment-multiple</v-icon>
                                 </template>
                                 <span> {{ $t('_forum.numberOfThreads') }} </span>
                               </v-tooltip>
                               {{ topic.threads_total }}
-                              <v-tooltip bottom>
-                                <template v-slot:activator="{ on }">
-                                  <v-icon class="ml-2 mr-1" v-on="on">mdi-comment</v-icon>
+                              <v-tooltip location="bottom">
+                                <template v-slot:activator="{ props }">
+                                  <v-icon class="ml-2 mr-1" v-bind="props">mdi-comment</v-icon>
                                 </template>
                                 <span> {{ $t('_forum.numberOfPosts') }} </span>
                               </v-tooltip>
@@ -154,26 +154,26 @@
           <draggable :list="topicCategories" @change="updateForumCategories = true"
                      style="width: 100%">
             <v-expansion-panel v-for="category in topicCategories" :key="category.id">
-              <v-expansion-panel-header>
+              <v-expansion-panel-title>
                 <!-- Topic Category -->
                 <div class="d-flex align-center">
                     {{ category.title }}
                   <v-spacer />
                   <v-btn class="mr-1" @click.stop="openTopicCategoryEditDialog(category)"
-                         color="primary" outlined small>
+                         color="primary" variant="outlined" size="small">
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
                   <v-btn
                     @click.stop="$refs.deleteTopicCategoryConfirmationDialog.show(category);
             $refs.deleteTopicCategoryConfirmationDialog.confirmationTextField = category.title;"
-                    color="red" class="mr-3" outlined small>
+                    color="red" class="mr-3" variant="outlined" size="small">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text>
                 <!-- Topic -->
-                <v-card outlined>
+                <v-card border>
                   <v-list v-if="selectedTopicCategory">
                     <draggable :list="selectedTopicCategory.topics"
                                @change="updateForumTopics = true">
@@ -185,13 +185,13 @@
                           <v-col class="text-right">
                             <v-btn class="mr-1"
                                    @click.stop="openTopicEditDialog(topic,selectedTopicCategory.id)"
-                                   color="primary" outlined x-small>
-                              <v-icon small>mdi-pencil</v-icon>
+                                   color="primary" variant="outlined" size="x-small">
+                              <v-icon size="small">mdi-pencil</v-icon>
                             </v-btn>
                             <v-btn @click.stop="$refs.deleteTopicConfirmationDialog.show(topic);
                 $refs.deleteTopicConfirmationDialog.confirmationTextField = topic.title;"
-                                   color="red" outlined x-small>
-                              <v-icon small>mdi-delete</v-icon>
+                                   color="red" variant="outlined" size="x-small">
+                              <v-icon size="small">mdi-delete</v-icon>
                             </v-btn>
                           </v-col>
                         </v-row>
@@ -200,38 +200,38 @@
                   </v-list>
                   <!-- Topic Actions -->
                   <div class="d-flex align-center justify-end pb-1 pr-4">
-                    <v-btn color="success" small outlined @click="openAddTopicDialog">
-                      <v-icon small>mdi-plus</v-icon>
+                    <v-btn color="success" size="small" variant="outlined" @click="openAddTopicDialog">
+                      <v-icon size="small">mdi-plus</v-icon>
                       {{ $t('_forum.addTopic') }}
                     </v-btn>
-                    <v-btn color="primary" small class="mr-0 ml-3" outlined
+                    <v-btn color="primary" size="small" class="mr-0 ml-3" variant="outlined"
                            style="border-top-right-radius: 0; border-bottom-right-radius: 0"
                            @click="updateTopicOrder()" :disabled="!updateForumTopics">
-                      <v-icon small>mdi-check</v-icon>
+                      <v-icon size="small">mdi-check</v-icon>
                     </v-btn>
-                    <v-btn color="primary" small class="ma-0" outlined
+                    <v-btn color="primary" size="small" class="ma-0" variant="outlined"
                            style="border-bottom-left-radius: 0; border-top-left-radius: 0"
                            @click="fetchData" :disabled="!updateForumTopics">
-                      <v-icon small>mdi-backspace-outline</v-icon>
+                      <v-icon size="small">mdi-backspace-outline</v-icon>
                     </v-btn>
                   </div>
                 </v-card>
-              </v-expansion-panel-content>
+              </v-expansion-panel-text>
             </v-expansion-panel>
           </draggable>
         </v-expansion-panels>
       <!-- Topic Category Actions -->
       <template v-slot:actions>
-        <v-btn outlined color="success" @click="$refs.addTopicCategoryDialog.show()">
+        <v-btn variant="outlined" color="success" @click="$refs.addTopicCategoryDialog.show()">
           <v-icon>mdi-plus</v-icon>
           {{ $t('_forum.addCategory') }}
         </v-btn>
-        <v-btn color="primary" outlined class="mr-0"
+        <v-btn color="primary" variant="outlined" class="mr-0"
                style="border-top-right-radius: 0; border-bottom-right-radius: 0"
                @click="updateCategoryOrder" :disabled="!updateForumCategories">
           <v-icon>mdi-check</v-icon>
         </v-btn>
-        <v-btn color="primary" outlined class="ma-0"
+        <v-btn color="primary" variant="outlined" class="ma-0"
                style="border-bottom-left-radius: 0; border-top-left-radius: 0"
                @click="fetchData" :disabled="!updateForumCategories">
           <v-icon>mdi-backspace-outline</v-icon>

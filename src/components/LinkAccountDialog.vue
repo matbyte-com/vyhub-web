@@ -2,7 +2,7 @@
   <div>
     <Dialog v-model="dialog" :max-width="400" icon="mdi-account-plus" :title="title"
             text-class="mb-0 pb-0" action-class="mt-0 pt-1">
-      <v-card outlined type="info" dense v-if="$store.getters.isLoggedIn || $route.query.shop"
+      <v-card border type="info" dense v-if="$store.getters.isLoggedIn || $route.query.shop"
               class="mt-3 description-card">
         <v-card-text>
           <v-row no-gutters>
@@ -11,10 +11,10 @@
               <span v-else>{{ $t('_user.userLoginShopDescription') }}</span>
             </v-col>
             <v-col class="d-flex align-center justify-end">
-              <v-icon v-if="$store.getters.isLoggedIn" color="secondary" large>
+              <v-icon v-if="$store.getters.isLoggedIn" color="secondary" size="large">
                 mdi-exclamation
               </v-icon>
-              <v-icon v-else color="secondary" large>mdi-information-outline</v-icon>
+              <v-icon v-else color="secondary" size="large">mdi-information-outline</v-icon>
             </v-col>
           </v-row>
         </v-card-text>
@@ -25,12 +25,12 @@
           <v-list-item-icon>
             <v-icon> {{ getIcon(backend.name) }} </v-icon>
           </v-list-item-icon>
-          <v-list-item-content>
+          
             <v-list-item-title>{{ $t(`_user.type.${backend.name}.name`) }}</v-list-item-title>
-            <div class="grey--text">
+            <div class="text-grey">
               {{ $t(`_user.type.${backend.name}.info`) }}
             </div>
-          </v-list-item-content>
+          
         </v-list-item>
       </v-list>
       <div v-if="backends == null" class="text-center mt-5">
@@ -40,14 +40,14 @@
       </div>
       <v-divider class="mt-1" v-if="!$route.query.shop"/>
       <template v-slot:actions>
-        <v-list class="pa-0 mt-0 ml-2 mr-2" style="width: 100%" dense v-if="!$route.query.shop">
+        <v-list class="pa-0 mt-0 ml-2 mr-2" style="width: 100%" density="compact" v-if="!$route.query.shop">
           <v-list-item @click="startAuth(backends.find((b) => b.type === 'CENTRAL'))">
             <v-list-item-icon>
               <v-icon>{{ getIcon('CENTRAL') }}</v-icon>
             </v-list-item-icon>
-            <v-list-item-content>
+            
               <v-list-item-title>{{ $t(`_user.type.CENTRAL.name`) }}</v-list-item-title>
-            </v-list-item-content>
+            
           </v-list-item>
         </v-list>
       </template>
@@ -59,7 +59,7 @@
           {{ $t('_user.labels.authRequestDescription', { type: authDialogType }) }}
         </div>
         <div v-if="authCommand != null" class="mt-2">
-          <v-text-field readonly :value="authCommand"
+          <v-text-field readonly :model-value="authCommand"
                         @focus="$event.target.select()" />
         </div>
         <div v-else class="mt-2">
@@ -79,7 +79,7 @@
         <div class="text-center my-5">
           {{  $t('_user.messages.linkAccountConfirm') }}
         </div>
-        <v-card class="mt-6 card-rounded" outlined>
+        <v-card class="mt-6 card-rounded" border>
           <v-card-text>
             <v-row>
               <v-col cols="12" md="6" class="text-center">

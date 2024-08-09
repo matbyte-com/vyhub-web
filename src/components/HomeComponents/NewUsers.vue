@@ -1,5 +1,5 @@
 <template>
-  <v-card class="vh-new-users card-rounded" flat :outlined="outlined">
+  <v-card class="vh-new-users card-rounded" flat :border="outlined">
     <v-card-title class="pb-0">
       <CardTitle icon="mdi-account-arrow-right" :title="$t('_user.labels.newUsers')"/>
     </v-card-title>
@@ -8,7 +8,7 @@
              :justify="$vuetify.breakpoint.smAndDown && newUsers.length !== 1 ? 'center' : 'start'">
         <v-col cols="4" md="6" lg="6" xl="3" v-for="u in newUsers" v-bind:key="u.id">
           <v-card
-            outlined
+            border
             class="vh-new-user-card"
             @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })">
             <v-img :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
@@ -21,7 +21,7 @@
       <div v-else class="d-flex justify-center" >
         <div style="width: 30%" v-for="u in newUsers.slice(0,3)" v-bind:key="u.id" class="mx-2">
           <v-card
-            outlined
+            border
             class="vh-new-user-card"
             @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })">
             <v-img :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />

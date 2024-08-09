@@ -5,8 +5,8 @@
       :items="discounts"
       :showSearch="true">
       <template v-slot:footer-right>
-        <v-btn outlined color="success" @click="$refs.createDiscountDialog.show()">
-          <v-icon left>mdi-plus</v-icon>
+        <v-btn variant="outlined" color="success" @click="$refs.createDiscountDialog.show()">
+          <v-icon start>mdi-plus</v-icon>
           <span>{{ $t('_discount.labels.create') }}</span>
         </v-btn>
       </template>
@@ -34,13 +34,13 @@
       </template>
       <template v-slot:item.code="{ item }">
         <div v-if="item.code == null">
-          <v-chip color="info"><v-icon left>mdi-reload</v-icon>{{ $t('automatic') }}</v-chip>
+          <v-chip color="info"><v-icon start>mdi-reload</v-icon>{{ $t('automatic') }}</v-chip>
         </div>
         <div v-else>{{ item.code }}</div>
       </template>
       <template v-slot:item.max_usages="{ item }">
         <span class="d-flex align-center">
-          <v-chip small class="mr-2" color="primary">
+          <v-chip size="small" class="mr-2" color="primary">
             {{ item.usages }}
             /
             &nbsp;
@@ -51,9 +51,9 @@
               ∞
             </span>
           </v-chip>
-          <v-chip v-if="item.max_usages_per_user" color="info" small>
+          <v-chip v-if="item.max_usages_per_user" color="info" size="small">
             {{ item.max_usages_per_user }} /
-            <v-icon small>
+            <v-icon size="small">
               mdi-account
             </v-icon>
           </v-chip>
@@ -61,12 +61,12 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
-          <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
+          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn outlined color="error" small @click="$refs.deleteDiscountDialog.show(item)">
+          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteDiscountDialog.show(item)">
             <v-icon>
               mdi-delete
             </v-icon>
@@ -84,13 +84,13 @@
       <template v-slot:code-after>
         <v-btn class="mb-4 higher"
                style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
-          outlined small color="secondary" @click="generateCode(true)">
-          <v-icon left>mdi-code-greater-than</v-icon>
+          variant="outlined" size="small" color="secondary" @click="generateCode(true)">
+          <v-icon start>mdi-code-greater-than</v-icon>
           <span>{{ $t('generate') }}</span>
         </v-btn>
         <v-btn class="mb-4 higher" style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
                :disabled="!hasNameAndPercentage"
-               outlined small color="secondary" @click="generateCode(false)">
+               variant="outlined" size="small" color="secondary" @click="generateCode(false)">
           <v-icon>mdi-code-greater-than-or-equal</v-icon>
         </v-btn>
       </template>
@@ -105,13 +105,13 @@
       <template v-slot:code-after>
         <v-btn class="mb-4 higher"
                style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
-               outlined small color="secondary" @click="generateCode(true)">
-          <v-icon left>mdi-code-greater-than</v-icon>
+               variant="outlined" size="small" color="secondary" @click="generateCode(true)">
+          <v-icon start>mdi-code-greater-than</v-icon>
           <span>{{ $t('generate') }}</span>
         </v-btn>
         <v-btn class="mb-4 higher" style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
                :disabled="!hasNameAndPercentage"
-               outlined small color="secondary" @click="generateCode(false)">
+               variant="outlined" size="small" color="secondary" @click="generateCode(false)">
           <v-icon>mdi-code-greater-than-or-equal</v-icon>
         </v-btn>
       </template>

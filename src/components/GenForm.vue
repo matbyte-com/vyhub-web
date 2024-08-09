@@ -12,7 +12,7 @@
         <v-col cols="12">
           <v-form ref="form" @submit.prevent="validateAndRun">
             <v-jsf v-model="formModel"
-                   :schema="formSchema"
+                   :schema="compatSchema"
                    :options="options"
                    @input="$emit('updated')"
                    :key="componentKey">
@@ -24,13 +24,13 @@
             <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
               <v-col cols="12" :class="`mt-${actionButtonTopMargin}`">
                 <v-btn v-if="submitText != null" class="mr-4"
-                       depressed color="primary" type="submit" :loading="loading">
+                       variant="flat" color="primary" type="submit" :loading="loading">
                   <span v-if="!settingsMode">{{ submitText }}</span>
                   <span v-else>{{ $t('save') }}</span>
                 </v-btn>
 
                 <v-btn v-if="cancelText != null && !settingsMode"
-                       color="lighten-5" depressed @click="cancelForm">
+                       color="lighten-5" variant="flat" @click="cancelForm">
                   {{ cancelText }}
                 </v-btn>
               </v-col>
@@ -44,8 +44,10 @@
 
 <script>
 import VJsf from '@koumoul/vjsf';
-import '@koumoul/vjsf/dist/main.css';
-import '@koumoul/vjsf/lib/deps/third-party';
+import { v2compat } from "@koumoul/vjsf/compat/v2";
+// import '@koumoul/vjsf/src/styles/vjsf.css'; // Maybe needed TODO
+// import '@koumoul/vjsf/dist/main.css';
+// import '@koumoul/vjsf/lib/deps/third-party';
 import axios from 'axios';
 import i18n from '../plugins/i18n';
 
@@ -151,6 +153,9 @@ export default {
         return this.optionsBase;
       }
       return { ...this.optionsBase, ...this.optionsExtra };
+    },
+    compatSchema() {
+      return v2compat(this.formSchema);
     },
   },
   /* watch: {

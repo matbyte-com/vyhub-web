@@ -15,7 +15,7 @@
               <PacketImage :packet="p" :alt="p.title">
                 <div class="d-flex flex-column ml-3 mr-3" style="height: 80px;">
                   <v-row align="center" justify="center" v-if="p.title_in_image"
-                         class="title-in-image text-center white--text text-h6"
+                         class="title-in-image text-center text-white text-h6"
                          style="text-shadow: #000000 2px 2px 2px;">
                     {{ p.title_in_image }}
                   </v-row>
@@ -32,7 +32,7 @@
                   {{ utils.formatDecimal(p.price_without_discount.total) }}
                 </span>
                 <v-spacer v-if="p.price_with_discount.total !== p.price_without_discount.total"/>
-                <span class="primary--text">
+                <span class="text-primary">
                   {{ p.price_with_discount.total
                             .toLocaleString(undefined, {minimumFractionDigits: 2})}}
                   {{ p.currency.symbol }}

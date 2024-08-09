@@ -10,7 +10,7 @@
           :key="index">
         </NavigationLink>
       </div>
-      <div class="footer py-4 text-center white--text" style="width: 100%">
+      <div class="footer py-4 text-center text-white" style="width: 100%">
         <strong>
           {{ new Date().getFullYear() }}
           <span v-if="$store.getters.generalConfig != null">
@@ -18,7 +18,7 @@
         </span>
           <span v-if="!removeBranding">
           —
-          <a class="text-decoration-none white--text" href="https://vyhub.net">
+          <a class="text-decoration-none text-white" href="https://vyhub.net">
             Powered by VyHub
           </a>
         </span>

@@ -4,8 +4,8 @@
       <PageTitleFlat :title="user.username" :no-bottom-border-radius="true">
         <template v-slot:end>
           <span class="d-flex justify-end mr-1" v-if="$checkAdmin()">
-            <v-btn icon @click="$refs.deleteDialog.show()" small outlined depressed>
-              <v-icon small>mdi-delete</v-icon>
+            <v-btn icon @click="$refs.deleteDialog.show()" size="small" variant="outlined" variant="flat">
+              <v-icon size="small">mdi-delete</v-icon>
             </v-btn>
           </span>
         </template>
@@ -14,18 +14,18 @@
         <v-card-text>
           <v-tabs v-model="activeTabIndex">
             <v-tab @click="switchTab('General')">
-              <v-icon left>mdi-gamepad</v-icon>
+              <v-icon start>mdi-gamepad</v-icon>
               General
             </v-tab>
             <v-tab @click="switchTab('Purchases')"
                    v-if="$store.getters.isLoggedIn &&
                (user.id === $store.getters.user.id || $checkProp('purchase_show'))">
-              <v-icon left>mdi-cart-check</v-icon>
+              <v-icon start>mdi-cart-check</v-icon>
               <span>{{ $t('purchases') }}</span>
             </v-tab>
             <v-tab v-for="bundle in getBundles" :key="bundle.id" :class="`vh-bundle-${bundle.id}`"
                    @click="switchTab('Bundle', bundle)">
-              <v-icon v-if="bundle.icon" left>{{ bundle.icon }}</v-icon>
+              <v-icon v-if="bundle.icon" start>{{ bundle.icon }}</v-icon>
               <span>{{ bundle.name }}</span>
             </v-tab>
           </v-tabs>
@@ -116,7 +116,7 @@ export default {
       // check if there is a user with the given id
       (await openapi).user_getUser(userId).then((rsp) => {
         this.user = rsp.data;
-        document.title = `${i18n.t('_pageTitle.dashboard')} ${this.user.username}`;
+        document.title = `${i18n.global.t('_pageTitle.dashboard')} ${this.user.username}`;
         if (this.user.type === 'CENTRAL') {
           this.$router.replace({ name: 'UserDashboard', params: { id: this.user.username }, query: this.$route.query });
         }

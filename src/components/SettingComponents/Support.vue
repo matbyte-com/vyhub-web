@@ -5,11 +5,11 @@
          class="pa-3 mt-2 pb-0">
         <v-row justify="center">
           <v-col cols="11" sm="6" md="4" v-for="m in supportMethods" :key="m.title">
-            <v-card outlined :href="m.link" target="_blank" height="100%" class="support-card">
+            <v-card border :href="m.link" target="_blank" height="100%" class="support-card">
               <div class="d-flex" style="height: 100%">
                 <div>
                   <v-card-title>
-                    <v-icon left>{{ m.icon }}</v-icon>
+                    <v-icon start>{{ m.icon }}</v-icon>
                     {{ m.title }}
                   </v-card-title>
                   <v-card-text>
@@ -26,18 +26,18 @@
           </v-col>
         </v-row>
       <v-card flat>
-        <v-textarea outlined hide-details="true" class="mt-3" v-model="supportMessage"
+        <v-textarea variant="outlined" hide-details="true" class="mt-3" v-model="supportMessage"
                     :label="$t('_support.supportQuestions')"/>
       </v-card>
         <div class="d-flex align-center">
           <v-switch v-model="supportAnswerYes" class="align-self-center"
                     :label="$t('_support.reply?')" />
           <v-card flat class="ml-3">
-            <v-text-field v-if="supportAnswerYes" dense outlined hide-details="true"
+            <v-text-field v-if="supportAnswerYes" density="compact" variant="outlined" hide-details="true"
                           v-model="supportMail" :label="$t('email')" style="max-width: 230px"/>
           </v-card>
           <v-spacer />
-          <v-btn depressed color="primary" @click="sendSupportRequest" :disabled="!supportMessage">
+          <v-btn variant="flat" color="primary" @click="sendSupportRequest" :disabled="!supportMessage">
             {{ $t('_support.send') }}
           </v-btn>
         </div>

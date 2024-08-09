@@ -9,16 +9,16 @@
       :items="gateways">
       <template v-slot:footer-right>
         <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn outlined color="success"
+          <template v-slot:activator="{ props }">
+            <v-btn variant="outlined" color="success"
                    :class="{ 'glow-effect':utils.customerJourneyActive('add-pm-gateway') }"
-                   v-bind="attrs"
-                   v-on="on">
-              <v-icon left>mdi-plus</v-icon>
+                  
+                   v-bind="props">
+              <v-icon start>mdi-plus</v-icon>
               <span>{{ $t('_gateway.labels.create') }}</span>
             </v-btn>
           </template>
-          <v-list dense>
+          <v-list density="compact">
             <v-list-item
               v-for="(typeData, typeName) in gatewayTypes"
               :key="typeName"
@@ -35,12 +35,12 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
-          <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
+          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn outlined color="error" small @click="$refs.deleteGatewayDialog.show(item)"
+          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteGatewayDialog.show(item)"
                  :disabled="!item.deletable">
             <v-icon>
               mdi-delete
@@ -97,7 +97,7 @@
                  ['STRIPE', 'PAYPAL'].includes(selectedGateway.type)">
         <v-text-field
           @focus="$event.target.select()"
-          :value="getWebhookUrl(selectedGateway)"
+          :model-value="getWebhookUrl(selectedGateway)"
           :label="$t('_gateway.labels.webhookURL')"
           readonly
         ></v-text-field>

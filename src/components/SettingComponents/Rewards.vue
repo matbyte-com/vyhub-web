@@ -8,19 +8,19 @@
       :items="rewards"
       :showSearch="true">
       <template v-slot:footer-right>
-        <v-btn outlined color="success" @click="$refs.createRewardDialog.show()"
+        <v-btn variant="outlined" color="success" @click="$refs.createRewardDialog.show()"
                style="border-bottom-right-radius: 0; border-top-right-radius: 0;"
                :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }">
-          <v-icon left>mdi-plus</v-icon>
+          <v-icon start>mdi-plus</v-icon>
           <span>{{ $t('_reward.labels.create') }}</span>
         </v-btn>
-        <v-btn outlined color="primary" @click="$refs.useTemplateDialog.show()"
+        <v-btn variant="outlined" color="primary" @click="$refs.useTemplateDialog.show()"
                style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
                :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }">
-          <v-icon left>mdi-bookshelf</v-icon>
+          <v-icon start>mdi-bookshelf</v-icon>
           <span>{{ $t('_reward.labels.templates') }}</span>
         </v-btn>
-        <v-btn class="ml-1" outlined color="success" @click="$refs.appliedRewardSyncDialog.show()"
+        <v-btn class="ml-1" variant="outlined" color="success" @click="$refs.appliedRewardSyncDialog.show()"
                v-if="$checkProp('applied_packet_edit')">
           <v-icon>mdi-sync</v-icon>
         </v-btn>
@@ -30,12 +30,12 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="text-right">
-          <v-btn outlined color="primary" small @click="showEditDialog(item)" class="mr-1">
+          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn outlined color="error" small @click="$refs.deleteRewardDialog.show(item)">
+          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteRewardDialog.show(item)">
             <v-icon>
               mdi-delete
             </v-icon>
@@ -53,12 +53,12 @@
       <template slot="allOf-0.serverbundle-after">
         <b>{{ $t('_reward.labels.checkForReplacements') }}:</b>
         <br/>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/gmod/" class="mr-2"><v-btn class="mb-1" depressed small>GMOD</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/minecraft/" class="mr-2"><v-btn class="mb-1" depressed small>Minecraft</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/rust/" class="mr-2"><v-btn class="mb-1" depressed small>Rust</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/7days/" class="mr-2"><v-btn class="mb-1" depressed small>7 Days to Die</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/asa/" class="mr-2"><v-btn class="mb-1" depressed small>Ark Ascended</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/fivem/" class="mr-2"><v-btn class="mb-1" depressed small>FiveM</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/gmod/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">GMOD</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/minecraft/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">Minecraft</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/rust/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">Rust</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/7days/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">7 Days to Die</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/asa/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">Ark Ascended</v-btn></a>
+        <a target="_blank" href="https://docs.vyhub.net/latest/game/fivem/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">FiveM</v-btn></a>
       </template>
     </DialogForm>
     <DialogForm

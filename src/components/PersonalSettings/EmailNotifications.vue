@@ -1,13 +1,13 @@
 <template>
   <v-card class="vh-email-notifications">
     <v-card-title>
-      <v-icon left>mdi-bell-badge</v-icon>
+      <v-icon start>mdi-bell-badge</v-icon>
       {{ $t('_personalSettings.emailNotifications') }}
     </v-card-title>
-    <v-card-text class="body-1">
+    <v-card-text class="text-body-1">
       <v-switch v-model="notificationSwitch"
                 :label="$t('_personalSettings.enableEmailNotifications')"
-                @change="updateSettings"/>
+                @update:model-value="updateSettings"/>
     </v-card-text>
   </v-card>
 </template>

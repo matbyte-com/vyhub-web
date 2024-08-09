@@ -2,11 +2,12 @@ module.exports = {
   root: true,
   env: {
     node: true,
+    es2022: true,
   },
   extends: [
     'plugin:vue/essential',
-    '@vue/airbnb',
-    '@vue/typescript/recommended',
+    'plugin:vue/base',
+    'plugin:vuetify/base'
   ],
   parserOptions: {
     ecmaVersion: 2020,
