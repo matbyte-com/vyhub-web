@@ -1,14 +1,12 @@
-import Vue from 'vue';
-import VueRouter, { RouteConfig, RawLocation, Route } from 'vue-router';
+import { createWebHistory, createRouter } from 'vue-router';
+import { nextTick } from "vue";
 import store from '@/store/index';
 import i18n from '@/plugins/i18n';
 import UtilService from '@/services/UtilService';
 import AuthService from '@/services/AuthService';
 import AccessControlService from '@/services/AccessControlService';
 
-Vue.use(VueRouter);
-
-const routes: Array<RouteConfig> = [
+const routes = [
   {
     path: '/',
     name: 'Start',
@@ -189,7 +187,7 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Search.vue'),
   },
   {
-    path: '*',
+    path: '/pathMatch(.*)*',
     name: '404 Path not found',
     redirect() {
       return '/news';
@@ -197,6 +195,7 @@ const routes: Array<RouteConfig> = [
   },
 ];
 
+/* TODO Maybe readd later
 // Restrict Error Message for Duplicated Navigation on Router.to and Router.replace methods
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location: RawLocation): Promise<Route> {
@@ -238,9 +237,23 @@ VueRouter.prototype.replace = function replace(location: RawLocation): Promise<R
       reject(error);
     });
   });
-};
+};*/
 
-const router = new VueRouter({
+const router = createRouter(
+  {
+    history: createWebHistory(),
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition;
+      }
+      return { left: 0, top: 0 };
+    }
+
+  }
+)
+
+/*const router = new VueRouter({
   mode: 'history',
   base: '/',
   scrollBehavior(to, from, savedPosition) {
@@ -250,7 +263,7 @@ const router = new VueRouter({
     return { x: 0, y: 0 };
   },
   routes,
-});
+});*/
 
 function showLoginDialog(to: Route, from: Route, link_refresh_token: string | null) {
   const return_url = UtilService.data().utils.getFullUrl(to.fullPath);
@@ -275,18 +288,20 @@ router.beforeEach(async (to, from, next) => {
       // If user is not logged in, try to login with refresh token
       try {
         await AuthService.login(refreshToken);
+        /* TODO
         Vue.prototype.$notify({
           title: i18n.global.t('_login.messages.loginSuccess'),
           type: 'success',
-        });
+        });*/
         success = true;
         console.log('Successful login!');
       } catch (e) {
         console.log(e);
+        /* TODO
         Vue.prototype.$notify({
           title: i18n.global.t('_login.messages.loginError'),
           type: 'error',
-        });
+        });*/
         showLoginDialog(to, from, null);
       }
     } else {
@@ -322,7 +337,7 @@ router.beforeEach(async (to, from, next) => {
   if (success) {
     const reqProp = to?.meta?.reqProp;
 
-    if (reqProp == null || AccessControlService.methods.$checkProp(reqProp)) {
+    if (reqProp == null || AccessControlService.methods.$checkProp(`${reqProp}`)) {
       const query = { ...to.query };
 
       // If refresh_token is present, remove it from query
@@ -351,12 +366,12 @@ const title = (store.getters.generalConfig?.community_name
   ? store.getters.generalConfig?.community_name : 'VyHub');
 
 router.afterEach((to) => {
-  Vue.nextTick(() => {
+  nextTick(() => {
     if (to != null && to.meta != null && to.meta.title != null) {
       if (store.getters.generalConfig) {
         document.title = `${to.meta.title} - ${title}`;
       } else {
-        document.title = to.meta.title;
+        document.title = `${to.meta.title}`;
       }
     } else {
       document.title = title;
