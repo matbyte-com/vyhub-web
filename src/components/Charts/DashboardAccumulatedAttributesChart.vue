@@ -63,7 +63,7 @@ export default {
             autoScaleYaxis: true,
           },
         },
-        colors: [this.$vuetify.theme.currentTheme.primary],
+        colors: [this.$vuetify.theme.current.primary],
         stroke: {
           curve: 'smooth',
         },

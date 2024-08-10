@@ -183,8 +183,8 @@
                                size="small" variant="outlined" variant="flat" v-if="$store.getters.isLoggedIn"
                                class="pa-1 ma-0 reaction-btn"
                                :style="getReactionAccumulated(post, icon).has_reacted ?
-                               `background-color: ${$vuetify.theme.currentTheme.primary}1A;
-                                border-color: ${$vuetify.theme.currentTheme.primary}` : ''"
+                               `background-color: ${$vuetify.theme.current.primary}1A;
+                                border-color: ${$vuetify.theme.current.primary}` : ''"
                                style="min-width: 30px; border-color: transparent"
                                @click="toggleReaction(post, icon)"
                                @click.right.prevent="showAllReactors(post, icon)">
@@ -310,9 +310,9 @@
                         <v-img :src="user.avatar" />
                       </v-avatar>
                     </v-list-item-avatar>
-                    
+
                       <v-list-item-title>{{ user.username }}</v-list-item-title>
-                    
+
                   </v-list-item>
                   <v-divider v-if="index < selectedReaction.users.length - 1"
                              :key="`divider-${index}`"/>

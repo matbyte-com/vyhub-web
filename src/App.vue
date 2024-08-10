@@ -139,7 +139,7 @@ export default Vue.extend({
     this.getGeneralConfig();
     this.getShopConfig();
     this.setLocale();
-    this.background = this.$vuetify.theme.currentTheme.background;
+    this.background = this.$vuetify.theme.current.background;
     // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
     // and /Components/SettingComponents/General
     emitter.on('themeUpdated', this.fetchData);
@@ -184,13 +184,13 @@ export default Vue.extend({
           cachedTheme.light_header = theme.light_header;
           cachedTheme.header_container = theme.header_container;
           // set colors, logo and more
-          this.$vuetify.theme.currentTheme.primary = theme.primary;
-          this.$vuetify.theme.currentTheme.success = theme.success;
-          this.$vuetify.theme.currentTheme.secondary = theme.secondary;
-          this.$vuetify.theme.currentTheme.warning = theme.warning;
-          this.$vuetify.theme.currentTheme.error = theme.error;
-          this.$vuetify.theme.currentTheme.header = theme.header;
-          this.$vuetify.theme.currentTheme.footer = theme.footer;
+          this.$vuetify.theme.current.primary = theme.primary;
+          this.$vuetify.theme.current.success = theme.success;
+          this.$vuetify.theme.current.secondary = theme.secondary;
+          this.$vuetify.theme.current.warning = theme.warning;
+          this.$vuetify.theme.current.error = theme.error;
+          this.$vuetify.theme.current.header = theme.header;
+          this.$vuetify.theme.current.footer = theme.footer;
           this.createStyleTag(theme.custom_css);
           cachedTheme.primary = theme.primary;
           cachedTheme.secondary = theme.secondary;
@@ -209,7 +209,7 @@ export default Vue.extend({
           this.$store.commit('SET_THEME', cachedTheme);
           emitter.emit('themeUpdatedAfter');
         } catch (e) {
-          this.$vuetify.theme.currentTheme.primary = '#3f51b5';
+          this.$vuetify.theme.current.primary = '#3f51b5';
           console.log('Error While Setting Theme');
           throw e;
         }
@@ -226,13 +226,13 @@ export default Vue.extend({
           this.$vuetify.theme.dark = false;
         }
         this.createStyleTag(obj.custom_css);
-        this.$vuetify.theme.currentTheme.primary = obj.primary;
-        this.$vuetify.theme.currentTheme.success = obj.success;
-        this.$vuetify.theme.currentTheme.warning = obj.warning;
-        this.$vuetify.theme.currentTheme.error = obj.error;
-        this.$vuetify.theme.currentTheme.header = obj.header;
-        this.$vuetify.theme.currentTheme.footer = obj.footer;
-        this.$vuetify.theme.currentTheme.secondary = obj.secondary;
+        this.$vuetify.theme.current.primary = obj.primary;
+        this.$vuetify.theme.current.success = obj.success;
+        this.$vuetify.theme.current.warning = obj.warning;
+        this.$vuetify.theme.current.error = obj.error;
+        this.$vuetify.theme.current.header = obj.header;
+        this.$vuetify.theme.current.footer = obj.footer;
+        this.$vuetify.theme.current.secondary = obj.secondary;
         this.customCss = obj.custom_css;
       }
     },
