@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { createI18n } from 'vue-i18n';
 
 const dateTimeFormats: any = {
@@ -59,8 +58,6 @@ const i18n = createI18n({
   fallbackLocale: 'en',
   messages: loadLocaleMessages(),
 })
-
-Vue.use(i18n);
 
 export default i18n;
 // eslint-disable-next-line import/prefer-default-export
