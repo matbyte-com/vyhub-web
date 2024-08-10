@@ -1,11 +1,8 @@
-import Vue from 'vue';
 import {createVuetify} from "vuetify";
 
 const vuetify = createVuetify({
 
 })
-
-Vue.use(vuetify);
 
 export default vuetify;
 
