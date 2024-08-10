@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import Axios from 'axios';
 // import Notifications from 'vue-notification';
 import VueApexCharts from 'vue-apexcharts';
@@ -13,19 +13,28 @@ import i18n from './plugins/i18n';
 import '@/assets/css/main.scss';
 import 'animate.css';
 
-Vue.config.productionTip = false;
-Vue.config.ignoredElements = ['swiper-container', 'swiper-slide'];
+const app = createApp(App);
+
+app.use(vuetify);
+app.use(router);
+app.use(store);
+app.use(i18n);
+
+app.config.compilerOptions.isCustomElement = (tag) => ['swiper-container', 'swiper-slide'].includes(tag);
 
 Axios.defaults.baseURL = config.backend_url;
 Axios.defaults.headers.common['Content-Type'] = 'application/json';
 Axios.defaults.headers.common.Accept = 'application/json';
 
-// Vue.use(Notifications);
-Vue.use(VueApexCharts);
-Vue.use(VueNativeNotification);
+// Vue.use(Notifications); TODO CHeck whether the following things are working
+app.use(VueApexCharts);
+app.use(VueNativeNotification);
 
-Vue.component('apexchart', VueApexCharts);
+app.component('apexchart', VueApexCharts);
 
+app.mount('#app');
+
+/* Can likely be removed
 new Vue({
   router,
   store,
@@ -33,10 +42,12 @@ new Vue({
   i18n,
   render: (h) => h(App),
 }).$mount('#app');
+*/
 
+/* TODO Sentry
 if (config.sentry_dsn != null && config.sentry_dsn.length > 5) {
   Sentry.init({
     Vue,
     dsn: config.sentry_dsn,
   });
-}
+}*/
