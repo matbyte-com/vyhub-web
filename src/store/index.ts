@@ -1,8 +1,5 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from "vuex";
 import createPersistedState from 'vuex-persistedstate';
-
-Vue.use(Vuex);
 
 const getDefaultState = () => ({
   accessToken: null,
@@ -23,7 +20,7 @@ const getDefaultState = () => ({
   userMemberships: null,
 });
 
-export default new Vuex.Store({
+const store = createStore({
   strict: true,
   plugins: [createPersistedState()],
   state: getDefaultState(),
@@ -146,3 +143,5 @@ export default new Vuex.Store({
   modules: {
   },
 });
+
+export default store;
