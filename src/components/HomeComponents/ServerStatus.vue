@@ -63,10 +63,9 @@
                     </span>
                     <span v-else-if="server.status === 'OFFLINE'">0</span>
                     <span v-else>?</span>
-                    /
+                    {{'/'}}
                   </span>
-                  <span v-if="server.users_max != null">{{ server.users_max }}</span>
-                  <span v-else>?</span>
+                  {{ server.users_max ? server.users_max : '?' }}
                 </router-link>
               </span>
               <span
