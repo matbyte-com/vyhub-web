@@ -39,7 +39,7 @@
                 {{ $t('unknown') }}
               </span>
             </v-col>
-            <v-col order="3" order-xl="2" cols="10" lg="6" xl="7">
+            <v-col order="3" order-xl="2" cols="12" xl="7">
               <router-link style="text-decoration: none;"
                            :to="{ name: (server.type !== 'DISCORD' && server.type
                            !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
