@@ -1,58 +1,93 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/api">{{ $t('apiKeys') }}</SettingTitle>
+    <SettingTitle doc-path="/guide/api">
+      {{ $t('apiKeys') }}
+    </SettingTitle>
     <v-alert
+      v-if="createdToken != null"
       icon="mdi-check-circle"
       type="success"
-      v-if="createdToken != null"
     >
       {{ $t('_api.messages.keyCreated') }}
       {{ createdToken.access_token }}
     </v-alert>
     <DataTable
       :headers="headers"
-      :items="apiKeys" :items-per-page="10">
-      <template v-slot:item.properties="{ item }" >
-        <v-expansion-panels v-if="scopeToList(item.scope).length > 5" flat>
+      :items="apiKeys"
+      :items-per-page="10"
+    >
+      <template #item.properties="{ item }">
+        <v-expansion-panels
+          v-if="scopeToList(item.scope).length > 5"
+          flat
+        >
           <v-expansion-panel>
             <v-expansion-panel-title>
               {{ $t('properties') }}
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <v-chip v-for="(prop, index) in scopeToList(item.scope)" :key="index" size="small"
-                      color="primary" class="mr-1 mb-1">
+              <v-chip
+                v-for="(prop, index) in scopeToList(item.scope)"
+                :key="index"
+                size="small"
+                color="primary"
+                class="mr-1 mb-1"
+              >
                 {{ prop }}
               </v-chip>
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-chip v-else v-for="(prop, index) in scopeToList(item.scope)" :key="index" size="small"
-                color="primary" class="mr-1 mb-1">
+        <v-chip
+          v-for="(prop, index) in scopeToList(item.scope)"
+          v-else
+          :key="index"
+          size="small"
+          color="primary"
+          class="mr-1 mb-1"
+        >
           {{ prop }}
         </v-chip>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <div class="text-right">
-          <v-btn variant="outlined" color="warning" size="small" @click="revokeToken(item)">
+          <v-btn
+            variant="outlined"
+            color="warning"
+            size="small"
+            @click="revokeToken(item)"
+          >
             <v-icon>
               mdi-cancel
             </v-icon>
           </v-btn>
         </div>
       </template>
-      <template v-slot:footer-right>
-        <v-btn color="success" @click="$refs.createTokenDialog.show()" variant="outlined">
-          <v-icon start>mdi-plus</v-icon>
+      <template #footer-right>
+        <v-btn
+          color="success"
+          variant="outlined"
+          @click="$refs.createTokenDialog.show()"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
           <span>{{ $t('_api.labels.createKey') }}</span>
         </v-btn>
       </template>
     </DataTable>
 
-    <DialogForm :cancel-text="null" :submit-text="$t('create')" :form-schema="apiTokenForm"
-                :title="$t('_api.labels.createKey')" icon="mdi-key-chain"
-                @submit="createToken" ref="createTokenDialog">
-      <template v-slot:custom-properties="context">
-        <PropertyPicker v-bind="context"/>
+    <DialogForm
+      ref="createTokenDialog"
+      :cancel-text="null"
+      :submit-text="$t('create')"
+      :form-schema="apiTokenForm"
+      :title="$t('_api.labels.createKey')"
+      icon="mdi-key-chain"
+      @submit="createToken"
+    >
+      <template #custom-properties="context">
+        <PropertyPicker v-bind="context" />
       </template>
     </DialogForm>
   </div>
@@ -86,6 +121,9 @@ export default {
       ],
       apiTokenForm: APITokenForm,
     };
+  },
+  beforeMount() {
+    this.fetchData();
   },
   methods: {
     scopeToList(scope) {
@@ -131,9 +169,6 @@ export default {
         this.$refs.createTokenDialog.setError(err);
       });
     },
-  },
-  beforeMount() {
-    this.fetchData();
   },
 };
 </script>

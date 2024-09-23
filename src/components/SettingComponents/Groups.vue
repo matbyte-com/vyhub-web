@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/group">
+    <SettingTitle doc-path="/guide/group">
       {{ $t('groups') }}
     </SettingTitle>
     <div class="mt-2">
@@ -10,34 +10,51 @@
         :items-per-page="10"
         class="no-padding"
         sort-by="permission_level"
-        :sort-desc="true">
-        <template v-slot:item.name="{ item }">
-          <v-chip :color="item.color ? item.color : '#000000'"
-                  :text-color="$vuetify.theme.dark ? 'white' : 'black'"
-                  variant="outlined">
+        :sort-desc="true"
+      >
+        <template #item.name="{ item }">
+          <v-chip
+            :color="item.color ? item.color : '#000000'"
+            :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+            variant="outlined"
+          >
             {{ item.name }}
           </v-chip>
         </template>
-        <template v-slot:item.properties="{ item }">
+        <template #item.properties="{ item }">
           <div class="pa-1">
-            <v-expansion-panels v-if="Object.keys(item.properties).length > 5" flat>
+            <v-expansion-panels
+              v-if="Object.keys(item.properties).length > 5"
+              flat
+            >
               <v-expansion-panel>
                 <v-expansion-panel-title>
                   {{ $t('properties') }}
                 </v-expansion-panel-title>
                 <v-expansion-panel-text>
-                  <v-chip v-for="(prop, index) in item.properties" :key="index" size="small"
-                          :color="prop.granted ? 'success' : 'error'" class="mr-1 mb-1 mt-1">
+                  <v-chip
+                    v-for="(prop, index) in item.properties"
+                    :key="index"
+                    size="small"
+                    :color="prop.granted ? 'success' : 'error'"
+                    class="mr-1 mb-1 mt-1"
+                  >
                     {{ prop.name }}
                     <span v-if="prop.value !== null">
-                    : {{ prop.value }}
-                  </span>
+                      : {{ prop.value }}
+                    </span>
                   </v-chip>
                 </v-expansion-panel-text>
               </v-expansion-panel>
             </v-expansion-panels>
-            <v-chip v-else v-for="(prop, index) in item.properties" :key="index" size="small"
-                    :color="prop.granted ? 'success' : 'error'" class="mr-1 mb-1">
+            <v-chip
+              v-for="(prop, index) in item.properties"
+              v-else
+              :key="index"
+              size="small"
+              :color="prop.granted ? 'success' : 'error'"
+              class="mr-1 mb-1"
+            >
               {{ prop.name }}
               <span v-if="prop.value !== null">
                 : {{ prop.value }}
@@ -45,74 +62,114 @@
             </v-chip>
           </div>
         </template>
-        <template v-slot:item.actions="{ item }">
-          <div class="d-flex" :class="{ 'flex-column' : $vuetify.display.lgAndDown }">
-            <v-btn icon color="secondary" size="small" @click="copyGroup(item)" class="mr-xl-1 mt-xl-0">
+        <template #item.actions="{ item }">
+          <div
+            class="d-flex"
+            :class="{ 'flex-column' : $vuetify.display.lgAndDown }"
+          >
+            <v-btn
+              icon
+              color="secondary"
+              size="small"
+              class="mr-xl-1 mt-xl-0"
+              @click="copyGroup(item)"
+            >
               <v-icon size="small">
                 mdi-content-copy
               </v-icon>
             </v-btn>
-            <v-btn variant="outlined" color="success" size="small"
-                   @click="openShowMemberDialog(item)" class="mr-xl-1 mt-1 mt-xl-0">
+            <v-btn
+              variant="outlined"
+              color="success"
+              size="small"
+              class="mr-xl-1 mt-1 mt-xl-0"
+              @click="openShowMemberDialog(item)"
+            >
               <v-icon>
                 mdi-account-group
               </v-icon>
             </v-btn>
-            <v-btn variant="outlined" color="primary" size="small"
-                   @click="openEditGroupDialog(item)" class="mr-xl-1 mt-1 mt-xl-0">
+            <v-btn
+              variant="outlined"
+              color="primary"
+              size="small"
+              class="mr-xl-1 mt-1 mt-xl-0"
+              @click="openEditGroupDialog(item)"
+            >
               <v-icon>
                 mdi-pencil
               </v-icon>
             </v-btn>
-            <v-btn variant="outlined" color="error" size="small" @click="openDeleteGroupDialog(item)"
-                   class="mt-1 mt-xl-0">
+            <v-btn
+              variant="outlined"
+              color="error"
+              size="small"
+              class="mt-1 mt-xl-0"
+              @click="openDeleteGroupDialog(item)"
+            >
               <v-icon>
                 mdi-delete
               </v-icon>
             </v-btn>
           </div>
         </template>
-        <template v-slot:footer-right>
-          <v-btn color="success" @click="$refs.addGroupDialog.show()" variant="outlined"
-                 :class="{ 'glow-effect':utils.customerJourneyActive('add-group') }">
-            <v-icon start>mdi-plus</v-icon>
+        <template #footer-right>
+          <v-btn
+            color="success"
+            variant="outlined"
+            :class="{ 'glow-effect':utils.customerJourneyActive('add-group') }"
+            @click="$refs.addGroupDialog.show()"
+          >
+            <v-icon start>
+              mdi-plus
+            </v-icon>
             <span>{{ $t('_settings.labels.addGroup') }}</span>
           </v-btn>
         </template>
       </DataTable>
     </div>
 
-    <Dialog ref="showMemberDialog"
-            icon="mdi-account-multiple"
-            :max-width="1000"
-            :title="`${$t('_membership.labels.activeMemberships')}:
-              ${memberGroup ? memberGroup.name : ''}`">
-      <PaginatedDataTable :items="groupMembers" :headers="groupMemberHeaders"
-                 ref="memberTable"
-                 :totalItems="totalItems"
-                 @reload="fetchGroupMembers"
-                 class="mt-3">
-        <template v-slot:item.user="{ item }">
+    <Dialog
+      ref="showMemberDialog"
+      icon="mdi-account-multiple"
+      :max-width="1000"
+      :title="`${$t('_membership.labels.activeMemberships')}:
+              ${memberGroup ? memberGroup.name : ''}`"
+    >
+      <PaginatedDataTable
+        ref="memberTable"
+        :items="groupMembers"
+        :headers="groupMemberHeaders"
+        :total-items="totalItems"
+        class="mt-3"
+        @reload="fetchGroupMembers"
+      >
+        <template #item.user="{ item }">
           <UserLink :user="item.user" />
         </template>
-        <template v-slot:item.serverbundle="{ item }">
+        <template #item.serverbundle="{ item }">
           <v-icon v-if="item.serverbundle.icon">
             {{ item.serverbundle.icon }}
           </v-icon>
           {{ item.serverbundle.name }}
         </template>
-        <template v-slot:item.begin="{ item }">
+        <template #item.begin="{ item }">
           {{ (item.begin != null
-          ? $d(new Date(item.begin), 'short', $i18n.locale)
-          : '∞') }}
+            ? $d(new Date(item.begin), 'short', $i18n.locale)
+            : '∞') }}
         </template>
-        <template v-slot:item.end="{ item }">
+        <template #item.end="{ item }">
           {{ (item.end != null
-          ? $d(new Date(item.end), 'short', $i18n.locale)
-          : '∞') }}
+            ? $d(new Date(item.end), 'short', $i18n.locale)
+            : '∞') }}
         </template>
-        <template v-slot:item.actions="{ item }">
-          <v-btn variant="outlined" color="primary" size="small" @click="openEditMembershipDialog(item)">
+        <template #item.actions="{ item }">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            size="small"
+            @click="openEditMembershipDialog(item)"
+          >
             <v-icon>
               mdi-pencil
             </v-icon>
@@ -125,10 +182,11 @@
       ref="addGroupDialog"
       :form-schema="groupFormSchema"
       icon="mdi-account-multiple"
+      :title="$t('_settings.labels.addGroup')"
       @submit="addGroup"
-      :title="$t('_settings.labels.addGroup')">
-      <template v-slot:custom-properties="context">
-        <PropertyPicker v-bind="context"/>
+    >
+      <template #custom-properties="context">
+        <PropertyPicker v-bind="context" />
       </template>
     </DialogForm>
     <DialogForm
@@ -136,19 +194,22 @@
       icon="mdi-account-multiple"
       :form-schema="groupFormSchema"
       :max-width="600"
+      :title="$t('_settings.labels.editGroup')"
       @submit="editGroup"
-      :title="$t('_settings.labels.editGroup')">
-      <template v-slot:custom-properties="context">
-        <PropertyPicker v-bind="context"/>
+    >
+      <template #custom-properties="context">
+        <PropertyPicker v-bind="context" />
       </template>
     </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteGroupDialog"
-      @submit="deleteGroup"/>
+      @submit="deleteGroup"
+    />
     <MembershipEditDialog
-      title-icon="mdi-account-multiple"
       ref="editMembershipDialog"
-      @submit="fetchGroupMembers(1)"/>
+      title-icon="mdi-account-multiple"
+      @submit="fetchGroupMembers(1)"
+    />
   </div>
 </template>
 

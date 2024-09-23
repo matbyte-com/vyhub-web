@@ -1,8 +1,17 @@
 <template>
-  <Dialog v-model="dialog" :max-width="width" :title="title" icon="mdi-help-circle"
-          :persistent="persistent">
+  <Dialog
+    v-model="dialog"
+    :max-width="width"
+    :title="title"
+    icon="mdi-help-circle"
+    :persistent="persistent"
+  >
     <template v-if="errorMessage != null || text != null || confirmationTextField != null">
-      <v-alert type="error" v-if="errorMessage != null" class="mt-2">
+      <v-alert
+        v-if="errorMessage != null"
+        type="error"
+        class="mt-2"
+      >
         {{ errorMessage }}
       </v-alert>
       <div class="text-body-1 mt-2 text-center">
@@ -11,22 +20,32 @@
         </slot>
       </div>
       <div v-if="useTextField && !countdown">
-        <v-text-field v-model="confirmationTextFieldInput" :label="confirmationTextFieldLabel"/>
+        <v-text-field
+          v-model="confirmationTextFieldInput"
+          :label="confirmationTextFieldLabel"
+        />
         {{ $t('writeToConfirm') }} {{ confirmationTextField }}
       </div>
     </template>
-    <template v-for="(index, name) in $slots" v-slot:[name]>
+    <template
+      v-for="(index, name) in $slots"
+      #[name]
+    >
       <slot :name="name" />
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <v-col>
-        <v-btn variant="text"
-               :disabled="disabled"
-               :color="btnColor"
-               type="submit"
-               :loading="loading"
-               @click="submit">
-          <v-icon start>{{ btnIcon }}</v-icon>
+        <v-btn
+          variant="text"
+          :disabled="disabled"
+          :color="btnColor"
+          type="submit"
+          :loading="loading"
+          @click="submit"
+        >
+          <v-icon start>
+            {{ btnIcon }}
+          </v-icon>
           <span v-if="disabled && !useTextField">
             ({{ counter }})
           </span>
@@ -35,10 +54,15 @@
           </span>
         </v-btn>
       </v-col>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-col>
-        <v-btn variant="text" @click="cancel">
-          <v-icon start>mdi-close</v-icon>
+        <v-btn
+          variant="text"
+          @click="cancel"
+        >
+          <v-icon start>
+            mdi-close
+          </v-icon>
           <span v-if="btnCancelText">{{ btnCancelText }}</span>
           <span v-else>{{ $t('cancel') }}</span>
         </v-btn>
@@ -100,6 +124,18 @@ export default {
       default: false,
     },
   },
+  computed: {
+    disabled() {
+      if (this.countdown) {
+        return this.countdown && this.counter > 0;
+      }
+      if (this.confirmationTextField) {
+        if (this.confirmationTextField === this.confirmationTextFieldInput) return false;
+        return true;
+      }
+      return false;
+    },
+  },
   methods: {
     cancel() {
       this.loading = false;
@@ -143,18 +179,6 @@ export default {
     setError(err) {
       this.errorMessage = this.utils.formatErrorMessage(err).text;
       this.loading = false;
-    },
-  },
-  computed: {
-    disabled() {
-      if (this.countdown) {
-        return this.countdown && this.counter > 0;
-      }
-      if (this.confirmationTextField) {
-        if (this.confirmationTextField === this.confirmationTextFieldInput) return false;
-        return true;
-      }
-      return false;
     },
   },
 };

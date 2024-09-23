@@ -1,24 +1,51 @@
 <template>
   <div class="vh-home-shop-categories">
-    <v-row justify="center" v-if="categories">
-      <v-col cols="11" sm="10" md="10" lg="9" xl="8"
-             style="position: relative">
-        <Swiper :number-of-elements="categories.length" :per-page-custom="[1,2,3,3,3]">
-          <swiper-slide style="height: auto"
-                        v-for="category in categories" :key="category.id">
-            <v-card class="img-hover-zoom overflow-hidden mt-3 mb-3 card-rounded mx-auto
+    <v-row
+      v-if="categories"
+      justify="center"
+    >
+      <v-col
+        cols="11"
+        sm="10"
+        md="10"
+        lg="9"
+        xl="8"
+        style="position: relative"
+      >
+        <Swiper
+          :number-of-elements="categories.length"
+          :per-page-custom="[1,2,3,3,3]"
+        >
+          <swiper-slide
+            v-for="category in categories"
+            :key="category.id"
+            style="height: auto"
+          >
+            <v-card
+              class="img-hover-zoom overflow-hidden mt-3 mb-3 card-rounded mx-auto
              d-flex flex-column"
-                    hover max-width="350px" height="95%"
-                    :to="{ name: 'ShopCategory', params: { categoryId: category.id} }">
+              hover
+              max-width="350px"
+              height="95%"
+              :to="{ name: 'ShopCategory', params: { categoryId: category.id} }"
+            >
               <div style="overflow: hidden">
-                <v-img max-height="200px"
-                       :src="category.image_url" :alt="category.name" />
+                <v-img
+                  max-height="200px"
+                  :src="category.image_url"
+                  :alt="category.name"
+                />
               </div>
-              <div class="text-center text-h5 mt-3 mx-1">{{ category.name }}</div>
-              <v-spacer/>
+              <div class="text-center text-h5 mt-3 mx-1">
+                {{ category.name }}
+              </div>
+              <v-spacer />
               <div class="text-center mt-3 pb-3">
-                <v-btn color="primary" variant="flat"
-                       :to="{ name: 'ShopCategory', params: { categoryId: category.id} }">
+                <v-btn
+                  color="primary"
+                  variant="flat"
+                  :to="{ name: 'ShopCategory', params: { categoryId: category.id} }"
+                >
                   {{ callToAction }}
                 </v-btn>
               </div>

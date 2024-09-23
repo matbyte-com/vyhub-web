@@ -1,58 +1,98 @@
 <template>
   <div>
-    <v-row dense no-gutters>
-      <v-col cols="12" lg="3" class="mb-2 mb-lg-0">
-        <v-card v-if="$vuetify.display.mdAndDown" class="mt-2" flat tile
-                @click="navigationDrawer = !navigationDrawer">
+    <v-row
+      dense
+      no-gutters
+    >
+      <v-col
+        cols="12"
+        lg="3"
+        class="mb-2 mb-lg-0"
+      >
+        <v-card
+          v-if="$vuetify.display.mdAndDown"
+          class="mt-2"
+          flat
+          tile
+          @click="navigationDrawer = !navigationDrawer"
+        >
           <v-card-text class="d-flex align-center text-capitalize text-h5">
-            <v-icon start>{{ activeTab.icon }}</v-icon>
+            <v-icon start>
+              {{ activeTab.icon }}
+            </v-icon>
             {{ activeTab.name }}
             <v-spacer />
             <v-icon>mdi-unfold-more-horizontal</v-icon>
           </v-card-text>
         </v-card>
-        <v-navigation-drawer :permanent="!$vuetify.display.mdAndDown"
-                             :app="$vuetify.display.mdAndDown" v-model="navigationDrawer"
-                             location="bottom" flat outlined tile class="fill-height"
-                             style="width: 100%"
-                :class="{ 'lighten-3': !$vuetify.theme.dark, 'darken-4': $vuetify.theme.dark }"
-                :color="$vuetify.theme.dark ? 'grey' : 'grey'">
+        <v-navigation-drawer
+          v-model="navigationDrawer"
+          :permanent="!$vuetify.display.mdAndDown"
+          :app="$vuetify.display.mdAndDown"
+          location="bottom"
+          flat
+          outlined
+          tile
+          class="fill-height"
+          style="width: 100%"
+          :class="{ 'lighten-3': !$vuetify.theme.dark, 'darken-4': $vuetify.theme.dark }"
+          :color="$vuetify.theme.dark ? 'grey' : 'grey'"
+        >
           <v-card-text>
             <v-list>
               <v-list-item-group color="primary">
-                <span v-for="tab in allowedTabs" :key="tab.id">
-                  <v-list-item v-if="!('tabs' in tab)" style="height: 48px"
-                               link :disabled="tab.disabled"
-                               :class="{ 'active v-list-item--active' :
+                <span
+                  v-for="tab in allowedTabs"
+                  :key="tab.id"
+                >
+                  <v-list-item
+                    v-if="!('tabs' in tab)"
+                    style="height: 48px"
+                    link
+                    :disabled="tab.disabled"
+                    :class="{ 'active v-list-item--active' :
                                 tab.name === activeTab.name,
-                                 'glow-effect': utils.customerJourneyActive(tab.customerJourney) }"
-                               :to="{ name: 'Settings',  params: { component: tab.name} }">
+                              'glow-effect': utils.customerJourneyActive(tab.customerJourney) }"
+                    :to="{ name: 'Settings', params: { component: tab.name} }"
+                  >
                     <v-list-item-icon>
                       <v-icon>{{ tab.icon }}</v-icon>
                     </v-list-item-icon>
 
-                    <v-list-item-title :class="!utils.showAdvancedSettings()
-                     && tab.advanced ? 'text--disabled' : ''">
+                    <v-list-item-title
+                      :class="!utils.showAdvancedSettings()
+                        && tab.advanced ? 'text--disabled' : ''"
+                    >
                       {{ tab.title }}
                     </v-list-item-title>
                   </v-list-item>
-                  <v-list-group no-action :prepend-icon="tab.icon" v-else
-                                :value="$vuetify.display.lgAndUp">
-                    <template v-slot:activator>
-                      <v-list-item-content :class="{'glow-effect':
-                                 utils.customerJourneyActive(tab.customerJourney)}"
-                                           style="height: 48px">
+                  <v-list-group
+                    v-else
+                    no-action
+                    :prepend-icon="tab.icon"
+                    :value="$vuetify.display.lgAndUp"
+                  >
+                    <template #activator>
+                      <v-list-item-content
+                        :class="{'glow-effect':
+                          utils.customerJourneyActive(tab.customerJourney)}"
+                        style="height: 48px"
+                      >
                         <v-list-item-title>{{ tab.title }}</v-list-item-title>
                       </v-list-item-content>
                     </template>
 
-                    <v-list-item v-for="subtab in tab.tabs" :key="subtab.id"
-                                 link style="height: 48px"
-                                 :class="{ 'active v-list-item--active':
+                    <v-list-item
+                      v-for="subtab in tab.tabs"
+                      :key="subtab.id"
+                      link
+                      style="height: 48px"
+                      :class="{ 'active v-list-item--active':
                                   subtab.name === activeTab.name,
-                                   'glow-effect':
-                                    utils.customerJourneyActive(subtab.customerJourney) }"
-                                 :to="{ name: 'Settings', params: { component: subtab.name} }">
+                                'glow-effect':
+                                  utils.customerJourneyActive(subtab.customerJourney) }"
+                      :to="{ name: 'Settings', params: { component: subtab.name} }"
+                    >
                       <v-list-item-icon>
                         <v-icon>{{ subtab.icon }}</v-icon>
                       </v-list-item-icon>
@@ -67,12 +107,25 @@
           </v-card-text>
         </v-navigation-drawer>
       </v-col>
-      <v-col cols="12" lg="9">
-        <v-card class="fill-height" style="min-height: 75vh" flat border tile width="100%">
+      <v-col
+        cols="12"
+        lg="9"
+      >
+        <v-card
+          class="fill-height"
+          style="min-height: 75vh"
+          flat
+          border
+          tile
+          width="100%"
+        >
           <v-card-text :key="key">
             <keep-alive>
-              <component class="mt-3" :class="{ 'mr-10' : $vuetify.display.lgAndUp }"
-                         :is="componentInstance"></component>
+              <component
+                :is="componentInstance"
+                class="mt-3"
+                :class="{ 'mr-10' : $vuetify.display.lgAndUp }"
+              />
             </keep-alive>
           </v-card-text>
         </v-card>
@@ -250,31 +303,6 @@ export default {
       activeTabName: 'general',
     };
   },
-  mounted() {
-    EventBus.on('advancedSettingsUpdated', this.rerenderComponents);
-  },
-  methods: {
-    rerenderComponents() {
-      this.key += 1;
-    },
-    findTabByName(name) {
-      let found = null;
-
-      this.tabs.forEach((tab) => {
-        if ('tabs' in tab) {
-          tab.tabs.forEach((stab) => {
-            if (stab.name === name) {
-              found = stab;
-            }
-          });
-        } else if (tab.name === name) {
-          found = tab;
-        }
-      });
-
-      return found;
-    },
-  },
   computed: {
     componentInstance() {
       const type = this.activeTab.component;
@@ -325,6 +353,31 @@ export default {
         return this.findTabByName(this.$route.params.component);
       }
       return this.allowedTabs[0];
+    },
+  },
+  mounted() {
+    EventBus.on('advancedSettingsUpdated', this.rerenderComponents);
+  },
+  methods: {
+    rerenderComponents() {
+      this.key += 1;
+    },
+    findTabByName(name) {
+      let found = null;
+
+      this.tabs.forEach((tab) => {
+        if ('tabs' in tab) {
+          tab.tabs.forEach((stab) => {
+            if (stab.name === name) {
+              found = stab;
+            }
+          });
+        } else if (tab.name === name) {
+          found = tab;
+        }
+      });
+
+      return found;
     },
   },
 };

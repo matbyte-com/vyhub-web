@@ -1,17 +1,24 @@
 <template>
   <DataTable
+    v-model:items-per-page="itemsPerPage"
+    v-model:page="page"
+    v-model:sort-by="sortBy"
+    v-model:sort-desc="sortDesc"
+    v-model:search="search"
     :external-search="showSearch"
     :server-items-length="totalItems"
-    :items-per-page.sync="itemsPerPage"
-    :page.sync="page"
-    :sort-by.sync="sortBy"
-    :sort-desc.sync="sortDesc"
-    :search.sync="search"
     must-sort
-    v-bind="$attrs" v-on="$listeners"
+    v-bind="$attrs"
+    v-on="$listeners"
   >
-    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
-      <slot :name="slot" v-bind="scope" />
+    <template
+      v-for="(_, slot) of $slots"
+      #[slot]="scope"
+    >
+      <slot
+        :name="slot"
+        v-bind="scope"
+      />
     </template>
   </DataTable>
 </template>
@@ -22,18 +29,6 @@ import DataTable from '@/components/DataTable.vue';
 export default {
   name: 'PaginatedDataTable',
   components: { DataTable },
-  data() {
-    return {
-      page: 1,
-      itemsPerPage: 10,
-      selectedBundle: [],
-      sortBy: null,
-      sortDesc: true,
-      search: null,
-      lastParams: null,
-      new: true,
-    };
-  },
   props: {
     totalItems: {
       type: Number,
@@ -52,10 +47,17 @@ export default {
       default: true,
     },
   },
-  methods: {
-    getQueryParameters() {
-      return this.queryParams;
-    },
+  data() {
+    return {
+      page: 1,
+      itemsPerPage: 10,
+      selectedBundle: [],
+      sortBy: null,
+      sortDesc: true,
+      search: null,
+      lastParams: null,
+      new: true,
+    };
   },
   computed: {
     queryParams() {
@@ -67,10 +69,6 @@ export default {
         query: this.search,
       };
     },
-  },
-  beforeMount() {
-    this.sortBy = this.defaultSortBy;
-    this.sortDesc = this.defaultSortDesc;
   },
   watch: {
     queryParams() {
@@ -88,6 +86,15 @@ export default {
           this.$emit('reload', this.queryParams);
         }
       }, 200);
+    },
+  },
+  beforeMount() {
+    this.sortBy = this.defaultSortBy;
+    this.sortDesc = this.defaultSortDesc;
+  },
+  methods: {
+    getQueryParameters() {
+      return this.queryParams;
     },
   },
 };

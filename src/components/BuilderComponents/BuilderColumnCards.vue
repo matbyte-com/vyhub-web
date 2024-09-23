@@ -1,22 +1,44 @@
 <template>
   <div class="vh-home-features">
-    <v-row justify="center" v-if="$vuetify.display.mdAndUp">
-      <v-col cols="6" md="4" lg="3" v-for="(card, index) in cards" :key="index"
-             class="d-flex flex-column">
+    <v-row
+      v-if="$vuetify.display.mdAndUp"
+      justify="center"
+    >
+      <v-col
+        v-for="(card, index) in cards"
+        :key="index"
+        cols="6"
+        md="4"
+        lg="3"
+        class="d-flex flex-column"
+      >
         <v-card class="grow-on-hover feature-card flex-grow-1 card-rounded text-center mt-8">
           <div class="icon-wrapper">
-            <v-card class="icon-rounded d-inline-block pa-1 v-card-non-transparent" flat>
-              <v-icon size="75">{{ card.icon }}</v-icon>
+            <v-card
+              class="icon-rounded d-inline-block pa-1 v-card-non-transparent"
+              flat
+            >
+              <v-icon size="75">
+                {{ card.icon }}
+              </v-icon>
             </v-card>
           </div>
-          <v-card-text class="text-center d-flex flex-column" style="height: 100%">
-            <h3 class="text-h5 mt-13">{{ card.title }}</h3>
-            <p v-html="card.content"></p>
+          <v-card-text
+            class="text-center d-flex flex-column"
+            style="height: 100%"
+          >
+            <h3 class="text-h5 mt-13">
+              {{ card.title }}
+            </h3>
+            <p v-html="card.content" />
             <v-spacer />
             <div>
-              <v-btn variant="flat" color="primary"
-                     :href="(!utils.localLink(card) ? card.link : null)"
-                     :to="utils.localLink(card) ? utils.getLocalLink(card) : null">
+              <v-btn
+                variant="flat"
+                color="primary"
+                :href="(!utils.localLink(card) ? card.link : null)"
+                :to="utils.localLink(card) ? utils.getLocalLink(card) : null"
+              >
                 {{ card.btnText }}
               </v-btn>
             </div>
@@ -24,25 +46,46 @@
         </v-card>
       </v-col>
     </v-row>
-    <Swiper :number-of-elements="cards.length" :per-page-custom="[1,2,3,3,3]" v-else>
-      <swiper-slide v-for="(card, index) in cards" :key="index">
+    <Swiper
+      v-else
+      :number-of-elements="cards.length"
+      :per-page-custom="[1,2,3,3,3]"
+    >
+      <swiper-slide
+        v-for="(card, index) in cards"
+        :key="index"
+      >
         <div class="pt-10">
-          <v-card class="grow-on-hover feature-card flex-grow-1 card-rounded text-center"
-                  style="width: inherit">
+          <v-card
+            class="grow-on-hover feature-card flex-grow-1 card-rounded text-center"
+            style="width: inherit"
+          >
             <div class="icon-wrapper">
-              <v-card class="icon-rounded d-inline-block pa-1 v-card-non-transparent" flat>
-                <v-icon size="75">{{ card.icon }}</v-icon>
+              <v-card
+                class="icon-rounded d-inline-block pa-1 v-card-non-transparent"
+                flat
+              >
+                <v-icon size="75">
+                  {{ card.icon }}
+                </v-icon>
               </v-card>
             </div>
-            <v-card-text class="text-center d-flex flex-column"
-                         style="height: 100%; width: inherit">
-              <h3 class="text-h5 mt-13">{{ card.title }}</h3>
-              <p v-html="card.content"></p>
+            <v-card-text
+              class="text-center d-flex flex-column"
+              style="height: 100%; width: inherit"
+            >
+              <h3 class="text-h5 mt-13">
+                {{ card.title }}
+              </h3>
+              <p v-html="card.content" />
               <v-spacer />
               <div>
-                <v-btn variant="flat" color="primary"
-                       :href="(!utils.localLink(card) ? card.link : null)"
-                       :to="utils.localLink(card) ? utils.getLocalLink(card) : null">
+                <v-btn
+                  variant="flat"
+                  color="primary"
+                  :href="(!utils.localLink(card) ? card.link : null)"
+                  :to="utils.localLink(card) ? utils.getLocalLink(card) : null"
+                >
                   {{ card.btnText }}
                 </v-btn>
               </div>

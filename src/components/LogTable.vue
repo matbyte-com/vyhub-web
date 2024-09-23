@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-alert color="error" icon="mdi-information-outline" v-if="entries && entries.length >= 500">
+    <v-alert
+      v-if="entries && entries.length >= 500"
+      color="error"
+      icon="mdi-information-outline"
+    >
       {{ $t('_log.messages.limitReached') }}
     </v-alert>
     <DataTable
@@ -9,25 +13,36 @@
       :search="search"
       :sort-by="['created_on']"
       :items-per-page="5"
-      :sort-desc="[true]">
-      <template v-slot:top v-if="showSearch">
+      :sort-desc="[true]"
+    >
+      <template
+        v-if="showSearch"
+        #top
+      >
         <v-row>
-          <v-spacer/>
-          <v-col lg="2" md="4" sm="12">
+          <v-spacer />
+          <v-col
+            lg="2"
+            md="4"
+            sm="12"
+          >
             <v-text-field
               v-model="search"
               :label="$t('search')"
-            ></v-text-field>
+            />
           </v-col>
         </v-row>
       </template>
-      <template v-slot:item.author="{ item }">
-        <UserLink :user="item.author" v-if="item.author != null"></UserLink>
+      <template #item.author="{ item }">
+        <UserLink
+          v-if="item.author != null"
+          :user="item.author"
+        />
       </template>
-      <template v-slot:item.message="{ item }">
+      <template #item.message="{ item }">
         {{ item.message }}
       </template>
-      <template v-slot:item.created_on="{ item }">
+      <template #item.created_on="{ item }">
         <span>{{ new Date(item.date).toLocaleString() }}</span>
       </template>
     </DataTable>
@@ -45,12 +60,6 @@ export default {
     DataTable,
     UserLink,
   },
-  data() {
-    return {
-      entries: null,
-      search: null,
-    };
-  },
   props: {
     type: String,
     objId: String,
@@ -58,6 +67,34 @@ export default {
     showCategory: {
       type: Boolean,
       default: false,
+    },
+  },
+  data() {
+    return {
+      entries: null,
+      search: null,
+    };
+  },
+  computed: {
+    headers() {
+      const headers = [
+        { text: this.$t('author'), value: 'author' },
+        { text: this.$t('message'), value: 'message' },
+        { text: this.$t('date'), value: 'created_on' },
+      ];
+
+      if (this.showCategory) {
+        headers.push(
+          { text: this.$t('type'), value: 'category', sortable: false },
+        );
+      }
+
+      return headers;
+    },
+  },
+  watch: {
+    objId() {
+      this.fetchData();
     },
   },
   beforeMount() {
@@ -83,28 +120,6 @@ export default {
       logFn(...params).then((rsp) => {
         this.entries = rsp.data;
       });
-    },
-  },
-  computed: {
-    headers() {
-      const headers = [
-        { text: this.$t('author'), value: 'author' },
-        { text: this.$t('message'), value: 'message' },
-        { text: this.$t('date'), value: 'created_on' },
-      ];
-
-      if (this.showCategory) {
-        headers.push(
-          { text: this.$t('type'), value: 'category', sortable: false },
-        );
-      }
-
-      return headers;
-    },
-  },
-  watch: {
-    objId() {
-      this.fetchData();
     },
   },
 };

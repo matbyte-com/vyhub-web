@@ -1,27 +1,39 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/shop/packet">
+    <SettingTitle doc-path="/guide/shop/packet">
       {{ $t('categories') }}
     </SettingTitle>
 
     <DataTable
+      id="categories-table"
       :headers="headers"
       :items="categories"
-      id="categories-table"
       disable-sort
       hide-default-footer
-      :showSearch="true">
-      <template v-slot:item.enabled="{ item }">
-        <BoolIcon :value="item.enabled"></BoolIcon>
+      :show-search="true"
+    >
+      <template #item.enabled="{ item }">
+        <BoolIcon :value="item.enabled" />
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <div class="text-right">
-          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            size="small"
+            class="mr-1"
+            @click="showEditDialog(item)"
+          >
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteCategoryDialog.show(item)">
+          <v-btn
+            variant="outlined"
+            color="error"
+            size="small"
+            @click="$refs.deleteCategoryDialog.show(item)"
+          >
             <v-icon>
               mdi-delete
             </v-icon>
@@ -29,12 +41,18 @@
         </div>
       </template>
     </DataTable>
-    <v-divider class="mb-3"/>
+    <v-divider class="mb-3" />
     <div class="d-flex">
       <v-spacer />
-      <v-btn variant="outlined" color="success" @click="$refs.createCategoryDialog.show()"
-             :class="{ 'glow-effect':utils.customerJourneyActive('add-category') }">
-        <v-icon start>mdi-plus</v-icon>
+      <v-btn
+        variant="outlined"
+        color="success"
+        :class="{ 'glow-effect':utils.customerJourneyActive('add-category') }"
+        @click="$refs.createCategoryDialog.show()"
+      >
+        <v-icon start>
+          mdi-plus
+        </v-icon>
         <span>{{ $t('_packetCategory.labels.create') }}</span>
       </v-btn>
     </div>
@@ -42,19 +60,22 @@
       ref="createCategoryDialog"
       :form-schema="categorySchema"
       icon="mdi-star"
-      :submitText="$t('create')"
+      :submit-text="$t('create')"
+      :title="$t('_packetCategory.labels.create')"
       @submit="createCategory"
-      :title="$t('_packetCategory.labels.create')"/>
+    />
     <DialogForm
       ref="editCategoryDialog"
       :form-schema="categorySchema"
       icon="mdi-star"
-      :submitText="$t('edit')"
+      :submit-text="$t('edit')"
+      :title="$t('_packetCategory.labels.edit')"
       @submit="editCategory"
-      :title="$t('_packetCategory.labels.edit')"/>
+    />
     <DeleteConfirmationDialog
       ref="deleteCategoryDialog"
-      @submit="deleteCategory"/>
+      @submit="deleteCategory"
+    />
   </div>
 </template>
 
@@ -93,6 +114,26 @@ export default {
   },
   beforeMount() {
     this.fetchData();
+  },
+  mounted() {
+    const table = document.querySelector('#categories-table tbody');
+    Sortable.create(table, {
+      onEnd: ({ newIndex, oldIndex }) => {
+        const rowSelected = this.categories.splice(oldIndex, 1)[0];
+        this.categories.splice(newIndex, 0, rowSelected);
+
+        openapi.then((api) => {
+          for (let i = newIndex; i < this.categories.length; i += 1) {
+            const cat = this.categories[i];
+            api.packet_editCategory({ uuid: cat.id }, { sort_id: i })
+              .catch((err) => {
+                console.log(err);
+                this.utils.notifyUnexpectedError(err.response.data);
+              });
+          }
+        });
+      },
+    });
   },
   methods: {
     async fetchData() {
@@ -162,26 +203,6 @@ export default {
       this.$refs.editCategoryDialog.setData(data);
       this.$refs.editCategoryDialog.show(category);
     },
-  },
-  mounted() {
-    const table = document.querySelector('#categories-table tbody');
-    Sortable.create(table, {
-      onEnd: ({ newIndex, oldIndex }) => {
-        const rowSelected = this.categories.splice(oldIndex, 1)[0];
-        this.categories.splice(newIndex, 0, rowSelected);
-
-        openapi.then((api) => {
-          for (let i = newIndex; i < this.categories.length; i += 1) {
-            const cat = this.categories[i];
-            api.packet_editCategory({ uuid: cat.id }, { sort_id: i })
-              .catch((err) => {
-                console.log(err);
-                this.utils.notifyUnexpectedError(err.response.data);
-              });
-          }
-        });
-      },
-    });
   },
 };
 </script>

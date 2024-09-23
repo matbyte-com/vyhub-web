@@ -1,11 +1,22 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/ban">{{ $t('bans') }}</SettingTitle>
+    <SettingTitle doc-path="/guide/ban">
+      {{ $t('bans') }}
+    </SettingTitle>
     <v-row>
-      <v-col lg="8" xl="6">
-        <h6 class="text-h6">{{ $t('general') }}</h6>
-        <GenForm :form-schema="formSchema" ref="form" @submit="saveData" :settings-mode="true">
-        </GenForm>
+      <v-col
+        lg="8"
+        xl="6"
+      >
+        <h6 class="text-h6">
+          {{ $t('general') }}
+        </h6>
+        <GenForm
+          ref="form"
+          :form-schema="formSchema"
+          :settings-mode="true"
+          @submit="saveData"
+        />
       </v-col>
     </v-row>
   </div>

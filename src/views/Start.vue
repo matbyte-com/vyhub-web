@@ -1,11 +1,19 @@
 <template>
-<div>
-  <v-card flat tile height="calc(100vh - 108px)" class="d-flex align-center justify-center">
-    <div>
-      <v-progress-circular indeterminate size="50" />
-    </div>
-  </v-card>
-</div>
+  <div>
+    <v-card
+      flat
+      tile
+      height="calc(100vh - 108px)"
+      class="d-flex align-center justify-center"
+    >
+      <div>
+        <v-progress-circular
+          indeterminate
+          size="50"
+        />
+      </div>
+    </v-card>
+  </div>
 </template>
 
 <script>

@@ -1,60 +1,103 @@
 <template>
   <div>
     <div v-if="currencies != null">
-      <v-row class="align-center justify-space-between" dense>
-        <v-col cols="12" lg="9">
-          <v-menu offset-y style="z-index: 21" :close-on-content-click="false">
-            <template v-slot:activator="{ props }">
+      <v-row
+        class="align-center justify-space-between"
+        dense
+      >
+        <v-col
+          cols="12"
+          lg="9"
+        >
+          <v-menu
+            offset-y
+            style="z-index: 21"
+            :close-on-content-click="false"
+          >
+            <template #activator="{ props }">
               <v-btn
                 variant="outlined"
                 :class="currentRangeBtn === 'range' ? 'v-btn--active' : ''"
                 color="primary"
                
-                v-bind="props">
+                v-bind="props"
+              >
                 {{ $t('_purchases.labels.range') }}
               </v-btn>
             </template>
             <v-date-picker
-              range
               v-model="timeRange"
-              :max="tomorrow.toISOString()" @change="currentRangeBtn = 'range'"/>
+              range
+              :max="tomorrow.toISOString()"
+              @change="currentRangeBtn = 'range'"
+            />
           </v-menu>
-          <v-btn variant="outlined" class="ml-1" :class="currentRangeBtn === 'allTime' ? 'v-btn--active' : ''"
-                 @click="timeRange = null; currentRangeBtn = 'allTime'">
+          <v-btn
+            variant="outlined"
+            class="ml-1"
+            :class="currentRangeBtn === 'allTime' ? 'v-btn--active' : ''"
+            @click="timeRange = null; currentRangeBtn = 'allTime'"
+          >
             {{ $t('_purchases.labels.allTime') }}
           </v-btn>
-          <v-btn variant="outlined" class="ml-1"
-                 :class="currentRangeBtn === 'thisYear' ? 'v-btn--active' : ''"
-                 @click="timeRange = [firstOfThisYear.toISOString(), tomorrow.toISOString()];
-                 currentRangeBtn = 'thisYear'">
+          <v-btn
+            variant="outlined"
+            class="ml-1"
+            :class="currentRangeBtn === 'thisYear' ? 'v-btn--active' : ''"
+            @click="timeRange = [firstOfThisYear.toISOString(), tomorrow.toISOString()];
+                    currentRangeBtn = 'thisYear'"
+          >
             {{ $t('_purchases.labels.thisYear') }}
           </v-btn>
-          <v-btn variant="outlined" class="ml-1"
-                 :class="currentRangeBtn === 'thisMonth' ? 'v-btn--active' : ''"
-                 @click="timeRange = [firstOfThisMonth.toISOString(), tomorrow.toISOString()];
-                 currentRangeBtn = 'thisMonth'">
+          <v-btn
+            variant="outlined"
+            class="ml-1"
+            :class="currentRangeBtn === 'thisMonth' ? 'v-btn--active' : ''"
+            @click="timeRange = [firstOfThisMonth.toISOString(), tomorrow.toISOString()];
+                    currentRangeBtn = 'thisMonth'"
+          >
             {{ $t('_purchases.labels.thisMonth') }}
           </v-btn>
         </v-col>
-        <v-col cols="6" lg="3" class="d-flex align-center">
-          <v-select :items="dashboards" v-model="currentDashboard" hide-details variant="outlined" density="compact"
-                    item-title="name" item-value="value"/>
-          <v-select item-title="name" item-value="code" :items="currencies"
-                    v-model="currentCurrency"
-                    hide-details class="ml-1"
-                    variant="outlined"
-                    density="compact"
-                    return-object/>
+        <v-col
+          cols="6"
+          lg="3"
+          class="d-flex align-center"
+        >
+          <v-select
+            v-model="currentDashboard"
+            :items="dashboards"
+            hide-details
+            variant="outlined"
+            density="compact"
+            item-title="name"
+            item-value="value"
+          />
+          <v-select
+            v-model="currentCurrency"
+            item-title="name"
+            item-value="code"
+            :items="currencies"
+            hide-details
+            class="ml-1"
+            variant="outlined"
+            density="compact"
+            return-object
+          />
         </v-col>
       </v-row>
-      <Overview v-if="currentDashboard === 'overview'"
-                :timeRange="timeRange"
-                :currency="currentCurrency"
-                :intervalItems="intervalItems"/>
-      <Purchases v-if="currentDashboard === 'purchases'"
-                 :timeRange="timeRange"
-                 :currency="currentCurrency"
-                 :intervalItems="intervalItems"/>
+      <Overview
+        v-if="currentDashboard === 'overview'"
+        :time-range="timeRange"
+        :currency="currentCurrency"
+        :interval-items="intervalItems"
+      />
+      <Purchases
+        v-if="currentDashboard === 'purchases'"
+        :time-range="timeRange"
+        :currency="currentCurrency"
+        :interval-items="intervalItems"
+      />
     </div>
   </div>
 </template>
@@ -103,30 +146,6 @@ export default {
       ],
     };
   },
-  beforeMount() {
-    this.fetchData();
-  },
-  watch: {
-    $route() {
-      this.fetchData();
-    },
-  },
-  methods: {
-    async fetchData() {
-      const cachedApi = await openapiCached;
-
-      cachedApi.shop_getCurrencies().then((rsp) => {
-        this.currencies = rsp.data;
-
-        if (this.currencies.length > 0) {
-          [this.currentCurrency] = this.currencies;
-        }
-      }).catch((err) => {
-        console.log(err);
-        this.utils.notifyUnexpectedError(err.response.data);
-      });
-    },
-  },
   computed: {
     tomorrow() {
       const tomorrow = new Date();
@@ -143,6 +162,30 @@ export default {
       first.setMonth(0);
       first.setDate(1);
       return first;
+    },
+  },
+  watch: {
+    $route() {
+      this.fetchData();
+    },
+  },
+  beforeMount() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      const cachedApi = await openapiCached;
+
+      cachedApi.shop_getCurrencies().then((rsp) => {
+        this.currencies = rsp.data;
+
+        if (this.currencies.length > 0) {
+          [this.currentCurrency] = this.currencies;
+        }
+      }).catch((err) => {
+        console.log(err);
+        this.utils.notifyUnexpectedError(err.response.data);
+      });
     },
   },
 };

@@ -3,44 +3,78 @@
     <DataTable
       :headers="headers"
       :items="discounts"
-      :showSearch="true">
-      <template v-slot:footer-right>
-        <v-btn variant="outlined" color="success" @click="$refs.createDiscountDialog.show()">
-          <v-icon start>mdi-plus</v-icon>
+      :show-search="true"
+    >
+      <template #footer-right>
+        <v-btn
+          variant="outlined"
+          color="success"
+          @click="$refs.createDiscountDialog.show()"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
           <span>{{ $t('_discount.labels.create') }}</span>
         </v-btn>
       </template>
-      <template v-slot:item.enabled="{ item }">
-        <BoolIcon :value="item.enabled"></BoolIcon>
+      <template #item.enabled="{ item }">
+        <BoolIcon :value="item.enabled" />
       </template>
-      <template v-slot:item.all_packets="{ item }">
-        <v-chip v-if="item.all_packets" color="green">{{ $t('all') }}</v-chip>
-        <v-chip v-else v-for="packet in item.packets" :key="packet.id" class="mr-1">
+      <template #item.all_packets="{ item }">
+        <v-chip
+          v-if="item.all_packets"
+          color="green"
+        >
+          {{ $t('all') }}
+        </v-chip>
+        <v-chip
+          v-for="packet in item.packets"
+          v-else
+          :key="packet.id"
+          class="mr-1"
+        >
           {{ packet.title }}
         </v-chip>
-        <v-chip v-if="!item.all_packets && item.packets.length === 0" color="red">
+        <v-chip
+          v-if="!item.all_packets && item.packets.length === 0"
+          color="red"
+        >
           {{ $t('none') }}
         </v-chip>
       </template>
-      <template v-slot:item.begin="{ item }">
+      <template #item.begin="{ item }">
         {{ new Date(item.begin).toLocaleString() }}
       </template>
-      <template v-slot:item.end="{ item }">
-        <div v-if="item.end != null">{{ new Date(item.end).toLocaleString() }}</div>
-        <div v-else>∞</div>
+      <template #item.end="{ item }">
+        <div v-if="item.end != null">
+          {{ new Date(item.end).toLocaleString() }}
+        </div>
+        <div v-else>
+          ∞
+        </div>
       </template>
-      <template v-slot:item.percentage="{ item }">
+      <template #item.percentage="{ item }">
         {{ item.percentage }}%
       </template>
-      <template v-slot:item.code="{ item }">
+      <template #item.code="{ item }">
         <div v-if="item.code == null">
-          <v-chip color="info"><v-icon start>mdi-reload</v-icon>{{ $t('automatic') }}</v-chip>
+          <v-chip color="info">
+            <v-icon start>
+              mdi-reload
+            </v-icon>{{ $t('automatic') }}
+          </v-chip>
         </div>
-        <div v-else>{{ item.code }}</div>
+        <div v-else>
+          {{ item.code }}
+        </div>
       </template>
-      <template v-slot:item.max_usages="{ item }">
+      <template #item.max_usages="{ item }">
         <span class="d-flex align-center">
-          <v-chip size="small" class="mr-2" color="primary">
+          <v-chip
+            size="small"
+            class="mr-2"
+            color="primary"
+          >
             {{ item.usages }}
             /
             &nbsp;
@@ -51,7 +85,11 @@
               ∞
             </span>
           </v-chip>
-          <v-chip v-if="item.max_usages_per_user" color="info" size="small">
+          <v-chip
+            v-if="item.max_usages_per_user"
+            color="info"
+            size="small"
+          >
             {{ item.max_usages_per_user }} /
             <v-icon size="small">
               mdi-account
@@ -59,14 +97,25 @@
           </v-chip>
         </span>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <div class="text-right">
-          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            size="small"
+            class="mr-1"
+            @click="showEditDialog(item)"
+          >
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteDiscountDialog.show(item)">
+          <v-btn
+            variant="outlined"
+            color="error"
+            size="small"
+            @click="$refs.deleteDiscountDialog.show(item)"
+          >
             <v-icon>
               mdi-delete
             </v-icon>
@@ -78,19 +127,33 @@
       ref="createDiscountDialog"
       :form-schema="discountSchema"
       icon="mdi-ticket-percent"
-      :submitText="$t('create')"
+      :submit-text="$t('create')"
+      :title="$t('_discount.labels.create')"
       @submit="createDiscount"
-      :title="$t('_discount.labels.create')">
-      <template v-slot:code-after>
-        <v-btn class="mb-4 higher"
-               style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
-          variant="outlined" size="small" color="secondary" @click="generateCode(true)">
-          <v-icon start>mdi-code-greater-than</v-icon>
+    >
+      <template #code-after>
+        <v-btn
+          class="mb-4 higher"
+          style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
+          variant="outlined"
+          size="small"
+          color="secondary"
+          @click="generateCode(true)"
+        >
+          <v-icon start>
+            mdi-code-greater-than
+          </v-icon>
           <span>{{ $t('generate') }}</span>
         </v-btn>
-        <v-btn class="mb-4 higher" style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
-               :disabled="!hasNameAndPercentage"
-               variant="outlined" size="small" color="secondary" @click="generateCode(false)">
+        <v-btn
+          class="mb-4 higher"
+          style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
+          :disabled="!hasNameAndPercentage"
+          variant="outlined"
+          size="small"
+          color="secondary"
+          @click="generateCode(false)"
+        >
           <v-icon>mdi-code-greater-than-or-equal</v-icon>
         </v-btn>
       </template>
@@ -99,26 +162,41 @@
       ref="editDiscountDialog"
       :form-schema="discountSchema"
       icon="mdi-ticket-percent"
-      :submitText="$t('edit')"
+      :submit-text="$t('edit')"
+      :title="$t('_discount.labels.edit')"
       @submit="editDiscount"
-      :title="$t('_discount.labels.edit')">
-      <template v-slot:code-after>
-        <v-btn class="mb-4 higher"
-               style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
-               variant="outlined" size="small" color="secondary" @click="generateCode(true)">
-          <v-icon start>mdi-code-greater-than</v-icon>
+    >
+      <template #code-after>
+        <v-btn
+          class="mb-4 higher"
+          style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
+          variant="outlined"
+          size="small"
+          color="secondary"
+          @click="generateCode(true)"
+        >
+          <v-icon start>
+            mdi-code-greater-than
+          </v-icon>
           <span>{{ $t('generate') }}</span>
         </v-btn>
-        <v-btn class="mb-4 higher" style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
-               :disabled="!hasNameAndPercentage"
-               variant="outlined" size="small" color="secondary" @click="generateCode(false)">
+        <v-btn
+          class="mb-4 higher"
+          style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
+          :disabled="!hasNameAndPercentage"
+          variant="outlined"
+          size="small"
+          color="secondary"
+          @click="generateCode(false)"
+        >
           <v-icon>mdi-code-greater-than-or-equal</v-icon>
         </v-btn>
       </template>
     </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteDiscountDialog"
-      @submit="deleteDiscount"/>
+      @submit="deleteDiscount"
+    />
   </div>
 </template>
 
@@ -156,6 +234,15 @@ export default {
       discounts: null,
       discountSchema: DiscountForm,
     };
+  },
+  computed: {
+    hasNameAndPercentage() {
+      const data = this.$refs.createDiscountDialog.getData();
+      if (data.name && data.percentage) {
+        return true;
+      }
+      return false;
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -246,15 +333,6 @@ export default {
 
       this.$refs.editDiscountDialog.setData(data);
       this.$refs.editDiscountDialog.show(discount);
-    },
-  },
-  computed: {
-    hasNameAndPercentage() {
-      const data = this.$refs.createDiscountDialog.getData();
-      if (data.name && data.percentage) {
-        return true;
-      }
-      return false;
     },
   },
 };

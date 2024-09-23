@@ -1,71 +1,125 @@
 <template>
   <div>
     <div v-if="thread && posts && topic">
-      <PageTitleFlat :title="thread.title" :icon="threadIcon"
-                     :hide-triangle="$vuetify.display.smAndDown"
-                     :no-bottom-border-radius="$vuetify.display.smAndDown">
-        <template v-slot:end>
+      <PageTitleFlat
+        :title="thread.title"
+        :icon="threadIcon"
+        :hide-triangle="$vuetify.display.smAndDown"
+        :no-bottom-border-radius="$vuetify.display.smAndDown"
+      >
+        <template #end>
           <div class="d-flex justify-end">
-            <v-chip v-for="(label, index) in thread.labels" :key="label.id" class="text-white"
-                    :color="label.color" :size="true ? 'small' : undefined"
-                    :style="{
-                   'border-top-right-radius': index === (thread.labels.length - 1) ? '20px' : '0',
-                    'border-bottom-right-radius':
-                    index === (thread.labels.length - 1) ? '20px' : '0',
-                    'border-top-left-radius': index === 0 ? '20px' : '0',
-                    'border-bottom-left-radius': index === 0 ? '20px' : '0'
-                   }">
+            <v-chip
+              v-for="(label, index) in thread.labels"
+              :key="label.id"
+              class="text-white"
+              :color="label.color"
+              :size="true ? 'small' : undefined"
+              :style="{
+                'border-top-right-radius': index === (thread.labels.length - 1) ? '20px' : '0',
+                'border-bottom-right-radius':
+                  index === (thread.labels.length - 1) ? '20px' : '0',
+                'border-top-left-radius': index === 0 ? '20px' : '0',
+                'border-bottom-left-radius': index === 0 ? '20px' : '0'
+              }"
+            >
               {{ label.name }}
             </v-chip>
           </div>
         </template>
-        <template v-slot:subtitle>
+        <template #subtitle>
           <div class="d-flex align-center">
             <div class="text-white thread-breadcrumbs">
-              <router-link :to="{ name: 'Forum' }" class="text-white">
-                {{ topic.topic_category.title }}</router-link>
-              / <router-link class="text-white"
-                             :to="{ name: 'ForumTopic', params: { id: topic.id } }">
-              {{ topic.title }}</router-link>
+              <router-link
+                :to="{ name: 'Forum' }"
+                class="text-white"
+              >
+                {{ topic.topic_category.title }}
+              </router-link>
+              / <router-link
+                class="text-white"
+                :to="{ name: 'ForumTopic', params: { id: topic.id } }"
+              >
+                {{ topic.title }}
+              </router-link>
               / <span>
-              {{ thread.title }}
+                {{ thread.title }}
               </span>
             </div>
             <v-spacer />
             <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins)">
-              <v-btn color="success" variant="outlined" size="small" class="ml-5 mr-1"
-                     @click="openThreadTitleEditDialog(thread)">
-                <v-icon start>mdi-pencil</v-icon>
+              <v-btn
+                color="success"
+                variant="outlined"
+                size="small"
+                class="ml-5 mr-1"
+                @click="openThreadTitleEditDialog(thread)"
+              >
+                <v-icon start>
+                  mdi-pencil
+                </v-icon>
                 <span>{{ $t('edit') }}</span>
               </v-btn>
-              <v-btn variant="outlined" size="small"
-                     style="min-width: 18px; width: 18px"
-                     color="error" @click="$refs.deleteThreadConfirmationDialog.show(thread)">
-                <v-icon size="small">mdi-delete</v-icon>
+              <v-btn
+                variant="outlined"
+                size="small"
+                style="min-width: 18px; width: 18px"
+                color="error"
+                @click="$refs.deleteThreadConfirmationDialog.show(thread)"
+              >
+                <v-icon size="small">
+                  mdi-delete
+                </v-icon>
               </v-btn>
             </div>
-            <v-btn :disabled="$checkIsForumBanned()" variant="flat"
-                   v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
-                   color="success" @click="$refs.addPostDialog.show()" class="ml-1" size="small">
-              <v-icon start>mdi-plus</v-icon>
+            <v-btn
+              v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
+              :disabled="$checkIsForumBanned()"
+              variant="flat"
+              color="success"
+              class="ml-1"
+              size="small"
+              @click="$refs.addPostDialog.show()"
+            >
+              <v-icon start>
+                mdi-plus
+              </v-icon>
               {{ $t('_forum.addPost') }}
             </v-btn>
           </div>
         </template>
       </PageTitleFlat>
-      <v-card flat border class="vh-forum-post card-rounded-bottom mb-3"
-              v-for="(post, index) in posts" :key="post.id"
-              :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
-           'no-top-border-radius': $vuetify.display.smAndDown && index === 0}">
-        <div class="d-flex" :class="{ 'flex-column' : $vuetify.display.xs }">
+      <v-card
+        v-for="(post, index) in posts"
+        :key="post.id"
+        flat
+        border
+        class="vh-forum-post card-rounded-bottom mb-3"
+        :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
+                  'no-top-border-radius': $vuetify.display.smAndDown && index === 0}"
+      >
+        <div
+          class="d-flex"
+          :class="{ 'flex-column' : $vuetify.display.xs }"
+        >
           <!-- Avatar -->
           <!-- Large Screens -->
-          <div class="pa-3 text-center" style="width: 200px" v-if="$vuetify.display.smAndUp">
-            <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
-                         class="text-decoration-none" style="color: inherit"
-                         v-if="!post.creator.deleted">
+          <div
+            v-if="$vuetify.display.smAndUp"
+            class="pa-3 text-center"
+            style="width: 200px"
+          >
+            <router-link
+              v-if="!post.creator.deleted"
+              :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
+              class="text-decoration-none"
+              style="color: inherit"
+            >
               <v-avatar size="80">
-                <v-img class="mx-auto" :src="post.creator.avatar" />
+                <v-img
+                  class="mx-auto"
+                  :src="post.creator.avatar"
+                />
               </v-avatar>
               <div class="text-h6">
                 {{ post.creator.username }}
@@ -73,23 +127,42 @@
             </router-link>
             <div v-else>
               <v-avatar size="80">
-                <v-img class="mx-auto" :src="post.creator.avatar" />
+                <v-img
+                  class="mx-auto"
+                  :src="post.creator.avatar"
+                />
               </v-avatar>
               <div class="text-h6">
                 {{ post.creator.username }}
               </div>
-              <v-icon color="red" class="mt-2">mdi-account-remove</v-icon>
+              <v-icon
+                color="red"
+                class="mt-2"
+              >
+                mdi-account-remove
+              </v-icon>
             </div>
             <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
-              <div v-for="membership in post.creator.memberships" :key="membership.id"
-                   class="justify-center">
+              <div
+                v-for="membership in post.creator.memberships"
+                :key="membership.id"
+                class="justify-center"
+              >
                 <v-tooltip location="bottom">
-                  <template v-slot:activator="{ props }">
-                    <v-chip size="small" :color="membership.group.color" v-bind="props"
-                            :text-color="$vuetify.theme.dark ? 'white' : 'black'" variant="outlined"
-                            class="mt-2" style="max-width: 150px">
+                  <template #activator="{ props }">
+                    <v-chip
+                      size="small"
+                      :color="membership.group.color"
+                      v-bind="props"
+                      :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                      variant="outlined"
+                      class="mt-2"
+                      style="max-width: 150px"
+                    >
                       <div style="max-width: 150px; width: 100%;">
-                        <p class="text-ellipsis mt-4">{{ membership.group.name }}</p>
+                        <p class="text-ellipsis mt-4">
+                          {{ membership.group.name }}
+                        </p>
                       </div>
                     </v-chip>
                   </template>
@@ -99,46 +172,78 @@
             </div>
           </div>
           <!-- Small Screens -->
-          <div v-else class="pt-3 px-3">
-            <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
-                         class="text-decoration-none d-block text-center"
-                         style="color: inherit"
-                         v-if="!post.creator.deleted">
+          <div
+            v-else
+            class="pt-3 px-3"
+          >
+            <router-link
+              v-if="!post.creator.deleted"
+              :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
+              class="text-decoration-none d-block text-center"
+              style="color: inherit"
+            >
               <v-avatar size="40">
-                <v-img class="mx-auto" :src="post.creator.avatar" />
+                <v-img
+                  class="mx-auto"
+                  :src="post.creator.avatar"
+                />
               </v-avatar>
               <div class="text-h6">
                 {{ post.creator.username }}
               </div>
             </router-link>
-            <div v-else class="d-block text-center">
+            <div
+              v-else
+              class="d-block text-center"
+            >
               <v-avatar size="40">
-                <v-img class="mx-auto" :src="post.creator.avatar" />
+                <v-img
+                  class="mx-auto"
+                  :src="post.creator.avatar"
+                />
               </v-avatar>
               <div class="text-h6">
                 {{ post.creator.username }}
               </div>
-              <v-icon color="red">mdi-account-remove</v-icon>
+              <v-icon color="red">
+                mdi-account-remove
+              </v-icon>
             </div>
             <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
-              <v-chip size="small" v-for="membership in post.creator.memberships"
-                      :key="membership.id" :color="membership.group.color"
-                      :text-color="$vuetify.theme.dark ? 'white' : 'black'" variant="outlined"
-                      class="mt-2 d-block text-center">
-                <p class="text-ellipsis">{{ membership.group.name }}</p>
+              <v-chip
+                v-for="membership in post.creator.memberships"
+                :key="membership.id"
+                size="small"
+                :color="membership.group.color"
+                :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                variant="outlined"
+                class="mt-2 d-block text-center"
+              >
+                <p class="text-ellipsis">
+                  {{ membership.group.name }}
+                </p>
               </v-chip>
             </div>
           </div>
-          <v-divider vertical v-if="$vuetify.display.smAndUp"/>
+          <v-divider
+            v-if="$vuetify.display.smAndUp"
+            vertical
+          />
           <div style="width: 100%">
             <div>
               <!-- TOP START -->
               <!-- ORIGINAL POSTER HINT -->
               <v-card-text class="d-flex align-center">
-                <div v-if="post.creator && thread.creator
-                    && post.creator.id === thread.creator.id">
-                  <v-chip :color="$vuetify.theme.dark ? '#1c1c1c' : '#c5c5c5'" size="small" label
-                          class="vh-forum-post-op">
+                <div
+                  v-if="post.creator && thread.creator
+                    && post.creator.id === thread.creator.id"
+                >
+                  <v-chip
+                    :color="$vuetify.theme.dark ? '#1c1c1c' : '#c5c5c5'"
+                    size="small"
+                    label
+                    class="vh-forum-post-op"
+                  >
                     OP
                   </v-chip>
                   <b class="ml-2 mr-1">·</b>
@@ -150,24 +255,40 @@
                 <!-- ORIGINAL POSTER HINT END -->
                 <!-- ADMIN HINT -->
                 <div class="ml-auto">
-                  <v-chip round variant="outlined" color="red" size="small"
-                          v-if="$checkTopicAdmin(admins, post.creator)">
-                    <v-icon size="small" start>mdi-shield-sword-outline</v-icon>
+                  <v-chip
+                    v-if="$checkTopicAdmin(admins, post.creator)"
+                    round
+                    variant="outlined"
+                    color="red"
+                    size="small"
+                  >
+                    <v-icon
+                      size="small"
+                      start
+                    >
+                      mdi-shield-sword-outline
+                    </v-icon>
                     <span>{{ $t('_forum.admin') }}</span>
                   </v-chip>
                 </div>
               </v-card-text>
               <!-- ADMIN HINT END -->
-              <v-divider/>
+              <v-divider />
               <v-card-text>
                 <!-- IMPORTANT - TOP -->
-                <span v-html="post.content" class="ql-editor pa-0 text-break" />
+                <span
+                  class="ql-editor pa-0 text-break"
+                  v-html="post.content"
+                />
               </v-card-text>
               <v-divider /> <!-- IMPORTANT - BOTTOM -->
               <div class="px-3 py-1">
                 <div class="d-flex align-center">
-                  <div v-if="post.last_edit" class="text--disabled mr-2"
-                       style="font-size: 0.9em">
+                  <div
+                    v-if="post.last_edit"
+                    class="text--disabled mr-2"
+                    style="font-size: 0.9em"
+                  >
                     <span>{{ $t('_forum.edited') }}:
                       {{ utils.formatTimeForForum(post.last_edit) }}
                     </span>
@@ -175,28 +296,40 @@
 
                   <!-- POST REACTIONS -->
                   <div class="d-flex flex-row flex-wrap align-center">
-                    <div v-for="icon in icons" :key="icon">
+                    <div
+                      v-for="icon in icons"
+                      :key="icon"
+                    >
                       <span class="mr-2 d-flex align-center">
                         <!-- BTN when logged in -->
-                        <v-btn :class="{ 'text--disabled':
-                               getReactionAccumulated(post, icon).count === 0}"
-                               size="small" variant="outlined" variant="flat" v-if="$store.getters.isLoggedIn"
-                               class="pa-1 ma-0 reaction-btn"
-                               :style="getReactionAccumulated(post, icon).has_reacted ?
-                               `background-color: ${$vuetify.theme.current.primary}1A;
+                        <v-btn
+                          v-if="$store.getters.isLoggedIn"
+                          :class="{ 'text--disabled':
+                            getReactionAccumulated(post, icon).count === 0}"
+                          size="small"
+                          variant="outlined"
+                          variant="flat"
+                          class="pa-1 ma-0 reaction-btn"
+                          :style="getReactionAccumulated(post, icon).has_reacted ?
+                            `background-color: ${$vuetify.theme.current.primary}1A;
                                 border-color: ${$vuetify.theme.current.primary}` : ''"
-                               style="min-width: 30px; border-color: transparent"
-                               @click="toggleReaction(post, icon)"
-                               @click.right.prevent="showAllReactors(post, icon)">
+                          style="min-width: 30px; border-color: transparent"
+                          @click="toggleReaction(post, icon)"
+                          @click.right.prevent="showAllReactors(post, icon)"
+                        >
                           <span class="reaction-icon">{{ icon }}</span>
-                          <span class="ml-1 animate__animated animate__fadeInUp animate__faster"
-                                v-if="getReactionAccumulated(post, icon).count !== 0">
-                          {{ getReactionAccumulated(post, icon).count }}
+                          <span
+                            v-if="getReactionAccumulated(post, icon).count !== 0"
+                            class="ml-1 animate__animated animate__fadeInUp animate__faster"
+                          >
+                            {{ getReactionAccumulated(post, icon).count }}
                           </span>
                         </v-btn>
-                        <span v-else
-                              :class="{ 'text--disabled':
-                              getReactionAccumulated(post, icon).count === 0}">
+                        <span
+                          v-else
+                          :class="{ 'text--disabled':
+                            getReactionAccumulated(post, icon).count === 0}"
+                        >
                           {{ icon }}
                           <span v-if="getReactionAccumulated(post, icon).count !== 0">
                             {{ getReactionAccumulated(post, icon).count }}
@@ -207,16 +340,23 @@
                   </div>
                   <v-spacer />
                   <div class="d-flex align-center justify-end">
-                    <v-btn size="small" variant="outlined" @click.stop="openEditPostDialog(post)"
-                           color="primary"
-                           class="mr-2"
-                           v-if="postEditable(post)">
+                    <v-btn
+                      v-if="postEditable(post)"
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      class="mr-2"
+                      @click.stop="openEditPostDialog(post)"
+                    >
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn size="small" variant="outlined"
-                           v-if="postEditable(post) && posts[0].id !== post.id"
-                           @click.stop="$refs.deletePostConfirmationDialog.show(post)"
-                           color="error">
+                    <v-btn
+                      v-if="postEditable(post) && posts[0].id !== post.id"
+                      size="small"
+                      variant="outlined"
+                      color="error"
+                      @click.stop="$refs.deletePostConfirmationDialog.show(post)"
+                    >
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </div>
@@ -226,75 +366,151 @@
           </div>
         </div>
       </v-card>
-      <v-pagination v-if="totalPages > 1"
-                    v-model="page"
-                    :length="totalPages"
-                    :total-visible="5"
-                    @update:model-value="fetchData"/>
-      <div class="mt-3" v-if="(thread.status !== 'CLOSED'
-      || ($checkProp('forum_edit') || $checkTopicAdmin(admins))) && posts.length >= 1
-      && $vuetify.display.mdAndUp && $store.getters.isLoggedIn">
-        <v-card flat border class="card-rounded">
+      <v-pagination
+        v-if="totalPages > 1"
+        v-model="page"
+        :length="totalPages"
+        :total-visible="5"
+        @update:model-value="fetchData"
+      />
+      <div
+        v-if="(thread.status !== 'CLOSED'
+          || ($checkProp('forum_edit') || $checkTopicAdmin(admins))) && posts.length >= 1
+          && $vuetify.display.mdAndUp && $store.getters.isLoggedIn"
+        class="mt-3"
+      >
+        <v-card
+          flat
+          border
+          class="card-rounded"
+        >
           <v-card-text>
-            <v-card v-if="$checkIsForumBanned()" color="error-darken-1"
-                    flat class="small-card mb-2">
-              <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
-                <v-icon class="mr-2">mdi-information-box</v-icon>
+            <v-card
+              v-if="$checkIsForumBanned()"
+              color="error-darken-1"
+              flat
+              class="small-card mb-2"
+            >
+              <v-card-text
+                class="d-flex"
+                style="color: white; align-items: center; height: 100%"
+              >
+                <v-icon class="mr-2">
+                  mdi-information-box
+                </v-icon>
                 {{ $t('_forum.messages.banned') }}
               </v-card-text>
             </v-card>
-            <v-card v-if="!$checkIsForumBanned() && threadIsOld" color="warning-darken-1"
-                    flat class="small-card mb-2">
-              <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
-                <v-icon class="mr-2">mdi-information-box</v-icon>
+            <v-card
+              v-if="!$checkIsForumBanned() && threadIsOld"
+              color="warning-darken-1"
+              flat
+              class="small-card mb-2"
+            >
+              <v-card-text
+                class="d-flex"
+                style="color: white; align-items: center; height: 100%"
+              >
+                <v-icon class="mr-2">
+                  mdi-information-box
+                </v-icon>
                 {{ $t('_forum.messages.oldThread') }}
               </v-card-text>
             </v-card>
-            <v-card v-if="!$checkIsForumBanned() && thread.status === 'CLOSED'"
-                    color="warning-darken-1" flat class="small-card mb-2">
-              <v-card-text class="d-flex" style="color: white; align-items: center; height: 100%">
-                <v-icon class="mr-2">mdi-information-box</v-icon>
+            <v-card
+              v-if="!$checkIsForumBanned() && thread.status === 'CLOSED'"
+              color="warning-darken-1"
+              flat
+              class="small-card mb-2"
+            >
+              <v-card-text
+                class="d-flex"
+                style="color: white; align-items: center; height: 100%"
+              >
+                <v-icon class="mr-2">
+                  mdi-information-box
+                </v-icon>
                 {{ $t('_forum.messages.closedThread') }}
               </v-card-text>
             </v-card>
-            <editor v-if="!$checkIsForumBanned()" v-model="message.content"/>
+            <editor
+              v-if="!$checkIsForumBanned()"
+              v-model="message.content"
+            />
             <div class="d-flex">
-              <v-btn class="mt-3" variant="flat" color="success" v-if="!$checkIsForumBanned()"
-                     @click="newPost(message.content)">
-                <v-icon start>mdi-plus</v-icon>
+              <v-btn
+                v-if="!$checkIsForumBanned()"
+                class="mt-3"
+                variant="flat"
+                color="success"
+                @click="newPost(message.content)"
+              >
+                <v-icon start>
+                  mdi-plus
+                </v-icon>
                 {{ $t('_forum.addPost') }}
               </v-btn>
-              <v-checkbox class="ml-4" v-if="!$checkIsForumBanned()
-              && ($checkProp('forum_edit') || $checkTopicAdmin(admins))"
-                          v-model="closeWithPost" :label="$t('_forum.lockWithAnswer')"/>
+              <v-checkbox
+                v-if="!$checkIsForumBanned()
+                  && ($checkProp('forum_edit') || $checkTopicAdmin(admins))"
+                v-model="closeWithPost"
+                class="ml-4"
+                :label="$t('_forum.lockWithAnswer')"
+              />
             </div>
           </v-card-text>
         </v-card>
       </div>
-      <div v-if="thread.status === 'CLOSED'
-      && !($checkProp('forum_edit') || $checkTopicAdmin(admins))">
+      <div
+        v-if="thread.status === 'CLOSED'
+          && !($checkProp('forum_edit') || $checkTopicAdmin(admins))"
+      >
         <v-row class="justify-center mt-3">
-          <v-col cols="4" lg="2" sm="3">
-            <v-alert variant="outlined" color="red" class="text-center">
+          <v-col
+            cols="4"
+            lg="2"
+            sm="3"
+          >
+            <v-alert
+              variant="outlined"
+              color="red"
+              class="text-center"
+            >
               {{ $t('_forum.locked') }}
             </v-alert>
           </v-col>
         </v-row>
       </div>
-      <ThreadAddDialog ref="addPostDialog"
-                       :dialog-title="`${$t('_forum.addPost')}`"
-                       @submit="newPost" :hide-title-input="true" />
-      <ThreadAddDialog ref="editPostDialog"
-                       :dialog-title="`${$t('_forum.editPost')}`"
-                       @submit="editPost" :hide-title-input="true" />
-      <EditThreadDialog ref="editThreadTitleDialog"
-                  :dialog-title="`${$t('_forum.editThread')}`"
-                  @submit="editThreadTitle" />
-      <DeleteConfirmationDialog ref="deletePostConfirmationDialog"
-                                @submit="deletePost" />
-      <DeleteConfirmationDialog ref="deleteThreadConfirmationDialog"
-                                @submit="deleteThread" />
-      <v-dialog ref="showAllReactorsDialog" v-model="menuOpen" max-width="350px">
+      <ThreadAddDialog
+        ref="addPostDialog"
+        :dialog-title="`${$t('_forum.addPost')}`"
+        :hide-title-input="true"
+        @submit="newPost"
+      />
+      <ThreadAddDialog
+        ref="editPostDialog"
+        :dialog-title="`${$t('_forum.editPost')}`"
+        :hide-title-input="true"
+        @submit="editPost"
+      />
+      <EditThreadDialog
+        ref="editThreadTitleDialog"
+        :dialog-title="`${$t('_forum.editThread')}`"
+        @submit="editThreadTitle"
+      />
+      <DeleteConfirmationDialog
+        ref="deletePostConfirmationDialog"
+        @submit="deletePost"
+      />
+      <DeleteConfirmationDialog
+        ref="deleteThreadConfirmationDialog"
+        @submit="deleteThread"
+      />
+      <v-dialog
+        ref="showAllReactorsDialog"
+        v-model="menuOpen"
+        max-width="350px"
+      >
         <template v-if="selectedReaction">
           <v-card class="card-rounded">
             <v-card-title class="text-h5 bg-primary">
@@ -303,19 +519,23 @@
             <v-card-text>
               <v-list>
                 <template v-for="(user, index) in selectedReaction.users">
-                  <v-list-item :key="user.id" class="align-center"
-                               :to="{ name: 'UserDashboard', params: { id: user.id } }">
+                  <v-list-item
+                    :key="user.id"
+                    class="align-center"
+                    :to="{ name: 'UserDashboard', params: { id: user.id } }"
+                  >
                     <v-list-item-avatar class="mr-2">
                       <v-avatar size="30">
                         <v-img :src="user.avatar" />
                       </v-avatar>
                     </v-list-item-avatar>
 
-                      <v-list-item-title>{{ user.username }}</v-list-item-title>
-
+                    <v-list-item-title>{{ user.username }}</v-list-item-title>
                   </v-list-item>
-                  <v-divider v-if="index < selectedReaction.users.length - 1"
-                             :key="`divider-${index}`"/>
+                  <v-divider
+                    v-if="index < selectedReaction.users.length - 1"
+                    :key="`divider-${index}`"
+                  />
                 </template>
               </v-list>
             </v-card-text>
@@ -325,10 +545,20 @@
     </div>
     <div v-else>
       <PageTitleFlat />
-      <v-card class="card-rounded mt-3" flat v-for="i in 3" :key="i">
+      <v-card
+        v-for="i in 3"
+        :key="i"
+        class="card-rounded mt-3"
+        flat
+      >
         <v-card-text>
           <v-row>
-            <v-col cols="3" sm="2" md="1" class="d-flex">
+            <v-col
+              cols="3"
+              sm="2"
+              md="1"
+              class="d-flex"
+            >
               <v-skeleton-loader type="avatar" />
             </v-col>
             <v-divider vertical />
@@ -380,6 +610,19 @@ export default {
       selectedReaction: null,
     };
   },
+  computed: {
+    threadIcon() {
+      if (!this.thread) return null;
+      if (this.thread.pinned) return 'mdi-pin';
+      if (this.thread.status === 'CLOSED') return 'mdi-lock';
+      return null;
+    },
+  },
+  watch: {
+    page(newVal) {
+      this.$router.replace({ query: { page: newVal } });
+    },
+  },
   beforeMount() {
     if (this.$route.query.page) {
       this.page = parseInt(this.$route.query.page, 10);
@@ -391,11 +634,6 @@ export default {
     this.fetchData();
     this.getThread();
   },
-  watch: {
-    page(newVal) {
-      this.$router.replace({ query: { page: newVal } });
-    },
-  },
   methods: {
     async fetchData() {
       (await openapi).forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 20 })
@@ -404,10 +642,10 @@ export default {
           if (!this.lastPage) {
             const posts = rsp.data.items;
             posts.forEach((p) => {
-              // eslint-disable-next-line no-param-reassign
+               
               p.accumulated_reactions = {};
 
-              // eslint-disable-next-line no-param-reassign
+               
               p.accumulated_reactions = p.reactions.reduce((acc, obj) => {
                 if (!acc[obj.name]) {
                   acc[obj.name] = { count: 1, has_reacted: false };
@@ -425,7 +663,7 @@ export default {
                 return acc;
               }, {});
 
-              // eslint-disable-next-line no-param-reassign
+               
               p.content = p.content.replace(
                 /<iframe([^>]*)src="([^"]+)"([^>]*)><\/iframe>/g,
                 (_, iframeAttrsBefore, src, iframeAttrsAfter) => {
@@ -473,20 +711,20 @@ export default {
 
               this.icons.forEach((i) => {
                 if (!(i in p.accumulated_reactions)) {
-                  // eslint-disable-next-line no-param-reassign
+                   
                   p.accumulated_reactions[i] = { count: 0, has_reacted: false };
                 }
               });
 
               if (!p.creator) {
-                // eslint-disable-next-line no-param-reassign
+                 
                 p.creator = {
                   username: this.$t('deletedUser'),
                   avatar: 'https://cdn.vyhub.net/vyhub/avatars/default.png',
                   deleted: true,
                 };
               } else {
-                // eslint-disable-next-line no-param-reassign
+                 
                 p.creator.memberships = this.sortedMemberships(p.creator.memberships);
               }
             });
@@ -628,7 +866,7 @@ export default {
       return { count: reactionObj.count, has_reacted: reactionObj.has_reacted };
     },
     async toggleReaction(post, icon) {
-      // eslint-disable-next-line max-len
+       
       if (this.cooldown) return;
       this.cooldown = true;
       if (post.accumulated_reactions[icon].has_reacted) {
@@ -639,11 +877,11 @@ export default {
           return;
         }
         (await openapi).forum_deleteReaction(reaction.id).then(() => {
-          // eslint-disable-next-line no-param-reassign
+           
           post.reactions = post.reactions.filter((r) => r.id !== reaction.id);
-          // eslint-disable-next-line no-param-reassign
+           
           post.accumulated_reactions[icon].count -= 1;
-          // eslint-disable-next-line no-param-reassign
+           
           post.accumulated_reactions[icon].has_reacted = false;
         });
       } else {
@@ -651,11 +889,11 @@ export default {
           const reaction = rsp.data;
           reaction.user_id = reaction.user.id;
           post.reactions.push(reaction);
-          // eslint-disable-next-line no-param-reassign
+           
           post.accumulated_reactions[icon].count += 1;
-          // eslint-disable-next-line no-param-reassign
+           
           post.accumulated_reactions[icon].has_reacted = true;
-          // eslint-disable-next-line brace-style
+           
         });
       }
       setTimeout(() => {
@@ -680,14 +918,6 @@ export default {
       if (this.selectedReaction.users.length > 0) {
         this.menuOpen = true;
       }
-    },
-  },
-  computed: {
-    threadIcon() {
-      if (!this.thread) return null;
-      if (this.thread.pinned) return 'mdi-pin';
-      if (this.thread.status === 'CLOSED') return 'mdi-lock';
-      return null;
     },
   },
 };

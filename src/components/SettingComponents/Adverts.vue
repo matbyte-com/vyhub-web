@@ -1,45 +1,73 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/adverts">
+    <SettingTitle doc-path="/guide/adverts">
       {{ $t('_advert.title') }}
     </SettingTitle>
-      <draggable
-        :list="adverts"
-        :items="adverts"
-        @change="updateAdvertEnabled = true">
-        <v-expansion-panels
-          v-for="advert in adverts"
-          :key="advert.id">
-          <v-expansion-panel class="mt-4"
-                             :class="!advert.enabled ? 'text--disabled' : ''"
-                             style="border-style: solid; border-width: 1px"
-                             :style="{ 'border-color': advert.color }">
-            <v-expansion-panel-title>
+    <draggable
+      :list="adverts"
+      :items="adverts"
+      @change="updateAdvertEnabled = true"
+    >
+      <v-expansion-panels
+        v-for="advert in adverts"
+        :key="advert.id"
+      >
+        <v-expansion-panel
+          class="mt-4"
+          :class="!advert.enabled ? 'text--disabled' : ''"
+          style="border-style: solid; border-width: 1px"
+          :style="{ 'border-color': advert.color }"
+        >
+          <v-expansion-panel-title>
             <v-row class="d-flex align-center">
               <v-col cols="12">
                 {{ advert.title }}
                 <v-spacer />
                 <div class="text-right">
-                  <v-icon class="mr-1" v-if="advert.enabled" color="success">
+                  <v-icon
+                    v-if="advert.enabled"
+                    class="mr-1"
+                    color="success"
+                  >
                     mdi-check-circle
                   </v-icon>
-                  <v-icon class="mr-1" v-if="!advert.enabled" color="error">
+                  <v-icon
+                    v-if="!advert.enabled"
+                    class="mr-1"
+                    color="error"
+                  >
                     mdi-close-circle
                   </v-icon>
-                  <v-chip class="mr-1" :color='serverbundle.color'
-                          :text-color="$vuetify.theme.dark ? 'white' : 'black'"
-                          v-for="serverbundle in advert.serverbundles"
-                          :key="serverbundle.id" @click.stop variant="outlined" size="small">
+                  <v-chip
+                    v-for="serverbundle in advert.serverbundles"
+                    :key="serverbundle.id"
+                    class="mr-1"
+                    :color="serverbundle.color"
+                    :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                    variant="outlined"
+                    size="small"
+                    @click.stop
+                  >
                     {{ serverbundle.name }}
                   </v-chip>
-                  <v-btn variant="outlined" color="primary" size="small"
-                         @click.stop="openAdvertEditDialog(advert)" class="ml-1 mr-1">
+                  <v-btn
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    class="ml-1 mr-1"
+                    @click.stop="openAdvertEditDialog(advert)"
+                  >
                     <v-icon>
                       mdi-pencil
                     </v-icon>
                   </v-btn>
-                  <v-btn class="mr-2" variant="outlined" color="error" size="small"
-                         @click.stop="$refs.deleteAdvertConfirmationDialog.show(advert)">
+                  <v-btn
+                    class="mr-2"
+                    variant="outlined"
+                    color="error"
+                    size="small"
+                    @click.stop="$refs.deleteAdvertConfirmationDialog.show(advert)"
+                  >
                     <v-icon>
                       mdi-delete
                     </v-icon>
@@ -47,57 +75,80 @@
                 </div>
               </v-col>
             </v-row>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              {{ advert.content }}
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </draggable>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            {{ advert.content }}
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </draggable>
     <v-divider class="my-3" />
     <div class="d-flex flex-wrap">
       <v-spacer />
-      <v-btn @click="$refs.addAdvertDialog.show()" color="success" variant="outlined">
-        <v-icon start>mdi-plus</v-icon>
+      <v-btn
+        color="success"
+        variant="outlined"
+        @click="$refs.addAdvertDialog.show()"
+      >
+        <v-icon start>
+          mdi-plus
+        </v-icon>
         <span>{{ $t('_advert.add') }}</span>
       </v-btn>
       <v-tooltip location="bottom">
-        <template v-slot:activator="{ props}">
-          <v-btn variant="outlined" color="primary" class="ml-5" v-bind="props"
-                 style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-                 @click="updateLinkOrder" :disabled="!updateAdvertEnabled">
+        <template #activator="{ props}">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            class="ml-5"
+            v-bind="props"
+            style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+            :disabled="!updateAdvertEnabled"
+            @click="updateLinkOrder"
+          >
             <v-icon>mdi-check</v-icon>
           </v-btn>
         </template>
         <span>
-            {{ $t('_settings.labels.updateOrder') }}
-          </span>
+          {{ $t('_settings.labels.updateOrder') }}
+        </span>
       </v-tooltip>
       <v-tooltip location="bottom">
-        <template v-slot:activator="{ props}">
-          <v-btn variant="outlined" color="primary" v-bind="props"
-                 style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-                 @click="fetchData" :disabled="!updateAdvertEnabled">
+        <template #activator="{ props}">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            v-bind="props"
+            style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+            :disabled="!updateAdvertEnabled"
+            @click="fetchData"
+          >
             <v-icon>mdi-backspace-outline</v-icon>
           </v-btn>
         </template>
         <span>
-            {{ $t('_settings.labels.resetOrder') }}
-          </span>
+          {{ $t('_settings.labels.resetOrder') }}
+        </span>
       </v-tooltip>
     </div>
-    <DialogForm :title="$t('_advert.addAdvertDialog')" icon="mdi-chat-question"
-                ref="addAdvertDialog"
-                :form-schema="advertAddSchema"
-                @submit="addAdvert">
-    </DialogForm>
-    <DeleteConfirmationDialog ref="deleteAdvertConfirmationDialog"
-                              @submit="deleteAdvert"/>
-    <DialogForm :title="$t('_advert.editAdvertDialog')" icon="mdi-chat-question"
-                ref="editAdvertDialog"
-                :form-schema="advertAddSchema"
-                @submit="editAdvert">
-    </DialogForm>
+    <DialogForm
+      ref="addAdvertDialog"
+      :title="$t('_advert.addAdvertDialog')"
+      icon="mdi-chat-question"
+      :form-schema="advertAddSchema"
+      @submit="addAdvert"
+    />
+    <DeleteConfirmationDialog
+      ref="deleteAdvertConfirmationDialog"
+      @submit="deleteAdvert"
+    />
+    <DialogForm
+      ref="editAdvertDialog"
+      :title="$t('_advert.editAdvertDialog')"
+      icon="mdi-chat-question"
+      :form-schema="advertAddSchema"
+      @submit="editAdvert"
+    />
   </div>
 </template>
 

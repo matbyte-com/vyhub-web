@@ -1,7 +1,11 @@
 <template>
   <div>
     <div v-if="series != null">
-      <apexchart type="donut" :options="options" :series="series.data"></apexchart>
+      <apexchart
+        type="donut"
+        :options="options"
+        :series="series.data"
+      />
     </div>
   </div>
 </template>

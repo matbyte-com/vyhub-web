@@ -1,9 +1,16 @@
 <template>
-  <ConfirmationDialog btn-icon="mdi-delete" :btn-text="$t('delete')" :text="text" @submit="submit"
-                      :countdown="countdown"
+  <ConfirmationDialog
     ref="deleteConfirmationDialog"
+    btn-icon="mdi-delete"
+    :btn-text="$t('delete')"
+    :text="text"
+    :countdown="countdown"
+    @submit="submit"
   >
-    <template v-for="(index, name) in $slots" v-slot:[name]>
+    <template
+      v-for="(index, name) in $slots"
+      #[name]
+    >
       <slot :name="name" />
     </template>
   </ConfirmationDialog>

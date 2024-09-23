@@ -1,25 +1,47 @@
 <template>
-  <Dialog ref="dialog" :title="$t('_forum.editThread')" icon="mdi-newspaper-variant-outline"
-          :max-width="700">
+  <Dialog
+    ref="dialog"
+    :title="$t('_forum.editThread')"
+    icon="mdi-newspaper-variant-outline"
+    :max-width="700"
+  >
     <v-row v-if="errorMsg != null">
-      <v-col cols="12" class="mt-4">
+      <v-col
+        cols="12"
+        class="mt-4"
+      >
         <v-alert type="error">
           {{ errorMsg }}
         </v-alert>
       </v-col>
     </v-row>
     <!-- Thread Settings: -->
-    <v-card flat border class="mt-3">
+    <v-card
+      flat
+      border
+      class="mt-3"
+    >
       <v-card-text>
         <v-form @submit.prevent="submit">
-          <v-text-field :label="$t('title')" hide-details="auto"
-                        v-model="title">
-            <template v-slot:append>
+          <v-text-field
+            v-model="title"
+            :label="$t('title')"
+            hide-details="auto"
+          >
+            <template #append>
               <div style="display: flex; flex-wrap: wrap;">
-                <div v-for="label in currentLabels" :key="label.id">
+                <div
+                  v-for="label in currentLabels"
+                  :key="label.id"
+                >
                   <!-- Add current labels before the title text as chips -->
-                  <v-chip class="mr-1 mb-1 text-white" :color="label.color" size="small" closable
-                          @click:close="removeLabel(label)">
+                  <v-chip
+                    class="mr-1 mb-1 text-white"
+                    :color="label.color"
+                    size="small"
+                    closable
+                    @click:close="removeLabel(label)"
+                  >
                     {{ label.name }}
                   </v-chip>
                 </div>
@@ -27,12 +49,28 @@
             </template>
           </v-text-field>
           <div class="d-flex">
-            <v-checkbox v-model="pinned" :label="$t('_forum.pinned')" class="mr-4"
-                        hide-details="auto"/>
-            <v-checkbox v-model="locked" :label="$t('_forum.locked')" hide-details="auto" />
+            <v-checkbox
+              v-model="pinned"
+              :label="$t('_forum.pinned')"
+              class="mr-4"
+              hide-details="auto"
+            />
+            <v-checkbox
+              v-model="locked"
+              :label="$t('_forum.locked')"
+              hide-details="auto"
+            />
           </div>
-          <v-btn variant="outlined" color="success" class="mt-3" @click="submit" :disabled="title === ''">
-            <v-icon start>mdi-check</v-icon>
+          <v-btn
+            variant="outlined"
+            color="success"
+            class="mt-3"
+            :disabled="title === ''"
+            @click="submit"
+          >
+            <v-icon start>
+              mdi-check
+            </v-icon>
             <div>
               {{ $t('submit') }}
             </div>
@@ -40,39 +78,73 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <v-card flat border class="mt-3">
+    <v-card
+      flat
+      border
+      class="mt-3"
+    >
       <v-card-text>
         <v-form @submit.prevent="addLabel">
-        <!-- For Labels: -->
+          <!-- For Labels: -->
           <div class="d-flex flex-wrap">
-          <span v-for="label in labels" :key="label.name + label.color">
-            <v-chip class="mr-1 mb-1 text-white" :color="label.color" size="small"
-                    @click="addLabel(label, true)">
-              {{ label.name }}
-              <v-icon end size="x-small"
-                      style="background-color: #FFFFFF; color: #000000; border-radius: 50%">
-                mdi-plus
-              </v-icon>
-            </v-chip>
-          </span>
+            <span
+              v-for="label in labels"
+              :key="label.name + label.color"
+            >
+              <v-chip
+                class="mr-1 mb-1 text-white"
+                :color="label.color"
+                size="small"
+                @click="addLabel(label, true)"
+              >
+                {{ label.name }}
+                <v-icon
+                  end
+                  size="x-small"
+                  style="background-color: #FFFFFF; color: #000000; border-radius: 50%"
+                >
+                  mdi-plus
+                </v-icon>
+              </v-chip>
+            </span>
           </div>
           <v-row>
             <v-col cols="8">
-              <v-text-field v-model="labelTitle" :label="$t('_forum.labelTitle')"
-                            hide-details="auto" @keydown.enter="addLabel(null)" />
+              <v-text-field
+                v-model="labelTitle"
+                :label="$t('_forum.labelTitle')"
+                hide-details="auto"
+                @keydown.enter="addLabel(null)"
+              />
             </v-col>
             <v-col cols="4">
-              <v-text-field v-model="labelColor" hide-details class="ma-0 pa-0" variant="solo"
-                            style="max-width: 200px">
-                <template v-slot:append>
-                  <v-menu v-model="colorPickerVisible" location="top" nudge-bottom="105" nudge-left="16"
-                          :close-on-content-click="false">
-                    <template v-slot:activator="{ props }">
-                      <div :style="swatchStyle" v-bind="props" />
+              <v-text-field
+                v-model="labelColor"
+                hide-details
+                class="ma-0 pa-0"
+                variant="solo"
+                style="max-width: 200px"
+              >
+                <template #append>
+                  <v-menu
+                    v-model="colorPickerVisible"
+                    location="top"
+                    nudge-bottom="105"
+                    nudge-left="16"
+                    :close-on-content-click="false"
+                  >
+                    <template #activator="{ props }">
+                      <div
+                        :style="swatchStyle"
+                        v-bind="props"
+                      />
                     </template>
                     <v-card>
                       <v-card-text class="pa-0">
-                        <v-color-picker v-model="labelColor" show-swatches/>
+                        <v-color-picker
+                          v-model="labelColor"
+                          show-swatches
+                        />
                       </v-card-text>
                     </v-card>
                   </v-menu>
@@ -80,9 +152,16 @@
               </v-text-field>
             </v-col>
           </v-row>
-          <v-btn variant="outlined" color="success" :disabled="labelTitle === '' || labelTitle === null"
-                 class="mt-3" @click="addLabel(null)">
-            <v-icon start>mdi-plus</v-icon>
+          <v-btn
+            variant="outlined"
+            color="success"
+            :disabled="labelTitle === '' || labelTitle === null"
+            class="mt-3"
+            @click="addLabel(null)"
+          >
+            <v-icon start>
+              mdi-plus
+            </v-icon>
             {{ $t('create') }}
           </v-btn>
         </v-form>
@@ -115,6 +194,18 @@ export default {
       labels: [],
       colorPickerVisible: false,
     };
+  },
+  computed: {
+    swatchStyle() {
+      return {
+        backgroundColor: this.labelColor,
+        cursor: 'pointer',
+        height: '30px',
+        width: '30px',
+        borderRadius: '50%',
+        transition: 'border-radius 200ms ease-in-out',
+      };
+    },
   },
   methods: {
     async beforeMount() {
@@ -222,18 +313,6 @@ export default {
           type: 'success',
         });
       });
-    },
-  },
-  computed: {
-    swatchStyle() {
-      return {
-        backgroundColor: this.labelColor,
-        cursor: 'pointer',
-        height: '30px',
-        width: '30px',
-        borderRadius: '50%',
-        transition: 'border-radius 200ms ease-in-out',
-      };
     },
   },
 };

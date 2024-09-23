@@ -1,27 +1,63 @@
 <template>
-  <Dialog ref="dialog" :title="dialogTitle" icon="mdi-newspaper-variant-outline" :max-width="1000">
+  <Dialog
+    ref="dialog"
+    :title="dialogTitle"
+    icon="mdi-newspaper-variant-outline"
+    :max-width="1000"
+  >
     <v-row v-if="errorMsg != null">
-      <v-col cols="12" class="mt-4">
+      <v-col
+        cols="12"
+        class="mt-4"
+      >
         <v-alert
-          type="error">
+          type="error"
+        >
           {{ errorMsg }}
         </v-alert>
       </v-col>
     </v-row>
-    <v-text-field v-if="!hideTitleInput" :label="$t('title')"
-                  v-model="title" />
-    <editor v-model="content" :class="hideTitleInput ? 'mt-3' : ''"/>
-    <template v-slot:actions>
-      <v-btn variant="text" color="primary" @click="$emit('submit', obj)" v-if="content !== ''"
-             :disabled="!hideTitleInput && (title == null || title === '')">
-        <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
-        <v-icon v-if="!loading" start>mdi-check</v-icon>
+    <v-text-field
+      v-if="!hideTitleInput"
+      v-model="title"
+      :label="$t('title')"
+    />
+    <editor
+      v-model="content"
+      :class="hideTitleInput ? 'mt-3' : ''"
+    />
+    <template #actions>
+      <v-btn
+        v-if="content !== ''"
+        variant="text"
+        color="primary"
+        :disabled="!hideTitleInput && (title == null || title === '')"
+        @click="$emit('submit', obj)"
+      >
+        <v-progress-circular
+          v-if="loading"
+          indeterminate
+          size="25"
+          width="2"
+        />
+        <v-icon
+          v-if="!loading"
+          start
+        >
+          mdi-check
+        </v-icon>
         <div v-if="!loading">
           {{ $t('submit') }}
         </div>
       </v-btn>
-      <v-btn color="lighten-5" variant="text" @click="close">
-        <v-icon start>mdi-close</v-icon>
+      <v-btn
+        color="lighten-5"
+        variant="text"
+        @click="close"
+      >
+        <v-icon start>
+          mdi-close
+        </v-icon>
         {{ $t('cancel') }}
       </v-btn>
     </template>

@@ -1,14 +1,24 @@
 <template>
-  <dialog-form :form-schema="userMembershipEditForm"
-               icon="mdi-account-group"
-               :title="$t('_membership.labels.edit')"
-               ref="editMembershipDialog"
-               @submit="editUserMembership">
-    <template v-slot:end-after>
-      <ConfirmationDialog ref="endMembershipConfirmation" @submit="endMembership"
-                          :btn-text="$t('_membership.labels.endMembership')"/>
-      <v-btn color="error" variant="text" variant="outlined" @click="$refs.endMembershipConfirmation.show()"
-             :disabled="!membership.active">
+  <dialog-form
+    ref="editMembershipDialog"
+    :form-schema="userMembershipEditForm"
+    icon="mdi-account-group"
+    :title="$t('_membership.labels.edit')"
+    @submit="editUserMembership"
+  >
+    <template #end-after>
+      <ConfirmationDialog
+        ref="endMembershipConfirmation"
+        :btn-text="$t('_membership.labels.endMembership')"
+        @submit="endMembership"
+      />
+      <v-btn
+        color="error"
+        variant="text"
+        variant="outlined"
+        :disabled="!membership.active"
+        @click="$refs.endMembershipConfirmation.show()"
+      >
         <v-icon start>
           mdi-stop-circle
         </v-icon>

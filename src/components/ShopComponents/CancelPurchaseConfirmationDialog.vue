@@ -1,9 +1,11 @@
 <template>
-  <confirmation-dialog ref="cancelPurchaseConfirmationDialog"
-                       @submit="$emit('submit')"
-                       :btn-cancel-text="$t('close')"
-                       :btn-text="$t('_shop.labels.cancelPurchase')"
-                       :text="$t('_shop.messages.cancelPurchaseConfirmation')"/>
+  <confirmation-dialog
+    ref="cancelPurchaseConfirmationDialog"
+    :btn-cancel-text="$t('close')"
+    :btn-text="$t('_shop.labels.cancelPurchase')"
+    :text="$t('_shop.messages.cancelPurchaseConfirmation')"
+    @submit="$emit('submit')"
+  />
 </template>
 
 <script>

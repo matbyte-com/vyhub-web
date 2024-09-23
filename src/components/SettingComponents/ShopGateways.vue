@@ -1,20 +1,29 @@
 <template>
   <div>
-    <SettingTitle ref="title" docPath="/guide/shop/payment_gateway">
+    <SettingTitle
+      ref="title"
+      doc-path="/guide/shop/payment_gateway"
+    >
       {{ $t('paymentGateways') }}
     </SettingTitle>
 
     <DataTable
       :headers="headers"
-      :items="gateways">
-      <template v-slot:footer-right>
+      :items="gateways"
+    >
+      <template #footer-right>
         <v-menu offset-y>
-          <template v-slot:activator="{ props }">
-            <v-btn variant="outlined" color="success"
-                   :class="{ 'glow-effect':utils.customerJourneyActive('add-pm-gateway') }"
-                  
-                   v-bind="props">
-              <v-icon start>mdi-plus</v-icon>
+          <template #activator="{ props }">
+            <v-btn
+              variant="outlined"
+              color="success"
+              :class="{ 'glow-effect':utils.customerJourneyActive('add-pm-gateway') }"
+
+              v-bind="props"
+            >
+              <v-icon start>
+                mdi-plus
+              </v-icon>
               <span>{{ $t('_gateway.labels.create') }}</span>
             </v-btn>
           </template>
@@ -30,18 +39,29 @@
           </v-list>
         </v-menu>
       </template>
-      <template v-slot:item.enabled="{ item }">
-        <BoolIcon :value="item.enabled"></BoolIcon>
+      <template #item.enabled="{ item }">
+        <BoolIcon :value="item.enabled" />
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <div class="text-right">
-          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            size="small"
+            class="mr-1"
+            @click="showEditDialog(item)"
+          >
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteGatewayDialog.show(item)"
-                 :disabled="!item.deletable">
+          <v-btn
+            variant="outlined"
+            color="error"
+            size="small"
+            :disabled="!item.deletable"
+            @click="$refs.deleteGatewayDialog.show(item)"
+          >
             <v-icon>
               mdi-delete
             </v-icon>
@@ -53,61 +73,87 @@
       ref="createGatewayDialog"
       :form-schema="gatewaySchema"
       icon="mdi-currency-usd"
-      :submitText="$t('create')"
+      :submit-text="$t('create')"
+      :title="$t('_gateway.labels.create')"
       @submit="createGateway"
-      :title="$t('_gateway.labels.create')">
-      <template slot="type-before">
-        <v-alert type="info" class="mt-2" v-if="$refs.title">
-          <a :href="$refs.title.docLink" target="_blank">
+    >
+      <slot name="type-before">
+        <v-alert
+          v-if="$refs.title"
+          type="info"
+          class="mt-2"
+        >
+          <a
+            :href="$refs.title.docLink"
+            target="_blank"
+          >
             {{ $t('followInstructionsInDocs') }}
           </a>
         </v-alert>
-        <v-alert type="warning" class="mt-2 font-weight-bold"
-                 v-if="gatewayType === 'PAYPAL_LEGACY'">
+        <v-alert
+          v-if="gatewayType === 'PAYPAL_LEGACY'"
+          type="warning"
+          class="mt-2 font-weight-bold"
+        >
           {{ $t('_gateway.labels.paypalLegacyHint') }}
         </v-alert>
-        <v-alert type="info" class="mt-2" v-else-if="gatewayType === 'PAYPAL'">
+        <v-alert
+          v-else-if="gatewayType === 'PAYPAL'"
+          type="info"
+          class="mt-2"
+        >
           {{ $t('_gateway.labels.paypalHint') }}
         </v-alert>
-      </template>
+      </slot>
     </DialogForm>
     <DialogForm
       ref="editGatewayDialog"
       :form-schema="gatewaySchema"
       icon="mdi-currency-usd"
-      :submitText="$t('edit')"
+      :submit-text="$t('edit')"
+      :title="$t('_gateway.labels.edit')"
       @submit="editGateway"
-      :title="$t('_gateway.labels.edit')">
-      <template slot="type-before">
-        <v-alert type="warning" class="mt-2 font-weight-bold"
-                 v-if="gatewayType === 'PAYPAL_LEGACY'">
+    >
+      <slot name="type-before">
+        <v-alert
+          v-if="gatewayType === 'PAYPAL_LEGACY'"
+          type="warning"
+          class="mt-2 font-weight-bold"
+        >
           {{ $t('_gateway.labels.paypalLegacyHint') }}
         </v-alert>
-        <v-alert type="info" class="mt-2" v-else-if="gatewayType === 'PAYPAL'">
+        <v-alert
+          v-else-if="gatewayType === 'PAYPAL'"
+          type="info"
+          class="mt-2"
+        >
           {{ $t('_gateway.labels.paypalHint') }}
         </v-alert>
-      </template>
-      <template slot="attributes-before">
+      </slot>
+      <slot name="attributes-before">
         <div class="text-center font-weight-bold">
           {{ $t('_gateway.messages.attributeChangeExplanation') }}
         </div>
-      </template>
-      <template slot="attributes-after"
-                v-if="selectedGateway != null &&
-                 ['STRIPE', 'PAYPAL'].includes(selectedGateway.type)">
+      </slot>
+      <slot
+        v-if="selectedGateway != null &&
+          ['STRIPE', 'PAYPAL'].includes(selectedGateway.type)"
+        name="attributes-after"
+      >
         <v-text-field
-          @focus="$event.target.select()"
           :model-value="getWebhookUrl(selectedGateway)"
           :label="$t('_gateway.labels.webhookURL')"
           readonly
-        ></v-text-field>
-      </template>
+          @focus="$event.target.select()"
+        />
+      </slot>
     </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteGatewayDialog"
       :text="$t('_gateway.messages.deleteWarning')"
       :countdown="true"
-      @submit="deleteGateway"/>
+      @submit="deleteGateway"
+    />
   </div>
 </template>
 
@@ -173,6 +219,11 @@ export default {
       selectedGateway: null,
     };
   },
+  computed: {
+    gatewaySchema() {
+      return GatewayForm(this.gatewayType);
+    },
+  },
   beforeMount() {
     this.fetchData();
   },
@@ -211,7 +262,7 @@ export default {
 
       const api = await openapi;
 
-      // eslint-disable-next-line no-restricted-syntax
+       
       for (const [name, attr] of Object.entries(data.attributes)) {
         if (Array.isArray(attr) && attr.length === 0) {
           delete data.attributes[name];
@@ -270,11 +321,6 @@ export default {
       }
 
       return `${Common.apiURL}/webhook/${gateway.type.toLowerCase()}/${gateway.id}`;
-    },
-  },
-  computed: {
-    gatewaySchema() {
-      return GatewayForm(this.gatewayType);
     },
   },
 };

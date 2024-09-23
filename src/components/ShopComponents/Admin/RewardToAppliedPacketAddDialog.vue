@@ -1,24 +1,46 @@
 <template>
   <Dialog
     ref="dialog"
-    icon="mdi-star" @close="amount_to_add = null"
-    :title="$t('_reward.labels.syncAppliedRewards')">
-    <v-alert type="info" v-if="amount_to_add != null" class="mt-3">
+    icon="mdi-star"
+    :title="$t('_reward.labels.syncAppliedRewards')"
+    @close="amount_to_add = null"
+  >
+    <v-alert
+      v-if="amount_to_add != null"
+      type="info"
+      class="mt-3"
+    >
       {{ $t('_reward.labels.amountOfAppliedRewardsToPatch', {amount: amount_to_add} ) }}
     </v-alert>
-    <GenForm v-show="amount_to_add == null" ref="form" class="hidde"
-             :form-schema="appliedRewardSyncSchema" @submit="syncAppliedRewards"/>
-    <template v-slot:actions v-if="amount_to_add != null">
-      <v-btn class="mr-4" @click="syncAppliedRewards"
-             variant="flat" color="primary" type="submit">
+    <GenForm
+      v-show="amount_to_add == null"
+      ref="form"
+      class="hidde"
+      :form-schema="appliedRewardSyncSchema"
+      @submit="syncAppliedRewards"
+    />
+    <template
+      v-if="amount_to_add != null"
+      #actions
+    >
+      <v-btn
+        class="mr-4"
+        variant="flat"
+        color="primary"
+        type="submit"
+        @click="syncAppliedRewards"
+      >
         {{ $t('submit') }}
       </v-btn>
-      <v-btn color="lighten-5" variant="flat" @click="amount_to_add = null">
+      <v-btn
+        color="lighten-5"
+        variant="flat"
+        @click="amount_to_add = null"
+      >
         {{ $t('back') }}
       </v-btn>
     </template>
   </Dialog>
-
 </template>
 
 <script>

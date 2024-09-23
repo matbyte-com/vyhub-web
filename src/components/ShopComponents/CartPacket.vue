@@ -1,31 +1,55 @@
 <template>
   <div>
-    <v-card class="vh-cart-packet card-rounded" border min-height="120px">
+    <v-card
+      class="vh-cart-packet card-rounded"
+      border
+      min-height="120px"
+    >
       <v-card-text>
         <v-row>
-          <v-col cols="12" sm="3" md="3" lg="3" xl="2" align-self="center" class="text-center">
+          <v-col
+            cols="12"
+            sm="3"
+            md="3"
+            lg="3"
+            xl="2"
+            align-self="center"
+            class="text-center"
+          >
             <PacketImage
-              @click="showPacket"
               style="cursor: pointer; border-radius: 5px"
               :packet="cartPacket.packet"
-            ></PacketImage>
+              @click="showPacket"
+            />
           </v-col>
           <v-col>
-            <div class="text-h6" @click="showPacket" style="cursor: pointer;">
+            <div
+              class="text-h6"
+              style="cursor: pointer;"
+              @click="showPacket"
+            >
               {{ cartPacket.packet.title }}
             </div>
-            <div class="text-subtitle-2" v-if="cartPacket.packet.subtitle">
+            <div
+              v-if="cartPacket.packet.subtitle"
+              class="text-subtitle-2"
+            >
               {{ cartPacket.packet.subtitle }}
             </div>
           </v-col>
-          <v-col cols="12" md="auto" lg="auto"
-                 class="d-flex align-center justify-end" align-self="center">
+          <v-col
+            cols="12"
+            md="auto"
+            lg="auto"
+            class="d-flex align-center justify-end"
+            align-self="center"
+          >
             <div>
               <v-row dense>
                 <v-col :class="(cartPacket.discount ? 'green--text' : '')">
                   <div class="text-h6 text-right">
                     {{ cartPacket.price.total
-                    .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                      .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                     {{ cartPacket.currency.symbol }}
                     <div v-if="cartPacket.recurring != null">
                       <span v-if="utils.isSingularTimeunit(cartPacket.recurring)">
@@ -38,16 +62,23 @@
                     </div>
                   </div>
                   <div v-if="cartPacket.discount">
-                <span class="text-caption">
-                  -{{ cartPacket.discount.percentage }}% {{ cartPacket.discount.name }}
-                </span>
-                    <v-icon @click="$emit('removeDiscount')" v-if="showRemove" size="small">
+                    <span class="text-caption">
+                      -{{ cartPacket.discount.percentage }}% {{ cartPacket.discount.name }}
+                    </span>
+                    <v-icon
+                      v-if="showRemove"
+                      size="small"
+                      @click="$emit('removeDiscount')"
+                    >
                       mdi-close
                     </v-icon>
                   </div>
                 </v-col>
               </v-row>
-              <v-row dense v-if="cartPacket.price.credits != null ">
+              <v-row
+                v-if="cartPacket.price.credits != null "
+                dense
+              >
                 <v-col>
                   <div class="text-subtitle-2">
                     {{ cartPacket.price.credits }}
@@ -56,37 +87,69 @@
                 </v-col>
               </v-row>
             </div>
-            <div class="d-flex align-center ml-5" v-if="showRemove && cartPacket">
-              <v-btn variant="outlined" :size="!cartPacket.target_user ? 'small' : undefined"
-                     color="secondary" class="mr-1" :fab="!cartPacket.target_user"
-                     @click="openTargetUserEditDialog">
-                <v-icon :start="cartPacket.target_user !== null">mdi-gift-open</v-icon>
+            <div
+              v-if="showRemove && cartPacket"
+              class="d-flex align-center ml-5"
+            >
+              <v-btn
+                variant="outlined"
+                :size="!cartPacket.target_user ? 'small' : undefined"
+                color="secondary"
+                class="mr-1"
+                :fab="!cartPacket.target_user"
+                @click="openTargetUserEditDialog"
+              >
+                <v-icon :start="cartPacket.target_user !== null">
+                  mdi-gift-open
+                </v-icon>
                 <span v-if="cartPacket.target_user">{{ cartPacket.target_user.username }}</span>
               </v-btn>
-              <v-btn fab variant="outlined" size="small" color="error"
-                     @click="$emit('remove')">
+              <v-btn
+                fab
+                variant="outlined"
+                size="small"
+                color="error"
+                @click="$emit('remove')"
+              >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </div>
           </v-col>
         </v-row>
         <div v-if="cartPacket.target_user && !showRemove">
-          <v-icon color="secondary" start>mdi-gift-open</v-icon>
-          <UserLink :small="true" :user="cartPacket.target_user" />
+          <v-icon
+            color="secondary"
+            start
+          >
+            mdi-gift-open
+          </v-icon>
+          <UserLink
+            :small="true"
+            :user="cartPacket.target_user"
+          />
         </div>
       </v-card-text>
     </v-card>
-    <DialogForm :title="$t('_shop.labels.changeTargetUser')"
-                :form-schema="cartPacketTargetUserForm"
-                @submit="changeTargetUser"
-                icon="mdi-account-switch"
-                ref="targetUserEditDialog">
-      <template v-slot:target_user_id-after>
-        <UserLink v-if="cartPacket.target_user" :user="cartPacket.target_user" />
+    <DialogForm
+      ref="targetUserEditDialog"
+      :title="$t('_shop.labels.changeTargetUser')"
+      :form-schema="cartPacketTargetUserForm"
+      icon="mdi-account-switch"
+      @submit="changeTargetUser"
+    >
+      <template #target_user_id-after>
+        <UserLink
+          v-if="cartPacket.target_user"
+          :user="cartPacket.target_user"
+        />
       </template>
     </DialogForm>
-    <PacketDetailDialog ref="detailDialog" :cart-packet="true" :packet="cartPacket.packet"
-                        :hide-buy-btns="openPurchase"/>
+    <PacketDetailDialog
+      ref="detailDialog"
+      :cart-packet="true"
+      :packet="cartPacket.packet"
+      :hide-buy-btns="openPurchase"
+    />
   </div>
 </template>
 
@@ -103,11 +166,6 @@ export default {
   components: {
     PacketImage, PacketDetailDialog, UserLink, DialogForm,
   },
-  data() {
-    return {
-      cartPacketTargetUserForm: CartPacketTargetUserForm,
-    };
-  },
   props: {
     cartPacket: Object,
     showRemove: Boolean,
@@ -116,6 +174,11 @@ export default {
       type: Number,
       default: 3,
     },
+  },
+  data() {
+    return {
+      cartPacketTargetUserForm: CartPacketTargetUserForm,
+    };
   },
   methods: {
     showPacket() {

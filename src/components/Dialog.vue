@@ -1,23 +1,38 @@
 <template>
   <v-dialog
-    scrollable
     v-bind="$attrs"
     v-model="open"
+    scrollable
     :max-width="maxWidth"
     style="z-index: 200;"
-    :fullscreen="$vuetify.display.xs">
+    :fullscreen="$vuetify.display.xs"
+  >
     <v-card :class="{ 'card-rounded' : !$vuetify.display.xs }">
       <v-card-title class="bg-primary text-white">
-        <v-icon :if="icon != null" start color="white">{{ icon }}</v-icon>
+        <v-icon
+          :if="icon != null"
+          start
+          color="white"
+        >
+          {{ icon }}
+        </v-icon>
         <span>{{ title }}</span>
         <v-spacer />
-        <v-icon color="white" @click="cancel">mdi-close</v-icon>
+        <v-icon
+          color="white"
+          @click="cancel"
+        >
+          mdi-close
+        </v-icon>
       </v-card-title>
-      <v-card-text :class="textClass" :id="id">
-        <slot></slot>
+      <v-card-text
+        :id="id"
+        :class="textClass"
+      >
+        <slot />
       </v-card-text>
       <v-card-actions :class="actionClass">
-        <slot name="actions"></slot>
+        <slot name="actions" />
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -51,27 +66,6 @@ export default {
       id: null,
     };
   },
-  mounted() {
-    if (this.withId) {
-      this.id = this.utils.random_string(6);
-    }
-  },
-  methods: {
-    cancel() {
-      this.close();
-      this.$emit('cancel');
-    },
-    show(item) {
-      this.open = true;
-      this.item = item;
-    },
-    getItem() {
-      return this.item;
-    },
-    close() {
-      this.open = false;
-    },
-  },
   computed: {
     open: {
       get() {
@@ -99,6 +93,27 @@ export default {
       if (!this.open) {
         this.$emit('close');
       }
+    },
+  },
+  mounted() {
+    if (this.withId) {
+      this.id = this.utils.random_string(6);
+    }
+  },
+  methods: {
+    cancel() {
+      this.close();
+      this.$emit('cancel');
+    },
+    show(item) {
+      this.open = true;
+      this.item = item;
+    },
+    getItem() {
+      return this.item;
+    },
+    close() {
+      this.open = false;
     },
   },
 };

@@ -1,70 +1,123 @@
 <template>
   <v-card>
     <v-card-title class="bg-red-lighten-1">
-      <v-icon start>mdi-step-forward</v-icon>
+      <v-icon start>
+        mdi-step-forward
+      </v-icon>
       {{ $t('_firstSteps.firstSteps') }}
-      <v-spacer/>
-      <v-icon size="large" @click="$emit('close')">mdi-close</v-icon>
+      <v-spacer />
+      <v-icon
+        size="large"
+        @click="$emit('close')"
+      >
+        mdi-close
+      </v-icon>
     </v-card-title>
     <v-card-text>
       <v-list density="compact">
-        <v-list-item v-for="(step, index) in steps" :key="step.id" style="cursor:pointer;"
-                     :class="{ 'list-item-active': selectedStep === index,
-                               'black--text': selectedStep === index}">
+        <v-list-item
+          v-for="(step, index) in steps"
+          :key="step.id"
+          style="cursor:pointer;"
+          :class="{ 'list-item-active': selectedStep === index,
+                    'black--text': selectedStep === index}"
+        >
           <v-list-item-content @click="selectJourney(index)">
             <v-list-item-title class="d-flex align-center">
-              <v-icon start v-if="!stepIsFulfilled(index)">mdi-circle-outline</v-icon>
-              <v-icon start v-else color="success" class="animate__animated animate__bounceIn">
+              <v-icon
+                v-if="!stepIsFulfilled(index)"
+                start
+              >
+                mdi-circle-outline
+              </v-icon>
+              <v-icon
+                v-else
+                start
+                color="success"
+                class="animate__animated animate__bounceIn"
+              >
                 mdi-check-circle-outline
               </v-icon>
               {{ step.title }}
-              <v-spacer/>
-              <v-icon :class="{ 'black--text': selectedStep === index}">mdi-chevron-right</v-icon>
+              <v-spacer />
+              <v-icon :class="{ 'black--text': selectedStep === index}">
+                mdi-chevron-right
+              </v-icon>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-divider/>
+      <v-divider />
       <div v-if="selectedStep !== null">
         <v-fade-transition>
-          <v-list density="compact" class="ml-3">
-            <v-list-item v-for="substep in steps[selectedStep].steps" :key="substep.id"
-                         :to="substep.link" active-class="no-active">
-              
-                <v-list-item-title class="d-flex align-center">
-                  <v-icon start v-if="!substepIsFulfilled(substep.journeyStep)">
-                    mdi-circle-outline
-                  </v-icon>
-                  <v-icon start v-else color="success" class="animate__animated animate__bounceIn">
-                    mdi-check-circle-outline
-                  </v-icon>
-                  {{ substep.title }}
-                  <v-spacer/>
-                  <v-icon v-if="substep.link">mdi-chevron-right</v-icon>
-                </v-list-item-title>
-              
+          <v-list
+            density="compact"
+            class="ml-3"
+          >
+            <v-list-item
+              v-for="substep in steps[selectedStep].steps"
+              :key="substep.id"
+              :to="substep.link"
+              active-class="no-active"
+            >
+              <v-list-item-title class="d-flex align-center">
+                <v-icon
+                  v-if="!substepIsFulfilled(substep.journeyStep)"
+                  start
+                >
+                  mdi-circle-outline
+                </v-icon>
+                <v-icon
+                  v-else
+                  start
+                  color="success"
+                  class="animate__animated animate__bounceIn"
+                >
+                  mdi-check-circle-outline
+                </v-icon>
+                {{ substep.title }}
+                <v-spacer />
+                <v-icon v-if="substep.link">
+                  mdi-chevron-right
+                </v-icon>
+              </v-list-item-title>
             </v-list-item>
-            <v-list-item v-for="s in 4 - steps[selectedStep].steps.length" :key="s" />
+            <v-list-item
+              v-for="s in 4 - steps[selectedStep].steps.length"
+              :key="s"
+            />
           </v-list>
         </v-fade-transition>
       </div>
-      <v-divider/>
-      <div class="mt-2">Questions, Bugs, Feature Requests? Contact us!</div>
+      <v-divider />
+      <div class="mt-2">
+        Questions, Bugs, Feature Requests? Contact us!
+      </div>
       <div class="d-flex mt-1">
-        <v-btn class="bg-red-lighten-2" href="https://docs.vyhub.net" target="_blank">
+        <v-btn
+          class="bg-red-lighten-2"
+          href="https://docs.vyhub.net"
+          target="_blank"
+        >
           <v-icon start>
             mdi-help-circle-outline
           </v-icon>
           <span>Docs</span>
         </v-btn>
-        <v-btn class="bg-red-lighten-2 ml-2" href="https://discord.gg/QycQpd2AQP" target="_blank">
+        <v-btn
+          class="bg-red-lighten-2 ml-2"
+          href="https://discord.gg/QycQpd2AQP"
+          target="_blank"
+        >
           <v-icon start>
             $discord
           </v-icon>
           <span>Discord</span>
         </v-btn>
-        <v-btn class="bg-red-lighten-2 ml-2"
-               :href="`mailto:support@matbyte.com?subject=Feedback Demo Route: ${$route.path}`">
+        <v-btn
+          class="bg-red-lighten-2 ml-2"
+          :href="`mailto:support@matbyte.com?subject=Feedback Demo Route: ${$route.path}`"
+        >
           <v-icon start>
             mdi-email
           </v-icon>
@@ -73,7 +126,6 @@
       </div>
     </v-card-text>
   </v-card>
-
 </template>
 
 <script>
@@ -183,7 +235,7 @@ export default {
   beforeMount() {
     this.fetchData(true);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.timer);
   },
   mounted() {
@@ -213,7 +265,7 @@ export default {
     },
     getFirstUnfulfilledStep(stepIndex) {
       const step = this.steps[stepIndex];
-      // eslint-disable-next-line max-len
+       
       const firstSubstep = step.steps.find((substep) => this.substepIsFulfilled(substep.journeyStep) === false);
       if (firstSubstep) {
         return firstSubstep;
@@ -228,7 +280,7 @@ export default {
     },
     stepIsFulfilled(index) {
       if (this.currentState) {
-        // eslint-disable-next-line max-len
+         
         return !this.steps[index].steps.some((step) => this.substepIsFulfilled(step.journeyStep) === false);
       }
       return false;

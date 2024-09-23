@@ -1,18 +1,34 @@
 <template>
-  <v-card class="text-center vh-dashboard-profile-picture card-rounded" flat>
+  <v-card
+    class="text-center vh-dashboard-profile-picture card-rounded"
+    flat
+  >
     <v-card-text>
-      <v-row justify="center" class="my-1">
+      <v-row
+        justify="center"
+        class="my-1"
+      >
         <v-hover v-if="activeUser != null">
-          <template v-slot:default="{ hover }">
+          <template #default="{ hover }">
             <v-fade-transition mode="out-in">
-              <v-avatar class="ma-1" height="200px" width="200px" :key="activeUser.id">
-                <v-img :src="activeUser.avatar"/>
+              <v-avatar
+                :key="activeUser.id"
+                class="ma-1"
+                height="200px"
+                width="200px"
+              >
+                <v-img :src="activeUser.avatar" />
                 <v-fade-transition>
                   <v-overlay
                     v-if="hover"
-                    absolute>
+                    absolute
+                  >
                     <p>{{ activeUser.type }} </p>
-                    <UserLink :disabled-link="true" :outline="false" :user="activeUser"/>
+                    <UserLink
+                      :disabled-link="true"
+                      :outline="false"
+                      :user="activeUser"
+                    />
                   </v-overlay>
                 </v-fade-transition>
               </v-avatar>
@@ -22,7 +38,7 @@
         <v-progress-circular
           v-else
           indeterminate
-        ></v-progress-circular>
+        />
       </v-row>
       <v-alert
         v-if="user.admin"
@@ -31,12 +47,15 @@
         color="success"
         variant="outlined"
         class="font-weight-bold mt-3"
-        width="100%">
+        width="100%"
+      >
         <span class="d-flex align-center justify-space-between">
+          <span />
           <span>
-          </span>
-          <span>
-            <v-icon color="success" start>
+            <v-icon
+              color="success"
+              start
+            >
               mdi-shield-account
             </v-icon>
             <span>
@@ -44,20 +63,27 @@
             </span>
           </span>
           <span class="justify-end">
-            <v-btn icon color="error" v-if="$store.getters.user && $store.getters.user.admin"
-                   @click="$refs.adminDeleteConfirmationDialog.show()" size="x-small"
-                   class="justify-end">
-            <v-icon>mdi-close-circle</v-icon>
-          </v-btn>
+            <v-btn
+              v-if="$store.getters.user && $store.getters.user.admin"
+              icon
+              color="error"
+              size="x-small"
+              class="justify-end"
+              @click="$refs.adminDeleteConfirmationDialog.show()"
+            >
+              <v-icon>mdi-close-circle</v-icon>
+            </v-btn>
           </span>
         </span>
       </v-alert>
-      <slot></slot>
+      <slot />
     </v-card-text>
-    <confirmation-dialog ref="adminDeleteConfirmationDialog"
-                         :title="$t('_dashboard.labels.removeAdminTitle')"
-                         :text="$t('_dashboard.messages.removeAdminConfirmation')"
-                         @submit="removeAdmin"/>
+    <confirmation-dialog
+      ref="adminDeleteConfirmationDialog"
+      :title="$t('_dashboard.labels.removeAdminTitle')"
+      :text="$t('_dashboard.messages.removeAdminConfirmation')"
+      @submit="removeAdmin"
+    />
   </v-card>
 </template>
 
@@ -69,16 +95,13 @@ import openapi from '@/api/openapi';
 export default {
   name: 'ProfilePicture.vue',
   components: { ConfirmationDialog, UserLink },
+  props: {
+    user: Object,
+  },
   data() {
     return {
       userNum: 0,
     };
-  },
-  props: {
-    user: Object,
-  },
-  mounted() {
-    this.cycleAvatar();
   },
   computed: {
     users() {
@@ -100,6 +123,9 @@ export default {
     users() {
       this.userNum = 0;
     },
+  },
+  mounted() {
+    this.cycleAvatar();
   },
   methods: {
     cycleAvatar() {

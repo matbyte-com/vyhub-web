@@ -1,31 +1,61 @@
 <template>
   <div>
     <div v-if="user">
-      <PageTitleFlat :title="user.username" :no-bottom-border-radius="true">
-        <template v-slot:end>
-          <span class="d-flex justify-end mr-1" v-if="$checkAdmin()">
-            <v-btn icon @click="$refs.deleteDialog.show()" size="small" variant="outlined" variant="flat">
+      <PageTitleFlat
+        :title="user.username"
+        :no-bottom-border-radius="true"
+      >
+        <template #end>
+          <span
+            v-if="$checkAdmin()"
+            class="d-flex justify-end mr-1"
+          >
+            <v-btn
+              icon
+              size="small"
+              variant="outlined"
+              variant="flat"
+              @click="$refs.deleteDialog.show()"
+            >
               <v-icon size="small">mdi-delete</v-icon>
             </v-btn>
           </span>
         </template>
       </PageTitleFlat>
-      <v-card class="vh-dashboard-tabs card-rounded-bottom no-top-border-radius" flat>
+      <v-card
+        class="vh-dashboard-tabs card-rounded-bottom no-top-border-radius"
+        flat
+      >
         <v-card-text>
           <v-tabs v-model="activeTabIndex">
             <v-tab @click="switchTab('General')">
-              <v-icon start>mdi-gamepad</v-icon>
+              <v-icon start>
+                mdi-gamepad
+              </v-icon>
               General
             </v-tab>
-            <v-tab @click="switchTab('Purchases')"
-                   v-if="$store.getters.isLoggedIn &&
-               (user.id === $store.getters.user.id || $checkProp('purchase_show'))">
-              <v-icon start>mdi-cart-check</v-icon>
+            <v-tab
+              v-if="$store.getters.isLoggedIn &&
+                (user.id === $store.getters.user.id || $checkProp('purchase_show'))"
+              @click="switchTab('Purchases')"
+            >
+              <v-icon start>
+                mdi-cart-check
+              </v-icon>
               <span>{{ $t('purchases') }}</span>
             </v-tab>
-            <v-tab v-for="bundle in getBundles" :key="bundle.id" :class="`vh-bundle-${bundle.id}`"
-                   @click="switchTab('Bundle', bundle)">
-              <v-icon v-if="bundle.icon" start>{{ bundle.icon }}</v-icon>
+            <v-tab
+              v-for="bundle in getBundles"
+              :key="bundle.id"
+              :class="`vh-bundle-${bundle.id}`"
+              @click="switchTab('Bundle', bundle)"
+            >
+              <v-icon
+                v-if="bundle.icon"
+                start
+              >
+                {{ bundle.icon }}
+              </v-icon>
               <span>{{ bundle.name }}</span>
             </v-tab>
           </v-tabs>
@@ -33,42 +63,66 @@
       </v-card>
       <div class="mt-5">
         <keep-alive>
-          <component :is="componentInstance" :bundle="activeBundle" :user="user"
-                     @user-updated="fetchData">
-          </component>
+          <component
+            :is="componentInstance"
+            :bundle="activeBundle"
+            :user="user"
+            @user-updated="fetchData"
+          />
         </keep-alive>
       </div>
     </div>
     <!-- Skeleton Loaders -->
     <div v-else>
-      <PageTitleFlat :no-bottom-border-radius="true"/>
-      <v-card class="no-top-border-radius card-rounded-bottom" flat>
+      <PageTitleFlat :no-bottom-border-radius="true" />
+      <v-card
+        class="no-top-border-radius card-rounded-bottom"
+        flat
+      >
         <v-card-text>
           <v-skeleton-loader type="heading" />
         </v-card-text>
       </v-card>
       <v-row class="mt-3">
         <v-col cols="3">
-          <v-card class="pa-3 card-rounded" flat>
+          <v-card
+            class="pa-3 card-rounded"
+            flat
+          >
             <v-skeleton-loader type="list-item-avatar" />
           </v-card>
-          <v-card class="pa-3 mt-3 card-rounded" flat>
+          <v-card
+            class="pa-3 mt-3 card-rounded"
+            flat
+          >
             <v-skeleton-loader type="list-item-avatar" />
           </v-card>
-          <v-card class="pa-3 mt-3 card-rounded" flat>
+          <v-card
+            class="pa-3 mt-3 card-rounded"
+            flat
+          >
             <v-skeleton-loader type="list-item-avatar" />
           </v-card>
         </v-col>
         <v-col cols="6">
-          <v-card class="pa-3 card-rounded" flat>
+          <v-card
+            class="pa-3 card-rounded"
+            flat
+          >
             <v-skeleton-loader type="paragraph@2" />
           </v-card>
-          <v-card class="pa-3 card-rounded mt-3" flat>
+          <v-card
+            class="pa-3 card-rounded mt-3"
+            flat
+          >
             <v-skeleton-loader type="paragraph" />
           </v-card>
         </v-col>
         <v-col cols="3">
-          <v-card class="pa-3 card-rounded" flat>
+          <v-card
+            class="pa-3 card-rounded"
+            flat
+          >
             <v-row>
               <v-col><v-skeleton-loader type="card" /></v-col>
               <v-col><v-skeleton-loader type="card" /></v-col>
@@ -77,9 +131,12 @@
         </v-col>
       </v-row>
     </div>
-    <DeleteConfirmationDialog ref="deleteDialog" countdown
-                              @submit="deleteUser"
-                              :text="$t('_dashboard.messages.deleteUserText')" />
+    <DeleteConfirmationDialog
+      ref="deleteDialog"
+      countdown
+      :text="$t('_dashboard.messages.deleteUserText')"
+      @submit="deleteUser"
+    />
   </div>
 </template>
 
@@ -104,6 +161,32 @@ export default {
       activeTabIndex: 0,
       bundles: [],
     };
+  },
+  computed: {
+    componentInstance() {
+      if (this.activeTab === 'Bundle' && this.activeBundle) {
+        return () => import(`@/components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}`);
+      }
+      if (this.activeTab === 'Bundle') {
+        return () => import('@/components/DashboardComponents/Dashboards/General.vue');
+      }
+      return () => import(`@/components/DashboardComponents/Dashboards/${this.activeTab}`);
+    },
+    getBundles() {
+      return this.bundles.filter((b) => b.server_type !== 'DISCORD' && b.server_type !== 'TEAMSPEAK3');
+    },
+  },
+  watch: {
+    $route(to, from) {
+      if (to.params.id !== from.params.id) {
+        this.fetchData();
+      }
+      this.setActiveTab();
+    },
+  },
+  beforeMount() {
+    this.fetchData();
+    this.setActiveTab();
   },
   methods: {
     switchTab(name, bundle = null) {
@@ -148,32 +231,6 @@ export default {
           type: 'success',
         });
       });
-    },
-  },
-  beforeMount() {
-    this.fetchData();
-    this.setActiveTab();
-  },
-  computed: {
-    componentInstance() {
-      if (this.activeTab === 'Bundle' && this.activeBundle) {
-        return () => import(`@/components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}`);
-      }
-      if (this.activeTab === 'Bundle') {
-        return () => import('@/components/DashboardComponents/Dashboards/General.vue');
-      }
-      return () => import(`@/components/DashboardComponents/Dashboards/${this.activeTab}`);
-    },
-    getBundles() {
-      return this.bundles.filter((b) => b.server_type !== 'DISCORD' && b.server_type !== 'TEAMSPEAK3');
-    },
-  },
-  watch: {
-    $route(to, from) {
-      if (to.params.id !== from.params.id) {
-        this.fetchData();
-      }
-      this.setActiveTab();
     },
   },
 };

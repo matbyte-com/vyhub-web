@@ -1,30 +1,41 @@
 <template>
   <div>
-    <PageTitleFlat :title="$t('_ban.labels.title')" :hide-triangle="true"
-                   :no-bottom-border-radius="$vuetify.display.smAndDown"/>
-    <v-card class="vh-ban card-rounded-bottom" flat
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
-           'no-top-border-radius': $vuetify.display.smAndDown }">
+    <PageTitleFlat
+      :title="$t('_ban.labels.title')"
+      :hide-triangle="true"
+      :no-bottom-border-radius="$vuetify.display.smAndDown"
+    />
+    <v-card
+      class="vh-ban card-rounded-bottom"
+      flat
+      :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+                'no-top-border-radius': $vuetify.display.smAndDown }"
+    >
       <v-card-text>
         <PaginatedDataTable
           ref="banTable"
           :headers="headers"
           :items="bans"
-          defaultSortBy="created_on"
-          :defaultSortDesc="true"
-          :totalItems="totalItems"
+          default-sort-by="created_on"
+          :default-sort-desc="true"
+          :total-items="totalItems"
           @reload="fetchData"
-          @click:row="showDetails">
-          <template v-slot:header>
+          @click:row="showDetails"
+        >
+          <template #header>
             <v-row>
               <v-col class="d-flex align-center">
-                <v-menu offset-y :close-on-content-click="false">
-                  <template v-slot:activator="{ props }">
+                <v-menu
+                  offset-y
+                  :close-on-content-click="false"
+                >
+                  <template #activator="{ props }">
                     <v-btn
                       variant="outlined"
                       color="primary"
 
-                      v-bind="props">
+                      v-bind="props"
+                    >
                       <v-icon start>
                         mdi-filter
                       </v-icon>
@@ -32,59 +43,86 @@
                     </v-btn>
                   </template>
                   <v-checkbox
-                    class="ml-2, mr-2"
-                    dense
-                    hide-details
                     v-for="(bundle, index) in bundles"
                     :key="index"
                     v-model="selectedBundles"
+                    class="ml-2, mr-2"
+                    dense
+                    hide-details
                     :label="bundle.name"
                     :value="bundle.id"
-                    @update:model-value="fetchData()" />
-                  <a class="ma-1" @click="selectedBundles = []; fetchData()">
+                    @update:model-value="fetchData()"
+                  />
+                  <a
+                    class="ma-1"
+                    @click="selectedBundles = []; fetchData()"
+                  >
                     {{ $t('reset') }}</a>
                 </v-menu>
-                <v-alert type="info" color="primary" density="compact" v-if="$route.query.user_id"
-                         class="mt-4 ml-3">
+                <v-alert
+                  v-if="$route.query.user_id"
+                  type="info"
+                  color="primary"
+                  density="compact"
+                  class="mt-4 ml-3"
+                >
                   {{ $t('_ban.messages.showingUserBans', { id: $route.query.user_id }) }}
                 </v-alert>
               </v-col>
             </v-row>
           </template>
-          <template v-slot:footer-right v-if="$checkProp('ban_edit')">
-            <v-btn variant="outlined" color="success" @click="openAddBanDialog()">
-              <v-icon start>mdi-plus</v-icon>
+          <template
+            v-if="$checkProp('ban_edit')"
+            #footer-right
+          >
+            <v-btn
+              variant="outlined"
+              color="success"
+              @click="openAddBanDialog()"
+            >
+              <v-icon start>
+                mdi-plus
+              </v-icon>
               <span>{{ $t('_ban.labels.add') }}</span>
             </v-btn>
           </template>
-          <template v-slot:item.color-status="{ item }">
-            <v-sheet :color="banRowFormatter(item)"
-                     height="95%" width="10px"
-            style="margin-left: -15px"/>
+          <template #item.color-status="{ item }">
+            <v-sheet
+              :color="banRowFormatter(item)"
+              height="95%"
+              width="10px"
+              style="margin-left: -15px"
+            />
           </template>
-          <template v-slot:item.user="{ item }">
+          <template #item.user="{ item }">
             <span v-if="$vuetify.display.xs">
-              <UserLink :user="item.user"
-                        :color="banRowFormatter(item)" />
+              <UserLink
+                :user="item.user"
+                :color="banRowFormatter(item)"
+              />
             </span>
             <span v-else>
-              <UserLink :user="item.user"/>
+              <UserLink :user="item.user" />
             </span>
           </template>
-          <template v-slot:item.length="{ item }">
-        <span>
-          {{ utils.formatLength(item['length']) }}
-        </span>
+          <template #item.length="{ item }">
+            <span>
+              {{ utils.formatLength(item['length']) }}
+            </span>
           </template>
-          <template v-slot:item.creator="{ item }">
-            <UserLink :user="item.creator"></UserLink>
+          <template #item.creator="{ item }">
+            <UserLink :user="item.creator" />
           </template>
-          <template v-slot:item.created_on="{ item }">
+          <template #item.created_on="{ item }">
             <span>{{ new Date(item.created_on).toLocaleString() }}</span>
           </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn variant="flat" size="small" color="error"
-                   @click="showDetails(item)">
+          <template #item.actions="{ item }">
+            <v-btn
+              variant="flat"
+              size="small"
+              color="error"
+              @click="showDetails(item)"
+            >
               <v-icon start>
                 mdi-eye
               </v-icon>
@@ -94,30 +132,39 @@
         </PaginatedDataTable>
       </v-card-text>
     </v-card>
-    <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
-                :title="$t('_ban.labels.add')" :submit-text="$t('create')"
-                icon="mdi-account-cancel"
-                @submit="addBan">
-    </DialogForm>
+    <DialogForm
+      ref="banAddDialog"
+      :form-schema="banAddFormSchema"
+      :title="$t('_ban.labels.add')"
+      :submit-text="$t('create')"
+      icon="mdi-account-cancel"
+      @submit="addBan"
+    />
     <Dialog
       ref="banDetailDialog"
+      v-model="banDetailShown"
       icon="mdi-account-cancel"
       :title="$t('_ban.labels.details')"
       :max-width="800"
-      v-model="banDetailShown">
+    >
       <template>
-        <h6 class="text-h6 mb-2  mt-3">{{ $t('details') }}</h6>
+        <h6 class="text-h6 mb-2  mt-3">
+          {{ $t('details') }}
+        </h6>
         <div v-if="currentBan != null">
           <v-table>
-            <template v-slot:default>
+            <template #default>
               <tbody>
-                <tr v-for="raw in ['id', 'reason']" :key="raw">
+                <tr
+                  v-for="raw in ['id', 'reason']"
+                  :key="raw"
+                >
                   <td>{{ $t(raw) }}</td>
                   <td>{{ currentBan[raw] }}</td>
                 </tr>
                 <tr>
                   <td>{{ $t('user') }}</td>
-                  <td><UserLink :user="currentBan.user"></UserLink></td>
+                  <td><UserLink :user="currentBan.user" /></td>
                 </tr>
                 <tr>
                   <td>{{ $t('length') }}</td>
@@ -133,12 +180,12 @@
                   <td>{{ $t('bundle') }}</td>
                   <td>
                     {{ (currentBan.serverbundle != null
-                    ? currentBan.serverbundle.name : $t('global')) }}
+                      ? currentBan.serverbundle.name : $t('global')) }}
                   </td>
                 </tr>
                 <tr>
                   <td>{{ $t('creator') }}</td>
-                  <td><UserLink :user="currentBan.creator"></UserLink></td>
+                  <td><UserLink :user="currentBan.creator" /></td>
                 </tr>
                 <tr>
                   <td>{{ $t('createdOn') }}</td>
@@ -147,119 +194,211 @@
                 <tr>
                   <td>{{ $t('status') }}</td>
                   <td v-if="currentBan.active">
-                    <v-chip class="text-white" color="green">{{ $t('active') }}</v-chip>
+                    <v-chip
+                      class="text-white"
+                      color="green"
+                    >
+                      {{ $t('active') }}
+                    </v-chip>
                   </td>
                   <td v-else-if="currentBan.status === 'UNBANNED'">
-                    <v-chip class="text-white" color="orange">
+                    <v-chip
+                      class="text-white"
+                      color="orange"
+                    >
                       {{ $t('_ban.labels.unbanned') }}
                     </v-chip>
                   </td>
                   <td v-else>
-                    <v-chip class="text-white" color="red">{{ $t('expired') }}</v-chip>
+                    <v-chip
+                      class="text-white"
+                      color="red"
+                    >
+                      {{ $t('expired') }}
+                    </v-chip>
                   </td>
                 </tr>
               </tbody>
             </template>
           </v-table>
-          <br/>
-          <div style="width: 100%" v-if="currentBan.protests && currentBan.protests.length > 0
-          && ($checkProp('ban_edit') ||
-           $checkLinked($store.getters.user, currentBan.user))">
-            <h6 class="text-h6 mb-2  mt-3">{{ $t('_ban.labels.banProtests') }}</h6>
+          <br>
+          <div
+            v-if="currentBan.protests && currentBan.protests.length > 0
+              && ($checkProp('ban_edit') ||
+                $checkLinked($store.getters.user, currentBan.user))"
+            style="width: 100%"
+          >
+            <h6 class="text-h6 mb-2  mt-3">
+              {{ $t('_ban.labels.banProtests') }}
+            </h6>
             <v-table>
               <tbody>
-                <tr v-for="protest in currentBan.protests"
-                    :key="protest.id" style="cursor: pointer;"
-                    @click="$router.push({ name: 'TicketThread', params: { id: protest.id } })">
+                <tr
+                  v-for="protest in currentBan.protests"
+                  :key="protest.id"
+                  style="cursor: pointer;"
+                  @click="$router.push({ name: 'TicketThread', params: { id: protest.id } })"
+                >
                   <td>{{ utils.formatDate(protest.created) }}</td>
                   <td class="text-right text-uppercase">
                     <v-chip :color="protest.status === 'OPEN' ? 'success' : 'error'">
-                    {{ $t(`_forum.status.${protest.status.toLowerCase()}`) }}
+                      {{ $t(`_forum.status.${protest.status.toLowerCase()}`) }}
                     </v-chip>
                   </td>
                 </tr>
               </tbody>
             </v-table>
           </div>
-          <br/>
+          <br>
           <div v-if="$checkProp('ban_comment_show')">
             <div class="d-flex align-center">
-              <h6 class="text-h6 mb-5">{{ $t('comments') }}</h6>
+              <h6 class="text-h6 mb-5">
+                {{ $t('comments') }}
+              </h6>
               <v-spacer />
-              <v-btn variant="outlined" color="success"
-                     @click="$refs.banCommentsTable.$refs.commentAddDialog.show()">
-                <v-icon start>mdi-plus</v-icon>
+              <v-btn
+                variant="outlined"
+                color="success"
+                @click="$refs.banCommentsTable.$refs.commentAddDialog.show()"
+              >
+                <v-icon start>
+                  mdi-plus
+                </v-icon>
                 {{ $t('comment') }}
               </v-btn>
             </div>
-            <CommentsTable type="ban" :obj-id="currentBan.id" :show-search="false"
-                           ref="banCommentsTable" :no-add-btn="true"/>
+            <CommentsTable
+              ref="banCommentsTable"
+              type="ban"
+              :obj-id="currentBan.id"
+              :show-search="false"
+              :no-add-btn="true"
+            />
           </div>
-          <br/>
+          <br>
           <div v-if="$checkProp('ban_log_show')">
-            <h6 class="text-h6 mb-2">{{ $t('log') }}</h6>
+            <h6 class="text-h6 mb-2">
+              {{ $t('log') }}
+            </h6>
             <div v-if="logsShown">
-              <LogTable type="ban" :obj-id="currentBan.id" :show-search="false" ref="banLogTable">
-              </LogTable>
+              <LogTable
+                ref="banLogTable"
+                type="ban"
+                :obj-id="currentBan.id"
+                :show-search="false"
+              />
             </div>
             <div v-else>
-              <v-btn variant="text" color="primary" @click="logsShown = true">
-                <v-icon start>mdi-eye</v-icon>
+              <v-btn
+                variant="text"
+                color="primary"
+                @click="logsShown = true"
+              >
+                <v-icon start>
+                  mdi-eye
+                </v-icon>
                 {{ $t('show') }}
               </v-btn>
             </div>
           </div>
         </div>
       </template>
-      <template v-slot:actions>
-        <div v-if="currentBan != null
-                   && $store.getters.isLoggedIn
-                   && $checkLinked($store.getters.user, currentBan.user)
-                   && currentBan.active">
-          <v-btn v-if="config && config.ban_protest_url" :href="config.ban_protest_url"
-                 variant="text" color="primary">
-            <v-icon start>mdi-fencing</v-icon>
+      <template #actions>
+        <div
+          v-if="currentBan != null
+            && $store.getters.isLoggedIn
+            && $checkLinked($store.getters.user, currentBan.user)
+            && currentBan.active"
+        >
+          <v-btn
+            v-if="config && config.ban_protest_url"
+            :href="config.ban_protest_url"
+            variant="text"
+            color="primary"
+          >
+            <v-icon start>
+              mdi-fencing
+            </v-icon>
             {{ $t('_ban.labels.protestBan') }}
           </v-btn>
-          <v-btn v-else-if="$store.getters.generalConfig
-                            && $store.getters.generalConfig['enable_ticket']"
-                 variant="text" color="primary" @click="showProtestBanDialog" target="_blank">
-            <v-icon start>mdi-fencing</v-icon>
+          <v-btn
+            v-else-if="$store.getters.generalConfig
+              && $store.getters.generalConfig['enable_ticket']"
+            variant="text"
+            color="primary"
+            target="_blank"
+            @click="showProtestBanDialog"
+          >
+            <v-icon start>
+              mdi-fencing
+            </v-icon>
             {{ $t('_ban.labels.protestBan') }}
           </v-btn>
         </div>
         <div v-if="currentBan != null && $checkProp('ban_edit')">
-          <v-btn variant="text" color="primary" @click="showEditDialog">
-            <v-icon start>mdi-pencil</v-icon>
+          <v-btn
+            variant="text"
+            color="primary"
+            @click="showEditDialog"
+          >
+            <v-icon start>
+              mdi-pencil
+            </v-icon>
             {{ $t('edit') }}
           </v-btn>
-          <v-btn variant="text" color="warning-darken-2" @click="unbanBan"
-                 v-if="currentBan.status === 'ACTIVE'">
-            <v-icon start>mdi-lock-open</v-icon>
+          <v-btn
+            v-if="currentBan.status === 'ACTIVE'"
+            variant="text"
+            color="warning-darken-2"
+            @click="unbanBan"
+          >
+            <v-icon start>
+              mdi-lock-open
+            </v-icon>
             {{ $t('_ban.labels.unban') }}
           </v-btn>
-          <v-btn variant="text" color="warning" @click="rebanBan"
-                 v-if="currentBan.status === 'UNBANNED'">
-            <v-icon start>mdi-lock</v-icon>
+          <v-btn
+            v-if="currentBan.status === 'UNBANNED'"
+            variant="text"
+            color="warning"
+            @click="rebanBan"
+          >
+            <v-icon start>
+              mdi-lock
+            </v-icon>
             {{ $t('_ban.labels.reban') }}
           </v-btn>
-          <v-btn variant="text" color="error" @click="showDeleteDialog">
-            <v-icon start>mdi-delete</v-icon>
+          <v-btn
+            variant="text"
+            color="error"
+            @click="showDeleteDialog"
+          >
+            <v-icon start>
+              mdi-delete
+            </v-icon>
             {{ $t('delete') }}
           </v-btn>
         </div>
       </template>
     </Dialog>
-    <DialogForm :form-schema="banEditFormSchema" ref="banEditDialog"
-                :title="$t('_ban.labels.edit')" :submit-text="$t('edit')"
-                icon="mdi-account-cancel"
-                @submit="editBan">
-    </DialogForm>
+    <DialogForm
+      ref="banEditDialog"
+      :form-schema="banEditFormSchema"
+      :title="$t('_ban.labels.edit')"
+      :submit-text="$t('edit')"
+      icon="mdi-account-cancel"
+      @submit="editBan"
+    />
     <DeleteConfirmationDialog
       ref="deleteBanDialog"
-      @submit="deleteBan"/>
-    <ThreadAddDialog ref="protestBanDialog" :dialog-title="$t('_ban.labels.protestBan')"
-                     :hide-title-input="true" @submit="protestBan"/>
+      @submit="deleteBan"
+    />
+    <ThreadAddDialog
+      ref="protestBanDialog"
+      :dialog-title="$t('_ban.labels.protestBan')"
+      :hide-title-input="true"
+      @submit="protestBan"
+    />
   </div>
 </template>
 
@@ -316,16 +455,6 @@ export default {
       logsShown: false,
     };
   },
-  beforeMount() {
-    this.getBundles();
-    this.getConfig();
-    this.updateCurrentBan();
-  },
-  watch: {
-    $route() {
-      this.updateCurrentBan();
-    },
-  },
   computed: {
     banDetailShown: {
       get() {
@@ -358,6 +487,16 @@ export default {
     //
     //   return null;
     // },
+  },
+  watch: {
+    $route() {
+      this.updateCurrentBan();
+    },
+  },
+  beforeMount() {
+    this.getBundles();
+    this.getConfig();
+    this.updateCurrentBan();
   },
   methods: {
     async updateCurrentBan() {

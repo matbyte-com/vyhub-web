@@ -1,13 +1,23 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12" md="8">
-        <PageTitleFlat :title="$t('_pageTitle.search')"
-                       :hide-triangle="$vuetify.display.smAndDown"
-                       :no-bottom-border-radius="$vuetify.display.smAndDown"/>
-        <v-card class="mt-3 card-rounded" flat>
+      <v-col
+        cols="12"
+        md="8"
+      >
+        <PageTitleFlat
+          :title="$t('_pageTitle.search')"
+          :hide-triangle="$vuetify.display.smAndDown"
+          :no-bottom-border-radius="$vuetify.display.smAndDown"
+        />
+        <v-card
+          class="mt-3 card-rounded"
+          flat
+        >
           <v-card-title>
-            <v-icon start>mdi-magnify</v-icon>
+            <v-icon start>
+              mdi-magnify
+            </v-icon>
             {{ $t('_search.labels.searchUsers') }}
           </v-card-title>
           <v-card-text>
@@ -16,30 +26,37 @@
               :headers="headers"
               class="row-pointer"
               :items="users"
+              :total-items="totalItems"
+              default-sort-by="username"
               @reload="doSearch"
-              :totalItems="totalItems"
               @click:row="rowClick"
-              default-sort-by="username">
-              <template v-slot:top>
+            >
+              <template #top>
                 <v-text-field
+                  v-model="search"
                   autofocus
-                  @update:model-value="debouncedSearch"
                   variant="outlined"
                   density="compact"
-                  v-model="search"
                   :label="$t('search')"
-                ></v-text-field>
+                  @update:model-value="debouncedSearch"
+                />
               </template>
-              <template v-slot:item.identifier="{ item }">
+              <template #item.identifier="{ item }">
                 <div class="d-flex align-center justify-end">
                   {{ item.identifier }}
-                  <v-icon end>{{ UserService.userTypeIcons[item.type] }}</v-icon>
+                  <v-icon end>
+                    {{ UserService.userTypeIcons[item.type] }}
+                  </v-icon>
                 </div>
               </template>
-              <template v-slot:item.linked_users="{ item }">
-                <router-link :to="{ name: 'UserDashboard', params: { id: linked.id } }"
-                             v-for="linked in item.linked_users" :key="linked.id"
-                             style="text-decoration: none; color: inherit;" class="mr-2">
+              <template #item.linked_users="{ item }">
+                <router-link
+                  v-for="linked in item.linked_users"
+                  :key="linked.id"
+                  :to="{ name: 'UserDashboard', params: { id: linked.id } }"
+                  style="text-decoration: none; color: inherit;"
+                  class="mr-2"
+                >
                   <v-chip size="small">
                     <span class="d-flex align-center">
                       <v-icon start>{{ UserService.userTypeIcons[linked.type] }}</v-icon>
@@ -48,12 +65,20 @@
                   </v-chip>
                 </router-link>
               </template>
-              <template v-slot:item.username="{ item }">
-                <router-link :to="{ name: 'UserDashboard', params: { id: item.id } }"
-                             style="text-decoration: none; color: inherit;">
+              <template #item.username="{ item }">
+                <router-link
+                  :to="{ name: 'UserDashboard', params: { id: item.id } }"
+                  style="text-decoration: none; color: inherit;"
+                >
                   <span class="d-flex align-center">
-                    <v-avatar size="35" class="mr-2">
-                      <img :src="item.avatar" alt="avatar">
+                    <v-avatar
+                      size="35"
+                      class="mr-2"
+                    >
+                      <img
+                        :src="item.avatar"
+                        alt="avatar"
+                      >
                     </v-avatar>
                     <span>{{ item.username }}</span>
                   </span>
@@ -63,19 +88,30 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" md="4">
-        <v-card class="card-rounded" flat>
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <v-card
+          class="card-rounded"
+          flat
+        >
           <v-card-title>
-            <v-icon start>mdi-account-clock</v-icon>
+            <v-icon start>
+              mdi-account-clock
+            </v-icon>
             {{ $t('_search.labels.recentlyActiveUsers') }}
           </v-card-title>
           <v-card-text>
             <div v-if="recentUsers != null">
               <v-list>
-                <v-list-item v-for="user in recentUsers" :key="user.id"
-                             :to="{ name: 'UserDashboard', params: { id: user.id } }">
+                <v-list-item
+                  v-for="user in recentUsers"
+                  :key="user.id"
+                  :to="{ name: 'UserDashboard', params: { id: user.id } }"
+                >
                   <v-list-item-avatar>
-                    <v-img :src="user.avatar"/>
+                    <v-img :src="user.avatar" />
                   </v-list-item-avatar>
                   <v-list-item-title>
                     {{ user.username }}
@@ -84,9 +120,8 @@
               </v-list>
             </div>
             <div v-else>
-              <v-skeleton-loader type="card"/>
+              <v-skeleton-loader type="card" />
             </div>
-
           </v-card-text>
         </v-card>
       </v-col>
@@ -103,11 +138,6 @@ import UserService from '../services/UserService';
 
 export default {
   name: 'Search',
-  computed: {
-    UserService() {
-      return UserService;
-    },
-  },
   components: { PaginatedDataTable, PageTitleFlat },
   data() {
     return {
@@ -125,10 +155,10 @@ export default {
       ],
     };
   },
-  beforeMount() {
-    this.search = this.$route.query.query;
-
-    this.fetchData();
+  computed: {
+    UserService() {
+      return UserService;
+    },
   },
   watch: {
     $route(to) {
@@ -137,6 +167,11 @@ export default {
         this.doSearch();
       }
     },
+  },
+  beforeMount() {
+    this.search = this.$route.query.query;
+
+    this.fetchData();
   },
   methods: {
     rowClick(row) {

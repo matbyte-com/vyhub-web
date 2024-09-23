@@ -1,11 +1,21 @@
 <template>
-  <Dialog ref="userSettingsDialog"
-          :title="$t('personalSettings')"
-          @close="$router.push($route.path)"
-          @cancel="$router.push($route.path)"
-          icon="mdi-account">
-    <Email :user="userCopy" @user-changed="refreshUser" class="mt-3"/>
-    <EmailNotifications :user="userCopy" @user-changed="refreshUser" class="mt-3" />
+  <Dialog
+    ref="userSettingsDialog"
+    :title="$t('personalSettings')"
+    icon="mdi-account"
+    @close="$router.push($route.path)"
+    @cancel="$router.push($route.path)"
+  >
+    <Email
+      :user="userCopy"
+      class="mt-3"
+      @user-changed="refreshUser"
+    />
+    <EmailNotifications
+      :user="userCopy"
+      class="mt-3"
+      @user-changed="refreshUser"
+    />
   </Dialog>
 </template>
 
@@ -18,13 +28,13 @@ import openapi from '@/api/openapi';
 export default {
   name: 'PersonalSettings',
   components: { EmailNotifications, Email, Dialog },
+  props: {
+    user: Object,
+  },
   data() {
     return {
       userCopy: Object,
     };
-  },
-  props: {
-    user: Object,
   },
   beforeMount() {
     this.userCopy = this.user;

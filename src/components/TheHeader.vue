@@ -1,12 +1,18 @@
 <template>
   <div>
-    <v-app-bar app color="header"
-               :light="$store.getters.theme && $store.getters.theme.light_header"
-               :dark="$store.getters.theme && !$store.getters.theme.light_header"
-               style="z-index: 200;">
-      <div class="d-flex align-center grow" style="width: 100%"
-           :class="{ 'container' : $store.getters.theme && $store.getters.theme.header_container
-            && $vuetify.display.mdAndUp }">
+    <v-app-bar
+      app
+      color="header"
+      :light="$store.getters.theme && $store.getters.theme.light_header"
+      :dark="$store.getters.theme && !$store.getters.theme.light_header"
+      style="z-index: 200;"
+    >
+      <div
+        class="d-flex align-center grow"
+        style="width: 100%"
+        :class="{ 'container' : $store.getters.theme && $store.getters.theme.header_container
+          && $vuetify.display.mdAndUp }"
+      >
         <!-- burger menu on the left-->
         <div v-if="$vuetify.display.mdAndDown">
           <BurgerMenu
@@ -14,69 +20,112 @@
             :help-links="allowedHelpCircleLinks"
             :menu-links="linksRight"
             @logout="logout"
-            @login="showLoginDialog()"/>
+            @login="showLoginDialog()"
+          />
         </div>
 
         <!-- Logo -->
         <div>
-          <v-img alt="Community Logo" class="shrink" contain v-if="imgSrc" :src="imgSrc"
-                 @click="$router.push('/')" style="cursor: pointer"
-                 transition="scale-transition" :width="logo_width" height="50"/>
+          <v-img
+            v-if="imgSrc"
+            alt="Community Logo"
+            class="shrink"
+            contain
+            :src="imgSrc"
+            style="cursor: pointer"
+            transition="scale-transition"
+            :width="logo_width"
+            height="50"
+            @click="$router.push('/')"
+          />
         </div>
         <!-- Do not overflow on bigger screens -->
-        <div v-if="$vuetify.display.lgAndUp" class="mr-1">
-          <v-toolbar-title class="ml-3" @click="$router.push('/')" style="cursor: pointer">
+        <div
+          v-if="$vuetify.display.lgAndUp"
+          class="mr-1"
+        >
+          <v-toolbar-title
+            class="ml-3"
+            style="cursor: pointer"
+            @click="$router.push('/')"
+          >
             {{ communityName }}
           </v-toolbar-title>
         </div>
         <!-- Overflow ellipsis (...) on smaller screens -->
-        <v-toolbar-title v-else class="ml-3" @click="$router.push('/')" style="cursor: pointer">
+        <v-toolbar-title
+          v-else
+          class="ml-3"
+          style="cursor: pointer"
+          @click="$router.push('/')"
+        >
           {{ communityName }}
         </v-toolbar-title>
 
         <!-- navigation links-->
-        <div style="overflow-x: auto; min-width: 50%" class="d-flex top-scrollbar ml-3 flex-grow-1"
-             v-if="$vuetify.display.lgAndUp">
+        <div
+          v-if="$vuetify.display.lgAndUp"
+          style="overflow-x: auto; min-width: 50%"
+          class="d-flex top-scrollbar ml-3 flex-grow-1"
+        >
           <NavigationLink
+            v-for="(link, index) in allowedLinks"
+            :key="index"
             :link="link"
             class="ml-1"
-            v-for="(link, index) in allowedLinks"
-            :key="index">
-          </NavigationLink>
+          />
         </div>
 
         <v-spacer />
         <Search />
         <div v-if="$vuetify.display.lgAndUp">
-          <HelpCircle :menu-links="allowedHelpCircleLinks" class="ml-1"/>
+          <HelpCircle
+            :menu-links="allowedHelpCircleLinks"
+            class="ml-1"
+          />
         </div>
         <!-- profile icon with dropdown or login-->
         <div>
-          <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
-            <Credits class="ml-1 mr-1" v-if="$vuetify.display.smAndUp"/>
-            <ShoppingCart/>
+          <div
+            v-if="$store.getters.isLoggedIn"
+            class="d-flex align-center"
+          >
+            <Credits
+              v-if="$vuetify.display.smAndUp"
+              class="ml-1 mr-1"
+            />
+            <ShoppingCart />
             <ProfileMenu
               v-if="$vuetify.display.smAndUp"
               class="ml-5"
               :menu-links="linksRight"
-              @logout="logout"/>
-            <Notification v-if="$vuetify.display.smAndUp && $store.getters.isLoggedIn"
-                          class="ml-1"/>
+              @logout="logout"
+            />
+            <Notification
+              v-if="$vuetify.display.smAndUp && $store.getters.isLoggedIn"
+              class="ml-1"
+            />
           </div>
           <div v-else>
-            <v-chip style="height: 32px" class="lighten-2 header ml-1" data-cy="login-button"
-                   @click="showLoginDialog"
-                   :class="{ 'glow-effect':utils.customerJourneyActive('login') }">
+            <v-chip
+              style="height: 32px"
+              class="lighten-2 header ml-1"
+              data-cy="login-button"
+              :class="{ 'glow-effect':utils.customerJourneyActive('login') }"
+              @click="showLoginDialog"
+            >
               {{ $t("_header.labels.login") }}
             </v-chip>
           </div>
         </div>
       </div>
     </v-app-bar>
-    <PersonalSettings ref="userSelfSettings" :user="$store.getters.user"
-                      @user-changed="refreshUser"
-                      v-if="$store.getters.isLoggedIn">
-    </PersonalSettings>
+    <PersonalSettings
+      v-if="$store.getters.isLoggedIn"
+      ref="userSelfSettings"
+      :user="$store.getters.user"
+      @user-changed="refreshUser"
+    />
   </div>
 </template>
 
@@ -115,51 +164,6 @@ export default {
       logo_width: 50,
       linksRight: [],
     };
-  },
-  methods: {
-    logout() {
-      AuthService.logout();
-      this.$router.push('/');
-    },
-    refreshUser() {
-      AuthService.refreshUser();
-    },
-    async getNavItems() {
-      const api = await openapi;
-
-      api.navigation_getNavigationLinks().then((rsp) => {
-        this.$store.commit('SET_NAV_ITEMS', rsp.data);
-        this.links = rsp.data;
-        // Caught in Footer
-        EventBus.emit('navItemsUpdated');
-      }).catch((err) => console.log(`Could not query nav ${err}`));
-    },
-    getNavItemsFromCache() {
-      if (this.$store.getters.navItems) this.links = this.$store.getters.navItems;
-    },
-    showLoginDialog() {
-      this.$router.push({
-        path: this.$route.path,
-        query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path) },
-      });
-    },
-    getLogo() {
-      if (this.$store.getters.theme) {
-        // Theme queried in App.vue
-        const obj = this.$store.getters.theme;
-        this.imgSrc = obj.logo;
-        if (obj.logo_width) this.logo_width = obj.logo_width;
-        if (obj.show_community_name) {
-          if (!this.$store.getters.generalConfig) {
-            this.communityName = null;
-          } else {
-            this.communityName = this.$store.getters.generalConfig.community_name;
-          }
-        } else {
-          this.communityName = null;
-        }
-      }
-    },
   },
   computed: {
     allowedLinks() {
@@ -212,6 +216,51 @@ export default {
   },
   created() {
     this.getNavItemsFromCache();
+  },
+  methods: {
+    logout() {
+      AuthService.logout();
+      this.$router.push('/');
+    },
+    refreshUser() {
+      AuthService.refreshUser();
+    },
+    async getNavItems() {
+      const api = await openapi;
+
+      api.navigation_getNavigationLinks().then((rsp) => {
+        this.$store.commit('SET_NAV_ITEMS', rsp.data);
+        this.links = rsp.data;
+        // Caught in Footer
+        EventBus.emit('navItemsUpdated');
+      }).catch((err) => console.log(`Could not query nav ${err}`));
+    },
+    getNavItemsFromCache() {
+      if (this.$store.getters.navItems) this.links = this.$store.getters.navItems;
+    },
+    showLoginDialog() {
+      this.$router.push({
+        path: this.$route.path,
+        query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path) },
+      });
+    },
+    getLogo() {
+      if (this.$store.getters.theme) {
+        // Theme queried in App.vue
+        const obj = this.$store.getters.theme;
+        this.imgSrc = obj.logo;
+        if (obj.logo_width) this.logo_width = obj.logo_width;
+        if (obj.show_community_name) {
+          if (!this.$store.getters.generalConfig) {
+            this.communityName = null;
+          } else {
+            this.communityName = this.$store.getters.generalConfig.community_name;
+          }
+        } else {
+          this.communityName = null;
+        }
+      }
+    },
   },
 };
 </script>

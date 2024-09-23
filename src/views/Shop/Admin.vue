@@ -1,26 +1,40 @@
 <template>
   <div>
-    <PageTitleFlat :hide-triangle="true" :title="$t('_shop.labels.admin')"
-                   :no-bottom-border-radius="$vuetify.display.smAndDown"/>
-    <v-card flat class="fill-height card-rounded-bottom"
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
-           'no-top-border-radius': $vuetify.display.smAndDown }">
+    <PageTitleFlat
+      :hide-triangle="true"
+      :title="$t('_shop.labels.admin')"
+      :no-bottom-border-radius="$vuetify.display.smAndDown"
+    />
+    <v-card
+      flat
+      class="fill-height card-rounded-bottom"
+      :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+                'no-top-border-radius': $vuetify.display.smAndDown }"
+    >
       <v-card-text>
-        <v-tabs v-model="tabModel" >
-          <v-tab v-for="tab in allowedTabs"
-                 :key="tab.id"
-                 class="justify-start"
-                 @click="$router.push({ name: 'ShopAdmin',
-                                    params: { component: tab.name} })">
-            <v-icon start>{{ tab.icon }}</v-icon>
+        <v-tabs v-model="tabModel">
+          <v-tab
+            v-for="tab in allowedTabs"
+            :key="tab.id"
+            class="justify-start"
+            @click="$router.push({ name: 'ShopAdmin',
+                                   params: { component: tab.name} })"
+          >
+            <v-icon start>
+              {{ tab.icon }}
+            </v-icon>
             <span>{{ tab.title }}</span>
           </v-tab>
         </v-tabs>
       </v-card-text>
     </v-card>
-    <v-card class="fill-height card-rounded mt-3" flat min-height="200px">
+    <v-card
+      class="fill-height card-rounded mt-3"
+      flat
+      min-height="200px"
+    >
       <v-card-text>
-        <component :is="componentInstance"></component>
+        <component :is="componentInstance" />
       </v-card-text>
     </v-card>
   </div>
@@ -82,13 +96,22 @@ export default {
       tabModel: null,
     };
   },
-  beforeMount() {
-    this.init();
+  computed: {
+    componentInstance() {
+      const type = this.activeComponent;
+      return () => import(`@/components/ShopComponents/Admin/${type}`);
+    },
+    allowedTabs() {
+      return this.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
+    },
   },
   watch: {
     $route() {
       this.init();
     },
+  },
+  beforeMount() {
+    this.init();
   },
   methods: {
     init() {
@@ -99,15 +122,6 @@ export default {
       } else {
         this.activeComponent = this.allowedTabs[0].component;
       }
-    },
-  },
-  computed: {
-    componentInstance() {
-      const type = this.activeComponent;
-      return () => import(`@/components/ShopComponents/Admin/${type}`);
-    },
-    allowedTabs() {
-      return this.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
     },
   },
 };

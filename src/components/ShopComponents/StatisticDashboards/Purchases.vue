@@ -1,41 +1,67 @@
 <template>
   <div>
     <v-row>
-      <v-col v-if="purchaseCountIntervalItems != null" cols="12" lg="6">
+      <v-col
+        v-if="purchaseCountIntervalItems != null"
+        cols="12"
+        lg="6"
+      >
         <v-card class="mt-6">
           <v-card-title>
-            <v-icon start>mdi-counter</v-icon>
+            <v-icon start>
+              mdi-counter
+            </v-icon>
             {{ $t('_purchases.labels.salesCount') }}
-            <v-spacer></v-spacer>
-            <v-select hide-details density="compact" variant="outlined" v-model="selectedInterval"
-                      style="z-index: 20"
-                      :items="intervalItems" item-title="name" item-value="value"></v-select>
+            <v-spacer />
+            <v-select
+              v-model="selectedInterval"
+              hide-details
+              density="compact"
+              variant="outlined"
+              style="z-index: 20"
+              :items="intervalItems"
+              item-title="name"
+              item-value="value"
+            />
           </v-card-title>
           <v-card-text>
-            <PurchaseNumberChart :data="purchaseCountIntervalItems"></PurchaseNumberChart>
+            <PurchaseNumberChart :data="purchaseCountIntervalItems" />
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col v-if="heatmapItems != null" cols="12" lg="6">
+      <v-col
+        v-if="heatmapItems != null"
+        cols="12"
+        lg="6"
+      >
         <v-card class="mt-6">
           <v-card-title>
-            <v-icon start>mdi-counter</v-icon>
+            <v-icon start>
+              mdi-counter
+            </v-icon>
             {{ $t('_purchases.labels.salesCount') }}
           </v-card-title>
           <v-card-text>
-            <PurchaseTimeHeatmap :data="heatmapItems"></PurchaseTimeHeatmap>
+            <PurchaseTimeHeatmap :data="heatmapItems" />
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" lg="6" v-if="purchaseCountIntervalItems == null">
-        <v-skeleton-loader type="card"/>
+      <v-col
+        v-if="purchaseCountIntervalItems == null"
+        cols="12"
+        lg="6"
+      >
+        <v-skeleton-loader type="card" />
       </v-col>
-      <v-col cols="12" lg="6" v-if="heatmapItems == null">
-        <v-skeleton-loader type="card"/>
+      <v-col
+        v-if="heatmapItems == null"
+        cols="12"
+        lg="6"
+      >
+        <v-skeleton-loader type="card" />
       </v-col>
     </v-row>
   </div>
-
 </template>
 
 <script>
@@ -54,10 +80,6 @@ export default {
       selectedInterval: 'MONTH',
     };
   },
-  beforeMount() {
-    this.fetchPurchases();
-    this.fetchPurchaseHeatmap();
-  },
   watch: {
     currency() {
       if (this.currency != null) {
@@ -73,6 +95,10 @@ export default {
     timeRange() {
       this.fetchPurchaseHeatmap();
     },
+  },
+  beforeMount() {
+    this.fetchPurchases();
+    this.fetchPurchaseHeatmap();
   },
   methods: {
     async fetchPurchases() {

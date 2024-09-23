@@ -1,15 +1,28 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/shop/general">{{ $t('shop') }}</SettingTitle>
+    <SettingTitle doc-path="/guide/shop/general">
+      {{ $t('shop') }}
+    </SettingTitle>
 
     <v-row>
-      <v-col sm="12" md="7">
-        <h6 class="text-h6">{{ $t('general') }}</h6>
-        <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')"
-                 :optionsExtra="{editMode: 'inline'}"
-                 :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true"
-                 :action-button-top-margin="3">
-          <template v-slot:checkout_checkboxes-after>
+      <v-col
+        sm="12"
+        md="7"
+      >
+        <h6 class="text-h6">
+          {{ $t('general') }}
+        </h6>
+        <GenForm
+          ref="form"
+          :form-schema="formSchema"
+          :cancel-text="$t('cancel')"
+          :options-extra="{editMode: 'inline'}"
+          :submit-text="$t('submit')"
+          :settings-mode="true"
+          :action-button-top-margin="3"
+          @submit="saveData"
+        >
+          <template #checkout_checkboxes-after>
             <div class="mt-5">
               <span class="text-subtitle-1">{{ $t('news') }}</span>
               <Editor v-model="shopNews" />
@@ -18,15 +31,28 @@
         </GenForm>
       </v-col>
       <v-col>
-        <h6 class="text-h6">{{ $t('_shop.labels.businessAddress') }}</h6>
+        <h6 class="text-h6">
+          {{ $t('_shop.labels.businessAddress') }}
+        </h6>
         <v-card>
           <v-card-text class="text-body-1">
-            <Address v-if="businessAddress != null" :address="businessAddress"></Address>
-            <div v-else>{{ $t('_shop.messages.noAddressSpecified') }}</div>
+            <Address
+              v-if="businessAddress != null"
+              :address="businessAddress"
+            />
+            <div v-else>
+              {{ $t('_shop.messages.noAddressSpecified') }}
+            </div>
           </v-card-text>
           <v-card-actions>
-            <v-btn variant="text" color="success" @click="$refs.addressChangeDialog.show()">
-              <v-icon start>mdi-pencil</v-icon>
+            <v-btn
+              variant="text"
+              color="success"
+              @click="$refs.addressChangeDialog.show()"
+            >
+              <v-icon start>
+                mdi-pencil
+              </v-icon>
               {{ $t('change') }}
             </v-btn>
           </v-card-actions>
@@ -34,11 +60,14 @@
       </v-col>
     </v-row>
     <!-- Address Add Form -->
-    <DialogForm :form-schema="addressFormSchema" ref="addressChangeDialog"
-                :title="$t('_address.labels.change')" :submit-text="$t('change')"
-                icon="mdi-map-marker"
-                @submit="changeAddress">
-    </DialogForm>
+    <DialogForm
+      ref="addressChangeDialog"
+      :form-schema="addressFormSchema"
+      :title="$t('_address.labels.change')"
+      :submit-text="$t('change')"
+      icon="mdi-map-marker"
+      @submit="changeAddress"
+    />
   </div>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
-<div>
-  <v-card>
-    <v-card-text>
-      <v-progress-circular indeterminate />
-      {{ $t('redirect') }}
-    </v-card-text>
-  </v-card>
-</div>
+  <div>
+    <v-card>
+      <v-card-text>
+        <v-progress-circular indeterminate />
+        {{ $t('redirect') }}
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>

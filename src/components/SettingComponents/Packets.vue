@@ -1,52 +1,86 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/shop/packet">
+    <SettingTitle doc-path="/guide/shop/packet">
       {{ $t('packets') }}
     </SettingTitle>
     <DataTable
+      id="packets-table"
       :headers="headers"
       :items="packets"
       :disable-sort="currentCategory != null"
       :disable-pagination="currentCategory != null"
       :hide-default-footer="currentCategory != null"
       :sort-by="(currentCategory != null ? null : ['category.name'])"
-      id="packets-table"
-      :showSearch="true">
-      <template v-slot:header>
-        <v-col cols="12" xl="9" class="pa-0 ma-0">
-          <v-select variant="outlined" hide-details density="compact"
-                    class="animate__animated"
-                    :class="{animate__headShake:selectWobble === true}"
-                    :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
-                    return-object
-                    :label="$t('category')"
-                    clearable
-                    v-model="currentCategory"
-                    :items="categories" item-value="id" item-title="name">
-          </v-select>
+      :show-search="true"
+    >
+      <template #header>
+        <v-col
+          cols="12"
+          xl="9"
+          class="pa-0 ma-0"
+        >
+          <v-select
+            v-model="currentCategory"
+            variant="outlined"
+            hide-details
+            density="compact"
+            class="animate__animated"
+            :class="{animate__headShake:selectWobble === true}"
+            :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
+            return-object
+            :label="$t('category')"
+            clearable
+            :items="categories"
+            item-value="id"
+            item-title="name"
+          />
         </v-col>
       </template>
-      <template v-slot:item.flags="{ item }">
-        <div v-if="item.flags.length === 0">-</div>
-        <v-chip v-for="flag in item.flags" :color="flag.color + ' lighten-1'" v-bind:key="flag.text"
-                size="small" class="mr-1">
+      <template #item.flags="{ item }">
+        <div v-if="item.flags.length === 0">
+          -
+        </div>
+        <v-chip
+          v-for="flag in item.flags"
+          :key="flag.text"
+          :color="flag.color + ' lighten-1'"
+          size="small"
+          class="mr-1"
+        >
           {{ flag.text }}
         </v-chip>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <div class="text-right">
-          <v-btn icon color="secondary" size="small" @click="copyPacket(item)" class="mr-1">
+          <v-btn
+            icon
+            color="secondary"
+            size="small"
+            class="mr-1"
+            @click="copyPacket(item)"
+          >
             <v-icon size="small">
               mdi-content-copy
             </v-icon>
           </v-btn>
-          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            size="small"
+            class="mr-1"
+            @click="showEditDialog(item)"
+          >
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn variant="outlined" color="error" size="small" @click="$refs.deletePacketDialog.show(item)"
-                 :disabled="!item.deletable">
+          <v-btn
+            variant="outlined"
+            color="error"
+            size="small"
+            :disabled="!item.deletable"
+            @click="$refs.deletePacketDialog.show(item)"
+          >
             <v-icon>
               mdi-delete
             </v-icon>
@@ -56,9 +90,15 @@
     </DataTable>
     <div class="d-flex">
       <v-spacer />
-      <v-btn variant="outlined" color="success" @click="showAddPacketDialog"
-             :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }">
-        <v-icon start>mdi-plus</v-icon>
+      <v-btn
+        variant="outlined"
+        color="success"
+        :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }"
+        @click="showAddPacketDialog"
+      >
+        <v-icon start>
+          mdi-plus
+        </v-icon>
         <span>{{ $t('_packet.labels.add') }}</span>
       </v-btn>
     </div>
@@ -66,31 +106,34 @@
       ref="addPacketDialog"
       :form-schema="packetSchema"
       icon="mdi-gift-open"
-      :submitText="$t('add')"
-      @submit="addPacket"
+      :submit-text="$t('add')"
       :max-width="600"
-      :title="$t('_packet.labels.add')">
-      <template v-slot:custom-editor="context">
-        <EditorForForm v-bind="context"/>
+      :title="$t('_packet.labels.add')"
+      @submit="addPacket"
+    >
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
       </template>
     </DialogForm>
     <DialogForm
       ref="editPacketDialog"
       :form-schema="packetSchema"
       icon="mdi-gift-open"
-      :submitText="$t('edit')"
-      @submit="editPacket"
+      :submit-text="$t('edit')"
       :max-width="600"
-      :title="$t('_packet.labels.edit')">
-      <template v-slot:custom-editor="context">
-        <EditorForForm v-bind="context"/>
+      :title="$t('_packet.labels.edit')"
+      @submit="editPacket"
+    >
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
       </template>
     </DialogForm>
     <DeleteConfirmationDialog
+      ref="deletePacketDialog"
       :countdown="true"
       :text="$t('_packet.messages.deleteWarning')"
-      ref="deletePacketDialog"
-      @submit="deletePacket"/>
+      @submit="deletePacket"
+    />
   </div>
 </template>
 
@@ -132,8 +175,36 @@ export default {
       selectWobble: false,
     };
   },
+  watch: {
+    currentCategory() {
+      this.queryPackets();
+    },
+  },
   beforeMount() {
     this.fetchData();
+  },
+  mounted() {
+    const table = document.querySelector('#packets-table tbody');
+    Sortable.create(table, {
+      onEnd: ({ newIndex, oldIndex }) => {
+        if (this.currentCategory == null) {
+          this.selectWobble = true;
+          setTimeout(() => {
+            this.selectWobble = false;
+          }, 500);
+          this.$notify({
+            type: 'warning',
+            title: this.$t('_packet.messages.sortOnlyWithCategory'),
+          });
+          return;
+        }
+
+        const rowSelected = this.packets.splice(oldIndex, 1)[0];
+        this.packets.splice(newIndex, 0, rowSelected);
+
+        this.saveOrder();
+      },
+    });
   },
   methods: {
     async queryPackets() {
@@ -307,34 +378,6 @@ export default {
       console.log(this.packets);
 
       await api.packet_updateOrder(null, order);
-    },
-  },
-  mounted() {
-    const table = document.querySelector('#packets-table tbody');
-    Sortable.create(table, {
-      onEnd: ({ newIndex, oldIndex }) => {
-        if (this.currentCategory == null) {
-          this.selectWobble = true;
-          setTimeout(() => {
-            this.selectWobble = false;
-          }, 500);
-          this.$notify({
-            type: 'warning',
-            title: this.$t('_packet.messages.sortOnlyWithCategory'),
-          });
-          return;
-        }
-
-        const rowSelected = this.packets.splice(oldIndex, 1)[0];
-        this.packets.splice(newIndex, 0, rowSelected);
-
-        this.saveOrder();
-      },
-    });
-  },
-  watch: {
-    currentCategory() {
-      this.queryPackets();
     },
   },
 };

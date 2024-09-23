@@ -1,64 +1,121 @@
 <template>
-<v-card class="vh-cart-recommended-packets-cart card-rounded" flat
-        v-if="recommendedPackets !== null && recommendedPackets.length > 0">
-  <v-card-title>
-    <h2 class="text-h6">{{ $t('_shop.labels.recommended') }}</h2>
-  </v-card-title>
-  <v-card-text>
-    <Swiper :number-of-elements="recommendedPackets.length" :per-page-custom="[1,2,2,3,4]">
-      <swiper-slide v-for="p in recommendedPackets" :key="p.id" style="height: 95px;">
-        <v-card class="card-rounded d-block" height="90px" width="100%" max-width="500px"
-                @click="selectedPacket = p; $refs.detailDialog.show()">
-          <div class="d-flex" style="width: 100%">
-            <PacketImage :packet="p" :alt="p.title"
-                   height="90px"
-                   width="40%"
-                   max-width="150px"
-                   class="card-rounded">
-              <div class="d-flex flex-column" style="height: 100%;">
-                <v-row justify="center" align="center"
-                       style="height: 100%; text-shadow: #000000 2px 2px 2px;"
-                       class="text-white text-h6 text-center title-in-image ml-1 mr-1"
-                       v-if="p.title_in_image">
-                  {{ p.title_in_image }}
-                </v-row>
-              </div>
-            </PacketImage>
-            <div class="pa-2 d-flex flex-column grow" style="height: 76px;">
-              <h3 class="font-weight-bold text-wrap overflow-hidden"
-                  style="font-size: 0.95em; line-height: 1.4em; height: 40px">
-                {{ p.title }}
-              </h3>
-              <v-spacer />
-              <div class="d-flex align-end">
-                <span class="strikethrough-diagonal text--disabled mr-2"
-                        v-if="p.price_with_discount.total !== p.price_without_discount.total">
-                  {{ utils.formatDecimal(p.price_without_discount.total) }}
-                  {{ p.currency.symbol }}
-                </span>
-                <v-spacer v-if="p.price_with_discount.total !== p.price_without_discount.total"/>
-                <span class="text-primary" style="font-size: large">
-                  {{ p.price_with_discount.total
-                        .toLocaleString(undefined, {minimumFractionDigits: 2})}}
-                  {{ p.currency.symbol }}
-                </span>
-                <v-spacer v-if="p.price_with_discount.total === p.price_without_discount.total"/>
-                <v-icon @click.stop="addToCart(p.id)" class="cart-add-animation ml-1"
-                        color="primary">mdi-cart-plus</v-icon>
+  <v-card
+    v-if="recommendedPackets !== null && recommendedPackets.length > 0"
+    class="vh-cart-recommended-packets-cart card-rounded"
+    flat
+  >
+    <v-card-title>
+      <h2 class="text-h6">
+        {{ $t('_shop.labels.recommended') }}
+      </h2>
+    </v-card-title>
+    <v-card-text>
+      <Swiper
+        :number-of-elements="recommendedPackets.length"
+        :per-page-custom="[1,2,2,3,4]"
+      >
+        <swiper-slide
+          v-for="p in recommendedPackets"
+          :key="p.id"
+          style="height: 95px;"
+        >
+          <v-card
+            class="card-rounded d-block"
+            height="90px"
+            width="100%"
+            max-width="500px"
+            @click="selectedPacket = p; $refs.detailDialog.show()"
+          >
+            <div
+              class="d-flex"
+              style="width: 100%"
+            >
+              <PacketImage
+                :packet="p"
+                :alt="p.title"
+                height="90px"
+                width="40%"
+                max-width="150px"
+                class="card-rounded"
+              >
+                <div
+                  class="d-flex flex-column"
+                  style="height: 100%;"
+                >
+                  <v-row
+                    v-if="p.title_in_image"
+                    justify="center"
+                    align="center"
+                    style="height: 100%; text-shadow: #000000 2px 2px 2px;"
+                    class="text-white text-h6 text-center title-in-image ml-1 mr-1"
+                  >
+                    {{ p.title_in_image }}
+                  </v-row>
+                </div>
+              </PacketImage>
+              <div
+                class="pa-2 d-flex flex-column grow"
+                style="height: 76px;"
+              >
+                <h3
+                  class="font-weight-bold text-wrap overflow-hidden"
+                  style="font-size: 0.95em; line-height: 1.4em; height: 40px"
+                >
+                  {{ p.title }}
+                </h3>
+                <v-spacer />
+                <div class="d-flex align-end">
+                  <span
+                    v-if="p.price_with_discount.total !== p.price_without_discount.total"
+                    class="strikethrough-diagonal text--disabled mr-2"
+                  >
+                    {{ utils.formatDecimal(p.price_without_discount.total) }}
+                    {{ p.currency.symbol }}
+                  </span>
+                  <v-spacer v-if="p.price_with_discount.total !== p.price_without_discount.total" />
+                  <span
+                    class="text-primary"
+                    style="font-size: large"
+                  >
+                    {{ p.price_with_discount.total
+                      .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                    {{ p.currency.symbol }}
+                  </span>
+                  <v-spacer v-if="p.price_with_discount.total === p.price_without_discount.total" />
+                  <v-icon
+                    class="cart-add-animation ml-1"
+                    color="primary"
+                    @click.stop="addToCart(p.id)"
+                  >
+                    mdi-cart-plus
+                  </v-icon>
+                </div>
               </div>
             </div>
-          </div>
-        </v-card>
-      </swiper-slide>
-    </Swiper>
-    <v-row v-if="false">
-      <v-col cols="6" md="6" lg="6" xl="3" v-for="i in 4" :key="i">
-        <v-skeleton-loader type="card" height="200" />
-      </v-col>
-    </v-row>
-  </v-card-text>
-  <PacketDetailDialog ref="detailDialog" :packet="selectedPacket" />
-</v-card>
+          </v-card>
+        </swiper-slide>
+      </Swiper>
+      <v-row v-if="false">
+        <v-col
+          v-for="i in 4"
+          :key="i"
+          cols="6"
+          md="6"
+          lg="6"
+          xl="3"
+        >
+          <v-skeleton-loader
+            type="card"
+            height="200"
+          />
+        </v-col>
+      </v-row>
+    </v-card-text>
+    <PacketDetailDialog
+      ref="detailDialog"
+      :packet="selectedPacket"
+    />
+  </v-card>
 </template>
 
 <script>

@@ -2,7 +2,10 @@
   <v-row>
     <v-col cols="12">
       <v-row v-if="alertMessage != null">
-        <v-col cols="12" class="mt-4">
+        <v-col
+          cols="12"
+          class="mt-4"
+        >
           <v-alert :type="alertType">
             {{ alertMessage }}
           </v-alert>
@@ -10,27 +13,51 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <v-form ref="form" @submit.prevent="validateAndRun">
-            <v-jsf v-model="formModel"
-                   :schema="compatSchema"
-                   :options="options"
-                   @input="$emit('updated')"
-                   :key="componentKey">
-              <template v-for="(index, name) in $scopedSlots" v-slot:[name]="scope">
-                <slot v-bind="scope" :name="name"/>
+          <v-form
+            ref="form"
+            @submit.prevent="validateAndRun"
+          >
+            <v-jsf
+              :key="componentKey"
+              v-model="formModel"
+              :schema="compatSchema"
+              :options="options"
+              @input="$emit('updated')"
+            >
+              <template
+                v-for="(index, name) in $slots"
+                #[name]="scope"
+              >
+                <slot
+                  v-bind="scope"
+                  :name="name"
+                />
               </template>
             </v-jsf>
-            <slot name="form-after"></slot>
+            <slot name="form-after" />
             <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
-              <v-col cols="12" :class="`mt-${actionButtonTopMargin}`">
-                <v-btn v-if="submitText != null" class="mr-4"
-                       variant="flat" color="primary" type="submit" :loading="loading">
+              <v-col
+                cols="12"
+                :class="`mt-${actionButtonTopMargin}`"
+              >
+                <v-btn
+                  v-if="submitText != null"
+                  class="mr-4"
+                  variant="flat"
+                  color="primary"
+                  type="submit"
+                  :loading="loading"
+                >
                   <span v-if="!settingsMode">{{ submitText }}</span>
                   <span v-else>{{ $t('save') }}</span>
                 </v-btn>
 
-                <v-btn v-if="cancelText != null && !settingsMode"
-                       color="lighten-5" variant="flat" @click="cancelForm">
+                <v-btn
+                  v-if="cancelText != null && !settingsMode"
+                  color="lighten-5"
+                  variant="flat"
+                  @click="cancelForm"
+                >
                   {{ cancelText }}
                 </v-btn>
               </v-col>
@@ -80,6 +107,40 @@ export default {
       default: 0,
     },
   },
+  data() {
+    return {
+      alertMessage: null,
+      alertType: 'error',
+      valid: false,
+      optionsBase: {
+        locale: i18n.locale, // i18n.locale,
+        httpLib: axios,
+        timePickerProps: {
+          format: '24hr',
+        },
+        markdownit: {
+          html: true,
+        },
+      },
+      formModel: null,
+      loading: false,
+      componentKey: 1,
+    };
+  },
+  computed: {
+    options() {
+      if (this.optionsExtra == null) {
+        return this.optionsBase;
+      }
+      return { ...this.optionsBase, ...this.optionsExtra };
+    },
+    compatSchema() {
+      return v2compat(this.formSchema);
+    },
+  },
+  mounted() {
+    this.$emit('mounted');
+  },
   methods: {
     validateAndRun() {
       setTimeout(() => {
@@ -122,40 +183,6 @@ export default {
     },
     forceRerender() {
       this.componentKey += 1;
-    },
-  },
-  data() {
-    return {
-      alertMessage: null,
-      alertType: 'error',
-      valid: false,
-      optionsBase: {
-        locale: i18n.locale, // i18n.locale,
-        httpLib: axios,
-        timePickerProps: {
-          format: '24hr',
-        },
-        markdownit: {
-          html: true,
-        },
-      },
-      formModel: null,
-      loading: false,
-      componentKey: 1,
-    };
-  },
-  mounted() {
-    this.$emit('mounted');
-  },
-  computed: {
-    options() {
-      if (this.optionsExtra == null) {
-        return this.optionsBase;
-      }
-      return { ...this.optionsBase, ...this.optionsExtra };
-    },
-    compatSchema() {
-      return v2compat(this.formSchema);
     },
   },
   /* watch: {

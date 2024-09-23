@@ -1,61 +1,78 @@
 <template>
-    <v-autocomplete
-      ref="input"
-      @focus="searchClosed = false"
-      @blur="searchClosed = true;"
-      @mousedown="searchClosed = false"
-      :placeholder="searchClosed ? '' : $t('user')"
-      prepend-inner-icon="mdi-magnify"
-      class="expanding-search"
-      hide-details="auto"
-      :class="{ 'closed' : searchClosed && !search }"
-      variant="filled" density="compact" clearable
-      hide-no-data
-      :items="items"
-      :search.sync="search"
-      :loading="isLoading"
-      item-title="username"
-      item-value="id"
-      append-icon=""
-      auto-select-first
-      return-object
-      v-on:update:model-value="showUser"
-      :customFilter="searchFilter"
-      @keydown.esc="search = null">
-      <template slot="item"
-                slot-scope="{ item }">
-        <v-list tile v-if="item.id !== 'advanced'">
+  <v-autocomplete
+    ref="input"
+    :placeholder="searchClosed ? '' : $t('user')"
+    prepend-inner-icon="mdi-magnify"
+    class="expanding-search"
+    hide-details="auto"
+    v-model:search="search"
+    :class="{ 'closed' : searchClosed && !search }"
+    variant="filled"
+    density="compact"
+    clearable
+    hide-no-data
+    :items="items"
+    :loading="isLoading"
+    item-title="username"
+    item-value="id"
+    append-icon=""
+    auto-select-first
+    return-object
+    @focus="searchClosed = false"
+    :custom-filter="searchFilter"
+    @blur="searchClosed = true;"
+    @mousedown="searchClosed = false"
+    @update:model-value="showUser"
+    @keydown.esc="search = null"
+  >
+    <template #default="{ item }">
+      <slot
+        name="item"
+      >
+        <v-list
+          v-if="item.id !== 'advanced'"
+          tile
+        >
           <v-list-item>
             <v-list-item-avatar>
-              <img :src="item.avatar" alt="avatar">
+              <img
+                :src="item.avatar"
+                alt="avatar"
+              >
             </v-list-item-avatar>
-            
-              <v-list-item-title>
-                <h2 class="d-flex align-center">
-                  <v-icon start>{{ userTypeIcons[item.type] }}</v-icon>
-                  {{ item.username }}
-                </h2>
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{ item.identifier }}
-              </v-list-item-subtitle>
-              <v-list-item-subtitle class="mt-2 ml-2">
-                <v-chip size="small" v-for="linked in item.linked_users" :key="linked.id"
-                class="mr-2">
-                  <span class="d-flex align-center">
+
+            <v-list-item-title>
+              <h2 class="d-flex align-center">
+                <v-icon start>
+                  {{ userTypeIcons[item.type] }}
+                </v-icon>
+                {{ item.username }}
+              </h2>
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{ item.identifier }}
+            </v-list-item-subtitle>
+            <v-list-item-subtitle class="mt-2 ml-2">
+              <v-chip
+                v-for="linked in item.linked_users"
+                :key="linked.id"
+                size="small"
+                class="mr-2"
+              >
+                <span class="d-flex align-center">
                   <v-icon start>{{ userTypeIcons[linked.type] }}</v-icon>
                   {{ linked.username }}
                 </span>
-                </v-chip>
-              </v-list-item-subtitle>
-            
+              </v-chip>
+            </v-list-item-subtitle>
           </v-list-item>
         </v-list>
         <div v-else>
           {{ $t('advanced') }}...
         </div>
-      </template>
-    </v-autocomplete>
+      </slot>
+    </template>
+  </v-autocomplete>
 </template>
 
 <script>

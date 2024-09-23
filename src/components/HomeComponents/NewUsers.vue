@@ -1,30 +1,67 @@
 <template>
-  <v-card class="vh-new-users card-rounded" flat :border="outlined">
+  <v-card
+    class="vh-new-users card-rounded"
+    flat
+    :border="outlined"
+  >
     <v-card-title class="pb-0">
-      <CardTitle icon="mdi-account-arrow-right" :title="$t('_user.labels.newUsers')"/>
+      <CardTitle
+        icon="mdi-account-arrow-right"
+        :title="$t('_user.labels.newUsers')"
+      />
     </v-card-title>
-    <v-card-text style="width: inherit" class="mt-3" v-if="newUsers != null">
-      <v-row v-if="$vuetify.display.mdAndUp" style="width: inherit"
-             :justify="$vuetify.display.smAndDown && newUsers.length !== 1 ? 'center' : 'start'">
-        <v-col cols="4" md="6" lg="6" xl="3" v-for="u in newUsers" v-bind:key="u.id">
+    <v-card-text
+      v-if="newUsers != null"
+      style="width: inherit"
+      class="mt-3"
+    >
+      <v-row
+        v-if="$vuetify.display.mdAndUp"
+        style="width: inherit"
+        :justify="$vuetify.display.smAndDown && newUsers.length !== 1 ? 'center' : 'start'"
+      >
+        <v-col
+          v-for="u in newUsers"
+          :key="u.id"
+          cols="4"
+          md="6"
+          lg="6"
+          xl="3"
+        >
           <v-card
             border
             class="vh-new-user-card"
-            @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })">
-            <v-img :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+            @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })"
+          >
+            <v-img
+              :src="u.avatar"
+              lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
+            />
             <v-card-subtitle class="pa-2 text-center">
               {{ u.username }}
             </v-card-subtitle>
           </v-card>
         </v-col>
       </v-row>
-      <div v-else class="d-flex justify-center" >
-        <div style="width: 30%" v-for="u in newUsers.slice(0,3)" v-bind:key="u.id" class="mx-2">
+      <div
+        v-else
+        class="d-flex justify-center"
+      >
+        <div
+          v-for="u in newUsers.slice(0,3)"
+          :key="u.id"
+          style="width: 30%"
+          class="mx-2"
+        >
           <v-card
             border
             class="vh-new-user-card"
-            @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })">
-            <v-img :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+            @click="$router.push({ name: 'UserDashboard', params: { id: u.id } })"
+          >
+            <v-img
+              :src="u.avatar"
+              lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
+            />
             <v-card-subtitle class="pa-2 text-center">
               {{ u.username }}
             </v-card-subtitle>
@@ -48,6 +85,9 @@ export default {
       newUsers: null,
     };
   },
+  beforeMount() {
+    this.fetchData();
+  },
   methods: {
     async fetchData() {
       const api = await openapi;
@@ -59,9 +99,6 @@ export default {
         this.utils.notifyUnexpectedError(err.response.data);
       });
     },
-  },
-  beforeMount() {
-    this.fetchData();
   },
 };
 </script>

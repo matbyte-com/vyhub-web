@@ -1,19 +1,22 @@
 <template>
   <div>
     <div v-if="series != null">
-      <apexchart height="300" type="area" :options="options" :series="series">
-
-      </apexchart>
+      <apexchart
+        height="300"
+        type="area"
+        :options="options"
+        :series="series"
+      />
     </div>
     <div v-else>
       <v-row>
         <v-col>
-          <v-skeleton-loader type="heading"></v-skeleton-loader>
+          <v-skeleton-loader type="heading" />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-skeleton-loader type="image"></v-skeleton-loader>
+          <v-skeleton-loader type="image" />
         </v-col>
       </v-row>
     </div>
@@ -83,7 +86,7 @@ export default {
             text: this.definition.title,
           },
           labels: {
-            /* eslint-disable-next-line max-len */
+             
             formatter: (y) => `${this.utils.formatDecimal(y)} ${this.definition.unit}`,
           },
         },

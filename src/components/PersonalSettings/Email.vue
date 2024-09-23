@@ -1,8 +1,13 @@
 <template>
-  <v-card v-if="user != null" class="vh-email flex-grow-1 d-flex flex-column card-rounded"
-          :border="outlined">
+  <v-card
+    v-if="user != null"
+    class="vh-email flex-grow-1 d-flex flex-column card-rounded"
+    :border="outlined"
+  >
     <v-card-title>
-      <v-icon start>mdi-email</v-icon>
+      <v-icon start>
+        mdi-email
+      </v-icon>
       {{ $t('email') }}
     </v-card-title>
     <v-card-text class="text-body-1 mb-0 pb-0">
@@ -10,20 +15,42 @@
         <div v-if="user.email != null">
           {{ user.email }}
         </div>
-        <div v-else>{{ $t('_personalSettings.noEmailSpecified') }}</div>
+        <div v-else>
+          {{ $t('_personalSettings.noEmailSpecified') }}
+        </div>
       </div>
-      <v-text-field v-else v-model="emailModel" hide-details="auto" ref="textfield"
-                    :label="$t('email')" :rules="[validator]"
-                    @keydown.enter="updateMail"/>
+      <v-text-field
+        v-else
+        ref="textfield"
+        v-model="emailModel"
+        hide-details="auto"
+        :label="$t('email')"
+        :rules="[validator]"
+        @keydown.enter="updateMail"
+      />
     </v-card-text>
     <v-spacer />
     <v-card-actions>
-      <v-btn variant="text" color="primary" @click="this.showInputFunc" v-if="!showInput">
-        <v-icon start>mdi-pencil</v-icon>
+      <v-btn
+        v-if="!showInput"
+        variant="text"
+        color="primary"
+        @click="showInputFunc"
+      >
+        <v-icon start>
+          mdi-pencil
+        </v-icon>
         {{ $t('edit') }}
       </v-btn>
-      <v-btn v-else variant="text" color="success" @click="this.updateMail">
-        <v-icon start>mdi-check</v-icon>
+      <v-btn
+        v-else
+        variant="text"
+        color="success"
+        @click="updateMail"
+      >
+        <v-icon start>
+          mdi-check
+        </v-icon>
         {{ $t('update') }}
       </v-btn>
     </v-card-actions>

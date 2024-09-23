@@ -1,53 +1,100 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12" md="5" lg="4" xl="3" order-md="1" order-sm="1" order="1">
+      <v-col
+        cols="12"
+        md="5"
+        lg="4"
+        xl="3"
+        order-md="1"
+        order-sm="1"
+        order="1"
+      >
         <v-row>
           <v-col>
-            <ProfilePicture :user="user" @user-updated="userUpdated">
-              <BansAndWarnings :user="user"
-                               v-if="$store.getters.isLoggedIn &&
-                             $checkLinked($store.getters.user, user) ||
-                  ($checkProp('ban_show') && $checkProp('warning_show'))" />
+            <ProfilePicture
+              :user="user"
+              @user-updated="userUpdated"
+            >
+              <BansAndWarnings
+                v-if="$store.getters.isLoggedIn &&
+                  $checkLinked($store.getters.user, user) ||
+                  ($checkProp('ban_show') && $checkProp('warning_show'))"
+                :user="user"
+              />
             </ProfilePicture>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <LinkedAccounts :user="user"/>
+            <LinkedAccounts :user="user" />
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" md="7" lg="8" xl="9" order-sm="2" order-md="2" order="2">
+      <v-col
+        cols="12"
+        md="7"
+        lg="8"
+        xl="9"
+        order-sm="2"
+        order-md="2"
+        order="2"
+      >
         <v-row>
-          <v-col cols="12" xl="8" class="d-flex">
-            <AttributeGraph :user="user" class="flex-md-grow-1"/>
+          <v-col
+            cols="12"
+            xl="8"
+            class="d-flex"
+          >
+            <AttributeGraph
+              :user="user"
+              class="flex-md-grow-1"
+            />
           </v-col>
-          <v-col cols="12" xl="4" class="d-flex">
-            <UserPackets :user="user" class="flex-md-grow-1"/>
+          <v-col
+            cols="12"
+            xl="4"
+            class="d-flex"
+          >
+            <UserPackets
+              :user="user"
+              class="flex-md-grow-1"
+            />
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" xl="6">
+          <v-col
+            cols="12"
+            xl="6"
+          >
             <v-row>
               <v-col>
-                <UserGroups :user="user"/>
+                <UserGroups :user="user" />
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="12" xl="6">
+          <v-col
+            cols="12"
+            xl="6"
+          >
             <v-row v-if="forumEnabled">
               <v-col>
-                <UserForumStats :user="user"/>
+                <UserForumStats :user="user" />
               </v-col>
             </v-row>
-            <v-row v-if="$checkProp('user_log_show') || $checkProp('user_comment_show')
-            || isCurrentUser">
+            <v-row
+              v-if="$checkProp('user_log_show') || $checkProp('user_comment_show')
+                || isCurrentUser"
+            >
               <v-col>
-                <v-card flat class="card-rounded">
+                <v-card
+                  flat
+                  class="card-rounded"
+                >
                   <v-tabs grow>
                     <v-tab
-                      v-if="$checkProp('user_comment_show') || isCurrentUser">
+                      v-if="$checkProp('user_comment_show') || isCurrentUser"
+                    >
                       <v-icon start>
                         mdi-comment
                       </v-icon>
@@ -60,12 +107,15 @@
                       {{ $t('logs') }}
                     </v-tab>
                     <v-tab-item
-                      v-if="$checkProp('user_comment_show') || isCurrentUser">
-                      <UserComments :readOnly="isCurrentUser && !$checkProp('user_comment_show')"
-                                    :user="user"/>
+                      v-if="$checkProp('user_comment_show') || isCurrentUser"
+                    >
+                      <UserComments
+                        :read-only="isCurrentUser && !$checkProp('user_comment_show')"
+                        :user="user"
+                      />
                     </v-tab-item>
                     <v-tab-item v-if="$checkProp('user_log_show')">
-                      <UserLogEntries :user="user"/>
+                      <UserLogEntries :user="user" />
                     </v-tab-item>
                   </v-tabs>
                 </v-card>
@@ -98,13 +148,13 @@ export default {
     ProfilePicture,
     LinkedAccounts,
   },
+  props: {
+    user: Object,
+  },
   data() {
     return {
       isCurrentUser: false,
     };
-  },
-  props: {
-    user: Object,
   },
   computed: {
     forumEnabled() {

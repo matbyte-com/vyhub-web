@@ -1,169 +1,237 @@
 <template>
-    <div>
-      <PaginatedDataTable
-        ref="packetTable"
-        :totalItems="totalItems"
-        :headers="headers"
-        :items="appliedPackets"
-        default-sort-by="timerange"
-        :default-sort-desc="true"
-        @reload="fetchData">
-        <template v-slot:header>
-          <v-row>
-            <v-col class="d-flex align-center">
-              <v-menu offset-y :close-on-content-click="false">
-                <template v-slot:activator="{ props }">
-                  <v-btn
-                    variant="outlined"
-                    color="primary"
+  <div>
+    <PaginatedDataTable
+      ref="packetTable"
+      :total-items="totalItems"
+      :headers="headers"
+      :items="appliedPackets"
+      default-sort-by="timerange"
+      :default-sort-desc="true"
+      @reload="fetchData"
+    >
+      <template #header>
+        <v-row>
+          <v-col class="d-flex align-center">
+            <v-menu
+              offset-y
+              :close-on-content-click="false"
+            >
+              <template #activator="{ props }">
+                <v-btn
+                  variant="outlined"
+                  color="primary"
                    
-                    v-bind="props"
-                  >
-                    <v-icon start>
-                      mdi-filter
-                    </v-icon>
-                    {{ $t('active') }}
-                  </v-btn>
-                </template>
-                <v-radio-group v-model="active_filter">
-                  <v-radio :value="true" :label="$t('active')"></v-radio>
-                  <v-radio :value="false" :label="$t('inactive')"></v-radio>
-                </v-radio-group>
-                <a class="ma-1" @click="active_filter = null;">
-                  {{ $t('reset') }}</a>
-              </v-menu>
-            </v-col>
-          </v-row>
-        </template>
-        <template v-slot:footer-right>
-          <v-btn variant="outlined" color="success" @click="$refs.addAppliedPacketDialog.show()"
-                 v-if="$checkProp('applied_packet_edit')">
-            <v-icon start>mdi-plus</v-icon>
-            {{ $t('_purchases.labels.addAppliedPacket') }}
+                  v-bind="props"
+                >
+                  <v-icon start>
+                    mdi-filter
+                  </v-icon>
+                  {{ $t('active') }}
+                </v-btn>
+              </template>
+              <v-radio-group v-model="active_filter">
+                <v-radio
+                  :value="true"
+                  :label="$t('active')"
+                />
+                <v-radio
+                  :value="false"
+                  :label="$t('inactive')"
+                />
+              </v-radio-group>
+              <a
+                class="ma-1"
+                @click="active_filter = null;"
+              >
+                {{ $t('reset') }}</a>
+            </v-menu>
+          </v-col>
+        </v-row>
+      </template>
+      <template #footer-right>
+        <v-btn
+          v-if="$checkProp('applied_packet_edit')"
+          variant="outlined"
+          color="success"
+          @click="$refs.addAppliedPacketDialog.show()"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
+          {{ $t('_purchases.labels.addAppliedPacket') }}
+        </v-btn>
+        <v-btn
+          v-if="$checkProp('applied_packet_edit')"
+          class="ml-1"
+          variant="outlined"
+          color="success"
+          @click="$refs.appliedRewardSyncDialog.show()"
+        >
+          <v-icon>mdi-sync</v-icon>
+        </v-btn>
+      </template>
+      <template #item.packet_title="{ item }">
+        {{ item.packet.title }}
+      </template>
+      <template #item.active="{ item }">
+        <BoolIcon :value="item.active" />
+      </template>
+      <template #item.begin="{ item }">
+        <span>{{ new Date(item.begin).toLocaleString() }}</span>
+      </template>
+      <template #item.end="{ item }">
+        <span v-if="item.end != null">{{ new Date(item.end).toLocaleString() }}</span>
+        <span v-else>∞</span>
+      </template>
+      <template #item.user="{ item }">
+        <UserLink :user="item.user" />
+      </template>
+      <template #item.actions="{ item }">
+        <div class="text-right">
+          <v-btn
+            variant="flat"
+            size="small"
+            color="error"
+            @click="showDetails(item)"
+          >
+            <v-icon start>
+              mdi-eye
+            </v-icon>
+            {{ $t('details') }}
           </v-btn>
-          <v-btn class="ml-1" variant="outlined" color="success" @click="$refs.appliedRewardSyncDialog.show()"
-                 v-if="$checkProp('applied_packet_edit')">
-            <v-icon>mdi-sync</v-icon>
-          </v-btn>
-        </template>
-        <template v-slot:item.packet_title="{ item }">
-          {{ item.packet.title }}
-        </template>
-        <template v-slot:item.active="{ item }">
-          <BoolIcon :value="item.active"></BoolIcon>
-        </template>
-        <template v-slot:item.begin="{ item }">
-          <span>{{ new Date(item.begin).toLocaleString() }}</span>
-        </template>
-        <template v-slot:item.end="{ item }">
-          <span v-if="item.end != null">{{ new Date(item.end).toLocaleString() }}</span>
-          <span v-else>∞</span>
-        </template>
-        <template v-slot:item.user="{ item }">
-          <UserLink :user="item.user"></UserLink>
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <div class="text-right">
-            <v-btn variant="flat" size="small" color="error"
-                   @click="showDetails(item)">
+        </div>
+      </template>
+    </PaginatedDataTable>
+    <DialogForm
+      ref="editAppliedPacketDialog"
+      :form-schema="editFormSchema"
+      icon="mdi-gift-open"
+      :submit-text="$t('edit')"
+      :title="$t('_purchases.labels.editAppliedPacket')"
+      @submit="editAppliedPacket"
+    />
+    <DeleteConfirmationDialog
+      ref="deleteAppliedPacketDialog"
+      @submit="deleteAppliedPacket"
+    />
+    <DeleteConfirmationDialog
+      ref="deleteAppliedRewardDialog"
+      @submit="deleteAppliedReward"
+    />
+    <DialogForm
+      ref="addAppliedPacketDialog"
+      :form-schema="addFormSchema"
+      icon="mdi-gift-open"
+      :title="$t('_purchases.labels.addAppliedPacket')"
+      @submit="createAppliedPacket"
+    />
+    <DialogForm
+      ref="addAppliedRewardDialog"
+      :form-schema="addAppliedRewardSchema"
+      icon="mdi-star"
+      :title="$t('_reward.labels.addAppliedReward')"
+      @submit="addAppliedReward"
+    />
+    <SyncAppliedRewardsPacketsDialog
+      ref="appliedRewardSyncDialog"
+      @success="fetchData"
+    />
+    <Dialog
+      ref="packetDetailDialog"
+      icon="mdi-gift-open"
+      :title="getDetailDialogTitle"
+      :max-width="1000"
+    >
+      <template>
+        <data-table
+          :headers="appliedRewardsHeaders"
+          :items="currentAppliedRewards"
+          :show-search="true"
+          class="mt-3"
+        >
+          <template #header>
+            <v-chip :color="currentItem.status === 'ENABLED' ? 'success' : ''">
+              {{ $t(`_packet.status.${currentItem.status}`) }}
+            </v-chip>
+            <span class="ml-2">
+              {{ $t('_packet.labels.end') }}: {{ utils.formatDate(currentItem.end) }}
+            </span>
+          </template>
+          <template #footer-right>
+            <v-btn
+              v-if="$checkProp('applied_packet_edit')"
+              variant="outlined"
+              color="success"
+              @click="$refs.addAppliedRewardDialog.show()"
+            >
               <v-icon start>
-                mdi-eye
+                mdi-plus
               </v-icon>
-              {{ $t('details') }}
+              {{ $t('_reward.labels.addAppliedReward') }}
             </v-btn>
-          </div>
-        </template>
-      </PaginatedDataTable>
-      <DialogForm
-        ref="editAppliedPacketDialog"
-        :form-schema="editFormSchema"
-        icon="mdi-gift-open"
-        :submitText="$t('edit')"
-        @submit="editAppliedPacket"
-        :title="$t('_purchases.labels.editAppliedPacket')"/>
-      <DeleteConfirmationDialog
-        ref="deleteAppliedPacketDialog"
-        @submit="deleteAppliedPacket"/>
-      <DeleteConfirmationDialog
-        ref="deleteAppliedRewardDialog"
-        @submit="deleteAppliedReward" />
-      <DialogForm
-        ref="addAppliedPacketDialog"
-        :form-schema="addFormSchema"
-        icon="mdi-gift-open"
-        @submit="createAppliedPacket"
-        :title="$t('_purchases.labels.addAppliedPacket')" />
-      <DialogForm
-        ref="addAppliedRewardDialog"
-        :form-schema="addAppliedRewardSchema"
-        icon="mdi-star"
-        @submit="addAppliedReward"
-        :title="$t('_reward.labels.addAppliedReward')" />
-      <SyncAppliedRewardsPacketsDialog @success="fetchData" ref="appliedRewardSyncDialog"/>
-      <Dialog
-        ref="packetDetailDialog"
-        icon="mdi-gift-open" :title="getDetailDialogTitle" :max-width="1000">
-        <template>
-          <data-table :headers="appliedRewardsHeaders"
-                      :items="currentAppliedRewards"
-                      :show-search="true" class="mt-3">
-            <template v-slot:header>
-              <v-chip :color="currentItem.status === 'ENABLED' ? 'success' : ''">
-                {{ $t(`_packet.status.${currentItem.status}`) }}
-              </v-chip>
-              <span class="ml-2">
-                {{ $t('_packet.labels.end') }}: {{ utils.formatDate(currentItem.end) }}
-              </span>
-            </template>
-            <template v-slot:footer-right>
-              <v-btn variant="outlined" color="success" @click="$refs.addAppliedRewardDialog.show()"
-                     v-if="$checkProp('applied_packet_edit')">
-                <v-icon start>mdi-plus</v-icon>
-                {{ $t('_reward.labels.addAppliedReward') }}
-              </v-btn>
-            </template>
-            <template v-slot:item.reward="{ item }">
-              {{ item.reward.name }}
-            </template>
-            <template v-slot:item.status="{ item }">
-              <v-chip v-if="item.status === 'OPEN'">
-                {{ $t(`_reward.status.${item.status}`) }}
-              </v-chip>
-              <v-chip v-if="item.status === 'EXECUTED'" color="success">
-                {{ $t(`_reward.status.${item.status}`) }}
-              </v-chip>
-              <v-chip v-if="item.status === 'FAILED'" color="error">
-                {{ $t(`_reward.status.${item.status}`) }}
-              </v-chip>
-            </template>
-            <template v-slot:item.actions="{ item }">
-              <v-btn variant="text" color="error" size="small"
-                     @click="$refs.deleteAppliedRewardDialog.show(item)">
-                <v-icon start>
-                  mdi-delete
-                </v-icon>
-                {{ $t('delete') }}
-              </v-btn>
-            </template>
-          </data-table>
-        </template>
-        <template v-slot:actions>
-          <v-btn variant="text" color="primary" size="small" @click="showEditDialog(currentItem)" class="mr-1">
-            <v-icon start>
-              mdi-pencil
-            </v-icon>
-            {{ $t('edit') }}
-          </v-btn>
-          <v-btn variant="text" color="error" size="small"
-                 @click="$refs.deleteAppliedPacketDialog.show(currentItem)">
-            <v-icon start>
-              mdi-delete
-            </v-icon>
-            {{ $t('_packet.labels.deleteAppliedPacket') }}
-          </v-btn>
-        </template>
-      </Dialog>
-    </div>
+          </template>
+          <template #item.reward="{ item }">
+            {{ item.reward.name }}
+          </template>
+          <template #item.status="{ item }">
+            <v-chip v-if="item.status === 'OPEN'">
+              {{ $t(`_reward.status.${item.status}`) }}
+            </v-chip>
+            <v-chip
+              v-if="item.status === 'EXECUTED'"
+              color="success"
+            >
+              {{ $t(`_reward.status.${item.status}`) }}
+            </v-chip>
+            <v-chip
+              v-if="item.status === 'FAILED'"
+              color="error"
+            >
+              {{ $t(`_reward.status.${item.status}`) }}
+            </v-chip>
+          </template>
+          <template #item.actions="{ item }">
+            <v-btn
+              variant="text"
+              color="error"
+              size="small"
+              @click="$refs.deleteAppliedRewardDialog.show(item)"
+            >
+              <v-icon start>
+                mdi-delete
+              </v-icon>
+              {{ $t('delete') }}
+            </v-btn>
+          </template>
+        </data-table>
+      </template>
+      <template #actions>
+        <v-btn
+          variant="text"
+          color="primary"
+          size="small"
+          class="mr-1"
+          @click="showEditDialog(currentItem)"
+        >
+          <v-icon start>
+            mdi-pencil
+          </v-icon>
+          {{ $t('edit') }}
+        </v-btn>
+        <v-btn
+          variant="text"
+          color="error"
+          size="small"
+          @click="$refs.deleteAppliedPacketDialog.show(currentItem)"
+        >
+          <v-icon start>
+            mdi-delete
+          </v-icon>
+          {{ $t('_packet.labels.deleteAppliedPacket') }}
+        </v-btn>
+      </template>
+    </Dialog>
+  </div>
 </template>
 
 <script>
@@ -222,6 +290,22 @@ export default {
       currentItem: null,
       currentAppliedRewards: null,
     };
+  },
+  computed: {
+    getDetailDialogTitle() {
+      if (this.currentItem) {
+        return `${this.currentItem.user.username}: ${this.currentItem.packet.title}`;
+      }
+      return '';
+    },
+  },
+  watch: {
+    active_filter() {
+      this.fetchData();
+    },
+  },
+  beforeMount() {
+    this.fetchData();
   },
   methods: {
     async fetchData(queryParams = null) {
@@ -343,22 +427,6 @@ export default {
       this.currentItem = item;
       this.$refs.packetDetailDialog.show();
       await this.getAppliedRewards();
-    },
-  },
-  beforeMount() {
-    this.fetchData();
-  },
-  watch: {
-    active_filter() {
-      this.fetchData();
-    },
-  },
-  computed: {
-    getDetailDialogTitle() {
-      if (this.currentItem) {
-        return `${this.currentItem.user.username}: ${this.currentItem.packet.title}`;
-      }
-      return '';
     },
   },
 };

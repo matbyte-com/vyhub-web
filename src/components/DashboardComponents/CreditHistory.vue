@@ -1,32 +1,53 @@
 <template>
-<div v-if="account" class="mt-3">
-  <span class="text-h5">
-    {{ account.balance }}
-  <v-icon end>mdi-circle-multiple</v-icon>
-  </span>
-  <DataTable :headers="headers"
-             :items="account.transactions"
-             :totalItems="account.transactions ? account.transactions.length : 0"
-             sort-by="date"
-             :sort-desc="true"
-             :item-class="transactionRowFormatter">
-    <template v-slot:item.author="{ item }">
-      <UserLink v-if="item.author" :user="item.author"></UserLink>
-    </template>
-    <template v-slot:item.date="{ item }">
-      <span>{{ new Date(item.date).toLocaleString() }}</span>
-    </template>
-    <template v-slot:footer-right v-if="$checkProp('account_edit')">
-      <v-btn variant="outlined" color="success" @click="$refs.transactionAddDialog.show()">
-        <v-icon start>mdi-plus</v-icon>
-        <span>{{ $t("add") }}</span>
-      </v-btn>
-    </template>
-  </DataTable>
-  <DialogForm ref="transactionAddDialog" icon="mdi-hand-coin"
-              :title="$t('_creditHistory.addTransaction')"
-              :form-schema="transactionAddSchema" @submit="addTransaction"/>
-</div>
+  <div
+    v-if="account"
+    class="mt-3"
+  >
+    <span class="text-h5">
+      {{ account.balance }}
+      <v-icon end>mdi-circle-multiple</v-icon>
+    </span>
+    <DataTable
+      :headers="headers"
+      :items="account.transactions"
+      :total-items="account.transactions ? account.transactions.length : 0"
+      sort-by="date"
+      :sort-desc="true"
+      :item-class="transactionRowFormatter"
+    >
+      <template #item.author="{ item }">
+        <UserLink
+          v-if="item.author"
+          :user="item.author"
+        />
+      </template>
+      <template #item.date="{ item }">
+        <span>{{ new Date(item.date).toLocaleString() }}</span>
+      </template>
+      <template
+        v-if="$checkProp('account_edit')"
+        #footer-right
+      >
+        <v-btn
+          variant="outlined"
+          color="success"
+          @click="$refs.transactionAddDialog.show()"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
+          <span>{{ $t("add") }}</span>
+        </v-btn>
+      </template>
+    </DataTable>
+    <DialogForm
+      ref="transactionAddDialog"
+      icon="mdi-hand-coin"
+      :title="$t('_creditHistory.addTransaction')"
+      :form-schema="transactionAddSchema"
+      @submit="addTransaction"
+    />
+  </div>
 </template>
 
 <script>
@@ -39,9 +60,6 @@ import TransactionAddForm from '@/forms/TransactionAddForm';
 export default {
   name: 'CreditHistory',
   components: { DialogForm, DataTable, UserLink },
-  beforeMount() {
-    this.fetchData();
-  },
   props: {
     user: {
       type: Object,
@@ -59,6 +77,9 @@ export default {
       ],
       transactionAddSchema: TransactionAddForm,
     };
+  },
+  beforeMount() {
+    this.fetchData();
   },
   methods: {
     async fetchData() {

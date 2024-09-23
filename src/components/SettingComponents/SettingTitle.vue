@@ -1,11 +1,22 @@
 <template>
   <div>
     <div class="d-flex align-center">
-      <h5 class="text-h5"><slot></slot></h5>
+      <h5 class="text-h5">
+        <slot />
+      </h5>
       <v-spacer />
-      <v-tooltip location="left" v-if="docLink">
-        <template v-slot:activator="{ props }">
-          <v-btn icon size="small" v-bind="props" :href="docLink" target="_blank">
+      <v-tooltip
+        v-if="docLink"
+        location="left"
+      >
+        <template #activator="{ props }">
+          <v-btn
+            icon
+            size="small"
+            v-bind="props"
+            :href="docLink"
+            target="_blank"
+          >
             <v-icon>
               mdi-book-open-variant
             </v-icon>
@@ -14,7 +25,10 @@
         {{ $t('_settings.documentationLink') }}
       </v-tooltip>
     </div>
-    <v-divider v-if="divider" class="mb-3 mt-3"></v-divider>
+    <v-divider
+      v-if="divider"
+      class="mb-3 mt-3"
+    />
   </div>
 </template>
 

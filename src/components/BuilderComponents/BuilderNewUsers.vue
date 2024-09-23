@@ -1,29 +1,69 @@
 <template>
   <div>
-    <div class="vh-home-new-users" v-if="newUsers != null">
-      <div v-if="$vuetify.display.mdAndUp" class="d-flex flex-row flex-wrap justify-center">
-        <div class="pa-3" v-for="u in newUsers" :key="u.id">
-          <v-card class="text-center grow-on-hover card-rounded" width="250px"
-                  :to="{ name: 'UserDashboard', params: { id: u.id } }">
-            <v-img height="125" style="filter: blur(2px) brightness(80%);"
-                   :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
-            <v-img height="125px" width="125px" class="avatar"
-                   :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+    <div
+      v-if="newUsers != null"
+      class="vh-home-new-users"
+    >
+      <div
+        v-if="$vuetify.display.mdAndUp"
+        class="d-flex flex-row flex-wrap justify-center"
+      >
+        <div
+          v-for="u in newUsers"
+          :key="u.id"
+          class="pa-3"
+        >
+          <v-card
+            class="text-center grow-on-hover card-rounded"
+            width="250px"
+            :to="{ name: 'UserDashboard', params: { id: u.id } }"
+          >
+            <v-img
+              height="125"
+              style="filter: blur(2px) brightness(80%);"
+              :src="u.avatar"
+              lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
+            />
+            <v-img
+              height="125px"
+              width="125px"
+              class="avatar"
+              :src="u.avatar"
+              lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
+            />
             <div class="text-h5 pa-3">
               {{ u.username }}
             </div>
           </v-card>
         </div>
       </div>
-      <Swiper :number-of-elements="newUsers.length" :per-page-custom="[1,2,3,4]" v-else>
-        <swiper-slide v-for="u in newUsers" :key="u.id">
+      <Swiper
+        v-else
+        :number-of-elements="newUsers.length"
+        :per-page-custom="[1,2,3,4]"
+      >
+        <swiper-slide
+          v-for="u in newUsers"
+          :key="u.id"
+        >
           <div class="pa-2">
-            <v-card class="text-center grow-on-hover card-rounded"
-                    :to="{ name: 'UserDashboard', params: { id: u.id } }">
-              <v-img height="125" style="filter: blur(2px) brightness(80%);"
-                     :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
-              <v-img height="125px" width="125px" class="avatar"
-                     :src="u.avatar" lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png" />
+            <v-card
+              class="text-center grow-on-hover card-rounded"
+              :to="{ name: 'UserDashboard', params: { id: u.id } }"
+            >
+              <v-img
+                height="125"
+                style="filter: blur(2px) brightness(80%);"
+                :src="u.avatar"
+                lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
+              />
+              <v-img
+                height="125px"
+                width="125px"
+                class="avatar"
+                :src="u.avatar"
+                lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
+              />
               <div class="text-h5 pa-3">
                 {{ u.username }}
               </div>
@@ -34,7 +74,10 @@
     </div>
     <div v-else>
       <v-row justify="center">
-        <v-col v-for="i in 4" :key="i">
+        <v-col
+          v-for="i in 4"
+          :key="i"
+        >
           <v-skeleton-loader type="card" />
         </v-col>
       </v-row>
@@ -65,6 +108,9 @@ export default {
       this.fetchData();
     },
   },
+  beforeMount() {
+    this.fetchData();
+  },
   methods: {
     async fetchData() {
       const api = await openapi;
@@ -76,9 +122,6 @@ export default {
         this.utils.notifyUnexpectedError(err.response.data);
       });
     },
-  },
-  beforeMount() {
-    this.fetchData();
   },
 };
 </script>

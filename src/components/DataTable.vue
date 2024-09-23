@@ -5,23 +5,31 @@
     :loading="loading"
     :item-key="itemKey"
     :footer-props="footerProps"
-    v-bind="$attrs" v-on="$listeners">
-    <template v-slot:top>
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
+    <template #top>
       <v-row dense>
         <v-col align-self="center">
-          <slot name="header">
-          </slot>
+          <slot name="header" />
         </v-col>
-        <v-spacer v-if="!$slots.header && !$scopedSlots.header"/>
-        <v-col lg="3" md="6" sm="12" v-if="showSearch || externalSearch" align-self="center">
+        <v-spacer v-if="!$slots.header && !$slots.header" />
+        <v-col
+          v-if="showSearch || externalSearch"
+          lg="3"
+          md="6"
+          sm="12"
+          align-self="center"
+        >
           <v-text-field
             v-model="searchModel"
             :label="$t('search')"
             hide-details
             variant="outlined"
             density="compact"
-            @update:model-value="$emit('search', searchModel)">
-            <template v-slot:prepend-inner>
+            @update:model-value="$emit('search', searchModel)"
+          >
+            <template #prepend-inner>
               <v-icon>
                 mdi-magnify
               </v-icon>
@@ -30,11 +38,17 @@
         </v-col>
       </v-row>
     </template>
-    <template v-slot:footer.page-text>
+    <template #footer.page-text>
       <slot name="footer-right" />
     </template>
-    <template v-for="(_, slot) of inheritSlots" v-slot:[slot]="scope">
-      <slot :name="slot" v-bind="scope" />
+    <template
+      v-for="(_, slot) of inheritSlots"
+      #[slot]="scope"
+    >
+      <slot
+        :name="slot"
+        v-bind="scope"
+      />
     </template>
   </v-data-table>
 </template>
@@ -42,11 +56,6 @@
 <script>
 export default {
   name: 'DataTable',
-  data() {
-    return {
-      searchModel: null,
-    };
-  },
   props: {
     externalSearch: {
       type: Boolean,
@@ -70,12 +79,17 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      searchModel: null,
+    };
+  },
   computed: {
     loading() {
       return this.items == null;
     },
     inheritSlots() {
-      const slots = this.$scopedSlots;
+      const slots = this.$slots;
 
       if ('header' in slots) {
         delete slots.header;

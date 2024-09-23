@@ -1,13 +1,25 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/warning">{{ $t('warnings') }}</SettingTitle>
+    <SettingTitle doc-path="/guide/warning">
+      {{ $t('warnings') }}
+    </SettingTitle>
     <v-row>
-      <v-col lg="8" xl="6">
-        <h6 class="text-h6">{{ $t('general') }}</h6>
-        <GenForm :form-schema="formSchema" ref="form" @submit="saveData" :settings-mode="true">
-          <template slot="time_to_live-after">
+      <v-col
+        lg="8"
+        xl="6"
+      >
+        <h6 class="text-h6">
+          {{ $t('general') }}
+        </h6>
+        <GenForm
+          ref="form"
+          :form-schema="formSchema"
+          :settings-mode="true"
+          @submit="saveData"
+        >
+          <slot name="time_to_live-after">
             {{ $t('_warning.settingFormDesc') }}
-          </template>
+          </slot>
         </GenForm>
       </v-col>
     </v-row>

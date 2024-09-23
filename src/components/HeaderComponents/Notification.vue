@@ -1,20 +1,25 @@
 <template>
   <div class="text-center">
     <v-menu
-      @update:model-value="newMessages = false"
       open-on-hover
-      offset-y>
-      <template v-slot:activator="{ props }">
-        <v-badge color="warning"
-                 :model-value="newMessages"
-                 dot
-                 transition="fade-transition"
-                 offset-x="10px"
-                 offset-y="10px">
-          <v-btn icon
-                 style="min-width: 30px; width: 34px; height: 34px"
+      offset-y
+      @update:model-value="newMessages = false"
+    >
+      <template #activator="{ props }">
+        <v-badge
+          color="warning"
+          :model-value="newMessages"
+          dot
+          transition="fade-transition"
+          offset-x="10px"
+          offset-y="10px"
+        >
+          <v-btn
+            icon
+            style="min-width: 30px; width: 34px; height: 34px"
                 
-                 v-bind="props">
+            v-bind="props"
+          >
             <v-icon>
               mdi-bell-outline
             </v-icon>
@@ -22,32 +27,48 @@
         </v-badge>
       </template>
       <v-card min-width="150px">
-        <v-list density="compact" max-height="300px" class="overflow-y-auto">
+        <v-list
+          density="compact"
+          max-height="300px"
+          class="overflow-y-auto"
+        >
           <v-list-item v-if="notifications.length===0">
             <v-list-item-title>
               {{ $t('_notification.noNotification') }}
             </v-list-item-title>
           </v-list-item>
           <v-list-item
-            v-else
             v-for="notification in notifications"
+            v-else
             :key="notification.id"
-            @click="rowClick(notification)">
+            @click="rowClick(notification)"
+          >
             <v-list-item-icon>
               <v-icon>{{ notification.message.kwargs.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content :class="{ 'font-weight-medium': !notification.read }">
               {{ $t(`_notification.${notification.message.name}`,
-              { ...notification.message.kwargs }) }}
+                    { ...notification.message.kwargs }) }}
             </v-list-item-content>
           </v-list-item>
         </v-list>
         <v-divider />
         <v-card-actions>
-          <v-btn color="primary" size="small" variant="outlined" to="/notification" class="mr-5">
+          <v-btn
+            color="primary"
+            size="small"
+            variant="outlined"
+            to="/notification"
+            class="mr-5"
+          >
             {{ $t('_notification.viewAll') }}
           </v-btn>
-          <v-btn size="x-small" variant="outlined" @click="requestPermission" v-if="reqNotificationButton">
+          <v-btn
+            v-if="reqNotificationButton"
+            size="x-small"
+            variant="outlined"
+            @click="requestPermission"
+          >
             {{ $t('_notification.browserNotifications') }}
           </v-btn>
         </v-card-actions>
@@ -74,6 +95,28 @@ export default {
       serverName: 'VyHub',
       timer: '',
     };
+  },
+  computed: {
+    reqNotificationButton() {
+      return Notification.permission !== 'granted';
+    },
+  },
+  beforeUnmount() {
+    if (this.evtSource) this.evtSource.close();
+    this.stopTimer();
+  },
+  mounted() {
+    this.getServerName();
+    // Emitted in AuthService.ts
+    EventBus.on('login', this.afterLogin);
+    EventBus.on('logout', this.afterLogout);
+    setTimeout(() => { this.registerSse(); }, 700);
+    this.startTimer();
+  },
+  created() {
+    window.addEventListener('beforeunload', () => {
+      if (this.evtSource) this.evtSource.close();
+    }, false);
   },
   methods: {
     async fetchData() {
@@ -117,7 +160,7 @@ export default {
     registerSse() {
       // TODO Fix and Enable for Production
       return;
-      // eslint-disable-next-line no-unreachable
+       
       if (store.getters.isLoggedIn && store.getters.accessToken) {
         const header = `Bearer ${store.getters.accessToken}`;
         const baseURL = `${config.backend_url}/notification/stream`;
@@ -134,11 +177,11 @@ export default {
           EventBus.emit('notification');
           this.notifyBrowser(JSON.parse(event.data)[0].message);
         });
-        // eslint-disable-next-line no-unreachable
+         
         this.evtSource.addEventListener('end', () => {
           this.evtSource.close();
         });
-        // eslint-disable-next-line no-unreachable
+         
         this.evtSource.onerror = (err) => {
           this.utils.notifyUnexpectedError(err);
           console.log('Notification Stream Closed');
@@ -187,31 +230,9 @@ export default {
     async toggleReadStatus(item) {
       if (item.read !== true) {
         (await openapi).notification_markAsRead(null, { id: [item.id] });
-        // eslint-disable-next-line no-param-reassign
+         
         item.read = !item.read;
       }
-    },
-  },
-  beforeDestroy() {
-    if (this.evtSource) this.evtSource.close();
-    this.stopTimer();
-  },
-  mounted() {
-    this.getServerName();
-    // Emitted in AuthService.ts
-    EventBus.on('login', this.afterLogin);
-    EventBus.on('logout', this.afterLogout);
-    setTimeout(() => { this.registerSse(); }, 700);
-    this.startTimer();
-  },
-  created() {
-    window.addEventListener('beforeunload', () => {
-      if (this.evtSource) this.evtSource.close();
-    }, false);
-  },
-  computed: {
-    reqNotificationButton() {
-      return Notification.permission !== 'granted';
     },
   },
 };

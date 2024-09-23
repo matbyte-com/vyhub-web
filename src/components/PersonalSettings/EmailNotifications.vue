@@ -1,13 +1,17 @@
 <template>
   <v-card class="vh-email-notifications">
     <v-card-title>
-      <v-icon start>mdi-bell-badge</v-icon>
+      <v-icon start>
+        mdi-bell-badge
+      </v-icon>
       {{ $t('_personalSettings.emailNotifications') }}
     </v-card-title>
     <v-card-text class="text-body-1">
-      <v-switch v-model="notificationSwitch"
-                :label="$t('_personalSettings.enableEmailNotifications')"
-                @update:model-value="updateSettings"/>
+      <v-switch
+        v-model="notificationSwitch"
+        :label="$t('_personalSettings.enableEmailNotifications')"
+        @update:model-value="updateSettings"
+      />
     </v-card-text>
   </v-card>
 </template>
@@ -17,13 +21,13 @@ import openapi from '@/api/openapi';
 
 export default {
   name: 'EmailNotifications',
+  props: {
+    user: {},
+  },
   data() {
     return {
       notificationSwitch: false,
     };
-  },
-  props: {
-    user: {},
   },
   beforeMount() {
     this.notificationSwitch = this.user.email_notification;

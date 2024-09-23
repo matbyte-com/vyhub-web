@@ -1,6 +1,8 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/import/general">{{ $t('import') }}</SettingTitle>
+    <SettingTitle doc-path="/guide/import/general">
+      {{ $t('import') }}
+    </SettingTitle>
     <v-row>
       <v-col>
         {{ $t('_import.messages.description') }}
@@ -25,15 +27,25 @@
           >
             <v-card flat>
               <v-card-text v-if="item === 'GExtension'">
-                <GenForm :form-schema="gextensionSchema" hide-buttons ref="gexForm">
-                  <template slot="custom-import-1">
-                    <div v-for="table in tables1" v-bind:key="table" class="mb-3">
-                      <div class="text-subtitle-2">{{ table.toUpperCase() }}</div>
+                <GenForm
+                  ref="gexForm"
+                  :form-schema="gextensionSchema"
+                  hide-buttons
+                >
+                  <slot name="custom-import-1">
+                    <div
+                      v-for="table in tables1"
+                      :key="table"
+                      class="mb-3"
+                    >
+                      <div class="text-subtitle-2">
+                        {{ table.toUpperCase() }}
+                      </div>
                       <div class="d-flex align-center">
                         <v-progress-linear
                           height="25"
                           :model-value="((progress[table].total) ?
-                        ((progress[table].imported / progress[table].total) * 100) : 0)"
+                            ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
                           :striped="progress[table].more === true"
                         >
@@ -46,24 +58,42 @@
                             ?
                           </strong>
                         </v-progress-linear>
-                        <v-btn color="success" size="small" class="ml-2" @click="startImport(table)"
-                               :disabled="inProgress" v-if="currenTable !== table">
+                        <v-btn
+                          v-if="currenTable !== table"
+                          color="success"
+                          size="small"
+                          class="ml-2"
+                          :disabled="inProgress"
+                          @click="startImport(table)"
+                        >
                           {{ $t('start') }}
                         </v-btn>
-                        <v-btn color="error" size="small" class="ml-2" @click="cancelImport" v-else>
+                        <v-btn
+                          v-else
+                          color="error"
+                          size="small"
+                          class="ml-2"
+                          @click="cancelImport"
+                        >
                           {{ $t('cancel') }}
                         </v-btn>
                       </div>
                     </div>
-                  </template>
-                  <template slot="custom-import-2">
-                    <div v-for="table in tables2" v-bind:key="table" class="mb-3">
-                      <div class="text-subtitle-2">{{ table.toUpperCase() }}</div>
+                  </slot>
+                  <slot name="custom-import-2">
+                    <div
+                      v-for="table in tables2"
+                      :key="table"
+                      class="mb-3"
+                    >
+                      <div class="text-subtitle-2">
+                        {{ table.toUpperCase() }}
+                      </div>
                       <div class="d-flex align-center">
                         <v-progress-linear
                           height="25"
                           :model-value="((progress[table].total) ?
-                        ((progress[table].imported / progress[table].total) * 100) : 0)"
+                            ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
                           :striped="progress[table].more === true"
                         >
@@ -76,24 +106,42 @@
                             ?
                           </strong>
                         </v-progress-linear>
-                        <v-btn color="success" size="small" class="ml-2" @click="startImport(table)"
-                               :disabled="inProgress" v-if="currenTable !== table">
+                        <v-btn
+                          v-if="currenTable !== table"
+                          color="success"
+                          size="small"
+                          class="ml-2"
+                          :disabled="inProgress"
+                          @click="startImport(table)"
+                        >
                           {{ $t('start') }}
                         </v-btn>
-                        <v-btn color="error" size="small" class="ml-2" @click="cancelImport" v-else>
+                        <v-btn
+                          v-else
+                          color="error"
+                          size="small"
+                          class="ml-2"
+                          @click="cancelImport"
+                        >
                           {{ $t('cancel') }}
                         </v-btn>
                       </div>
                     </div>
-                  </template>
-                  <template slot="custom-import-3">
-                    <div v-for="table in tables3" v-bind:key="table" class="mb-3">
-                      <div class="text-subtitle-2">{{ table.toUpperCase() }}</div>
+                  </slot>
+                  <slot name="custom-import-3">
+                    <div
+                      v-for="table in tables3"
+                      :key="table"
+                      class="mb-3"
+                    >
+                      <div class="text-subtitle-2">
+                        {{ table.toUpperCase() }}
+                      </div>
                       <div class="d-flex align-center">
                         <v-progress-linear
                           height="25"
                           :model-value="((progress[table].total) ?
-                        ((progress[table].imported / progress[table].total) * 100) : 0)"
+                            ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
                           :striped="progress[table].more === true"
                         >
@@ -106,16 +154,28 @@
                             ?
                           </strong>
                         </v-progress-linear>
-                        <v-btn color="success" size="small" class="ml-2" @click="startImport(table)"
-                               :disabled="inProgress" v-if="currenTable !== table">
+                        <v-btn
+                          v-if="currenTable !== table"
+                          color="success"
+                          size="small"
+                          class="ml-2"
+                          :disabled="inProgress"
+                          @click="startImport(table)"
+                        >
                           {{ $t('start') }}
                         </v-btn>
-                        <v-btn color="error" size="small" class="ml-2" @click="cancelImport" v-else>
+                        <v-btn
+                          v-else
+                          color="error"
+                          size="small"
+                          class="ml-2"
+                          @click="cancelImport"
+                        >
                           {{ $t('cancel') }}
                         </v-btn>
                       </div>
                     </div>
-                  </template>
+                  </slot>
                 </GenForm>
               </v-card-text>
             </v-card>
@@ -166,6 +226,11 @@ export default {
       cancel: false,
     };
   },
+  computed: {
+    inProgress() {
+      return this.currenTable != null;
+    },
+  },
   methods: {
     async startImport(table) {
       this.cancel = false;
@@ -202,7 +267,7 @@ export default {
 
       while (this.progress[table].more && !this.cancel) {
         try {
-          // eslint-disable-next-line no-await-in-loop
+           
           const result = (await api.import_importGextension(null, { ...req, page })).data;
 
           this.progress[table].total += result.total;
@@ -222,11 +287,6 @@ export default {
     },
     cancelImport() {
       this.cancel = true;
-    },
-  },
-  computed: {
-    inProgress() {
-      return this.currenTable != null;
     },
   },
 };

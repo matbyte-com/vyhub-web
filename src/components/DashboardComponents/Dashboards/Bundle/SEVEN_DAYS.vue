@@ -1,6 +1,9 @@
 <template>
   <div>
-    <AllBundleDashboard :user="user" :bundle="bundle" />
+    <AllBundleDashboard
+      :user="user"
+      :bundle="bundle"
+    />
   </div>
 </template>
 

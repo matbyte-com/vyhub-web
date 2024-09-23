@@ -1,53 +1,80 @@
 <template>
-    <div @click="toggleVisibility" style="cursor: pointer;">
-      <div class="font-weight-bold">{{ address.name }}</div>
-      <transition enter-active-class="animate__animated animate__fadeIn animate__faster"
-                  mode="out-in" :duration="300"
-                  leave-active-class="animate__animated animate__fadeOut animate__faster">
-        <div v-if="!hidden || shown" key="1">
-          <v-row>
-            <v-col cols="10" style="font-size: 0.9em; line-height: 1.3em">
-              <div>{{ address.street_and_number }}</div>
-              <div>{{ address.addition }}</div>
-              <div>{{ address.zip_code }} {{ address.city }}, {{ address.state }}</div>
-              <div>{{ address.country.name }}</div>
-              <div v-if="address.vat_number != null">{{ address.vat_number }}</div>
-            </v-col>
-            <v-col cols="2" class="d-flex align-center" v-if="incognito">
-              <v-btn icon class="ml-1">
-                <v-icon>
-                  mdi-eye
-                </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </div>
-        <div v-else key="2">
-          <v-row>
-            <v-col cols="10">
-              <v-skeleton-loader boilerplate type="paragraph" />
-            </v-col>
-            <v-col cols="2">
-              <v-btn icon class="ml-1">
-                <v-icon>
-                  mdi-eye
-                </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </div>
-      </transition>
+  <div
+    style="cursor: pointer;"
+    @click="toggleVisibility"
+  >
+    <div class="font-weight-bold">
+      {{ address.name }}
     </div>
+    <transition
+      enter-active-class="animate__animated animate__fadeIn animate__faster"
+      mode="out-in"
+      :duration="300"
+      leave-active-class="animate__animated animate__fadeOut animate__faster"
+    >
+      <div
+        v-if="!hidden || shown"
+        key="1"
+      >
+        <v-row>
+          <v-col
+            cols="10"
+            style="font-size: 0.9em; line-height: 1.3em"
+          >
+            <div>{{ address.street_and_number }}</div>
+            <div>{{ address.addition }}</div>
+            <div>{{ address.zip_code }} {{ address.city }}, {{ address.state }}</div>
+            <div>{{ address.country.name }}</div>
+            <div v-if="address.vat_number != null">
+              {{ address.vat_number }}
+            </div>
+          </v-col>
+          <v-col
+            v-if="incognito"
+            cols="2"
+            class="d-flex align-center"
+          >
+            <v-btn
+              icon
+              class="ml-1"
+            >
+              <v-icon>
+                mdi-eye
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+      <div
+        v-else
+        key="2"
+      >
+        <v-row>
+          <v-col cols="10">
+            <v-skeleton-loader
+              boilerplate
+              type="paragraph"
+            />
+          </v-col>
+          <v-col cols="2">
+            <v-btn
+              icon
+              class="ml-1"
+            >
+              <v-icon>
+                mdi-eye
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'Address',
-  data() {
-    return {
-      shown: false,
-    };
-  },
   props: {
     address: Object,
     hidden: {
@@ -58,6 +85,11 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      shown: false,
+    };
   },
   beforeMount() {
     if (localStorage.getItem('hideSensitiveInformation')) {

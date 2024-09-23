@@ -2,17 +2,18 @@
   <div>
     <v-autocomplete
       v-model="selectedUser"
+      v-model:search="searchInput"
       :items="userOptions"
       item-value="id"
       item-title="username"
       item-icon="avatar"
       :loading="loadingUsers"
-      :search.sync="searchInput"
       :no-data-text="$t('noDataAvailable')"
       :menu-props="{ maxHeight: '200px' }"
       :debounce-search="300"
+      label="User"
       @update:search="fetchUsers"
-      label="User"/>
+    />
   </div>
 </template>
 
@@ -33,15 +34,6 @@ export default {
       searchInput: '',
     };
   },
-  methods: {
-    async fetchUsers() {
-      this.loadingUsers = true;
-      (await openapi).user_getUsers({ query: this.searchInput }).then((rsp) => {
-        this.userOptions = rsp.data;
-        this.loadingUsers = false;
-      });
-    },
-  },
   computed: {
     selectedUser: {
       get() {
@@ -50,6 +42,15 @@ export default {
       set(val) {
         this.$emit('input', val);
       },
+    },
+  },
+  methods: {
+    async fetchUsers() {
+      this.loadingUsers = true;
+      (await openapi).user_getUsers({ query: this.searchInput }).then((rsp) => {
+        this.userOptions = rsp.data;
+        this.loadingUsers = false;
+      });
     },
   },
 };

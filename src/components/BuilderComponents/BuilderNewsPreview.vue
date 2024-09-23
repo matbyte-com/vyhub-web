@@ -1,56 +1,101 @@
 <template>
   <div class="vh-home-news-preview">
     <v-row class="justify-center">
-      <v-col class="d-flex align-center"
-             :class="{ 'order-2 text-start': inverted && $vuetify.display.mdAndUp,
-          'justify-end text-end': !inverted && $vuetify.display.mdAndUp,
-           'justify-center text-center': $vuetify.display.smAndDown }"
-             cols="12" md="6">
+      <v-col
+        class="d-flex align-center"
+        :class="{ 'order-2 text-start': inverted && $vuetify.display.mdAndUp,
+                  'justify-end text-end': !inverted && $vuetify.display.mdAndUp,
+                  'justify-center text-center': $vuetify.display.smAndDown }"
+        cols="12"
+        md="6"
+      >
         <div>
-          <div class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</div>
-          <div class="text-h5" :class="{ 'white--text': whiteText }">{{ subtitle }}</div>
+          <div
+            class="text-h3"
+            :class="{ 'white--text': whiteText }"
+          >
+            {{ title }}
+          </div>
+          <div
+            class="text-h5"
+            :class="{ 'white--text': whiteText }"
+          >
+            {{ subtitle }}
+          </div>
         </div>
       </v-col>
-      <v-col cols="12" md="6" :class="{ 'text-start': !inverted && $vuetify.display.mdAndUp,
-   'text-end': inverted && $vuetify.display.mdAndUp,
-    'text-center': $vuetify.display.smAndDown }" v-if="newsToShow !== null">
+      <v-col
+        v-if="newsToShow !== null"
+        cols="12"
+        md="6"
+        :class="{ 'text-start': !inverted && $vuetify.display.mdAndUp,
+                  'text-end': inverted && $vuetify.display.mdAndUp,
+                  'text-center': $vuetify.display.smAndDown }"
+      >
         <div v-if="newsToShow.length > 0">
-          <v-card border class="card-rounded" flat>
+          <v-card
+            border
+            class="card-rounded"
+            flat
+          >
             <v-card-text>
-              <div v-for="(n, index) in newsToShow" :key="n.id">
-                <v-card border :max-height="maxColumnHeight" :to="{ name: 'News' }"
-                        :img="n.background_url">
+              <div
+                v-for="(n, index) in newsToShow"
+                :key="n.id"
+              >
+                <v-card
+                  border
+                  :max-height="maxColumnHeight"
+                  :to="{ name: 'News' }"
+                  :img="n.background_url"
+                >
                   <v-card-title>
                     <span
-                :class="{ 'white--text' : !$vuetify.theme.dark && n.invert_title_color,
-                 'black--text' : $vuetify.theme.dark && n.invert_title_color }">
-                {{ n.subject }}
+                      :class="{ 'white--text' : !$vuetify.theme.dark && n.invert_title_color,
+                                'black--text' : $vuetify.theme.dark && n.invert_title_color }"
+                    >
+                      {{ n.subject }}
                     </span>
                   </v-card-title>
                   <v-card-text class="ql-editor">
-                    <p class="content-preview" :style="`height: ${maxColumnHeight - 68}px`"
-                       v-html="n.content" style="cursor: pointer"/>
+                    <p
+                      class="content-preview"
+                      :style="`height: ${maxColumnHeight - 68}px`"
+                      style="cursor: pointer"
+                      v-html="n.content"
+                    />
                   </v-card-text>
                 </v-card>
-                <v-divider class="mb-2 mt-2" v-if="index === 0 && newsToShow.length > 1"/>
+                <v-divider
+                  v-if="index === 0 && newsToShow.length > 1"
+                  class="mb-2 mt-2"
+                />
               </div>
             </v-card-text>
           </v-card>
         </div>
         <div v-else>
-          <v-card border class="card-rounded" flat>
+          <v-card
+            border
+            class="card-rounded"
+            flat
+          >
             <v-card-text>
               {{ $t('noDataAvailable') }}
             </v-card-text>
           </v-card>
         </div>
       </v-col>
-      <v-col cols="12" md="6" v-else>
+      <v-col
+        v-else
+        cols="12"
+        md="6"
+      >
         <v-card>
-          <v-card-text><v-skeleton-loader type="paragraph@2"/></v-card-text>
+          <v-card-text><v-skeleton-loader type="paragraph@2" /></v-card-text>
         </v-card>
         <v-card class="mt-2">
-          <v-card-text><v-skeleton-loader type="paragraph@1"/></v-card-text>
+          <v-card-text><v-skeleton-loader type="paragraph@1" /></v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -88,16 +133,6 @@ export default {
       news: [],
     };
   },
-  beforeMount() {
-    this.fetchNews();
-  },
-  methods: {
-    async fetchNews() {
-      (await openapiCached).news_getMessages({ page: 1, size: 6 }).then((rsp) => {
-        this.news = rsp.data.items;
-      });
-    },
-  },
   computed: {
     getNews() {
       return this.news.filter((n) => n.type === 'DEFAULT');
@@ -123,6 +158,16 @@ export default {
         }
       }
       return res;
+    },
+  },
+  beforeMount() {
+    this.fetchNews();
+  },
+  methods: {
+    async fetchNews() {
+      (await openapiCached).news_getMessages({ page: 1, size: 6 }).then((rsp) => {
+        this.news = rsp.data.items;
+      });
     },
   },
 };

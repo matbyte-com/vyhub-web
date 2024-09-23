@@ -1,19 +1,27 @@
 <template>
   <span v-if="user">
-    <v-chip v-if="!disabledLink && !simple" :small="small"
-            :to="{ name: 'UserDashboard', params: {id: user.id}}"
-            :variant="isOutlined ? 'outlined' : undefined" :color="color">
+    <v-chip
+      v-if="!disabledLink && !simple"
+      :small="small"
+      :to="{ name: 'UserDashboard', params: {id: user.id}}"
+      :variant="isOutlined ? 'outlined' : undefined"
+      :color="color"
+    >
       <v-icon size="small">mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
-    <v-chip v-if="disabledLink && !simple" :small="small"
-            :variant="outline ? 'outlined' : undefined" :color="color">
+    <v-chip
+      v-if="disabledLink && !simple"
+      :small="small"
+      :variant="outline ? 'outlined' : undefined"
+      :color="color"
+    >
       <v-icon size="small">mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
     <span v-if="simple">
       <v-icon size="small">mdi-account</v-icon>
-<router-link :to="{ name: 'UserDashboard', params: {id: user.id}}">{{ user.username }}</router-link>
+      <router-link :to="{ name: 'UserDashboard', params: {id: user.id}}">{{ user.username }}</router-link>
     </span>
   </span>
 </template>

@@ -9,11 +9,11 @@
     "dev": "vite",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
+    "lint": "eslint \"src/**/*.{js,vue}\" --fix"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.5.1",
-    "@koumoul/vjsf": "^3.0.0-beta.40",
+    "@koumoul/vjsf": "^3.0.0-beta.46",
     "@mdi/font": "^7.2.96",
     "@sentry/vue": "^8.24.0",
     "@stripe/stripe-js": "^1.15.0",
@@ -32,6 +32,8 @@
     "country-list": "^2.2.0",
     "currency-codes": "^2.1.0",
     "debounce": "^2.0.0",
+    "eslint": "^9.11.1",
+    "eslint-plugin-vuetify": "github:jewpaltz/eslint-plugin-vuetify",
     "eventsource": "^1.1.0",
     "humanize-duration": "^3.2.9",
     "iso-639-1-plus": "^3.0.3",
@@ -50,7 +52,6 @@
     "uuid": "^8.3.2",
     "vite": "^5.4.0",
     "vite-plugin-require": "^1.2.14",
-    "vuetify": "^3.6.14",
     "vite-plugin-vuetify": "^2.0.4",
     "vue": "^3.4.37",
     "vue-apexcharts": "^1.6.1",
@@ -61,6 +62,7 @@
     "vue-router": "^4.4.3",
     "vue2-editor": "^2.10.2",
     "vuedraggable": "^2.24.3",
+    "vuetify": "^3.6.14",
     "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0"
   },
@@ -69,7 +71,6 @@
     "eslint-plugin-vue": "^9.27.0",
     "json-schema-ref-parser": "^9.0.9",
     "openapi-client-axios-typegen": "^7.3.3",
-    "eslint-plugin-vuetify": "^2.4.0",
     "release-it": "^14.8.0",
     "sass": "~1.77.8",
     "stream-http": "^3.2.0",

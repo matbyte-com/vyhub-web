@@ -1,75 +1,122 @@
 <template>
   <div>
-  <span class="text-h5">
-    <v-icon start>
-      mdi-account-alert
-    </v-icon>
-    {{ $t('bans') }}
-  </span>
-  <DataTable
-    ref="banTable"
-    :headers="headers"
-    :items="bans"
-    defaultSortBy="created_on"
-    :defaultSortDesc="true"
-    :totalItems="totalItems">
-    <template v-slot:footer-right v-if="$checkProp('ban_add')">
-      <v-btn variant="outlined" color="success" @click="showAddDialog">
-        <v-icon start>mdi-plus</v-icon>
-        <span>{{ $t('_ban.labels.add') }}</span>
-      </v-btn>
-    </template>
-    <template v-slot:item.color-status="{ item }">
-      <v-sheet :color="banRowFormatter(item)"
-               height="95%" width="10px"
-               style="margin-left: -15px"/>
-    </template>
-    <template v-slot:item.length="{ item }">
-  <span>
-    {{ utils.formatLength(item['length']) }}
-  </span>
-    </template>
-    <template v-slot:item.creator="{ item }">
-      <UserLink :user="item.creator"></UserLink>
-    </template>
-    <template v-slot:item.created_on="{ item }">
-      <span>{{ new Date(item.created_on).toLocaleString() }}</span>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <div class="d-flex" v-if="$checkProp('ban_edit')">
-        <v-spacer />
-        <v-btn variant="flat" size="small" @click="unbanBan(item)"
-               v-if="item.status === 'ACTIVE'">
-          <v-icon start>mdi-lock-open</v-icon>
-          {{ $t('_ban.labels.unban') }}
+    <span class="text-h5">
+      <v-icon start>
+        mdi-account-alert
+      </v-icon>
+      {{ $t('bans') }}
+    </span>
+    <DataTable
+      ref="banTable"
+      :headers="headers"
+      :items="bans"
+      default-sort-by="created_on"
+      :default-sort-desc="true"
+      :total-items="totalItems"
+    >
+      <template
+        v-if="$checkProp('ban_add')"
+        #footer-right
+      >
+        <v-btn
+          variant="outlined"
+          color="success"
+          @click="showAddDialog"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
+          <span>{{ $t('_ban.labels.add') }}</span>
         </v-btn>
-        <v-btn variant="flat" size="small" @click="rebanBan(item)"
-               v-if="item.status === 'UNBANNED'">
-          <v-icon start>mdi-lock</v-icon>
-          {{ $t('_ban.labels.reban') }}
-        </v-btn>
-        <v-btn size="small" class="ml-1" variant="outlined" color="primary" @click="showEditDialog(item)">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-        <v-btn class="ml-1" size="small" variant="outlined" color="error" @click="$refs.deleteBanDialog.show(item)">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-      </div>
-    </template>
-  </DataTable>
-  <DialogForm :form-schema="banAddFormSchema" ref="banAddDialog"
-              :title="$t('_ban.labels.add')" :submit-text="$t('create')"
-              icon="mdi-account-cancel"
-              @submit="addBan">
-  </DialogForm>
-  <DialogForm :form-schema="banEditFormSchema" ref="banEditDialog"
-              :title="$t('_ban.labels.edit')" :submit-text="$t('edit')"
-              icon="mdi-account-cancel"
-              @submit="editBan">
-  </DialogForm>
-  <DeleteConfirmationDialog
-    ref="deleteBanDialog"
-    @submit="deleteBan"/>
+      </template>
+      <template #item.color-status="{ item }">
+        <v-sheet
+          :color="banRowFormatter(item)"
+          height="95%"
+          width="10px"
+          style="margin-left: -15px"
+        />
+      </template>
+      <template #item.length="{ item }">
+        <span>
+          {{ utils.formatLength(item['length']) }}
+        </span>
+      </template>
+      <template #item.creator="{ item }">
+        <UserLink :user="item.creator" />
+      </template>
+      <template #item.created_on="{ item }">
+        <span>{{ new Date(item.created_on).toLocaleString() }}</span>
+      </template>
+      <template #item.actions="{ item }">
+        <div
+          v-if="$checkProp('ban_edit')"
+          class="d-flex"
+        >
+          <v-spacer />
+          <v-btn
+            v-if="item.status === 'ACTIVE'"
+            variant="flat"
+            size="small"
+            @click="unbanBan(item)"
+          >
+            <v-icon start>
+              mdi-lock-open
+            </v-icon>
+            {{ $t('_ban.labels.unban') }}
+          </v-btn>
+          <v-btn
+            v-if="item.status === 'UNBANNED'"
+            variant="flat"
+            size="small"
+            @click="rebanBan(item)"
+          >
+            <v-icon start>
+              mdi-lock
+            </v-icon>
+            {{ $t('_ban.labels.reban') }}
+          </v-btn>
+          <v-btn
+            size="small"
+            class="ml-1"
+            variant="outlined"
+            color="primary"
+            @click="showEditDialog(item)"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            class="ml-1"
+            size="small"
+            variant="outlined"
+            color="error"
+            @click="$refs.deleteBanDialog.show(item)"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </DataTable>
+    <DialogForm
+      ref="banAddDialog"
+      :form-schema="banAddFormSchema"
+      :title="$t('_ban.labels.add')"
+      :submit-text="$t('create')"
+      icon="mdi-account-cancel"
+      @submit="addBan"
+    />
+    <DialogForm
+      ref="banEditDialog"
+      :form-schema="banEditFormSchema"
+      :title="$t('_ban.labels.edit')"
+      :submit-text="$t('edit')"
+      icon="mdi-account-cancel"
+      @submit="editBan"
+    />
+    <DeleteConfirmationDialog
+      ref="deleteBanDialog"
+      @submit="deleteBan"
+    />
   </div>
 </template>
 
@@ -90,6 +137,7 @@ export default {
     DataTable,
     DeleteConfirmationDialog,
   },
+  props: ['bans', 'totalItems', 'user', 'serverbundle'],
   data() {
     return {
       headers: [
@@ -106,7 +154,6 @@ export default {
       banEditFormSchema,
     };
   },
-  props: ['bans', 'totalItems', 'user', 'serverbundle'],
   methods: {
     banRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-4' : '');

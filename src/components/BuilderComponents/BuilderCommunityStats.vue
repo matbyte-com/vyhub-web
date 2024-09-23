@@ -1,57 +1,116 @@
 <template>
   <div>
     <div class="vh-home-community-stats">
-      <div v-if="$vuetify.display.smAndUp" class="d-flex flex-row flex-wrap justify-center">
-        <v-card v-for="stat in stats" :key="stat.title"
-                class="ml-5 mt-10 stat-card card-rounded">
+      <div
+        v-if="$vuetify.display.smAndUp"
+        class="d-flex flex-row flex-wrap justify-center"
+      >
+        <v-card
+          v-for="stat in stats"
+          :key="stat.title"
+          class="ml-5 mt-10 stat-card card-rounded"
+        >
           <div class="icon-wrapper text-center">
-            <v-card class="icon-rounded d-inline-block pa-3 v-card-non-transparent" flat>
-              <v-icon size="50">{{ stat.icon }}</v-icon>
+            <v-card
+              class="icon-rounded d-inline-block pa-3 v-card-non-transparent"
+              flat
+            >
+              <v-icon size="50">
+                {{ stat.icon }}
+              </v-icon>
             </v-card>
           </div>
           <v-card-text>
             <div class="mt-8">
-              <div class="text-h5">{{ stat.title }}</div>
-              <div class="text-h4 number text-center">{{ currentCount[stat.key] }}</div>
+              <div class="text-h5">
+                {{ stat.title }}
+              </div>
+              <div class="text-h4 number text-center">
+                {{ currentCount[stat.key] }}
+              </div>
             </div>
           </v-card-text>
         </v-card>
       </div>
-      <Swiper :number-of-elements="2" :per-page-custom="[1,1,2,3,4]" v-else>
-        <swiper-slide :key="1" style="height: 100%">
+      <Swiper
+        v-else
+        :number-of-elements="2"
+        :per-page-custom="[1,1,2,3,4]"
+      >
+        <swiper-slide
+          :key="1"
+          style="height: 100%"
+        >
           <v-card class="card-rounded">
             <v-card-text style="width: inherit">
-              <v-card v-for="(stat, index) in stats.slice(0,2)" :key="stat.title"
-                      class="stat-card" border hover
-                      :class="{ 'mt-3' : index !== 0 }">
-                <v-card-text class="d-flex align-center" style="width: inherit">
+              <v-card
+                v-for="(stat, index) in stats.slice(0,2)"
+                :key="stat.title"
+                class="stat-card"
+                border
+                hover
+                :class="{ 'mt-3' : index !== 0 }"
+              >
+                <v-card-text
+                  class="d-flex align-center"
+                  style="width: inherit"
+                >
                   <div class="ml-3">
-                    <div class="text-h5">{{ stat.title }}</div>
-                    <div class="text-h4 number">{{ currentCount[stat.key] }}</div>
+                    <div class="text-h5">
+                      {{ stat.title }}
+                    </div>
+                    <div class="text-h4 number">
+                      {{ currentCount[stat.key] }}
+                    </div>
                   </div>
                   <v-spacer />
                   <div>
-                    <v-icon class="number" size="70px">{{ stat.icon }}</v-icon>
+                    <v-icon
+                      class="number"
+                      size="70px"
+                    >
+                      {{ stat.icon }}
+                    </v-icon>
                   </div>
                 </v-card-text>
               </v-card>
             </v-card-text>
           </v-card>
         </swiper-slide>
-        <swiper-slide :key="2" style="height: 100%">
+        <swiper-slide
+          :key="2"
+          style="height: 100%"
+        >
           <v-card class="card-rounded">
             <v-card-text style="width: inherit">
-              <v-card v-for="(stat, index) in stats.slice(2)" :key="stat.title"
-                      class="stat-card card-rounded" hover border
-                      :class="{ 'mt-3' : index !== 0 }">
-                <v-card-text class="d-flex align-center" style="width: inherit">
+              <v-card
+                v-for="(stat, index) in stats.slice(2)"
+                :key="stat.title"
+                class="stat-card card-rounded"
+                hover
+                border
+                :class="{ 'mt-3' : index !== 0 }"
+              >
+                <v-card-text
+                  class="d-flex align-center"
+                  style="width: inherit"
+                >
                   <div class="ml-3">
-                    <div class="text-h5">{{ stat.title }}</div>
-                    <div class="text-h4 number">{{ currentCount[stat.key] }}</div>
+                    <div class="text-h5">
+                      {{ stat.title }}
+                    </div>
+                    <div class="text-h4 number">
+                      {{ currentCount[stat.key] }}
+                    </div>
                   </div>
                   <v-spacer />
                   <div>
-                    <v-icon class="number" size="70px">{{ stat.icon }}</v-icon>
+                    <v-icon
+                      class="number"
+                      size="70px"
+                    >
+                      {{ stat.icon }}
+                    </v-icon>
                   </div>
                 </v-card-text>
               </v-card>

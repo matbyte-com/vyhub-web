@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-card class="vh-dashboard-purchases card-rounded" flat>
+    <v-card
+      class="vh-dashboard-purchases card-rounded"
+      flat
+    >
       <v-card-text>
         <v-row>
           <v-col>
@@ -8,20 +11,30 @@
               :items="purchases"
               sort-by="date"
               :items-per-page="6"
-              :sort-desc="true">
-              <template v-slot:header class="d-flex">
+              :sort-desc="true"
+            >
+              <template
+                #header
+                class="d-flex"
+              >
                 <v-row>
                   <v-col>
                     <div class="text-right">
-                      <v-btn variant="flat" color="success" @click="$refs.creditHistoryDialog.show()">
-                        <v-icon start>mdi-circle-multiple</v-icon>
+                      <v-btn
+                        variant="flat"
+                        color="success"
+                        @click="$refs.creditHistoryDialog.show()"
+                      >
+                        <v-icon start>
+                          mdi-circle-multiple
+                        </v-icon>
                         {{ $store.getters.shopConfig.credits_display_title }}
                       </v-btn>
                     </div>
                   </v-col>
                 </v-row>
               </template>
-              <template v-slot:default="props">
+              <template #default="props">
                 <v-row>
                   <v-col
                     v-for="purchase in props.items"
@@ -29,8 +42,12 @@
                     cols="12"
                     lg="6"
                     xl="4"
-                    class="d-flex">
-                    <v-card class="flex-grow-1 card-rounded" border>
+                    class="d-flex"
+                  >
+                    <v-card
+                      class="flex-grow-1 card-rounded"
+                      border
+                    >
                       <v-card-title class="subheading font-weight-bold">
                         # {{ purchase.id }}
                       </v-card-title>
@@ -43,20 +60,16 @@
                             </div>
                             <v-list density="compact">
                               <v-list-item>
+                                {{ $t('date') }}
                                 
-                                  {{ $t('date') }}
                                 
-                                
-                                  {{ new Date(purchase.date).toLocaleString() }}
-                                
+                                {{ new Date(purchase.date).toLocaleString() }}
                               </v-list-item>
                               <v-list-item>
+                                {{ $t('status') }}
                                 
-                                  {{ $t('status') }}
                                 
-                                
-                                  <PurchaseStatusChip :status="purchase.status" />
-                                
+                                <PurchaseStatusChip :status="purchase.status" />
                               </v-list-item>
                             </v-list>
                           </v-col>
@@ -70,8 +83,11 @@
 
                             <div>
                               <div>
-                                <v-chip v-for="cp in purchase.cart_packets" v-bind:key="cp.id"
-                                        class="mr-1 mb-1">
+                                <v-chip
+                                  v-for="cp in purchase.cart_packets"
+                                  :key="cp.id"
+                                  class="mr-1 mb-1"
+                                >
                                   {{ cp.packet_title }}
                                 </v-chip>
                               </div>
@@ -84,27 +100,32 @@
                             <div class="text-subtitle-1">
                               {{ $t('payments') }}
                             </div>
-                            <DataTable :items="filterFinishedDebits(purchase.debits)"
-                                       :headers="headers"
-                                       :totalItems="purchase.debits ? purchase.debits.length : 0"
-                                       :items-per-page="5"
+                            <DataTable
+                              :items="filterFinishedDebits(purchase.debits)"
+                              :headers="headers"
+                              :total-items="purchase.debits ? purchase.debits.length : 0"
+                              :items-per-page="5"
                             >
-                              <template v-slot:item.date="{ item }">
+                              <template #item.date="{ item }">
                                 {{ utils.formatDate(item.date) }}
                               </template>
-                              <template v-slot:item.invoice="{ item }">
-                                <v-btn color="primary" variant="outlined" size="small"
-                                       :disabled="!item.invoice_available"
-                                       @click="downloadInvoice(item)">
+                              <template #item.invoice="{ item }">
+                                <v-btn
+                                  color="primary"
+                                  variant="outlined"
+                                  size="small"
+                                  :disabled="!item.invoice_available"
+                                  @click="downloadInvoice(item)"
+                                >
                                   <v-icon>
                                     mdi-file-download
                                   </v-icon>
                                 </v-btn>
                               </template>
-                              <template v-slot:item.amount="{ item }">
+                              <template #item.amount="{ item }">
                                 <div v-if="item.amount_total != null">
                                   {{ item.amount_total
-                                  .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                                    .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                                   {{ purchase.currency.symbol }}
                                 </div>
                                 <div v-else>
@@ -117,10 +138,15 @@
                         </v-row>
                       </v-card-text>
                       <v-card-actions v-if="purchase.status === 'RECURRING'">
-                        <v-btn variant="text" color="error"
-                               @click="$refs.confirmSubCancelDialog.show(purchase)"
-                               v-if="purchase.status === 'RECURRING'">
-                          <v-icon start>mdi-cancel</v-icon>
+                        <v-btn
+                          v-if="purchase.status === 'RECURRING'"
+                          variant="text"
+                          color="error"
+                          @click="$refs.confirmSubCancelDialog.show(purchase)"
+                        >
+                          <v-icon start>
+                            mdi-cancel
+                          </v-icon>
                           {{ $t('_purchases.labels.cancelSubscription') }}
                         </v-btn>
                       </v-card-actions>
@@ -134,17 +160,20 @@
       </v-card-text>
     </v-card>
     <ConfirmationDialog
+      ref="confirmSubCancelDialog"
       :text="$t('_purchases.messages.cancelSubscriptionConfirm')"
       btn-icon="mdi-cancel"
       :btn-text="$t('_purchases.labels.cancelSubscription')"
-      @submit="cancelSubscription"
       :width="500"
-      ref="confirmSubCancelDialog"
+      @submit="cancelSubscription"
+    />
+    <Dialog
+      ref="creditHistoryDialog"
+      :title="$store.getters.shopConfig.credits_display_title"
+      icon="mdi-circle-multiple"
+      :max-width="1000"
     >
-    </ConfirmationDialog>
-    <Dialog ref="creditHistoryDialog" :title="$store.getters.shopConfig.credits_display_title"
-            icon="mdi-circle-multiple" :max-width="1000">
-      <CreditHistory :user="user"/>
+      <CreditHistory :user="user" />
     </Dialog>
   </div>
 </template>
@@ -168,6 +197,9 @@ export default {
     DataIterator,
     PurchaseStatusChip,
   },
+  props: {
+    user: Object,
+  },
   data() {
     return {
       purchases: [],
@@ -179,16 +211,13 @@ export default {
       ],
     };
   },
-  props: {
-    user: Object,
-  },
-  beforeMount() {
-    this.fetchData();
-  },
   watch: {
     user() {
       this.fetchData();
     },
+  },
+  beforeMount() {
+    this.fetchData();
   },
   methods: {
     async fetchData() {

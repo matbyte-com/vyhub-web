@@ -1,29 +1,37 @@
 <template>
   <v-row class="vh-dashboard-bans-and-warnings">
     <v-col class="pb-0">
-      <v-btn block variant="flat" :color="(banCount ? 'error darken-2' : 'gray')"
-              :to="{ name: 'Bans', query: { user_id: user.id } }">
+      <v-btn
+        block
+        variant="flat"
+        :color="(banCount ? 'error darken-2' : 'gray')"
+        :to="{ name: 'Bans', query: { user_id: user.id } }"
+      >
         <v-icon start>
           mdi-account-cancel
         </v-icon>
         {{ $t('bans') }}:
         <span>
         &nbsp;
-        {{ banCount }}
+          {{ banCount }}
         </span>
       </v-btn>
     </v-col>
     <v-col>
-      <v-btn :color="(warningCount ? 'warning darken-2' : 'gray')" block variant="flat"
-              :to="{ name: 'Warnings', query: { user_id: user.id } }">
+      <v-btn
+        :color="(warningCount ? 'warning darken-2' : 'gray')"
+        block
+        variant="flat"
+        :to="{ name: 'Warnings', query: { user_id: user.id } }"
+      >
         <v-icon start>
           mdi-account-alert
         </v-icon>
         {{ $t('warnings') }}:
         <span>
         &nbsp;
-        {{ warningCount }}
-      </span>
+          {{ warningCount }}
+        </span>
       </v-btn>
     </v-col>
   </v-row>
@@ -34,12 +42,6 @@ import openapi from '../../api/openapi';
 
 export default {
   name: 'BansAndWarnings',
-  data() {
-    return {
-      banCount: 0,
-      warningCount: 0,
-    };
-  },
   props: {
     user: Object,
     bundle: {
@@ -47,8 +49,11 @@ export default {
       default: null,
     },
   },
-  beforeMount() {
-    this.fetchData();
+  data() {
+    return {
+      banCount: 0,
+      warningCount: 0,
+    };
   },
   watch: {
     user() {
@@ -57,6 +62,9 @@ export default {
     bundle() {
       this.fetchData();
     },
+  },
+  beforeMount() {
+    this.fetchData();
   },
   methods: {
     async fetchData() {

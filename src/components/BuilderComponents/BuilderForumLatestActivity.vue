@@ -1,88 +1,130 @@
 <template>
-<div class="vh-home-forum-activity">
-<v-row justify="center">
-  <v-col class="d-flex" cols="11" sm="6" lg="5">
-    <v-card v-if="latestPosts"
-            class="vh-forum-latest-posts flex-grow-1 flex-column d-flex card-rounded">
-      <v-card-title style="word-break: break-word">
-        <CardTitle icon="mdi-message-text-clock" :title="$t('_forum.latestPosts')"/>
-      </v-card-title>
-      <v-divider class="ml-3 mr-3"/>
-      <v-list density="compact">
-        <v-list-item v-for="post in latestPosts" :key="post.id" class="listItem pt-0 pb-0"
-                     :to="{ name: 'ForumThread', params: { id: post.thread.id },
-                    query: {lastPage: true}}">
-          
-            <div class="d-flex">
-              <router-link
-                :to="{ name: 'UserDashboard',
-                           params: { id: post.creator.id } }">
-                <v-avatar class="ma-1 mr-2" size="30">
-                  <v-img :src="post.creator.avatar"/>
-                </v-avatar>
-              </router-link>
-              <div class="align-self-center">
-                <div>
-                  <router-link :to="{ name: 'ForumThread', params: { id: post.thread.id },
-                 query: {lastPage: true} }"
-                               style="font-size: 1em; white-space: nowrap;
+  <div class="vh-home-forum-activity">
+    <v-row justify="center">
+      <v-col
+        class="d-flex"
+        cols="11"
+        sm="6"
+        lg="5"
+      >
+        <v-card
+          v-if="latestPosts"
+          class="vh-forum-latest-posts flex-grow-1 flex-column d-flex card-rounded"
+        >
+          <v-card-title style="word-break: break-word">
+            <CardTitle
+              icon="mdi-message-text-clock"
+              :title="$t('_forum.latestPosts')"
+            />
+          </v-card-title>
+          <v-divider class="ml-3 mr-3" />
+          <v-list density="compact">
+            <v-list-item
+              v-for="post in latestPosts"
+              :key="post.id"
+              class="listItem pt-0 pb-0"
+              :to="{ name: 'ForumThread', params: { id: post.thread.id },
+                     query: {lastPage: true}}"
+            >
+              <div class="d-flex">
+                <router-link
+                  :to="{ name: 'UserDashboard',
+                         params: { id: post.creator.id } }"
+                >
+                  <v-avatar
+                    class="ma-1 mr-2"
+                    size="30"
+                  >
+                    <v-img :src="post.creator.avatar" />
+                  </v-avatar>
+                </router-link>
+                <div class="align-self-center">
+                  <div>
+                    <router-link
+                      :to="{ name: 'ForumThread', params: { id: post.thread.id },
+                             query: {lastPage: true} }"
+                      style="font-size: 1em; white-space: nowrap;
                                       text-overflow: ellipsis; color: inherit;
-                                       text-decoration: none">
-                    {{ post.thread.title }}
-                  </router-link>
-                </div>
-                <div class="text--disabled">
-                  {{ utils.formatTimeForForum(post.created) }} {{ $t('_forum.by') }}
-                  <UserLink :simple="true" :user="post.creator"></UserLink>
+                                       text-decoration: none"
+                    >
+                      {{ post.thread.title }}
+                    </router-link>
+                  </div>
+                  <div class="text--disabled">
+                    {{ utils.formatTimeForForum(post.created) }} {{ $t('_forum.by') }}
+                    <UserLink
+                      :simple="true"
+                      :user="post.creator"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          
-        </v-list-item>
-      </v-list>
-    </v-card>
-  </v-col>
-  <v-col class="d-flex" cols="11" sm="6" lg="5">
-    <v-card class="vh-forum-latest-threads flex-grow-1 flex-column d-flex card-rounded"
-            v-if="latestThreads">
-      <v-card-title style="word-break: break-word">
-        <CardTitle icon="mdi-forum" :title="$t('_forum.latestThreads')"/>
-      </v-card-title>
-      <v-divider class="ml-3 mr-3"/>
-      <v-list density="compact">
-        <v-list-item v-for="thread in latestThreads" :key="thread.id" class="listItem pt-0 pb-0"
-                     :to="{ name: 'ForumThread', params: { id: thread.id } }">
-          
-            <div class="d-flex">
-              <router-link
-                :to="{ name: 'UserDashboard',
-                           params: { id: thread.creator.id } }">
-                <v-avatar class="ma-1 mr-2" size="30">
-                  <v-img :src="thread.creator.avatar"/>
-                </v-avatar>
-              </router-link>
-              <div class="align-self-center">
-                <div>
-                  <router-link :to="{ name: 'ForumThread', params: { id: thread.id } }"
-                               style="font-size: 1em; white-space: nowrap;
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-col>
+      <v-col
+        class="d-flex"
+        cols="11"
+        sm="6"
+        lg="5"
+      >
+        <v-card
+          v-if="latestThreads"
+          class="vh-forum-latest-threads flex-grow-1 flex-column d-flex card-rounded"
+        >
+          <v-card-title style="word-break: break-word">
+            <CardTitle
+              icon="mdi-forum"
+              :title="$t('_forum.latestThreads')"
+            />
+          </v-card-title>
+          <v-divider class="ml-3 mr-3" />
+          <v-list density="compact">
+            <v-list-item
+              v-for="thread in latestThreads"
+              :key="thread.id"
+              class="listItem pt-0 pb-0"
+              :to="{ name: 'ForumThread', params: { id: thread.id } }"
+            >
+              <div class="d-flex">
+                <router-link
+                  :to="{ name: 'UserDashboard',
+                         params: { id: thread.creator.id } }"
+                >
+                  <v-avatar
+                    class="ma-1 mr-2"
+                    size="30"
+                  >
+                    <v-img :src="thread.creator.avatar" />
+                  </v-avatar>
+                </router-link>
+                <div class="align-self-center">
+                  <div>
+                    <router-link
+                      :to="{ name: 'ForumThread', params: { id: thread.id } }"
+                      style="font-size: 1em; white-space: nowrap;
                                       text-overflow: ellipsis; color: inherit;
-                                       text-decoration: none">
-                    {{ thread.title }}
-                  </router-link>
-                </div>
-                <div class="text--disabled">
-                  {{ utils.formatTimeForForum(thread.created) }} {{ $t('_forum.by') }}
-                  <UserLink :simple="true" :user="thread.creator"></UserLink>
+                                       text-decoration: none"
+                    >
+                      {{ thread.title }}
+                    </router-link>
+                  </div>
+                  <div class="text--disabled">
+                    {{ utils.formatTimeForForum(thread.created) }} {{ $t('_forum.by') }}
+                    <UserLink
+                      :simple="true"
+                      :user="thread.creator"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          
-        </v-list-item>
-      </v-list>
-    </v-card>
-  </v-col>
-</v-row>
-</div>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>

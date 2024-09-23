@@ -1,20 +1,26 @@
 <template>
   <v-data-iterator
+    v-model:items-per-page="currentItemsPerPage"
+    v-model:page="page"
     :items="items"
-    :items-per-page.sync="currentItemsPerPage"
-    :page.sync="page"
     :search="searchVal"
     hide-default-footer
-    v-bind="$attrs" v-on="$listeners"
+    v-bind="$attrs"
+    v-on="$listeners"
   >
-    <template v-slot:no-data>
+    <template #no-data>
       <div class="text-center mt-4 text-subtitle-2 text--disabled">
         {{ $t('noDataAvailable') }}
       </div>
     </template>
-    <template v-slot:header>
+    <template #header>
       <v-row justify="end">
-        <v-col lg="3" md="6" sm="12" v-if="search">
+        <v-col
+          v-if="search"
+          lg="3"
+          md="6"
+          sm="12"
+        >
           <v-text-field
             v-model="searchVal"
             :label="$t('search')"
@@ -22,7 +28,7 @@
             variant="outlined"
             density="compact"
           >
-            <template v-slot:prepend-inner>
+            <template #prepend-inner>
               <v-icon>
                 mdi-magnify
               </v-icon>
@@ -33,20 +39,32 @@
       <slot name="header" />
     </template>
 
-    <template v-for="(_, slot) of inheritSlots" v-slot:[slot]="scope">
-      <slot :name="slot" v-bind="scope" />
+    <template
+      v-for="(_, slot) of inheritSlots"
+      #[slot]="scope"
+    >
+      <slot
+        :name="slot"
+        v-bind="scope"
+      />
     </template>
 
-    <template v-slot:footer>
+    <template #footer>
       <div class="d-flex justify-space-between align-center mt-3 mr-1">
         <div>
-          <slot name="footer-left"></slot>
+          <slot name="footer-left" />
         </div>
         <div v-if="showPageSelector && numberOfPages > 1">
           <span class="text-grey">Items per page</span>
-          <v-menu offset-y >
-            <template v-slot:activator="{ props }">
-              <v-btn dark variant="text" color="primary" class="ml-2" v-bind="props">
+          <v-menu offset-y>
+            <template #activator="{ props }">
+              <v-btn
+                dark
+                variant="text"
+                color="primary"
+                class="ml-2"
+                v-bind="props"
+              >
                 {{ currentItemsPerPage }}
                 <v-icon>mdi-chevron-down</v-icon>
               </v-btn>
@@ -63,14 +81,31 @@
           </v-menu>
         </div>
 
-        <div class="text-right" v-if="numberOfPages > 1">
+        <div
+          v-if="numberOfPages > 1"
+          class="text-right"
+        >
           <span class="mr-4 text-grey">
             {{ page }} of {{ numberOfPages }}
           </span>
-          <v-btn size="small" fab dark color="primary" class="mr-1" @click="formerPage">
+          <v-btn
+            size="small"
+            fab
+            dark
+            color="primary"
+            class="mr-1"
+            @click="formerPage"
+          >
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn size="small" fab dark color="primary" class="ml-1" @click="nextPage" >
+          <v-btn
+            size="small"
+            fab
+            dark
+            color="primary"
+            class="ml-1"
+            @click="nextPage"
+          >
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
         </div>
@@ -82,14 +117,6 @@
 <script>
 export default {
   name: 'DataIterator',
-  data() {
-    return {
-      searchVal: '',
-      filter: {},
-      page: 1,
-      currentItemsPerPage: 0,
-    };
-  },
   props: {
     items: Array,
     search: {
@@ -109,12 +136,20 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      searchVal: '',
+      filter: {},
+      page: 1,
+      currentItemsPerPage: 0,
+    };
+  },
   computed: {
     loading() {
       return this.items == null;
     },
     inheritSlots() {
-      const slots = this.$scopedSlots;
+      const slots = this.$slots;
 
       if ('header' in slots) {
         delete slots.header;
@@ -139,6 +174,9 @@ export default {
       return Math.ceil(this.items.length / this.currentItemsPerPage);
     },
   },
+  beforeMount() {
+    this.currentItemsPerPage = this.itemsPerPage;
+  },
   methods: {
     nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1;
@@ -149,9 +187,6 @@ export default {
     updateItemsPerPage(number) {
       this.currentItemsPerPage = number;
     },
-  },
-  beforeMount() {
-    this.currentItemsPerPage = this.itemsPerPage;
   },
 };
 </script>

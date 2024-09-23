@@ -1,8 +1,9 @@
 <template>
   <div>
-    <v-list-item :to="{path: $route.path,
- query: { login: 'true', return_url: getReturnUrl() } }"
-                 >
+    <v-list-item
+      :to="{path: $route.path,
+            query: { login: 'true', return_url: getReturnUrl() } }"
+    >
       <v-icon start>
         mdi-account-plus
       </v-icon>

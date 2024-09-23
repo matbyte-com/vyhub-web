@@ -1,17 +1,37 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12" md="6" lg="4">
-        <h5 class="text-h5">{{ $t('_shop.labels.financeReport') }}</h5>
-        <GenForm :form-schema="financeReportForm" ref="reportForm" @submit="downloadCSV"
-                 :cancel-text="null" :submit-text="$t('download')">
-        </GenForm>
+      <v-col
+        cols="12"
+        md="6"
+        lg="4"
+      >
+        <h5 class="text-h5">
+          {{ $t('_shop.labels.financeReport') }}
+        </h5>
+        <GenForm
+          ref="reportForm"
+          :form-schema="financeReportForm"
+          :cancel-text="null"
+          :submit-text="$t('download')"
+          @submit="downloadCSV"
+        />
       </v-col>
-      <v-col cols="12" md="6" lg="4">
-        <h5 class="text-h5">{{ $t('_shop.labels.downloadInvoices') }}</h5>
-        <GenForm :form-schema="financeReportForm" ref="invoicesForm" @submit="downloadInvoices"
-                 :cancel-text="null" :submit-text="$t('download')">
-        </GenForm>
+      <v-col
+        cols="12"
+        md="6"
+        lg="4"
+      >
+        <h5 class="text-h5">
+          {{ $t('_shop.labels.downloadInvoices') }}
+        </h5>
+        <GenForm
+          ref="invoicesForm"
+          :form-schema="financeReportForm"
+          :cancel-text="null"
+          :submit-text="$t('download')"
+          @submit="downloadInvoices"
+        />
       </v-col>
     </v-row>
   </div>

@@ -3,11 +3,18 @@
     <v-container v-if="data.wrapper">
       <v-card class="card-rounded">
         <v-card-text>
-          <span class="ql-editor" v-html="data.content"></span>
+          <span
+            class="ql-editor"
+            v-html="data.content"
+          />
         </v-card-text>
       </v-card>
     </v-container>
-    <span v-else class="ql-editor" v-html="data.content"></span>
+    <span
+      v-else
+      class="ql-editor"
+      v-html="data.content"
+    />
   </div>
 </template>
 

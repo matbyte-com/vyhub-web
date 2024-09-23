@@ -1,5 +1,8 @@
 <template>
-  <v-card class="card-rounded" flat>
+  <v-card
+    class="card-rounded"
+    flat
+  >
     <v-tabs grow>
       <v-tab>
         <v-icon start>
@@ -8,23 +11,32 @@
         {{ $t('statistics') }}
       </v-tab>
       <v-tab-item>
-        <v-card class="vh-dashboard-forum card-rounded" flat>
+        <v-card
+          class="vh-dashboard-forum card-rounded"
+          flat
+        >
           <v-card-text>
             <v-row class="d-flex text-center">
               <v-col cols="4">
-                <v-icon class="mr-2">mdi-forum</v-icon>
+                <v-icon class="mr-2">
+                  mdi-forum
+                </v-icon>
                 {{ $t('_forum.threads') }}:
-                <b>{{ this.threads }}</b>
+                <b>{{ threads }}</b>
               </v-col>
               <v-col cols="4">
-                <v-icon class="mr-2">mdi-message-text</v-icon>
+                <v-icon class="mr-2">
+                  mdi-message-text
+                </v-icon>
                 {{ $t('_forum.posts') }}:
-                <b>{{ this.posts }}</b>
+                <b>{{ posts }}</b>
               </v-col>
               <v-col cols="4">
-                <v-icon class="mr-2">mdi-thumb-up</v-icon>
+                <v-icon class="mr-2">
+                  mdi-thumb-up
+                </v-icon>
                 {{ $t('_forum.reactions') }}:
-                <b>{{ this.reactions }}</b>
+                <b>{{ reactions }}</b>
               </v-col>
             </v-row>
           </v-card-text>
@@ -38,16 +50,28 @@
       </v-tab>
       <v-tab-item>
         <v-card>
-          <v-card-text class="d-flex" v-for="lastPost in lastPosts" :key="lastPost.id">
-            <v-card @click="$router.push({ name: 'ForumThread', params:
-                   { id: lastPost.thread.id } })" flat width="100%">
+          <v-card-text
+            v-for="lastPost in lastPosts"
+            :key="lastPost.id"
+            class="d-flex"
+          >
+            <v-card
+              flat
+              width="100%"
+              @click="$router.push({ name: 'ForumThread', params:
+                { id: lastPost.thread.id } })"
+            >
               <v-row>
                 <v-col cols="8">
-                  <v-icon class="mr-2">mdi-forum</v-icon>
+                  <v-icon class="mr-2">
+                    mdi-forum
+                  </v-icon>
                   {{ lastPost.thread.title }}
                 </v-col>
                 <v-col cols="4">
-                  <v-icon class="mr-2">mdi-clock-time-four-outline</v-icon>
+                  <v-icon class="mr-2">
+                    mdi-clock-time-four-outline
+                  </v-icon>
                   {{ utils.formatDate(lastPost.created) }}
                 </v-col>
               </v-row>

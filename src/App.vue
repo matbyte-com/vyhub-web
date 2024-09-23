@@ -1,48 +1,81 @@
 <template>
   <v-app>
-
-
     <!--<VueNotification />-->
     <LinkAccountDialog />
-    <TheHeader v-if="!$route.meta.noHeader"/>
+    <TheHeader v-if="!$route.meta.noHeader" />
 
     <v-main :style="backgroundColor">
-      <div v-if="$route.meta.noContainer" style="min-height: 70vh;">
-        <transition mode="out-in"
-                    enter-active-class="animate__animated animate__fadeIn animate__faster">
-        <router-view class="vh-router-view" />
+      <div
+        v-if="$route.meta.noContainer"
+        style="min-height: 70vh;"
+      >
+        <transition
+          mode="out-in"
+          enter-active-class="animate__animated animate__fadeIn animate__faster"
+        >
+          <router-view class="vh-router-view" />
         </transition>
       </div>
       <v-container v-else>
-        <div style="min-height: 70vh;" class="mt-3">
-          <transition mode="out-in"
-                      enter-active-class="animate__animated animate__fadeIn animate__faster">
+        <div
+          style="min-height: 70vh;"
+          class="mt-3"
+        >
+          <transition
+            mode="out-in"
+            enter-active-class="animate__animated animate__fadeIn animate__faster"
+          >
             <router-view class="vh-router-view" />
           </transition>
         </div>
       </v-container>
     </v-main>
 
-    <TheFooter/>
+    <TheFooter />
 
     <!-- Welcome Overlay -->
-    <v-overlay v-if="welcomeOverlay" light>
-      <div class="d-flex align-center justify-center"
-           style="width: 100vw; height: 100vh; position: relative">
-        <v-card light class="getStartedCard"
-                :class="{ 'get-started-animation': welcomeAnimation }">
-          <v-card-text style="background-color: #FFFFFF" class="text-center">
-            <video loop autoplay muted width="200px">
-              <source src="https://cdn.vyhub.net/central/welcome-img/server-animated.mp4" type="video/mp4">
-              <img src="https://cdn.vyhub.net/central/welcome-img/server-fallback.png"
-                   alt="Fallback Server img"/>
+    <v-overlay
+      v-if="welcomeOverlay"
+      light
+    >
+      <div
+        class="d-flex align-center justify-center"
+        style="width: 100vw; height: 100vh; position: relative"
+      >
+        <v-card
+          light
+          class="getStartedCard"
+          :class="{ 'get-started-animation': welcomeAnimation }"
+        >
+          <v-card-text
+            style="background-color: #FFFFFF"
+            class="text-center"
+          >
+            <video
+              loop
+              autoplay
+              muted
+              width="200px"
+            >
+              <source
+                src="https://cdn.vyhub.net/central/welcome-img/server-animated.mp4"
+                type="video/mp4"
+              >
+              <img
+                src="https://cdn.vyhub.net/central/welcome-img/server-fallback.png"
+                alt="Fallback Server img"
+              >
             </video>
             <div>
               Welcome to your new VyHub instance! <br>
               Follow the tutorial in the bottom right to get started. <br>
             </div>
-            <v-btn @click="closeOverlay()" class="mt-5"
-                   size="x-large" color="success">
+            <v-btn
+              class="mt-5"
+              size="x-large"
+              color="success"
+              @click="closeOverlay()"
+            >
               Get Started
               <v-icon size="large">
                 mdi-chevron-right
@@ -50,21 +83,42 @@
             </v-btn>
           </v-card-text>
         </v-card>
-        <v-img class="arrowBottomRight animate__animated animate__pulse animate__infinite
+        <v-img
+          class="arrowBottomRight animate__animated animate__pulse animate__infinite
          animate__delay-2s"
-               max-width="100px" max-height="100px"
-               src="https://cdn.vyhub.net/central/welcome-img/arrow-right.png"/>
+          max-width="100px"
+          max-height="100px"
+          src="https://cdn.vyhub.net/central/welcome-img/arrow-right.png"
+        />
       </div>
     </v-overlay>
 
     <!-- floating first steps button -->
     <v-fade-transition v-if="showCustomerJourney">
-      <v-menu location="top" :close-on-content-click="false" persistent v-model="firstSteps">
-        <template v-slot:activator="{ props }">
-          <v-btn fab dark size="x-large" style="background-color: rgba(255,255,255,0.7)"
-                 fixed location="right bottom"  v-bind="props">
-            <v-btn fab size="large" class="bg-red-darken-2">
-              <v-icon dark>mdi-help</v-icon>
+      <v-menu
+        v-model="firstSteps"
+        location="top"
+        :close-on-content-click="false"
+        persistent
+      >
+        <template #activator="{ props }">
+          <v-btn
+            fab
+            dark
+            size="x-large"
+            style="background-color: rgba(255,255,255,0.7)"
+            fixed
+            location="right bottom"
+            v-bind="props"
+          >
+            <v-btn
+              fab
+              size="large"
+              class="bg-red-darken-2"
+            >
+              <v-icon dark>
+                mdi-help
+              </v-icon>
             </v-btn>
           </v-btn>
         </template>
@@ -73,11 +127,25 @@
     </v-fade-transition>
 
     <!-- Floating Alert to remember to set legal -->
-    <router-link to="settings/legal" class="text-center" v-if="showLegalReminder">
-      <v-alert dark style="left: 50%; top: 10%; margin-left: -150px; position: fixed"
-               width="300px" class="bg-red-darken-2"
-               bottom to="settings/legal">
-        <v-icon dark start>mdi-alert</v-icon>
+    <router-link
+      v-if="showLegalReminder"
+      to="settings/legal"
+      class="text-center"
+    >
+      <v-alert
+        dark
+        style="left: 50%; top: 10%; margin-left: -150px; position: fixed"
+        width="300px"
+        class="bg-red-darken-2"
+        bottom
+        to="settings/legal"
+      >
+        <v-icon
+          dark
+          start
+        >
+          mdi-alert
+        </v-icon>
         {{ $t('_legal.showLegalReminder') }}
       </v-alert>
     </router-link>
@@ -127,6 +195,40 @@ export default Vue.extend({
     firstSteps: false,
     welcomeAnimation: false,
   }),
+  computed: {
+    backgroundColor() {
+      if (this.backgroundImage) {
+        return `background: url(${this.backgroundImage}) no-repeat center fixed !important; background-size: cover;`;
+      }
+      return `background-color: ${this.background}`;
+    },
+    showLegalReminder() {
+      const { user } = this.$store.getters;
+      const general = this.$store.getters.generalConfig;
+      if (user && general) {
+        if (user.admin && !general.legal_exists) {
+          return true;
+        }
+      }
+      return false;
+    },
+    showCustomerJourney() {
+      const { user } = this.$store.getters;
+      const general = this.$store.getters.generalConfig;
+      if (user && general) {
+        if (user.admin && general.enable_customer_journey) {
+          return true;
+        }
+      }
+      return false;
+    },
+    welcomeOverlay() {
+      if (this.showCustomerJourney && !this.$store.getters.hideWelcomeOverlay) {
+        return true;
+      }
+      return false;
+    },
+  },
   created() {
     this.setThemeFromCache();
     this.setApiInterceptor();
@@ -274,40 +376,6 @@ export default Vue.extend({
       const style = document.createElement('style');
       style.innerText = css;
       document.head.appendChild(style);
-    },
-  },
-  computed: {
-    backgroundColor() {
-      if (this.backgroundImage) {
-        return `background: url(${this.backgroundImage}) no-repeat center fixed !important; background-size: cover;`;
-      }
-      return `background-color: ${this.background}`;
-    },
-    showLegalReminder() {
-      const { user } = this.$store.getters;
-      const general = this.$store.getters.generalConfig;
-      if (user && general) {
-        if (user.admin && !general.legal_exists) {
-          return true;
-        }
-      }
-      return false;
-    },
-    showCustomerJourney() {
-      const { user } = this.$store.getters;
-      const general = this.$store.getters.generalConfig;
-      if (user && general) {
-        if (user.admin && general.enable_customer_journey) {
-          return true;
-        }
-      }
-      return false;
-    },
-    welcomeOverlay() {
-      if (this.showCustomerJourney && !this.$store.getters.hideWelcomeOverlay) {
-        return true;
-      }
-      return false;
     },
   },
 });

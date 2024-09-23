@@ -1,9 +1,17 @@
 <template>
-  <v-img v-bind="$attrs" :src="packet.image_url" v-if="packet.image_url">
-    <slot></slot>
+  <v-img
+    v-if="packet.image_url"
+    v-bind="$attrs"
+    :src="packet.image_url"
+  >
+    <slot />
   </v-img>
-  <v-img v-bind="$attrs" src="https://cdn.vyhub.net/vyhub/packet.jpg" v-else>
-    <slot></slot>
+  <v-img
+    v-else
+    v-bind="$attrs"
+    src="https://cdn.vyhub.net/vyhub/packet.jpg"
+  >
+    <slot />
   </v-img>
 </template>
 

@@ -1,27 +1,37 @@
 <template>
-  <v-footer color="footer" padless class="vh-footer justify-center lighten-1">
+  <v-footer
+    color="footer"
+    padless
+    class="vh-footer justify-center lighten-1"
+  >
     <div style="width: 100%">
       <div class="d-flex my-2 flex-wrap justify-center">
         <NavigationLink
+          v-for="(link, index) in navLinks"
+          :key="index"
           class="ml-1"
           :link="link"
           :dark="true"
-          v-for="(link, index) in navLinks"
-          :key="index">
-        </NavigationLink>
+        />
       </div>
-      <div class="footer py-4 text-center text-white" style="width: 100%">
+      <div
+        class="footer py-4 text-center text-white"
+        style="width: 100%"
+      >
         <strong>
           {{ new Date().getFullYear() }}
           <span v-if="$store.getters.generalConfig != null">
-          — {{ $store.getters.generalConfig.community_name }}
-        </span>
+            — {{ $store.getters.generalConfig.community_name }}
+          </span>
           <span v-if="!removeBranding">
-          —
-          <a class="text-decoration-none text-white" href="https://vyhub.net">
-            Powered by VyHub
-          </a>
-        </span>
+            —
+            <a
+              class="text-decoration-none text-white"
+              href="https://vyhub.net"
+            >
+              Powered by VyHub
+            </a>
+          </span>
           —
           {{ version }}
         </strong>
@@ -43,9 +53,6 @@ export default {
       version,
     };
   },
-  beforeMount() {
-    emitter.on('navItemsUpdated', this.links);
-  },
   computed: {
     removeBranding() {
       return this.$store.getters.generalConfig != null
@@ -62,6 +69,9 @@ export default {
       return this.links
         .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || this.$checkProp(l.req_prop) === true));
     },
+  },
+  beforeMount() {
+    emitter.on('navItemsUpdated', this.links);
   },
 };
 </script>

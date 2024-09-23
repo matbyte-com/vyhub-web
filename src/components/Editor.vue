@@ -1,7 +1,11 @@
 <template>
   <div style="position: relative">
-    <vue-editor :editor-toolbar="toolbar" :editorOptions="editorSettings"
-                @ready="ready" v-model="content"></vue-editor>
+    <vue-editor
+      v-model="content"
+      :editor-toolbar="toolbar"
+      :editor-options="editorSettings"
+      @ready="ready"
+    />
   </div>
 </template>
 
@@ -50,6 +54,16 @@ export default {
       },
     };
   },
+  computed: {
+    content: {
+      get() {
+        return this.value;
+      },
+      set(val) {
+        this.$emit('input', val);
+      },
+    },
+  },
   methods: {
     ready(quill) {
       // Get quill instance and register image handler
@@ -66,7 +80,7 @@ export default {
       const { tooltip } = this.quill.theme;
       const originalSave = tooltip.save;
       const originalHide = tooltip.hide;
-      // eslint-disable-next-line func-names
+       
       tooltip.save = function () {
         const range = this.quill.getSelection(true);
         const { value } = this.textbox;
@@ -75,7 +89,7 @@ export default {
         }
       };
       // Called on hide and save.
-      // eslint-disable-next-line func-names
+       
       tooltip.hide = function () {
         tooltip.save = originalSave;
         tooltip.hide = originalHide;
@@ -83,16 +97,6 @@ export default {
       };
       tooltip.edit('image');
       tooltip.textbox.placeholder = 'Embed URL';
-    },
-  },
-  computed: {
-    content: {
-      get() {
-        return this.value;
-      },
-      set(val) {
-        this.$emit('input', val);
-      },
     },
   },
 };

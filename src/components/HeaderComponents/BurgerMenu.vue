@@ -1,39 +1,57 @@
 <template>
   <v-menu offset-y>
-    <template v-slot:activator="{ props }">
-      <v-app-bar-nav-icon v-bind="props"></v-app-bar-nav-icon>
+    <template #activator="{ props }">
+      <v-app-bar-nav-icon v-bind="props" />
     </template>
     <v-list density="compact">
       <!-- render navlinks -->
-      <div v-for="(navLink, index) in navLinks" :key="index">
-        <ListItemLink :link="navLink"/>
+      <div
+        v-for="(navLink, index) in navLinks"
+        :key="index"
+      >
+        <ListItemLink :link="navLink" />
       </div>
       <!-- render helpMenu -->
-      <v-list-group v-on:click.stop="">
-        <template v-slot:activator>
-          <v-icon start>mdi-account-circle</v-icon>
-          <v-list-item-title>{{$t('help')}}</v-list-item-title>
+      <v-list-group @click.stop="">
+        <template #activator>
+          <v-icon start>
+            mdi-account-circle
+          </v-icon>
+          <v-list-item-title>{{ $t('help') }}</v-list-item-title>
         </template>
-        <div v-for="helpLink in helpLinks" :key="helpLink.id">
-          <ListItemLink :sub-sub-link="true" :link="helpLink" />
+        <div
+          v-for="helpLink in helpLinks"
+          :key="helpLink.id"
+        >
+          <ListItemLink
+            :sub-sub-link="true"
+            :link="helpLink"
+          />
         </div>
       </v-list-group>
       <v-divider />
       <div v-if="$store.getters.isLoggedIn">
-        <ShoppingCart :list-item="true"/>
-        <Credits :list-item="true"/>
+        <ShoppingCart :list-item="true" />
+        <Credits :list-item="true" />
       </div>
       <v-divider />
       <!-- render menuTabs + Logout-->
       <div v-if="$store.getters.isLoggedIn">
         <LinkAccountListItem />
-        <v-list-item v-for="(menuLink, index) in menuLinks"
-                     :key="index" :to="menuLink.link">
-          <v-icon start>{{ menuLink.icon }}</v-icon>
+        <v-list-item
+          v-for="(menuLink, index) in menuLinks"
+          :key="index"
+          :to="menuLink.link"
+        >
+          <v-icon start>
+            {{ menuLink.icon }}
+          </v-icon>
           <v-list-item-title>{{ $t(menuLink.title) }}</v-list-item-title>
         </v-list-item>
         <v-list-item @click="emitLogout">
-          <v-icon start>mdi-logout-variant</v-icon>
+          <v-icon start>
+            mdi-logout-variant
+          </v-icon>
           <v-list-item-title>{{ $t('_header.labels.logout') }}</v-list-item-title>
         </v-list-item>
       </div>

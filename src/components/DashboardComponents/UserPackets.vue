@@ -1,29 +1,58 @@
 <template>
-  <v-card class="vh-dashboard-packets card-rounded" flat>
+  <v-card
+    class="vh-dashboard-packets card-rounded"
+    flat
+  >
     <v-tabs grow>
       <v-tab>
-        <v-icon start>mdi-gift-open</v-icon>
+        <v-icon start>
+          mdi-gift-open
+        </v-icon>
         {{ $t('packets') }}
       </v-tab>
       <v-tab-item>
-        <v-card class="card-rounded" flat style="background-color: transparent !important;">
+        <v-card
+          class="card-rounded"
+          flat
+          style="background-color: transparent !important;"
+        >
           <v-card-text>
-            <DataIterator :items="userPackets" :showPageSelector="false">
-              <template v-slot:default="props">
+            <DataIterator
+              :items="userPackets"
+              :show-page-selector="false"
+            >
+              <template #default="props">
                 <v-row>
                   <v-col
                     v-for="userPacket in props.items"
-                    :key="userPacket.id" class="d-flex flex-column"
-                    cols="6" sm="4" md="6" lg="3" xl="6">
-                    <v-card @click="showUserPacketDetails(userPacket)" class="flex-grow-1" border>
-                      <PacketImage height="90" :packet="userPacket.packet"
-                                   :style="(userPacket.active ? '' : 'filter: grayscale(100%)')">
+                    :key="userPacket.id"
+                    class="d-flex flex-column"
+                    cols="6"
+                    sm="4"
+                    md="6"
+                    lg="3"
+                    xl="6"
+                  >
+                    <v-card
+                      class="flex-grow-1"
+                      border
+                      @click="showUserPacketDetails(userPacket)"
+                    >
+                      <PacketImage
+                        height="90"
+                        :packet="userPacket.packet"
+                        :style="(userPacket.active ? '' : 'filter: grayscale(100%)')"
+                      >
                         <v-chip
-                          size="small"
                           v-if="!userPacket.active"
+                          size="small"
                           color="error"
-                          class="ma-2" style="float: left; filter: none;">
-                          <v-icon size="small">mdi-power</v-icon>
+                          class="ma-2"
+                          style="float: left; filter: none;"
+                        >
+                          <v-icon size="small">
+                            mdi-power
+                          </v-icon>
                         </v-chip>
                       </PacketImage>
                       <v-card-subtitle class="pa-2 text-center">
@@ -39,7 +68,11 @@
       </v-tab-item>
     </v-tabs>
 
-    <Dialog :title="$t('_packet.labels.details')" icon="mdi-gift-open" v-model="packetDetailShown">
+    <Dialog
+      v-model="packetDetailShown"
+      :title="$t('_packet.labels.details')"
+      icon="mdi-gift-open"
+    >
       <v-table v-if="currentUserPacket != null">
         <tbody>
           <tr>
@@ -76,30 +109,14 @@ export default {
   components: {
     PacketImage, BoolIcon, DataIterator, Dialog,
   },
+  props: {
+    user: Object,
+  },
   data() {
     return {
       userPackets: [],
       currentUserPacket: null,
     };
-  },
-  props: {
-    user: Object,
-  },
-  beforeMount() {
-    this.fetchData();
-  },
-  methods: {
-    async fetchData() {
-      (await openapi).user_getPackets({ uuid: this.user.id }).then((rsp) => {
-        this.userPackets = rsp.data;
-      }).catch((err) => {
-        console.log(err);
-        this.utils.notifyUnexpectedError(err.response.data);
-      });
-    },
-    showUserPacketDetails(userPacket) {
-      this.currentUserPacket = userPacket;
-    },
   },
   computed: {
     packetDetailShown: {
@@ -116,6 +133,22 @@ export default {
   watch: {
     user() {
       this.fetchData();
+    },
+  },
+  beforeMount() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      (await openapi).user_getPackets({ uuid: this.user.id }).then((rsp) => {
+        this.userPackets = rsp.data;
+      }).catch((err) => {
+        console.log(err);
+        this.utils.notifyUnexpectedError(err.response.data);
+      });
+    },
+    showUserPacketDetails(userPacket) {
+      this.currentUserPacket = userPacket;
     },
   },
 };

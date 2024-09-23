@@ -1,91 +1,156 @@
 <template>
   <div>
     <!-- Top Menu -->
-    <div style="position: fixed; z-index: 5; margin-top: 70px;" class="d-flex"
-         v-if="$checkProp('theme_edit')">
-      <v-card tile style="background-color: #646464A3;"
-           class="pa-1 mt-1">
-        <v-icon size="large" @click="editDrawer = !editDrawer">mdi-cog</v-icon>
+    <div
+      v-if="$checkProp('theme_edit')"
+      style="position: fixed; z-index: 5; margin-top: 70px;"
+      class="d-flex"
+    >
+      <v-card
+        tile
+        style="background-color: #646464A3;"
+        class="pa-1 mt-1"
+      >
+        <v-icon
+          size="large"
+          @click="editDrawer = !editDrawer"
+        >
+          mdi-cog
+        </v-icon>
       </v-card>
     </div>
     <!-- Rendering of Components -->
-    <BuilderWrapper v-for="block in blocksToShow" :key="block.id" :no_wrap="block.no_wrap"
-             :title="block.props_data ? block.props_data.title : null"
-             :height="block.props_data ? block.props_data.height : null"
-             :subtitle="block.props_data ? block.props_data.subtitle : null"
-             :background-color="block.props_data ? block.props_data.backgroundColor : null"
-             :image-url="block.props_data ? block.props_data.imageUrl : null"
-             :white-text="block.props_data ? block.props_data.whiteText : null"
-             :margin-top="block.props_data ? block.props_data.marginTop : 0"
-             :no-title-in-wrapper="block.type === 'NewsPreview'">
-      <component :is="`Builder${block.type}`" v-bind="block.props_data">{{ block.slot }}</component>
+    <BuilderWrapper
+      v-for="block in blocksToShow"
+      :key="block.id"
+      :no_wrap="block.no_wrap"
+      :title="block.props_data ? block.props_data.title : null"
+      :height="block.props_data ? block.props_data.height : null"
+      :subtitle="block.props_data ? block.props_data.subtitle : null"
+      :background-color="block.props_data ? block.props_data.backgroundColor : null"
+      :image-url="block.props_data ? block.props_data.imageUrl : null"
+      :white-text="block.props_data ? block.props_data.whiteText : null"
+      :margin-top="block.props_data ? block.props_data.marginTop : 0"
+      :no-title-in-wrapper="block.type === 'NewsPreview'"
+    >
+      <component
+        :is="`Builder${block.type}`"
+        v-bind="block.props_data"
+      >
+        {{ block.slot }}
+      </component>
     </BuilderWrapper>
     <v-fade-transition>
-      <v-card v-if="blocksToShow == null" width="100vw" height="calc(100vh - 108px)" flat tile>
+      <v-card
+        v-if="blocksToShow == null"
+        width="100vw"
+        height="calc(100vh - 108px)"
+        flat
+        tile
+      >
         <div style="position: absolute; left: 50%; top: 50%">
-          <v-progress-circular indeterminate size="50" />
+          <v-progress-circular
+            indeterminate
+            size="50"
+          />
         </div>
       </v-card>
     </v-fade-transition>
     <!-- Side Menu -->
     <v-navigation-drawer
-      style="z-index: 201"
       v-if="$checkProp('theme_edit')"
       v-model="editDrawer"
+      style="z-index: 201"
       :location="drawerRight ? 'right' : undefined"
       :permanent="newComponentDialog"
       app
       location="bottom"
       width="400px"
-      temporary>
-      <v-list-item class="elevation-3" density="compact">
-
-          <v-list-item-title class="d-flex align-center">
-            {{ $t('_component.components') }}
-            <v-spacer/>
-            <v-icon start @click="drawerRight = !drawerRight">
-              {{ drawerRight ? 'mdi-border-left-variant' : 'mdi-border-right-variant' }}
-            </v-icon>
-            <v-icon
-              ref="closeDrawerIcon"
-              @click="closeDrawer();"
-              class="animate__animated animate__faster">
-              mdi-close
-            </v-icon>
-          </v-list-item-title>
-
+      temporary
+    >
+      <v-list-item
+        class="elevation-3"
+        density="compact"
+      >
+        <v-list-item-title class="d-flex align-center">
+          {{ $t('_component.components') }}
+          <v-spacer />
+          <v-icon
+            start
+            @click="drawerRight = !drawerRight"
+          >
+            {{ drawerRight ? 'mdi-border-left-variant' : 'mdi-border-right-variant' }}
+          </v-icon>
+          <v-icon
+            ref="closeDrawerIcon"
+            class="animate__animated animate__faster"
+            @click="closeDrawer();"
+          >
+            mdi-close
+          </v-icon>
+        </v-list-item-title>
       </v-list-item>
-      <v-divider/>
+      <v-divider />
       <div style="max-height: 75vh; overflow-y: auto">
-        <v-expansion-panels variant="accordion" flat tile v-model="panelExposed" >
-          <draggable v-model="blocks" @change="orderUpdated = true" style="width: 100%;
-         border-style: none" :disabled="panelExposed != null">
-            <v-expansion-panel v-for="(component, index) in blocks" :key="index">
+        <v-expansion-panels
+          v-model="panelExposed"
+          variant="accordion"
+          flat
+          tile
+        >
+          <draggable
+            v-model="blocks"
+            style="width: 100%;
+         border-style: none"
+            :disabled="panelExposed != null"
+            @change="orderUpdated = true"
+          >
+            <v-expansion-panel
+              v-for="(component, index) in blocks"
+              :key="index"
+            >
               <v-expansion-panel-title class="py-0 my-0">
                 <div :class="{ 'text-decoration-line-through' : component.deleted }">
                   {{ getComponentTitle(component) }}
                 </div>
-                <v-spacer/>
+                <v-spacer />
                 <div class="text-right">
                   <v-fade-transition>
-                    <v-icon size="small" v-show="panelExposed == null">
+                    <v-icon
+                      v-show="panelExposed == null"
+                      size="small"
+                    >
                       mdi-drag-variant
                     </v-icon>
                   </v-fade-transition>
-                  <v-icon size="small" class="ml-1" olor="secondary" @click.stop="copyBlock(component)">
+                  <v-icon
+                    size="small"
+                    class="ml-1"
+                    olor="secondary"
+                    @click.stop="copyBlock(component)"
+                  >
                     mdi-content-copy
                   </v-icon>
-                  <v-icon :color="component.deleted ? '' : 'error'"
-                          @click.stop="toggleDeleteBlock(component)">
+                  <v-icon
+                    :color="component.deleted ? '' : 'error'"
+                    @click.stop="toggleDeleteBlock(component)"
+                  >
                     mdi-delete
                   </v-icon>
                 </div>
               </v-expansion-panel-title>
               <v-expansion-panel-text>
-                <v-form ref="form" @submit.prevent="">
-                  <v-jsf :options="vjsfOptions" style="z-index: 202"
-                         @input="component.edited = true; componentEdited=true"
-                         v-model="component.props_data" :schema="getComponentSchema(component)"/>
+                <v-form
+                  ref="form"
+                  @submit.prevent=""
+                >
+                  <v-jsf
+                    v-model="component.props_data"
+                    :options="vjsfOptions"
+                    style="z-index: 202"
+                    :schema="getComponentSchema(component)"
+                    @input="component.edited = true; componentEdited=true"
+                  />
                 </v-form>
               </v-expansion-panel-text>
             </v-expansion-panel>
@@ -93,33 +158,77 @@
         </v-expansion-panels>
       </div>
       <v-list-item>
-
-          <v-btn variant="outlined"
-                 @click="$refs.addComponentDialog.show();newComponentDialog = true;">
-            <v-icon start>mdi-plus</v-icon>
-            {{ $t('_component.addComponent') }}
-          </v-btn>
-
+        <v-btn
+          variant="outlined"
+          @click="$refs.addComponentDialog.show();newComponentDialog = true;"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
+          {{ $t('_component.addComponent') }}
+        </v-btn>
       </v-list-item>
       <v-list-item>
-        <v-btn size="small" variant="text" @click="fetchData"><v-icon>mdi-restore</v-icon></v-btn>
-        <v-btn variant="flat" class="ml-3 grow" color="success" :disabled="!saveButton"
-               @click="savePage">Save</v-btn>
+        <v-btn
+          size="small"
+          variant="text"
+          @click="fetchData"
+        >
+          <v-icon>mdi-restore</v-icon>
+        </v-btn>
+        <v-btn
+          variant="flat"
+          class="ml-3 grow"
+          color="success"
+          :disabled="!saveButton"
+          @click="savePage"
+        >
+          Save
+        </v-btn>
       </v-list-item>
     </v-navigation-drawer>
-    <Dialog ref="addComponentDialog" :title="$t('_component.addComponent')" icon="mdi-image-plus"
-            :max-width="1000"
-            @close="newComponentDialog = false">
+    <Dialog
+      ref="addComponentDialog"
+      :title="$t('_component.addComponent')"
+      icon="mdi-image-plus"
+      :max-width="1000"
+      @close="newComponentDialog = false"
+    >
       <div style="height: 80vh">
-        <v-text-field variant="outlined" hide-details="auto" density="compact" class="mt-3" append-icon="mdi-magnify"
-                      v-model="addComponentSearch" :label="$t('search')"/>
-        <transition-group tag="div" class="mt-3 row" name="list-complete">
-          <v-col cols="6" md="4" lg="4" v-for="cp in availableComponentsSearch" :key="cp.component"
-                 class="list-complete-item">
-            <v-card @click="addComponent(cp)" style="height: 100%"
-                    class="d-flex flex-column flex-grow-1" hover>
-              <v-img style="background-color: #e0e0e0"
-                     :src="cp.previewImage" height="100px" contain/>
+        <v-text-field
+          v-model="addComponentSearch"
+          variant="outlined"
+          hide-details="auto"
+          density="compact"
+          class="mt-3"
+          append-icon="mdi-magnify"
+          :label="$t('search')"
+        />
+        <transition-group
+          tag="div"
+          class="mt-3 row"
+          name="list-complete"
+        >
+          <v-col
+            v-for="cp in availableComponentsSearch"
+            :key="cp.component"
+            cols="6"
+            md="4"
+            lg="4"
+            class="list-complete-item"
+          >
+            <v-card
+              style="height: 100%"
+              class="d-flex flex-column flex-grow-1"
+              hover
+              @click="addComponent(cp)"
+            >
+              <v-img
+                style="background-color: #e0e0e0"
+                :src="cp.previewImage"
+                height="100px"
+                contain
+              />
               <v-spacer />
               <div class="text-center text-h5">
                 {{ cp.title }}
@@ -127,7 +236,10 @@
               <v-spacer />
             </v-card>
           </v-col>
-          <v-col v-if="availableComponentsSearch.length === 0" :key="1">
+          <v-col
+            v-if="availableComponentsSearch.length === 0"
+            :key="1"
+          >
             {{ $t('noDataAvailable') }}
           </v-col>
         </transition-group>
@@ -157,10 +269,6 @@ export default {
     Dialog,
     draggable,
   },
-  beforeMount() {
-    this.fetchData();
-    this.redirectWhenDisabled();
-  },
   data() {
     return {
       editDrawer: false,
@@ -185,6 +293,26 @@ export default {
         },
       },
     };
+  },
+  computed: {
+    blocksToShow() {
+      if (this.blocks == null) return null;
+      return this.blocks.filter((block) => !block.deleted);
+    },
+    saveButton() {
+      if (this.orderUpdated || this.componentAdded || this.componentEdited) return true;
+      return false;
+    },
+    availableComponentsSearch() {
+      return this.availableComponents
+        .filter((cp) => cp.title.toLowerCase().includes(this.addComponentSearch.toLowerCase())
+          || cp.keywords.filter((k) => k.toLowerCase()
+            .includes(this.addComponentSearch.toLowerCase())).length > 0);
+    },
+  },
+  beforeMount() {
+    this.fetchData();
+    this.redirectWhenDisabled();
   },
   methods: {
     async redirectWhenDisabled() {
@@ -218,9 +346,9 @@ export default {
         if (b.new && !b.deleted) {
           const p = api.design_createSection(null, b).then((rsp) => {
             console.log('Section Created');
-            // eslint-disable-next-line no-param-reassign
+             
             b.new = false;
-            // eslint-disable-next-line no-param-reassign
+             
             b.id = rsp.data.id;
           });
           promises.push(p);
@@ -360,22 +488,6 @@ export default {
       const el = this.availableComponents.find((c) => c.component === cp.type);
       if (!el) return cp.type;
       return el.title;
-    },
-  },
-  computed: {
-    blocksToShow() {
-      if (this.blocks == null) return null;
-      return this.blocks.filter((block) => !block.deleted);
-    },
-    saveButton() {
-      if (this.orderUpdated || this.componentAdded || this.componentEdited) return true;
-      return false;
-    },
-    availableComponentsSearch() {
-      return this.availableComponents
-        .filter((cp) => cp.title.toLowerCase().includes(this.addComponentSearch.toLowerCase())
-          || cp.keywords.filter((k) => k.toLowerCase()
-            .includes(this.addComponentSearch.toLowerCase())).length > 0);
     },
   },
 };

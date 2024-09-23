@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/shop/tax">
+    <SettingTitle doc-path="/guide/shop/tax">
       {{ $t('_shop.labels.taxRules') }}
     </SettingTitle>
 
@@ -8,14 +8,21 @@
       :headers="headers"
       :items="taxRules"
       :sort-by="['country']"
-      :showSearch="true">
-      <template v-slot:footer-right>
-        <v-btn variant="outlined" color="success" @click="$refs.createTaxRuleDialog.show()">
-          <v-icon start>mdi-plus</v-icon>
+      :show-search="true"
+    >
+      <template #footer-right>
+        <v-btn
+          variant="outlined"
+          color="success"
+          @click="$refs.createTaxRuleDialog.show()"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
           <span>{{ $t('_taxRule.labels.create') }}</span>
         </v-btn>
       </template>
-      <template v-slot:item.country="{ item }">
+      <template #item.country="{ item }">
         <div v-if="item.country != null">
           <v-chip>
             {{ countryUnicodeFlags(item.country.code) }}
@@ -24,17 +31,24 @@
         </div>
         <div v-else>
           <v-chip color="primary">
-            <v-icon start>mdi-earth</v-icon>
+            <v-icon start>
+              mdi-earth
+            </v-icon>
             {{ $t('all') }}
           </v-chip>
         </div>
       </template>
-      <template v-slot:item.percentage="{ item }">
+      <template #item.percentage="{ item }">
         {{ item.percentage }}%
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <div class="text-right">
-          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteTaxRuleDialog.show(item)">
+          <v-btn
+            variant="outlined"
+            color="error"
+            size="small"
+            @click="$refs.deleteTaxRuleDialog.show(item)"
+          >
             <v-icon>
               mdi-delete
             </v-icon>
@@ -46,12 +60,14 @@
       ref="createTaxRuleDialog"
       :form-schema="taxRuleSchema"
       icon="mdi-credit-card-plus"
-      :submitText="$t('create')"
+      :submit-text="$t('create')"
+      :title="$t('_taxRule.labels.create')"
       @submit="createTaxRule"
-      :title="$t('_taxRule.labels.create')"/>
+    />
     <DeleteConfirmationDialog
       ref="deleteTaxRuleDialog"
-      @submit="deleteTaxRule"/>
+      @submit="deleteTaxRule"
+    />
   </div>
 </template>
 

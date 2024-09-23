@@ -1,135 +1,167 @@
 <template>
-<div>
-  <ConfirmationDialog :btn-text="$t('_notification.markAllAsRead')"
-                      @submit="markAllAsRead" ref="markAsReadDialog"/>
-  <PageTitleFlat :title="$t('_notification.notifications')"
-                 :hide-triangle="$vuetify.display.smAndDown"
-                 :no-bottom-border-radius="$vuetify.display.smAndDown"/>
-  <v-card flat class="card-rounded"
-          :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
-           'no-top-border-radius': $vuetify.display.smAndDown }">
-    <v-card-text class="pt-1">
-      <v-fade-transition>
-        <v-btn variant="flat" color="primary" v-if="newMessages" @click="fetchData()" class="mt-3">
-          <v-icon start>
-            mdi-sync
-          </v-icon>
-          {{ $t('_notification.newNotifications') }}
-        </v-btn>
-      </v-fade-transition>
-      <PaginatedDataTable
-        :show-search="false"
-        ref="notificationTable"
-        class="mt-4"
-        :headers="headers"
-        :items="notifications"
-        :totalItems="totalItems"
-        default-sort-by="created_on"
-        :default-sort-desc="true"
-        @click:row="rowClick"
-        @reload="fetchData">
-        <template v-slot:header>
-          <div class="d-flex align-center">
-            <v-spacer v-if="$vuetify.display.xs" />
-            <v-btn
-              variant="outlined"
-              color="primary"
-              @click="$refs.markAsReadDialog.show">
-              <v-icon start>
-                mdi-playlist-check
-              </v-icon>
-              {{ $t('_notification.markAllAsRead') }}
-            </v-btn>
-            <v-spacer />
-            <v-checkbox
-              :hide-details="true"
-              dense
-              v-model="showOnlyReadItems"
-              :label="$t('_notification.hideReadNotifications')"
-              @update:model-value="fetchData"
-              class="mr-3 align-self-center mt-0 pt-0">
-            </v-checkbox>
-            <v-menu offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ props }">
-                <v-btn
-                  variant="outlined"
-                  color="primary"
-
-                  v-bind="props">
-                  <v-icon start>
-                    mdi-filter
-                  </v-icon>
-                  {{ $t('type') }}
-                </v-btn>
-              </template>
-              <v-checkbox
-                class="ml-2, mr-2"
-                dense
-                hide-details
-                v-for="(category, index) in categories"
-                :key="index"
-                v-model="selectedCat"
-                :label="$t(`_notification.type.${category.toLowerCase()}`)"
-                :value="category"
-                @update:model-value="fetchData"
-              ></v-checkbox>
-              <a class="ma-1" @click="selectedCat = []; fetchData()">{{ $t('reset') }}</a>
-            </v-menu>
-          </div>
-        </template>
-        <template v-slot:item.icon="{ item }">
-          <v-icon>
-            {{ item.message.kwargs.icon }}
-          </v-icon>
-        </template>
-        <template v-slot:item.message="{ item }">
-          <span :class="{ 'font-weight-medium': !item.read }">
-            {{ $t(`_notification.${item.message.name}`, { ...item.message.kwargs }) }}
-          </span>
-        </template>
-        <template v-slot:item.category="{ item }">
-          <span :class="{ 'font-weight-medium': !item.read }">
-             {{ $t(`_notification.type.${item.category.toLowerCase()}`) }}
-          </span>
-        </template>
-        <template v-slot:item.time="{ item }" >
-          <span :class="{ 'font-weight-medium': !item.read }">
-            {{ $t('_notification.timeAgo', {
-            time: utils.formatElapsedTime((new Date() - new Date(item.created_on)))
-          }) }}
-          </span>
-        </template>
-        <template v-slot:item.action="{ item }" >
-          <div class="text-right">
-            <v-tooltip location="left" v-if="item.link">
-              <template v-slot:activator="{ props }">
-                <v-icon
-                        v-bind="props" class="mr-1">
-                  mdi-open-in-new
+  <div>
+    <ConfirmationDialog
+      ref="markAsReadDialog"
+      :btn-text="$t('_notification.markAllAsRead')"
+      @submit="markAllAsRead"
+    />
+    <PageTitleFlat
+      :title="$t('_notification.notifications')"
+      :hide-triangle="$vuetify.display.smAndDown"
+      :no-bottom-border-radius="$vuetify.display.smAndDown"
+    />
+    <v-card
+      flat
+      class="card-rounded"
+      :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+                'no-top-border-radius': $vuetify.display.smAndDown }"
+    >
+      <v-card-text class="pt-1">
+        <v-fade-transition>
+          <v-btn
+            v-if="newMessages"
+            variant="flat"
+            color="primary"
+            class="mt-3"
+            @click="fetchData()"
+          >
+            <v-icon start>
+              mdi-sync
+            </v-icon>
+            {{ $t('_notification.newNotifications') }}
+          </v-btn>
+        </v-fade-transition>
+        <PaginatedDataTable
+          ref="notificationTable"
+          :show-search="false"
+          class="mt-4"
+          :headers="headers"
+          :items="notifications"
+          :total-items="totalItems"
+          default-sort-by="created_on"
+          :default-sort-desc="true"
+          @click:row="rowClick"
+          @reload="fetchData"
+        >
+          <template #header>
+            <div class="d-flex align-center">
+              <v-spacer v-if="$vuetify.display.xs" />
+              <v-btn
+                variant="outlined"
+                color="primary"
+                @click="$refs.markAsReadDialog.show"
+              >
+                <v-icon start>
+                  mdi-playlist-check
                 </v-icon>
-              </template>
-              <span>{{ $t('_notification.isLink') }}</span>
-            </v-tooltip>
-            <v-tooltip location="left">
-              <template v-slot:activator="{ props }">
-                <v-btn variant="text" v-bind="props" @click.stop="toggleReadStatus(item)">
-                  <v-icon v-if="item.read">
-                    mdi-email-outline
+                {{ $t('_notification.markAllAsRead') }}
+              </v-btn>
+              <v-spacer />
+              <v-checkbox
+                v-model="showOnlyReadItems"
+                :hide-details="true"
+                dense
+                :label="$t('_notification.hideReadNotifications')"
+                class="mr-3 align-self-center mt-0 pt-0"
+                @update:model-value="fetchData"
+              />
+              <v-menu
+                offset-y
+                :close-on-content-click="false"
+              >
+                <template #activator="{ props }">
+                  <v-btn
+                    variant="outlined"
+                    color="primary"
+
+                    v-bind="props"
+                  >
+                    <v-icon start>
+                      mdi-filter
+                    </v-icon>
+                    {{ $t('type') }}
+                  </v-btn>
+                </template>
+                <v-checkbox
+                  v-for="(category, index) in categories"
+                  :key="index"
+                  v-model="selectedCat"
+                  class="ml-2, mr-2"
+                  dense
+                  hide-details
+                  :label="$t(`_notification.type.${category.toLowerCase()}`)"
+                  :value="category"
+                  @update:model-value="fetchData"
+                />
+                <a
+                  class="ma-1"
+                  @click="selectedCat = []; fetchData()"
+                >{{ $t('reset') }}</a>
+              </v-menu>
+            </div>
+          </template>
+          <template #item.icon="{ item }">
+            <v-icon>
+              {{ item.message.kwargs.icon }}
+            </v-icon>
+          </template>
+          <template #item.message="{ item }">
+            <span :class="{ 'font-weight-medium': !item.read }">
+              {{ $t(`_notification.${item.message.name}`, { ...item.message.kwargs }) }}
+            </span>
+          </template>
+          <template #item.category="{ item }">
+            <span :class="{ 'font-weight-medium': !item.read }">
+              {{ $t(`_notification.type.${item.category.toLowerCase()}`) }}
+            </span>
+          </template>
+          <template #item.time="{ item }">
+            <span :class="{ 'font-weight-medium': !item.read }">
+              {{ $t('_notification.timeAgo', {
+                time: utils.formatElapsedTime((new Date() - new Date(item.created_on)))
+              }) }}
+            </span>
+          </template>
+          <template #item.action="{ item }">
+            <div class="text-right">
+              <v-tooltip
+                v-if="item.link"
+                location="left"
+              >
+                <template #activator="{ props }">
+                  <v-icon
+                    v-bind="props"
+                    class="mr-1"
+                  >
+                    mdi-open-in-new
                   </v-icon>
-                  <v-icon v-else>
-                    mdi-email-open-outline
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span v-if="item.read">{{ $t('_notification.markUnRead') }}</span>
-              <span v-else>{{ $t('_notification.markRead') }}</span>
-            </v-tooltip>
-          </div>
-        </template>
-      </PaginatedDataTable>
-    </v-card-text>
-  </v-card>
-</div>
+                </template>
+                <span>{{ $t('_notification.isLink') }}</span>
+              </v-tooltip>
+              <v-tooltip location="left">
+                <template #activator="{ props }">
+                  <v-btn
+                    variant="text"
+                    v-bind="props"
+                    @click.stop="toggleReadStatus(item)"
+                  >
+                    <v-icon v-if="item.read">
+                      mdi-email-outline
+                    </v-icon>
+                    <v-icon v-else>
+                      mdi-email-open-outline
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span v-if="item.read">{{ $t('_notification.markUnRead') }}</span>
+                <span v-else>{{ $t('_notification.markRead') }}</span>
+              </v-tooltip>
+            </div>
+          </template>
+        </PaginatedDataTable>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -219,7 +251,7 @@ export default {
           type: 'success',
         });
       });
-      // eslint-disable-next-line no-param-reassign
+       
       item.read = !item.read;
     },
   },

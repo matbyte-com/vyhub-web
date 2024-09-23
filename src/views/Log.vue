@@ -1,19 +1,34 @@
 <template>
   <div>
-    <PageTitleFlat :title="$t('log')" :hide-triangle="true"/>
-    <v-card class="card-rounded-bottom" flat
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
-           'no-top-border-radius': $vuetify.display.smAndDown }">
+    <PageTitleFlat
+      :title="$t('log')"
+      :hide-triangle="true"
+    />
+    <v-card
+      class="card-rounded-bottom"
+      flat
+      :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+                'no-top-border-radius': $vuetify.display.smAndDown }"
+    >
       <v-card-text>
-        <v-row dense align="center">
-          <v-col cols="12" sm="6" md="4" xl="2">
+        <v-row
+          dense
+          align="center"
+        >
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            xl="2"
+          >
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto">
-              <template v-slot:activator="{ props }">
+              min-width="auto"
+            >
+              <template #activator="{ props }">
                 <v-text-field
                   v-model="startDate"
                   :label="$t('start')"
@@ -23,22 +38,28 @@
                   class="ml-3"
 
                   v-bind="props"
-                ></v-text-field>
+                />
               </template>
               <v-date-picker
                 v-model="startDate"
-                @input="fetchData">
-              </v-date-picker>
+                @input="fetchData"
+              />
             </v-menu>
           </v-col>
-          <v-col cols="12" sm="6" md="4" xl="1">
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            xl="1"
+          >
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto">
-              <template v-slot:activator="{ props }">
+              min-width="auto"
+            >
+              <template #activator="{ props }">
                 <v-text-field
                   v-model="startTime"
                   :label="$t('start')"
@@ -48,121 +69,162 @@
                   class="ml-3"
 
                   v-bind="props"
-                ></v-text-field>
+                />
               </template>
               <v-time-picker
-                format="24hr"
                 v-model="startTime"
-                @input="fetchData">
-              </v-time-picker>
+                format="24hr"
+                @input="fetchData"
+              />
             </v-menu>
           </v-col>
-          <v-col cols="12" sm="6" md="4" xl="2">
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            xl="2"
+          >
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto">
-              <template v-slot:activator="{ props }">
+              min-width="auto"
+            >
+              <template #activator="{ props }">
                 <v-text-field
-                  class="ml-5"
                   v-model="endDate"
+                  class="ml-5"
                   :label="$t('end')"
                   prepend-icon="mdi-calendar"
                   readonly
                   hide-details
 
                   v-bind="props"
-                ></v-text-field>
+                />
               </template>
               <v-date-picker
                 v-model="endDate"
                 @input="fetchData"
-              ></v-date-picker>
+              />
             </v-menu>
           </v-col>
-          <v-col cols="12" sm="6" md="4" xl="1">
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            xl="1"
+          >
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
               offset-y
-              min-width="auto">
-              <template v-slot:activator="{ props }">
+              min-width="auto"
+            >
+              <template #activator="{ props }">
                 <v-text-field
-                  class="ml-3"
                   v-model="endTime"
+                  class="ml-3"
                   :label="$t('end')"
                   prepend-icon="mdi-clock-time-four-outline"
                   hide-details
                   readonly
 
                   v-bind="props"
-                ></v-text-field>
+                />
               </template>
               <v-time-picker
-                format="24hr"
                 v-model="endTime"
-                @input="fetchData">
-              </v-time-picker>
+                format="24hr"
+                @input="fetchData"
+              />
             </v-menu>
           </v-col>
-          <v-col cols="6" md="4" xl="2">
-            <v-menu offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ props }">
+          <v-col
+            cols="6"
+            md="4"
+            xl="2"
+          >
+            <v-menu
+              offset-y
+              :close-on-content-click="false"
+            >
+              <template #activator="{ props }">
                 <v-btn
                   class="ml-3"
                   variant="outlined"
                   color="primary"
 
-                  v-bind="props">
+                  v-bind="props"
+                >
                   <v-icon start>
                     mdi-filter
                   </v-icon>
                   {{ $t('_log.labels.level') }}
                 </v-btn>
               </template>
-              <v-radio-group v-model="selectedSeverity" class="mx-2">
+              <v-radio-group
+                v-model="selectedSeverity"
+                class="mx-2"
+              >
                 <v-radio
-                  dense
-                  hide-details
                   v-for="(severity, index) in severities"
                   :key="index"
+                  dense
+                  hide-details
                   :label="severity"
                   :value="severity"
-                ></v-radio>
+                />
               </v-radio-group>
-              <a class="ma-1" @click="selectedSeverity = null;">{{ $t('reset') }}</a>
+              <a
+                class="ma-1"
+                @click="selectedSeverity = null;"
+              >{{ $t('reset') }}</a>
             </v-menu>
-            <v-menu offset-y :close-on-content-click="false">
-              <template v-slot:activator="{ props }">
+            <v-menu
+              offset-y
+              :close-on-content-click="false"
+            >
+              <template #activator="{ props }">
                 <v-btn
                   class="ml-3"
                   variant="outlined"
                   color="primary"
 
-                  v-bind="props">
+                  v-bind="props"
+                >
                   <v-icon start>
                     mdi-filter
                   </v-icon>
                   {{ $t('category') }}
                 </v-btn>
               </template>
-              <v-radio-group v-model="selectedCat" class="mx-2">
+              <v-radio-group
+                v-model="selectedCat"
+                class="mx-2"
+              >
                 <v-radio
-                  dense
-                  hide-details
                   v-for="(category, index) in categories"
                   :key="index"
+                  dense
+                  hide-details
                   :label="category"
                   :value="category"
-                ></v-radio>
+                />
               </v-radio-group>
-              <a class="ma-1" @click="selectedCat = null;">{{ $t('reset') }}</a>
+              <a
+                class="ma-1"
+                @click="selectedCat = null;"
+              >{{ $t('reset') }}</a>
             </v-menu>
           </v-col>
-          <v-col cols="12" sm="6" md="4" xl="2">
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            xl="2"
+          >
             <v-text-field
               v-model="search"
               :label="$t('search')"
@@ -170,29 +232,52 @@
               variant="outlined"
               class="ml-3"
               density="compact"
-              @change="fetchLogs">
-              <template v-slot:prepend-inner>
+              @change="fetchLogs"
+            >
+              <template #prepend-inner>
                 <v-icon>
                   mdi-magnify
                 </v-icon>
               </template>
             </v-text-field>
           </v-col>
-          <v-col cols="12" sm="6" md="4" xl="2" class="text-center">
-            <v-btn class="ml-3" variant="outlined" color="primary" icon
-                   @click="$refs.labelFilterDialog.show()">
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            xl="2"
+            class="text-center"
+          >
+            <v-btn
+              class="ml-3"
+              variant="outlined"
+              color="primary"
+              icon
+              @click="$refs.labelFilterDialog.show()"
+            >
               <v-icon>
                 mdi-filter-plus
               </v-icon>
             </v-btn>
-            <v-btn class="ml-3" variant="outlined" color="error" icon
-                   @click="resetFilters" :disabled="Object.keys(this.filteredLabels).length === 0">
+            <v-btn
+              class="ml-3"
+              variant="outlined"
+              color="error"
+              icon
+              :disabled="Object.keys(filteredLabels).length === 0"
+              @click="resetFilters"
+            >
               <v-icon>
                 mdi-filter-off
               </v-icon>
             </v-btn>
-            <v-btn class="ml-3" variant="outlined" color="primary" icon
-                   @click="fetchData">
+            <v-btn
+              class="ml-3"
+              variant="outlined"
+              color="primary"
+              icon
+              @click="fetchData"
+            >
               <v-icon>
                 mdi-refresh
               </v-icon>
@@ -201,11 +286,18 @@
         </v-row>
       </v-card-text>
     </v-card>
-    <v-alert color="error" icon="mdi-information-outline" v-if="logs && logs.length >= 1000"
-             class="mt-2">
+    <v-alert
+      v-if="logs && logs.length >= 1000"
+      color="error"
+      icon="mdi-information-outline"
+      class="mt-2"
+    >
       {{ $t('_log.messages.limitReachedFilter') }}
     </v-alert>
-    <v-card class="card-rounded" flat>
+    <v-card
+      class="card-rounded"
+      flat
+    >
       <v-card-text class="mt-0 pt-0">
         <DataTable
           ref="logTable"
@@ -215,14 +307,17 @@
           default-sort-by="created_on"
           :default-sort-desc="true"
           show-expand
-          @reload="fetchData">
-          <template v-slot:item.message="{ item }">
-            <div class="text-truncate"
-                 :style="{'max-width': $vuetify.display.width / 2.2 + 'px'}">
+          @reload="fetchData"
+        >
+          <template #item.message="{ item }">
+            <div
+              class="text-truncate"
+              :style="{'max-width': $vuetify.display.width / 2.2 + 'px'}"
+            >
               {{ item.message }}
             </div>
           </template>
-          <template v-slot:expanded-item="{ headers, item }">
+          <template #expanded-item="{ headers, item }">
             <td :colspan="headers.length">
               <div class=" mt-3">
                 <span class="text-subtitle-1 mb-1">{{ $t('message') }}:</span>
@@ -234,37 +329,60 @@
               </div>
               <div class="my-2">
                 <span class="text-subtitle-1">{{ $t('labels') }}:</span>
-                <br/>
-                <LogLabel :label="label" :value="value"
-                          @click="selectedFilters = {}; selectedFilters[label] = value;"
-                          v-for="(value, label) in cleanedLabels(item.labels)" v-bind:key="label"
-                          class="mr-2">
-                </LogLabel>
+                <br>
+                <LogLabel
+                  v-for="(value, label) in cleanedLabels(item.labels)"
+                  :key="label"
+                  :label="label"
+                  :value="value"
+                  class="mr-2"
+                  @click="selectedFilters = {}; selectedFilters[label] = value;"
+                />
               </div>
             </td>
           </template>
-          <template v-slot:item.author="{ item }">
+          <template #item.author="{ item }">
             <div v-if="item.author != null">
-              <UserLink :user="item.author"/>
+              <UserLink :user="item.author" />
             </div>
             <div v-else>
               -
             </div>
           </template>
-          <template v-slot:item.severity="{ item }">
+          <template #item.severity="{ item }">
             <v-tooltip location="left">
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <div v-bind="props">
-                  <v-icon color="info" v-if="item.severity === 'INFO'">mdi-information</v-icon>
-                  <v-icon color="warning" v-if="item.severity === 'WARNING'">mdi-alert</v-icon>
-                  <v-icon color="error" v-if="item.severity === 'ERROR'">mdi-alert-circle</v-icon>
-                  <v-icon color="success" v-if="item.severity === 'DEBUG'">mdi-shield-bug</v-icon>
+                  <v-icon
+                    v-if="item.severity === 'INFO'"
+                    color="info"
+                  >
+                    mdi-information
+                  </v-icon>
+                  <v-icon
+                    v-if="item.severity === 'WARNING'"
+                    color="warning"
+                  >
+                    mdi-alert
+                  </v-icon>
+                  <v-icon
+                    v-if="item.severity === 'ERROR'"
+                    color="error"
+                  >
+                    mdi-alert-circle
+                  </v-icon>
+                  <v-icon
+                    v-if="item.severity === 'DEBUG'"
+                    color="success"
+                  >
+                    mdi-shield-bug
+                  </v-icon>
                 </div>
               </template>
               <span>{{ item.severity }}</span>
             </v-tooltip>
           </template>
-          <template v-slot:item.time="{ item }">
+          <template #item.time="{ item }">
             <span>
               {{
                 $t('_notification.timeAgo', {
@@ -276,11 +394,15 @@
         </DataTable>
       </v-card-text>
     </v-card>
-    <DialogForm ref="labelFilterDialog" :max-width="500" :title="$t('filter')"
-                icon="mdi-filter-plus"
-                @submit="applyAdvancedFilters" @cancel="selectedFilters = {}"
-                :form-schema="advancedFiltersFormSchema">
-    </DialogForm>
+    <DialogForm
+      ref="labelFilterDialog"
+      :max-width="500"
+      :title="$t('filter')"
+      icon="mdi-filter-plus"
+      :form-schema="advancedFiltersFormSchema"
+      @submit="applyAdvancedFilters"
+      @cancel="selectedFilters = {}"
+    />
   </div>
 </template>
 
@@ -332,73 +454,6 @@ export default {
         { text: this.$t('category'), value: 'category', sortable: false },
       ],
     };
-  },
-  mounted() {
-    this.fetchData();
-  },
-  methods: {
-    async fetchLabels() {
-      (await openapi).log_getLabels({
-        start: this.start.toISOString(),
-        end: this.end.toISOString(),
-      }).then((rsp) => {
-        this.labels = rsp.data;
-      });
-    },
-    async fetchLogs() {
-      let query = null;
-
-      if (Object.keys(this.filteredLabels).length > 0) {
-        const labels = Object.entries(this.filteredLabels).map(([key, value]) => `${key}=${JSON.stringify(value.trim())}`);
-        query = `{${labels}}`;
-      }
-
-      this.logs = null;
-      (await openapi).log_getLog({
-        start: this.start.toISOString(),
-        end: this.end.toISOString(),
-        query,
-        search: this.search,
-      }).then((rsp) => {
-        this.logs = rsp.data;
-      });
-    },
-    async fetchData() {
-      this.fetchLabels();
-      this.fetchLogs();
-    },
-    cleanedLabels(labels) {
-      const newLabels = labels;
-
-      delete newLabels.app;
-      delete newLabels.category;
-      delete newLabels.author_username;
-      delete newLabels.author_id;
-      delete newLabels.logger;
-      delete newLabels.severity;
-      delete newLabels.log_entry_id;
-
-      return newLabels;
-    },
-    applyAdvancedFilters() {
-      this.selectedFilters = this.$refs.labelFilterDialog.getData();
-      this.$refs.labelFilterDialog.close();
-    },
-    datediff(first, second) {
-      return Math.round((second - first) / (1000 * 60 * 60 * 24));
-    },
-    resetFilters() {
-      this.selectedCat = null;
-      this.selectedSeverity = null;
-      this.selectedFilters = {};
-      this.search = null;
-      this.fetchData();
-    },
-    async downloadOldLogs() {
-      (await openapi).log_getOldLogCsv().then((rsp) => {
-        this.utils.showFile(rsp.data, 'vyhub_old_logs.csv', 'text/csv');
-      });
-    },
   },
   computed: {
     start() {
@@ -486,6 +541,73 @@ export default {
         newDate.setDate(newDate.getDate() + this.maxIntervalDays);
         [this.endDate] = newDate.toISOString().split('T');
       }
+    },
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchLabels() {
+      (await openapi).log_getLabels({
+        start: this.start.toISOString(),
+        end: this.end.toISOString(),
+      }).then((rsp) => {
+        this.labels = rsp.data;
+      });
+    },
+    async fetchLogs() {
+      let query = null;
+
+      if (Object.keys(this.filteredLabels).length > 0) {
+        const labels = Object.entries(this.filteredLabels).map(([key, value]) => `${key}=${JSON.stringify(value.trim())}`);
+        query = `{${labels}}`;
+      }
+
+      this.logs = null;
+      (await openapi).log_getLog({
+        start: this.start.toISOString(),
+        end: this.end.toISOString(),
+        query,
+        search: this.search,
+      }).then((rsp) => {
+        this.logs = rsp.data;
+      });
+    },
+    async fetchData() {
+      this.fetchLabels();
+      this.fetchLogs();
+    },
+    cleanedLabels(labels) {
+      const newLabels = labels;
+
+      delete newLabels.app;
+      delete newLabels.category;
+      delete newLabels.author_username;
+      delete newLabels.author_id;
+      delete newLabels.logger;
+      delete newLabels.severity;
+      delete newLabels.log_entry_id;
+
+      return newLabels;
+    },
+    applyAdvancedFilters() {
+      this.selectedFilters = this.$refs.labelFilterDialog.getData();
+      this.$refs.labelFilterDialog.close();
+    },
+    datediff(first, second) {
+      return Math.round((second - first) / (1000 * 60 * 60 * 24));
+    },
+    resetFilters() {
+      this.selectedCat = null;
+      this.selectedSeverity = null;
+      this.selectedFilters = {};
+      this.search = null;
+      this.fetchData();
+    },
+    async downloadOldLogs() {
+      (await openapi).log_getOldLogCsv().then((rsp) => {
+        this.utils.showFile(rsp.data, 'vyhub_old_logs.csv', 'text/csv');
+      });
     },
   },
 };

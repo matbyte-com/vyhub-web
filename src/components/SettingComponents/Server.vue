@@ -1,33 +1,55 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/serverbundle">
+    <SettingTitle doc-path="/guide/serverbundle">
       {{ $t('_settings.serverAndServerbundle') }}
     </SettingTitle>
     <v-row>
       <v-col cols="12">
-        <v-card border flat class="fill-height bg-transparent">
+        <v-card
+          border
+          flat
+          class="fill-height bg-transparent"
+        >
           <v-card-text>
-            <SettingTitle :divider="false" doc-path="/guide/serverbundle">
+            <SettingTitle
+              :divider="false"
+              doc-path="/guide/serverbundle"
+            >
               {{ $t('serverbundle') }}
             </SettingTitle>
             <v-table>
               <thead>
-              <tr>
-                <th>{{ $t('name') }}</th>
-                <th>{{ $t('type') }}</th>
-                <th>{{ $t('_settings.multigroup') }}</th>
-                <th>{{ $t('_settings.defaultGroup') }}</th>
-                <th style="width: 200px" class="text-right">{{ $t('actions') }}</th>
-              </tr>
+                <tr>
+                  <th>{{ $t('name') }}</th>
+                  <th>{{ $t('type') }}</th>
+                  <th>{{ $t('_settings.multigroup') }}</th>
+                  <th>{{ $t('_settings.defaultGroup') }}</th>
+                  <th
+                    style="width: 200px"
+                    class="text-right"
+                  >
+                    {{ $t('actions') }}
+                  </th>
+                </tr>
               </thead>
-              <draggable :list="bundles" tag="tbody"
-                         @change="updateBundleEnabled = true">
-                <tr v-for="bundle in bundles" :key="bundle.id">
+              <draggable
+                :list="bundles"
+                tag="tbody"
+                @change="updateBundleEnabled = true"
+              >
+                <tr
+                  v-for="bundle in bundles"
+                  :key="bundle.id"
+                >
                   <td>
-                    <v-chip :color="bundle.color ? bundle.color : '#000000'"
-                            :text-color="$vuetify.theme.dark ? 'white' : 'black'"
-                            variant="outlined">
-                      <v-icon start>{{ bundle.icon }}</v-icon>
+                    <v-chip
+                      :color="bundle.color ? bundle.color : '#000000'"
+                      :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                      variant="outlined"
+                    >
+                      <v-icon start>
+                        {{ bundle.icon }}
+                      </v-icon>
                       {{ bundle.name }}
                     </v-chip>
                   </td>
@@ -38,26 +60,41 @@
                     <BoolIcon :value="bundle.multigroup" />
                   </td>
                   <td>
-                  <span v-if="bundle.default_group">
-                    {{ bundle.default_group.name }}
-                  </span>
+                    <span v-if="bundle.default_group">
+                      {{ bundle.default_group.name }}
+                    </span>
                   </td>
                   <td class="text-right">
-                    <v-btn variant="outlined" color="info" size="small" class="mr-1"
-                           :disabled="bundle.server_type === 'DISCORD' ||
+                    <v-btn
+                      variant="outlined"
+                      color="info"
+                      size="small"
+                      class="mr-1"
+                      :disabled="bundle.server_type === 'DISCORD' ||
                         bundle.server_type === 'TEAMSPEAK3'"
-                           @click="showAPIKeysDialog(bundle)">
+                      @click="showAPIKeysDialog(bundle)"
+                    >
                       <v-icon>
                         mdi-key-chain
                       </v-icon>
                     </v-btn>
-                    <v-btn variant="outlined" color="primary" size="small"
-                           @click="openEditBundleDialog(bundle)" class="mr-1">
+                    <v-btn
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      class="mr-1"
+                      @click="openEditBundleDialog(bundle)"
+                    >
                       <v-icon>
                         mdi-pencil
                       </v-icon>
                     </v-btn>
-                    <v-btn variant="outlined" color="error" size="small" @click="openDeleteBundleDialog(bundle)">
+                    <v-btn
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      @click="openDeleteBundleDialog(bundle)"
+                    >
                       <v-icon>
                         mdi-delete
                       </v-icon>
@@ -68,34 +105,51 @@
             </v-table>
             <v-divider />
             <div class="text-right mt-3">
-              <v-btn color="success" @click="$refs.addBundleDialog.show()" variant="outlined"
-                     :class="{ 'glow-effect':utils.customerJourneyActive('add-bundle') }">
-                <v-icon start>mdi-plus</v-icon>
+              <v-btn
+                color="success"
+                variant="outlined"
+                :class="{ 'glow-effect':utils.customerJourneyActive('add-bundle') }"
+                @click="$refs.addBundleDialog.show()"
+              >
+                <v-icon start>
+                  mdi-plus
+                </v-icon>
                 <span>{{ $t('_settings.labels.addBundle') }}</span>
               </v-btn>
               <v-tooltip location="bottom">
-                <template v-slot:activator="{ props}">
-                  <v-btn variant="outlined" color="primary" class="ml-5" v-bind="props"
-                         style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-                         @click="updateBundleOrder" :disabled="!updateBundleEnabled">
+                <template #activator="{ props}">
+                  <v-btn
+                    variant="outlined"
+                    color="primary"
+                    class="ml-5"
+                    v-bind="props"
+                    style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+                    :disabled="!updateBundleEnabled"
+                    @click="updateBundleOrder"
+                  >
                     <v-icon>mdi-check</v-icon>
                   </v-btn>
                 </template>
                 <span>
-                    {{ $t('_settings.labels.updateOrder') }}
-                  </span>
+                  {{ $t('_settings.labels.updateOrder') }}
+                </span>
               </v-tooltip>
               <v-tooltip location="bottom">
-                <template v-slot:activator="{ props}">
-                  <v-btn variant="outlined" color="primary" v-bind="props"
-                         style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-                         @click="fetchData" :disabled="!updateBundleEnabled">
+                <template #activator="{ props}">
+                  <v-btn
+                    variant="outlined"
+                    color="primary"
+                    v-bind="props"
+                    style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                    :disabled="!updateBundleEnabled"
+                    @click="fetchData"
+                  >
                     <v-icon>mdi-backspace-outline</v-icon>
                   </v-btn>
                 </template>
                 <span>
-                {{ $t('_settings.labels.resetOrder') }}
-              </span>
+                  {{ $t('_settings.labels.resetOrder') }}
+                </span>
               </v-tooltip>
             </div>
           </v-card-text>
@@ -103,29 +157,43 @@
       </v-col>
       <!-- Server -->
       <v-col>
-        <v-card border flat class="fill-height bg-transparent">
+        <v-card
+          border
+          flat
+          class="fill-height bg-transparent"
+        >
           <v-card-text>
             <DataTable
               :headers="gameserverHeaders"
               :items="server"
-              :showSearch="true">
-              <template v-slot:header>
-                <SettingTitle :divider="false" doc-path="/guide/server">
+              :show-search="true"
+            >
+              <template #header>
+                <SettingTitle
+                  :divider="false"
+                  doc-path="/guide/server"
+                >
                   {{ $t('_settings.gameserver') }}
                 </SettingTitle>
               </template>
-              <template v-slot:item.name="{ item }">
-                  <div :class="{ 'text--disabled': item.hidden }">
-                      {{ item.name }}
-                  </div>
+              <template #item.name="{ item }">
+                <div :class="{ 'text--disabled': item.hidden }">
+                  {{ item.name }}
+                </div>
               </template>
-              <template v-slot:item.serverbundle_id="{ item }">
+              <template #item.serverbundle_id="{ item }">
                 {{ getBundle(item) }}
               </template>
-              <template v-slot:item.actions="{ item }">
-                <v-btn variant="flat" color="success" size="small" class="mr-1"
-                       :class="{ 'glow-effect':utils.customerJourneyActive('connect-server') }"
-                       @click="showServerSetupDialog(item);" :variant="item.status === 'ONLINE' ? 'outlined' : undefined">
+              <template #item.actions="{ item }">
+                <v-btn
+                  variant="flat"
+                  color="success"
+                  size="small"
+                  class="mr-1"
+                  :class="{ 'glow-effect':utils.customerJourneyActive('connect-server') }"
+                  :variant="item.status === 'ONLINE' ? 'outlined' : undefined"
+                  @click="showServerSetupDialog(item);"
+                >
                   <v-icon :start="item.status !== 'ONLINE'">
                     mdi-download-network
                   </v-icon>
@@ -133,28 +201,48 @@
                     {{ $t('setup') }}
                   </span>
                 </v-btn>
-                <v-btn variant="outlined" color="primary" size="small" class="mr-1"
-                       @click="openEditServerDialog(item)">
+                <v-btn
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  class="mr-1"
+                  @click="openEditServerDialog(item)"
+                >
                   <v-icon>
                     mdi-pencil
                   </v-icon>
                 </v-btn>
-                <v-btn variant="outlined" color="error" size="small" @click="openDeleteServerDialog(item)">
+                <v-btn
+                  variant="outlined"
+                  color="error"
+                  size="small"
+                  @click="openDeleteServerDialog(item)"
+                >
                   <v-icon>
                     mdi-delete
                   </v-icon>
                 </v-btn>
               </template>
-              <template v-slot:footer-right>
-                <v-tooltip location="bottom" :disabled="bundles !== null && bundles.length !== 0">
-                  <template v-slot:activator="{ props }">
+              <template #footer-right>
+                <v-tooltip
+                  location="bottom"
+                  :disabled="bundles !== null && bundles.length !== 0"
+                >
+                  <template #activator="{ props }">
                     <div
-                         v-bind="props">
-                      <v-btn color="success" variant="outlined" @click="$refs.createServerDialog.show()"
-                             :disabled="bundles === null || bundles.length === 0"
-                             :class="{ 'glow-effect':
-                             utils.customerJourneyActive('add-server') }">
-                        <v-icon start>mdi-plus</v-icon>
+                      v-bind="props"
+                    >
+                      <v-btn
+                        color="success"
+                        variant="outlined"
+                        :disabled="bundles === null || bundles.length === 0"
+                        :class="{ 'glow-effect':
+                          utils.customerJourneyActive('add-server') }"
+                        @click="$refs.createServerDialog.show()"
+                      >
+                        <v-icon start>
+                          mdi-plus
+                        </v-icon>
                         <span>{{ $t('_settings.labels.addServer') }}</span>
                       </v-btn>
                     </div>
@@ -169,33 +257,55 @@
         </v-card>
       </v-col>
     </v-row>
-    <Dialog icon="mdi-download-network" :title="$t('_server.labels.setup')" :max-width="700"
-            ref="serverSetupDialog">
+    <Dialog
+      ref="serverSetupDialog"
+      icon="mdi-download-network"
+      :title="$t('_server.labels.setup')"
+      :max-width="700"
+    >
       <div>
-        <ServerSetup ref="serverSetup" :server="serverSetupServer" />
+        <ServerSetup
+          ref="serverSetup"
+          :server="serverSetupServer"
+        />
       </div>
 
-      <template v-slot:actions>
-        <v-icon start>mdi-book-open</v-icon>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/integrations/">
+      <template #actions>
+        <v-icon start>
+          mdi-book-open
+        </v-icon>
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/integrations/"
+        >
           {{ $t('documentation') }}
         </a>
       </template>
     </Dialog>
-    <Dialog icon="mdi-key-chain" :title="$t('_serverbundle.labels.apiKeys')" :max-width="500"
-            ref="bundleApiKeysDialog" :with-id="true">
-      <v-card class="mt-2" v-if="createdToken != null" color="success">
+    <Dialog
+      ref="bundleApiKeysDialog"
+      icon="mdi-key-chain"
+      :title="$t('_serverbundle.labels.apiKeys')"
+      :max-width="500"
+      :with-id="true"
+    >
+      <v-card
+        v-if="createdToken != null"
+        class="mt-2"
+        color="success"
+      >
         <v-card-subtitle>
           <div class="text-subtitle-2">
             {{ $t('_api.labels.createdKey') }}:
           </div>
           <div class="font-weight-bold">
             <v-text-field
-              @focus="$event.target.select()"
               append-icon="mdi-content-copy"
+              readonly
+              :model-value="createdToken.access_token"
+              @focus="$event.target.select()"
               @click:append="utils.textToClipboard(createdToken.access_token);"
-              readonly :model-value="createdToken.access_token">
-            </v-text-field>
+            />
           </div>
           <div>
             {{ createdToken.name }}
@@ -210,7 +320,11 @@
           </div>
         </v-card-text>
       </v-card>
-      <v-card v-for="token in apiKeys" v-bind:key="token.id" class="mt-2">
+      <v-card
+        v-for="token in apiKeys"
+        :key="token.id"
+        class="mt-2"
+      >
         <v-card-subtitle class="d-flex justify-space-between">
           <span>
             <div>
@@ -221,12 +335,23 @@
                 {{ token.name }}
               </div>
             </div>
-            <v-chip color="warning" size="small" v-if="token.revoked" class="ml-3">
+            <v-chip
+              v-if="token.revoked"
+              color="warning"
+              size="small"
+              class="ml-3"
+            >
               {{ $t('revoked') }}
             </v-chip>
           </span>
           <span v-if="!token.revoked">
-            <v-btn color="warning" variant="text" size="small" variant="flat" @click="revokeToken(token)">
+            <v-btn
+              color="warning"
+              variant="text"
+              size="small"
+              variant="flat"
+              @click="revokeToken(token)"
+            >
               <v-icon>
                 mdi-cancel
               </v-icon>
@@ -242,38 +367,67 @@
           </div>
         </v-card-text>
       </v-card>
-      <h6 class="text-h6 mb-2 mt-3">{{ $t('_serverbundle.labels.createApiKey') }}</h6>
-      <GenForm :cancel-text="null" :submit-text="$t('create')" :form-schema="createTokenSchema"
-               @submit="createToken" ref="createTokenForm">
-        <template v-slot:custom-properties="context">
-          <PropertyPicker class="mb-3" v-bind="context"/>
+      <h6 class="text-h6 mb-2 mt-3">
+        {{ $t('_serverbundle.labels.createApiKey') }}
+      </h6>
+      <GenForm
+        ref="createTokenForm"
+        :cancel-text="null"
+        :submit-text="$t('create')"
+        :form-schema="createTokenSchema"
+        @submit="createToken"
+      >
+        <template #custom-properties="context">
+          <PropertyPicker
+            class="mb-3"
+            v-bind="context"
+          />
         </template>
       </GenForm>
     </Dialog>
-    <DialogForm ref="addBundleDialog"
-                :form-schema="addBundleSchema"
-                @submit="addBundle"
-                icon="mdi-server"
-                :title="$t('_settings.labels.addBundle')"/>
-    <DialogForm ref="createServerDialog"
-                :form-schema="serverSchema"
-                icon="mdi-server"
-                @submit="createServer"
-                :title="$t('_server.labels.create')"
-                @updated="createServerDataTemp=$refs.createServerDialog.getData()">
-      <template v-slot:form-after
-                v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'">
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/discord/">
-          {{$t('_server.labels.guildIdDocs')}}
+    <DialogForm
+      ref="addBundleDialog"
+      :form-schema="addBundleSchema"
+      icon="mdi-server"
+      :title="$t('_settings.labels.addBundle')"
+      @submit="addBundle"
+    />
+    <DialogForm
+      ref="createServerDialog"
+      :form-schema="serverSchema"
+      icon="mdi-server"
+      :title="$t('_server.labels.create')"
+      @submit="createServer"
+      @updated="createServerDataTemp=$refs.createServerDialog.getData()"
+    >
+      <template
+        v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'"
+        #form-after
+      >
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/discord/"
+        >
+          {{ $t('_server.labels.guildIdDocs') }}
         </a>
         <span v-if="discordApplicationId">
-          <a target="_blank" style="float: right" :href="getDiscordBotLink">
-            {{$t('_server.labels.addBot')}}
+          <a
+            target="_blank"
+            style="float: right"
+            :href="getDiscordBotLink"
+          >
+            {{ $t('_server.labels.addBot') }}
           </a>
         </span>
-        <span v-else style="float: right">
-          <a target="_blank" href="https://docs.vyhub.net/latest/guide/authorization">
-            {{$t('_server.labels.discordApplicationIdNeeded')}}
+        <span
+          v-else
+          style="float: right"
+        >
+          <a
+            target="_blank"
+            href="https://docs.vyhub.net/latest/guide/authorization"
+          >
+            {{ $t('_server.labels.discordApplicationIdNeeded') }}
           </a>
         </span>
       </template>
@@ -281,33 +435,50 @@
     <DeleteConfirmationDialog
       ref="deleteBundleDialog"
       :countdown="true"
-      @submit="deleteBundle">
-      <v-alert type="error" class="mt-3">
+      @submit="deleteBundle"
+    >
+      <v-alert
+        type="error"
+        class="mt-3"
+      >
         {{ $t('_server.deleteServerbundleConfirmationText') }}
       </v-alert>
     </DeleteConfirmationDialog>
     <DeleteConfirmationDialog
       ref="deleteServerDialog"
-      @submit="deleteServer"/>
-    <DialogForm ref="editBundleDialog"
-                icon="mdi-server"
-                :form-schema="editBundleSchema"
-                @submit="editBundle"
-                :title="$t('_settings.labels.editBundle')"/>
-    <DialogForm ref="editServerDialog"
-                :form-schema="serverSchema"
-                icon="mdi-server"
-                @submit="editServer"
-                :title="$t('_server.labels.edit')"
-                @updated="createServerDataTemp=$refs.editServerDialog.getData()">
-      <template v-slot:form-after
-                v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'">
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/discord/">
-          <v-btn size="small" color="info">
+      @submit="deleteServer"
+    />
+    <DialogForm
+      ref="editBundleDialog"
+      icon="mdi-server"
+      :form-schema="editBundleSchema"
+      :title="$t('_settings.labels.editBundle')"
+      @submit="editBundle"
+    />
+    <DialogForm
+      ref="editServerDialog"
+      :form-schema="serverSchema"
+      icon="mdi-server"
+      :title="$t('_server.labels.edit')"
+      @submit="editServer"
+      @updated="createServerDataTemp=$refs.editServerDialog.getData()"
+    >
+      <template
+        v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'"
+        #form-after
+      >
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/discord/"
+        >
+          <v-btn
+            size="small"
+            color="info"
+          >
             <v-icon start>
               mdi-magnify
             </v-icon>
-            {{$t('_server.labels.guildIdDocs')}}
+            {{ $t('_server.labels.guildIdDocs') }}
           </v-btn>
         </a>
       </template>
@@ -371,6 +542,11 @@ export default {
       createServerDataTemp: null,
       updateBundleEnabled: false,
     };
+  },
+  watch: {
+    async activeBundle() {
+      this.refreshKeys();
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -586,11 +762,6 @@ export default {
       });
     },
 
-  },
-  watch: {
-    async activeBundle() {
-      this.refreshKeys();
-    },
   },
 };
 </script>

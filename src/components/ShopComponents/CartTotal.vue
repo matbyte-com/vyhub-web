@@ -25,10 +25,13 @@
         </div>
       </v-col>
     </v-row>
-    <v-row align="center" v-if="price.credits != null">
-      <v-divider></v-divider>
+    <v-row
+      v-if="price.credits != null"
+      align="center"
+    >
+      <v-divider />
       <span class="mr-3 ml-3">{{ $t('or') }}</span>
-      <v-divider></v-divider>
+      <v-divider />
     </v-row>
     <v-row v-if="price.credits != null">
       <v-col>
@@ -42,7 +45,10 @@
     </v-row>
     <v-row v-if="price.tax_info">
       <v-col>
-        <div class="font-italic text-body-2 text-center" v-if="price.tax_info">
+        <div
+          v-if="price.tax_info"
+          class="font-italic text-body-2 text-center"
+        >
           {{ price.tax_info }}
         </div>
       </v-col>

@@ -1,26 +1,41 @@
 <template>
   <div>
     <v-list>
-      <DataIterator :items="comments" sort-by="date" :sort-desc="true">
-        <template v-slot:default="props">
-          <v-list-item v-for="comment in props.items" :key="comment.id" class="mb-1"
-          :style="`border-color: ${comment.color}; border-width: 0 0 0 10px; border-style: solid;`">
+      <DataIterator
+        :items="comments"
+        sort-by="date"
+        :sort-desc="true"
+      >
+        <template #default="props">
+          <v-list-item
+            v-for="comment in props.items"
+            :key="comment.id"
+            class="mb-1"
+            :style="`border-color: ${comment.color}; border-width: 0 0 0 10px; border-style: solid;`"
+          >
             <v-list-item-content class="pb-1">
               <div class="mb-2">
                 {{ comment.message }}
               </div>
               <div>
                 <div class="d-flex align-center justify-space-between">
-                  <UserLink :user="comment.creator" :simple="true"
-                            v-if="comment.creator != null"></UserLink>
+                  <UserLink
+                    v-if="comment.creator != null"
+                    :user="comment.creator"
+                    :simple="true"
+                  />
                   <span class="text--disabled">{{ new Date(comment.date).toLocaleString() }}</span>
-                  <v-btn v-if="($checkProp(`${type}_comment_edit`) &&
-                    comment.creator_id &&
-                    $store.getters.user &&
-                    $store.getters.user.id === comment.creator_id) ||
-                    ($checkProp(`${type}_comment_delete`))"
-                             variant="outlined" color="error" size="small"
-                             @click="$refs.commentDeleteConfirm.show(comment)">
+                  <v-btn
+                    v-if="($checkProp(`${type}_comment_edit`) &&
+                      comment.creator_id &&
+                      $store.getters.user &&
+                      $store.getters.user.id === comment.creator_id) ||
+                      ($checkProp(`${type}_comment_delete`))"
+                    variant="outlined"
+                    color="error"
+                    size="small"
+                    @click="$refs.commentDeleteConfirm.show(comment)"
+                  >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </div>
@@ -28,9 +43,18 @@
             </v-list-item-content>
           </v-list-item>
         </template>
-        <template v-slot:footer-left v-if="!noAddBtn">
-          <v-btn variant="outlined" color="success" @click="$refs.commentAddDialog.show()">
-            <v-icon start>mdi-comment-plus</v-icon>
+        <template
+          v-if="!noAddBtn"
+          #footer-left
+        >
+          <v-btn
+            variant="outlined"
+            color="success"
+            @click="$refs.commentAddDialog.show()"
+          >
+            <v-icon start>
+              mdi-comment-plus
+            </v-icon>
             {{ $t('comment') }}
           </v-btn>
         </template>
@@ -38,13 +62,16 @@
     </v-list>
     <DialogForm
       ref="commentAddDialog"
-      @submit="addComment"
       :max-width="600"
       :form-schema="CommentForm"
-      :title="$t('comment')" icon="mdi-comment-plus" />
+      :title="$t('comment')"
+      icon="mdi-comment-plus"
+      @submit="addComment"
+    />
     <DeleteConfirmationDialog
       ref="commentDeleteConfirm"
-      @submit="deleteComment" />
+      @submit="deleteComment"
+    />
   </div>
 </template>
 
@@ -63,13 +90,6 @@ export default {
     DialogForm,
     UserLink,
   },
-  data() {
-    return {
-      comments: [],
-      search: null,
-      CommentForm,
-    };
-  },
   props: {
     type: String,
     categories: Array,
@@ -79,6 +99,18 @@ export default {
     showCategory: {
       type: Boolean,
       default: false,
+    },
+  },
+  data() {
+    return {
+      comments: [],
+      search: null,
+      CommentForm,
+    };
+  },
+  watch: {
+    objId() {
+      this.fetchData();
     },
   },
   beforeMount() {
@@ -140,11 +172,6 @@ export default {
         this.$refs.commentDeleteConfirm.closeAndReset();
         this.fetchData();
       });
-    },
-  },
-  watch: {
-    objId() {
-      this.fetchData();
     },
   },
 };

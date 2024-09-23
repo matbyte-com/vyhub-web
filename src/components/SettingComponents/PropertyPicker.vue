@@ -3,22 +3,37 @@
     <div class="d-flex align-center">
       <span class="text-subtitle-1">{{ label }}</span>
       <v-spacer />
-      <v-btn @click="selectAll()" variant="outlined" color="secondary" size="small">
-        <v-icon start>mdi-expand-all</v-icon>
-          {{ $t('selectAll') }}
+      <v-btn
+        variant="outlined"
+        color="secondary"
+        size="small"
+        @click="selectAll()"
+      >
+        <v-icon start>
+          mdi-expand-all
+        </v-icon>
+        {{ $t('selectAll') }}
       </v-btn>
     </div>
     <v-expansion-panels class="mt-1">
-      <v-expansion-panel v-for="(category, index) in allProperties" :key="index">
+      <v-expansion-panel
+        v-for="(category, index) in allProperties"
+        :key="index"
+      >
         <v-expansion-panel-title>
           {{ $t(`_property.categories.${Object.keys(category)[0]}`) }}
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <v-checkbox v-for="prop in category[Object.keys(category)[0]]" :key="prop.name"
-                      v-model="properties" v-on="{...on, change}"
-                      :label="$t(`_property.descriptions.${prop.name}`)" :value="prop.name"
-                      dense hide-details="auto">
-          </v-checkbox>
+          <v-checkbox
+            v-for="prop in category[Object.keys(category)[0]]"
+            :key="prop.name"
+            v-model="properties"
+            :label="$t(`_property.descriptions.${prop.name}`)"
+            :value="prop.name"
+            dense
+            hide-details="auto"
+            v-on="{...on, change}"
+          />
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>

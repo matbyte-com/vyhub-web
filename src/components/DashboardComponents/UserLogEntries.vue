@@ -1,9 +1,19 @@
 <template>
   <div>
-    <v-card class="vh-dashboard-logs card-rounded" flat>
+    <v-card
+      class="vh-dashboard-logs card-rounded"
+      flat
+    >
       <v-card-title>
-        <v-btn :icon="logsShown" variant="outlined" color="primary" @click="showLogs">
-          <v-icon v-if="logsShown">mdi-refresh</v-icon>
+        <v-btn
+          :icon="logsShown"
+          variant="outlined"
+          color="primary"
+          @click="showLogs"
+        >
+          <v-icon v-if="logsShown">
+            mdi-refresh
+          </v-icon>
           <span v-else>
             <v-icon start>mdi-eye</v-icon>
             {{ $t('show') }}
@@ -11,7 +21,12 @@
         </v-btn>
       </v-card-title>
       <v-card-text v-if="user != null && logsShown">
-        <LogTable ref="logTable" type="user" :obj-id="user.id" :show-search="false"/>
+        <LogTable
+          ref="logTable"
+          type="user"
+          :obj-id="user.id"
+          :show-search="false"
+        />
       </v-card-text>
     </v-card>
   </div>
@@ -29,6 +44,11 @@ export default {
       logsShown: false,
     };
   },
+  watch: {
+    user() {
+      this.logsShown = false;
+    },
+  },
   methods: {
     showLogs() {
       if (this.logsShown) {
@@ -36,11 +56,6 @@ export default {
       } else {
         this.logsShown = true;
       }
-    },
-  },
-  watch: {
-    user() {
-      this.logsShown = false;
     },
   },
 };

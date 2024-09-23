@@ -1,66 +1,104 @@
 <template>
   <div>
-    <PageTitleFlat :hide-triangle="true" :no-bottom-border-radius="$vuetify.display.smAndDown"
-                   :title="$t('_forum.tickets')"/>
-    <v-card :class="{ 'mt-3 card-rounded-top':!$vuetify.display.smAndDown,
-           'no-top-border-radius': $vuetify.display.smAndDown }"
-            class="card-rounded-bottom" flat>
+    <PageTitleFlat
+      :hide-triangle="true"
+      :no-bottom-border-radius="$vuetify.display.smAndDown"
+      :title="$t('_forum.tickets')"
+    />
+    <v-card
+      :class="{ 'mt-3 card-rounded-top':!$vuetify.display.smAndDown,
+                'no-top-border-radius': $vuetify.display.smAndDown }"
+      class="card-rounded-bottom"
+      flat
+    >
       <v-card-text>
         <PaginatedDataTable
           ref="ticketTable"
           :headers="headers"
           :items="tickets"
-          :totalItems="totalItems"
+          :total-items="totalItems"
           default-sort-by="created"
           :default-sort-desc="true"
+          class="cursor"
           @reload="fetchData"
           @click:row="showTicket"
-          class="cursor"
         >
-          <template v-slot:header>
-            <v-checkbox v-model="show_closed" :label="$t('_forum.showClosed')" @update:model-value="fetchData"
-                        class="text-capitalize">
-            </v-checkbox>
+          <template #header>
+            <v-checkbox
+              v-model="show_closed"
+              :label="$t('_forum.showClosed')"
+              class="text-capitalize"
+              @update:model-value="fetchData"
+            />
           </template>
-          <template v-slot:item.color-status="{ item }">
-            <v-sheet :color="ticketRowFormatter(item)"
-                     height="110%" width="10px"
-                     style="margin-left: -15px"/>
+          <template #item.color-status="{ item }">
+            <v-sheet
+              :color="ticketRowFormatter(item)"
+              height="110%"
+              width="10px"
+              style="margin-left: -15px"
+            />
           </template>
-          <template v-slot:item.created="{ item }">
+          <template #item.created="{ item }">
             {{ utils.formatDate(item.created) }}
           </template>
-          <template v-slot:item.creator="{ item }">
+          <template #item.creator="{ item }">
             <v-avatar class="ma-1">
-              <v-img v-if="item.creator" :src="item.creator.avatar"/>
-              <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
+              <v-img
+                v-if="item.creator"
+                :src="item.creator.avatar"
+              />
+              <v-img
+                v-else
+                src="https://www.gravatar.com/avatar/{}?d=retro&s=200"
+              />
             </v-avatar>
             <span v-if="$vuetify.display.xs">
-              <UserLink v-if="item.creator" :user="item.creator"
-                        :color="ticketRowFormatter(item)" />
+              <UserLink
+                v-if="item.creator"
+                :user="item.creator"
+                :color="ticketRowFormatter(item)"
+              />
             </span>
             <span v-else>
-              <UserLink v-if="item.creator" :user="item.creator"/>
+              <UserLink
+                v-if="item.creator"
+                :user="item.creator"
+              />
             </span>
           </template>
-          <template v-slot:item.last_post="{ item }">
-            <span v-if="item.last_post" class="text-right">
+          <template #item.last_post="{ item }">
+            <span
+              v-if="item.last_post"
+              class="text-right"
+            >
               {{ utils.formatDate(item.last_post.created) }}
-              <UserLink @click.prevent :user="item.last_post.creator"></UserLink>
+              <UserLink
+                :user="item.last_post.creator"
+                @click.prevent
+              />
             </span>
           </template>
-          <template v-slot:footer-right>
-            <v-btn color="success" variant="outlined"
-                   @click="$refs.addThreadDialog.show()">
-              <v-icon start>mdi-plus</v-icon>
+          <template #footer-right>
+            <v-btn
+              color="success"
+              variant="outlined"
+              @click="$refs.addThreadDialog.show()"
+            >
+              <v-icon start>
+                mdi-plus
+              </v-icon>
               <span>{{ $t('_forum.addTicket') }}</span>
             </v-btn>
           </template>
         </PaginatedDataTable>
       </v-card-text>
     </v-card>
-    <ThreadAddDialog ref="addThreadDialog" :dialog-title="$t('_forum.addTicket')"
-                     @submit="newThread"/>
+    <ThreadAddDialog
+      ref="addThreadDialog"
+      :dialog-title="$t('_forum.addTicket')"
+      @submit="newThread"
+    />
   </div>
 </template>
 
@@ -72,13 +110,13 @@ import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 import UserLink from '../components/UserLink.vue';
 
 export default {
+  name: 'Ticket.vue',
   components: {
     PageTitleFlat,
     PaginatedDataTable,
     ThreadAddDialog,
     UserLink,
   },
-  name: 'Ticket.vue',
   data() {
     return {
       tickets: null,

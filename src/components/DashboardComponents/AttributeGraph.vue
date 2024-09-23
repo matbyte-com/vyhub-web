@@ -1,13 +1,28 @@
 <template>
-  <v-card width="100%" class="vh-dashboard-attribute-graph card-rounded" flat>
-    <v-tabs bg-color="primary" center-active dark>
-      <v-tab v-for="def in accumulatedDefinitions" :key="def.id" @click="activeDef = def">
+  <v-card
+    width="100%"
+    class="vh-dashboard-attribute-graph card-rounded"
+    flat
+  >
+    <v-tabs
+      bg-color="primary"
+      center-active
+      dark
+    >
+      <v-tab
+        v-for="def in accumulatedDefinitions"
+        :key="def.id"
+        @click="activeDef = def"
+      >
         {{ def.title }}
       </v-tab>
     </v-tabs>
     <v-card-text>
-      <DashboardAccumulatedAttributesChart :data="activeHistory" :definition="activeDef"
-                                           v-if="activeDef != null" />
+      <DashboardAccumulatedAttributesChart
+        v-if="activeDef != null"
+        :data="activeHistory"
+        :definition="activeDef"
+      />
       <div v-else>
         {{ $t('noDataAvailable') }}
       </div>
@@ -35,19 +50,6 @@ export default {
       activeDef: null,
       activeHistory: null,
     };
-  },
-  methods: {
-    async fetchData() {
-      (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
-        this.attributeDefinitions = rsp.data;
-
-        const accDefs = this.accumulatedDefinitions;
-
-        if (accDefs.length > 0) {
-          [this.activeDef] = accDefs;
-        }
-      });
-    },
   },
   computed: {
     allAccumulatedDefinitions() {
@@ -99,6 +101,19 @@ export default {
   },
   beforeMount() {
     this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
+        this.attributeDefinitions = rsp.data;
+
+        const accDefs = this.accumulatedDefinitions;
+
+        if (accDefs.length > 0) {
+          [this.activeDef] = accDefs;
+        }
+      });
+    },
   },
 };
 </script>

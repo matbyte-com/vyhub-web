@@ -1,7 +1,11 @@
 <template>
   <div>
     <div v-if="series != null">
-      <apexchart type="heatmap" :options="options" :series="series"></apexchart>
+      <apexchart
+        type="heatmap"
+        :options="options"
+        :series="series"
+      />
     </div>
   </div>
 </template>
@@ -56,27 +60,6 @@ export default {
       },
     };
   },
-  methods: {
-    getLocalizedWeekday(day) {
-      if (!day) {
-        return '';
-      }
-      const date = new Date();
-      date.setDate(date.getDate() + 4 + day);
-      return date.toLocaleString(this.$i18n.locale, { weekday: 'long' });
-    },
-    convertTimeRange(timeRange) {
-      // do some timezone magic to cope with different timezones to display
-      // the result in the user's timezone
-      const offsetMinutes = new Date().getTimezoneOffset();
-      const offsetHours = -(offsetMinutes / 60);
-      const startHour = ((timeRange * 2) + offsetHours) % 24;
-      const endHour = (startHour + 2) % 24;
-      const startTime = `${startHour.toString().padStart(2, '0')}`;
-      const endTime = `${endHour.toString().padStart(2, '0')}`;
-      return `${startTime} - ${endTime}`;
-    },
-  },
   computed: {
     series() {
       if (this.data == null || this.data === 0) {
@@ -89,7 +72,7 @@ export default {
       this.data.forEach((item) => {
         const { day, time_interval, purchase_count } = item;
 
-        // eslint-disable-next-line no-prototype-builtins
+         
         if (!series.hasOwnProperty(day)) {
           series[day] = {};
         }
@@ -99,13 +82,13 @@ export default {
 
       // Add missing values for days and purchase counts
       for (let day = 0; day <= 6; day += 1) {
-        // eslint-disable-next-line no-prototype-builtins
+         
         if (!series.hasOwnProperty(day)) {
           series[day] = {};
         }
 
         for (let interval = 0; interval <= 11; interval += 1) {
-          // eslint-disable-next-line no-prototype-builtins
+           
           if (!series[day].hasOwnProperty(interval)) {
             series[day][interval] = 0;
           }
@@ -126,6 +109,27 @@ export default {
       });
 
       return apexSeries.reverse();
+    },
+  },
+  methods: {
+    getLocalizedWeekday(day) {
+      if (!day) {
+        return '';
+      }
+      const date = new Date();
+      date.setDate(date.getDate() + 4 + day);
+      return date.toLocaleString(this.$i18n.locale, { weekday: 'long' });
+    },
+    convertTimeRange(timeRange) {
+      // do some timezone magic to cope with different timezones to display
+      // the result in the user's timezone
+      const offsetMinutes = new Date().getTimezoneOffset();
+      const offsetHours = -(offsetMinutes / 60);
+      const startHour = ((timeRange * 2) + offsetHours) % 24;
+      const endHour = (startHour + 2) % 24;
+      const startTime = `${startHour.toString().padStart(2, '0')}`;
+      const endTime = `${endHour.toString().padStart(2, '0')}`;
+      return `${startTime} - ${endTime}`;
     },
   },
 };

@@ -1,43 +1,72 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/navigation">
+    <SettingTitle doc-path="/guide/navigation">
       {{ $t('_navigation.title') }}
     </SettingTitle>
-    <dialog-form ref="cmsAddDialog" :form-schema="cmsPageAddSchema"
-                 icon="mdi-content-save" :max-width="1000"
-                 :title="$t('_navigation.addCmsPage')"
-                 @submit="createCmsPage">
-      <template v-slot:title-after>
+    <dialog-form
+      ref="cmsAddDialog"
+      :form-schema="cmsPageAddSchema"
+      icon="mdi-content-save"
+      :max-width="1000"
+      :title="$t('_navigation.addCmsPage')"
+      @submit="createCmsPage"
+    >
+      <template #title-after>
         <v-alert
-          type="warning" variant="outlined" density="compact">
+          type="warning"
+          variant="outlined"
+          density="compact"
+        >
           {{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
         <v-expansion-panels flat>
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-row>
-                <v-badge :model-value="htmlInput" inline dot class="float-left">
+                <v-badge
+                  :model-value="htmlInput"
+                  inline
+                  dot
+                  class="float-left"
+                >
                   {{ $t('_navigation.editor') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <editor v-model="htmlInput"/>
+              <editor v-model="htmlInput" />
             </v-expansion-panel-text>
           </v-expansion-panel>
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-row>
-                <v-badge :model-value="rawHtmlInput" inline dot class="float-left">
+                <v-badge
+                  :model-value="rawHtmlInput"
+                  inline
+                  dot
+                  class="float-left"
+                >
                   {{ $t('rawHtml') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <v-textarea :placeholder="$t('rawHtml')" v-model="rawHtmlInput"/>
-              <input type="file" :accept="acceptedFileTypes.join(',')" @change="readFile"
-                     style="display: none" ref="fileInput">
-              <v-btn color="secondary" @click="$refs.fileInput.click()" size="small">
+              <v-textarea
+                v-model="rawHtmlInput"
+                :placeholder="$t('rawHtml')"
+              />
+              <input
+                ref="fileInput"
+                type="file"
+                :accept="acceptedFileTypes.join(',')"
+                style="display: none"
+                @change="readFile"
+              >
+              <v-btn
+                color="secondary"
+                size="small"
+                @click="$refs.fileInput.click()"
+              >
                 {{ $t('_navigation.uploadFile') }}
               </v-btn>
             </v-expansion-panel-text>
@@ -45,43 +74,73 @@
         </v-expansion-panels>
       </template>
     </dialog-form>
-    <dialog-form ref="cmsEditDialog" :form-schema="cmsPageAddSchema"
-                 icon="mdi-content-save-cog"
-                 :title="$t('_navigation.editCmsPage')"
-                 @submit="editCmsPage">
-      <template v-slot:title-after>
+    <dialog-form
+      ref="cmsEditDialog"
+      :form-schema="cmsPageAddSchema"
+      icon="mdi-content-save-cog"
+      :title="$t('_navigation.editCmsPage')"
+      @submit="editCmsPage"
+    >
+      <template #title-after>
         <v-alert
-          type="warning" variant="outlined"
+          type="warning"
+          variant="outlined"
           density="compact"
-        >{{ $t('_navigation.contentSanitizationWarning') }}
+        >
+          {{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
         {{ htmlContentExpansionPanel }}
-        <v-expansion-panels flat v-model="htmlContentExpansionPanel">
+        <v-expansion-panels
+          v-model="htmlContentExpansionPanel"
+          flat
+        >
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-row>
-                <v-badge :model-value="htmlInput" inline dot class="float-left">
+                <v-badge
+                  :model-value="htmlInput"
+                  inline
+                  dot
+                  class="float-left"
+                >
                   {{ $t('_navigation.editor') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <editor v-model="htmlInput"/>
+              <editor v-model="htmlInput" />
             </v-expansion-panel-text>
           </v-expansion-panel>
           <v-expansion-panel>
             <v-expansion-panel-title>
               <v-row>
-                <v-badge :model-value="rawHtmlInput" inline dot class="float-left">
+                <v-badge
+                  :model-value="rawHtmlInput"
+                  inline
+                  dot
+                  class="float-left"
+                >
                   {{ $t('rawHtml') }}
                 </v-badge>
               </v-row>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <v-textarea :placeholder="$t('rawHtml')" v-model="rawHtmlInput"/>
-              <input type="file" :accept="acceptedFileTypes.join(',')" @change="readFile"
-                     style="display: none" ref="fileInput">
-              <v-btn color="secondary" @click="$refs.fileInput.click()" size="small">
+              <v-textarea
+                v-model="rawHtmlInput"
+                :placeholder="$t('rawHtml')"
+              />
+              <input
+                ref="fileInput"
+                type="file"
+                :accept="acceptedFileTypes.join(',')"
+                style="display: none"
+                @change="readFile"
+              >
+              <v-btn
+                color="secondary"
+                size="small"
+                @click="$refs.fileInput.click()"
+              >
                 {{ $t('_navigation.uploadFile') }}
               </v-btn>
             </v-expansion-panel-text>
@@ -89,110 +148,205 @@
         </v-expansion-panels>
       </template>
     </dialog-form>
-    <delete-confirmation-dialog ref="cmsDeleteDialog" @submit="deleteCmsPage"/>
-    <dialog-form ref="navAddDialog" :form-schema="navlinkAddSchema"
-                 icon="mdi-navigation-outline"
-                 :title="$t('_navigation.addNavLink')"
-                 @submit="addLink"/>
-    <dialog-form ref="navEditDialog" :form-schema="navlinkAddSchema"
-                 icon="mdi-navigation-outline"
-                 :title="$t('_navigation.editNavLink')"
-                 @submit="editNavLink"/>
-    <delete-confirmation-dialog ref="deleteNavConfirmationDialog" @submit="deleteNav"/>
+    <delete-confirmation-dialog
+      ref="cmsDeleteDialog"
+      @submit="deleteCmsPage"
+    />
+    <dialog-form
+      ref="navAddDialog"
+      :form-schema="navlinkAddSchema"
+      icon="mdi-navigation-outline"
+      :title="$t('_navigation.addNavLink')"
+      @submit="addLink"
+    />
+    <dialog-form
+      ref="navEditDialog"
+      :form-schema="navlinkAddSchema"
+      icon="mdi-navigation-outline"
+      :title="$t('_navigation.editNavLink')"
+      @submit="editNavLink"
+    />
+    <delete-confirmation-dialog
+      ref="deleteNavConfirmationDialog"
+      @submit="deleteNav"
+    />
     <!-- real Component -->
-    <v-select variant="outlined" hide-details density="compact"
-              :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
-              :label="$t('_navigation.location')"
-              clearable class="mt-3"
-              v-model="currentLocation" @update:model-value="categoryUpdated"
-              :items="navigationLocations" item-value="value" item-title="title">
-    </v-select>
+    <v-select
+      v-model="currentLocation"
+      variant="outlined"
+      hide-details
+      density="compact"
+      :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
+      :label="$t('_navigation.location')"
+      clearable
+      class="mt-3"
+      :items="navigationLocations"
+      item-value="value"
+      item-title="title"
+      @update:model-value="categoryUpdated"
+    />
     <v-list>
       <draggable
         :list="linksByLocation"
-        @change="updateLinkEnabled = true">
+        @change="updateLinkEnabled = true"
+      >
         <div
           v-for="link in linksByLocation"
-          :key="link.id">
+          :key="link.id"
+        >
           <!-- Sublinks -->
-          <v-list-group v-if="link.sublinks.length !== 0" :append-icon="null">
-            <template v-slot:activator>
-
-                <v-list-item-title>
-                  <v-row>
-                    <v-col cols="1">
-                      <v-icon>mdi-chevron-down</v-icon>
-                    </v-col>
-                    <v-col cols="6" sm="5">
-                      <span>{{ link.title }}</span>
-                    </v-col>
-                    <v-col cols="5" sm="3">
-                      <v-chip color="error" v-if="link.req_prop">
-                        <v-icon start>mdi-security</v-icon>
-                        {{ link.req_prop }}
-                      </v-chip>
-                    </v-col>
-                    <v-col class="text-right"  cols="12" sm="3">
-                      <v-btn variant="outlined" color="primary" size="small"
-                             @click="openNavEditDialog(link)" class="mr-1">
-                        <v-icon>
-                          mdi-pencil
-                        </v-icon>
-                      </v-btn>
-                      <v-btn :disabled="link.linkType==='default'"
-                             variant="outlined" color="error" size="small"
-                             @click="$refs.deleteNavConfirmationDialog.show(link)">
-                        <v-icon>
-                          mdi-delete
-                        </v-icon>
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </v-list-item-title>
-
+          <v-list-group
+            v-if="link.sublinks.length !== 0"
+            :append-icon="null"
+          >
+            <template #activator>
+              <v-list-item-title>
+                <v-row>
+                  <v-col cols="1">
+                    <v-icon>mdi-chevron-down</v-icon>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    sm="5"
+                  >
+                    <span>{{ link.title }}</span>
+                  </v-col>
+                  <v-col
+                    cols="5"
+                    sm="3"
+                  >
+                    <v-chip
+                      v-if="link.req_prop"
+                      color="error"
+                    >
+                      <v-icon start>
+                        mdi-security
+                      </v-icon>
+                      {{ link.req_prop }}
+                    </v-chip>
+                  </v-col>
+                  <v-col
+                    class="text-right"
+                    cols="12"
+                    sm="3"
+                  >
+                    <v-btn
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      class="mr-1"
+                      @click="openNavEditDialog(link)"
+                    >
+                      <v-icon>
+                        mdi-pencil
+                      </v-icon>
+                    </v-btn>
+                    <v-btn
+                      :disabled="link.linkType==='default'"
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      @click="$refs.deleteNavConfirmationDialog.show(link)"
+                    >
+                      <v-icon>
+                        mdi-delete
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-list-item-title>
             </template>
-            <draggable :list="link.sublinks"
-                       @change="updateLinkEnabled = true">
-              <div v-for="sublink in link.sublinks" :key="sublink.id">
+            <draggable
+              :list="link.sublinks"
+              @change="updateLinkEnabled = true"
+            >
+              <div
+                v-for="sublink in link.sublinks"
+                :key="sublink.id"
+              >
                 <v-list-item :class="{ 'py-2': $vuetify.display.xs }">
                   <v-row :class="!link.enabled ? 'text--disabled' : ''">
-                    <v-col cols="6" sm="3" md="3" class="d-flex align-center">
-                      <v-icon start v-if="link.icon">
+                    <v-col
+                      cols="6"
+                      sm="3"
+                      md="3"
+                      class="d-flex align-center"
+                    >
+                      <v-icon
+                        v-if="link.icon"
+                        start
+                      >
                         {{ sublink.icon }}
                       </v-icon>
-                      <v-icon start v-else>
+                      <v-icon
+                        v-else
+                        start
+                      >
                         mdi-dots-square
                       </v-icon>
                       {{ sublink.title }}
                     </v-col>
-                    <v-col cols="5" sm="3">
+                    <v-col
+                      cols="5"
+                      sm="3"
+                    >
                       {{ sublink.link }}
                     </v-col>
-                    <v-col cols="6" sm="3">
-                      <v-chip color="error" v-if="sublink.req_prop">
-                        <v-icon start>mdi-security</v-icon>
+                    <v-col
+                      cols="6"
+                      sm="3"
+                    >
+                      <v-chip
+                        v-if="sublink.req_prop"
+                        color="error"
+                      >
+                        <v-icon start>
+                          mdi-security
+                        </v-icon>
                         {{ sublink.req_prop }}
                       </v-chip>
                     </v-col>
-                    <v-col class="text-right" cols="6" sm="3">
-                      <v-icon v-if="!sublink.enabled" class="mr-1">
+                    <v-col
+                      class="text-right"
+                      cols="6"
+                      sm="3"
+                    >
+                      <v-icon
+                        v-if="!sublink.enabled"
+                        class="mr-1"
+                      >
                         mdi-ghost
                       </v-icon>
-                      <v-icon v-if="sublink.cms_page_id" class="mr-1">
+                      <v-icon
+                        v-if="sublink.cms_page_id"
+                        class="mr-1"
+                      >
                         mdi-web
                       </v-icon>
-                      <v-icon v-else class="mr-1">
+                      <v-icon
+                        v-else
+                        class="mr-1"
+                      >
                         mdi-link
                       </v-icon>
-                      <v-btn variant="outlined" color="primary" size="small"
-                             @click="openNavEditDialog(sublink)" class="mr-1">
+                      <v-btn
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        class="mr-1"
+                        @click="openNavEditDialog(sublink)"
+                      >
                         <v-icon>
                           mdi-pencil
                         </v-icon>
                       </v-btn>
-                      <v-btn :disabled="link.default"
-                             variant="outlined" color="error" size="small"
-                             @click="$refs.deleteNavConfirmationDialog.show(sublink)">
+                      <v-btn
+                        :disabled="link.default"
+                        variant="outlined"
+                        color="error"
+                        size="small"
+                        @click="$refs.deleteNavConfirmationDialog.show(sublink)"
+                      >
                         <v-icon>
                           mdi-delete
                         </v-icon>
@@ -200,50 +354,99 @@
                     </v-col>
                   </v-row>
                 </v-list-item>
-                <v-divider v-if="$vuetify.display.xs"/>
+                <v-divider v-if="$vuetify.display.xs" />
               </div>
             </draggable>
           </v-list-group>
           <!-- Links without sublink -->
-          <v-list-item v-else :class="{ 'py-2': $vuetify.display.xs }">
+          <v-list-item
+            v-else
+            :class="{ 'py-2': $vuetify.display.xs }"
+          >
             <v-row :class="!link.enabled ? 'text--disabled' : ''">
-              <v-col cols="6" sm="3" md="3" class="d-flex align-center">
-                <v-icon start v-if="link.icon">
+              <v-col
+                cols="6"
+                sm="3"
+                md="3"
+                class="d-flex align-center"
+              >
+                <v-icon
+                  v-if="link.icon"
+                  start
+                >
                   {{ link.icon }}
                 </v-icon>
-                <v-icon start v-else>
+                <v-icon
+                  v-else
+                  start
+                >
                   mdi-dots-square
                 </v-icon>
                 {{ link.title }}
               </v-col>
-              <v-col cols="5" sm="3" class="align-self-center">
+              <v-col
+                cols="5"
+                sm="3"
+                class="align-self-center"
+              >
                 {{ link.link }}
               </v-col>
-              <v-col cols="6" sm="3">
-                <v-chip color="error" v-if="link.req_prop">
-                  <v-icon start>mdi-security</v-icon>
+              <v-col
+                cols="6"
+                sm="3"
+              >
+                <v-chip
+                  v-if="link.req_prop"
+                  color="error"
+                >
+                  <v-icon start>
+                    mdi-security
+                  </v-icon>
                   {{ link.req_prop }}
                 </v-chip>
               </v-col>
-              <v-col class="text-right align-self-center"  cols="6" sm="3">
-                <v-icon v-if="!link.enabled" class="mr-1">
+              <v-col
+                class="text-right align-self-center"
+                cols="6"
+                sm="3"
+              >
+                <v-icon
+                  v-if="!link.enabled"
+                  class="mr-1"
+                >
                   mdi-ghost
                 </v-icon>
-                <v-icon v-if="link.cms_page_id" class="mr-1">
+                <v-icon
+                  v-if="link.cms_page_id"
+                  class="mr-1"
+                >
                   mdi-web
                 </v-icon>
-                <v-icon v-else class="mr-1">
+                <v-icon
+                  v-else
+                  class="mr-1"
+                >
                   mdi-link
                 </v-icon>
-                <v-btn variant="outlined" color="primary" size="small"
-                       @click="openNavEditDialog(link)" class="">
+                <v-btn
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  class=""
+                  @click="openNavEditDialog(link)"
+                >
                   <v-icon>
                     mdi-pencil
                   </v-icon>
                 </v-btn>
-                <v-btn :disabled="link.default" class="ml-1"
-                       variant="outlined" color="error" size="small"
-                       @click="$refs.deleteNavConfirmationDialog.show(link)">
+                <v-btn
+                  :disabled="link.default"
+                  class="ml-1"
+                  variant="outlined"
+                  color="error"
+                  size="small"
+                  @click="$refs.deleteNavConfirmationDialog.show(link)"
+                >
                   <v-icon>
                     mdi-delete
                   </v-icon>
@@ -251,21 +454,36 @@
               </v-col>
             </v-row>
           </v-list-item>
-          <v-divider v-if="$vuetify.display.xs"/>
+          <v-divider v-if="$vuetify.display.xs" />
         </div>
       </draggable>
     </v-list>
     <v-row>
-      <v-col cols="12" md="6">
-        <v-btn variant="outlined" color="success" @click="openNavAddDialog">
-          <v-icon start>mdi-plus</v-icon>
+      <v-col
+        cols="12"
+        md="6"
+      >
+        <v-btn
+          variant="outlined"
+          color="success"
+          @click="openNavAddDialog"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
           <span>{{ $t('_navigation.addNavLink') }}</span>
         </v-btn>
         <v-tooltip location="bottom">
-          <template v-slot:activator="{ props}">
-            <v-btn variant="outlined" color="primary" class="ml-5" v-bind="props"
-                   style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-                   @click="updateLinkOrder" :disabled="!updateLinkEnabled">
+          <template #activator="{ props}">
+            <v-btn
+              variant="outlined"
+              color="primary"
+              class="ml-5"
+              v-bind="props"
+              style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+              :disabled="!updateLinkEnabled"
+              @click="updateLinkOrder"
+            >
               <v-icon>mdi-check</v-icon>
             </v-btn>
           </template>
@@ -274,10 +492,15 @@
           </span>
         </v-tooltip>
         <v-tooltip location="bottom">
-          <template v-slot:activator="{ props}">
-            <v-btn variant="outlined" color="primary" v-bind="props" :disabled="!updateLinkEnabled"
-                   style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-                   @click="getNavItems">
+          <template #activator="{ props}">
+            <v-btn
+              variant="outlined"
+              color="primary"
+              v-bind="props"
+              :disabled="!updateLinkEnabled"
+              style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+              @click="getNavItems"
+            >
               <v-icon>mdi-backspace-outline</v-icon>
             </v-btn>
           </template>
@@ -286,38 +509,57 @@
           </span>
         </v-tooltip>
       </v-col>
-      <v-col class="text--disabled mr-5" :class="$vuetify.display.mdAndDown ? '' : 'text-right'">
+      <v-col
+        class="text--disabled mr-5"
+        :class="$vuetify.display.mdAndDown ? '' : 'text-right'"
+      >
         <span class="mr-3">
           <v-icon disabled>
-          mdi-web
-        </v-icon>
-        {{ $t('_navigation.htmlContent') }}
+            mdi-web
+          </v-icon>
+          {{ $t('_navigation.htmlContent') }}
         </span>
         <span>
           <v-icon disabled>
-          mdi-link
-        </v-icon>
-        {{ $t('_navigation.link') }}
+            mdi-link
+          </v-icon>
+          {{ $t('_navigation.link') }}
         </span>
       </v-col>
     </v-row>
     <!-- CMS Page Component-->
-    <div v-if="this.$store.state.generalConfig.show_advanced_settings">
-      <SettingTitle docPath="/guide/navigation" class="mt-10">
+    <div v-if="$store.state.generalConfig.show_advanced_settings">
+      <SettingTitle
+        doc-path="/guide/navigation"
+        class="mt-10"
+      >
         {{ $t('_navigation.cmsPageTitle') }}
       </SettingTitle>
       <v-list>
-        <v-list-item v-for="page in cmsPages" :key="page.id">
+        <v-list-item
+          v-for="page in cmsPages"
+          :key="page.id"
+        >
           <v-row>
             <v-col>{{ page.title }}</v-col>
             <v-col class="text-right">
-              <v-btn variant="outlined" color="primary" size="small"
-                     @click="openCmsEditDialog(page)" class="mr-1">
+              <v-btn
+                variant="outlined"
+                color="primary"
+                size="small"
+                class="mr-1"
+                @click="openCmsEditDialog(page)"
+              >
                 <v-icon>
                   mdi-pencil
                 </v-icon>
               </v-btn>
-              <v-btn variant="outlined" color="error" size="small" @click="$refs.cmsDeleteDialog.show(page)">
+              <v-btn
+                variant="outlined"
+                color="error"
+                size="small"
+                @click="$refs.cmsDeleteDialog.show(page)"
+              >
                 <v-icon>
                   mdi-delete
                 </v-icon>
@@ -326,8 +568,14 @@
           </v-row>
         </v-list-item>
       </v-list>
-      <v-btn variant="outlined" color="success" @click="$refs.cmsAddDialog.show()">
-        <v-icon start>mdi-plus</v-icon>
+      <v-btn
+        variant="outlined"
+        color="success"
+        @click="$refs.cmsAddDialog.show()"
+      >
+        <v-icon start>
+          mdi-plus
+        </v-icon>
         <span>{{ $t('_navigation.addCmsPage') }}</span>
       </v-btn>
     </div>
@@ -393,10 +641,6 @@ export default {
       ],
     };
   },
-  beforeMount() {
-    this.getNavItems();
-    this.getCmsPages();
-  },
   watch: {
     rawHtmlInput(newInput, oldInput) {
       if (oldInput && newInput) {
@@ -408,6 +652,10 @@ export default {
         this.rawHtmlInput = null;
       }
     },
+  },
+  beforeMount() {
+    this.getNavItems();
+    this.getCmsPages();
   },
   methods: {
     async getNavItems() {

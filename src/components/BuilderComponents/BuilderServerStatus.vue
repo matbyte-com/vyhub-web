@@ -1,62 +1,123 @@
 <template>
   <div class="vh-home-server-status">
-    <v-row justify="center" v-if="$vuetify.display.smAndUp">
-      <v-col cols="12" sm="4" md="4" lg="3" xl="2" v-for="s in servers" :key="s.id" >
-        <v-card class="card-rounded" hover>
-          <v-img :src="getImage(s)" :alt="s.name"/>
-          <v-card-text class="d-flex flex-column" style="min-height: 172px" >
+    <v-row
+      v-if="$vuetify.display.smAndUp"
+      justify="center"
+    >
+      <v-col
+        v-for="s in servers"
+        :key="s.id"
+        cols="12"
+        sm="4"
+        md="4"
+        lg="3"
+        xl="2"
+      >
+        <v-card
+          class="card-rounded"
+          hover
+        >
+          <v-img
+            :src="getImage(s)"
+            :alt="s.name"
+          />
+          <v-card-text
+            class="d-flex flex-column"
+            style="min-height: 172px"
+          >
             <div class="text-center text-h6 mb-3">
               {{ s.name }}
             </div>
             <v-spacer />
             <div v-if="s.users_current != null && s.status === 'ONLINE'">
               <div class="d-flex align-center">
-                <v-icon start>mdi-account-multiple</v-icon>
-                <v-progress-linear rounded :model-value="getPlayerOnlineProgress(s)" height="18"
-                                   class="text-white">
+                <v-icon start>
+                  mdi-account-multiple
+                </v-icon>
+                <v-progress-linear
+                  rounded
+                  :model-value="getPlayerOnlineProgress(s)"
+                  height="18"
+                  class="text-white"
+                >
                   <strong>
-                  <span v-if="s.users_current != null && s.status === 'ONLINE'">
-                    {{ s.users_current }}
-                  </span>
+                    <span v-if="s.users_current != null && s.status === 'ONLINE'">
+                      {{ s.users_current }}
+                    </span>
                     <span v-else>
-                    ?
-                  </span>
+                      ?
+                    </span>
                     /
                     <span v-if="s.users_max != null">
-                    {{ s.users_max }}
-                  </span>
+                      {{ s.users_max }}
+                    </span>
                     <span v-else>
-                    ?
-                  </span>
+                      ?
+                    </span>
                   </strong>
                 </v-progress-linear>
               </div>
             </div>
             <div>
-              <v-icon v-if="s.map" start>mdi-map</v-icon>{{ s.map }}
+              <v-icon
+                v-if="s.map"
+                start
+              >
+                mdi-map
+              </v-icon>{{ s.map }}
             </div>
             <v-spacer />
             <div class="d-flex justify-center align-center mt-3">
-              <v-btn v-if="s.status === 'ONLINE' && $vuetify.display.mdAndUp"
-                     variant="flat" :href="utils.getConnectionLink(s)" color="primary"
-                     @click="utils.copyServerAddress(s)" class="cta-btn">
-                <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
-                  <v-icon start>mdi-connection</v-icon>
+              <v-btn
+                v-if="s.status === 'ONLINE' && $vuetify.display.mdAndUp"
+                variant="flat"
+                :href="utils.getConnectionLink(s)"
+                color="primary"
+                class="cta-btn"
+                @click="utils.copyServerAddress(s)"
+              >
+                <div
+                  v-if="utils.getConnectionLink(s)"
+                  class="d-flex align-center"
+                >
+                  <v-icon start>
+                    mdi-connection
+                  </v-icon>
                   <div>{{ $t('connect') }}</div>
                 </div>
-                <div v-else class="d-flex align-center">
-                  <v-icon start>mdi-content-copy</v-icon>
+                <div
+                  v-else
+                  class="d-flex align-center"
+                >
+                  <v-icon start>
+                    mdi-content-copy
+                  </v-icon>
                   <div>{{ $t('copy') }}</div>
                 </div>
               </v-btn>
-              <v-btn class="ml-1 cta-btn"
-                     v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
-                     :to="{ name: 'ServerDashboard', params: { id: s.id } }" variant="flat">
-                <v-icon :start="$vuetify.display.smAndDown">mdi-badge-account-horizontal</v-icon>
+              <v-btn
+                v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
+                class="ml-1 cta-btn"
+                :to="{ name: 'ServerDashboard', params: { id: s.id } }"
+                variant="flat"
+              >
+                <v-icon :start="$vuetify.display.smAndDown">
+                  mdi-badge-account-horizontal
+                </v-icon>
                 <span v-if="$vuetify.display.smAndDown">{{ $t('dashboard') }}</span>
               </v-btn>
-              <v-chip v-if="s.status === 'OFFLINE'" color="error" variant="outlined" label>
-                <v-icon size="small" start>mdi-alert-circle</v-icon>
+              <v-chip
+                v-if="s.status === 'OFFLINE'"
+                color="error"
+                variant="outlined"
+                label
+              >
+                <v-icon
+                  size="small"
+                  start
+                >
+                  mdi-alert-circle
+                </v-icon>
                 {{ $t('_server.labels.offline') }}
               </v-chip>
             </div>
@@ -64,63 +125,119 @@
         </v-card>
       </v-col>
     </v-row>
-    <Swiper v-else :number-of-elements="servers.length" :per-page-custom="[1,2,3,4,5]">
-      <swiper-slide v-for="s in servers" :key="s.id">
-        <v-card class="card-rounded" hover>
-          <v-img :src="getImage(s)" :alt="s.name"/>
-          <v-card-text class="d-flex flex-column" style="min-height: 172px" >
+    <Swiper
+      v-else
+      :number-of-elements="servers.length"
+      :per-page-custom="[1,2,3,4,5]"
+    >
+      <swiper-slide
+        v-for="s in servers"
+        :key="s.id"
+      >
+        <v-card
+          class="card-rounded"
+          hover
+        >
+          <v-img
+            :src="getImage(s)"
+            :alt="s.name"
+          />
+          <v-card-text
+            class="d-flex flex-column"
+            style="min-height: 172px"
+          >
             <div class="text-center text-h6 mb-3">
               {{ s.name }}
             </div>
             <v-spacer />
             <div v-if="s.users_current != null && s.status === 'ONLINE'">
               <div class="d-flex align-center">
-                <v-icon start>mdi-account-multiple</v-icon>
-                <v-progress-linear rounded :model-value="getPlayerOnlineProgress(s)" height="18"
-                                   class="text-white">
+                <v-icon start>
+                  mdi-account-multiple
+                </v-icon>
+                <v-progress-linear
+                  rounded
+                  :model-value="getPlayerOnlineProgress(s)"
+                  height="18"
+                  class="text-white"
+                >
                   <strong>
-                  <span v-if="s.users_current != null && s.status === 'ONLINE'">
-                    {{ s.users_current }}
-                  </span>
+                    <span v-if="s.users_current != null && s.status === 'ONLINE'">
+                      {{ s.users_current }}
+                    </span>
                     <span v-else>
-                    ?
-                  </span>
+                      ?
+                    </span>
                     /
                     <span v-if="s.users_max != null">
-                    {{ s.users_max }}
-                  </span>
+                      {{ s.users_max }}
+                    </span>
                     <span v-else>
-                    ?
-                  </span>
+                      ?
+                    </span>
                   </strong>
                 </v-progress-linear>
               </div>
             </div>
             <div>
-              <v-icon v-if="s.map" start>mdi-map</v-icon>{{ s.map }}
+              <v-icon
+                v-if="s.map"
+                start
+              >
+                mdi-map
+              </v-icon>{{ s.map }}
             </div>
             <v-spacer />
             <div class="d-flex justify-center align-center mt-3">
-              <v-btn v-if="s.status === 'ONLINE' && $vuetify.display.mdAndUp" variant="flat"
-                     :href="utils.getConnectionLink(s)" color="primary"
-                     @click="utils.copyServerAddress(s)" class="cta-btn">
-                <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
-                  <v-icon start>mdi-connection</v-icon>
+              <v-btn
+                v-if="s.status === 'ONLINE' && $vuetify.display.mdAndUp"
+                variant="flat"
+                :href="utils.getConnectionLink(s)"
+                color="primary"
+                class="cta-btn"
+                @click="utils.copyServerAddress(s)"
+              >
+                <div
+                  v-if="utils.getConnectionLink(s)"
+                  class="d-flex align-center"
+                >
+                  <v-icon start>
+                    mdi-connection
+                  </v-icon>
                   <div>{{ $t('connect') }}</div>
                 </div>
-                <div v-else class="d-flex align-center">
-                  <v-icon start>mdi-content-copy</v-icon>
+                <div
+                  v-else
+                  class="d-flex align-center"
+                >
+                  <v-icon start>
+                    mdi-content-copy
+                  </v-icon>
                   <div>{{ $t('copy') }}</div>
                 </div>
               </v-btn>
-              <v-btn class="ml-1 cta-btn"
-                     v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
-                     :to="{ name: 'ServerDashboard', params: { id: s.id } }" variant="flat">
-                <v-icon :start="$vuetify.display.smAndDown">mdi-badge-account-horizontal</v-icon>
+              <v-btn
+                v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
+                class="ml-1 cta-btn"
+                :to="{ name: 'ServerDashboard', params: { id: s.id } }"
+                variant="flat"
+              >
+                <v-icon :start="$vuetify.display.smAndDown">
+                  mdi-badge-account-horizontal
+                </v-icon>
                 <span v-if="$vuetify.display.smAndDown">{{ $t('dashboard') }}</span>
               </v-btn>
-              <v-chip v-if="s.status === 'OFFLINE'" color="error" label>
-                <v-icon size="small" start>mdi-alert-circle</v-icon>
+              <v-chip
+                v-if="s.status === 'OFFLINE'"
+                color="error"
+                label
+              >
+                <v-icon
+                  size="small"
+                  start
+                >
+                  mdi-alert-circle
+                </v-icon>
                 {{ $t('_server.labels.offline') }}
               </v-chip>
             </div>
@@ -144,6 +261,8 @@ export default {
       bundles: null,
       currentServer: null,
     };
+  },
+  computed: {
   },
   beforeMount() {
     this.fetchData();
@@ -185,8 +304,6 @@ export default {
       if (server.users_max == null || server.users_current == null) return 0;
       return (server.users_current / server.users_max) * 100;
     },
-  },
-  computed: {
   },
 };
 </script>

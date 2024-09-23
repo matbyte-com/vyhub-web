@@ -1,62 +1,91 @@
 <template>
   <div>
-    <PaginatedDataTable ref="debitTable" :headers="headers"
-                        :items="debits"
-                        :totalItems="totalItems"
-                        default-sort-by="date"
-                        :default-sort-desc="true"
-                        @reload="fetchData">
-      <template v-slot:header>
+    <PaginatedDataTable
+      ref="debitTable"
+      :headers="headers"
+      :items="debits"
+      :total-items="totalItems"
+      default-sort-by="date"
+      :default-sort-desc="true"
+      @reload="fetchData"
+    >
+      <template #header>
         <v-checkbox
+          v-model="showApprovedDebits"
           :hide-details="true"
           dense
-          v-model="showApprovedDebits"
           :label="$t('_purchases.labels.showApprovedDebits')"
+          class="mr-3 align-self-center mt-0 pt-0"
           @update:model-value="fetchData"
-          class="mr-3 align-self-center mt-0 pt-0">
-        </v-checkbox>
+        />
       </template>
-      <template v-slot:item.payment_gateway="{ item }">
+      <template #item.payment_gateway="{ item }">
         {{ item.payment_gateway ? item.payment_gateway.name : '' }}
       </template>
-      <template v-slot:item.amount_total="{ item }">
+      <template #item.amount_total="{ item }">
         {{ item ? `${item.amount_total} ${item.purchase.currency.symbol}` : '' }}
       </template>
-      <template v-slot:item.actions="{ item }">
-        <v-btn variant="flat" size="small" color="error"
-               @click="showDetails(item.purchase)">
+      <template #item.actions="{ item }">
+        <v-btn
+          variant="flat"
+          size="small"
+          color="error"
+          @click="showDetails(item.purchase)"
+        >
           <v-icon start>
             mdi-eye
           </v-icon>
           {{ $t('details') }}
         </v-btn>
-        <v-btn variant="flat" size="small" color="success" @click="$refs.debitConfirmationDialog.show(item)"
-               class="ml-1" :disabled="item.status !== 'STARTED'
-               || item.purchase.status !== 'OPEN'">
-          <v-icon start>mdi-check</v-icon>
+        <v-btn
+          variant="flat"
+          size="small"
+          color="success"
+          class="ml-1"
+          :disabled="item.status !== 'STARTED'
+            || item.purchase.status !== 'OPEN'"
+          @click="$refs.debitConfirmationDialog.show(item)"
+        >
+          <v-icon start>
+            mdi-check
+          </v-icon>
           {{ $t('_purchases.labels.confirm') }}
         </v-btn>
-        <v-btn variant="flat" size="small" color="error" class="ml-1"
-               :disabled="item.status !== 'STARTED'"
-               @click="$refs.debitDeclineDialog.show(item)">
+        <v-btn
+          variant="flat"
+          size="small"
+          color="error"
+          class="ml-1"
+          :disabled="item.status !== 'STARTED'"
+          @click="$refs.debitDeclineDialog.show(item)"
+        >
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </template>
-      <template v-slot:item.coupon="{ item }">
-        <span v-for="coupon in getCoupons(item)" :key="coupon">
-          {{ coupon }} <br/>
+      <template #item.coupon="{ item }">
+        <span
+          v-for="coupon in getCoupons(item)"
+          :key="coupon"
+        >
+          {{ coupon }} <br>
         </span>
       </template>
-      <template v-slot:item.date="{ item }">
+      <template #item.date="{ item }">
         {{ utils.formatDate(item.date) }}
       </template>
     </PaginatedDataTable>
-    <confirmation-dialog :text="$t('_purchases.labels.confirmDebitText')"
-                         :btn-text="$t('_purchases.labels.confirm')"
-                         ref="debitConfirmationDialog" @submit="confirmDebit"/>
-    <confirmation-dialog :text="$t('_purchases.labels.declineDebitText')"
-                         :btn-text="$t('_purchases.labels.decline')"
-                         ref="debitDeclineDialog" @submit="declineDebit"/>
+    <confirmation-dialog
+      ref="debitConfirmationDialog"
+      :text="$t('_purchases.labels.confirmDebitText')"
+      :btn-text="$t('_purchases.labels.confirm')"
+      @submit="confirmDebit"
+    />
+    <confirmation-dialog
+      ref="debitDeclineDialog"
+      :text="$t('_purchases.labels.declineDebitText')"
+      :btn-text="$t('_purchases.labels.decline')"
+      @submit="declineDebit"
+    />
   </div>
 </template>
 

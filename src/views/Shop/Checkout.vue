@@ -1,7 +1,13 @@
 <template>
   <div>
     <v-row class="justify-center">
-      <v-col cols="12" sm="8" md="6" lg="5" xl="3">
+      <v-col
+        cols="12"
+        sm="8"
+        md="6"
+        lg="5"
+        xl="3"
+      >
         <v-card class="card-rounded">
           <v-card-title class="d-block">
             {{ $t('_shop.labels.payment') }}
@@ -19,59 +25,86 @@
                   indeterminate
                   color="primary"
                   size="80"
-                ></v-progress-circular>
+                />
               </v-col>
             </div>
-            <div v-if="debit != null && !loading" class="text-center mb-3">
+            <div
+              v-if="debit != null && !loading"
+              class="text-center mb-3"
+            >
               <div v-if="debit.status === 'STARTED'">
                 <div v-if="debit.payment_gateway.type === 'CREDITS'">
                   <div class="text-body-1">
                     {{ $t('_shop.messages.confirmCreditsPayment',
-                    {
-                      credits: debit.credits,
-                      credits_display_title:
-                      $store.getters.shopConfig.credits_display_title.toLowerCase()
-                    }) }}
+                          {
+                            credits: debit.credits,
+                            credits_display_title:
+                              $store.getters.shopConfig.credits_display_title.toLowerCase()
+                          }) }}
                   </div>
                   <div class="mt-5">
-                    <v-btn color="success" @click="confirmCreditPayment">
-                      <v-icon start>mdi-check</v-icon>
+                    <v-btn
+                      color="success"
+                      @click="confirmCreditPayment"
+                    >
+                      <v-icon start>
+                        mdi-check
+                      </v-icon>
                       {{ $t('confirm') }}
                     </v-btn>
-                    <v-btn class="ml-1" @click="cancelPayment">
-                      <v-icon start>mdi-close</v-icon>
+                    <v-btn
+                      class="ml-1"
+                      @click="cancelPayment"
+                    >
+                      <v-icon start>
+                        mdi-close
+                      </v-icon>
                       {{ $t('cancel') }}
                     </v-btn>
                   </div>
                 </div>
-                <div v-else-if="debit.payment_gateway.type === 'COUPON'" class="text-left">
+                <div
+                  v-else-if="debit.payment_gateway.type === 'COUPON'"
+                  class="text-left"
+                >
                   <div class="text-body-1">
                     <div>
                       {{ $t('_shop.messages.confirmCouponPayment',
-                      { gateway_name: this.debit.payment_gateway.name }) }}
+                            { gateway_name: debit.payment_gateway.name }) }}
                     </div>
                     <div class="mt-3 font-weight-bold">
                       {{ $t('_shop.labels.total') }}: {{ debit ? debit.amount_total : '' }}
                       {{ debit ? debit.purchase.currency.symbol : '' }}
                     </div>
                   </div>
-                  <div v-if="debit.extra && debit.extra.coupons && debit.extra.coupons.length > 0"
-                       class="mt-3">
-                    <v-alert type="success" icon="mdi-timer-sand">
+                  <div
+                    v-if="debit.extra && debit.extra.coupons && debit.extra.coupons.length > 0"
+                    class="mt-3"
+                  >
+                    <v-alert
+                      type="success"
+                      icon="mdi-timer-sand"
+                    >
                       {{ $t('_shop.messages.couponsEntered') }}
                     </v-alert>
                   </div>
                   <div class="mt-3">
-                    <GenForm ref="couponForm" :form-schema="couponCodeSchema"
-                             @submit="confirmCouponPayment"
-                             :optionsExtra="{editMode: 'inline'}"
-                             :action-button-top-margin="5"
-                             :cancel-text="null" />
+                    <GenForm
+                      ref="couponForm"
+                      :form-schema="couponCodeSchema"
+                      :options-extra="{editMode: 'inline'}"
+                      :action-button-top-margin="5"
+                      :cancel-text="null"
+                      @submit="confirmCouponPayment"
+                    />
                   </div>
                 </div>
                 <div v-else-if="debit.payment_gateway.type === 'PAYPAL_LEGACY'">
                   <div>
-                    <v-icon color="info" size="80" >
+                    <v-icon
+                      color="info"
+                      size="80"
+                    >
                       mdi-dots-horizontal-circle-outline
                     </v-icon>
                   </div>
@@ -81,7 +114,11 @@
                 </div>
                 <div v-else>
                   <div>
-                    <v-icon color="info" size="80" v-if="debit.status === 'STARTED'">
+                    <v-icon
+                      v-if="debit.status === 'STARTED'"
+                      color="info"
+                      size="80"
+                    >
                       mdi-dots-horizontal-circle-outline
                     </v-icon>
                   </div>
@@ -92,7 +129,10 @@
               </div>
               <div v-if="debit.status === 'APPROVED'">
                 <div>
-                  <v-icon color="info" size="80" >
+                  <v-icon
+                    color="info"
+                    size="80"
+                  >
                     mdi-dots-horizontal-circle-outline
                   </v-icon>
                 </div>
@@ -100,17 +140,23 @@
                   {{ $t('_shop.messages.paymentProcessing') }}
                 </div>
               </div>
-              <div v-if="debit.status === 'FINISHED'" class="text-center">
+              <div
+                v-if="debit.status === 'FINISHED'"
+                class="text-center"
+              >
                 <div class="d-inline-block">
-                  <SuccessIcon class="animate__animated animate__zoomIn animate__faster"/>
+                  <SuccessIcon class="animate__animated animate__zoomIn animate__faster" />
                 </div>
                 <div class="text-body-1 mt-3">
                   {{ $t('_shop.messages.paymentSuccess') }}
                 </div>
               </div>
-              <div v-if="debit.status === 'CANCELLED'" class="text-center">
+              <div
+                v-if="debit.status === 'CANCELLED'"
+                class="text-center"
+              >
                 <div class="d-inline-block">
-                  <ErrorIcon class="animate__animated animate__bounceIn animate__faster"/>
+                  <ErrorIcon class="animate__animated animate__bounceIn animate__faster" />
                 </div>
                 <div class="text-body-1">
                   {{ $t('_shop.messages.paymentCancelled') }}
@@ -118,7 +164,11 @@
               </div>
               <div v-if="debit.status === 'FAILED'">
                 <div>
-                  <v-icon color="error" size="80" v-if="debit.status === 'CANCELLED'">
+                  <v-icon
+                    v-if="debit.status === 'CANCELLED'"
+                    color="error"
+                    size="80"
+                  >
                     mdi-close-circle-outline
                   </v-icon>
                 </div>
@@ -129,19 +179,30 @@
             </div>
           </v-card-text>
           <v-card-actions v-if="debit != null">
-            <v-btn color="primary" variant="text" @click="$router.push({ name: 'ShopCart' })"
-                   v-if="debit.status !== 'FINISHED'">
+            <v-btn
+              v-if="debit.status !== 'FINISHED'"
+              color="primary"
+              variant="text"
+              @click="$router.push({ name: 'ShopCart' })"
+            >
               <v-icon>mdi-arrow-left</v-icon>
               {{ $t('_shop.labels.cart') }}
             </v-btn>
-            <v-btn color="primary" variant="text" @click="$router.push({ name: 'Dashboard' })"
-                   v-if="debit.status === 'FINISHED'">
+            <v-btn
+              v-if="debit.status === 'FINISHED'"
+              color="primary"
+              variant="text"
+              @click="$router.push({ name: 'Dashboard' })"
+            >
               <v-icon>mdi-arrow-right</v-icon>
               {{ $t('dashboard') }}
             </v-btn>
           </v-card-actions>
         </v-card>
-        <div class="mt-3 text--disabled" v-if="debit != null">
+        <div
+          v-if="debit != null"
+          class="mt-3 text--disabled"
+        >
           {{ $t('_shop.labels.paymentId') }}: {{ debit.id }}
         </div>
       </v-col>
@@ -172,7 +233,7 @@ export default {
       couponCodeSchema: CheckoutCouponCodeForm,
     };
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.intervalID != null) {
       clearInterval(this.intervalID);
       this.intervalID = null;

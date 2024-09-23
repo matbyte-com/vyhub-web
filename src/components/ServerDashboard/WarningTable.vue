@@ -1,67 +1,102 @@
 <template>
-<div>
-  <span class="text-h5">
-    <v-icon start>
-      mdi-account-alert
-    </v-icon>
-    {{ $t('warnings') }}
-  </span>
-  <DataTable
-    ref="warnTable"
-    :headers="headers"
-    :items="warnings"
-    :totalItems="totalItems"
-    default-sort-by="created_on"
-    :default-sort-desc="true"
-  >
-    <template v-slot:footer-right v-if="$checkProp('warning_edit')">
-      <v-btn variant="outlined" color="success" @click="openAddWarningDialog()">
-        <v-icon start>mdi-plus</v-icon>
-        <span>{{ $t("_warning.add") }}</span>
-      </v-btn>
-    </template>
-    <template v-slot:item.color-status="{ item }">
-      <v-sheet :color="warningRowFormatter(item)"
-               height="95%" width="10px"
-               style="margin-left: -15px"/>
-    </template>
-    <template v-slot:item.created_on="{ item }">
-      <span>{{ new Date(item.created_on).toLocaleString() }}</span>
-    </template>
-    <template v-slot:item.creator="{ item }">
-      <UserLink :user="item.creator"></UserLink>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <div class="d-flex">
-        <v-spacer />
-        <div v-if="$checkProp('warning_edit') && item.status !== 'EXPIRED'">
-          <v-btn variant="flat" size="small" v-if="item.disabled !== true"
-                 @click="toggleDisable(item)">
-            <v-icon start>
-              mdi-pause
+  <div>
+    <span class="text-h5">
+      <v-icon start>
+        mdi-account-alert
+      </v-icon>
+      {{ $t('warnings') }}
+    </span>
+    <DataTable
+      ref="warnTable"
+      :headers="headers"
+      :items="warnings"
+      :total-items="totalItems"
+      default-sort-by="created_on"
+      :default-sort-desc="true"
+    >
+      <template
+        v-if="$checkProp('warning_edit')"
+        #footer-right
+      >
+        <v-btn
+          variant="outlined"
+          color="success"
+          @click="openAddWarningDialog()"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
+          <span>{{ $t("_warning.add") }}</span>
+        </v-btn>
+      </template>
+      <template #item.color-status="{ item }">
+        <v-sheet
+          :color="warningRowFormatter(item)"
+          height="95%"
+          width="10px"
+          style="margin-left: -15px"
+        />
+      </template>
+      <template #item.created_on="{ item }">
+        <span>{{ new Date(item.created_on).toLocaleString() }}</span>
+      </template>
+      <template #item.creator="{ item }">
+        <UserLink :user="item.creator" />
+      </template>
+      <template #item.actions="{ item }">
+        <div class="d-flex">
+          <v-spacer />
+          <div v-if="$checkProp('warning_edit') && item.status !== 'EXPIRED'">
+            <v-btn
+              v-if="item.disabled !== true"
+              variant="flat"
+              size="small"
+              @click="toggleDisable(item)"
+            >
+              <v-icon start>
+                mdi-pause
+              </v-icon>
+              {{ $t('disable') }}
+            </v-btn>
+            <v-btn
+              v-else
+              variant="flat"
+              size="small"
+              @click="toggleDisable(item)"
+            >
+              <v-icon start>
+                mdi-play
+              </v-icon>
+              {{ $t('enable') }}
+            </v-btn>
+          </div>
+          <v-btn
+            v-if="$checkProp('warning_delete')"
+            variant="outlined"
+            color="error"
+            size="small"
+            class="ml-1"
+            @click="openDeleteWarningDialog(item)"
+          >
+            <v-icon>
+              mdi-delete
             </v-icon>
-            {{ $t('disable') }}
-          </v-btn>
-          <v-btn variant="flat" size="small" v-else @click="toggleDisable(item)">
-            <v-icon start>
-              mdi-play
-            </v-icon>
-            {{ $t('enable') }}
           </v-btn>
         </div>
-        <v-btn variant="outlined" v-if="$checkProp('warning_delete')" color="error" size="small"
-               @click="openDeleteWarningDialog(item)" class="ml-1">
-          <v-icon>
-            mdi-delete
-          </v-icon>
-        </v-btn>
-      </div>
-    </template>
-  </DataTable>
-  <DeleteConfirmationDialog ref="deleteWarningDialog" @submit="deleteWarning"/>
-  <DialogForm ref="addWarningDialog" @submit="addWarning" :form-schema="warningAddSchema"
-              :title="$t('_warning.add')" icon="mdi-account-alert"/>
-</div>
+      </template>
+    </DataTable>
+    <DeleteConfirmationDialog
+      ref="deleteWarningDialog"
+      @submit="deleteWarning"
+    />
+    <DialogForm
+      ref="addWarningDialog"
+      :form-schema="warningAddSchema"
+      :title="$t('_warning.add')"
+      icon="mdi-account-alert"
+      @submit="addWarning"
+    />
+  </div>
 </template>
 
 <script>
@@ -77,6 +112,7 @@ export default {
   components: {
     DataTable, UserLink, DeleteConfirmationDialog, DialogForm,
   },
+  props: ['warnings', 'totalItems', 'user', 'serverbundle'],
   data() {
     return {
       headers: [
@@ -91,7 +127,6 @@ export default {
       warningAddSchema: warningAddForm,
     };
   },
-  props: ['warnings', 'totalItems', 'user', 'serverbundle'],
   methods: {
     warningRowFormatter(item) {
       const add = (this.$vuetify.theme.dark ? 'darken-4' : '');
@@ -108,7 +143,7 @@ export default {
     },
     async toggleDisable(item) {
       (await openapi).warning_toggleWarningStatus(item.id).then(() => {
-        // eslint-disable-next-line no-param-reassign
+         
         item.disabled = !item.disabled;
         this.$notify({
           title: this.$t('_messages.toggleSuccess'),

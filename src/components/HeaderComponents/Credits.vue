@@ -1,10 +1,19 @@
 <template>
   <div v-if="credits !== 0">
-    <v-btn variant="text" v-if="!listItem" @click="$refs.creditHistoryDialog.show()">
+    <v-btn
+      v-if="!listItem"
+      variant="text"
+      @click="$refs.creditHistoryDialog.show()"
+    >
       {{ credits }}
-      <v-icon end>mdi-circle-multiple</v-icon>
+      <v-icon end>
+        mdi-circle-multiple
+      </v-icon>
     </v-btn>
-    <v-list-item v-else @click="$refs.creditHistoryDialog.show()">
+    <v-list-item
+      v-else
+      @click="$refs.creditHistoryDialog.show()"
+    >
       <v-icon start>
         mdi-circle-multiple
       </v-icon>
@@ -12,9 +21,14 @@
         {{ credits }}
       </v-list-item-title>
     </v-list-item>
-    <Dialog ref="creditHistoryDialog" :title="$store.getters.shopConfig.credits_display_title"
-            icon="mdi-circle-multiple" :max-width="1000" v-if="$store.getters.isLoggedIn">
-      <CreditHistory :user="$store.getters.user"/>
+    <Dialog
+      v-if="$store.getters.isLoggedIn"
+      ref="creditHistoryDialog"
+      :title="$store.getters.shopConfig.credits_display_title"
+      icon="mdi-circle-multiple"
+      :max-width="1000"
+    >
+      <CreditHistory :user="$store.getters.user" />
     </Dialog>
   </div>
 </template>

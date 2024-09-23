@@ -1,18 +1,32 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/legal">{{ $t('legal') }}</SettingTitle>
+    <SettingTitle doc-path="/guide/legal">
+      {{ $t('legal') }}
+    </SettingTitle>
     <span>{{ $t('_legal.descriptionText') }}</span>
-    <v-alert v-if="errorMsg" type="error">
+    <v-alert
+      v-if="errorMsg"
+      type="error"
+    >
       {{ errorMsg }}
     </v-alert>
     <v-card flat>
       <v-card-text>
-        <Editor v-model="content"/>
+        <Editor v-model="content" />
       </v-card-text>
     </v-card>
-    <v-btn :loading="loading" variant="flat" color="primary" class="mt-3" @click="updateLegal">
+    <v-btn
+      :loading="loading"
+      variant="flat"
+      color="primary"
+      class="mt-3"
+      @click="updateLegal"
+    >
       <span v-if="success">
-        <v-icon size="large" color="success">
+        <v-icon
+          size="large"
+          color="success"
+        >
           mdi-check
         </v-icon>
       </span>
@@ -30,8 +44,8 @@ import i18n from '@/plugins/i18n';
 import Editor from '@/components/Editor.vue';
 
 export default {
-  components: { Editor, SettingTitle },
   name: 'Legal',
+  components: { Editor, SettingTitle },
   data() {
     return {
       content: '',

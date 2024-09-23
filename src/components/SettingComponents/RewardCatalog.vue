@@ -1,85 +1,132 @@
 <template>
   <div>
-  <v-tabs v-model="tabIndex">
-    <v-tab v-for="tab in tabs.items" :key="tab.title">
-      {{ tab.title }}
-    </v-tab>
-    <v-tab-item v-for="tab in tabs.items" :key="tab.title">
-      <v-select :items="serverbundles" density="compact" v-model="serverbundle_id" validate-on="blur"
-                item-value="id"
-                :error="serverbundleSelectError" :rules="[v => !!v || $t('required')]"
-                item-title="name" hide-details="auto" :label="$t('serverbundle')" class="mt-3"/>
-      <v-text-field variant="outlined" density="compact" hide-details :label="$t('search')" v-model="search"
-               prepend-inner-icon="mdi-magnify" class="mt-3" />
-      <v-expansion-panels class="mb-5">
-        <v-expansion-panel v-for="item in searchedRewards" :key="item.name">
-          <v-expansion-panel-title>
-            {{ item.name }}
-          </v-expansion-panel-title>
-          <v-expansion-panel-text>
-            <v-expansion-panels>
-              <v-expansion-panel v-for="script in item.scripts" :key="script.name">
-                <v-expansion-panel-title>
-                  {{ script.name }}
-                </v-expansion-panel-title>
-                <v-expansion-panel-text>
-                  <div class="mb-1 ml-3" v-html="script.description">
-                  </div>
-                  <v-divider v-if="script.script || script.command" class="mb-4" />
-                  <v-row>
-                    <v-col cols="12" md="6">
-                      <v-row>
-                        <v-col cols="12">
-                          <div v-for="(property, key) in script.properties" :key="key">
+    <v-tabs v-model="tabIndex">
+      <v-tab
+        v-for="tab in tabs.items"
+        :key="tab.title"
+      >
+        {{ tab.title }}
+      </v-tab>
+      <v-tab-item
+        v-for="tab in tabs.items"
+        :key="tab.title"
+      >
+        <v-select
+          v-model="serverbundle_id"
+          :items="serverbundles"
+          density="compact"
+          validate-on="blur"
+          item-value="id"
+          :error="serverbundleSelectError"
+          :rules="[v => !!v || $t('required')]"
+          item-title="name"
+          hide-details="auto"
+          :label="$t('serverbundle')"
+          class="mt-3"
+        />
+        <v-text-field
+          v-model="search"
+          variant="outlined"
+          density="compact"
+          hide-details
+          :label="$t('search')"
+          prepend-inner-icon="mdi-magnify"
+          class="mt-3"
+        />
+        <v-expansion-panels class="mb-5">
+          <v-expansion-panel
+            v-for="item in searchedRewards"
+            :key="item.name"
+          >
+            <v-expansion-panel-title>
+              {{ item.name }}
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-expansion-panels>
+                <v-expansion-panel
+                  v-for="script in item.scripts"
+                  :key="script.name"
+                >
+                  <v-expansion-panel-title>
+                    {{ script.name }}
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text>
+                    <div
+                      class="mb-1 ml-3"
+                      v-html="script.description"
+                    />
+                    <v-divider
+                      v-if="script.script || script.command"
+                      class="mb-4"
+                    />
+                    <v-row>
+                      <v-col
+                        cols="12"
+                        md="6"
+                      >
+                        <v-row>
+                          <v-col cols="12">
                             <div
-                              v-if="property.multi === false || property.multi === undefined">
-                              <v-text-field
-                                :error="missingInput"
-                                :rules="[v => !!v || $t('required')]"
-                                :key="key"
-                                :label="property.name"
-                                v-model="tabs.values[key]"
-                                variant="outlined"
-                                density="compact"
-                                :type="property.type === 'number' ? 'number' : 'text'"
-                              />
+                              v-for="(property, key) in script.properties"
+                              :key="key"
+                            >
+                              <div
+                                v-if="property.multi === false || property.multi === undefined"
+                              >
+                                <v-text-field
+                                  :key="key"
+                                  v-model="tabs.values[key]"
+                                  :error="missingInput"
+                                  :rules="[v => !!v || $t('required')]"
+                                  :label="property.name"
+                                  variant="outlined"
+                                  density="compact"
+                                  :type="property.type === 'number' ? 'number' : 'text'"
+                                />
+                              </div>
+                              <div v-else>
+                                <v-combobox
+                                  :key="key"
+                                  v-model="tabs.values[key]"
+                                  :error="missingInput"
+                                  :rules="[v => !!v || $t('required')]"
+                                  :label="property.name"
+                                  variant="outlined"
+                                  density="compact"
+                                  chips
+                                  multiple
+                                  :type="property.type === 'number' ? 'number' : 'text'"
+                                />
+                              </div>
                             </div>
-                            <div v-else>
-                              <v-combobox
-                                :error="missingInput"
-                                :rules="[v => !!v || $t('required')]"
-                                :key="key"
-                                :label="property.name"
-                                v-model="tabs.values[key]"
-                                variant="outlined"
-                                density="compact"
-                                chips
-                                multiple
-                                :type="property.type === 'number' ? 'number' : 'text'"
-                              />
-                            </div>
-                          </div>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                  <v-btn v-if="script.script || script.command"
-                         size="small" variant="outlined" color="success" @click="createTemplateReward(script, item)">
-                    <v-icon start>mdi-plus</v-icon>
-                    <span>{{ $t('_reward.labels.create') }}</span>
-                  </v-btn>
-                </v-expansion-panel-text>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
-      <span v-if="tab.title !== 'Discord' && tab.title !== 'Teamspeak 3 (TS3)'">
-        Unlimited other rewards are possible by simply executing any command on the server.
-        There is no limit but your creativity.
-      </span>
-    </v-tab-item>
-  </v-tabs>
+                          </v-col>
+                        </v-row>
+                      </v-col>
+                    </v-row>
+                    <v-btn
+                      v-if="script.script || script.command"
+                      size="small"
+                      variant="outlined"
+                      color="success"
+                      @click="createTemplateReward(script, item)"
+                    >
+                      <v-icon start>
+                        mdi-plus
+                      </v-icon>
+                      <span>{{ $t('_reward.labels.create') }}</span>
+                    </v-btn>
+                  </v-expansion-panel-text>
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+        <span v-if="tab.title !== 'Discord' && tab.title !== 'Teamspeak 3 (TS3)'">
+          Unlimited other rewards are possible by simply executing any command on the server.
+          There is no limit but your creativity.
+        </span>
+      </v-tab-item>
+    </v-tabs>
   </div>
 </template>
 
@@ -761,6 +808,14 @@ export default {
       },
     };
   },
+  computed: {
+    searchedRewards() {
+      // Use search value to return only relevant reward templates
+      return this.tabs.items[this.tabIndex]?.items?.filter((item) => item.name.includes(this.search)
+          || item.scripts.find((script) => script.name.includes(this.search)
+            || script.description.includes(this.search)));
+    },
+  },
   beforeMount() {
     this.fetchData();
   },
@@ -843,14 +898,6 @@ export default {
         this.$emit('success');
         this.tabs.values = {};
       });
-    },
-  },
-  computed: {
-    searchedRewards() {
-      // Use search value to return only relevant reward templates
-      return this.tabs.items[this.tabIndex]?.items?.filter((item) => item.name.includes(this.search)
-          || item.scripts.find((script) => script.name.includes(this.search)
-            || script.description.includes(this.search)));
     },
   },
 };

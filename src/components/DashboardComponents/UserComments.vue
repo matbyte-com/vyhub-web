@@ -1,10 +1,18 @@
 <template>
   <div>
-    <v-card class="vh-dashboard-comment card-rounded" flat>
+    <v-card
+      class="vh-dashboard-comment card-rounded"
+      flat
+    >
       <v-card-text>
-        <CommentsTable type="user" :obj-id="user.id" :show-search="false"
-                       class="mt-5" :noAddBtn="readOnly"
-                       ref="userCommentsTable" />
+        <CommentsTable
+          ref="userCommentsTable"
+          type="user"
+          :obj-id="user.id"
+          :show-search="false"
+          class="mt-5"
+          :no-add-btn="readOnly"
+        />
       </v-card-text>
     </v-card>
   </div>

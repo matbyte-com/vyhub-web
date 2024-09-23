@@ -1,35 +1,79 @@
 <template>
-  <Dialog :max-width="maxWidth" ref="dialog" :title="title" :icon="icon" @cancel="cancelForm"
-          class="">
-          <!--:text-class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'"-->
-    <template v-if="formSchema" style="overflow-x: hidden">
-      <GenForm :form-schema="formSchema" @submit="$emit('submit', item)"
-               :error-message="errorMessage" :hide-buttons="true"
-               :cancel-text="cancelText" :submit-text="submitText" :options-extra="optionsExtra"
-               @cancel="$refs.dialog.open = false; $emit('cancel');"
-               ref="form"
-               class="mt-1"
-               @mounted="genFormMounted"
-               @updated="$emit('updated')"
-               @notValid="loading=false;
-               $refs.form.$el.scrollIntoView({ block: 'start', behavior: 'smooth' });">
-        <template v-for="(index, name) in $scopedSlots" v-slot:[name]="scope">
-          <slot v-bind="scope" :name="name"/>
+  <Dialog
+    ref="dialog"
+    :max-width="maxWidth"
+    :title="title"
+    :icon="icon"
+    class=""
+    @cancel="cancelForm"
+  >
+    <!--:text-class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'"-->
+    <template
+      v-if="formSchema"
+      style="overflow-x: hidden"
+    >
+      <GenForm
+        ref="form"
+        :form-schema="formSchema"
+        :error-message="errorMessage"
+        :hide-buttons="true"
+        :cancel-text="cancelText"
+        :submit-text="submitText"
+        :options-extra="optionsExtra"
+        class="mt-1"
+        @submit="$emit('submit', item)"
+        @cancel="$refs.dialog.open = false; $emit('cancel');"
+        @mounted="genFormMounted"
+        @updated="$emit('updated')"
+        @not-valid="loading=false;
+                    $refs.form.$el.scrollIntoView({ block: 'start', behavior: 'smooth' });"
+      >
+        <template
+          v-for="(index, name) in $slots"
+          #[name]="scope"
+        >
+          <slot
+            v-bind="scope"
+            :name="name"
+          />
         </template>
       </GenForm>
     </template>
-    <template v-slot:actions v-if="submitText != null || cancelText != null">
-      <v-btn v-if="submitText != null"
-             variant="text" color="primary" @click="submit">
-        <v-progress-circular v-if="loading" indeterminate size="25" width="2"/>
-        <v-icon v-if="!loading" start>mdi-check</v-icon>
+    <template
+      v-if="submitText != null || cancelText != null"
+      #actions
+    >
+      <v-btn
+        v-if="submitText != null"
+        variant="text"
+        color="primary"
+        @click="submit"
+      >
+        <v-progress-circular
+          v-if="loading"
+          indeterminate
+          size="25"
+          width="2"
+        />
+        <v-icon
+          v-if="!loading"
+          start
+        >
+          mdi-check
+        </v-icon>
         <div v-if="!loading">
           {{ submitText }}
         </div>
       </v-btn>
-      <v-btn v-if="cancelText != null" color="lighten-5"
-             variant="text" @click="cancelForm">
-        <v-icon start>mdi-close</v-icon>
+      <v-btn
+        v-if="cancelText != null"
+        color="lighten-5"
+        variant="text"
+        @click="cancelForm"
+      >
+        <v-icon start>
+          mdi-close
+        </v-icon>
         {{ cancelText }}
       </v-btn>
     </template>
@@ -74,6 +118,11 @@ export default {
         editMode: 'inline',
       },
     };
+  },
+  computed: {
+    open() {
+      return this.$refs.dialog.open;
+    },
   },
   methods: {
     show(item, data) {
@@ -132,11 +181,6 @@ export default {
         this.loading = true;
         this.$refs.form.validateAndRun();
       }
-    },
-  },
-  computed: {
-    open() {
-      return this.$refs.dialog.open;
     },
   },
 };

@@ -2,29 +2,55 @@
   <div>
     <SettingTitle>{{ $t('general') }}</SettingTitle>
     <v-row>
-      <v-col cols="12" lg="6">
-        <GenForm :form-schema="formSchema" :cancel-text="$t('cancel')" v-if="formSchema"
-                 :submit-text="$t('submit')" ref="form" @submit="saveData" :settings-mode="true">
-          <template v-slot:language-after>
+      <v-col
+        cols="12"
+        lg="6"
+      >
+        <GenForm
+          v-if="formSchema"
+          ref="form"
+          :form-schema="formSchema"
+          :cancel-text="$t('cancel')"
+          :submit-text="$t('submit')"
+          :settings-mode="true"
+          @submit="saveData"
+        >
+          <template #language-after>
             {{ $t('_settings.languageNewDescriptionText') }}
-            <a href="https://github.com/matbyte-com/vyhub-lang" target="_blank">{{ $t('here') }}</a>!
+            <a
+              href="https://github.com/matbyte-com/vyhub-lang"
+              target="_blank"
+            >{{ $t('here') }}</a>!
           </template>
-          <template v-slot:enable_forum-before v-if="!forumEnabled">
-            <AddOnChip :addonTitle="$t('_forum.forum')"/>
+          <template
+            v-if="!forumEnabled"
+            #enable_forum-before
+          >
+            <AddOnChip :addon-title="$t('_forum.forum')" />
           </template>
-          <template v-slot:enable_forum-after v-if="!forumEnabled">
+          <template
+            v-if="!forumEnabled"
+            #enable_forum-after
+          >
             <div class="mt-6" />
           </template>
         </GenForm>
       </v-col>
-      <v-col cols="12" lg="6">
-        <GenForm :form-schema="htmlTagSchema" :cancel-text="$t('cancel')"
-                 :submit-text="$t('submit')" ref="htmlTagForm" @submit="saveHtmlTags"
-                 :settings-mode="true">
-        </GenForm>
+      <v-col
+        cols="12"
+        lg="6"
+      >
+        <GenForm
+          ref="htmlTagForm"
+          :form-schema="htmlTagSchema"
+          :cancel-text="$t('cancel')"
+          :submit-text="$t('submit')"
+          :settings-mode="true"
+          @submit="saveHtmlTags"
+        />
       </v-col>
     </v-row>
-    <v-divider class="mt-5"/>
+    <v-divider class="mt-5" />
     <div class="mt-5">
       <Support />
     </div>
@@ -73,6 +99,12 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    forumEnabled() {
+      if (!this.data) return false;
+      return this.data.addons.includes('forum');
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -124,12 +156,6 @@ export default {
       }).catch((err) => {
         this.$refs.htmlTagForm.setError(err);
       });
-    },
-  },
-  computed: {
-    forumEnabled() {
-      if (!this.data) return false;
-      return this.data.addons.includes('forum');
     },
   },
 };

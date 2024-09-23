@@ -1,10 +1,22 @@
 <template>
   <div class="d-flex">
-    <v-text-field style="border-bottom-right-radius: 0; border-top-right-radius: 0"
-                  @click="$refs.textField.$el.querySelector('input').select();"
-                  hide-details density="compact" readonly variant="outlined" :model-value="cmd" ref="textField"/>
-    <v-btn @click="copyLink" color="primary" variant="flat" height="40px"
-           style="border-top-left-radius: 0; border-bottom-left-radius: 0">
+    <v-text-field
+      ref="textField"
+      style="border-bottom-right-radius: 0; border-top-right-radius: 0"
+      hide-details
+      density="compact"
+      readonly
+      variant="outlined"
+      :model-value="cmd"
+      @click="$refs.textField.$el.querySelector('input').select();"
+    />
+    <v-btn
+      color="primary"
+      variant="flat"
+      height="40px"
+      style="border-top-left-radius: 0; border-bottom-left-radius: 0"
+      @click="copyLink"
+    >
       {{ $t('copy') }}
     </v-btn>
   </div>

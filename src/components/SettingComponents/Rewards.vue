@@ -1,41 +1,70 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/shop/reward">
+    <SettingTitle doc-path="/guide/shop/reward">
       {{ $t('rewards') }}
     </SettingTitle>
     <DataTable
       :headers="headers"
       :items="rewards"
-      :showSearch="true">
-      <template v-slot:footer-right>
-        <v-btn variant="outlined" color="success" @click="$refs.createRewardDialog.show()"
-               style="border-bottom-right-radius: 0; border-top-right-radius: 0;"
-               :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }">
-          <v-icon start>mdi-plus</v-icon>
+      :show-search="true"
+    >
+      <template #footer-right>
+        <v-btn
+          variant="outlined"
+          color="success"
+          style="border-bottom-right-radius: 0; border-top-right-radius: 0;"
+          :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }"
+          @click="$refs.createRewardDialog.show()"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
           <span>{{ $t('_reward.labels.create') }}</span>
         </v-btn>
-        <v-btn variant="outlined" color="primary" @click="$refs.useTemplateDialog.show()"
-               style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
-               :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }">
-          <v-icon start>mdi-bookshelf</v-icon>
+        <v-btn
+          variant="outlined"
+          color="primary"
+          style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
+          :class="{ 'glow-effect':utils.customerJourneyActive('add-reward') }"
+          @click="$refs.useTemplateDialog.show()"
+        >
+          <v-icon start>
+            mdi-bookshelf
+          </v-icon>
           <span>{{ $t('_reward.labels.templates') }}</span>
         </v-btn>
-        <v-btn class="ml-1" variant="outlined" color="success" @click="$refs.appliedRewardSyncDialog.show()"
-               v-if="$checkProp('applied_packet_edit')">
+        <v-btn
+          v-if="$checkProp('applied_packet_edit')"
+          class="ml-1"
+          variant="outlined"
+          color="success"
+          @click="$refs.appliedRewardSyncDialog.show()"
+        >
           <v-icon>mdi-sync</v-icon>
         </v-btn>
       </template>
-      <template v-slot:item.once="{ item }">
-        <BoolIcon :value="item.once"></BoolIcon>
+      <template #item.once="{ item }">
+        <BoolIcon :value="item.once" />
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template #item.actions="{ item }">
         <div class="text-right">
-          <v-btn variant="outlined" color="primary" size="small" @click="showEditDialog(item)" class="mr-1">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            size="small"
+            class="mr-1"
+            @click="showEditDialog(item)"
+          >
             <v-icon>
               mdi-pencil
             </v-icon>
           </v-btn>
-          <v-btn variant="outlined" color="error" size="small" @click="$refs.deleteRewardDialog.show(item)">
+          <v-btn
+            variant="outlined"
+            color="error"
+            size="small"
+            @click="$refs.deleteRewardDialog.show(item)"
+          >
             <v-icon>
               mdi-delete
             </v-icon>
@@ -47,19 +76,71 @@
       ref="createRewardDialog"
       :form-schema="rewardSchema"
       icon="mdi-star-shooting"
-      :submitText="$t('create')"
+      :submit-text="$t('create')"
+      :title="$t('_reward.labels.create')"
       @submit="createReward"
-      :title="$t('_reward.labels.create')">
-      <template slot="allOf-0.serverbundle-after">
+    >
+      <slot name="allOf-0.serverbundle-after">
         <b>{{ $t('_reward.labels.checkForReplacements') }}:</b>
-        <br/>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/gmod/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">GMOD</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/minecraft/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">Minecraft</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/rust/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">Rust</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/7days/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">7 Days to Die</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/asa/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">Ark Ascended</v-btn></a>
-        <a target="_blank" href="https://docs.vyhub.net/latest/game/fivem/" class="mr-2"><v-btn class="mb-1" variant="flat" size="small">FiveM</v-btn></a>
-      </template>
+        <br>
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/gmod/"
+          class="mr-2"
+        ><v-btn
+          class="mb-1"
+          variant="flat"
+          size="small"
+        >GMOD</v-btn></a>
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/minecraft/"
+          class="mr-2"
+        ><v-btn
+          class="mb-1"
+          variant="flat"
+          size="small"
+        >Minecraft</v-btn></a>
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/rust/"
+          class="mr-2"
+        ><v-btn
+          class="mb-1"
+          variant="flat"
+          size="small"
+        >Rust</v-btn></a>
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/7days/"
+          class="mr-2"
+        ><v-btn
+          class="mb-1"
+          variant="flat"
+          size="small"
+        >7 Days to Die</v-btn></a>
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/asa/"
+          class="mr-2"
+        ><v-btn
+          class="mb-1"
+          variant="flat"
+          size="small"
+        >Ark Ascended</v-btn></a>
+        <a
+          target="_blank"
+          href="https://docs.vyhub.net/latest/game/fivem/"
+          class="mr-2"
+        ><v-btn
+          class="mb-1"
+          variant="flat"
+          size="small"
+        >FiveM</v-btn></a>
+      </slot>
+    </dialogform>
+  </div>
+</template>
     </DialogForm>
     <DialogForm
       ref="editRewardDialog"
@@ -67,16 +148,19 @@
       icon="mdi-star-shooting"
       :submitText="$t('edit')"
       @submit="editReward"
-      :title="$t('_reward.labels.edit')">
+      :title="$t('_reward.labels.edit')"
+>
     </DialogForm>
     <Dialog :title="$t('_reward.labels.templates')"
-            ref="useTemplateDialog" icon="mdi-star-shooting">
+            ref="useTemplateDialog" icon="mdi-star-shooting"
+>
       <RewardCatalog @success="$refs.useTemplateDialog.close(); fetchData()"/>
     </Dialog>
     <DeleteConfirmationDialog
       ref="deleteRewardDialog"
-      @submit="deleteReward"/>
-    <SyncAppliedRewardsPacketsDialog @success="fetchData" ref="appliedRewardSyncDialog"/>
+      @submit="deleteReward"
+/>
+    <SyncAppliedRewardsPacketsDialog @success="fetchData" ref="appliedRewardSyncDialog" />
   </div>
 </template>
 
@@ -98,14 +182,6 @@ import BoolIcon from '../BoolIcon.vue';
 
 export default {
   name: 'Rewards',
-  computed: {
-    GMOD() {
-      return GMOD;
-    },
-    admin() {
-      return admin;
-    },
-  },
   components: {
     SyncAppliedRewardsPacketsDialog,
     RewardCatalog,
@@ -132,6 +208,14 @@ export default {
       currentServerbundle: null,
       bundles: null,
     };
+  },
+  computed: {
+    GMOD() {
+      return GMOD;
+    },
+    admin() {
+      return admin;
+    },
   },
   beforeMount() {
     this.fetchData();

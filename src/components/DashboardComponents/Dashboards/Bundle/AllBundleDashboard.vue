@@ -4,18 +4,38 @@
       <v-col cols="12">
         <v-row>
           <v-col lg="3">
-            <LinkedAccounts :user="user" :bundle="bundle" class="flex-md-grow-1" />
+            <LinkedAccounts
+              :user="user"
+              :bundle="bundle"
+              class="flex-md-grow-1"
+            />
           </v-col>
-          <v-col cols="12" lg="6" class="d-flex">
-            <AttributeGraph :user="user" :bundle="bundle" class="flex-md-grow-1" />
+          <v-col
+            cols="12"
+            lg="6"
+            class="d-flex"
+          >
+            <AttributeGraph
+              :user="user"
+              :bundle="bundle"
+              class="flex-md-grow-1"
+            />
           </v-col>
-          <v-col cols="12" lg="3">
-            <v-row v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
-                ($checkProp('ban_show') && $checkProp('warning_show'))">
+          <v-col
+            cols="12"
+            lg="3"
+          >
+            <v-row
+              v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
+                ($checkProp('ban_show') && $checkProp('warning_show'))"
+            >
               <v-col>
                 <v-card class="card-rounded">
                   <v-card-text>
-                    <BansAndWarnings :user="user" :bundle="bundle"/>
+                    <BansAndWarnings
+                      :user="user"
+                      :bundle="bundle"
+                    />
                   </v-card-text>
                 </v-card>
               </v-col>

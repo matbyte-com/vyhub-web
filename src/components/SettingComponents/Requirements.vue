@@ -1,121 +1,214 @@
 <template>
- <div>
-   <SettingTitle docPath="/guide/requirement_set">
-     {{ $t('_settings.requirements') }}
-   </SettingTitle>
-   <DialogForm :form-schema="requirementAddForm" ref="requirementAddDialog"
-               @submit="addRequirement" :title="$t('_requirement.addRequirement')"
-               icon="mdi-approximately-equal">
-   </DialogForm>
-   <DialogForm :form-schema="requirementSetAddForm" ref="requirementSetAddDialog"
-               :title="$t('_settings.addRequirementSet')" icon="mdi-greater-than-or-equal"
-               @submit="addRequirementSet"/>
-   <DeleteConfirmationDialog ref="requirementSetDeleteConfirmationDialog"
-                             @submit="deleteRequirementSet" />
-   <DeleteConfirmationDialog ref="requirementDeleteConfirmationDialog"
-                             @submit="deleteRequirement" />
-   <!-- Edit Requirement Sets Dialog -->
-   <Dialog ref="requirementSetEditDialog" :title="$t('_settings.editRequirementSet')"
-           :max-width="1500">
-     <h3 class="display-h3 mt-5">{{ $t('general') }}</h3>
-     <gen-form ref="requirementSetEditForm" :form-schema="requirementSetAddForm"
-               @submit="editRequirementSet"/>
-     <v-divider class="mt-5"/>
-     <h3 class="display-h3 mt-5">{{ $t('requirements') }}</h3>
-     <DataTable :headers="requirementHeaders" :items="requirements">
-       <template v-slot:item.hId="{ item }">
-         {{ requirements.findIndex((i) => i.id === item.id) }}
-       </template>
-       <template v-slot:item.type="{ item }">
-         {{ $t(`_requirement.types.${item.type}`) }}
-       </template>
-       <template v-slot:item.value="{ item }">
-         {{ getValue(item) }}
-       </template>
-       <template v-slot:item.actions="{ item }">
-         <div class="text-right">
-           <v-btn variant="outlined" color="primary" size="small" disabled
-                  @click="openEditRequirementSetDialog(item)" class="mr-1">
-             <v-icon>
-               mdi-pencil
-             </v-icon>
-           </v-btn>
-           <v-btn variant="outlined" color="error"
-                  size="small" @click="openDeleteRequirementDialog(item)">
-             <v-icon>
-               mdi-delete
-             </v-icon>
-           </v-btn>
-         </div>
-       </template>
-       <template v-slot:footer-right>
-         <v-btn color="success"
-                @click="openRequirementAddDialog($refs.requirementSetEditDialog.getItem())"
-                variant="outlined">
-           <v-icon start>mdi-plus</v-icon>
-           <span>{{ $t('_settings.addRequirement') }}</span>
-         </v-btn>
-       </template>
-     </DataTable>
-     <v-divider class="mt-5"/>
-     <h3 class="display-h3 mt-5">{{ $t('_settings.logicFormula') }}</h3>
-     <p>{{ $t('example') }} ID & (ID | ID) <br/>
-       {{ $t('_settings.formulaSymbolOr') }}<br/>
-       {{ $t('_settings.formulaSymbolAnd') }}</p>
-     <v-text-field v-model="formula" label="Formula"></v-text-field>
-     <v-btn @click="validateFormula" :disabled="!formula" :loading="formulaBtnLoading"
-            class="bg-primary" variant="flat">
-       <v-icon v-if="formulaScss" size="large" color="success">mdi-check</v-icon>
-       <span v-else>{{ $t('_settings.editFormula') }}</span>
-     </v-btn>
-     <v-row v-if="formulaMsg != null">
-       <v-col cols="12" class="mt-4">
-         <v-alert type="error">
-           {{ formulaMsg }}
-         </v-alert>
-       </v-col>
-     </v-row>
-     <v-divider class="mt-5"/>
-     <h3 class="display-h3 mt-5">{{ $t('_settings.requirementSetTest') }}</h3>
-     <v-row class="align-center px-3 mt-1">
-       <UserSelect v-model="testUser"/>
-       <v-btn color="primary" @click="testRequirementSetAgainstUser" :disabled="!testUser"
-              class="ml-3" variant="flat">{{ $t('test') }}</v-btn>
-       <bool-icon class="animate__animated animate__heartBeat ml-3"
-                  v-if="testResult !== null" :value="testResult"/>
-       <div class="ml-1">{{ testResult }}</div>
-     </v-row>
-   </Dialog>
-   <!-- Real Component -->
-   <v-row>
-     <v-col cols="12" class="mt-4">
-       <v-alert type="warning">
-         {{ $t('_settings.formulaBeta') }}
-       </v-alert>
-     </v-col>
-   </v-row>
-   <DataTable
-     :headers="headers"
-     :items="requirementSets">
-     <template v-slot:item.actions="{ item }">
-       <div class="text-right">
-         <v-btn variant="outlined" color="primary" size="small"
-                @click="openEditRequirementSetDialog(item)" class="mr-1">
-           <v-icon>mdi-pencil</v-icon>
-         </v-btn>
-         <v-btn variant="outlined" color="error" size="small" @click="openDeleteRequirementSetDialog(item)">
-           <v-icon>mdi-delete</v-icon>
-         </v-btn>
-       </div>
-     </template>
-     <template v-slot:footer-right>
-       <v-btn color="success" @click="$refs.requirementSetAddDialog.show()" variant="outlined">
-         <v-icon start>mdi-plus</v-icon>
-         <span>{{ $t('_settings.addRequirementSet') }}</span>
-       </v-btn>
-     </template>
-   </DataTable>
- </div>
+  <div>
+    <SettingTitle doc-path="/guide/requirement_set">
+      {{ $t('_settings.requirements') }}
+    </SettingTitle>
+    <DialogForm
+      ref="requirementAddDialog"
+      :form-schema="requirementAddForm"
+      :title="$t('_requirement.addRequirement')"
+      icon="mdi-approximately-equal"
+      @submit="addRequirement"
+    />
+    <DialogForm
+      ref="requirementSetAddDialog"
+      :form-schema="requirementSetAddForm"
+      :title="$t('_settings.addRequirementSet')"
+      icon="mdi-greater-than-or-equal"
+      @submit="addRequirementSet"
+    />
+    <DeleteConfirmationDialog
+      ref="requirementSetDeleteConfirmationDialog"
+      @submit="deleteRequirementSet"
+    />
+    <DeleteConfirmationDialog
+      ref="requirementDeleteConfirmationDialog"
+      @submit="deleteRequirement"
+    />
+    <!-- Edit Requirement Sets Dialog -->
+    <Dialog
+      ref="requirementSetEditDialog"
+      :title="$t('_settings.editRequirementSet')"
+      :max-width="1500"
+    >
+      <h3 class="display-h3 mt-5">
+        {{ $t('general') }}
+      </h3>
+      <gen-form
+        ref="requirementSetEditForm"
+        :form-schema="requirementSetAddForm"
+        @submit="editRequirementSet"
+      />
+      <v-divider class="mt-5" />
+      <h3 class="display-h3 mt-5">
+        {{ $t('requirements') }}
+      </h3>
+      <DataTable
+        :headers="requirementHeaders"
+        :items="requirements"
+      >
+        <template #item.hId="{ item }">
+          {{ requirements.findIndex((i) => i.id === item.id) }}
+        </template>
+        <template #item.type="{ item }">
+          {{ $t(`_requirement.types.${item.type}`) }}
+        </template>
+        <template #item.value="{ item }">
+          {{ getValue(item) }}
+        </template>
+        <template #item.actions="{ item }">
+          <div class="text-right">
+            <v-btn
+              variant="outlined"
+              color="primary"
+              size="small"
+              disabled
+              class="mr-1"
+              @click="openEditRequirementSetDialog(item)"
+            >
+              <v-icon>
+                mdi-pencil
+              </v-icon>
+            </v-btn>
+            <v-btn
+              variant="outlined"
+              color="error"
+              size="small"
+              @click="openDeleteRequirementDialog(item)"
+            >
+              <v-icon>
+                mdi-delete
+              </v-icon>
+            </v-btn>
+          </div>
+        </template>
+        <template #footer-right>
+          <v-btn
+            color="success"
+            variant="outlined"
+            @click="openRequirementAddDialog($refs.requirementSetEditDialog.getItem())"
+          >
+            <v-icon start>
+              mdi-plus
+            </v-icon>
+            <span>{{ $t('_settings.addRequirement') }}</span>
+          </v-btn>
+        </template>
+      </DataTable>
+      <v-divider class="mt-5" />
+      <h3 class="display-h3 mt-5">
+        {{ $t('_settings.logicFormula') }}
+      </h3>
+      <p>
+        {{ $t('example') }} ID & (ID | ID) <br>
+        {{ $t('_settings.formulaSymbolOr') }}<br>
+        {{ $t('_settings.formulaSymbolAnd') }}
+      </p>
+      <v-text-field
+        v-model="formula"
+        label="Formula"
+      />
+      <v-btn
+        :disabled="!formula"
+        :loading="formulaBtnLoading"
+        class="bg-primary"
+        variant="flat"
+        @click="validateFormula"
+      >
+        <v-icon
+          v-if="formulaScss"
+          size="large"
+          color="success"
+        >
+          mdi-check
+        </v-icon>
+        <span v-else>{{ $t('_settings.editFormula') }}</span>
+      </v-btn>
+      <v-row v-if="formulaMsg != null">
+        <v-col
+          cols="12"
+          class="mt-4"
+        >
+          <v-alert type="error">
+            {{ formulaMsg }}
+          </v-alert>
+        </v-col>
+      </v-row>
+      <v-divider class="mt-5" />
+      <h3 class="display-h3 mt-5">
+        {{ $t('_settings.requirementSetTest') }}
+      </h3>
+      <v-row class="align-center px-3 mt-1">
+        <UserSelect v-model="testUser" />
+        <v-btn
+          color="primary"
+          :disabled="!testUser"
+          class="ml-3"
+          variant="flat"
+          @click="testRequirementSetAgainstUser"
+        >
+          {{ $t('test') }}
+        </v-btn>
+        <bool-icon
+          v-if="testResult !== null"
+          class="animate__animated animate__heartBeat ml-3"
+          :value="testResult"
+        />
+        <div class="ml-1">
+          {{ testResult }}
+        </div>
+      </v-row>
+    </Dialog>
+    <!-- Real Component -->
+    <v-row>
+      <v-col
+        cols="12"
+        class="mt-4"
+      >
+        <v-alert type="warning">
+          {{ $t('_settings.formulaBeta') }}
+        </v-alert>
+      </v-col>
+    </v-row>
+    <DataTable
+      :headers="headers"
+      :items="requirementSets"
+    >
+      <template #item.actions="{ item }">
+        <div class="text-right">
+          <v-btn
+            variant="outlined"
+            color="primary"
+            size="small"
+            class="mr-1"
+            @click="openEditRequirementSetDialog(item)"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            variant="outlined"
+            color="error"
+            size="small"
+            @click="openDeleteRequirementSetDialog(item)"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </div>
+      </template>
+      <template #footer-right>
+        <v-btn
+          color="success"
+          variant="outlined"
+          @click="$refs.requirementSetAddDialog.show()"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
+          <span>{{ $t('_settings.addRequirementSet') }}</span>
+        </v-btn>
+      </template>
+    </DataTable>
+  </div>
 </template>
 
 <script>

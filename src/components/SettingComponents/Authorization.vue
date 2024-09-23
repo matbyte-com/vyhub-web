@@ -1,12 +1,18 @@
 <template>
   <div>
-    <SettingTitle doc-path="/guide/authorization">{{ $t('_authorization.title') }}</SettingTitle>
+    <SettingTitle doc-path="/guide/authorization">
+      {{ $t('_authorization.title') }}
+    </SettingTitle>
     <span>
       {{ `Discord ${$t('_authorization.redirectUrl')}: ${backend_url}/auth/social/discord/finish` }}
     </span>
-    <GenForm ref="form" :form-schema="AuthorizationSettingsFormSchema" @submit="patchConfig"
-             :cancel-text="null" :submit-text="$t('save')">
-    </GenForm>
+    <GenForm
+      ref="form"
+      :form-schema="AuthorizationSettingsFormSchema"
+      :cancel-text="null"
+      :submit-text="$t('save')"
+      @submit="patchConfig"
+    />
   </div>
 </template>
 

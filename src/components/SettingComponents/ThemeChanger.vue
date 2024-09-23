@@ -1,15 +1,25 @@
 <template>
   <div>
-    <SettingTitle docPath="/guide/customizability">
+    <SettingTitle doc-path="/guide/customizability">
       {{ $t('theme') }}
     </SettingTitle>
     <v-row>
-      <v-col lg="8" xl="6">
-        <h6 class="text-h6">{{ $t('general') }}</h6>
-          <GenForm :form-schema="formSchema" @submit="setTheme"
-                   :error-message="errorMessage" :cancel-text="$t('cancel')"
-                   :submit-text="$t('submit')"
-                   ref="themePicker" :settings-mode="true" />
+      <v-col
+        lg="8"
+        xl="6"
+      >
+        <h6 class="text-h6">
+          {{ $t('general') }}
+        </h6>
+        <GenForm
+          ref="themePicker"
+          :form-schema="formSchema"
+          :error-message="errorMessage"
+          :cancel-text="$t('cancel')"
+          :submit-text="$t('submit')"
+          :settings-mode="true"
+          @submit="setTheme"
+        />
       </v-col>
     </v-row>
   </div>

@@ -1,7 +1,6 @@
 <template>
   <div class="vh-home-html">
-    <span v-html="html">
-    </span>
+    <span v-html="html" />
   </div>
 </template>
 

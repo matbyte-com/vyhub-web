@@ -1,49 +1,91 @@
 <template>
-<div class="vh-home-join-server">
-  <v-row justify="center">
-    <v-col cols="5" lg="4" class="d-flex align-center justify-start"
-           v-if="server1 && $vuetify.display.mdAndUp">
-      <a :href="utils.getConnectionLink(server1)" class="text-decoration-none" target="_blank">
-        <div class="d-flex align-center join-link pa-3" :class="{ 'white--text': whiteText }">
-          <v-card color="primary"
-                  class="pa-5 join-btn" flat style="border-radius: 15px">
-            <v-icon :color="whiteText ? 'white' : 'black'"
-                    size="40">{{ getServerIcon(server1) }}</v-icon>
-          </v-card>
-          <div class="ml-3" >
-            <div class="text-h5">{{ server1.name }}</div>
-            <div>{{ $t('_component.currentPlayers') }} {{ server1.users_current }}</div>
+  <div class="vh-home-join-server">
+    <v-row justify="center">
+      <v-col
+        v-if="server1 && $vuetify.display.mdAndUp"
+        cols="5"
+        lg="4"
+        class="d-flex align-center justify-start"
+      >
+        <a
+          :href="utils.getConnectionLink(server1)"
+          class="text-decoration-none"
+          target="_blank"
+        >
+          <div
+            class="d-flex align-center join-link pa-3"
+            :class="{ 'white--text': whiteText }"
+          >
+            <v-card
+              color="primary"
+              class="pa-5 join-btn"
+              flat
+              style="border-radius: 15px"
+            >
+              <v-icon
+                :color="whiteText ? 'white' : 'black'"
+                size="40"
+              >{{ getServerIcon(server1) }}</v-icon>
+            </v-card>
+            <div class="ml-3">
+              <div class="text-h5">{{ server1.name }}</div>
+              <div>{{ $t('_component.currentPlayers') }} {{ server1.users_current }}</div>
+            </div>
           </div>
+        </a>
+      </v-col>
+      <v-col
+        v-if="server2 || !servers"
+        cols="3"
+        md="2"
+        lg="4"
+        class="text-center"
+      >
+        <div v-if="!servers">
+          {{ $t('_component.specifyServers') }}
         </div>
-      </a>
-    </v-col>
-    <v-col cols="3" md="2" lg="4" v-if="server2 || !servers" class="text-center">
-      <div v-if="!servers">
-        {{ $t('_component.specifyServers') }}
-      </div>
-      <v-img height="200" contain :src="logoUrl ? logoUrl : this.$store.getters.theme.logo"
-             :alt="$store.getters.theme.logo" />
-    </v-col>
-    <v-col cols="5" lg="4" class="d-flex align-center justify-end"
-           v-if="server2 && $vuetify.display.mdAndUp">
-      <a :href="utils.getConnectionLink(server2)" target="_blank"
-         class="text-decoration-none">
-        <div class="d-flex align-center justify-end join-link pa-3"
-             :class="{ 'white--text': whiteText }">
-          <div class="text-right mr-3">
-            <div class="text-h5">{{ server2.name }}</div>
-            <div>{{ $t('_component.currentPlayers') }} {{ server2.users_current }}</div>
+        <v-img
+          height="200"
+          contain
+          :src="logoUrl ? logoUrl : $store.getters.theme.logo"
+          :alt="$store.getters.theme.logo"
+        />
+      </v-col>
+      <v-col
+        v-if="server2 && $vuetify.display.mdAndUp"
+        cols="5"
+        lg="4"
+        class="d-flex align-center justify-end"
+      >
+        <a
+          :href="utils.getConnectionLink(server2)"
+          target="_blank"
+          class="text-decoration-none"
+        >
+          <div
+            class="d-flex align-center justify-end join-link pa-3"
+            :class="{ 'white--text': whiteText }"
+          >
+            <div class="text-right mr-3">
+              <div class="text-h5">{{ server2.name }}</div>
+              <div>{{ $t('_component.currentPlayers') }} {{ server2.users_current }}</div>
+            </div>
+            <v-card
+              color="primary"
+              class="pa-5 join-btn"
+              flat
+              style="border-radius: 15px"
+            >
+              <v-icon
+                :color="whiteText ? 'white' : 'black'"
+                size="40"
+              >{{ getServerIcon(server2) }}</v-icon>
+            </v-card>
           </div>
-          <v-card color="primary"
-                  class="pa-5 join-btn" flat style="border-radius: 15px">
-            <v-icon :color="whiteText ? 'white' : 'black'"
-                    size="40">{{ getServerIcon(server2) }}</v-icon>
-          </v-card>
-        </div>
-      </a>
-    </v-col>
-  </v-row>
-</div>
+        </a>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -59,13 +101,36 @@ export default {
       fetchedServers: null,
     };
   },
-  beforeMount() {
-    this.fetchData();
+  computed: {
+    features() {
+      return features;
+    },
+    server1() {
+      if (!this.servers || this.servers.length === 1) return null;
+      if (this.fetchedServers) {
+        return this.fetchedServers.find((s) => s.id === this.servers[0]);
+      }
+      return null;
+    },
+    server2() {
+      if (!this.servers) return null;
+      if (this.servers.length < 2 && this.fetchedServers) {
+        // Return Server 1
+        return this.fetchedServers.find((s) => s.id === this.servers[0]);
+      }
+      if (this.fetchedServers) {
+        return this.fetchedServers.find((s) => s.id === this.servers[1]);
+      }
+      return null;
+    },
   },
   watch: {
     servers() {
       this.fetchData();
     },
+  },
+  beforeMount() {
+    this.fetchData();
   },
   methods: {
     vuetify() {
@@ -104,29 +169,6 @@ export default {
       }
       if (server.icon) {
         return server.icon;
-      }
-      return null;
-    },
-  },
-  computed: {
-    features() {
-      return features;
-    },
-    server1() {
-      if (!this.servers || this.servers.length === 1) return null;
-      if (this.fetchedServers) {
-        return this.fetchedServers.find((s) => s.id === this.servers[0]);
-      }
-      return null;
-    },
-    server2() {
-      if (!this.servers) return null;
-      if (this.servers.length < 2 && this.fetchedServers) {
-        // Return Server 1
-        return this.fetchedServers.find((s) => s.id === this.servers[0]);
-      }
-      if (this.fetchedServers) {
-        return this.fetchedServers.find((s) => s.id === this.servers[1]);
       }
       return null;
     },

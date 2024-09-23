@@ -1,7 +1,17 @@
 <template>
   <div>
-    <v-icon color="green" v-if="value">mdi-check-circle</v-icon>
-    <v-icon color="red" v-else>mdi-close-circle</v-icon>
+    <v-icon
+      v-if="value"
+      color="green"
+    >
+      mdi-check-circle
+    </v-icon>
+    <v-icon
+      v-else
+      color="red"
+    >
+      mdi-close-circle
+    </v-icon>
   </div>
 </template>
 

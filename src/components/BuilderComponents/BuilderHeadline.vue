@@ -1,27 +1,61 @@
 <template>
-<div class="vh-home-headline" :class="{ 'container':container}" :style="`margin-top: ${marginTop}`">
-  <v-card flat :height="height ? height : '300px'" :img="imageUrl" :tile="!container"
-          :class="{ 'card-rounded':container}">
-    <div style="width: 100%; height: 100%" :style="{ backgroundColor: getBackgroundColor }"
-         class="d-flex flex-column justify-center align-center text-center">
-      <div>
-        <div v-if="logoUrl">
-          <v-img v-if="imageUrl" :src="logoUrl"
-                 :alt="title" height="100px" contain class="mb-5"/>
-        </div>
-        <h1 class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</h1>
-        <p class="text-subtitle-1 mt-3" :class="{ 'white--text': whiteText }">{{ subtitle }}</p>
-        <div class="d-flex flex-row flex-wrap justify-center">
-          <v-btn variant="flat" rounded v-for="(l, index) in buttons" :key="index" class="ml-3"
-                 :href="(!utils.localLink(l) ? l.link : null)"
-                 :to="utils.localLink(l) ? utils.getLocalLink(l) : null">
-            {{ l.btnText }}
-          </v-btn>
+  <div
+    class="vh-home-headline"
+    :class="{ 'container':container}"
+    :style="`margin-top: ${marginTop}`"
+  >
+    <v-card
+      flat
+      :height="height ? height : '300px'"
+      :img="imageUrl"
+      :tile="!container"
+      :class="{ 'card-rounded':container}"
+    >
+      <div
+        style="width: 100%; height: 100%"
+        :style="{ backgroundColor: getBackgroundColor }"
+        class="d-flex flex-column justify-center align-center text-center"
+      >
+        <div>
+          <div v-if="logoUrl">
+            <v-img
+              v-if="imageUrl"
+              :src="logoUrl"
+              :alt="title"
+              height="100px"
+              contain
+              class="mb-5"
+            />
+          </div>
+          <h1
+            class="text-h3"
+            :class="{ 'white--text': whiteText }"
+          >
+            {{ title }}
+          </h1>
+          <p
+            class="text-subtitle-1 mt-3"
+            :class="{ 'white--text': whiteText }"
+          >
+            {{ subtitle }}
+          </p>
+          <div class="d-flex flex-row flex-wrap justify-center">
+            <v-btn
+              v-for="(l, index) in buttons"
+              :key="index"
+              variant="flat"
+              rounded
+              class="ml-3"
+              :href="(!utils.localLink(l) ? l.link : null)"
+              :to="utils.localLink(l) ? utils.getLocalLink(l) : null"
+            >
+              {{ l.btnText }}
+            </v-btn>
+          </div>
         </div>
       </div>
-    </div>
-  </v-card>
-</div>
+    </v-card>
+  </div>
 </template>
 
 <script>
