@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="vh-home-new-users" v-if="newUsers != null">
-      <div v-if="$vuetify.breakpoint.mdAndUp" class="d-flex flex-row flex-wrap justify-center">
+      <div v-if="$vuetify.display.mdAndUp" class="d-flex flex-row flex-wrap justify-center">
         <div class="pa-3" v-for="u in newUsers" :key="u.id">
           <v-card class="text-center grow-on-hover card-rounded" width="250px"
                   :to="{ name: 'UserDashboard', params: { id: u.id } }">

@@ -46,7 +46,7 @@
           </div>
         </template>
         <template v-slot:item.actions="{ item }">
-          <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.lgAndDown }">
+          <div class="d-flex" :class="{ 'flex-column' : $vuetify.display.lgAndDown }">
             <v-btn icon color="secondary" size="small" @click="copyGroup(item)" class="mr-xl-1 mt-xl-0">
               <v-icon size="small">
                 mdi-content-copy

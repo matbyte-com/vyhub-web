@@ -5,8 +5,8 @@
     v-model="open"
     :max-width="maxWidth"
     style="z-index: 200;"
-    :fullscreen="$vuetify.breakpoint.xsOnly">
-    <v-card :class="{ 'card-rounded' : !$vuetify.breakpoint.xsOnly }">
+    :fullscreen="$vuetify.display.xs">
+    <v-card :class="{ 'card-rounded' : !$vuetify.display.xs }">
       <v-card-title class="bg-primary text-white">
         <v-icon :if="icon != null" start color="white">{{ icon }}</v-icon>
         <span>{{ title }}</span>

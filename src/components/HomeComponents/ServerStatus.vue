@@ -12,7 +12,7 @@
           <span>{{ bundle.name }}</span>
           <v-divider class="mb-2"/>
           <v-row dense v-for="server in getServer(bundle.id)" :key="server.id"
-                 align="center" :no-gutters="$vuetify.breakpoint.smAndDown"
+                 align="center" :no-gutters="$vuetify.display.smAndDown"
                  class="mt-0">
             <v-col order="1" order-xl="1" cols="6" lg="6" xl="3">
               <v-icon :color="getStatusColor(server)" start>

@@ -1,6 +1,6 @@
 <template>
   <v-card class="flex-column d-flex vh-packet-card"  border
-          :class="{'card-rounded': $vuetify.breakpoint.smAndDown}" height="100%"
+          :class="{'card-rounded': $vuetify.display.smAndDown}" height="100%"
           :color="flat ? 'transparent' : ''" :flat="flat">
     <v-hover v-slot:default="{ hover }">
       <PacketImage :packet="packet"
@@ -10,7 +10,7 @@
           <v-fade-transition>
             <v-row justify="center" align="center"
                    class="text-center ml-2 mr-2 font-weight-bold title-in-image"
-                   :class="$vuetify.breakpoint.smAndDown ? 'text-h6' : 'text-h4'"
+                   :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h4'"
                    style="text-shadow: #000000 2px 2px 2px;"
                    v-if="packet.title_in_image &&
               (!hover || packet.abstract == null || packet.abstract.length === 0)">

@@ -20,7 +20,7 @@
     <delete-confirmation-dialog ref="deleteMessageDialog" @submit="deleteMessage"/>
     <v-row class="mb-5">
       <!-- Smartphones Serverstatus + Donation Goal -->
-      <v-col cols="12" v-if="$vuetify.breakpoint.smAndDown">
+      <v-col cols="12" v-if="$vuetify.display.smAndDown">
         <v-card class="card-rounded pa-3" flat>
           <Swiper :number-of-elements="3" :per-page-custom="[1,2,3,3,3]">
             <swiper-slide v-if="showServers">
@@ -49,9 +49,9 @@
         <!-- News of the Day -->
         <PageTitleFlat :title="$t('_home.newsOfTheDay')"
                        v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')"
-                       :hide-triangle="$vuetify.breakpoint.smAndDown"
-                       :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"
-                       :class="{ 'mb-4': $vuetify.breakpoint.mdAndUp }">
+                       :hide-triangle="$vuetify.display.smAndDown"
+                       :no-bottom-border-radius="$vuetify.display.smAndDown"
+                       :class="{ 'mb-4': $vuetify.display.mdAndUp }">
           <template v-slot:end v-if="$checkProp('news_edit')">
             <div class="text-end">
               <v-btn color="success" variant="flat" size="small"
@@ -66,8 +66,8 @@
                 :img="message.background_url" flat
                 class="news-of-day vh-news-of-day card-rounded-bottom animate__animated
                  animate__fadeIn animate__faster mb-3"
-                :class="{ 'card-rounded-top':!$vuetify.breakpoint.smAndDown || index !== 0,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0 }">
+                :class="{ 'card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
+           'no-top-border-radius': $vuetify.display.smAndDown && index === 0 }">
           <v-card-title :class="{ 'grey-title': !message.background_url &&
                          !$vuetify.theme.dark }">
             <span
@@ -105,12 +105,12 @@
         <!-- Display News -->
         <PageTitleFlat :title="$t('_home.news')" v-if="getNews.length !== 0"
                        :class="{ 'mt-4': getNewsOfTheDay.length !== 0,
-                        'mb-4': $vuetify.breakpoint.mdAndUp }"
-                       :hide-triangle="$vuetify.breakpoint.smAndDown"
-                       :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+                        'mb-4': $vuetify.display.mdAndUp }"
+                       :hide-triangle="$vuetify.display.smAndDown"
+                       :no-bottom-border-radius="$vuetify.display.smAndDown"/>
         <v-card flat border
-                :class="{ 'card-rounded-top':!$vuetify.breakpoint.smAndDown || index !== 0,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0 }"
+                :class="{ 'card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
+           'no-top-border-radius': $vuetify.display.smAndDown && index === 0 }"
                 class="mb-3 vh-news card-rounded animate__animated animate__fadeIn animate__faster"
                 v-for="(message, index) in getNews" :key="message.id" :img="message.background_url">
           <v-card-title :class="{ 'grey-title': !message.background_url &&
@@ -151,7 +151,7 @@
       </v-col>
       <!-- Sidebar -->
       <v-col ref="StatusCol" cols="4">
-        <div v-if="$vuetify.breakpoint.mdAndUp">
+        <div v-if="$vuetify.display.mdAndUp">
           <ServerStatus v-if="showServers" @loaded="updateServerWidget" ref="serverStatus"/>
           <v-card class="mb-3 card-rounded vh-news-donation-goal"
                   flat v-if="$store.getters.shopConfig &&

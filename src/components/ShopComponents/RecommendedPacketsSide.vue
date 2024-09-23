@@ -6,7 +6,7 @@
       <v-divider class="ml-3 mb-1 align-self-end"/>
     </v-card-title>
     <v-card-text>
-      <div v-if="$vuetify.breakpoint.mdAndUp">
+      <div v-if="$vuetify.display.mdAndUp">
         <v-row v-if="recommendedPackets" dense>
           <v-col cols="12" lg="6" xl="4" v-for="p in recommendedPackets" :key="p.id"
                  class="d-flex">

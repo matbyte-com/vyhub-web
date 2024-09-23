@@ -1,10 +1,10 @@
 <template>
   <div>
     <PageTitleFlat :hide-triangle="true" :title="$t('_shop.labels.admin')"
-                   :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+                   :no-bottom-border-radius="$vuetify.display.smAndDown"/>
     <v-card flat class="fill-height card-rounded-bottom"
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }">
       <v-card-text>
         <v-tabs v-model="tabModel" >
           <v-tab v-for="tab in allowedTabs"

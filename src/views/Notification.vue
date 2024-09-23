@@ -3,11 +3,11 @@
   <ConfirmationDialog :btn-text="$t('_notification.markAllAsRead')"
                       @submit="markAllAsRead" ref="markAsReadDialog"/>
   <PageTitleFlat :title="$t('_notification.notifications')"
-                 :hide-triangle="$vuetify.breakpoint.smAndDown"
-                 :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+                 :hide-triangle="$vuetify.display.smAndDown"
+                 :no-bottom-border-radius="$vuetify.display.smAndDown"/>
   <v-card flat class="card-rounded"
-          :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+          :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }">
     <v-card-text class="pt-1">
       <v-fade-transition>
         <v-btn variant="flat" color="primary" v-if="newMessages" @click="fetchData()" class="mt-3">
@@ -30,7 +30,7 @@
         @reload="fetchData">
         <template v-slot:header>
           <div class="d-flex align-center">
-            <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
+            <v-spacer v-if="$vuetify.display.xs" />
             <v-btn
               variant="outlined"
               color="primary"
@@ -54,7 +54,7 @@
                 <v-btn
                   variant="outlined"
                   color="primary"
-                 
+
                   v-bind="props">
                   <v-icon start>
                     mdi-filter

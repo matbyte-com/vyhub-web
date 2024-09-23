@@ -1,9 +1,9 @@
 <template>
   <div>
-    <PageTitleFlat :hide-triangle="true" :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"
+    <PageTitleFlat :hide-triangle="true" :no-bottom-border-radius="$vuetify.display.smAndDown"
                    :title="$t('_forum.tickets')"/>
-    <v-card :class="{ 'mt-3 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }"
+    <v-card :class="{ 'mt-3 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }"
             class="card-rounded-bottom" flat>
       <v-card-text>
         <PaginatedDataTable
@@ -35,7 +35,7 @@
               <v-img v-if="item.creator" :src="item.creator.avatar"/>
               <v-img v-else src="https://www.gravatar.com/avatar/{}?d=retro&s=200"/>
             </v-avatar>
-            <span v-if="$vuetify.breakpoint.xsOnly">
+            <span v-if="$vuetify.display.xs">
               <UserLink v-if="item.creator" :user="item.creator"
                         :color="ticketRowFormatter(item)" />
             </span>

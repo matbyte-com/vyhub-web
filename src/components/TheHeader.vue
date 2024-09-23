@@ -6,9 +6,9 @@
                style="z-index: 200;">
       <div class="d-flex align-center grow" style="width: 100%"
            :class="{ 'container' : $store.getters.theme && $store.getters.theme.header_container
-            && $vuetify.breakpoint.mdAndUp }">
+            && $vuetify.display.mdAndUp }">
         <!-- burger menu on the left-->
-        <div v-if="$vuetify.breakpoint.mdAndDown">
+        <div v-if="$vuetify.display.mdAndDown">
           <BurgerMenu
             :nav-links="allowedLinks"
             :help-links="allowedHelpCircleLinks"
@@ -24,7 +24,7 @@
                  transition="scale-transition" :width="logo_width" height="50"/>
         </div>
         <!-- Do not overflow on bigger screens -->
-        <div v-if="$vuetify.breakpoint.lgAndUp" class="mr-1">
+        <div v-if="$vuetify.display.lgAndUp" class="mr-1">
           <v-toolbar-title class="ml-3" @click="$router.push('/')" style="cursor: pointer">
             {{ communityName }}
           </v-toolbar-title>
@@ -36,7 +36,7 @@
 
         <!-- navigation links-->
         <div style="overflow-x: auto; min-width: 50%" class="d-flex top-scrollbar ml-3 flex-grow-1"
-             v-if="$vuetify.breakpoint.lgAndUp">
+             v-if="$vuetify.display.lgAndUp">
           <NavigationLink
             :link="link"
             class="ml-1"
@@ -47,20 +47,20 @@
 
         <v-spacer />
         <Search />
-        <div v-if="$vuetify.breakpoint.lgAndUp">
+        <div v-if="$vuetify.display.lgAndUp">
           <HelpCircle :menu-links="allowedHelpCircleLinks" class="ml-1"/>
         </div>
         <!-- profile icon with dropdown or login-->
         <div>
           <div v-if="$store.getters.isLoggedIn" class="d-flex align-center">
-            <Credits class="ml-1 mr-1" v-if="$vuetify.breakpoint.smAndUp"/>
+            <Credits class="ml-1 mr-1" v-if="$vuetify.display.smAndUp"/>
             <ShoppingCart/>
             <ProfileMenu
-              v-if="$vuetify.breakpoint.smAndUp"
+              v-if="$vuetify.display.smAndUp"
               class="ml-5"
               :menu-links="linksRight"
               @logout="logout"/>
-            <Notification v-if="$vuetify.breakpoint.smAndUp && $store.getters.isLoggedIn"
+            <Notification v-if="$vuetify.display.smAndUp && $store.getters.isLoggedIn"
                           class="ml-1"/>
           </div>
           <div v-else>
@@ -181,7 +181,7 @@ export default {
         }
       }
     },
-    '$vuetify.breakpoint.xs': function (val) {
+    '$vuetify.display.xs': function (val) {
       if (val && this.$store.getters.isLoggedIn) {
         this.linksRight.push({
           title: 'personalSettings',
@@ -202,7 +202,7 @@ export default {
     EventBus.on('themeUpdatedAfter', this.getLogo);
     EventBus.on('themeUpdated', this.getNavItems);
 
-    if (this.$store.getters.isLoggedIn && this.$vuetify.breakpoint.xs) {
+    if (this.$store.getters.isLoggedIn && this.$vuetify.display.xs) {
       this.linksRight.push({
         title: 'personalSettings',
         icon: 'mdi-account',

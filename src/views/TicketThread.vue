@@ -6,10 +6,10 @@
                      :dialog-title="`${$t('_forum.addPost')}`"
                      @submit="newPost" :hide-title-input="true"/>
     <PageTitleFlat :title="thread ? thread.title : ''"
-                   :class="{ 'mb-4':!$vuetify.breakpoint.smAndDown}"
-                   :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"
-                   :hide-triangle="$vuetify.breakpoint.smAndDown"
-                   :open="$vuetify.breakpoint.smAndDown">
+                   :class="{ 'mb-4':!$vuetify.display.smAndDown}"
+                   :no-bottom-border-radius="$vuetify.display.smAndDown"
+                   :hide-triangle="$vuetify.display.smAndDown"
+                   :open="$vuetify.display.smAndDown">
       <template v-slot:end>
         <div class="d-flex flex-column">
           <v-chip v-if="thread && thread.status === 'OPEN'"
@@ -24,11 +24,11 @@
     </PageTitleFlat>
     <div v-if="thread">
       <v-card flat border class="vh-forum-post card-rounded mb-3"
-              :class="{ 'card-rounded-top':!$vuetify.breakpoint.smAndDown && index === 0,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0 }"
+              :class="{ 'card-rounded-top':!$vuetify.display.smAndDown && index === 0,
+           'no-top-border-radius': $vuetify.display.smAndDown && index === 0 }"
               v-for="(post, index) in posts" :key="post.id">
-        <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
-          <div class="pa-3 text-center" style="width: 200px" v-if="$vuetify.breakpoint.smAndUp">
+        <div class="d-flex" :class="{ 'flex-column' : $vuetify.display.xs }">
+          <div class="pa-3 text-center" style="width: 200px" v-if="$vuetify.display.smAndUp">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
                          class="stylelint" style="color: inherit" v-if="post.creator">
               <v-avatar size="80">
@@ -69,7 +69,7 @@
               <v-icon color="red" class="mt-2">mdi-account-remove</v-icon>
             </div>
           </div>
-          <v-divider vertical v-if="$vuetify.breakpoint.smAndUp"/>
+          <v-divider vertical v-if="$vuetify.display.smAndUp"/>
           <div style="width: 100%">
             <div>
               <v-card-text class="d-flex">

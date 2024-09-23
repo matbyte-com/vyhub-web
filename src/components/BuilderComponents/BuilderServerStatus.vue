@@ -1,6 +1,6 @@
 <template>
   <div class="vh-home-server-status">
-    <v-row justify="center" v-if="$vuetify.breakpoint.smAndUp">
+    <v-row justify="center" v-if="$vuetify.display.smAndUp">
       <v-col cols="12" sm="4" md="4" lg="3" xl="2" v-for="s in servers" :key="s.id" >
         <v-card class="card-rounded" hover>
           <v-img :src="getImage(s)" :alt="s.name"/>
@@ -37,7 +37,7 @@
             </div>
             <v-spacer />
             <div class="d-flex justify-center align-center mt-3">
-              <v-btn v-if="s.status === 'ONLINE' && $vuetify.breakpoint.mdAndUp"
+              <v-btn v-if="s.status === 'ONLINE' && $vuetify.display.mdAndUp"
                      variant="flat" :href="utils.getConnectionLink(s)" color="primary"
                      @click="utils.copyServerAddress(s)" class="cta-btn">
                 <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
@@ -52,8 +52,8 @@
               <v-btn class="ml-1 cta-btn"
                      v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
                      :to="{ name: 'ServerDashboard', params: { id: s.id } }" variant="flat">
-                <v-icon :start="$vuetify.breakpoint.smAndDown">mdi-badge-account-horizontal</v-icon>
-                <span v-if="$vuetify.breakpoint.smAndDown">{{ $t('dashboard') }}</span>
+                <v-icon :start="$vuetify.display.smAndDown">mdi-badge-account-horizontal</v-icon>
+                <span v-if="$vuetify.display.smAndDown">{{ $t('dashboard') }}</span>
               </v-btn>
               <v-chip v-if="s.status === 'OFFLINE'" color="error" variant="outlined" label>
                 <v-icon size="small" start>mdi-alert-circle</v-icon>
@@ -101,7 +101,7 @@
             </div>
             <v-spacer />
             <div class="d-flex justify-center align-center mt-3">
-              <v-btn v-if="s.status === 'ONLINE' && $vuetify.breakpoint.mdAndUp" variant="flat"
+              <v-btn v-if="s.status === 'ONLINE' && $vuetify.display.mdAndUp" variant="flat"
                      :href="utils.getConnectionLink(s)" color="primary"
                      @click="utils.copyServerAddress(s)" class="cta-btn">
                 <div v-if="utils.getConnectionLink(s)" class="d-flex align-center">
@@ -116,8 +116,8 @@
               <v-btn class="ml-1 cta-btn"
                      v-if="s.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3'].includes(s.type)"
                      :to="{ name: 'ServerDashboard', params: { id: s.id } }" variant="flat">
-                <v-icon :start="$vuetify.breakpoint.smAndDown">mdi-badge-account-horizontal</v-icon>
-                <span v-if="$vuetify.breakpoint.smAndDown">{{ $t('dashboard') }}</span>
+                <v-icon :start="$vuetify.display.smAndDown">mdi-badge-account-horizontal</v-icon>
+                <span v-if="$vuetify.display.smAndDown">{{ $t('dashboard') }}</span>
               </v-btn>
               <v-chip v-if="s.status === 'OFFLINE'" color="error" label>
                 <v-icon size="small" start>mdi-alert-circle</v-icon>

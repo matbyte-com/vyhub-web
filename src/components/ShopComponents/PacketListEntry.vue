@@ -1,6 +1,6 @@
 <template>
   <v-card class="vh-packet-card card-rounded"  border
-          :class="{'card-rounded': $vuetify.breakpoint.smAndDown}" height="100%"
+          :class="{'card-rounded': $vuetify.display.smAndDown}" height="100%"
           :color="flat ? 'transparent' : ''" :flat="flat">
     <v-card-text class="vh-packet-card-text">
       <v-row align="center">

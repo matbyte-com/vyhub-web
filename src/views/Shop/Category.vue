@@ -2,7 +2,7 @@
   <div class="d-flex flex-grow-1 flex-column">
     <!-- Smartphone navigation -->
     <v-navigation-drawer app
-                         location="bottom" v-if="$vuetify.breakpoint.smAndDown" v-model="navigationDrawer">
+                         location="bottom" v-if="$vuetify.display.smAndDown" v-model="navigationDrawer">
       <v-card-title class="pb-0 mb-0 d-block">
         {{ $t('categories') }}
         <v-divider />
@@ -22,7 +22,7 @@
     </v-navigation-drawer>
     <v-card color="primary" flat class="no-bottom-border-radius card-rounded-top"
             @click="navigationDrawer = true"
-            v-if="$vuetify.breakpoint.smAndDown && selectedCategory">
+            v-if="$vuetify.display.smAndDown && selectedCategory">
       <v-card-title class="text-white">
         <div style="width: 24px"/>
         <v-spacer />
@@ -32,13 +32,13 @@
       </v-card-title>
     </v-card>
     <!-- Full Size Screens -->
-    <PageTitleFlat v-if="$vuetify.breakpoint.mdAndUp && selectedCategory"
+    <PageTitleFlat v-if="$vuetify.display.mdAndUp && selectedCategory"
                    :title="`${selectedCategory.name} ${$t('packets')}`" />
     <v-card flat class="card-rounded-bottom vh-cart-category flex-grow-1"
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-            'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+            'no-top-border-radius': $vuetify.display.smAndDown }">
       <v-card-text>
-        <v-tabs v-model="tab" v-if="$vuetify.breakpoint.mdAndUp">
+        <v-tabs v-model="tab" v-if="$vuetify.display.mdAndUp">
           <v-tab v-for="c in categories" :key="c.id" class="animate__animated"
                  @click="$router.push({ params: { categoryId: c.name } }); fetchPackets();">
             {{ c.name }}

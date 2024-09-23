@@ -2,9 +2,9 @@
 <div class="vh-home-discord">
   <v-row class="justify-center">
     <v-col class="d-flex align-center"
-           :class="{ 'order-2 justify-start': inverted && $vuetify.breakpoint.mdAndUp,
-            'justify-end': !inverted && $vuetify.breakpoint.mdAndUp,
-             'justify-center': $vuetify.breakpoint.smAndDown }"
+           :class="{ 'order-2 justify-start': inverted && $vuetify.display.mdAndUp,
+            'justify-end': !inverted && $vuetify.display.mdAndUp,
+             'justify-center': $vuetify.display.smAndDown }"
            cols="12" md="6">
       <div>
         <div class="text-h3" :class="{ 'white--text': whiteText }">{{ headline }}</div>
@@ -15,9 +15,9 @@
         </a>
       </div>
     </v-col>
-    <v-col cols="12" md="6" :class="{ 'text-start': !inverted && $vuetify.breakpoint.mdAndUp,
-     'text-end': inverted && $vuetify.breakpoint.mdAndUp,
-      'text-center': $vuetify.breakpoint.smAndDown }">
+    <v-col cols="12" md="6" :class="{ 'text-start': !inverted && $vuetify.display.mdAndUp,
+     'text-end': inverted && $vuetify.display.mdAndUp,
+      'text-center': $vuetify.display.smAndDown }">
       <div style="max-width: 100%" v-html="discordWidget"></div>
     </v-col>
   </v-row>

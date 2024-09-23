@@ -2,8 +2,8 @@
   <div>
     <div v-if="topic">
       <PageTitleFlat :title="topic.title" :icon="topic.icon"
-                     :hide-triangle="$vuetify.breakpoint.smAndDown"
-                     :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
+                     :hide-triangle="$vuetify.display.smAndDown"
+                     :no-bottom-border-radius="$vuetify.display.smAndDown">
         <template v-slot:subtitle v-if="false">
           <div class="d-flex align-center">
             <div class="text-ellipsis mt-1" style="width: 50%; max-width: 300px">
@@ -12,16 +12,16 @@
                 {{ topic.topic_category.title }}</router-link>
               / {{ topic.title }}
             </div>
-            <v-spacer v-if="!$vuetify.breakpoint.xs"/>
-            <div v-if="!$vuetify.breakpoint.xs">
+            <v-spacer v-if="!$vuetify.display.xs"/>
+            <div v-if="!$vuetify.display.xs">
               {{ topic.description }}
             </div>
           </div>
         </template>
       </PageTitleFlat>
       <v-card class="vh-forum-topic card-rounded-bottom" flat
-              :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+              :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }">
         <v-card-text class="mt-0 pt-0">
           <PaginatedDataTable
             :mobile-breakpoint="0"
@@ -193,7 +193,7 @@ export default {
   },
   computed: {
     headers() {
-      if (this.$vuetify.breakpoint.mdAndUp) {
+      if (this.$vuetify.display.mdAndUp) {
         return [
           { text: this.$t('title'), value: 'title', sortable: false },
           {

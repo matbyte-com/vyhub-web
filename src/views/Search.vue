@@ -3,8 +3,8 @@
     <v-row>
       <v-col cols="12" md="8">
         <PageTitleFlat :title="$t('_pageTitle.search')"
-                       :hide-triangle="$vuetify.breakpoint.smAndDown"
-                       :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+                       :hide-triangle="$vuetify.display.smAndDown"
+                       :no-bottom-border-radius="$vuetify.display.smAndDown"/>
         <v-card class="mt-3 card-rounded" flat>
           <v-card-title>
             <v-icon start>mdi-magnify</v-icon>

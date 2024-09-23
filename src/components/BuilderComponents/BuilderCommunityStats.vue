@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="vh-home-community-stats">
-      <div v-if="$vuetify.breakpoint.smAndUp" class="d-flex flex-row flex-wrap justify-center">
+      <div v-if="$vuetify.display.smAndUp" class="d-flex flex-row flex-wrap justify-center">
         <v-card v-for="stat in stats" :key="stat.title"
                 class="ml-5 mt-10 stat-card card-rounded">
           <div class="icon-wrapper text-center">

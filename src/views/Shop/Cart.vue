@@ -1,7 +1,7 @@
 <template>
   <div>
     <RecommendedPacketsCart @cartChanged="fetchData"/>
-    <v-row v-if="cartPackets != null" class="mt-4" :dense="$vuetify.breakpoint.mdAndDown">
+    <v-row v-if="cartPackets != null" class="mt-4" :dense="$vuetify.display.mdAndDown">
       <!-- Cart packets -->
       <v-col cols="12" lg="8" xl="9">
         <!-- Unfinished Purchases -->

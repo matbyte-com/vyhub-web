@@ -2,7 +2,7 @@
 <div class="vh-home-join-server">
   <v-row justify="center">
     <v-col cols="5" lg="4" class="d-flex align-center justify-start"
-           v-if="server1 && $vuetify.breakpoint.mdAndUp">
+           v-if="server1 && $vuetify.display.mdAndUp">
       <a :href="utils.getConnectionLink(server1)" class="text-decoration-none" target="_blank">
         <div class="d-flex align-center join-link pa-3" :class="{ 'white--text': whiteText }">
           <v-card color="primary"
@@ -25,7 +25,7 @@
              :alt="$store.getters.theme.logo" />
     </v-col>
     <v-col cols="5" lg="4" class="d-flex align-center justify-end"
-           v-if="server2 && $vuetify.breakpoint.mdAndUp">
+           v-if="server2 && $vuetify.display.mdAndUp">
       <a :href="utils.getConnectionLink(server2)" target="_blank"
          class="text-decoration-none">
         <div class="d-flex align-center justify-end join-link pa-3"

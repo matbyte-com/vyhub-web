@@ -11,7 +11,7 @@
           <v-col v-if="$slots.start"><slot name="start" /></v-col>
           <v-col :class="{ 'justify-center' : $slots.start || centered}"
                  class="d-flex align-center">
-            <v-icon :size="!$vuetify.breakpoint.smAndDown ? 'large' : undefined"
+            <v-icon :size="!$vuetify.display.smAndDown ? 'large' : undefined"
                     color="white" start v-if="icon">{{ icon }}</v-icon>
             <h1 :class="headlineClasses">{{ title }}</h1>
           </v-col>
@@ -31,7 +31,7 @@ export default {
   computed: {
     headlineClasses() {
       let res = '';
-      if (this.title && this.title.length > 20 && this.$vuetify.breakpoint.smAndDown) res = 'text-h6';
+      if (this.title && this.title.length > 20 && this.$vuetify.display.smAndDown) res = 'text-h6';
       else res = 'text-h5 font-weight-bold';
       return res;
     },

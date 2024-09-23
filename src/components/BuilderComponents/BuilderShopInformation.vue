@@ -16,7 +16,7 @@
       </v-col>
     </v-row>
     <v-card class="card-rounded" :img="imageCardUrl" flat v-else :dark="whiteText">
-      <v-row :justify="$vuetify.breakpoint.mdAndUp ? 'start' : 'center'" class="vh-home-shop-stats">
+      <v-row :justify="$vuetify.display.mdAndUp ? 'start' : 'center'" class="vh-home-shop-stats">
         <v-col cols="11" sm="9" md="8" lg="6">
             <div class="card-rounded pt-2 px-2 flex-grow-1"
                     v-if="$store.getters.shopConfig.donation_goal_enabled">

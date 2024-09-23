@@ -1,8 +1,8 @@
 <template>
 <div class="d-flex flex-column flex-grow-1">
   <PageTitleFlat :title="$t('_shop.shopTitle')"
-                 :hide-triangle="$vuetify.breakpoint.smAndDown"
-                 :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+                 :hide-triangle="$vuetify.display.smAndDown"
+                 :no-bottom-border-radius="$vuetify.display.smAndDown"/>
   <v-card class="mt-4 mb-2 card-rounded vh-shop-news" v-if="newsContent">
     <v-card-text>
       <div class="d-flex">
@@ -13,8 +13,8 @@
     </v-card-text>
   </v-card>
   <v-card class="card-rounded-bottom flex-grow-1 vh-cart-categories vh-shop-categories"
-          :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }"
+          :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }"
           flat>
     <v-card-text>
       <div class="d-flex">
@@ -37,11 +37,11 @@
               </div>
             </v-sheet>
             <div class="d-flex align-center mx-1 mb-1 justify-center">
-              <v-spacer v-if="$vuetify.breakpoint.smAndDown"/>
+              <v-spacer v-if="$vuetify.display.smAndDown"/>
               <h3 class="text-h6 text-break">{{ category.name }}</h3>
               <v-spacer />
-              <v-btn variant="flat" color="primary" class="ml-1" v-if="!$vuetify.breakpoint.lgAndDown">
-                <span v-if="$vuetify.breakpoint.lgAndUp">{{ $t('viewMore') }}</span>
+              <v-btn variant="flat" color="primary" class="ml-1" v-if="!$vuetify.display.lgAndDown">
+                <span v-if="$vuetify.display.lgAndUp">{{ $t('viewMore') }}</span>
                 <span v-else>{{ $t('view') }}</span>
               </v-btn>
             </div>

@@ -1,7 +1,7 @@
 <template>
   <v-card class="card-rounded vh-home-shop-stats" :img="imageCardUrl" flat>
     <v-card-text>
-      <v-row :justify="$vuetify.breakpoint.smAndDown ? 'center' : 'start'">
+      <v-row :justify="$vuetify.display.smAndDown ? 'center' : 'start'">
         <v-col cols="11" sm="9" md="6" Lg="5">
           <div class="text-h4 mb-2" :class="{ 'white--text' : whiteText }">
             {{ $t('server') }}
@@ -55,12 +55,12 @@
                          v-if="server.status === 'ONLINE' && !['DISCORD','TEAMSPEAK3']
                      .includes(server.type)"
                          :to="{ name: 'ServerDashboard', params: { id: server.id } }">
-                    <v-icon :start="$vuetify.breakpoint.smAndDown">
+                    <v-icon :start="$vuetify.display.smAndDown">
                       mdi-badge-account-horizontal
                     </v-icon>
-                    <span v-if="$vuetify.breakpoint.smAndDown">{{ $t('dashboard') }}</span>
+                    <span v-if="$vuetify.display.smAndDown">{{ $t('dashboard') }}</span>
                   </v-btn>
-                  <v-btn v-if="server.status === 'ONLINE' && $vuetify.breakpoint.mdAndUp"
+                  <v-btn v-if="server.status === 'ONLINE' && $vuetify.display.mdAndUp"
                          variant="flat" :href="utils.getConnectionLink(server)" color="primary"
                          @click="utils.copyServerAddress(server)" class="cta-btn">
                     <div v-if="utils.getConnectionLink(server)" class="d-flex align-center">

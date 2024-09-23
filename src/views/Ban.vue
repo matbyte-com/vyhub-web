@@ -1,10 +1,10 @@
 <template>
   <div>
     <PageTitleFlat :title="$t('_ban.labels.title')" :hide-triangle="true"
-                   :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+                   :no-bottom-border-radius="$vuetify.display.smAndDown"/>
     <v-card class="vh-ban card-rounded-bottom" flat
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }">
       <v-card-text>
         <PaginatedDataTable
           ref="banTable"
@@ -23,7 +23,7 @@
                     <v-btn
                       variant="outlined"
                       color="primary"
-                     
+
                       v-bind="props">
                       <v-icon start>
                         mdi-filter
@@ -63,7 +63,7 @@
             style="margin-left: -15px"/>
           </template>
           <template v-slot:item.user="{ item }">
-            <span v-if="$vuetify.breakpoint.xsOnly">
+            <span v-if="$vuetify.display.xs">
               <UserLink :user="item.user"
                         :color="banRowFormatter(item)" />
             </span>

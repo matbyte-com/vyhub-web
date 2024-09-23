@@ -4,9 +4,9 @@
                :flat="!app" style="z-index: 4;" :src="backgroundImage">
       <!-- Logo -->
       <div class="d-flex align-center grow"
-           :class="{ 'container' : $vuetify.breakpoint.mdAndUp }">
+           :class="{ 'container' : $vuetify.display.mdAndUp }">
         <!-- burger menu on the left-->
-        <v-menu offset-y v-if="$vuetify.breakpoint.smAndDown">
+        <v-menu offset-y v-if="$vuetify.display.smAndDown">
           <template v-slot:activator="{ props }">
             <v-app-bar-nav-icon :class="{ 'white--text': whiteText }" v-bind="props"/>
           </template>
@@ -26,7 +26,7 @@
                  transition="scale-transition" height="60" contain/>
         </router-link>
         <!-- Do not overflow on bigger screens -->
-        <div v-if="$vuetify.breakpoint.mdAndUp" class="mr-1">
+        <div v-if="$vuetify.display.mdAndUp" class="mr-1">
           <router-link :to="{ name: 'News' }" style="cursor: pointer; color: inherit"
                        class="text-decoration-none" >
             <v-toolbar-title class="ml-3" :class="{ 'white--text': whiteText }">
@@ -41,8 +41,8 @@
             {{ headline }}
           </v-toolbar-title>
         </router-link>
-        <v-spacer v-if="$vuetify.breakpoint.mdAndUp" />
-        <div class="d-flex flex-wrap align-center" v-if="$vuetify.breakpoint.mdAndUp">
+        <v-spacer v-if="$vuetify.display.mdAndUp" />
+        <div class="d-flex flex-wrap align-center" v-if="$vuetify.display.mdAndUp">
           <v-btn v-for="l in links" :key="l.text" :class="{ 'white--text': whiteText }"
                  :target="l.targetBlank? '_blank' : ''"
                  variant="text" class="my-1" :href="(!utils.localLink(l) ? l.link : null)"
@@ -54,7 +54,7 @@
           </v-btn>
         </div>
         <v-spacer />
-        <v-btn color="primary card-rounded my-1" :size="$vuetify.breakpoint.mdAndUp ? 'large' : undefined"
+        <v-btn color="primary card-rounded my-1" :size="$vuetify.display.mdAndUp ? 'large' : undefined"
                variant="flat" v-if="!$store.getters.isLoggedIn"
                @click="showLoginDialog"
                :class="{ 'glow-effect':utils.customerJourneyActive('login') }">

@@ -2,8 +2,8 @@
   <div>
     <PageTitleFlat :title="$t('log')" :hide-triangle="true"/>
     <v-card class="card-rounded-bottom" flat
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }">
       <v-card-text>
         <v-row dense align="center">
           <v-col cols="12" sm="6" md="4" xl="2">
@@ -21,7 +21,7 @@
                   hide-details
                   readonly
                   class="ml-3"
-                 
+
                   v-bind="props"
                 ></v-text-field>
               </template>
@@ -46,7 +46,7 @@
                   hide-details
                   readonly
                   class="ml-3"
-                 
+
                   v-bind="props"
                 ></v-text-field>
               </template>
@@ -72,7 +72,7 @@
                   prepend-icon="mdi-calendar"
                   readonly
                   hide-details
-                 
+
                   v-bind="props"
                 ></v-text-field>
               </template>
@@ -97,7 +97,7 @@
                   prepend-icon="mdi-clock-time-four-outline"
                   hide-details
                   readonly
-                 
+
                   v-bind="props"
                 ></v-text-field>
               </template>
@@ -115,7 +115,7 @@
                   class="ml-3"
                   variant="outlined"
                   color="primary"
-                 
+
                   v-bind="props">
                   <v-icon start>
                     mdi-filter
@@ -141,7 +141,7 @@
                   class="ml-3"
                   variant="outlined"
                   color="primary"
-                 
+
                   v-bind="props">
                   <v-icon start>
                     mdi-filter
@@ -218,7 +218,7 @@
           @reload="fetchData">
           <template v-slot:item.message="{ item }">
             <div class="text-truncate"
-                 :style="{'max-width': $vuetify.breakpoint.width / 2.2 + 'px'}">
+                 :style="{'max-width': $vuetify.display.width / 2.2 + 'px'}">
               {{ item.message }}
             </div>
           </template>

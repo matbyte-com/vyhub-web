@@ -1,6 +1,6 @@
 <template>
   <div class="vh-home-features">
-    <v-row justify="center" v-if="$vuetify.breakpoint.mdAndUp">
+    <v-row justify="center" v-if="$vuetify.display.mdAndUp">
       <v-col cols="6" md="4" lg="3" v-for="(card, index) in cards" :key="index"
              class="d-flex flex-column">
         <v-card class="grow-on-hover feature-card flex-grow-1 card-rounded text-center mt-8">

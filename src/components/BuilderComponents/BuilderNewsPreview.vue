@@ -2,18 +2,18 @@
   <div class="vh-home-news-preview">
     <v-row class="justify-center">
       <v-col class="d-flex align-center"
-             :class="{ 'order-2 text-start': inverted && $vuetify.breakpoint.mdAndUp,
-          'justify-end text-end': !inverted && $vuetify.breakpoint.mdAndUp,
-           'justify-center text-center': $vuetify.breakpoint.smAndDown }"
+             :class="{ 'order-2 text-start': inverted && $vuetify.display.mdAndUp,
+          'justify-end text-end': !inverted && $vuetify.display.mdAndUp,
+           'justify-center text-center': $vuetify.display.smAndDown }"
              cols="12" md="6">
         <div>
           <div class="text-h3" :class="{ 'white--text': whiteText }">{{ title }}</div>
           <div class="text-h5" :class="{ 'white--text': whiteText }">{{ subtitle }}</div>
         </div>
       </v-col>
-      <v-col cols="12" md="6" :class="{ 'text-start': !inverted && $vuetify.breakpoint.mdAndUp,
-   'text-end': inverted && $vuetify.breakpoint.mdAndUp,
-    'text-center': $vuetify.breakpoint.smAndDown }" v-if="newsToShow !== null">
+      <v-col cols="12" md="6" :class="{ 'text-start': !inverted && $vuetify.display.mdAndUp,
+   'text-end': inverted && $vuetify.display.mdAndUp,
+    'text-center': $vuetify.display.smAndDown }" v-if="newsToShow !== null">
         <div v-if="newsToShow.length > 0">
           <v-card border class="card-rounded" flat>
             <v-card-text>

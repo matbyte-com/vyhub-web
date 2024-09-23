@@ -154,7 +154,7 @@
             <draggable :list="link.sublinks"
                        @change="updateLinkEnabled = true">
               <div v-for="sublink in link.sublinks" :key="sublink.id">
-                <v-list-item :class="{ 'py-2': $vuetify.breakpoint.xs }">
+                <v-list-item :class="{ 'py-2': $vuetify.display.xs }">
                   <v-row :class="!link.enabled ? 'text--disabled' : ''">
                     <v-col cols="6" sm="3" md="3" class="d-flex align-center">
                       <v-icon start v-if="link.icon">
@@ -200,12 +200,12 @@
                     </v-col>
                   </v-row>
                 </v-list-item>
-                <v-divider v-if="$vuetify.breakpoint.xs"/>
+                <v-divider v-if="$vuetify.display.xs"/>
               </div>
             </draggable>
           </v-list-group>
           <!-- Links without sublink -->
-          <v-list-item v-else :class="{ 'py-2': $vuetify.breakpoint.xs }">
+          <v-list-item v-else :class="{ 'py-2': $vuetify.display.xs }">
             <v-row :class="!link.enabled ? 'text--disabled' : ''">
               <v-col cols="6" sm="3" md="3" class="d-flex align-center">
                 <v-icon start v-if="link.icon">
@@ -251,7 +251,7 @@
               </v-col>
             </v-row>
           </v-list-item>
-          <v-divider v-if="$vuetify.breakpoint.xs"/>
+          <v-divider v-if="$vuetify.display.xs"/>
         </div>
       </draggable>
     </v-list>
@@ -286,7 +286,7 @@
           </span>
         </v-tooltip>
       </v-col>
-      <v-col class="text--disabled mr-5" :class="$vuetify.breakpoint.mdAndDown ? '' : 'text-right'">
+      <v-col class="text--disabled mr-5" :class="$vuetify.display.mdAndDown ? '' : 'text-right'">
         <span class="mr-3">
           <v-icon disabled>
           mdi-web

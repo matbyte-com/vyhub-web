@@ -2,8 +2,8 @@
   <div>
     <div v-if="thread && posts && topic">
       <PageTitleFlat :title="thread.title" :icon="threadIcon"
-                     :hide-triangle="$vuetify.breakpoint.smAndDown"
-                     :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
+                     :hide-triangle="$vuetify.display.smAndDown"
+                     :no-bottom-border-radius="$vuetify.display.smAndDown">
         <template v-slot:end>
           <div class="d-flex justify-end">
             <v-chip v-for="(label, index) in thread.labels" :key="label.id" class="text-white"
@@ -55,12 +55,12 @@
       </PageTitleFlat>
       <v-card flat border class="vh-forum-post card-rounded-bottom mb-3"
               v-for="(post, index) in posts" :key="post.id"
-              :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown || index !== 0,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0}">
-        <div class="d-flex" :class="{ 'flex-column' : $vuetify.breakpoint.xs }">
+              :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
+           'no-top-border-radius': $vuetify.display.smAndDown && index === 0}">
+        <div class="d-flex" :class="{ 'flex-column' : $vuetify.display.xs }">
           <!-- Avatar -->
           <!-- Large Screens -->
-          <div class="pa-3 text-center" style="width: 200px" v-if="$vuetify.breakpoint.smAndUp">
+          <div class="pa-3 text-center" style="width: 200px" v-if="$vuetify.display.smAndUp">
             <router-link :to="{ name: 'UserDashboard', params: {id: post.creator.id}}"
                          class="text-decoration-none" style="color: inherit"
                          v-if="!post.creator.deleted">
@@ -129,7 +129,7 @@
               </v-chip>
             </div>
           </div>
-          <v-divider vertical v-if="$vuetify.breakpoint.smAndUp"/>
+          <v-divider vertical v-if="$vuetify.display.smAndUp"/>
           <div style="width: 100%">
             <div>
               <!-- TOP START -->
@@ -233,7 +233,7 @@
                     @update:model-value="fetchData"/>
       <div class="mt-3" v-if="(thread.status !== 'CLOSED'
       || ($checkProp('forum_edit') || $checkTopicAdmin(admins))) && posts.length >= 1
-      && $vuetify.breakpoint.mdAndUp && $store.getters.isLoggedIn">
+      && $vuetify.display.mdAndUp && $store.getters.isLoggedIn">
         <v-card flat border class="card-rounded">
           <v-card-text>
             <v-card v-if="$checkIsForumBanned()" color="error-darken-1"

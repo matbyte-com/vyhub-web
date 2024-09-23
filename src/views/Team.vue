@@ -1,7 +1,7 @@
 <template>
   <div>
       <PageTitleFlat :title="$t('_team.title')" :hide-triangle="true"
-                     :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
+                     :no-bottom-border-radius="$vuetify.display.smAndDown">
         <template v-slot:end>
           <div class="text-right">
             <v-btn variant="flat" v-if="$checkProp('edit_team')" color="success" size="small"
@@ -13,8 +13,8 @@
         </template>
       </PageTitleFlat>
     <v-card class="vh-team card-rounded-bottom px-2" flat
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }">
       <v-tabs v-model="tab">
         <v-tab v-for="bundle in serverbundles" :key="bundle.id">
           <v-icon start :color="bundle.color">

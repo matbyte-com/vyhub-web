@@ -3,8 +3,8 @@
     <v-row class="mt-1">
       <v-col cols="12" md="9">
         <PageTitleFlat :title="$t('_forum.welcomeToForum')"
-                       :hide-triangle="$vuetify.breakpoint.smAndDown"
-                       :no-bottom-border-radius="$vuetify.breakpoint.smAndDown">
+                       :hide-triangle="$vuetify.display.smAndDown"
+                       :no-bottom-border-radius="$vuetify.display.smAndDown">
           <template v-slot:end>
             <div v-if="$checkProp('forum_edit')" class="d-flex flex-column">
               <v-btn class="ml-auto" color="success" size="small" variant="flat"
@@ -25,8 +25,8 @@
         </div>
         <v-card v-for="(category, index) in topicCategories" :key="category.id"
                 class="mb-3 vh-forum card-rounded-bottom" flat
-                :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-                'no-top-border-radius': $vuetify.breakpoint.smAndDown && index === 0,
+                :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+                'no-top-border-radius': $vuetify.display.smAndDown && index === 0,
                  'card-rounded-top': index !== 0 }">
           <v-card-text class="pa-0">
             <v-list subheader class="pb-0">
@@ -65,10 +65,10 @@
                             </div>
                           </div>
                         </v-col>
-                        <v-col cols="5" md="6" lg="6" xl="5" v-if="!$vuetify.breakpoint.smAndDown"
+                        <v-col cols="5" md="6" lg="6" xl="5" v-if="!$vuetify.display.smAndDown"
                                class="d-flex align-center justify-end">
                             <div class="d-flex align-center mr-1"
-                                 v-if="$vuetify.breakpoint.lgAndUp">
+                                 v-if="$vuetify.display.lgAndUp">
                               <v-tooltip location="bottom">
                                 <template v-slot:activator="{ props }">
                                   <v-icon class="ml-1 mr-1" v-bind="props">mdi-comment-multiple</v-icon>
@@ -85,7 +85,7 @@
                               <span>{{ topic.posts_total }}</span>
                             </div>
                             <div class="d-flex justify-end"
-                                 v-if="topic.last_post !== null && $vuetify.breakpoint.mdAndUp">
+                                 v-if="topic.last_post !== null && $vuetify.display.mdAndUp">
                               <router-link v-if="topic.last_post.creator"
                                 :to="{ name: 'UserDashboard',
                          params: { id: topic.last_post.creator.id } }">
@@ -112,7 +112,7 @@
                             </div>
                         </v-col>
                         <!-- Mobile -->
-                        <v-col cols="4" v-if="$vuetify.breakpoint.smAndDown"
+                        <v-col cols="4" v-if="$vuetify.display.smAndDown"
                                class="d-flex justify-end align-center">
                           <div class="text-right">
                             <div>
@@ -122,7 +122,7 @@
                               {{ utils.formatTimeForForum(topic.last_post.created) }}
                             </div>
                           </div>
-                          <div v-if="!$vuetify.breakpoint.xs" class="ml-1">
+                          <div v-if="!$vuetify.display.xs" class="ml-1">
                             <router-link
                               :to="{ name: 'UserDashboard',
                          params: { id: topic.last_post.creator.id } }">

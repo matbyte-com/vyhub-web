@@ -2,7 +2,7 @@
   <div>
     <v-row dense no-gutters>
       <v-col cols="12" lg="3" class="mb-2 mb-lg-0">
-        <v-card v-if="$vuetify.breakpoint.mdAndDown" class="mt-2" flat tile
+        <v-card v-if="$vuetify.display.mdAndDown" class="mt-2" flat tile
                 @click="navigationDrawer = !navigationDrawer">
           <v-card-text class="d-flex align-center text-capitalize text-h5">
             <v-icon start>{{ activeTab.icon }}</v-icon>
@@ -11,8 +11,8 @@
             <v-icon>mdi-unfold-more-horizontal</v-icon>
           </v-card-text>
         </v-card>
-        <v-navigation-drawer :permanent="!$vuetify.breakpoint.mdAndDown"
-                             :app="$vuetify.breakpoint.mdAndDown" v-model="navigationDrawer"
+        <v-navigation-drawer :permanent="!$vuetify.display.mdAndDown"
+                             :app="$vuetify.display.mdAndDown" v-model="navigationDrawer"
                              location="bottom" flat outlined tile class="fill-height"
                              style="width: 100%"
                 :class="{ 'lighten-3': !$vuetify.theme.dark, 'darken-4': $vuetify.theme.dark }"
@@ -37,7 +37,7 @@
                     </v-list-item-title>
                   </v-list-item>
                   <v-list-group no-action :prepend-icon="tab.icon" v-else
-                                :value="$vuetify.breakpoint.lgAndUp">
+                                :value="$vuetify.display.lgAndUp">
                     <template v-slot:activator>
                       <v-list-item-content :class="{'glow-effect':
                                  utils.customerJourneyActive(tab.customerJourney)}"
@@ -71,7 +71,7 @@
         <v-card class="fill-height" style="min-height: 75vh" flat border tile width="100%">
           <v-card-text :key="key">
             <keep-alive>
-              <component class="mt-3" :class="{ 'mr-10' : $vuetify.breakpoint.lgAndUp }"
+              <component class="mt-3" :class="{ 'mr-10' : $vuetify.display.lgAndUp }"
                          :is="componentInstance"></component>
             </keep-alive>
           </v-card-text>

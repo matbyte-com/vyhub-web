@@ -5,7 +5,7 @@
         <template v-slot:activator="{ props }">
           <div v-bind="props">
             <PageTitleFlat :title="server.name" :hide-triangle="true" :is-menu="true"
-                           :no-bottom-border-radius="$vuetify.breakpoint.mdAndDown">
+                           :no-bottom-border-radius="$vuetify.display.mdAndDown">
               <template v-slot:start>
                 <v-card class="pa-1" flat style="width: 100px; background-color: green"
                         v-if="server.status === 'ONLINE'">
@@ -49,10 +49,10 @@
         </v-card>
       </v-menu>
     </div>
-    <v-row dense :class="{ 'mt-3': !$vuetify.breakpoint.mdAndDown }">
+    <v-row dense :class="{ 'mt-3': !$vuetify.display.mdAndDown }">
       <v-col cols="12" lg="4" class="d-flex">
-        <v-card :class="{ 'card-rounded-top':!$vuetify.breakpoint.mdAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.mdAndDown,}"
+        <v-card :class="{ 'card-rounded-top':!$vuetify.display.mdAndDown,
+           'no-top-border-radius': $vuetify.display.mdAndDown,}"
                 class="flex-grow-1 vh-server-dashboard-users card-rounded" flat>
           <v-card-text>
             <div class="d-flex align-center">

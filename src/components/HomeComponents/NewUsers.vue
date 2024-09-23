@@ -4,8 +4,8 @@
       <CardTitle icon="mdi-account-arrow-right" :title="$t('_user.labels.newUsers')"/>
     </v-card-title>
     <v-card-text style="width: inherit" class="mt-3" v-if="newUsers != null">
-      <v-row v-if="$vuetify.breakpoint.mdAndUp" style="width: inherit"
-             :justify="$vuetify.breakpoint.smAndDown && newUsers.length !== 1 ? 'center' : 'start'">
+      <v-row v-if="$vuetify.display.mdAndUp" style="width: inherit"
+             :justify="$vuetify.display.smAndDown && newUsers.length !== 1 ? 'center' : 'start'">
         <v-col cols="4" md="6" lg="6" xl="3" v-for="u in newUsers" v-bind:key="u.id">
           <v-card
             border

@@ -6,10 +6,10 @@
     <DialogForm ref="editWarningDialog" @submit="editWarning" :form-schema="WarningEditForm"
                 :title="$t('_warning.edit')" icon="mdi-account-alert"/>
     <PageTitleFlat :title="$t('_warning.title')" :hide-triangle="true"
-                   :no-bottom-border-radius="$vuetify.breakpoint.smAndDown"/>
+                   :no-bottom-border-radius="$vuetify.display.smAndDown"/>
     <v-card class="vh-warns card-rounded-bottom" flat
-            :class="{ 'mt-4 card-rounded-top':!$vuetify.breakpoint.smAndDown,
-           'no-top-border-radius': $vuetify.breakpoint.smAndDown }">
+            :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+           'no-top-border-radius': $vuetify.display.smAndDown }">
       <v-card-text>
         <PaginatedDataTable
           ref="warnTable"
@@ -29,7 +29,7 @@
                     <v-btn
                       variant="outlined"
                       color="primary"
-                     
+
                       v-bind="props"
                     >
                       <v-icon start>
@@ -70,7 +70,7 @@
                      style="margin-left: -15px"/>
           </template>
           <template v-slot:item.user="{ item }">
-            <span v-if="$vuetify.breakpoint.xsOnly">
+            <span v-if="$vuetify.display.xs">
               <UserLink :user="item.user"
                         :color="warningRowFormatter(item)" />
             </span>

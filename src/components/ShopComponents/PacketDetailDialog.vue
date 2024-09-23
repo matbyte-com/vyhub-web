@@ -45,15 +45,15 @@
           <!-- Price and buy column -->
           <v-col cols="12" sm="7" class="d-flex flex-column">
             <!-- Headline -->
-            <h1 class="mt-2" :class="{ 'text-center': $vuetify.breakpoint.xs }">
+            <h1 class="mt-2" :class="{ 'text-center': $vuetify.display.xs }">
               {{ packet.title }}
             </h1>
             <!-- Price -->
             <div v-if="!cartPacket">
               <div v-if="!packet.custom_price" class="mt-2 mb-1"
-                   :class="{ 'd-flex justify-center align-center': $vuetify.breakpoint.xs }">
+                   :class="{ 'd-flex justify-center align-center': $vuetify.display.xs }">
                 <div class="ml-1" style="line-height: 0.9em"
-                     :class="{ 'text-center': $vuetify.breakpoint.xs }">
+                     :class="{ 'text-center': $vuetify.display.xs }">
                 <span class="strikethrough-diagonal mr-2 text--disabled"
                       v-if="packet.discount != null">
                   {{ utils.formatDecimal(packet.price_without_discount.total) }}
@@ -71,7 +71,7 @@
                 </div>
               </div>
               <span class="font-weight-bold mt-1"
-                    :class="{ 'text-center': $vuetify.breakpoint.xs }" v-else>
+                    :class="{ 'text-center': $vuetify.display.xs }" v-else>
                 {{ $t('_packet.messages.customPricePossible') }}
               </span>
             </div>
@@ -103,7 +103,7 @@
               </p>
             </v-list>-->
             <!-- Buy Button -->
-            <div :class="{ 'mt-7': $vuetify.breakpoint.xs }" v-if="!hideBuyBtns" class="mt-1">
+            <div :class="{ 'mt-7': $vuetify.display.xs }" v-if="!hideBuyBtns" class="mt-1">
               <v-btn color="info" size="large" block
                      v-if="!$store.getters.isLoggedIn"
                      @click="$router.push({ path: $route.path,
