@@ -162,7 +162,7 @@
             style="min-height: 50px"
             v-html="message.content"
           />
-          <v-card-actions class="text--disabled pt-0">
+          <v-card-actions class="text-disabled pt-0">
             <span
               class="mr-3"
               :class="{ 'white--text' : !$vuetify.theme.dark
@@ -239,7 +239,7 @@
             style="min-height: 50px"
             v-html="message.content"
           />
-          <v-card-actions class="text--disabled pt-0">
+          <v-card-actions class="text-disabled pt-0">
             <span
               class="mr-3"
               :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
@@ -297,33 +297,11 @@
 
 <script>
 import openapi from '@/api/openapi';
-import UserLink from '@/components/UserLink.vue';
 import NewsAddForm from '@/forms/NewsAddForm';
-import DialogForm from '@/components/DialogForm.vue';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import ServerStatus from '@/components/HomeComponents/ServerStatus.vue';
-import DonationGoal from '@/components/ShopComponents/DonationGoal.vue';
-import Editor from '@/components/Editor.vue';
-import TopDonators from '@/components/ShopComponents/TopDonators.vue';
-import Swiper from '@/components/Swiper.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
-import NewUsers from '../components/HomeComponents/NewUsers.vue';
 import config from '../config';
 import i18n from '../plugins/i18n';
 
 export default {
-  components: {
-    PageTitleFlat,
-    Swiper,
-    TopDonators,
-    Editor,
-    NewUsers,
-    DonationGoal,
-    ServerStatus,
-    DeleteConfirmationDialog,
-    UserLink,
-    DialogForm,
-  },
   data() {
     return {
       news: [],

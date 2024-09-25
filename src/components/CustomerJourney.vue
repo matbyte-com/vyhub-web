@@ -110,7 +110,7 @@
           target="_blank"
         >
           <v-icon start>
-            $discord
+            custom:discord
           </v-icon>
           <span>Discord</span>
         </v-btn>
@@ -265,7 +265,7 @@ export default {
     },
     getFirstUnfulfilledStep(stepIndex) {
       const step = this.steps[stepIndex];
-       
+
       const firstSubstep = step.steps.find((substep) => this.substepIsFulfilled(substep.journeyStep) === false);
       if (firstSubstep) {
         return firstSubstep;
@@ -280,7 +280,7 @@ export default {
     },
     stepIsFulfilled(index) {
       if (this.currentState) {
-         
+
         return !this.steps[index].steps.some((step) => this.substepIsFulfilled(step.journeyStep) === false);
       }
       return false;

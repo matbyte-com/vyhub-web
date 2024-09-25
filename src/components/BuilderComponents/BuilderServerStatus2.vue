@@ -75,7 +75,7 @@
                     </span>
                     <span
                       v-if="server.status === 'UNKNOWN'"
-                      class="font-italic text--disabled"
+                      class="font-italic text-disabled"
                     >
                       {{ $t('unknown') }}
                     </span>

@@ -67,7 +67,7 @@
                 <div class="d-flex align-end">
                   <span
                     v-if="p.price_with_discount.total !== p.price_without_discount.total"
-                    class="strikethrough-diagonal text--disabled mr-2"
+                    class="strikethrough-diagonal text-disabled mr-2"
                   >
                     {{ utils.formatDecimal(p.price_without_discount.total) }}
                     {{ p.currency.symbol }}

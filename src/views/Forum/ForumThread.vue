@@ -286,7 +286,7 @@
                 <div class="d-flex align-center">
                   <div
                     v-if="post.last_edit"
-                    class="text--disabled mr-2"
+                    class="text-disabled mr-2"
                     style="font-size: 0.9em"
                   >
                     <span>{{ $t('_forum.edited') }}:
@@ -304,7 +304,7 @@
                         <!-- BTN when logged in -->
                         <v-btn
                           v-if="$store.getters.isLoggedIn"
-                          :class="{ 'text--disabled':
+                          :class="{ 'text-disabled':
                             getReactionAccumulated(post, icon).count === 0}"
                           size="small"
                           variant="outlined"
@@ -327,7 +327,7 @@
                         </v-btn>
                         <span
                           v-else
-                          :class="{ 'text--disabled':
+                          :class="{ 'text-disabled':
                             getReactionAccumulated(post, icon).count === 0}"
                         >
                           {{ icon }}
@@ -642,10 +642,10 @@ export default {
           if (!this.lastPage) {
             const posts = rsp.data.items;
             posts.forEach((p) => {
-               
+
               p.accumulated_reactions = {};
 
-               
+
               p.accumulated_reactions = p.reactions.reduce((acc, obj) => {
                 if (!acc[obj.name]) {
                   acc[obj.name] = { count: 1, has_reacted: false };
@@ -663,7 +663,7 @@ export default {
                 return acc;
               }, {});
 
-               
+
               p.content = p.content.replace(
                 /<iframe([^>]*)src="([^"]+)"([^>]*)><\/iframe>/g,
                 (_, iframeAttrsBefore, src, iframeAttrsAfter) => {
@@ -711,20 +711,20 @@ export default {
 
               this.icons.forEach((i) => {
                 if (!(i in p.accumulated_reactions)) {
-                   
+
                   p.accumulated_reactions[i] = { count: 0, has_reacted: false };
                 }
               });
 
               if (!p.creator) {
-                 
+
                 p.creator = {
                   username: this.$t('deletedUser'),
                   avatar: 'https://cdn.vyhub.net/vyhub/avatars/default.png',
                   deleted: true,
                 };
               } else {
-                 
+
                 p.creator.memberships = this.sortedMemberships(p.creator.memberships);
               }
             });
@@ -866,7 +866,7 @@ export default {
       return { count: reactionObj.count, has_reacted: reactionObj.has_reacted };
     },
     async toggleReaction(post, icon) {
-       
+
       if (this.cooldown) return;
       this.cooldown = true;
       if (post.accumulated_reactions[icon].has_reacted) {
@@ -877,11 +877,11 @@ export default {
           return;
         }
         (await openapi).forum_deleteReaction(reaction.id).then(() => {
-           
+
           post.reactions = post.reactions.filter((r) => r.id !== reaction.id);
-           
+
           post.accumulated_reactions[icon].count -= 1;
-           
+
           post.accumulated_reactions[icon].has_reacted = false;
         });
       } else {
@@ -889,11 +889,11 @@ export default {
           const reaction = rsp.data;
           reaction.user_id = reaction.user.id;
           post.reactions.push(reaction);
-           
+
           post.accumulated_reactions[icon].count += 1;
-           
+
           post.accumulated_reactions[icon].has_reacted = true;
-           
+
         });
       }
       setTimeout(() => {

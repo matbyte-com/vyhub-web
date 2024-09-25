@@ -3,13 +3,13 @@ import store from '@/store';
 
 export default {
   userTypeIcons: {
-    CENTRAL: '$vyhub',
+    CENTRAL: 'custom:vyhub',
     STEAM: 'mdi-steam',
-    DISCORD: '$discord',
+    DISCORD: 'custom:discord',
     MINECRAFT: 'mdi-minecraft',
-    TEAMSPEAK3: '$teamspeak',
-    FIVEM: '$fivem',
-    ASA: '$asa',
+    TEAMSPEAK3: 'custom:teamspeak',
+    FIVEM: 'custom:fivem',
+    ASA: 'custom:asa',
   },
   userExternalLink(type: string, id: string) {
     switch (type) {

@@ -61,7 +61,7 @@
 
                     <v-list-item-title
                       :class="!utils.showAdvancedSettings()
-                        && tab.advanced ? 'text--disabled' : ''"
+                        && tab.advanced ? 'text-disabled' : ''"
                     >
                       {{ tab.title }}
                     </v-list-item-title>

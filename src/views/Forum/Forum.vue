@@ -114,7 +114,7 @@
                             <div
                               v-if="topic.description"
                               style="white-space: normal; overflow-wrap: break-word;"
-                              class="text--disabled mt-1 text-ellipsis"
+                              class="text-disabled mt-1 text-ellipsis"
                             >
                               {{ topic.description }}
                             </div>
@@ -206,7 +206,7 @@
                             </div>
                             <div
                               v-if="topic.last_post"
-                              class="text--disabled"
+                              class="text-disabled"
                             >
                               {{ utils.formatTimeForForum(topic.last_post.created) }}
                             </div>

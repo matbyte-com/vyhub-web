@@ -55,7 +55,7 @@
                 color="green-lighten-2"
                 text-color="white"
               >
-                <span class="strikethrough-diagonal text--disabled">
+                <span class="strikethrough-diagonal text-disabled">
                   {{ utils.formatDecimal(packet.price_without_discount.total) }}
                   {{ packet.currency.symbol }}
                 </span>

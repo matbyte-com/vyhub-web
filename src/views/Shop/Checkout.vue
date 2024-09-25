@@ -201,7 +201,7 @@
         </v-card>
         <div
           v-if="debit != null"
-          class="mt-3 text--disabled"
+          class="mt-3 text-disabled"
         >
           {{ $t('_shop.labels.paymentId') }}: {{ debit.id }}
         </div>

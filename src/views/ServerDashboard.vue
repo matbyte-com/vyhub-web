@@ -144,7 +144,7 @@
               </div>
               <v-list-item
                 v-else-if="returnUsers.length === 0"
-                class="text--disabled"
+                class="text-disabled"
               >
                 {{ $t('_serverDashboard.noUsersFound') }}
               </v-list-item>
@@ -401,7 +401,7 @@ export default {
     getColor(user) {
       if (user.memberships.length === 0) return null;
       // return color of group with highest permission_level
-       
+
       const membership = user.memberships.reduce((prev, current) => ((prev.group.permission_level > current.group.permission_level) ? prev : current));
       return membership.group.color;
     },

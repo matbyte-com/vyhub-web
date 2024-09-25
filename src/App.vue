@@ -9,24 +9,34 @@
         v-if="$route.meta.noContainer"
         style="min-height: 70vh;"
       >
-        <transition
-          mode="out-in"
-          enter-active-class="animate__animated animate__fadeIn animate__faster"
-        >
-          <router-view class="vh-router-view" />
-        </transition>
+        <router-view v-slot="{ Component}">
+          <transition
+            mode="out-in"
+            enter-active-class="animate__animated animate__fadeIn animate__faster"
+          >
+            <component
+              :is="Component"
+              class="vh-router-view"
+            />
+          </transition>
+        </router-view>
       </div>
       <v-container v-else>
         <div
           style="min-height: 70vh;"
           class="mt-3"
         >
-          <transition
-            mode="out-in"
-            enter-active-class="animate__animated animate__fadeIn animate__faster"
-          >
-            <router-view class="vh-router-view" />
-          </transition>
+          <router-view v-slot="{ Component}">
+            <transition
+              mode="out-in"
+              enter-active-class="animate__animated animate__fadeIn animate__faster"
+            >
+              <component
+                :is="Component"
+                class="vh-router-view"
+              />
+            </transition>
+          </router-view>
         </div>
       </v-container>
     </v-main>
@@ -94,6 +104,7 @@
     </v-overlay>
 
     <!-- floating first steps button -->
+
     <v-fade-transition v-if="showCustomerJourney">
       <v-menu
         v-model="firstSteps"
@@ -153,15 +164,11 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import emitter from '@/services/EventBus';
 import AuthService from '@/services/AuthService';
 import SessionService from '@/services/SessionService';
-import AccessControlService from '@/services/AccessControlService';
-import UtilService from '@/services/UtilService';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
-import ForumService from '@/services/ForumService';
 import CustomerJourney from '@/components/CustomerJourney.vue';
 import VueGtag from 'vue-gtag';
 import { register } from 'swiper/element';
@@ -169,19 +176,22 @@ import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import UserService from '@/services/UserService';
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
+import DataTable from "@/components/DataTable.vue";
 
-Vue.mixin(AccessControlService);
+/*Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
-Vue.mixin(ForumService);
+Vue.mixin(ForumService);*/
 
 /*Vue.use(VueGtag, {
   bootstrap: false,
 });*/
 register(); // register Swiper
-export default Vue.extend({
+
+export default {
   name: 'App',
 
   components: {
+    DataTable,
     CustomerJourney,
     TheHeader,
     TheFooter,
@@ -378,7 +388,7 @@ export default Vue.extend({
       document.head.appendChild(style);
     },
   },
-});
+};
 </script>
 
 <style lang="sass">

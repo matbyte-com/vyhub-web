@@ -50,7 +50,7 @@
                       {{ post.thread.title }}
                     </router-link>
                   </div>
-                  <div class="text--disabled">
+                  <div class="text-disabled">
                     {{ utils.formatTimeForForum(post.created) }} {{ $t('_forum.by') }}
                     <UserLink
                       :simple="true"
@@ -110,7 +110,7 @@
                       {{ thread.title }}
                     </router-link>
                   </div>
-                  <div class="text--disabled">
+                  <div class="text-disabled">
                     {{ utils.formatTimeForForum(thread.created) }} {{ $t('_forum.by') }}
                     <UserLink
                       :simple="true"

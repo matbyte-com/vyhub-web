@@ -3,7 +3,7 @@ import store from '@/store';
 import api from '@/api/api';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
-import { authGetTokenResponse } from '@/api/api.d';
+// import { authGetTokenResponse } from '@/api/api.d';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
 import UserService from '@/services/UserService';
@@ -32,7 +32,8 @@ export default {
     // Event caught in CustomerJourney.vue
     EventBus.emit('customerJourneyUpdate');
   },
-  async getToken(refreshToken: string): Promise<authGetTokenResponse> {
+  // was Promise<authGetTokenResponse> // TODO maybe readd again?
+  async getToken(refreshToken: string): Promise {
     const sndQuery = {
       refresh_token: refreshToken,
       grant_type: 'refresh_token',

@@ -177,7 +177,7 @@
                 </SettingTitle>
               </template>
               <template #item.name="{ item }">
-                <div :class="{ 'text--disabled': item.hidden }">
+                <div :class="{ 'text-disabled': item.hidden }">
                   {{ item.name }}
                 </div>
               </template>

@@ -9,7 +9,7 @@
     v-on="$listeners"
   >
     <template #no-data>
-      <div class="text-center mt-4 text-subtitle-2 text--disabled">
+      <div class="text-center mt-4 text-subtitle-2 text-disabled">
         {{ $t('noDataAvailable') }}
       </div>
     </template>
@@ -149,7 +149,7 @@ export default {
       return this.items == null;
     },
     inheritSlots() {
-      const slots = this.$slots;
+      const slots = { ...this.$slots };
 
       if ('header' in slots) {
         delete slots.header;

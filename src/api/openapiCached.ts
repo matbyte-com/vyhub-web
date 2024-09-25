@@ -1,7 +1,12 @@
-import { throttleAdapterEnhancer } from 'axios-extensions';
+import api from '@/api/openapi';
+
+export default api;
+
+/*
+// import { throttleAdapterEnhancer } from 'axios-extensions';
 import OpenAPIClientAxios from 'openapi-client-axios';
 import axios from 'axios';
-import { Client } from '@/api/openapi.d';
+// import { Client } from '@/api/openapi.d';
 import store from '@/store';
 import config from '@/config';
 
@@ -20,11 +25,13 @@ async function api() {
     definition: `${config.backend_url}/openapi.json`,
     withServer: 'main',
     axiosConfigDefaults: {
-      adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 300 * 1000 }),
+      // adapter: throttleAdapterEnhancer(axios.defaults.adapter, { threshold: 300 * 1000 }),
       baseURL: config.backend_url,
       headers,
     },
-  }).init<Client>();
+  }).init();
 }
 
-export default api();
+// init<Client>() TOOD Readd for Typescript Supp
+
+export default api();*/

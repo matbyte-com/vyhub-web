@@ -8,6 +8,7 @@
     v-bind="$attrs"
     v-on="$listeners"
   >
+    Test
     <template #top>
       <v-row dense>
         <v-col align-self="center">
@@ -89,7 +90,10 @@ export default {
       return this.items == null;
     },
     inheritSlots() {
-      const slots = this.$slots;
+      if (!this.$slots) {
+        return {};
+      }
+      const slots = { ...this.$slots };
 
       if ('header' in slots) {
         delete slots.header;

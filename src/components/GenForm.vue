@@ -25,12 +25,12 @@
               @input="$emit('updated')"
             >
               <template
-                v-for="(index, name) in $slots"
-                #[name]="scope"
+                v-for="(slot, name) in $slots"
+                #[name]
               >
                 <slot
-                  v-bind="scope"
                   :name="name"
+                  v-bind="slot.scope"
                 />
               </template>
             </v-jsf>

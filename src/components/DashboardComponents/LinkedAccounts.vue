@@ -96,7 +96,7 @@
                   </v-card-title>
                   <v-card-subtitle class="mt-0 pt-0">
                     <div
-                      class="text--disabled text-caption"
+                      class="text-disabled text-caption"
                       style="
                  pointer-events: initial;"
                     >

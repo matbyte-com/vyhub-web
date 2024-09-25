@@ -23,7 +23,7 @@ const routes = [
     path: '/news',
     name: 'News',
     meta: { title: i18n.global.t('_pageTitle.news') },
-    component: () => import('../views/News.vue'),
+    component: () => import('../views/NewsView.vue'),
   },
   {
     path: '/user',
@@ -130,7 +130,7 @@ const routes = [
     path: '/legal',
     name: 'Legal',
     meta: { title: i18n.global.t('_pageTitle.legal') },
-    component: () => import('../views/Legal.vue'),
+    component: () => import('../views/LegalView.vue'),
   },
   {
     path: '/ticket',

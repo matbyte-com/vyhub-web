@@ -24,7 +24,7 @@
                     :user="comment.creator"
                     :simple="true"
                   />
-                  <span class="text--disabled">{{ new Date(comment.date).toLocaleString() }}</span>
+                  <span class="text-disabled">{{ new Date(comment.date).toLocaleString() }}</span>
                   <v-btn
                     v-if="($checkProp(`${type}_comment_edit`) &&
                       comment.creator_id &&

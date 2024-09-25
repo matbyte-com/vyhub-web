@@ -100,7 +100,7 @@
                   >
                     <span
                       v-if="packet.discount != null"
-                      class="strikethrough-diagonal mr-2 text--disabled"
+                      class="strikethrough-diagonal mr-2 text-disabled"
                     >
                       {{ utils.formatDecimal(packet.price_without_discount.total) }}
                     </span>

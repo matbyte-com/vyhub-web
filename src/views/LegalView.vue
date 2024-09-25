@@ -4,11 +4,14 @@
       :title="$t('legal')"
       :hide-triangle="true"
     />
-    <v-card class="card-rounded mt-4">
+    <v-card
+      class="card-rounded mt-4"
+      flat
+    >
       <v-card-text>
         <!-- Do not remove or alter the following disclaimer.
          This is against the terms of service of VyHub.-->
-        <span class="text--disabled">
+        <span class="text-disabled">
           <span v-if="!removeBranding">
             This website is built using the <a
               target="_blank"
@@ -32,11 +35,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
-  name: 'Legal.vue',
-  components: { PageTitleFlat },
   data() {
     return {
       content: 'Legal',

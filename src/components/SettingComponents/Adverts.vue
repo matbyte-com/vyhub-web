@@ -14,7 +14,7 @@
       >
         <v-expansion-panel
           class="mt-4"
-          :class="!advert.enabled ? 'text--disabled' : ''"
+          :class="!advert.enabled ? 'text-disabled' : ''"
           style="border-style: solid; border-width: 1px"
           :style="{ 'border-color': advert.color }"
         >

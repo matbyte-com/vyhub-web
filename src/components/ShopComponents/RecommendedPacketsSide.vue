@@ -58,7 +58,7 @@
               <div class="d-flex justify-center align-end px-2 pb-1">
                 <span
                   v-if="p.price_with_discount.total !== p.price_without_discount.total"
-                  class="strikethrough-diagonal text--disabled mr-2"
+                  class="strikethrough-diagonal text-disabled mr-2"
                   style="font-size: small"
                 >
                   {{ utils.formatDecimal(p.price_without_discount.total) }}

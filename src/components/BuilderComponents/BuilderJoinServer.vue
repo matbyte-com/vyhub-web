@@ -144,28 +144,28 @@ export default {
     getServerIcon(server) {
       if (!server) return null;
       if (server.type === 'GMOD') {
-        return '$gmod';
+        return 'custom:gmod';
       }
       if (server.type === 'DISCORD') {
-        return '$discord';
+        return 'custom:discord';
       }
       if (server.type === 'MINECRAFT') {
         return 'mdi-minecraft';
       }
       if (server.type === 'ASA') {
-        return '$asa';
+        return 'custom:asa';
       }
       if (server.type === 'FIVEM') {
-        return '$fivem';
+        return 'custom:fivem';
       }
       if (server.type === 'TEAMSPEAK3') {
-        return '$teamspeak';
+        return 'custom:teamspeak';
       }
       if (server.type === 'RUST') {
-        return '$rust';
+        return 'custom:rust';
       }
       if (server.type === 'SEVEN_DAYS') {
-        return '$sevenDays';
+        return 'custom:seven_days';
       }
       if (server.icon) {
         return server.icon;

@@ -1,10 +1,10 @@
 import { createApp } from 'vue';
 import Axios from 'axios';
 // import Notifications from 'vue-notification';
-import VueApexCharts from 'vue-apexcharts';
-import VueNativeNotification from 'vue-native-notification';
+import VueApexCharts from 'vue3-apexcharts';
+// import VueNativeNotification from 'vue-native-notification';
 import * as Sentry from '@sentry/vue';
-import config from '@/config';
+import config from './config';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -12,6 +12,11 @@ import vuetify from './plugins/vuetify';
 import i18n from './plugins/i18n';
 import '@/assets/css/main.scss';
 import 'animate.css';
+import AccessControlService from "@/services/AccessControlService";
+import UtilService from "@/services/UtilService";
+import ForumService from "@/services/ForumService";
+
+
 
 const app = createApp(App);
 
@@ -19,6 +24,10 @@ app.use(vuetify);
 app.use(router);
 app.use(store);
 app.use(i18n);
+
+app.mixin(AccessControlService);
+app.mixin(UtilService);
+app.mixin(ForumService)
 
 app.config.compilerOptions.isCustomElement = (tag) => ['swiper-container', 'swiper-slide'].includes(tag);
 
@@ -28,9 +37,7 @@ Axios.defaults.headers.common.Accept = 'application/json';
 
 // Vue.use(Notifications); TODO CHeck whether the following things are working
 app.use(VueApexCharts);
-app.use(VueNativeNotification);
-
-app.component('apexchart', VueApexCharts);
+// app.use(VueNativeNotification);
 
 app.mount('#app');
 

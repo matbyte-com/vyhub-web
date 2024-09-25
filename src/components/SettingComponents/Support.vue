@@ -106,7 +106,7 @@ export default {
           title: 'Discord',
           link: 'https://discord.gg/QycQpd2AQP',
           description: this.$t('_support.discordDescription'),
-          icon: '$discord',
+          icon: 'custom:discord',
         },
         {
           title: 'Docs',

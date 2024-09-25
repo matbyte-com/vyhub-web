@@ -49,7 +49,7 @@
               </div>
               <div
                 v-if="post.creator"
-                class="text--disabled"
+                class="text-disabled"
               >
                 <span class="vh-forum-link">
                   {{ utils.formatTimeForForum(post.created) }} {{ $t('_forum.by') }}
@@ -118,7 +118,7 @@
               </div>
               <div
                 v-if="thread.creator"
-                class="text--disabled"
+                class="text-disabled"
               >
                 <span class="vh-forum-link">
                   {{ utils.formatTimeForForum(thread.created) }} {{ $t('_forum.by') }}

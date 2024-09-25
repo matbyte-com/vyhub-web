@@ -232,7 +232,7 @@ export default {
         this.$store.commit('SET_NAV_ITEMS', rsp.data);
         this.links = rsp.data;
         // Caught in Footer
-        EventBus.emit('navItemsUpdated');
+        EventBus.emit('navItemsUpdated', undefined);
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
     getNavItemsFromCache() {

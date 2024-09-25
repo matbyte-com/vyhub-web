@@ -265,7 +265,7 @@
                 :key="sublink.id"
               >
                 <v-list-item :class="{ 'py-2': $vuetify.display.xs }">
-                  <v-row :class="!link.enabled ? 'text--disabled' : ''">
+                  <v-row :class="!link.enabled ? 'text-disabled' : ''">
                     <v-col
                       cols="6"
                       sm="3"
@@ -363,7 +363,7 @@
             v-else
             :class="{ 'py-2': $vuetify.display.xs }"
           >
-            <v-row :class="!link.enabled ? 'text--disabled' : ''">
+            <v-row :class="!link.enabled ? 'text-disabled' : ''">
               <v-col
                 cols="6"
                 sm="3"
@@ -510,7 +510,7 @@
         </v-tooltip>
       </v-col>
       <v-col
-        class="text--disabled mr-5"
+        class="text-disabled mr-5"
         :class="$vuetify.display.mdAndDown ? '' : 'text-right'"
       >
         <span class="mr-3">
