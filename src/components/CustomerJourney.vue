@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="bg-red-lighten-1">
+    <v-card-title class="bg-red-lighten-1 d-flex">
       <v-icon start>
         mdi-step-forward
       </v-icon>
@@ -22,7 +22,7 @@
           :class="{ 'list-item-active': selectedStep === index,
                     'black--text': selectedStep === index}"
         >
-          <v-list-item-content @click="selectJourney(index)">
+          <div @click="selectJourney(index)">
             <v-list-item-title class="d-flex align-center">
               <v-icon
                 v-if="!stepIsFulfilled(index)"
@@ -44,7 +44,7 @@
                 mdi-chevron-right
               </v-icon>
             </v-list-item-title>
-          </v-list-item-content>
+          </div>
         </v-list-item>
       </v-list>
       <v-divider />
@@ -133,7 +133,7 @@ import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 
 export default {
-  name: 'CustomerJourney',
+  emits: ['close'],
   data() {
     return {
       timer: null,

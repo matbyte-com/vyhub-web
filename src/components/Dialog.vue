@@ -8,18 +8,16 @@
     :fullscreen="$vuetify.display.xs"
   >
     <v-card :class="{ 'card-rounded' : !$vuetify.display.xs }">
-      <v-card-title class="bg-primary text-white">
+      <v-card-title class="bg-primary d-flex">
         <v-icon
           :if="icon != null"
           start
-          color="white"
         >
           {{ icon }}
         </v-icon>
         <span>{{ title }}</span>
         <v-spacer />
         <v-icon
-          color="white"
           @click="cancel"
         >
           mdi-close
@@ -40,7 +38,6 @@
 
 <script>
 export default {
-  name: 'Dialog',
   props: {
     textClass: String,
     actionClass: String,
@@ -59,6 +56,7 @@ export default {
       type: Boolean,
     },
   },
+  emits: ['input', 'close', 'cancel'],
   data() {
     return {
       openValue: false,

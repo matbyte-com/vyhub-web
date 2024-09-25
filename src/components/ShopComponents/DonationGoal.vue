@@ -6,7 +6,7 @@
     >
       <v-card-title
         v-if="!noTitle"
-        class="pb-2 pt-0"
+        class="pb-2 pt-0 d-flex"
       >
         <CardTitle
           :no-icon="noIcon"
@@ -29,19 +29,17 @@
         style="width: inherit"
         :class="textClasses"
       >
-        <v-card flat>
-          <v-progress-linear
-            rounded
-            striped
-            :model-value="donationProgress"
-            height="20"
-            class="progress-bar"
-          >
-            <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
-              {{ donationProgress }}%
-            </span>
-          </v-progress-linear>
-        </v-card>
+        <v-progress-linear
+          rounded
+          striped
+          :model-value="donationProgress"
+          height="20"
+          class="progress-bar"
+        >
+          <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
+            {{ donationProgress }}%
+          </span>
+        </v-progress-linear>
         <div class="text-center mt-1">
           <v-fade-transition>
             <span

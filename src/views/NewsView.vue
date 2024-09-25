@@ -120,6 +120,7 @@
                     'no-top-border-radius': $vuetify.display.smAndDown && index === 0 }"
         >
           <v-card-title
+            class="d-flex"
             :class="{ 'grey-title': !message.background_url &&
               !$vuetify.theme.dark }"
           >
@@ -160,8 +161,9 @@
           <v-card-text
             class="mt-3 ql-editor"
             style="min-height: 50px"
-            v-html="message.content"
-          />
+          >
+            <div v-html="message.content" />
+          </v-card-text>
           <v-card-actions class="text-disabled pt-0">
             <span
               class="mr-3"
@@ -237,8 +239,9 @@
           <v-card-text
             class="mt-3 ql-editor"
             style="min-height: 50px"
+          >
             v-html="message.content"
-          />
+          </v-card-text>
           <v-card-actions class="text-disabled pt-0">
             <span
               class="mr-3"

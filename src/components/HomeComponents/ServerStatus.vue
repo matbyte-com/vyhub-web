@@ -101,16 +101,12 @@
               class="text-right"
             >
               <v-btn
-                icon
-                size="small"
+                icon="mdi-information-symbol"
+                size="xs"
                 color="info"
                 variant="flat"
                 @click="currentServer = server; $refs.serverDetailsDialog.show()"
-              >
-                <v-icon>
-                  mdi-information
-                </v-icon>
-              </v-btn>
+              />
               <v-tooltip location="bottom">
                 <template #activator="{ props }">
                   <v-btn
@@ -177,13 +173,10 @@
 </template>
 
 <script>
-import CardTitle from '@/components/CardTitle.vue';
-import Dialog from '@/components/Dialog.vue';
 import openapi from '@/api/openapi';
 
 export default {
   name: 'ServerStatus',
-  components: { Dialog, CardTitle },
   props: ['noIcon', 'noTitle', 'centerHeadline', 'outlined'],
   data() {
     return {

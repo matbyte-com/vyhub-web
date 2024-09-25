@@ -114,20 +114,18 @@
       >
         <template #activator="{ props }">
           <v-btn
-            fab
-            dark
-            size="x-large"
             style="background-color: rgba(255,255,255,0.7)"
-            fixed
+            size="60"
+            class="mr-5 mb-5 rounded-circle"
+            position="fixed"
             location="right bottom"
             v-bind="props"
           >
             <v-btn
-              fab
-              size="large"
-              class="bg-red-darken-2"
+              size="50"
+              class="bg-red-darken-2 rounded-circle"
             >
-              <v-icon dark>
+              <v-icon>
                 mdi-help
               </v-icon>
             </v-btn>
@@ -144,7 +142,6 @@
       class="text-center"
     >
       <v-alert
-        dark
         style="left: 50%; top: 10%; margin-left: -150px; position: fixed"
         width="300px"
         class="bg-red-darken-2"
@@ -152,7 +149,6 @@
         to="settings/legal"
       >
         <v-icon
-          dark
           start
         >
           mdi-alert
@@ -169,14 +165,9 @@ import AuthService from '@/services/AuthService';
 import SessionService from '@/services/SessionService';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
-import CustomerJourney from '@/components/CustomerJourney.vue';
 import VueGtag from 'vue-gtag';
 import { register } from 'swiper/element';
-import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 import UserService from '@/services/UserService';
-import TheHeader from './components/TheHeader.vue';
-import TheFooter from './components/TheFooter.vue';
-import DataTable from "@/components/DataTable.vue";
 
 /*Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
@@ -190,18 +181,9 @@ register(); // register Swiper
 export default {
   name: 'App',
 
-  components: {
-    DataTable,
-    CustomerJourney,
-    TheHeader,
-    TheFooter,
-    LinkAccountDialog,
-  },
-
   data: () => ({
     background: '#FAFAFA',
     backgroundImage: null,
-    showLegalReminder1: false,
     firstSteps: false,
     welcomeAnimation: false,
   }),
