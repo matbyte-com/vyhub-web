@@ -1,53 +1,47 @@
 <template>
   <v-footer
-    color="footer"
-    padless
-    class="vh-footer justify-center lighten-1"
+    color="footer-lighten-1"
+    class="d-flex flex-column vh-footer ma-0 pa-0"
   >
-    <div style="width: 100%">
-      <div class="d-flex my-2 flex-wrap justify-center">
-        <NavigationLink
-          v-for="(link, index) in navLinks"
-          :key="index"
-          class="ml-1"
-          :link="link"
-          :dark="true"
-        />
-      </div>
-      <div
-        class="footer py-4 text-center text-white"
-        style="width: 100%"
-      >
-        <strong>
-          {{ new Date().getFullYear() }}
-          <span v-if="$store.getters.generalConfig != null">
-            — {{ $store.getters.generalConfig.community_name }}
-          </span>
-          <span v-if="!removeBranding">
-            —
-            <a
-              class="text-decoration-none text-white"
-              href="https://vyhub.net"
-            >
-              Powered by VyHub
-            </a>
-          </span>
+    <div class="d-flex my-2 flex-wrap justify-center">
+      <NavigationLink
+        v-for="(link, index) in navLinks"
+        :key="index"
+        class="ml-1"
+        :link="link"
+        :dark="true"
+      />
+    </div>
+    <div
+      class="bg-footer py-4 text-center"
+      style="width: 100%"
+    >
+      <strong>
+        {{ new Date().getFullYear() }}
+        <span v-if="$store.getters.generalConfig != null">
+          — {{ $store.getters.generalConfig.community_name }}
+        </span>
+        <span v-if="!removeBranding">
           —
-          {{ version }}
-        </strong>
-      </div>
+          <a
+            class="text-decoration-none text-white"
+            href="https://vyhub.net"
+          >
+            Powered by VyHub
+          </a>
+        </span>
+        —
+        {{ version }}
+      </strong>
     </div>
   </v-footer>
 </template>
 
 <script>
-import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
-import config from '@/config';
 import emitter from '@/services/EventBus';
 import { version } from '../../package.json';
 
 export default {
-  components: { NavigationLink },
   data() {
     return {
       version,

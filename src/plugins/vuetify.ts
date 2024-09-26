@@ -10,6 +10,21 @@ import * as directives from 'vuetify/directives';
 const vuetify = createVuetify({
   components,
   directives,
+  theme: {
+    themes: {
+      light: {
+        primary: '#9652ff',
+        secondary: '#00d8ff',
+        accent: '#3cd1c2',
+        background: '#FAFAFA',
+      },
+    },
+    variations: {
+      colors: ['primary', 'secondary', 'warning', 'success', 'error', 'header', 'footer', 'background'],
+      lighten: 5,  // Allow up to 5 lighten variants (e.g., primary-lighten-1, primary-lighten-2)
+      darken: 5,   // Allow up to 5 darken variants (e.g., primary-darken-1, primary-darken-2)
+    }
+  },
   icons: {
     defaultSet: 'mdi',
     sets: {

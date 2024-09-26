@@ -233,7 +233,7 @@ export default {
     this.getGeneralConfig();
     this.getShopConfig();
     this.setLocale();
-    this.background = this.$vuetify.theme.current.background;
+    this.background = this.$vuetify.theme.current.colors.background;
     // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
     // and /Components/SettingComponents/General
     emitter.on('themeUpdated', this.fetchData);
@@ -260,50 +260,35 @@ export default {
           const theme = rsp.data;
           if (theme.image) {
             this.backgroundImage = theme.image;
-            cachedTheme.image = theme.image;
           } else {
             this.backgroundImage = null;
           }
           if (theme.background) {
             this.background = theme.background;
-            cachedTheme.background = theme.background;
           }
           if (theme.dark === true) {
-            this.$vuetify.theme.dark = true;
-            cachedTheme.dark = true;
+            this.$vuetify.theme.themes.light.dark = true;
           } else {
-            this.$vuetify.theme.dark = false;
-            cachedTheme.dark = false;
+            this.$vuetify.theme.themes.light.dark = false;
           }
           cachedTheme.light_header = theme.light_header;
           cachedTheme.header_container = theme.header_container;
           // set colors, logo and more
-          this.$vuetify.theme.current.primary = theme.primary;
-          this.$vuetify.theme.current.success = theme.success;
-          this.$vuetify.theme.current.secondary = theme.secondary;
-          this.$vuetify.theme.current.warning = theme.warning;
-          this.$vuetify.theme.current.error = theme.error;
-          this.$vuetify.theme.current.header = theme.header;
-          this.$vuetify.theme.current.footer = theme.footer;
+          const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
+          colorsToUpdate.forEach((color) => {
+            if (theme[color]) {
+              this.$vuetify.theme.themes.light.colors[color] = theme[color];
+            }
+          });
           this.createStyleTag(theme.custom_css);
-          cachedTheme.primary = theme.primary;
-          cachedTheme.secondary = theme.secondary;
-          cachedTheme.success = theme.success;
-          cachedTheme.warning = theme.warning;
-          cachedTheme.error = theme.error;
-          cachedTheme.header = theme.header;
-          cachedTheme.footer = theme.footer;
-          cachedTheme.logo = theme.logo;
-          cachedTheme.show_community_name = theme.show_community_name;
-          cachedTheme.logo_width = theme.logo_width;
-          cachedTheme.custom_css = theme.custom_css;
-          cachedTheme.enable_landingpage = theme.enable_landingpage;
 
-          // save theme to VueX
+          // Cache theme and save it to VueX
+          Object.assign(cachedTheme, theme);
           this.$store.commit('SET_THEME', cachedTheme);
+
           emitter.emit('themeUpdatedAfter');
         } catch (e) {
-          this.$vuetify.theme.current.primary = '#3f51b5';
+          this.$vuetify.theme.themes.light.colors.primary = '#3f51b5';
           console.log('Error While Setting Theme');
           throw e;
         }
@@ -315,18 +300,17 @@ export default {
         this.backgroundImage = obj.image;
         this.background = obj.background;
         if (obj.dark === true) {
-          this.$vuetify.theme.dark = true;
+          this.$vuetify.theme.themes.light.dark = true;
         } else {
-          this.$vuetify.theme.dark = false;
+          this.$vuetify.theme.themes.light.dark = false;
         }
         this.createStyleTag(obj.custom_css);
-        this.$vuetify.theme.current.primary = obj.primary;
-        this.$vuetify.theme.current.success = obj.success;
-        this.$vuetify.theme.current.warning = obj.warning;
-        this.$vuetify.theme.current.error = obj.error;
-        this.$vuetify.theme.current.header = obj.header;
-        this.$vuetify.theme.current.footer = obj.footer;
-        this.$vuetify.theme.current.secondary = obj.secondary;
+        const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
+        colorsToUpdate.forEach((color) => {
+          if (obj[color]) {
+            this.$vuetify.theme.themes.light.colors[color] = obj[color];
+          }
+        });
         this.customCss = obj.custom_css;
       }
     },
