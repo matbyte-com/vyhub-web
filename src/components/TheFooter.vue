@@ -7,7 +7,7 @@
       <NavigationLink
         v-for="(link, index) in navLinks"
         :key="index"
-        class="ml-1"
+        class="ml-1 no-active"
         :link="link"
         :dark="true"
       />
@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style scoped>
-.v-btn--active.no-active::before {
+.no-active :deep(.v-btn__overlay) {
   opacity: 0 !important;
 }
 </style>

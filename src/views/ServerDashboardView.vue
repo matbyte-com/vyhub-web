@@ -3,11 +3,11 @@
     <div>
       <v-menu
         v-model="menuOpen"
-        offset-y
-        width="100%"
+        location="bottom"
       >
         <template #activator="{ props }">
           <div v-bind="props">
+            <!-- TODO Rounded Props do not work / when clicking opacity is weird likely to do with global styles from main.css -->
             <PageTitleFlat
               :title="server.name"
               :hide-triangle="true"
@@ -57,14 +57,13 @@
           </div>
         </template>
         <v-card
-          style="width: 100%;"
           class="card-rounded-bottom"
         >
           <v-list>
             <v-list-item
               v-for="server in availableServerDashboards"
               :key="server.id"
-              :input-value="$route.params.id === server.id"
+              :active="$route.params.id === server.id"
               @click="serverChanged(server)"
             >
               <v-icon start>
@@ -151,7 +150,7 @@
               <v-list-item
                 v-for="user in returnUsers"
                 :key="user.id"
-                :input-value="listActive(user)"
+                :active="listActive(user)"
                 @click="currentUser=user"
               >
                 <v-avatar size="35">
@@ -225,7 +224,6 @@
                   :key="membership.id"
                   :color="membership.group.color"
                   class="ml-1"
-                  text-color="white"
                 >
                   {{ membership.group.name }}
                 </v-chip>
@@ -273,20 +271,9 @@
 
 <script>
 import openapi from '@/api/openapi';
-import UserLink from '@/components/UserLink.vue';
-import WarningTable from '@/components/ServerDashboard/WarningTable.vue';
-import BanTable from '@/components/ServerDashboard/BanTable.vue';
 import SessionService from '@/services/SessionService';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
-  name: 'ServerDashboard',
-  components: {
-    PageTitleFlat,
-    WarningTable,
-    UserLink,
-    BanTable,
-  },
   data() {
     return {
       servers: null,
