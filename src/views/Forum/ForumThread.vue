@@ -154,7 +154,7 @@
                       size="small"
                       :color="membership.group.color"
                       v-bind="props"
-                      :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                      :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
                       variant="outlined"
                       class="mt-2"
                       style="max-width: 150px"
@@ -215,7 +215,7 @@
                 :key="membership.id"
                 size="small"
                 :color="membership.group.color"
-                :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
                 variant="outlined"
                 class="mt-2 d-block text-center"
               >
@@ -239,7 +239,7 @@
                     && post.creator.id === thread.creator.id"
                 >
                   <v-chip
-                    :color="$vuetify.theme.dark ? '#1c1c1c' : '#c5c5c5'"
+                    :color="$vuetify.theme.current.dark ? '#1c1c1c' : '#c5c5c5'"
                     size="small"
                     label
                     class="vh-forum-post-op"

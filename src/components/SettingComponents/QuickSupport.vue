@@ -16,25 +16,25 @@
           md="4"
         >
           <v-card
-            border
+            variant="outlined"
             :href="m.link"
             target="_blank"
             height="100%"
             class="support-card"
           >
             <div
-              class="d-flex"
+              class="d-flex align-center"
               style="height: 100%"
             >
               <div>
-                <v-card-title>
+                <v-card-title class="d-flex">
                   <v-icon start>
                     {{ m.icon }}
                   </v-icon>
                   {{ m.title }}
                 </v-card-title>
                 <v-card-text>
-                  <p align="justify">
+                  <p class="text-justify">
                     {{ m.description }}
                   </p>
                 </v-card-text>
@@ -46,23 +46,26 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-card flat>
+      <v-card
+        flat
+        class="mt-3"
+      >
         <v-textarea
           v-model="supportMessage"
           variant="outlined"
+          class="pa-1"
           hide-details="true"
-          class="mt-3"
           :label="$t('_support.supportQuestions')"
         />
       </v-card>
       <div class="d-flex align-center">
         <v-switch
           v-model="supportAnswerYes"
+          hide-details="auto"
           class="align-self-center"
           :label="$t('_support.reply?')"
         />
-        <v-card
-          flat
+        <div
           class="ml-3"
         >
           <v-text-field
@@ -70,11 +73,13 @@
             v-model="supportMail"
             density="compact"
             variant="outlined"
+            min-width="250px"
+            class="v-card pa-1"
             hide-details="true"
             :label="$t('email')"
             style="max-width: 230px"
           />
-        </v-card>
+        </div>
         <v-spacer />
         <v-btn
           variant="flat"
@@ -91,11 +96,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import SettingTitle from './SettingTitle.vue';
 
 export default {
-  name: 'General',
-  components: { SettingTitle },
   data() {
     return {
       supportMessage: null,

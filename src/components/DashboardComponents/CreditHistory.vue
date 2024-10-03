@@ -106,7 +106,7 @@ export default {
       });
     },
     transactionRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : 'lighten-4');
+      const add = (this.$vuetify.theme.current.dark ? 'darken-4' : 'lighten-4');
 
       if (item.amount < 0) {
         return `orange ${add}`;

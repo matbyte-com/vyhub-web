@@ -47,7 +47,7 @@ export default {
 
       return {
         theme: {
-          mode: (this.$vuetify.theme.dark ? 'dark' : 'light'),
+          mode: (this.$vuetify.theme.current.dark ? 'dark' : 'light'),
         },
         chart: {
           id: 'purchase-category-chart',

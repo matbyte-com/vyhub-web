@@ -61,7 +61,7 @@
                         v-for="group in getUserActiveGroupsByBundle(bundle)"
                         :key="group.id"
                         :color="group.color ? group.color : '#000000'"
-                        :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                        :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
                         variant="outlined"
                         class="ml-1 mb-1 a mt-1"
                         :class="checkGroups(group)"
@@ -111,7 +111,7 @@
             <template #item.group.name="{ item }">
               <v-chip
                 :color="item.group.color ? item.group.color : '#000000'"
-                :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+                :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
                 variant="outlined"
                 class="ml-1 mb-1 a"
               >
@@ -354,7 +354,7 @@ export default {
       this.$refs.userMembershipEditDialog.show(membership);
     },
     membershipRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-2' : 'lighten-4');
+      const add = (this.$vuetify.theme.current.dark ? 'darken-2' : 'lighten-4');
 
       if (item.active) {
         return `green ${add}`;

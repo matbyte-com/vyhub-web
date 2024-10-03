@@ -57,7 +57,7 @@
         <v-chip
           :color="group.color ? group.color : '#000000'"
           size="large"
-          :text-color="$vuetify.theme.dark ? 'black' : 'white'"
+          :text-color="$vuetify.theme.current.dark ? 'black' : 'white'"
           label
         >
           <h2 class="display-h5">
@@ -90,7 +90,7 @@
           <div style="position: absolute; top: 92%; width: 100%; text-align: center;">
             <v-chip
               :color="group.color ? group.color : '#000000'"
-              :text-color="$vuetify.theme.dark ? 'black' : 'white'"
+              :text-color="$vuetify.theme.current.dark ? 'black' : 'white'"
             >
               {{ user.username }}
             </v-chip>

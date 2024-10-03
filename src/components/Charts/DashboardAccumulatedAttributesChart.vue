@@ -58,7 +58,7 @@ export default {
 
       return {
         theme: {
-          mode: (this.$vuetify.theme.dark ? 'dark' : 'light'),
+          mode: (this.$vuetify.theme.current.dark ? 'dark' : 'light'),
         },
         chart: {
           id: 'accumulated-attribute-chart',
@@ -86,7 +86,7 @@ export default {
             text: this.definition.title,
           },
           labels: {
-             
+
             formatter: (y) => `${this.utils.formatDecimal(y)} ${this.definition.unit}`,
           },
         },

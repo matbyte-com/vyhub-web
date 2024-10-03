@@ -52,7 +52,7 @@
     </v-row>
     <v-divider class="mt-5" />
     <div class="mt-5">
-      <Support />
+      <QuickSupport />
     </div>
   </div>
 </template>
@@ -70,26 +70,6 @@ export default {
       formSchema: null,
       data: null,
       htmlTagSchema: HtmlTagsForm,
-      supportMethods: [
-        {
-          title: 'Discord',
-          link: 'https://discord.gg/QycQpd2AQP',
-          description: this.$t('_support.discordDescription'),
-          icon: 'custom:discord',
-        },
-        {
-          title: 'Docs',
-          link: 'https://docs.vyhub.net',
-          description: this.$t('_support.documentationDescription'),
-          icon: 'mdi-book-open-variant',
-        },
-        {
-          title: 'Youtube',
-          link: 'https://www.youtube.com/channel/UCjCxWjHbqoSZmp2l05LWAFg',
-          description: this.$t('_support.youtubeDescription'),
-          icon: 'mdi-youtube',
-        },
-      ],
     };
   },
   computed: {

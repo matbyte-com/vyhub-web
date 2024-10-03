@@ -174,7 +174,7 @@ export default {
       });
     },
     ticketRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : '');
+      const add = (this.$vuetify.theme.current.dark ? 'darken-4' : '');
 
       if (item.status === 'CLOSED') {
         return `green ${add}`;

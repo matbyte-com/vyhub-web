@@ -318,7 +318,7 @@ export default {
       });
     },
     warningRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : '');
+      const add = (this.$vuetify.theme.current.dark ? 'darken-4' : '');
 
       if (item.disabled) {
         return `orange ${add}`;

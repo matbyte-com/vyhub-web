@@ -55,7 +55,7 @@ export default {
   computed: {
     isOutlined() {
       if (this.outline == null) {
-        return !this.$vuetify.theme.dark;
+        return !this.$vuetify.theme.current.dark;
       }
       return this.outline;
     },

@@ -146,7 +146,7 @@
       :title="$t('_ban.labels.details')"
       :max-width="800"
     >
-      <template>
+      <template #default>
         <h6 class="text-h6 mb-2  mt-3">
           {{ $t('details') }}
         </h6>
@@ -408,6 +408,7 @@ import openapiCached from '@/api/openapiCached';
 import openapi from '../api/openapi';
 
 export default {
+  props: ['banId'],
   data() {
     return {
       headers: [
@@ -436,7 +437,7 @@ export default {
   computed: {
     banDetailShown: {
       get() {
-        return this.$route.params.banId != null && (!this.$refs.banEditDialog
+        return this.banId != null && (!this.$refs.banEditDialog
           || !this.$refs.banEditDialog.open);
       },
       set(newValue) {
@@ -515,7 +516,7 @@ export default {
       this.$refs.banLogTable.fetchData();
     },
     banRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : '');
+      const add = (this.$vuetify.theme.current.dark ? 'darken-4' : '');
 
       if (item.active) {
         if (item.serverbundle == null) {

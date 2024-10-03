@@ -57,8 +57,15 @@ const routes = [
   {
     path: '/bans/:banId?',
     name: 'Bans',
+    props: true,
     meta: { title: i18n.global.t('_pageTitle.bans') },
     component: () => import('@/views/BanView.vue'),
+    beforeEnter: (to, from, next) => {
+      if (to.params.banId === '') {
+        to.params.banId = null;
+      }
+      next();
+    }
   },
   {
     path: '/warnings/:warningId?',
@@ -252,6 +259,21 @@ const router = createRouter(
 
   }
 )
+
+// Global beforeEach guard to convert empty route params to null - this is as optional empty parameters are now strinigified to empty string instead of null
+router.beforeEach((to, from, next) => {
+  // Loop over all parameters in the `to` route
+  Object.keys(to.params).forEach((key) => {
+    // Convert empty string params to null
+    if (to.params[key] === '') {
+      to.params[key] = null;
+    }
+  });
+
+  // Proceed with navigation
+  next();
+});
+
 
 /*const router = new VueRouter({
   mode: 'history',

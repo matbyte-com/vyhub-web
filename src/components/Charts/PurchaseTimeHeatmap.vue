@@ -20,7 +20,7 @@ export default {
     return {
       options: {
         theme: {
-          mode: (this.$vuetify.theme.dark ? 'dark' : 'light'),
+          mode: (this.$vuetify.theme.current.dark ? 'dark' : 'light'),
         },
         colors: ['#008FFB'],
         chart: {
@@ -72,7 +72,7 @@ export default {
       this.data.forEach((item) => {
         const { day, time_interval, purchase_count } = item;
 
-         
+
         if (!series.hasOwnProperty(day)) {
           series[day] = {};
         }
@@ -82,13 +82,13 @@ export default {
 
       // Add missing values for days and purchase counts
       for (let day = 0; day <= 6; day += 1) {
-         
+
         if (!series.hasOwnProperty(day)) {
           series[day] = {};
         }
 
         for (let interval = 0; interval <= 11; interval += 1) {
-           
+
           if (!series[day].hasOwnProperty(interval)) {
             series[day][interval] = 0;
           }

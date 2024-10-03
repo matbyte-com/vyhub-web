@@ -15,7 +15,7 @@
         <template #item.name="{ item }">
           <v-chip
             :color="item.color ? item.color : '#000000'"
-            :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+            :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
             variant="outlined"
           >
             {{ item.name }}

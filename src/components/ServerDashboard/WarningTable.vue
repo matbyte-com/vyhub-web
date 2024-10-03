@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     warningRowFormatter(item) {
-      const add = (this.$vuetify.theme.dark ? 'darken-4' : '');
+      const add = (this.$vuetify.theme.current.dark ? 'darken-4' : '');
 
       if (item.disabled) {
         return `gray ${add}`;
@@ -143,7 +143,7 @@ export default {
     },
     async toggleDisable(item) {
       (await openapi).warning_toggleWarningStatus(item.id).then(() => {
-         
+
         item.disabled = !item.disabled;
         this.$notify({
           title: this.$t('_messages.toggleSuccess'),

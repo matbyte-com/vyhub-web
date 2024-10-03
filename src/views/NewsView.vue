@@ -122,11 +122,11 @@
           <v-card-title
             class="d-flex"
             :class="{ 'grey-title': !message.background_url &&
-              !$vuetify.theme.dark }"
+              !$vuetify.theme.current.dark }"
           >
             <span
-              :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
-                        'black--text' : $vuetify.theme.dark && message.invert_title_color }"
+              :class="{ 'white--text' : !$vuetify.theme.current.dark && message.invert_title_color,
+                        'black--text' : $vuetify.theme.current.dark && message.invert_title_color }"
             >
               {{ message.subject }}
             </span>
@@ -167,9 +167,9 @@
           <v-card-actions class="text-disabled pt-0">
             <span
               class="mr-3"
-              :class="{ 'white--text' : !$vuetify.theme.dark
+              :class="{ 'white--text' : !$vuetify.theme.current.dark
                           && message.invert_title_color,
-                        'black--text' : $vuetify.theme.dark && message.invert_title_color }"
+                        'black--text' : $vuetify.theme.current.dark && message.invert_title_color }"
             >
               {{ $d(new Date(message.created), 'long') }}
             </span>
@@ -200,11 +200,11 @@
         >
           <v-card-title
             :class="{ 'grey-title': !message.background_url &&
-              !$vuetify.theme.dark }"
+              !$vuetify.theme.current.dark }"
           >
             <span
-              :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
-                        'black--text' : $vuetify.theme.dark && message.invert_title_color }"
+              :class="{ 'white--text' : !$vuetify.theme.current.dark && message.invert_title_color,
+                        'black--text' : $vuetify.theme.current.dark && message.invert_title_color }"
             >
               {{ message.subject }}
             </span>
@@ -245,8 +245,8 @@
           <v-card-actions class="text-disabled pt-0">
             <span
               class="mr-3"
-              :class="{ 'white--text' : !$vuetify.theme.dark && message.invert_title_color,
-                        'black--text' : $vuetify.theme.dark && message.invert_title_color }"
+              :class="{ 'white--text' : !$vuetify.theme.current.dark && message.invert_title_color,
+                        'black--text' : $vuetify.theme.current.dark && message.invert_title_color }"
             >
               {{ $d(new Date(message.created), 'long') }}</span>
             <user-link
