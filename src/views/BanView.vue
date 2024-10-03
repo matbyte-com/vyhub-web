@@ -26,7 +26,7 @@
             <v-row>
               <v-col class="d-flex align-center">
                 <v-menu
-                  offset-y
+                  location="bottom"
                   :close-on-content-click="false"
                 >
                   <template #activator="{ props }">
@@ -47,7 +47,6 @@
                     :key="index"
                     v-model="selectedBundles"
                     class="ml-2, mr-2"
-                    dense
                     hide-details
                     :label="bundle.name"
                     :value="bundle.id"
@@ -403,33 +402,12 @@
 </template>
 
 <script>
-import DialogForm from '@/components/DialogForm.vue';
-import UserLink from '@/components/UserLink.vue';
-import LogTable from '@/components/LogTable.vue';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import openapiCached from '@/api/openapiCached';
-import CommentsTable from '@/components/Comments/CommentsTable.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
-import Dialog from '../components/Dialog.vue';
 import openapi from '../api/openapi';
-import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
 
 export default {
-  name: 'Ban.vue',
-  components: {
-    PageTitleFlat,
-    CommentsTable,
-    ThreadAddDialog,
-    PaginatedDataTable,
-    Dialog,
-    LogTable,
-    DialogForm,
-    UserLink,
-    DeleteConfirmationDialog,
-  },
   data() {
     return {
       headers: [

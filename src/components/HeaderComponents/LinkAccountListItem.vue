@@ -4,10 +4,10 @@
       :to="{path: $route.path,
             query: { login: 'true', return_url: getReturnUrl() } }"
     >
-      <v-icon start>
-        mdi-account-plus
-      </v-icon>
       <v-list-item-title>
+        <v-icon start>
+          mdi-account-plus
+        </v-icon>
         {{ $t('link_account') }}
       </v-list-item-title>
     </v-list-item>

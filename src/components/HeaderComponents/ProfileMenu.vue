@@ -2,14 +2,14 @@
   <div>
     <v-menu
       open-on-hover
-      offset-y
+      location="bottom"
       eager
     >
       <template #activator="{ props }">
         <v-chip
           pill
           v-bind="props"
-          class="header lighten-2"
+          class="header"
         >
           <v-avatar start>
             <v-img
@@ -22,40 +22,41 @@
           </span>
         </v-chip>
       </template>
-      <v-list density="compact">
-        <LinkAccountListItem />
-        <PersonalSettingsLinkItem />
-        <v-list-item
-          v-for="(link, index) in menuLinks"
-          :key="index"
-          :to="link.link"
-        >
-          <v-icon start>
-            {{ link.icon }}
-          </v-icon>
-          <v-list-item-title>
-            {{ $t(link.title) }}
-          </v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="logout">
-          <v-icon start>
-            mdi-logout-variant
-          </v-icon>
-          <v-list-item-title>{{ $t('_header.labels.logout') }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
+      <v-card flat>
+        <v-list density="compact">
+          <LinkAccountListItem class="no-active" />
+          <PersonalSettingsLinkItem class="no-active" />
+          <v-list-item
+            v-for="(link, index) in menuLinks"
+            :key="index"
+            :to="link.link"
+            class="d-flex"
+          >
+            <v-list-item-title>
+              <v-icon start>
+                {{ link.icon }}
+              </v-icon>
+              {{ $t(link.title) }}
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-title>
+              <v-icon start>
+                mdi-logout-variant
+              </v-icon>
+              {{ $t('_header.labels.logout') }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-card>
     </v-menu>
   </div>
 </template>
 
 <script>
 import AuthService from '@/services/AuthService';
-import LinkAccountListItem from '@/components/HeaderComponents/LinkAccountListItem.vue';
-import PersonalSettingsLinkItem from '@/components/HeaderComponents/PersonalSettingsLinkItem.vue';
 
 export default {
-  name: 'ProfileMenu.vue',
-  components: { PersonalSettingsLinkItem, LinkAccountListItem },
   props: {
     menuLinks: Array,
   },
@@ -70,13 +71,13 @@ export default {
     logout() {
       AuthService.logout();
     },
-    emitLogout() {
-      this.$emit('logout');
-    },
   },
 };
 
 </script>
 
 <style scoped>
+.no-active :deep(.v-list-item__overlay) {
+  opacity: 0 !important;
+}
 </style>

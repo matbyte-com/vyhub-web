@@ -46,7 +46,6 @@
         </div>
         <v-img
           height="200"
-          contain
           :src="logoUrl ? logoUrl : $store.getters.theme.logo"
           :alt="$store.getters.theme.logo"
         />

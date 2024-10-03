@@ -227,7 +227,7 @@ export default {
 }
 
 .stat-card:hover .number, .stat-card:hover i{
-  color: var(--v-primary-base);
+  color: rgb(var(--v-theme-primary));
 }
 .icon-wrapper {
   width: 100%;
@@ -238,7 +238,7 @@ export default {
   border-radius: 50%;
   border: solid;
   border-width: 5px;
-  border-color: var(--v-primary-base);
+  border-color: rgb(var(--v-theme-primary));
   margin-left: auto;
   margin-right: auto;
 }

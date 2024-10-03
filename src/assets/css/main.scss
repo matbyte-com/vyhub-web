@@ -70,7 +70,7 @@
 }
 
 
-// For all Overlays
+/* For all Overlays
 .v-overlay--active .v-overlay__scrim {
   display: none;
 }
@@ -78,7 +78,7 @@
 .v-overlay--active {
   backdrop-filter: blur(2px) !important;
   background: rgb(0 0 0 / 0.7) !important;
-}
+}*/
 
 .cta-btn{
   transition: all 0.2s ease-in-out;
@@ -95,7 +95,7 @@
   position: absolute;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 10px solid var(--v-primary-base);
+  border-top: 10px solid rgb(var(--v-theme-primary));
   border-bottom: 10px solid transparent;
   left: 15%;
   bottom: -18px

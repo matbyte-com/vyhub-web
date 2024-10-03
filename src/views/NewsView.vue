@@ -432,7 +432,7 @@ export default {
 .news-of-day
   border-style: solid
   border-width: 2px
-  border-color: var(--v-primary-base)
+  border-color: rgb(var(--v-theme-primary))
 
 .grey-title
   background-color: rgb(255, 255, 255)

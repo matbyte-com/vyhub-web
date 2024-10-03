@@ -264,6 +264,6 @@ export default {
 
 <style scoped>
 ::v-deep .v-expansion-panel-header__icon i {
-  color: var(--v-primary-base) !important;
+  color: rgb(var(--v-theme-primary)) !important;
 }
 </style>

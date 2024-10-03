@@ -6,10 +6,12 @@
       @click.stop=""
     >
       <template #activator>
-        <v-icon start>
-          {{ link.icon }}
-        </v-icon>
-        <v-list-item-title>{{ link.title }}</v-list-item-title>
+        <v-list-item-title>
+          <v-icon start>
+            {{ link.icon }}
+          </v-icon>
+          {{ link.title }}
+        </v-list-item-title>
       </template>
       <div
         v-for="(tab, index) in link.sublinks"
@@ -22,10 +24,13 @@
           :to="tab.cms_page_id || localLink(tab) ? getLocalLink(tab) : null"
           link
         >
-          <v-icon start>
-            {{ tab.icon }}
-          </v-icon>
-          <v-list-item-title>{{ tab.title }}</v-list-item-title>
+          <v-list-item-title>
+            #
+            <v-icon start>
+              {{ tab.icon }}
+            </v-icon>
+            {{ tab.title }}
+          </v-list-item-title>
         </v-list-item>
       </div>
     </v-list-group>
@@ -38,10 +43,12 @@
         getLocalLink(link) : null)"
       :class="subSubLink ? 'ml-3' : ''"
     >
-      <v-icon start>
-        {{ link.icon }}
-      </v-icon>
-      <v-list-item-title>{{ link.title }}</v-list-item-title>
+      <v-list-item-title>
+        <v-icon start>
+          {{ link.icon }}
+        </v-icon>
+        {{ link.title }}
+      </v-list-item-title>
     </v-list-item>
   </div>
 </template>

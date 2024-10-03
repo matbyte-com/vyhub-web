@@ -44,7 +44,7 @@
             <v-row>
               <v-col class="d-flex align-center">
                 <v-menu
-                  offset-y
+                  location="bottom"
                   :close-on-content-click="false"
                 >
                   <template #activator="{ props }">
@@ -65,7 +65,6 @@
                     :key="index"
                     v-model="selectedBundles"
                     class="ml-2, mr-2"
-                    dense
                     hide-details
                     :label="bundle.name"
                     :value="bundle.id"
@@ -218,7 +217,6 @@
                 <td v-if="currentWarning.active">
                   <v-chip
                     color="green"
-                    text-color="white"
                   >
                     {{ $t('active') }}
                   </v-chip>
@@ -227,14 +225,12 @@
                   <v-chip
                     v-if="currentWarning.disabled"
                     color="orange"
-                    text-color="white"
                   >
                     {{ $t('disabled') }}
                   </v-chip>
                   <v-chip
                     v-else
                     color="red"
-                    text-color="white"
                   >
                     {{ $t('expired') }}
                   </v-chip>
@@ -273,26 +269,11 @@
 </template>
 
 <script>
-import UserLink from '@/components/UserLink.vue';
 import openapi from '@/api/openapi';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import DialogForm from '@/components/DialogForm.vue';
 import WarningAddForm from '@/forms/WarningAddForm';
 import WarningEditForm from '@/forms/WarningEditForm';
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
-import Dialog from '../components/Dialog.vue';
 
 export default {
-  name: 'Warning.vue',
-  components: {
-    PageTitleFlat,
-    PaginatedDataTable,
-    DialogForm,
-    DeleteConfirmationDialog,
-    UserLink,
-    Dialog,
-  },
   data() {
     return {
       warnings: null,
@@ -351,7 +332,7 @@ export default {
     },
     async toggleDisable(item) {
       (await openapi).warning_toggleWarningStatus(item.id).then(() => {
-         
+
         item.disabled = !item.disabled;
         this.$notify({
           title: this.$t('_messages.toggleSuccess'),

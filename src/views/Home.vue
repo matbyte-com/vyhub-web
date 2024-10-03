@@ -227,7 +227,6 @@
                 style="background-color: #e0e0e0"
                 :src="cp.previewImage"
                 height="100px"
-                contain
               />
               <v-spacer />
               <div class="text-center text-h5">
@@ -346,9 +345,9 @@ export default {
         if (b.new && !b.deleted) {
           const p = api.design_createSection(null, b).then((rsp) => {
             console.log('Section Created');
-             
+
             b.new = false;
-             
+
             b.id = rsp.data.id;
           });
           promises.push(p);

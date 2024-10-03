@@ -17,11 +17,7 @@
 </template>
 
 <script>
-import ConfirmationDialog from './ConfirmationDialog.vue';
-
 export default {
-  name: 'DeleteConfirmationDialog',
-  components: { ConfirmationDialog },
   props: {
     text: String,
     countdown: {

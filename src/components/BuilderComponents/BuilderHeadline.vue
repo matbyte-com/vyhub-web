@@ -23,7 +23,6 @@
               :src="logoUrl"
               :alt="title"
               height="100px"
-              contain
               class="mb-5"
             />
           </div>

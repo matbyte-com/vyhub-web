@@ -1,10 +1,9 @@
 <template>
   <div>
+    <!--   TODO Not sure whether this needs to be readded    :theme="$store.getters.theme && $store.getters.theme.light_header ? 'light' : 'dark'"
+-->
     <v-app-bar
-      app
       color="header"
-      :light="$store.getters.theme && $store.getters.theme.light_header"
-      :dark="$store.getters.theme && !$store.getters.theme.light_header"
       style="z-index: 200;"
     >
       <div
@@ -30,7 +29,6 @@
             v-if="imgSrc"
             alt="Community Logo"
             class="shrink"
-            contain
             :src="imgSrc"
             style="cursor: pointer"
             transition="scale-transition"
@@ -109,7 +107,7 @@
           <div v-else>
             <v-chip
               style="height: 32px"
-              class="lighten-2 header ml-1"
+              class="header ml-1"
               data-cy="login-button"
               :class="{ 'glow-effect':utils.customerJourneyActive('login') }"
               @click="showLoginDialog"
@@ -130,32 +128,12 @@
 </template>
 
 <script>
-import ProfileMenu from '@/components/HeaderComponents/ProfileMenu.vue';
-import BurgerMenu from '@/components/HeaderComponents/BurgerMenu.vue';
-import NavigationLink from '@/components/HeaderComponents/NavigationLink.vue';
-import Search from '@/components/HeaderComponents/Search.vue';
-import Notification from '@/components/HeaderComponents/Notification.vue';
 import AuthService from '@/services/AuthService';
-import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
 import EventBus from '@/services/EventBus';
-import Credits from '@/components/HeaderComponents/Credits.vue';
 import openapi from '@/api/openapi';
 import UtilService from '@/services/UtilService';
-import PersonalSettings from '@/components/PersonalSettings.vue';
-import HelpCircle from '@/components/HeaderComponents/HelpCircle.vue';
 
 export default {
-  components: {
-    PersonalSettings,
-    ShoppingCart,
-    ProfileMenu,
-    BurgerMenu,
-    NavigationLink,
-    Search,
-    Credits,
-    Notification,
-    HelpCircle,
-  },
   data() {
     return {
       links: [],
@@ -266,10 +244,10 @@ export default {
 </script>
 
 <style scoped>
-div.top-scrollbar {
+/*div.top-scrollbar {
   transform: rotateX(180deg);
 }
 div.top-scrollbar * {
   transform: rotateX(180deg);
-}
+}*/
 </style>

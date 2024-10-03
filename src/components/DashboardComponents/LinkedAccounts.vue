@@ -86,7 +86,6 @@
                           <v-avatar v-if="acc.type !== 'TEAMSPEAK3'">
                             <v-img
                               :src="acc.avatar"
-                              contain
                               alt="avatar"
                             />
                           </v-avatar>
@@ -100,7 +99,7 @@
                       style="
                  pointer-events: initial;"
                     >
-                      <span v-if="acc.activities.length > 0">
+                      <span v-if="acc.activities && acc.activities.length > 0">
                         {{ $t('_dashboard.labels.last_online') }}:
                         {{ $i18n.d(new Date(acc.activities[0].last_online), 'short') }}
                         <br>
@@ -179,7 +178,6 @@
                     <v-avatar>
                       <v-img
                         :src="link.user_1.avatar"
-                        contain
                         alt="avatar"
                       />
                     </v-avatar>
@@ -222,7 +220,6 @@
                     <v-avatar>
                       <v-img
                         :src="link.user_2.avatar"
-                        contain
                         alt="avatar"
                       />
                     </v-avatar>
@@ -249,12 +246,8 @@ import userService from '@/services/UserService';
 import openapiCached from '@/api/openapiCached';
 import UtilService from '@/services/UtilService';
 import openapi from '@/api/openapi';
-import Dialog from '@/components/Dialog.vue';
-import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 
 export default {
-  name: 'LinkedAccounts',
-  components: { ConfirmationDialog, Dialog },
   props: {
     user: Object,
     bundle: {

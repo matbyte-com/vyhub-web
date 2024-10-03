@@ -55,14 +55,11 @@
                               'glow-effect': utils.customerJourneyActive(tab.customerJourney) }"
                     :to="{ name: 'Settings', params: { component: tab.name} }"
                   >
-                    <v-list-item-icon>
-                      <v-icon>{{ tab.icon }}</v-icon>
-                    </v-list-item-icon>
-
                     <v-list-item-title
                       :class="!utils.showAdvancedSettings()
                         && tab.advanced ? 'text-disabled' : ''"
                     >
+                      <v-icon start>{{ tab.icon }}</v-icon>
                       {{ tab.title }}
                     </v-list-item-title>
                   </v-list-item>
@@ -135,13 +132,10 @@
 </template>
 
 <script>
-import AdvancedSettingsSwitch from '@/components/SettingComponents/AdvancedSettingsSwitch.vue';
 import EventBus from '@/services/EventBus';
+import {defineAsyncComponent} from "vue";
 
 export default {
-  components: {
-    AdvancedSettingsSwitch,
-  },
   data() {
     return {
       key: 0,
@@ -306,7 +300,7 @@ export default {
   computed: {
     componentInstance() {
       const type = this.activeTab.component;
-      return () => import(`@/components/SettingComponents/${type}`);
+      return defineAsyncComponent(() => import(/* @vite-ignore */ `../components/SettingComponents/${type}Settings.vue`));
     },
     allowedTabs(includeGroups = false) {
       const allowed = [];

@@ -4,7 +4,7 @@
     <v-menu
       v-if="(allowedTabs || []).length > 0"
       open-on-hover
-      offset-y
+      location="bottom"
     >
       <template #activator="{ props }">
         <v-btn
@@ -24,28 +24,30 @@
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
-      <v-list
-        density="compact"
-        class="text-uppercase"
-      >
-        <v-list-item
-          v-for="(tab, index) in allowedTabs || []"
-          :key="index"
-          :href="(tab.cms_page_id === null && !utils.localLink(tab) ? tab.link : null)"
-          :to="(tab.cms_page_id || utils.localLink(tab) ?
-            utils.getLocalLink(tab) : null)"
+      <v-card flat>
+        <v-list
+          density="compact"
+          class="text-uppercase"
         >
-          <v-list-item-title>
-            <v-icon
-              v-if="tab.icon"
-              start
-            >
-              {{ tab.icon }}
-            </v-icon>
-            <span>{{ tab.title }}</span>
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
+          <v-list-item
+            v-for="(tab, index) in allowedTabs || []"
+            :key="index"
+            :href="(tab.cms_page_id === null && !utils.localLink(tab) ? tab.link : null)"
+            :to="(tab.cms_page_id || utils.localLink(tab) ?
+              utils.getLocalLink(tab) : null)"
+          >
+            <v-list-item-title>
+              <v-icon
+                v-if="tab.icon"
+                start
+              >
+                {{ tab.icon }}
+              </v-icon>
+              <span>{{ tab.title }}</span>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-card>
     </v-menu>
     <!-- simple button when no tabs are existent -->
     <v-btn

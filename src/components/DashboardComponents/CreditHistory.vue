@@ -3,10 +3,17 @@
     v-if="account"
     class="mt-3"
   >
-    <span class="text-h5">
-      {{ account.balance }}
-      <v-icon end>mdi-circle-multiple</v-icon>
-    </span>
+    <div class="d-flex align-center">
+      <span class="text-h5">
+        {{ account.balance }}
+      </span>
+      <v-icon
+        size="large"
+        end
+      >
+        mdi-circle-multiple
+      </v-icon>
+    </div>
     <DataTable
       :headers="headers"
       :items="account.transactions"
@@ -52,14 +59,10 @@
 
 <script>
 import openapi from '@/api/openapi';
-import DataTable from '@/components/DataTable.vue';
-import UserLink from '@/components/UserLink.vue';
-import DialogForm from '@/components/DialogForm.vue';
 import TransactionAddForm from '@/forms/TransactionAddForm';
 
 export default {
   name: 'CreditHistory',
-  components: { DialogForm, DataTable, UserLink },
   props: {
     user: {
       type: Object,

@@ -106,17 +106,17 @@
                       </v-icon>
                       {{ $t('logs') }}
                     </v-tab>
-                    <v-tab-item
+                    <v-tabs-window
                       v-if="$checkProp('user_comment_show') || isCurrentUser"
                     >
                       <UserComments
                         :read-only="isCurrentUser && !$checkProp('user_comment_show')"
                         :user="user"
                       />
-                    </v-tab-item>
-                    <v-tab-item v-if="$checkProp('user_log_show')">
+                    </v-tabs-window>
+                    <v-tabs-window v-if="$checkProp('user_log_show')">
                       <UserLogEntries :user="user" />
-                    </v-tab-item>
+                    </v-tabs-window>
                   </v-tabs>
                 </v-card>
               </v-col>
@@ -129,28 +129,12 @@
 </template>
 
 <script>
-import LinkedAccounts from '@/components/DashboardComponents/LinkedAccounts.vue';
-import ProfilePicture from '@/components/DashboardComponents/ProfilePicture.vue';
-import AttributeGraph from '@/components/DashboardComponents/AttributeGraph.vue';
-import UserComments from '@/components/DashboardComponents/UserComments.vue';
-import UserForumStats from '@/components/DashboardComponents/UserForumStats.vue';
-import BansAndWarnings from '../BansAndWarnings.vue';
-import UserLogEntries from '../UserLogEntries.vue';
 
 export default {
-  name: 'General.vue',
-  components: {
-    UserForumStats,
-    UserComments,
-    UserLogEntries,
-    BansAndWarnings,
-    AttributeGraph,
-    ProfilePicture,
-    LinkedAccounts,
-  },
   props: {
     user: Object,
   },
+  emits: ['user-updated'],
   data() {
     return {
       isCurrentUser: false,

@@ -15,7 +15,6 @@
       <v-btn
         color="error"
         variant="text"
-        variant="outlined"
         :disabled="!membership.active"
         @click="$refs.endMembershipConfirmation.show()"
       >
@@ -31,17 +30,11 @@
 </template>
 
 <script>
-import DialogForm from '../DialogForm.vue';
 import UserMembershipEditForm from '../../forms/UserMembershipEditForm';
 import openapi from '../../api/openapi';
-import ConfirmationDialog from '../ConfirmationDialog.vue';
 
 export default {
-  name: 'MembershipEditDialog',
-  components: {
-    ConfirmationDialog,
-    DialogForm,
-  },
+  emits: ['submit'],
   data() {
     return {
       membership: '',

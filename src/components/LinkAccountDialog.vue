@@ -10,10 +10,10 @@
     >
       <v-card
         v-if="$store.getters.isLoggedIn || $route.query.shop"
-        border
+        variant="outlined"
         type="info"
         dense
-        class="mt-3 description-card"
+        class="description-card"
       >
         <v-card-text>
           <v-row no-gutters>
@@ -25,14 +25,14 @@
               <v-icon
                 v-if="$store.getters.isLoggedIn"
                 color="secondary"
-                size="large"
+                size="30"
               >
                 mdi-exclamation
               </v-icon>
               <v-icon
                 v-else
                 color="secondary"
-                size="large"
+                size="30"
               >
                 mdi-information-outline
               </v-icon>
@@ -51,11 +51,12 @@
           :data-cy="backend.id"
           @click="startAuth(backend)"
         >
-          <v-list-item-icon>
-            <v-icon> {{ getIcon(backend.name) }} </v-icon>
-          </v-list-item-icon>
-          
-          <v-list-item-title>{{ $t(`_user.type.${backend.name}.name`) }}</v-list-item-title>
+          <v-list-item-title>
+            <v-icon start>
+              {{ getIcon(backend.name) }}
+            </v-icon>
+            {{ $t(`_user.type.${backend.name}.name`) }}
+          </v-list-item-title>
           <div class="text-grey">
             {{ $t(`_user.type.${backend.name}.info`) }}
           </div>
@@ -77,16 +78,17 @@
       <template #actions>
         <v-list
           v-if="!$route.query.shop"
-          class="pa-0 mt-0 ml-2 mr-2"
+          class="pa-0 mt-0 ml-4 mr-4"
           style="width: 100%"
           density="compact"
         >
           <v-list-item @click="startAuth(backends.find((b) => b.type === 'CENTRAL'))">
-            <v-list-item-icon>
-              <v-icon>{{ getIcon('CENTRAL') }}</v-icon>
-            </v-list-item-icon>
-            
-            <v-list-item-title>{{ $t(`_user.type.CENTRAL.name`) }}</v-list-item-title>
+            <v-list-item-title>
+              <v-icon start>
+                {{ getIcon('CENTRAL') }}
+              </v-icon>
+              {{ $t(`_user.type.CENTRAL.name`) }}
+            </v-list-item-title>
           </v-list-item>
         </v-list>
       </template>
@@ -162,7 +164,6 @@
                 <v-avatar>
                   <v-img
                     :src="$store.getters.user.avatar"
-                    contain
                     alt="avatar"
                   />
                 </v-avatar>
@@ -179,7 +180,6 @@
                 <v-avatar>
                   <v-img
                     :src="userToLink.avatar"
-                    contain
                     alt="avatar"
                   />
                 </v-avatar>
@@ -198,16 +198,12 @@
 
 <script>
 import AuthService from '@/services/AuthService';
-import Dialog from '@/components/Dialog.vue';
 import UserService from '@/services/UserService';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import axios from 'axios';
-import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 
 export default {
-  name: 'Login.vue',
-  components: { ConfirmationDialog, Dialog },
   data() {
     return {
       dialog: null,
@@ -413,6 +409,6 @@ export default {
 
 <style scoped>
 .description-card {
-  border-color: var(--v-secondary-base);
+  border-color: rgb(var(--v-theme-secondary));
 }
 </style>

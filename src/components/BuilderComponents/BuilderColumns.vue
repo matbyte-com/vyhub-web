@@ -16,7 +16,6 @@
               <v-img
                 :src="column.imageUrl"
                 :alt="column.title"
-                contain
                 :max-width="maxImageWidth"
                 style="border-radius: 3px"
               />

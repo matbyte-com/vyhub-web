@@ -15,7 +15,6 @@
             >
               <template
                 #header
-                class="d-flex"
               >
                 <v-row>
                   <v-col>
@@ -61,14 +60,14 @@
                             <v-list density="compact">
                               <v-list-item>
                                 {{ $t('date') }}
-                                
-                                
+
+
                                 {{ new Date(purchase.date).toLocaleString() }}
                               </v-list-item>
                               <v-list-item>
                                 {{ $t('status') }}
-                                
-                                
+
+
                                 <PurchaseStatusChip :status="purchase.status" />
                               </v-list-item>
                             </v-list>
@@ -180,23 +179,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import PurchaseStatusChip from '@/components/ShopComponents/PurchaseStatusChip.vue';
-import Dialog from '@/components/Dialog.vue';
-import CreditHistory from '@/components/DashboardComponents/CreditHistory.vue';
-import DataTable from '@/components/DataTable.vue';
-import DataIterator from '../../DataIterator.vue';
-import ConfirmationDialog from '../../ConfirmationDialog.vue';
 
 export default {
-  name: 'UserPurchases',
-  components: {
-    DataTable,
-    CreditHistory,
-    Dialog,
-    ConfirmationDialog,
-    DataIterator,
-    PurchaseStatusChip,
-  },
   props: {
     user: Object,
   },

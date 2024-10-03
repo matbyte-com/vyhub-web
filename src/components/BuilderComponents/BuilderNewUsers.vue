@@ -135,7 +135,7 @@ export default {
 }
 
 .avatar {
-  border-color: var(--v-primary-base);
+  border-color: rgb(var(--v-theme-primary));
   border-style: solid;
   border-radius: 62px;
   margin-top: -75px;

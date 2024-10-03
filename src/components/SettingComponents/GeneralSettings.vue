@@ -58,21 +58,13 @@
 </template>
 
 <script>
-import GenForm from '@/components/GenForm.vue';
 import SettingsGeneralFormSchema from '@/forms/SettingsGeneralForm';
 import HtmlTagsForm from '@/forms/HtmlTagsForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
-import AddOnChip from '@/components/SettingComponents/AddOnChip.vue';
-import Support from '@/components/SettingComponents/Support.vue';
-import SettingTitle from './SettingTitle.vue';
 import i18n from '../../plugins/i18n';
 
 export default {
-  name: 'General',
-  components: {
-    AddOnChip, SettingTitle, GenForm, Support,
-  },
   data() {
     return {
       formSchema: null,

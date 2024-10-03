@@ -259,7 +259,6 @@
                       <div class="d-flex justify-center">
                         <v-img
                           v-if="getImgUrl(gateway) != null"
-                          contain
                           class="mb-1"
                           height="50"
                           :src="getImgUrl(gateway)"
@@ -1012,17 +1011,17 @@ export default {
 
 .gateway-card:hover
   filter: brightness(1)
-  border-color: var(--v-primary-base)
+  border-color: rgb(var(--v-theme-primary))
 
 .gateway-card.card-active
-  border-color: var(--v-primary-base)
+  border-color: rgb(var(--v-theme-primary))
   transform: scale(1.05)
   filter: brightness(1)
 
 .card-next-step
   border-style: solid !important
   border-width: 2px !important
-  border-color: var(--v-primary-base) !important
+  border-color: rgb(var(--v-theme-primary)) !important
 
 .card-error
   border-style: solid !important

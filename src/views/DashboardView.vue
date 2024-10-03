@@ -10,15 +10,13 @@
             v-if="$checkAdmin()"
             class="d-flex justify-end mr-1"
           >
+            <!-- TODO Icon is not displayed??!? -->
             <v-btn
-              icon
+              icon="mdi-delete"
               size="small"
-              variant="outlined"
               variant="flat"
               @click="$refs.deleteDialog.show()"
-            >
-              <v-icon size="small">mdi-delete</v-icon>
-            </v-btn>
+            />
           </span>
         </template>
       </PageTitleFlat>
@@ -144,14 +142,9 @@
 import openapiCached from '@/api/openapiCached';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
+import { defineAsyncComponent } from "vue";
 
 export default {
-  components: {
-    DeleteConfirmationDialog,
-    PageTitleFlat,
-  },
   data() {
     return {
       error: null,
@@ -164,13 +157,17 @@ export default {
   },
   computed: {
     componentInstance() {
+      let path;
       if (this.activeTab === 'Bundle' && this.activeBundle) {
-        return () => import(`@/components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}`);
+        path = `../components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}.vue`;
       }
-      if (this.activeTab === 'Bundle') {
-        return () => import('@/components/DashboardComponents/Dashboards/General.vue');
+      else if (this.activeTab === 'Bundle') {
+        path = '../components/DashboardComponents/Dashboards/GeneralDashboard.vue';
       }
-      return () => import(`@/components/DashboardComponents/Dashboards/${this.activeTab}`);
+      else {
+        path = `../components/DashboardComponents/Dashboards/${this.activeTab}Dashboard.vue`;
+      }
+      return defineAsyncComponent(() => import(/* @vite-ignore */ path));
     },
     getBundles() {
       return this.bundles.filter((b) => b.server_type !== 'DISCORD' && b.server_type !== 'TEAMSPEAK3');
