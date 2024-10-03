@@ -103,12 +103,12 @@ export default {
       debits: null,
       showApprovedDebits: false,
       headers: [
-        { text: this.$t('date'), value: 'date' },
-        { text: this.$t('_purchases.labels.paymentGateway'), value: 'payment_gateway' },
-        { text: this.$t('_purchases.labels.amountTotal'), value: 'amount_total', sortable: false },
-        { text: this.$t('_purchases.labels.coupon'), value: 'coupon', sortable: false },
+        { title: this.$t('date'), key: 'date' },
+        { title: this.$t('_purchases.labels.paymentGateway'), key: 'payment_gateway' },
+        { title: this.$t('_purchases.labels.amountTotal'), key: 'amount_total', sortable: false },
+        { title: this.$t('_purchases.labels.coupon'), key: 'coupon', sortable: false },
         {
-          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
+          title: this.$t('actions'), key: 'actions', align: 'right', sortable: false,
         },
       ],
     };

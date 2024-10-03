@@ -6,7 +6,6 @@
     :search="searchVal"
     hide-default-footer
     v-bind="$attrs"
-    v-on="$listeners"
   >
     <template #no-data>
       <div class="text-center mt-4 text-subtitle-2 text-disabled">
@@ -56,10 +55,9 @@
         </div>
         <div v-if="showPageSelector && numberOfPages > 1">
           <span class="text-grey">Items per page</span>
-          <v-menu offset-y>
+          <v-menu location="bottom">
             <template #activator="{ props }">
               <v-btn
-                dark
                 variant="text"
                 color="primary"
                 class="ml-2"
@@ -88,10 +86,9 @@
           <span class="mr-4 text-grey">
             {{ page }} of {{ numberOfPages }}
           </span>
+          <!-- TODO Both Buttons were fab and dark -->
           <v-btn
             size="small"
-            fab
-            dark
             color="primary"
             class="mr-1"
             @click="formerPage"
@@ -100,8 +97,6 @@
           </v-btn>
           <v-btn
             size="small"
-            fab
-            dark
             color="primary"
             class="ml-1"
             @click="nextPage"
@@ -116,7 +111,6 @@
 
 <script>
 export default {
-  name: 'DataIterator',
   props: {
     items: Array,
     search: {

@@ -6,9 +6,7 @@
     :item-key="itemKey"
     :footer-props="footerProps"
     v-bind="$attrs"
-    v-on="$listeners"
   >
-    Test
     <template #top>
       <v-row dense>
         <v-col align-self="center">
@@ -39,7 +37,7 @@
         </v-col>
       </v-row>
     </template>
-    <template #footer.page-text>
+    <template #footer.prepend>
       <slot name="footer-right" />
     </template>
     <template
@@ -56,7 +54,6 @@
 
 <script>
 export default {
-  name: 'DataTable',
   props: {
     externalSearch: {
       type: Boolean,
@@ -80,6 +77,7 @@ export default {
       },
     },
   },
+  emits: ['update:search', 'search'],
   data() {
     return {
       searchModel: null,
@@ -93,7 +91,7 @@ export default {
       if (!this.$slots) {
         return {};
       }
-      const slots = { ...this.$slots };
+      const slots = {...this.$slots};
 
       if ('header' in slots) {
         delete slots.header;

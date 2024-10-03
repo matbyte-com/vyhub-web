@@ -147,10 +147,10 @@ export default {
       totalItems: 0,
       debouncedSearch: pDebounce(this.doSearch, 300),
       headers: [
-        { text: this.$t('username'), value: 'username' },
-        { text: this.$t('_search.labels.linkedUsers'), value: 'linked_users', sortable: false },
+        { title: this.$t('username'), key: 'username' },
+        { title: this.$t('_search.labels.linkedUsers'), key: 'linked_users', sortable: false },
         {
-          text: this.$t('id'), value: 'identifier', align: 'right', sortable: false,
+          title: this.$t('id'), key: 'identifier', align: 'right', sortable: false,
         },
       ],
     };

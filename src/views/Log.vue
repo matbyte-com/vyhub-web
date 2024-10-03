@@ -171,10 +171,10 @@
                 <v-radio
                   v-for="(severity, index) in severities"
                   :key="index"
+                  :key="severity"
                   dense
                   hide-details
                   :label="severity"
-                  :value="severity"
                 />
               </v-radio-group>
               <a

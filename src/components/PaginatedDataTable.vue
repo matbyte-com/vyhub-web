@@ -3,13 +3,11 @@
     v-model:items-per-page="itemsPerPage"
     v-model:page="page"
     v-model:sort-by="sortBy"
-    v-model:sort-desc="sortDesc"
     v-model:search="search"
     :external-search="showSearch"
     :server-items-length="totalItems"
     must-sort
     v-bind="$attrs"
-    v-on="$listeners"
   >
     <template
       v-for="(_, slot) of $slots"
@@ -24,11 +22,8 @@
 </template>
 
 <script>
-import DataTable from '@/components/DataTable.vue';
 
 export default {
-  name: 'PaginatedDataTable',
-  components: { DataTable },
   props: {
     totalItems: {
       type: Number,
@@ -52,7 +47,6 @@ export default {
       page: 1,
       itemsPerPage: 10,
       selectedBundle: [],
-      sortBy: null,
       sortDesc: true,
       search: null,
       lastParams: null,
@@ -69,6 +63,10 @@ export default {
         query: this.search,
       };
     },
+    sortBy() {
+      const desc = this.defaultSortDesc ? 'desc' : 'asc';
+      return [{ key: this.defaultSortBy, order: desc}]
+    }
   },
   watch: {
     queryParams() {
@@ -87,10 +85,6 @@ export default {
         }
       }, 200);
     },
-  },
-  beforeMount() {
-    this.sortBy = this.defaultSortBy;
-    this.sortDesc = this.defaultSortDesc;
   },
   methods: {
     getQueryParameters() {

@@ -412,15 +412,15 @@ export default {
   data() {
     return {
       headers: [
-        { value: 'color-status', sortable: false, width: '1px' },
-        { text: this.$t('user'), value: 'user', sortable: false },
-        { text: this.$t('reason'), value: 'reason' },
-        { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
-        { text: this.$t('length'), value: 'length' },
-        { text: this.$t('creator'), value: 'creator', sortable: false },
-        { text: this.$t('createdOn'), value: 'created_on' },
+        { key: 'color-status', sortable: false, width: '1px' },
+        { title: this.$t('user'), key: 'user', sortable: false },
+        { title: this.$t('reason'), key: 'reason' },
+        { title: this.$t('bundle'), key: 'serverbundle.name', sortable: false },
+        { title: this.$t('length'), key: 'length' },
+        { title: this.$t('creator'), key: 'creator', sortable: false },
+        { title: this.$t('createdOn'), key: 'created_on' },
         {
-          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
+          title: this.$t('actions'), key: 'actions', align: 'right', sortable: false,
         },
       ],
       bans: null,
@@ -475,14 +475,14 @@ export default {
   beforeMount() {
     this.getBundles();
     this.getConfig();
-    this.updateCurrentBan();
+    this.fetchData();
   },
   methods: {
     async updateCurrentBan() {
       const api = await openapi;
 
-      if (this.$route.params.banId != null) {
-        api.ban_getBan({ uuid: this.$route.params.banId }).then((rsp) => {
+      if (this.banId != null) {
+        api.ban_getBan({ uuid: this.banId }).then((rsp) => {
           this.currentBan = rsp.data;
         }).catch(() => {
           this.currentBan = null;
@@ -492,7 +492,7 @@ export default {
       }
     },
     async fetchData(queryParams = null) {
-      this.updateCurrentBan();
+      await this.updateCurrentBan();
 
       (await openapi).ban_getBans({
         serverbundle_id: this.selectedBundles,

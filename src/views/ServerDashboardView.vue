@@ -283,14 +283,14 @@ export default {
       menuOpen: false,
       reloading: false,
       banHeaders: [
-        { text: this.$t('user'), value: 'user', sortable: false },
-        { text: this.$t('reason'), value: 'reason' },
-        { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
-        { text: this.$t('length'), value: 'length' },
-        { text: this.$t('creator'), value: 'creator', sortable: false },
-        { text: this.$t('createdOn'), value: 'created_on' },
+        { title: this.$t('user'), key: 'user', sortable: false },
+        { title: this.$t('reason'), key: 'reason' },
+        { title: this.$t('bundle'), key: 'serverbundle.name', sortable: false },
+        { title: this.$t('length'), key: 'length' },
+        { title: this.$t('creator'), key: 'creator', sortable: false },
+        { title: this.$t('createdOn'), key: 'created_on' },
         {
-          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
+          title: this.$t('actions'), key: 'actions', align: 'right', sortable: false,
         },
       ],
     };

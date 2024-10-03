@@ -161,11 +161,11 @@ export default {
   data() {
     return {
       headers: [
-        { text: this.$t('title'), value: 'title' },
-        { text: this.$t('category'), value: 'category.name' },
-        { text: this.$t('flags'), value: 'flags' },
+        { title: this.$t('title'), key: 'title' },
+        { title: this.$t('category'), key: 'category.name' },
+        { title: this.$t('flags'), key: 'flags' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'right',
         },
       ],
       packets: null,

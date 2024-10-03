@@ -286,16 +286,16 @@ export default {
     headers() {
       if (this.$vuetify.display.mdAndUp) {
         return [
-          { text: this.$t('title'), value: 'title', sortable: false },
+          { title: this.$t('title'), key: 'title', sortable: false },
           {
-            text: this.$t('_forum.last_post'), value: 'last_post', align: 'right', sortable: false,
+            title: this.$t('_forum.last_post'), value: 'last_post', align: 'right', sortable: false,
           },
         ];
       }
       return [
-        { text: this.$t('title'), value: 'title', sortable: false },
+        { title: this.$t('title'), value: 'title', sortable: false },
         {
-          text: this.$t('_forum.last_post'), value: 'last_post_sm', align: 'right', sortable: false,
+          title: this.$t('_forum.last_post'), value: 'last_post_sm', align: 'right', sortable: false,
         },
       ];
     },

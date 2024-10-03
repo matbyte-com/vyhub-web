@@ -186,13 +186,13 @@ export default {
       showOnlyReadItems: false,
       headers: [
         {
-          text: this.$t('icon'), value: 'icon', sortable: false, focus: true,
+          title: this.$t('icon'), key: 'icon', sortable: false, focus: true,
         },
-        { text: this.$t('message'), value: 'message', sortable: false },
-        { text: this.$t('type'), value: 'category', sortable: false },
-        { text: this.$t('createdOn'), value: 'time' },
+        { title: this.$t('message'), key: 'message', sortable: false },
+        { title: this.$t('type'), key: 'category', sortable: false },
+        { title: this.$t('createdOn'), key: 'time' },
         {
-          value: 'action', sortable: false, align: 'right', width: '150px',
+          title: 'action', sortable: false, align: 'right', width: '150px',
         },
       ],
     };
@@ -251,7 +251,7 @@ export default {
           type: 'success',
         });
       });
-       
+
       item.read = !item.read;
     },
   },

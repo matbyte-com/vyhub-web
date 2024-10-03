@@ -180,7 +180,7 @@
       :title="$t('_warning.labels.details')"
       :max-width="800"
     >
-      <template>
+      <template #default>
         <h6 class="text-h6 mb-2  mt-3">
           {{ $t('details') }}
         </h6>
@@ -281,14 +281,14 @@ export default {
       currentWarning: null,
       bundles: [],
       headers: [
-        { value: 'color-status', sortable: false, width: '1px' },
-        { text: this.$t('user'), value: 'user', sortable: false },
-        { text: this.$t('reason'), value: 'reason' },
-        { text: this.$t('bundle'), value: 'serverbundle.name', sortable: false },
-        { text: this.$t('creator'), value: 'creator', sortable: false },
-        { text: this.$t('createdOn'), value: 'created_on' },
+        { key: 'color-status', sortable: false, width: '1px' },
+        { title: this.$t('user'), key: 'user', sortable: false },
+        { title: this.$t('reason'), key: 'reason' },
+        { title: this.$t('bundle'), key: 'serverbundle.name', sortable: false },
+        { title: this.$t('creator'), key: 'creator', sortable: false },
+        { title: this.$t('createdOn'), key: 'created_on' },
         {
-          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
+          title: this.$t('actions'), key: 'actions', align: 'right', sortable: false,
         },
       ],
       WarningAddForm,
@@ -297,8 +297,9 @@ export default {
       totalItems: 0,
     };
   },
-  beforeMount() {
+  mounted() {
     this.fetchServerbundles();
+    this.fetchData();
   },
   methods: {
     async fetchData(queryParams = null) {
