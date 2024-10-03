@@ -99,7 +99,7 @@ const routes = [
   {
     path: '/admin/shop/:component?',
     name: 'ShopAdmin',
-    component: () => import('@/views/Shop/Admin.vue'),
+    component: () => import('@/views/Shop/ShopAdminView.vue'),
     meta: { requiresAuth: true, title: i18n.global.t('_pageTitle.shopAdministration'), reqProp: 'admin_menu' },
   },
   {

@@ -178,8 +178,6 @@
           </v-btn>
         </a>
         <v-btn
-          variant="text"
-          icon
           color="primary"
           class="ml-1"
           variant="flat"

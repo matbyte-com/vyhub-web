@@ -13,14 +13,14 @@
         <v-row>
           <v-col class="d-flex align-center">
             <v-menu
-              offset-y
+              location="bottom"
               :close-on-content-click="false"
             >
               <template #activator="{ props }">
                 <v-btn
                   variant="outlined"
                   color="primary"
-                   
+
                   v-bind="props"
                 >
                   <v-icon start>
@@ -235,32 +235,12 @@
 </template>
 
 <script>
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import UserAppliedPacketAddForm from '@/forms/UserAppliedPacketAddForm';
-import SyncAppliedRewardsPacketsDialog
-  from '@/components/ShopComponents/Admin/RewardToAppliedPacketAddDialog.vue';
-import UserLink from '../../UserLink.vue';
+import AppliedPacketEditForm from '@/forms/AppliedPacketEditForm';
+import AppliedRewardAddForm from '@/forms/AppliedRewardAddForm';
 import openapi from '../../../api/openapi';
-import BoolIcon from '../../BoolIcon.vue';
-import AppliedPacketEditForm from '../../../forms/AppliedPacketEditForm';
-import DialogForm from '../../DialogForm.vue';
-import DeleteConfirmationDialog from '../../DeleteConfirmationDialog.vue';
-import AppliedRewardAddForm from '../../../forms/AppliedRewardAddForm';
-import Dialog from '../../Dialog.vue';
-import DataTable from '../../DataTable.vue';
 
 export default {
-  name: 'UserPackets',
-  components: {
-    SyncAppliedRewardsPacketsDialog,
-    DataTable,
-    Dialog,
-    PaginatedDataTable,
-    DeleteConfirmationDialog,
-    DialogForm,
-    BoolIcon,
-    UserLink,
-  },
   data() {
     return {
       headers: [

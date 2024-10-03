@@ -42,9 +42,9 @@
                   :key="bundle.id"
                 >
                   <td>
+                    <!-- TODO was :text-color="$vuetify.theme.dark ? 'white' : 'black'"-->
                     <v-chip
                       :color="bundle.color ? bundle.color : '#000000'"
-                      :text-color="$vuetify.theme.dark ? 'white' : 'black'"
                       variant="outlined"
                     >
                       <v-icon start>
@@ -186,7 +186,6 @@
               </template>
               <template #item.actions="{ item }">
                 <v-btn
-                  variant="flat"
                   color="success"
                   size="small"
                   class="mr-1"
@@ -349,7 +348,6 @@
               color="warning"
               variant="text"
               size="small"
-              variant="flat"
               @click="revokeToken(token)"
             >
               <v-icon>
@@ -487,34 +485,13 @@
 </template>
 
 <script>
-import DialogForm from '@/components/DialogForm.vue';
-import ServerbundleForm from '@/forms/ServerbundleForm';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import DataTable from '@/components/DataTable.vue';
-import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
-import GenForm from '@/components/GenForm.vue';
 import ServerbundleAPITokenForm from '@/forms/ServerbundleAPITokenForm';
 import openapi from '@/api/openapi';
 import ServerForm from '@/forms/ServerForm';
-import PropertyPicker from '@/components/SettingComponents/PropertyPicker.vue';
-import ServerSetup from '@/components/SettingComponents/ServerSetup.vue';
+import ServerbundleForm from "../../forms/ServerbundleForm";
 import EventBus from '@/services/EventBus';
-import Dialog from '../Dialog.vue';
-import BoolIcon from '../BoolIcon.vue';
 
 export default {
-  name: 'Server',
-  components: {
-    ServerSetup,
-    GenForm,
-    Dialog,
-    SettingTitle,
-    BoolIcon,
-    DeleteConfirmationDialog,
-    DialogForm,
-    DataTable,
-    PropertyPicker,
-  },
   data() {
     return {
       icon: 'mdi-access-point',

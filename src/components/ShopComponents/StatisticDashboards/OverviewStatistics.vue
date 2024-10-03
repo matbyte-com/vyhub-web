@@ -93,7 +93,7 @@
               <v-tooltip location="bottom">
                 <template #activator="{ props }">
                   <v-icon
-                   
+
                     v-bind="props"
                   >
                     mdi-information
@@ -124,7 +124,7 @@
               <v-tooltip location="bottom">
                 <template #activator="{ props }">
                   <v-icon
-                   
+
                     v-bind="props"
                   >
                     mdi-information
@@ -243,14 +243,9 @@
 </template>
 
 <script>
-import DebitChart from '@/components/Charts/DebitChart.vue';
-import PurchaseCountryChart from '@/components/Charts/PurchaseCountryChart.vue';
-import PurchaseCategoryChart from '@/components/Charts/PurchaseCategoryChart.vue';
 import openapi from '@/api/openapi';
 
 export default {
-  name: 'Overview',
-  components: { PurchaseCategoryChart, PurchaseCountryChart, DebitChart },
   props: ['timeRange', 'currency', 'intervalItems'],
   data() {
     return {
@@ -309,7 +304,11 @@ export default {
       this.queryStatistics();
     },
   },
-  beforeMount() {
+  mounted() {
+    if (this.currency == null) {
+      return;
+    }
+
     this.queryStatistics();
     this.queryLineGraphs();
   },

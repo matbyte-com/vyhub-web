@@ -41,53 +41,52 @@
 </template>
 
 <script>
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
+
+import {defineAsyncComponent} from "vue";
 
 export default {
-  name: 'Purchase',
-  components: { PageTitleFlat },
   data() {
     return {
       tabs: [
         {
           name: 'purchases',
           icon: 'mdi-clipboard-list',
-          component: 'Purchases',
+          component: 'PurchasesView',
           reqProp: 'purchase_show',
           title: this.$t('_purchases.labels.allPurchases'),
         },
         {
           name: 'applied-packets',
           icon: 'mdi-gift-open',
-          component: 'AppliedPackets',
+          component: 'AppliedPacketsView',
           reqProp: 'purchase_show',
           title: this.$t('_purchases.labels.appliedPackets'),
         },
         {
           name: 'discounts',
           icon: 'mdi-ticket-percent',
-          component: 'Discounts',
+          component: 'DiscountsView',
           reqProp: 'discount_show',
           title: this.$t('discounts'),
         },
         {
           name: 'purchase-confirmation',
           icon: 'mdi-lock-reset',
-          component: 'PurchaseManualConfirmation',
+          component: 'PurchaseManualConfirmationView',
           reqProp: 'purchase_edit',
           title: this.$t('_purchases.labels.confirmPurchases'),
         },
         {
           name: 'report',
           icon: 'mdi-file-table',
-          component: 'Report',
+          component: 'ReportView',
           reqProp: 'purchase_show',
           title: this.$t('report'),
         },
         {
           name: 'statistics',
           icon: 'mdi-chart-areaspline',
-          component: 'Statistics',
+          component: 'StatisticsView',
           reqProp: 'purchase_show',
           title: this.$t('statistics'),
         },
@@ -99,7 +98,7 @@ export default {
   computed: {
     componentInstance() {
       const type = this.activeComponent;
-      return () => import(`@/components/ShopComponents/Admin/${type}`);
+      return defineAsyncComponent(() => import(/* @vite-ignore */ `../../components/ShopComponents/Admin/${type}.vue`));
     },
     allowedTabs() {
       return this.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);

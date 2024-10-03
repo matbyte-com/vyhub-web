@@ -10,7 +10,7 @@
           lg="9"
         >
           <v-menu
-            offset-y
+            location="bottom"
             style="z-index: 21"
             :close-on-content-click="false"
           >
@@ -19,7 +19,7 @@
                 variant="outlined"
                 :class="currentRangeBtn === 'range' ? 'v-btn--active' : ''"
                 color="primary"
-               
+
                 v-bind="props"
               >
                 {{ $t('_purchases.labels.range') }}
@@ -27,7 +27,7 @@
             </template>
             <v-date-picker
               v-model="timeRange"
-              range
+              multiple="range"
               :max="tomorrow.toISOString()"
               @change="currentRangeBtn = 'range'"
             />
@@ -86,13 +86,13 @@
           />
         </v-col>
       </v-row>
-      <Overview
+      <OverviewStatistics
         v-if="currentDashboard === 'overview'"
         :time-range="timeRange"
         :currency="currentCurrency"
         :interval-items="intervalItems"
       />
-      <Purchases
+      <PurchasesStatistics
         v-if="currentDashboard === 'purchases'"
         :time-range="timeRange"
         :currency="currentCurrency"
@@ -103,16 +103,9 @@
 </template>
 
 <script>
-import Purchases from '@/components/ShopComponents/StatisticDashboards/Purchases.vue';
-import Overview from '@/components/ShopComponents/StatisticDashboards/Overview.vue';
 import openapiCached from '../../../api/openapiCached';
 
 export default {
-  name: 'Statistics',
-  components: {
-    Purchases,
-    Overview,
-  },
   data() {
     return {
       timeRange: null,
