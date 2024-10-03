@@ -3,7 +3,7 @@ import i18n from '@/plugins/i18n';
 import utilService from '@/services/UtilService';
 
 const oneOf: { const: string, title: string }[] = [];
-i18n.availableLocales.forEach((l) => {
+i18n.global.availableLocales.forEach((l) => {
   oneOf.push({
     const: l,
     // Cool but too new: new Intl.DisplayNames([l], { type: 'language' }),

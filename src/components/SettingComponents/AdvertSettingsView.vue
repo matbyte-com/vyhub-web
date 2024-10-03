@@ -38,12 +38,13 @@
                   >
                     mdi-close-circle
                   </v-icon>
+                  <!-- TODO Was before                     :text-color="$vuetify.theme.dark ? 'white' : 'black'"
+-->
                   <v-chip
                     v-for="serverbundle in advert.serverbundles"
                     :key="serverbundle.id"
                     class="mr-1"
                     :color="serverbundle.color"
-                    :text-color="$vuetify.theme.dark ? 'white' : 'black'"
                     variant="outlined"
                     size="small"
                     @click.stop
@@ -153,19 +154,10 @@
 </template>
 
 <script>
-import DialogForm from '@/components/DialogForm.vue';
 import openapi from '@/api/openapi';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import AdvertsForm from '@/forms/AdvertsForm';
-import SettingTitle from './SettingTitle.vue';
 
 export default {
-  name: 'Adverts',
-  components: {
-    DialogForm,
-    SettingTitle,
-    DeleteConfirmationDialog,
-  },
   data() {
     return {
       advert: [],

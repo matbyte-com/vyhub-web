@@ -17,16 +17,12 @@
 </template>
 
 <script>
-import GenForm from '@/components/GenForm.vue';
 import AuthorizationSettingsForm from '@/forms/AuthorizationSettingsForm';
 import EventBus from '@/services/EventBus';
 import openapi from '../../api/openapi';
-import SettingTitle from './SettingTitle.vue';
 import config from '../../config';
 
 export default {
-  name: 'Discord.vue',
-  components: { GenForm, SettingTitle },
   data() {
     return {
       AuthorizationSettingsFormSchema: AuthorizationSettingsForm,

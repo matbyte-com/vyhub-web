@@ -29,12 +29,12 @@ const routes = [
     path: '/user',
     name: 'Dashboard',
     meta: { title: i18n.global.t('_pageTitle.dashboard'), requiresAuth: true },
-    component: () => import('../views/Redirect/Dashboard.vue'),
+    component: () => import('../views/Redirect/DashboardRedirect.vue'),
   },
   {
     path: '/user/:id/:component?',
     name: 'UserDashboard',
-    component: () => import('../views/Dashboard.vue'),
+    component: () => import('../views/DashboardView.vue'),
     meta: { requiresAuth: false },
   },
   {
@@ -46,7 +46,7 @@ const routes = [
   {
     path: '/settings/:component?',
     name: 'Settings',
-    component: () => import('@/views/Settings.vue'),
+    component: () => import('@/views/SettingsView.vue'),
     meta: {
       requiresAuth: true,
       title: i18n.global.t('_pageTitle.settings'),
@@ -58,13 +58,13 @@ const routes = [
     path: '/bans/:banId?',
     name: 'Bans',
     meta: { title: i18n.global.t('_pageTitle.bans') },
-    component: () => import('@/views/Ban.vue'),
+    component: () => import('@/views/BanView.vue'),
   },
   {
     path: '/warnings/:warningId?',
     name: 'Warnings',
     meta: { title: i18n.global.t('_pageTitle.warnings') },
-    component: () => import('@/views/Warning.vue'),
+    component: () => import('@/views/WarningView.vue'),
   },
   {
     path: '/shop',
@@ -172,7 +172,7 @@ const routes = [
     path: '/server-dashboard/:id',
     name: 'ServerDashboard',
     meta: { title: i18n.global.t('_pageTitle.serverDashboard') },
-    component: () => import('../views/ServerDashboard.vue'),
+    component: () => import('../views/ServerDashboardView.vue'),
   },
   {
     path: '/faq',
