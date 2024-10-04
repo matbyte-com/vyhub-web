@@ -14,7 +14,10 @@
       ref="userMembershipEditDialog"
       @submit="fetchData"
     />
-    <v-tabs grow>
+    <v-tabs
+      v-model="tab"
+      grow
+    >
       <v-tab>
         <v-icon start>
           mdi-account-group
@@ -33,7 +36,10 @@
         </v-icon>
         {{ $t('properties') }}
       </v-tab>
-      <v-tab-item>
+    </v-tabs>
+
+    <v-tabs-window v-model="tab">
+      <v-tabs-window-item>
         <v-card
           v-if="dataFetched >= 2"
           class="card-rounded"
@@ -57,11 +63,12 @@
                       {{ bundle.name }}
                     </td>
                     <td>
+                      <!-- TODO CHeck whether this is still neded                         :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
+-->
                       <v-chip
                         v-for="group in getUserActiveGroupsByBundle(bundle)"
                         :key="group.id"
                         :color="group.color ? group.color : '#000000'"
-                        :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
                         variant="outlined"
                         class="ml-1 mb-1 a mt-1"
                         :class="checkGroups(group)"
@@ -90,15 +97,14 @@
             </v-btn>
           </v-card-text>
         </v-card>
-      </v-tab-item>
-      <v-tab-item>
+      </v-tabs-window-item>
+      <v-tabs-window-item>
         <v-card>
           <v-data-table
             :headers="computedHeaders"
             :items="computedMemberships"
             :items-per-page="10"
-            :sort-by="membershipSortBy"
-            :sort-desc="membershipSortDesc"
+            :sort-by="[{ key: 'begin', order: 'desc' }]"
           >
             <template #item.color-status="{ item }">
               <v-sheet
@@ -109,9 +115,10 @@
               />
             </template>
             <template #item.group.name="{ item }">
+              <!-- Check whether this is needed TODO                :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
+  -->
               <v-chip
                 :color="item.group.color ? item.group.color : '#000000'"
-                :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
                 variant="outlined"
                 class="ml-1 mb-1 a"
               >
@@ -149,8 +156,8 @@
             <template #footer.prepend>
               <v-checkbox
                 v-model="showPassedMemberships"
-                dense
-                class="mb-2"
+                density="compact"
+                class="mb-1"
                 hide-details="auto"
                 :label="$t('_membership.labels.showInactive')"
               />
@@ -170,8 +177,8 @@
             </v-btn>
           </v-card-text>
         </v-card>
-      </v-tab-item>
-      <v-tab-item>
+      </v-tabs-window-item>
+      <v-tabs-window-item>
         <v-card
           class="card-rounded"
           flat
@@ -197,26 +204,23 @@
             </span>
           </v-card-text>
         </v-card>
-      </v-tab-item>
-    </v-tabs>
+      </v-tabs-window-item>
+    </v-tabs-window>
   </v-card>
 </template>
 
 <script>
-import DialogForm from '@/components/DialogForm.vue';
 import UserMembershipAddForm from '@/forms/UserMembershipAddForm';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
-import MembershipEditDialog from './MembershipEditDialog.vue';
 
 export default {
-  name: 'Groups',
-  components: { MembershipEditDialog, DialogForm },
   props: {
     user: Object,
   },
   data() {
     return {
+      tab: null,
       dataFetched: 0,
       activeProps: [],
       activeGroups: [],
@@ -226,18 +230,16 @@ export default {
       props: [],
       serverBundles: null,
       groupTableHeaders: [
-        { value: 'color-status', sortable: false, width: '1px' },
-        { text: this.$t('groupname'), align: 'start', value: 'group.name' },
-        { text: this.$t('bundle'), value: 'serverbundle.name' },
-        { text: this.$t('begin'), value: 'begin' },
-        { text: this.$t('end'), value: 'end' },
+        { key: 'color-status', sortable: false, width: '1px' },
+        { title: this.$t('groupname'), align: 'start', key: 'group.name' },
+        { title: this.$t('bundle'), key: 'serverbundle.name' },
+        { title: this.$t('begin'), key: 'begin' },
+        { title: this.$t('end'), key: 'end' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'right',
         },
       ],
       userMembershipAddForm: UserMembershipAddForm,
-      membershipSortBy: 'begin',
-      membershipSortDesc: true,
       showPassedMemberships: false,
     };
   },
@@ -249,7 +251,7 @@ export default {
       if (this.$checkProp('user_edit')) {
         return this.groupTableHeaders;
       }
-      return this.groupTableHeaders.filter((h) => h.value !== 'actions');
+      return this.groupTableHeaders.filter((h) => h.key !== 'actions');
     },
     computedMemberships() {
       if (this.showPassedMemberships === true) {
@@ -269,7 +271,7 @@ export default {
   methods: {
     /**
      * resetActives, setActiveProps, setActiveGroups, checkGroups
-     * and Checkprops are used for highliting the hovered Groups or Props
+     * and Checkprops are used for highlighting the hovered Groups or Props
      */
     resetActives() {
       this.activeProps = [];

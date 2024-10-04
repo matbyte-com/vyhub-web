@@ -9,22 +9,26 @@
         class="my-1"
       >
         <v-hover v-if="activeUser != null">
-          <template #default="{ hover }">
+          <template #default="{ isHovering, props }">
             <v-fade-transition mode="out-in">
               <v-avatar
+                v-bind="props"
                 :key="activeUser.id"
                 class="ma-1"
-                height="200px"
-                width="200px"
+                size="200px"
               >
                 <v-img :src="activeUser.avatar" />
                 <v-fade-transition>
                   <v-overlay
-                    v-if="hover"
-                    absolute
+                    :model-value="!!isHovering"
+                    contained
+                    class="d-flex justify-center align-center"
                   >
-                    <p>{{ activeUser.type }} </p>
+                    <p class="text-h6 text-white">
+                      {{ activeUser.type }}
+                    </p>
                     <UserLink
+                      class="mt-2"
                       :disabled-link="true"
                       :outline="false"
                       :user="activeUser"
@@ -43,10 +47,9 @@
       <v-alert
         v-if="user.admin"
         density="compact"
-        text
         color="success"
         variant="outlined"
-        class="font-weight-bold mt-3"
+        class="font-weight-bold mt-3 mb-3"
         width="100%"
       >
         <span class="d-flex align-center justify-space-between">
@@ -65,14 +68,12 @@
           <span class="justify-end">
             <v-btn
               v-if="$store.getters.user && $store.getters.user.admin"
-              icon
+              icon="mdi-close-circle"
+              variant="flat"
               color="error"
               size="x-small"
-              class="justify-end"
               @click="$refs.adminDeleteConfirmationDialog.show()"
-            >
-              <v-icon>mdi-close-circle</v-icon>
-            </v-btn>
+            />
           </span>
         </span>
       </v-alert>
@@ -88,16 +89,13 @@
 </template>
 
 <script>
-import UserLink from '@/components/UserLink.vue';
-import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import openapi from '@/api/openapi';
 
 export default {
-  name: 'ProfilePicture.vue',
-  components: { ConfirmationDialog, UserLink },
   props: {
     user: Object,
   },
+emits: ['user-updated'],
   data() {
     return {
       userNum: 0,

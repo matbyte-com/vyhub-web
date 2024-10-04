@@ -7,7 +7,6 @@
     <v-tabs
       bg-color="primary"
       center-active
-      dark
     >
       <v-tab
         v-for="def in accumulatedDefinitions"
@@ -32,11 +31,8 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
-import DashboardAccumulatedAttributesChart from '@/components/Charts/DashboardAccumulatedAttributesChart.vue';
 
 export default {
-  name: 'AttributeGraph',
-  components: { DashboardAccumulatedAttributesChart },
   props: {
     user: Object,
     bundle: {

@@ -19,10 +19,8 @@
 </template>
 
 <script>
-import CommentsTable from '@/components/Comments/CommentsTable.vue';
 
 export default {
-  components: { CommentsTable },
   props: {
     user: Object,
     readOnly: {

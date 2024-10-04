@@ -62,7 +62,6 @@ import openapi from '@/api/openapi';
 import TransactionAddForm from '@/forms/TransactionAddForm';
 
 export default {
-  name: 'CreditHistory',
   props: {
     user: {
       type: Object,
@@ -73,10 +72,10 @@ export default {
     return {
       account: null,
       headers: [
-        { text: this.$t('date'), value: 'date' },
-        { text: this.$t('amount'), value: 'amount' },
-        { text: this.$t('author'), value: 'author' },
-        { text: this.$t('description'), value: 'description' },
+        { title: this.$t('date'), key: 'date' },
+        { title: this.$t('amount'), key: 'amount' },
+        { title: this.$t('author'), key: 'author' },
+        { title: this.$t('description'), key: 'description' },
       ],
       transactionAddSchema: TransactionAddForm,
     };

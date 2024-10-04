@@ -4,7 +4,7 @@
       v-if="!disabledLink && !simple"
       :small="small"
       :to="{ name: 'UserDashboard', params: {id: user.id}}"
-      :variant="isOutlined ? 'outlined' : undefined"
+      :variant="isOutlined ? 'outlined' : 'flat'"
       :color="color"
     >
       <v-icon size="small">mdi-account</v-icon>
@@ -13,7 +13,7 @@
     <v-chip
       v-if="disabledLink && !simple"
       :small="small"
-      :variant="outline ? 'outlined' : undefined"
+      :variant="outline ? 'outlined' : 'flat'"
       :color="color"
     >
       <v-icon size="small">mdi-account</v-icon>
@@ -28,7 +28,6 @@
 
 <script>
 export default {
-  name: 'UserLink',
   props: {
     user: Object,
     outline: {

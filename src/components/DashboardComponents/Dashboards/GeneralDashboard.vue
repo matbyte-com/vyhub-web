@@ -91,7 +91,10 @@
                   flat
                   class="card-rounded"
                 >
-                  <v-tabs grow>
+                  <v-tabs
+                    v-model="tabs"
+                    grow
+                  >
                     <v-tab
                       v-if="$checkProp('user_comment_show') || isCurrentUser"
                     >
@@ -106,18 +109,20 @@
                       </v-icon>
                       {{ $t('logs') }}
                     </v-tab>
-                    <v-tabs-window
+                  </v-tabs>
+                  <v-tabs-window v-model="tabs">
+                    <v-tabs-window-item
                       v-if="$checkProp('user_comment_show') || isCurrentUser"
                     >
                       <UserComments
                         :read-only="isCurrentUser && !$checkProp('user_comment_show')"
                         :user="user"
                       />
-                    </v-tabs-window>
-                    <v-tabs-window v-if="$checkProp('user_log_show')">
+                    </v-tabs-window-item>
+                    <v-tabs-window-item v-if="$checkProp('user_log_show')">
                       <UserLogEntries :user="user" />
-                    </v-tabs-window>
-                  </v-tabs>
+                    </v-tabs-window-item>
+                  </v-tabs-window>
                 </v-card>
               </v-col>
             </v-row>
@@ -137,6 +142,7 @@ export default {
   emits: ['user-updated'],
   data() {
     return {
+      tabs: null,
       isCurrentUser: false,
     };
   },

@@ -50,16 +50,9 @@
 </template>
 
 <script>
-import UserLink from '@/components/UserLink.vue';
 import openapi from '@/api/openapi';
-import DataTable from '@/components/DataTable.vue';
 
 export default {
-  name: 'LogTable',
-  components: {
-    DataTable,
-    UserLink,
-  },
   props: {
     type: String,
     objId: String,
@@ -78,14 +71,14 @@ export default {
   computed: {
     headers() {
       const headers = [
-        { text: this.$t('author'), value: 'author' },
-        { text: this.$t('message'), value: 'message' },
-        { text: this.$t('date'), value: 'created_on' },
+        { title: this.$t('author'), key: 'author' },
+        { title: this.$t('message'), key: 'message' },
+        { title: this.$t('date'), key: 'created_on' },
       ];
 
       if (this.showCategory) {
         headers.push(
-          { text: this.$t('type'), value: 'category', sortable: false },
+          { title: this.$t('type'), key: 'category', sortable: false },
         );
       }
 

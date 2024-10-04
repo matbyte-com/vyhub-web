@@ -3,14 +3,19 @@
     class="vh-dashboard-packets card-rounded"
     flat
   >
-    <v-tabs grow>
+    <v-tabs
+      v-model="tabs"
+      grow
+    >
       <v-tab>
         <v-icon start>
           mdi-gift-open
         </v-icon>
         {{ $t('packets') }}
       </v-tab>
-      <v-tab-item>
+    </v-tabs>
+    <v-tabs-window>
+      <v-tabs-window-item>
         <v-card
           class="card-rounded"
           flat
@@ -65,8 +70,8 @@
             </DataIterator>
           </v-card-text>
         </v-card>
-      </v-tab-item>
-    </v-tabs>
+      </v-tabs-window-item>
+    </v-tabs-window>
 
     <Dialog
       v-model="packetDetailShown"
@@ -99,21 +104,14 @@
 
 <script>
 import openapi from '@/api/openapi';
-import PacketImage from '@/components/ShopComponents/PacketImage.vue';
-import DataIterator from '../DataIterator.vue';
-import Dialog from '../Dialog.vue';
-import BoolIcon from '../BoolIcon.vue';
 
 export default {
-  name: 'Packets.vue',
-  components: {
-    PacketImage, BoolIcon, DataIterator, Dialog,
-  },
   props: {
     user: Object,
   },
   data() {
     return {
+      tabs: null,
       userPackets: [],
       currentUserPacket: null,
     };

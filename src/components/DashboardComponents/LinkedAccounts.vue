@@ -58,10 +58,12 @@
                   :key="acc.id"
                   class="mb-2"
                   border
+                  variant="outlined"
+                  flat
                 >
                   <v-card-title class="pb-0">
                     <v-card
-                      :href="openExternalProfileLink(acc.type, acc.identifier)"
+                      :href="openExternalProfileLink(acc.raw.type, acc.raw.identifier)"
                       target="_blank"
                       width="100%"
                       flat
@@ -75,17 +77,17 @@
                                 class="mr-2"
                                 v-bind="props"
                               >
-                                {{ userTypeIcons[acc.type] }}
+                                {{ userTypeIcons[acc.raw.type] }}
                               </v-icon>
-                              {{ acc.username }}
+                              {{ acc.raw.username }}
                             </div>
                           </template>
-                          <span>{{ $t(`_user.type.${acc.type}.name`).toUpperCase() }}</span>
+                          <span>{{ $t(`_user.type.${acc.raw.type}.name`).toUpperCase() }}</span>
                         </v-tooltip>
                         <div>
-                          <v-avatar v-if="acc.type !== 'TEAMSPEAK3'">
+                          <v-avatar v-if="acc.raw.type !== 'TEAMSPEAK3'">
                             <v-img
-                              :src="acc.avatar"
+                              :src="acc.raw.avatar"
                               alt="avatar"
                             />
                           </v-avatar>
@@ -96,29 +98,30 @@
                   <v-card-subtitle class="mt-0 pt-0">
                     <div
                       class="text-disabled text-caption"
-                      style="
-                 pointer-events: initial;"
+                      style="pointer-events: initial;"
                     >
-                      <span v-if="acc.activities && acc.activities.length > 0">
+                      <span v-if="acc.raw.activities && acc.raw.activities.length > 0">
                         {{ $t('_dashboard.labels.last_online') }}:
-                        {{ $i18n.d(new Date(acc.activities[0].last_online), 'short') }}
+                        {{ utils.formatDate(acc.raw.activities[0].last_online) }}
+                        <!--{{ $i18n.d(new Date(acc.activities[0].last_online), 'short') }}-->
                         <br>
                       </span>
                       {{ $t('_dashboard.labels.registered_on') }}:
-                      {{ $i18n.d(new Date(acc.registered_on), 'short') }}
+                      {{ utils.formatDate(acc.raw.registered_on) }}
+                      <!--{{ $i18n.d(new Date(acc.registered_on), 'short') }}-->
                       <br>
-                      {{ acc.identifier }}
-                      <span v-if="$t(`_user.type.${acc.type}.name`).toUpperCase() === 'STEAM'">
+                      {{ acc.raw.identifier }}
+                      <span v-if="$t(`_user.type.${acc.raw.type}.name`).toUpperCase() === 'STEAM'">
                         <br>
-                        {{ getSteamid32(acc.identifier) }}
+                        {{ getSteamid32(acc.raw.identifier) }}
                       </span>
                     </div>
                   </v-card-subtitle>
                   <v-divider />
                   <v-card-text
                     v-if="attributes != null
-                      && attributes[acc.id] != null
-                      && Object.keys(attributes[acc.id]).length > 0"
+                      && attributes[acc.raw.id] != null
+                      && Object.keys(attributes[acc.raw.id]).length > 0"
                   >
                     <v-row>
                       <v-col>
@@ -128,7 +131,7 @@
                         >
                           <tbody>
                             <tr
-                              v-for="(attrVal, attrName) in attributes[acc.id]"
+                              v-for="(attrVal, attrName) in attributes[acc.raw.id]"
                               :key="attrName"
                             >
                               <td>

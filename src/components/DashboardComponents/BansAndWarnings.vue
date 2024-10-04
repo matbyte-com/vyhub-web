@@ -41,7 +41,6 @@
 import openapi from '../../api/openapi';
 
 export default {
-  name: 'BansAndWarnings',
   props: {
     user: Object,
     bundle: {

@@ -33,11 +33,7 @@
 </template>
 
 <script>
-import LogTable from '../LogTable.vue';
-
 export default {
-  name: 'UserLogEntries',
-  components: { LogTable },
   props: { user: Object },
   data() {
     return {
