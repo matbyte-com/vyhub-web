@@ -38,7 +38,11 @@
       </v-row>
     </template>
     <template #footer.prepend>
-      <slot name="footer-right" />
+      <div class="mr-3">
+        <slot
+          name="footer-right"
+        />
+      </div>
     </template>
     <template
       v-for="(_, slot) of inheritSlots"
