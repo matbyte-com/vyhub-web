@@ -39,11 +39,9 @@
 
 <script>
 import FinanceReportForm from '@/forms/FinanceReportForm';
-import GenForm from '@/components/GenForm.vue';
 import openapi from '@/api/openapi';
 
 export default {
-  components: { GenForm },
   data() {
     return {
       financeReportForm: FinanceReportForm,

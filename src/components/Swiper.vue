@@ -25,9 +25,9 @@
           <v-spacer />
           <v-btn
             :disabled="isBeginning"
-            fab
+            icon="mdi-chevron-left"
             size="small"
-            variant="flat"
+            border
             @click="prev"
           ><v-icon>mdi-chevron-left</v-icon></v-btn>
           <v-spacer />
@@ -39,11 +39,11 @@
           <v-spacer />
           <v-btn
             :disabled="isEnd"
-            fab
+            icon="mdi-chevron-right"
             size="small"
-            variant="flat"
+            border
             @click="next"
-          ><v-icon>mdi-chevron-right</v-icon></v-btn>
+          />
           <v-spacer />
         </div>
       </span>
@@ -55,7 +55,6 @@
 export default {
   // TODO Swiper is responsive, but not during a live update of the breakpoint size
   //  -> Remount needed
-  name: 'Swiper',
   props: ['numberOfElements', 'perPageCustom'],
   data() {
     return {
@@ -72,25 +71,25 @@ export default {
       if (!this.numberOfElements) return 0;
       let res = 1;
       if (this.$vuetify.display.xs) {
-         
+
         res = this.perPageCustom[0];
         res += 0.15;
       }
       if (this.$vuetify.display.sm) {
-         
+
         res = this.perPageCustom[1];
         res += 0.15;
       }
       if (this.$vuetify.display.md) {
-         
+
         res = this.perPageCustom[2];
       }
       if (this.$vuetify.display.lg) {
-         
+
         res = this.perPageCustom[3];
       }
       if (this.$vuetify.display.xl) {
-         
+
         res = this.perPageCustom[4];
       }
       if (res > this.numberOfElements) {

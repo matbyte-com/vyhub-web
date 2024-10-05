@@ -418,21 +418,17 @@
               :style="couponStyle"
               :hide-details="couponError == null"
               :error-messages="couponError"
+              prepend-inner-icon="mdi-ticket-percent"
               @keydown.enter="applyDiscount"
             >
-              <slot name="prepend-inner">
-                <v-icon>
-                  mdi-ticket-percent
-                </v-icon>
-              </slot>
-              <slot name="append">
+              <template #append-inner>
                 <v-icon
                   color="primary"
                   @click="applyDiscount"
                 >
                   mdi-check
                 </v-icon>
-              </slot>
+              </template>
             </v-text-field>
           </v-card-actions>
         </v-card>
@@ -499,7 +495,7 @@
         >
           <v-skeleton-loader
             class="mb-3"
-            type="card-heading, list-item-avatar, actions"
+            type="heading, list-item-avatar, actions"
           />
         </v-card>
       </v-col>
@@ -535,7 +531,7 @@
       icon="mdi-map-marker"
       :title="$t('_address.labels.selectAddress')"
     >
-      <template>
+      <template #default>
         <div class="mt-2">
           <div v-if="addresses != null && addresses.length > 0">
             <v-row dense>
@@ -592,35 +588,16 @@
 
 <script>
 import AddressForm from '@/forms/AddressForm';
-import DialogForm from '@/components/DialogForm.vue';
 import ShopService from '@/services/ShopService';
-import Address from '@/components/Address.vue';
-import CartPacket from '@/components/ShopComponents/CartPacket.vue';
-import CartTotal from '@/components/ShopComponents/CartTotal.vue';
-import Dialog from '@/components/Dialog.vue';
-import Email from '@/components/PersonalSettings/Email.vue';
 import AuthService from '@/services/AuthService';
-import RecommendedPacketsCart from '@/components/ShopComponents/RecommendedPacketsCart.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapiCached from '@/api/openapiCached';
 import EventBus from '@/services/EventBus';
 import UserService from '@/services/UserService';
 import openapi from '../../api/openapi';
-import CancelPurchaseConfirmationDialog
-  from '../../components/ShopComponents/CancelPurchaseConfirmationDialog.vue';
+
+const images = import.meta.glob('@/assets/img/gateways/*.png', {eager: true});
 
 export default {
-  components: {
-    PageTitleFlat,
-    RecommendedPacketsCart,
-    CancelPurchaseConfirmationDialog,
-    Email,
-    Dialog,
-    CartTotal,
-    CartPacket,
-    Address,
-    DialogForm,
-  },
   data() {
     return {
       cartPackets: null,
@@ -755,7 +732,7 @@ export default {
         });
       } else {
         // Different Endpoint when Purchase is available
-        api.shop_getPurchaseGateways({ uuid: this.openPurchase.id }).then((rsp) => {
+        api.shop_getPurchaseGateways({uuid: this.openPurchase.id}).then((rsp) => {
           this.gateways = rsp.data;
           if (rsp.data.length > 0 && this.selectedGateway == null) {
             this.selectedGateway = rsp.data[0].id;
@@ -780,7 +757,7 @@ export default {
     async queryAddresses() {
       const api = await openapi;
 
-      api.user_getAddresses({ uuid: this.$store.getters.user.id }).then((rsp) => {
+      api.user_getAddresses({uuid: this.$store.getters.user.id}).then((rsp) => {
         this.addresses = rsp.data;
 
         if (this.$store.getters.address == null && this.addresses.length > 0) {
@@ -794,7 +771,7 @@ export default {
     async removeCartPacket(cartPacketId) {
       const api = await openapi;
 
-      api.shop_removePacketFromCart({ uuid: cartPacketId }).then(() => {
+      api.shop_removePacketFromCart({uuid: cartPacketId}).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.removeSuccess'),
@@ -890,7 +867,7 @@ export default {
         return;
       }
       // Create and start Purchase
-      api.shop_startCheckout(undefined, { address_id: this.currentAddress.id }).then((rsp) => {
+      api.shop_startCheckout(undefined, {address_id: this.currentAddress.id}).then((rsp) => {
         this.openPurchase = rsp.data;
         // this.$refs.checkoutDialog.show(purchase);
         this.startPayment();
@@ -911,11 +888,11 @@ export default {
         purchase_id: this.openPurchase.id,
         payment_gateway_id: this.selectedGateway,
       }).then((rsp) => {
-        const { action, debit } = rsp.data;
+        const {action, debit} = rsp.data;
         console.log(action, debit);
 
         ShopService.executeAction(debit, action).catch((err) => {
-          this.errorMessage = this.$t('_shop.messages.paymentActionFailed', { message: err });
+          this.errorMessage = this.$t('_shop.messages.paymentActionFailed', {message: err});
         });
       }).catch((err) => {
         this.redirectDialog = false;
@@ -926,8 +903,8 @@ export default {
     },
     async cancelPurchase(purchase) {
       (await openapi).shop_editPurchase(
-        { uuid: purchase.id },
-        { status: 'CANCELLED' },
+        {uuid: purchase.id},
+        {status: 'CANCELLED'},
       ).then(() => {
         this.fetchData();
         this.$refs.cancelPurchaseConfirmationDialog.closeAndReset();
@@ -952,7 +929,7 @@ export default {
         return;
       }
 
-      api.shop_applyDiscount({ code_or_uuid: code }).then((rsp) => {
+      api.shop_applyDiscount({code_or_uuid: code}).then((rsp) => {
         this.couponCode = null;
         this.fetchData();
 
@@ -974,7 +951,7 @@ export default {
     async removeDiscount(id) {
       const api = await openapi;
 
-      api.shop_removeDiscount({ code_or_uuid: id }).then(() => {
+      api.shop_removeDiscount({code_or_uuid: id}).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_shop.messages.couponRemoveSuccess'),
@@ -989,12 +966,13 @@ export default {
     getImgUrl(gateway) {
       // Return URL, when set, else return default
       if (gateway.image_url) return gateway.image_url;
-      const images = require.context('@/assets/img/gateways/', false, /\.png$/);
 
+      // Extract the file name based on the gateway type
+      const imgPath = `../../assets/img/gateways/${gateway.type}.png`;
       try {
-        return images(`./${gateway.type}.png`);
+        return new URL(imgPath, import.meta.url).href;
       } catch (e) {
-        return null;
+        return null; // Return null if the image doesn't exist
       }
     },
   },

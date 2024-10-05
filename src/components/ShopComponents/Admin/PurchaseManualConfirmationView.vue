@@ -13,7 +13,7 @@
         <v-checkbox
           v-model="showApprovedDebits"
           :hide-details="true"
-          dense
+          density="compact"
           :label="$t('_purchases.labels.showApprovedDebits')"
           class="mr-3 align-self-center mt-0 pt-0"
           @update:model-value="fetchData"
@@ -90,13 +90,9 @@
 </template>
 
 <script>
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import openapi from '@/api/openapi';
-import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 
 export default {
-  name: 'Paysafecard',
-  components: { ConfirmationDialog, PaginatedDataTable },
   data() {
     return {
       totalItems: 0,
@@ -113,7 +109,7 @@ export default {
       ],
     };
   },
-  beforeMount() {
+  mounted() {
     this.fetchData();
   },
   methods: {

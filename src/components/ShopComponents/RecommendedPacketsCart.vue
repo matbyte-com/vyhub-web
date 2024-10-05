@@ -22,6 +22,7 @@
           <v-card
             class="card-rounded d-block"
             height="90px"
+
             width="100%"
             max-width="500px"
             @click="selectedPacket = p; $refs.detailDialog.show()"
@@ -120,14 +121,10 @@
 
 <script>
 import openapi from '@/api/openapi';
-import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
 import ShopService from '@/services/ShopService';
-import Swiper from '@/components/Swiper.vue';
-import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
-  name: 'RecommendedPackets',
-  components: { PacketImage, Swiper, PacketDetailDialog },
+emits: ['cartChanged'],
   data() {
     return {
       recommendedPackets: null,

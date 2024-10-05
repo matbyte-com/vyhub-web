@@ -201,34 +201,23 @@
 </template>
 
 <script>
-import DataTable from '@/components/DataTable.vue';
-import DialogForm from '@/components/DialogForm.vue';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import BoolIcon from '@/components/BoolIcon.vue';
 import DiscountForm from '@//forms/DiscountForm';
 import openapi from '../../../api/openapi';
 
 export default {
-  name: 'Discounts',
-  components: {
-    BoolIcon,
-    DeleteConfirmationDialog,
-    DialogForm,
-    DataTable,
-  },
   data() {
     return {
       headers: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('code'), value: 'code' },
-        { text: this.$t('packets'), value: 'all_packets' },
-        { text: this.$t('begin'), value: 'begin' },
-        { text: this.$t('end'), value: 'end' },
-        { text: this.$t('enabled'), value: 'enabled' },
-        { text: this.$t('percentage'), value: 'percentage' },
-        { text: this.$t('maxUsages'), value: 'max_usages' },
+        { title: this.$t('name'), key: 'name' },
+        { title: this.$t('code'), key: 'code' },
+        { title: this.$t('packets'), key: 'all_packets' },
+        { title: this.$t('begin'), key: 'begin' },
+        { title: this.$t('end'), key: 'end' },
+        { title: this.$t('enabled'), key: 'enabled' },
+        { title: this.$t('percentage'), key: 'percentage' },
+        { title: this.$t('maxUsages'), key: 'max_usages' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'right',
         },
       ],
       discounts: null,
@@ -244,7 +233,7 @@ export default {
       return false;
     },
   },
-  beforeMount() {
+  mounted() {
     this.fetchData();
   },
   methods: {

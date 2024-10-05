@@ -35,13 +35,10 @@
             class="d-flex align-center"
           >
             <v-btn
-              icon
+              icon="mdi-eye"
+              variant="text"
               class="ml-1"
-            >
-              <v-icon>
-                mdi-eye
-              </v-icon>
-            </v-btn>
+            />
           </v-col>
         </v-row>
       </div>
@@ -58,13 +55,10 @@
           </v-col>
           <v-col cols="2">
             <v-btn
-              icon
+              icon="mdi-eye"
+              variant="text"
               class="ml-1"
-            >
-              <v-icon>
-                mdi-eye
-              </v-icon>
-            </v-btn>
+            />
           </v-col>
         </v-row>
       </div>
@@ -74,7 +68,6 @@
 
 <script>
 export default {
-  name: 'Address',
   props: {
     address: Object,
     hidden: {

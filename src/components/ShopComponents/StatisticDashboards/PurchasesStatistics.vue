@@ -7,7 +7,7 @@
         lg="6"
       >
         <v-card class="mt-6">
-          <v-card-title>
+          <v-card-title class="d-flex">
             <v-icon start>
               mdi-counter
             </v-icon>
@@ -35,7 +35,7 @@
         lg="6"
       >
         <v-card class="mt-6">
-          <v-card-title>
+          <v-card-title class="d-flex">
             <v-icon start>
               mdi-counter
             </v-icon>
@@ -65,13 +65,9 @@
 </template>
 
 <script>
-import PurchaseNumberChart from '@/components/Charts/PurchaseNumberChart.vue';
 import openapi from '@/api/openapi';
-import PurchaseTimeHeatmap from '@/components/Charts/PurchaseTimeHeatmap.vue';
 
 export default {
-  name: 'Purchases',
-  components: { PurchaseTimeHeatmap, PurchaseNumberChart },
   props: ['timeRange', 'currency', 'intervalItems'],
   data() {
     return {

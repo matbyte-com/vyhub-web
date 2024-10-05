@@ -5,7 +5,7 @@
       lg="8"
     >
       <v-card v-if="debitStats != null">
-        <v-card-title>
+        <v-card-title class="d-flex">
           <v-icon start>
             mdi-currency-usd
           </v-icon>

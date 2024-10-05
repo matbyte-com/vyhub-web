@@ -25,14 +25,14 @@
         </div>
       </v-col>
     </v-row>
-    <v-row
+    <div
       v-if="price.credits != null"
-      align="center"
+      class="d-flex align-center"
     >
       <v-divider />
       <span class="mr-3 ml-3">{{ $t('or') }}</span>
       <v-divider />
-    </v-row>
+    </div>
     <v-row v-if="price.credits != null">
       <v-col>
         <div class="font-weight-bold">
@@ -58,7 +58,6 @@
 
 <script>
 export default {
-  name: 'CartTotal',
   props: {
     price: Object,
   },

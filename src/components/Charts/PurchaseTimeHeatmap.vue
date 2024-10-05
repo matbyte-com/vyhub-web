@@ -12,7 +12,6 @@
 
 <script>
 export default {
-  name: 'PurchaseTimeHeatmap',
   props: {
     data: Array,
   },
@@ -20,7 +19,7 @@ export default {
     return {
       options: {
         theme: {
-          mode: (this.$vuetify.theme.current.dark ? 'dark' : 'light'),
+          mode: '',
         },
         colors: ['#008FFB'],
         chart: {
@@ -110,6 +109,9 @@ export default {
 
       return apexSeries.reverse();
     },
+  },
+  mounted() {
+    this.options.theme.mode = this.$vuetify.theme.current.dark ? 'dark' : 'light';
   },
   methods: {
     getLocalizedWeekday(day) {

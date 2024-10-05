@@ -13,14 +13,14 @@
         <v-row>
           <v-col class="d-flex align-center">
             <v-menu
-              offset-y
+              location="bottom"
               :close-on-content-click="false"
             >
               <template #activator="{ props }">
                 <v-btn
                   variant="outlined"
                   color="primary"
-                   
+
                   v-bind="props"
                 >
                   <v-icon start>
@@ -34,7 +34,7 @@
                 :key="index"
                 v-model="selectedStatus"
                 class="ml-2, mr-2"
-                dense
+                density="compact"
                 hide-details
                 :label="$t(`_shop.purchaseStatus.${st.toLowerCase()}`)"
                 :value="st"
@@ -98,7 +98,7 @@
       :title="$t('_purchases.labels.details')"
       :max-width="700"
     >
-      <template>
+      <template #default>
         <div v-if="currentPurchase != null">
           <v-row>
             <v-col>
@@ -108,46 +108,46 @@
               <v-list density="compact">
                 <v-list-item>
                   {{ $t('id') }}
-                    
-                    
+
+
                   {{ currentPurchase.id }}
                 </v-list-item>
                 <v-list-item>
                   {{ $t('user') }}
-                    
-                    
+
+
                   <span><UserLink :user="currentPurchase.user" /></span>
                 </v-list-item>
                 <v-list-item>
                   {{ $t('date') }}
-                    
-                    
+
+
                   {{ new Date(currentPurchase.date).toLocaleString() }}
                 </v-list-item>
                 <v-list-item>
                   {{ $t('status') }}
-                    
-                    
+
+
                   <PurchaseStatusChip :status="currentPurchase.status" />
                 </v-list-item>
                 <v-list-item v-if="currentPurchase.credits_used">
                   {{ $store.getters.shopConfig.credits_display_title }}
-                    
-                    
+
+
                   {{ currentPurchase.credits }}
                 </v-list-item>
                 <v-list-item v-if="!currentPurchase.credits_used">
                   {{ $t('_purchases.labels.amountNet') }}
-                    
-                    
+
+
                   {{ currentPurchase.amount_net
                     .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                   {{ currentPurchase.currency.symbol }}
                 </v-list-item>
                 <v-list-item v-if="!currentPurchase.credits_used">
                   {{ $t('_purchases.labels.amountTotal') }}
-                    
-                    
+
+
                   {{ currentPurchase.amount_total
                     .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
                   {{ currentPurchase.currency.symbol }}
@@ -164,7 +164,7 @@
 
               <div>
                 <v-table>
-                  <template>
+                  <template #default>
                     <thead>
                       <tr>
                         <th>
@@ -224,7 +224,7 @@
                 {{ $t('payments') }}
               </div>
               <v-table>
-                <template>
+                <template #default>
                   <thead>
                     <tr>
                       <th>
@@ -384,36 +384,21 @@
 </template>
 
 <script>
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import openapi from '../../../api/openapi';
-import UserLink from '../../UserLink.vue';
-import Dialog from '../../Dialog.vue';
-import PurchaseStatusChip from '../PurchaseStatusChip.vue';
-import ConfirmationDialog from '../../ConfirmationDialog.vue';
 
 export default {
-  name: 'AllPurchases',
-  components: {
-    DeleteConfirmationDialog,
-    PaginatedDataTable,
-    ConfirmationDialog,
-    PurchaseStatusChip,
-    Dialog,
-    UserLink,
-  },
   data() {
     return {
       headers: [
-        { text: this.$t('id'), value: 'id', sortable: false },
-        { text: this.$t('status'), value: 'status', sortable: false },
-        { text: this.$t('date'), value: 'date' },
-        { text: this.$t('user'), value: 'user', sortable: false },
-        { text: this.$t('_purchases.labels.amountNet'), value: 'amount_net' },
-        { text: this.$t('_purchases.labels.amountTotal'), value: 'amount_total' },
-        { text: this.$store.getters.shopConfig.credits_display_title, value: 'credits' },
+        { title: this.$t('id'), key: 'id', sortable: false },
+        { title: this.$t('status'), key: 'status', sortable: false },
+        { title: this.$t('date'), key: 'date' },
+        { title: this.$t('user'), key: 'user', sortable: false },
+        { title: this.$t('_purchases.labels.amountNet'), key: 'amount_net' },
+        { title: this.$t('_purchases.labels.amountTotal'), key: 'amount_total' },
+        { title: this.$store.getters.shopConfig.credits_display_title, key: 'credits' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'right',
         },
       ],
       purchases: null,
@@ -442,7 +427,7 @@ export default {
       this.updateCurrentPurchase();
     },
   },
-  beforeMount() {
+  mounted() {
     this.updateCurrentPurchase();
     this.fetchData();
     this.queryAvailableStatus();

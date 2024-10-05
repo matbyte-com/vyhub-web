@@ -35,13 +35,13 @@
             class="card-rounded mt-3"
             flat
           >
-            <v-skeleton-loader type="card-heading" />
+            <v-skeleton-loader type="heading" />
           </v-card>
           <v-card
             class="card-rounded mt-3"
             flat
           >
-            <v-skeleton-loader type="card-heading" />
+            <v-skeleton-loader type="heading" />
           </v-card>
         </div>
         <v-card

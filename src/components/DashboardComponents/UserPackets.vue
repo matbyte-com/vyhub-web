@@ -27,6 +27,8 @@
               :show-page-selector="false"
             >
               <template #default="props">
+                <!-- TODO probably not working userPacket.raw.type...-->
+                {{ props }}
                 <v-row>
                   <v-col
                     v-for="userPacket in props.items"

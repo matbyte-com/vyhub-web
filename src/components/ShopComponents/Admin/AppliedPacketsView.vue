@@ -244,20 +244,20 @@ export default {
   data() {
     return {
       headers: [
-        { text: this.$t('name'), value: 'packet_title', sortable: false },
-        { text: this.$t('user'), value: 'user', sortable: false },
-        { text: this.$t('active'), value: 'active', sortable: false },
-        { text: this.$t('begin'), value: 'begin' },
-        { text: this.$t('end'), value: 'end' },
+        { title: this.$t('name'), key: 'packet_title', sortable: false },
+        { title: this.$t('user'), key: 'user', sortable: false },
+        { title: this.$t('active'), key: 'active', sortable: false },
+        { title: this.$t('begin'), key: 'begin' },
+        { title: this.$t('end'), key: 'end' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'right',
         },
       ],
       appliedRewardsHeaders: [
-        { text: this.$t('_purchases.labels.reward'), value: 'reward' },
-        { text: this.$t('status'), value: 'status' },
+        { title: this.$t('_purchases.labels.reward'), key: 'reward' },
+        { title: this.$t('status'), key: 'status' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'right',
         },
       ],
       appliedPackets: null,
@@ -284,7 +284,7 @@ export default {
       this.fetchData();
     },
   },
-  beforeMount() {
+  mounted() {
     this.fetchData();
   },
   methods: {

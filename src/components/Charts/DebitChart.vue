@@ -12,7 +12,6 @@
 
 <script>
 export default {
-  name: 'DebitChart',
   props: {
     data: Array,
     currency: Object,
@@ -21,7 +20,7 @@ export default {
     return {
       options: {
         theme: {
-          mode: (this.$vuetify.theme.current.dark ? 'dark' : 'light'),
+          mode: '',
         },
         chart: {
           id: 'debit-chart',
@@ -29,7 +28,7 @@ export default {
             autoScaleYaxis: true,
           },
         },
-        colors: [this.$vuetify.theme.current.primary],
+        colors: [],
         dataLabels: {
           enabled: false,
         },
@@ -84,6 +83,10 @@ export default {
       }];
     },
   },
+  mounted() {
+    this.options.colors = [this.$vuetify.theme.current.primary];
+    this.options.theme.mode = this.$vuetify.theme.current.dark ? 'dark' : 'light';
+  }
 };
 </script>
 

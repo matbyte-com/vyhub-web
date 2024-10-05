@@ -12,7 +12,6 @@
 
 <script>
 export default {
-  name: 'PurchaseNumberChart',
   props: {
     data: Array,
   },
@@ -20,7 +19,7 @@ export default {
     return {
       options: {
         theme: {
-          mode: (this.$vuetify.theme.current.dark ? 'dark' : 'light'),
+          mode: '',
         },
         chart: {
           id: 'debit-chart',
@@ -101,6 +100,9 @@ export default {
         },
       ];
     },
+  },
+  mounted() {
+    this.options.theme.mode = this.$vuetify.theme.current.dark ? 'dark' : 'light';
   },
 };
 </script>
