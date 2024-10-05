@@ -60,13 +60,13 @@
               <v-checkbox
                 v-model="showOnlyReadItems"
                 :hide-details="true"
-                dense
+                density="compact"
                 :label="$t('_notification.hideReadNotifications')"
                 class="mr-3 align-self-center mt-0 pt-0"
                 @update:model-value="fetchData"
               />
               <v-menu
-                offset-y
+                location="bottom"
                 :close-on-content-click="false"
               >
                 <template #activator="{ props }">
@@ -87,7 +87,7 @@
                   :key="index"
                   v-model="selectedCat"
                   class="ml-2, mr-2"
-                  dense
+                  density="compact"
                   hide-details
                   :label="$t(`_notification.type.${category.toLowerCase()}`)"
                   :value="category"
@@ -165,17 +165,10 @@
 </template>
 
 <script>
-import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import EventBus from '@/services/EventBus';
 import openapi from '@/api/openapi';
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
-  name: 'Notification.vue',
-  components: {
-    PageTitleFlat, PaginatedDataTable, ConfirmationDialog,
-  },
   data() {
     return {
       selectedCat: [],
@@ -238,11 +231,11 @@ export default {
         });
       });
     },
-    rowClick(item) {
-      if (!item.read) {
-        this.toggleReadStatus(item);
+    rowClick(event, row) {
+      if (!row.item.read) {
+        this.toggleReadStatus(row.item);
       }
-      if (item.link) this.$router.push({ name: item.link.name, params: { ...item.link.kwargs } });
+      if (row.item.link) this.$router.push({ name: row.item.link.name, params: { ...row.item.link.kwargs } });
     },
     async toggleReadStatus(item) {
       (await openapi).notification_markAsRead(null, { id: [item.id] }).then(() => {

@@ -1,11 +1,11 @@
 <template>
   <v-autocomplete
     ref="input"
+    v-model:search="search"
     :placeholder="searchClosed ? '' : $t('user')"
     prepend-inner-icon="mdi-magnify"
     class="expanding-search"
     hide-details="auto"
-    v-model:search="search"
     :class="{ 'closed' : searchClosed && !search }"
     variant="filled"
     density="compact"
@@ -18,8 +18,8 @@
     append-icon=""
     auto-select-first
     return-object
-    @focus="searchClosed = false"
     :custom-filter="searchFilter"
+    @focus="searchClosed = false"
     @blur="searchClosed = true;"
     @mousedown="searchClosed = false"
     @update:model-value="showUser"
@@ -33,14 +33,7 @@
           v-if="item.id !== 'advanced'"
           tile
         >
-          <v-list-item>
-            <v-list-item-avatar>
-              <img
-                :src="item.avatar"
-                alt="avatar"
-              >
-            </v-list-item-avatar>
-
+          <v-list-item :prepend-avatar="item.avatar">
             <v-list-item-title>
               <h2 class="d-flex align-center">
                 <v-icon start>

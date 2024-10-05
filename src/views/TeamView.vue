@@ -54,10 +54,10 @@
         class="text-center"
         cols="12"
       >
+        <!--    TODO check whether needed       :text-color="$vuetify.theme.current.dark ? 'black' : 'white'" -->
         <v-chip
           :color="group.color ? group.color : '#000000'"
           size="large"
-          :text-color="$vuetify.theme.current.dark ? 'black' : 'white'"
           label
         >
           <h2 class="display-h5">
@@ -88,9 +88,10 @@
             </v-avatar>
           </router-link>
           <div style="position: absolute; top: 92%; width: 100%; text-align: center;">
+            <!-- TODO check whether needed               :text-color="$vuetify.theme.current.dark ? 'black' : 'white'"
+ -->
             <v-chip
               :color="group.color ? group.color : '#000000'"
-              :text-color="$vuetify.theme.current.dark ? 'black' : 'white'"
             >
               {{ user.username }}
             </v-chip>
@@ -110,17 +111,11 @@
 </template>
 
 <script>
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../api/openapi';
 import DialogForm from '../components/DialogForm.vue';
 import TeamEditForm from '../forms/TeamEditForm';
 
 export default {
-  name: 'Team',
-  components: {
-    PageTitleFlat,
-    DialogForm,
-  },
   data() {
     return {
       tab: 0,
@@ -202,6 +197,9 @@ export default {
     },
   },
 };
+</script>
+
+<script setup lang="ts">
 </script>
 
 <style scoped>

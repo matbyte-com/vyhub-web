@@ -119,7 +119,7 @@ const routes = [
     path: '/notification',
     name: 'Notification',
     meta: { title: i18n.global.t('_pageTitle.notifications'), requiresAuth: true },
-    component: () => import('../views/Notification.vue'),
+    component: () => import('../views/NotificationView.vue'),
   },
   {
     path: '/notification/:id',
@@ -131,7 +131,7 @@ const routes = [
     path: '/log',
     name: 'Log',
     meta: { title: i18n.global.t('_pageTitle.log'), requiresAuth: true },
-    component: () => import('../views/Log.vue'),
+    component: () => import('../views/LogView.vue'),
   },
   {
     path: '/legal',
@@ -143,7 +143,7 @@ const routes = [
     path: '/ticket',
     name: 'Ticket',
     meta: { title: i18n.global.t('_pageTitle.ticket'), requiresAuth: true },
-    component: () => import('../views/Ticket.vue'),
+    component: () => import('../views/TicketView.vue'),
   },
   {
     path: '/ticket/:id',
@@ -173,7 +173,7 @@ const routes = [
     path: '/team',
     name: 'Team',
     meta: { title: i18n.global.t('_pageTitle.team') },
-    component: () => import('../views/Team.vue'),
+    component: () => import('../views/TeamView.vue'),
   },
   {
     path: '/server-dashboard/:id',
@@ -191,7 +191,7 @@ const routes = [
     path: '/search',
     name: 'Search',
     meta: { title: i18n.global.t('_pageTitle.search') },
-    component: () => import('../views/Search.vue'),
+    component: () => import('../views/SearchView.vue'),
   },
   {
     path: '/pathMatch(.*)*',

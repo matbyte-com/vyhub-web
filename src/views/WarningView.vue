@@ -40,7 +40,6 @@
           @reload="fetchData"
           @click:row="showDetails"
         >
-          <!-- TODO Row click does not work - and events do not show up in my browser extension to debug :(-->
           <template #header>
             <v-row>
               <v-col class="d-flex align-center">
@@ -136,7 +135,7 @@
                 variant="flat"
                 size="small"
                 color="error"
-                @click="showDetails(item)"
+                @click="showDetails(null, {item: item})"
               >
                 <v-icon start>
                   mdi-eye
@@ -401,10 +400,9 @@ export default {
         this.$refs.addWarningDialog.setError(err);
       });
     },
-    showDetails(item) {
-      console.log(item);
-      this.$router.push({ name: 'Warnings', params: { warningId: item.id } });
-      this.currentWarning = item;
+    showDetails(event, row) {
+      this.$router.push({ name: 'Warnings', params: { warningId: row.item.id } });
+      this.currentWarning = row.item;
       this.warningDetailShown = true;
     },
   },

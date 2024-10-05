@@ -103,20 +103,9 @@
 </template>
 
 <script>
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../api/openapi';
-import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
-import UserLink from '../components/UserLink.vue';
 
 export default {
-  name: 'Ticket.vue',
-  components: {
-    PageTitleFlat,
-    PaginatedDataTable,
-    ThreadAddDialog,
-    UserLink,
-  },
   data() {
     return {
       tickets: null,
@@ -186,8 +175,8 @@ export default {
 
       return `orange ${add}`;
     },
-    showTicket(item) {
-      this.$router.push({ name: 'TicketThread', params: { id: item.id } });
+    showTicket(event, row) {
+      this.$router.push({ name: 'TicketThread', params: { id: row.item.id } });
     },
   },
 };

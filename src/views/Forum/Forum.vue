@@ -83,7 +83,8 @@
                     link
                     :to="{ name: 'ForumTopic', params: { id: topic.id } }"
                   >
-                    <v-list-item-content class="pa-0 ma-0">
+                    <div class="pa-0 ma-0">
+                      <!-- TODO div above probably not needed anymore -->
                       <v-row
                         no-gutters
                         style="width: 100%"
@@ -226,7 +227,7 @@
                           </div>
                         </v-col>
                       </v-row>
-                    </v-list-item-content>
+                    </div>
                   </v-list-item>
                 </div>
               </v-list-group>

@@ -120,7 +120,7 @@
               variant="flat"
               size="small"
               color="error"
-              @click="showDetails(item)"
+              @click="showDetails(null, { item: item })"
             >
               <v-icon start>
                 mdi-eye
@@ -635,8 +635,8 @@ export default {
     showDeleteDialog() {
       this.$refs.deleteBanDialog.show(this.currentBan);
     },
-    showDetails(item) {
-      this.$router.push({ name: 'Bans', params: { banId: item.id } });
+    showDetails(event, row) {
+      this.$router.push({ name: 'Bans', params: { banId: row.item.id } });
     },
     showProtestBanDialog() {
       this.$refs.protestBanDialog.show(this.currentBan);

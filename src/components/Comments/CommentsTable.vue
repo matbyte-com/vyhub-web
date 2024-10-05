@@ -13,7 +13,7 @@
             class="mb-1"
             :style="`border-color: ${comment.color}; border-width: 0 0 0 10px; border-style: solid;`"
           >
-            <v-list-item-content class="pb-1">
+            <div class="pb-1">
               <div class="mb-2">
                 {{ comment.message }}
               </div>
@@ -40,7 +40,7 @@
                   </v-btn>
                 </div>
               </div>
-            </v-list-item-content>
+            </div>
           </v-list-item>
         </template>
         <template

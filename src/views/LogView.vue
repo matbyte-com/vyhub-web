@@ -23,20 +23,20 @@
           >
             <v-menu
               :close-on-content-click="false"
-              :nudge-right="40"
+              :offset="40"
               transition="scale-transition"
-              offset-y
+              location="bottom"
               min-width="auto"
             >
               <template #activator="{ props }">
                 <v-text-field
                   v-model="startDate"
+                  variant="underlined"
                   :label="$t('start')"
                   prepend-icon="mdi-calendar"
                   hide-details
                   readonly
                   class="ml-3"
-
                   v-bind="props"
                 />
               </template>
@@ -54,10 +54,10 @@
           >
             <v-menu
               :close-on-content-click="false"
-              :nudge-right="40"
+              :offset="40"
               transition="scale-transition"
-              offset-y
               min-width="auto"
+              location="bottom"
             >
               <template #activator="{ props }">
                 <v-text-field
@@ -66,8 +66,8 @@
                   prepend-icon="mdi-clock-time-four-outline"
                   hide-details
                   readonly
+                  variant="underlined"
                   class="ml-3"
-
                   v-bind="props"
                 />
               </template>
@@ -86,15 +86,16 @@
           >
             <v-menu
               :close-on-content-click="false"
-              :nudge-right="40"
+              :offset="40"
               transition="scale-transition"
-              offset-y
+              location="bottom"
               min-width="auto"
             >
               <template #activator="{ props }">
                 <v-text-field
                   v-model="endDate"
                   class="ml-5"
+                  variant="underlined"
                   :label="$t('end')"
                   prepend-icon="mdi-calendar"
                   readonly
@@ -117,9 +118,9 @@
           >
             <v-menu
               :close-on-content-click="false"
-              :nudge-right="40"
+              :offset="40"
               transition="scale-transition"
-              offset-y
+              location="bottom"
               min-width="auto"
             >
               <template #activator="{ props }">
@@ -127,6 +128,7 @@
                   v-model="endTime"
                   class="ml-3"
                   :label="$t('end')"
+                  variant="underlined"
                   prepend-icon="mdi-clock-time-four-outline"
                   hide-details
                   readonly
@@ -147,7 +149,7 @@
             xl="2"
           >
             <v-menu
-              offset-y
+              location="bottom"
               :close-on-content-click="false"
             >
               <template #activator="{ props }">
@@ -171,7 +173,6 @@
                 <v-radio
                   v-for="(severity, index) in severities"
                   :key="index"
-                  :key="severity"
                   dense
                   hide-details
                   :label="severity"
@@ -183,7 +184,7 @@
               >{{ $t('reset') }}</a>
             </v-menu>
             <v-menu
-              offset-y
+              location="bottom"
               :close-on-content-click="false"
             >
               <template #activator="{ props }">
@@ -252,36 +253,24 @@
               class="ml-3"
               variant="outlined"
               color="primary"
-              icon
+              icon="mdi-filter-plus"
               @click="$refs.labelFilterDialog.show()"
-            >
-              <v-icon>
-                mdi-filter-plus
-              </v-icon>
-            </v-btn>
+            />
             <v-btn
               class="ml-3"
               variant="outlined"
               color="error"
-              icon
+              icon="mdi-filter-off"
               :disabled="Object.keys(filteredLabels).length === 0"
               @click="resetFilters"
-            >
-              <v-icon>
-                mdi-filter-off
-              </v-icon>
-            </v-btn>
+            />
             <v-btn
               class="ml-3"
               variant="outlined"
               color="primary"
-              icon
+              icon="mdi-refresh"
               @click="fetchData"
-            >
-              <v-icon>
-                mdi-refresh
-              </v-icon>
-            </v-btn>
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -295,7 +284,7 @@
       {{ $t('_log.messages.limitReachedFilter') }}
     </v-alert>
     <v-card
-      class="card-rounded"
+      class="card-rounded mt-3"
       flat
     >
       <v-card-text class="mt-0 pt-0">
@@ -317,8 +306,8 @@
               {{ item.message }}
             </div>
           </template>
-          <template #expanded-item="{ headers, item }">
-            <td :colspan="headers.length">
+          <template #expanded-row="{ columns, item }">
+            <td :colspan="columns.length">
               <div class=" mt-3">
                 <span class="text-subtitle-1 mb-1">{{ $t('message') }}:</span>
                 <div>{{ item.message }}</div>
@@ -408,22 +397,9 @@
 
 <script>
 import openapi from '@/api/openapi';
-import UserLink from '@/components/UserLink.vue';
-import DataTable from '@/components/DataTable.vue';
-import LogLabel from '@/components/LogLabel.vue';
-import DialogForm from '@/components/DialogForm.vue';
 import Common from '@/forms/Common';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
-  name: 'Log',
-  components: {
-    PageTitleFlat,
-    DialogForm,
-    LogLabel,
-    DataTable,
-    UserLink,
-  },
   emits: ['update:selectedFilters'],
   data() {
     return {
@@ -442,16 +418,16 @@ export default {
       selectedFilters: {},
       headers: [
         {
-          text: '', value: 'severity', sortable: false, width: '1%',
+          title: '', key: 'severity', sortable: false, width: '1%',
         },
         {
-          text: this.$t('date'), value: 'time', sortable: false, width: '10%',
+          title: this.$t('date'), key: 'time', sortable: false, width: '10%',
         },
         {
-          text: this.$t('message'), value: 'message', sortable: false,
+          title: this.$t('message'), key: 'message', sortable: false,
         },
-        { text: this.$t('user'), value: 'author', sortable: false },
-        { text: this.$t('category'), value: 'category', sortable: false },
+        { title: this.$t('user'), key: 'author', sortable: false },
+        { title: this.$t('category'), key: 'category', sortable: false },
       ],
     };
   },
@@ -603,11 +579,6 @@ export default {
       this.selectedFilters = {};
       this.search = null;
       this.fetchData();
-    },
-    async downloadOldLogs() {
-      (await openapi).log_getOldLogCsv().then((rsp) => {
-        this.utils.showFile(rsp.data, 'vyhub_old_logs.csv', 'text/csv');
-      });
     },
   },
 };

@@ -66,6 +66,7 @@
                 </router-link>
               </template>
               <template #item.username="{ item }">
+                <!-- TODO Check whether avatar is working right? I have seen an unknown avatar before.. -->
                 <router-link
                   :to="{ name: 'UserDashboard', params: { id: item.id } }"
                   style="text-decoration: none; color: inherit;"
@@ -96,7 +97,7 @@
           class="card-rounded"
           flat
         >
-          <v-card-title>
+          <v-card-title class="d-flex">
             <v-icon start>
               mdi-account-clock
             </v-icon>
@@ -108,11 +109,9 @@
                 <v-list-item
                   v-for="user in recentUsers"
                   :key="user.id"
+                  :prepend-avatar="user.avatar"
                   :to="{ name: 'UserDashboard', params: { id: user.id } }"
                 >
-                  <v-list-item-avatar>
-                    <v-img :src="user.avatar" />
-                  </v-list-item-avatar>
                   <v-list-item-title>
                     {{ user.username }}
                   </v-list-item-title>
@@ -130,15 +129,11 @@
 </template>
 
 <script>
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '@/api/openapi';
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import pDebounce from 'p-debounce';
 import UserService from '../services/UserService';
 
 export default {
-  name: 'Search',
-  components: { PaginatedDataTable, PageTitleFlat },
   data() {
     return {
       recentUsers: null,
@@ -174,8 +169,8 @@ export default {
     this.fetchData();
   },
   methods: {
-    rowClick(row) {
-      this.$router.push({ name: 'UserDashboard', params: { id: row.id } });
+    rowClick(event, row) {
+      this.$router.push({ name: 'UserDashboard', params: { id: row.item.id } });
     },
     async doSearch(queryParams = null) {
       const api = await openapi;

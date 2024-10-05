@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-menu
       open-on-hover
-      offset-y
+      location="bottom"
       @update:model-value="newMessages = false"
     >
       <template #activator="{ props }">
@@ -15,15 +15,11 @@
           offset-y="10px"
         >
           <v-btn
-            icon
+            icon="mdi-bell-outline"
             style="min-width: 30px; width: 34px; height: 34px"
-                
+
             v-bind="props"
-          >
-            <v-icon>
-              mdi-bell-outline
-            </v-icon>
-          </v-btn>
+          />
         </v-badge>
       </template>
       <v-card min-width="150px">
@@ -41,15 +37,13 @@
             v-for="notification in notifications"
             v-else
             :key="notification.id"
+            :prepend-icon="notification.message.kwargs.icon"
             @click="rowClick(notification)"
           >
-            <v-list-item-icon>
-              <v-icon>{{ notification.message.kwargs.icon }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content :class="{ 'font-weight-medium': !notification.read }">
+            <div :class="{ 'font-weight-medium': !notification.read }">
               {{ $t(`_notification.${notification.message.name}`,
                     { ...notification.message.kwargs }) }}
-            </v-list-item-content>
+            </div>
           </v-list-item>
         </v-list>
         <v-divider />
@@ -86,7 +80,6 @@ import config from '@/config';
 import SessionService from '@/services/SessionService';
 
 export default {
-  name: 'Notification.vue',
   data() {
     return {
       notifications: [],
@@ -160,7 +153,7 @@ export default {
     registerSse() {
       // TODO Fix and Enable for Production
       return;
-       
+
       if (store.getters.isLoggedIn && store.getters.accessToken) {
         const header = `Bearer ${store.getters.accessToken}`;
         const baseURL = `${config.backend_url}/notification/stream`;
@@ -177,11 +170,11 @@ export default {
           EventBus.emit('notification');
           this.notifyBrowser(JSON.parse(event.data)[0].message);
         });
-         
+
         this.evtSource.addEventListener('end', () => {
           this.evtSource.close();
         });
-         
+
         this.evtSource.onerror = (err) => {
           this.utils.notifyUnexpectedError(err);
           console.log('Notification Stream Closed');
@@ -230,7 +223,7 @@ export default {
     async toggleReadStatus(item) {
       if (item.read !== true) {
         (await openapi).notification_markAsRead(null, { id: [item.id] });
-         
+
         item.read = !item.read;
       }
     },

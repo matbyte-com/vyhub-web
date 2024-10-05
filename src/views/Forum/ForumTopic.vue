@@ -65,7 +65,6 @@
                   variant="outlined"
                   size="small"
                   :color="admin.color"
-                  text-color="white"
                   class="mr-1"
                 >
                   {{ admin.name }}
@@ -258,20 +257,9 @@
 </template>
 
 <script>
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../../api/openapi';
-import ThreadAddDialog from '../../components/ForumComponents/ThreadAddDialog.vue';
-import UserLink from '../../components/UserLink.vue';
 
 export default {
-  name: 'ForumTopic.vue',
-  components: {
-    PageTitleFlat,
-    PaginatedDataTable,
-    ThreadAddDialog,
-    UserLink,
-  },
   data() {
     return {
       threads: null,
@@ -339,7 +327,7 @@ export default {
       data.topic_id = this.$route.params.id;
       (await openapi).forum_createThread(null, data).then((rsp) => {
         this.$refs.addThreadDialog.close();
-        this.showThread(rsp.data);
+        this.showThread(null, { item: rsp.data});
         this.$notify({
           title: this.$t('_messages.addSuccess'),
           type: 'success',
@@ -348,8 +336,8 @@ export default {
         this.$refs.addThreadDialog.setError(err);
       });
     },
-    showThread(item) {
-      this.$router.push({ name: 'ForumThread', params: { id: item.id } });
+    showThread(event, row) {
+      this.$router.push({ name: 'ForumThread', params: { id: row.item.id } });
     },
   },
 };
