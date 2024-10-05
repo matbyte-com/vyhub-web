@@ -7,7 +7,9 @@
       >
         {{ tab.title }}
       </v-tab>
-      <v-tab-item
+    </v-tabs>
+    <v-tabs-window v-model="tabIndex">
+      <v-tabs-window-item
         v-for="tab in tabs.items"
         :key="tab.title"
       >
@@ -125,8 +127,8 @@
           Unlimited other rewards are possible by simply executing any command on the server.
           There is no limit but your creativity.
         </span>
-      </v-tab-item>
-    </v-tabs>
+      </v-tabs-window-item>
+    </v-tabs-window>
   </div>
 </template>
 
@@ -135,6 +137,7 @@ import openapi from '@/api/openapi';
 
 export default {
   name: 'RewardCatalog',
+emits: ['success'],
   data() {
     return {
       search: '',

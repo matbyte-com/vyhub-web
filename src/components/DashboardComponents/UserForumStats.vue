@@ -3,14 +3,25 @@
     class="card-rounded"
     flat
   >
-    <v-tabs grow>
+    <v-tabs
+      v-model="tab"
+      grow
+    >
       <v-tab>
         <v-icon start>
           mdi-chart-bar
         </v-icon>
         {{ $t('statistics') }}
       </v-tab>
-      <v-tab-item>
+      <v-tab>
+        <v-icon start>
+          mdi-format-list-bulleted
+        </v-icon>
+        {{ $t('_forum.lastActivity') }}
+      </v-tab>
+    </v-tabs>
+    <v-tabs-window v-model="tab">
+      <v-tabs-window-item>
         <v-card
           class="vh-dashboard-forum card-rounded"
           flat
@@ -41,14 +52,8 @@
             </v-row>
           </v-card-text>
         </v-card>
-      </v-tab-item>
-      <v-tab>
-        <v-icon start>
-          mdi-format-list-bulleted
-        </v-icon>
-        {{ $t('_forum.lastActivity') }}
-      </v-tab>
-      <v-tab-item>
+      </v-tabs-window-item>
+      <v-tabs-window-item>
         <v-card>
           <v-card-text
             v-for="lastPost in lastPosts"
@@ -78,8 +83,8 @@
             </v-card>
           </v-card-text>
         </v-card>
-      </v-tab-item>
-    </v-tabs>
+      </v-tabs-window-item>
+    </v-tabs-window>
   </v-card>
 </template>
 
@@ -92,6 +97,7 @@ export default {
   },
   data() {
     return {
+      tab: null,
       threads: null,
       posts: null,
       reactions: null,

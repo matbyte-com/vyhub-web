@@ -31,30 +31,32 @@
       </v-tab>
     </v-tabs>
     <div>
-      <v-tabs-items v-model="tab">
-        <v-tab-item v-if="$store.getters.shopConfig.donation_goal_enabled">
+      <v-tabs-window
+        v-model="tab"
+      >
+        <v-tabs-window-item v-if="$store.getters.shopConfig.donation_goal_enabled">
           <DonationGoal
             :no-shop-btn="true"
             class="mt-3 vh-shop-donation-goal"
             :no-icon="true"
             :center-headline="true"
           />
-        </v-tab-item>
-        <v-tab-item v-if="$store.getters.shopConfig.top_donators_enabled">
+        </v-tabs-window-item>
+        <v-tabs-window-item v-if="$store.getters.shopConfig.top_donators_enabled">
           <TopDonators
             class="mt-3 vh-shop-top-donators"
             :no-icon="true"
             :center-headline="true"
           />
-        </v-tab-item>
-        <v-tab-item v-if="$store.getters.shopConfig.last_donators_enabled">
+        </v-tabs-window-item>
+        <v-tabs-window-item v-if="$store.getters.shopConfig.last_donators_enabled">
           <LastDonators
             class="mt-3 vh-shop-last-donators"
             :no-icon="true"
             :center-headline="true"
           />
-        </v-tab-item>
-      </v-tabs-items>
+        </v-tabs-window-item>
+      </v-tabs-window>
     </div>
   </div>
 </template>

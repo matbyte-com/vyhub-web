@@ -40,6 +40,7 @@
           @reload="fetchData"
           @click:row="showDetails"
         >
+          <!-- TODO Row click does not work - and events do not show up in my browser extension to debug :(-->
           <template #header>
             <v-row>
               <v-col class="d-flex align-center">
@@ -201,7 +202,7 @@
               <tr>
                 <td>{{ $t('bundle') }}</td>
                 <td>
-                  {{ currentWarning.serverbundle.name }}
+                  {{ currentWarning.serverbundle ? currentWarning.serverbundle.name : '' }}
                 </td>
               </tr>
               <tr>
@@ -401,6 +402,7 @@ export default {
       });
     },
     showDetails(item) {
+      console.log(item);
       this.$router.push({ name: 'Warnings', params: { warningId: item.id } });
       this.currentWarning = item;
       this.warningDetailShown = true;

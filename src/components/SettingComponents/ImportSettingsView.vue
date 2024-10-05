@@ -20,8 +20,8 @@
             {{ item }}
           </v-tab>
         </v-tabs>
-        <v-tabs-items v-model="system">
-          <v-tab-item
+        <v-tabs-window v-model="system">
+          <v-tabs-window-item
             v-for="item in systems"
             :key="item"
           >
@@ -179,22 +179,18 @@
                 </GenForm>
               </v-card-text>
             </v-card>
-          </v-tab-item>
-        </v-tabs-items>
+          </v-tabs-window-item>
+        </v-tabs-window>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
-import GenForm from '@/components/GenForm.vue';
 import ImportGExtensionForm from '@/forms/ImportGExtensionForm';
 import openapi from '@/api/openapi';
 
 export default {
-  name: 'Import',
-  components: { GenForm, SettingTitle },
   data() {
     return {
       system: 'GExtension',
@@ -267,7 +263,7 @@ export default {
 
       while (this.progress[table].more && !this.cancel) {
         try {
-           
+
           const result = (await api.import_importGextension(null, { ...req, page })).data;
 
           this.progress[table].total += result.total;
