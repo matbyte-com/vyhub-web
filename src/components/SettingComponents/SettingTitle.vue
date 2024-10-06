@@ -11,16 +11,13 @@
       >
         <template #activator="{ props }">
           <v-btn
-            icon
+            icon="mdi-book-open-variant"
             size="small"
             v-bind="props"
             :href="docLink"
             target="_blank"
-          >
-            <v-icon>
-              mdi-book-open-variant
-            </v-icon>
-          </v-btn>
+            variant="text"
+          />
         </template>
         {{ $t('_settings.documentationLink') }}
       </v-tooltip>
@@ -37,7 +34,6 @@ import semver from 'semver';
 import { version } from '../../../package.json';
 
 export default {
-  name: 'SettingTitle',
   props: {
     divider: {
       type: Boolean,

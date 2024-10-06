@@ -26,7 +26,6 @@
             density="compact"
             class="animate__animated"
             :class="{animate__headShake:selectWobble === true}"
-            :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
             return-object
             :label="$t('category')"
             clearable
