@@ -105,6 +105,8 @@
 <script>
 import openapi from '../api/openapi';
 
+// TODO Test as there seems to be recursion happening in this component
+
 export default {
   data() {
     return {
@@ -122,6 +124,9 @@ export default {
       page: 1,
       totalItems: 0,
     };
+  },
+  mounted() {
+    this.fetchData();
   },
   methods: {
     async fetchData(queryParams = null) {
@@ -183,7 +188,7 @@ export default {
 </script>
 
 <style scoped>
-.cursor >>> td{
+.cursor :deep(td) {
   cursor: pointer !important;
 }
 </style>

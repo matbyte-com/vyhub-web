@@ -12,10 +12,11 @@
         sort-by="permission_level"
         :sort-desc="true"
       >
+        <!-- TODO was before:             :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
+-->
         <template #item.name="{ item }">
           <v-chip
             :color="item.color ? item.color : '#000000'"
-            :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
             variant="outlined"
           >
             {{ item.name }}
@@ -68,16 +69,12 @@
             :class="{ 'flex-column' : $vuetify.display.lgAndDown }"
           >
             <v-btn
-              icon
+              icon="mdi-content-copy"
               color="secondary"
               size="small"
               class="mr-xl-1 mt-xl-0"
               @click="copyGroup(item)"
-            >
-              <v-icon size="small">
-                mdi-content-copy
-              </v-icon>
-            </v-btn>
+            />
             <v-btn
               variant="outlined"
               color="success"
@@ -215,51 +212,30 @@
 
 <script>
 import openapi from '@/api/openapi';
-import DialogForm from '@/components/DialogForm.vue';
 import GroupForm from '@/forms/GroupForm';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import DataTable from '@/components/DataTable.vue';
-import Dialog from '@/components/Dialog.vue';
-import UserLink from '@/components/UserLink.vue';
-import PaginatedDataTable from '@/components/PaginatedDataTable.vue';
 import EventBus from '@/services/EventBus';
-import SettingTitle from './SettingTitle.vue';
-import MembershipEditDialog from '../DashboardComponents/MembershipEditDialog.vue';
-import PropertyPicker from './PropertyPicker.vue';
 
 export default {
-  name: 'Groups',
-  components: {
-    PaginatedDataTable,
-    MembershipEditDialog,
-    UserLink,
-    Dialog,
-    SettingTitle,
-    DataTable,
-    DeleteConfirmationDialog,
-    DialogForm,
-    PropertyPicker,
-  },
   data() {
     return {
       groups: [],
       headers: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('_settings.permissionLevel'), value: 'permission_level' },
-        { text: this.$t('properties'), value: 'properties', width: '65%' },
+        { title: this.$t('name'), key: 'name' },
+        { title: this.$t('_settings.permissionLevel'), key: 'permission_level' },
+        { title: this.$t('properties'), key: 'properties', width: '65%' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'right',
         },
       ],
       groupMemberHeaders: [
-        { text: this.$t('user'), value: 'user', sortable: false },
-        { text: this.$t('serverbundle'), value: 'serverbundle', sortable: false },
-        { text: this.$t('begin'), value: 'begin', sortable: false },
+        { title: this.$t('user'), key: 'user', sortable: false },
+        { title: this.$t('serverbundle'), key: 'serverbundle', sortable: false },
+        { title: this.$t('begin'), key: 'begin', sortable: false },
         {
-          text: this.$t('end'), value: 'end', sortable: false,
+          title: this.$t('end'), key: 'end', sortable: false,
         },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'right',
         },
       ],
       groupFormSchema: GroupForm.returnForm(),
@@ -431,6 +407,9 @@ export default {
     },
   },
 };
+</script>
+
+<script setup lang="ts">
 </script>
 
 <style>

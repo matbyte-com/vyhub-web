@@ -176,9 +176,7 @@
       variant="outlined"
       hide-details
       density="compact"
-      :menu-props="{ bot: true, offsetY: true, transition: 'slide-y-transition' }"
       :label="$t('_navigation.location')"
-      clearable
       class="mt-3"
       :items="navigationLocations"
       item-value="value"
@@ -186,9 +184,9 @@
       @update:model-value="categoryUpdated"
     />
     <v-list>
-      <draggable
-        :list="linksByLocation"
-        @change="updateLinkEnabled = true"
+      <VueDraggable
+        v-model="linksByLocation"
+        @dragend="updateLinkEnabled = true"
       >
         <div
           v-for="link in linksByLocation"
@@ -197,17 +195,18 @@
           <!-- Sublinks -->
           <v-list-group
             v-if="link.sublinks.length !== 0"
-            :append-icon="null"
+            class="subgroup"
+            :prepend-icon="subGroup ? 'mdi-chevron-up' : 'mdi-chevron-down'"
           >
-            <template #activator>
-              <v-list-item-title>
-                <v-row>
-                  <v-col cols="1">
-                    <v-icon>mdi-chevron-down</v-icon>
-                  </v-col>
+            <template #activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                @click="subGroup = !subGroup"
+              >
+                <v-row align="center">
                   <v-col
-                    cols="6"
-                    sm="5"
+                    cols="7"
+                    sm="6"
                   >
                     <span>{{ link.title }}</span>
                   </v-col>
@@ -235,7 +234,7 @@
                       color="primary"
                       size="small"
                       class="mr-1"
-                      @click="openNavEditDialog(link)"
+                      @click.stop="openNavEditDialog(link)"
                     >
                       <v-icon>
                         mdi-pencil
@@ -246,7 +245,7 @@
                       variant="outlined"
                       color="error"
                       size="small"
-                      @click="$refs.deleteNavConfirmationDialog.show(link)"
+                      @click.stop="$refs.deleteNavConfirmationDialog.show(link)"
                     >
                       <v-icon>
                         mdi-delete
@@ -254,9 +253,9 @@
                     </v-btn>
                   </v-col>
                 </v-row>
-              </v-list-item-title>
+              </v-list-item>
             </template>
-            <draggable
+            <VueDraggable
               :list="link.sublinks"
               @change="updateLinkEnabled = true"
             >
@@ -356,7 +355,7 @@
                 </v-list-item>
                 <v-divider v-if="$vuetify.display.xs" />
               </div>
-            </draggable>
+            </VueDraggable>
           </v-list-group>
           <!-- Links without sublink -->
           <v-list-item
@@ -456,7 +455,7 @@
           </v-list-item>
           <v-divider v-if="$vuetify.display.xs" />
         </div>
-      </draggable>
+      </VueDraggable>
     </v-list>
     <v-row>
       <v-col
@@ -583,28 +582,18 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable';
-import DialogForm from '@/components/DialogForm.vue';
 import NavlinkAddForm from '@/forms/NavlinkAddForm';
 import CmsPageAddForm from '@/forms/CmsPageAddForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import Editor from '@/components/Editor.vue';
-import SettingTitle from './SettingTitle.vue';
 import i18n from '../../plugins/i18n';
+import { VueDraggable } from "vue-draggable-plus";
 
 export default {
-  name: 'Navigation',
-  components: {
-    DeleteConfirmationDialog,
-    SettingTitle,
-    DialogForm,
-    draggable,
-    Editor,
-  },
+  components: {VueDraggable},
   data() {
     return {
+      subGroup: false,
       navlinkAddSchema: null,
       cmsPageAddSchema: CmsPageAddForm,
       htmlInput: '',
@@ -867,5 +856,7 @@ export default {
 </script>
 
 <style scoped>
-
+.subgroup :deep(.v-list-item__append) {
+  display: none !important
+}
 </style>

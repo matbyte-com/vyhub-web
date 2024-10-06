@@ -344,7 +344,7 @@ export default {
 </script>
 
 <style scoped>
-.cursor >>> td {
+.cursor :deep(td) {
   cursor: pointer !important;
 }
 </style>

@@ -3,10 +3,10 @@
     <SettingTitle doc-path="/guide/adverts">
       {{ $t('_advert.title') }}
     </SettingTitle>
-    <draggable
-      :list="adverts"
+    <VueDraggable
+      v-model="adverts"
       :items="adverts"
-      @change="updateAdvertEnabled = true"
+      @dragend="updateAdvertEnabled = true"
     >
       <v-expansion-panels
         v-for="advert in adverts"
@@ -82,7 +82,7 @@
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
-    </draggable>
+    </VueDraggable>
     <v-divider class="my-3" />
     <div class="d-flex flex-wrap">
       <v-spacer />
@@ -156,6 +156,7 @@
 <script>
 import openapi from '@/api/openapi';
 import AdvertsForm from '@/forms/AdvertsForm';
+import {VueDraggable} from "vue-draggable-plus";
 
 export default {
   data() {
