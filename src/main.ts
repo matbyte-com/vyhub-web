@@ -1,7 +1,8 @@
 import { createApp } from 'vue';
 import Axios from 'axios';
-// import Notifications from 'vue-notification';
+import {Notifications} from "@kyvg/vue3-notification";
 import VueApexCharts from 'vue3-apexcharts';
+import VueGtag from 'vue-gtag';
 // import VueNativeNotification from 'vue-native-notification';
 import * as Sentry from '@sentry/vue';
 import config from './config';
@@ -35,9 +36,14 @@ Axios.defaults.baseURL = config.backend_url;
 Axios.defaults.headers.common['Content-Type'] = 'application/json';
 Axios.defaults.headers.common.Accept = 'application/json';
 
-// Vue.use(Notifications); TODO CHeck whether the following things are working
 app.use(VueApexCharts);
-// app.use(VueNativeNotification);
+app.use(Notifications)
+// app.use(VueNativeNotification); TODO Replace with something modern or remove functionality completely
+
+app.use(VueGtag, {
+  bootstrap: false,
+});
+
 
 app.mount('#app');
 
