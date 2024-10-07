@@ -64,11 +64,11 @@
       class="mt-4"
       flat
     >
-      <draggable
-        :list="questions"
+      <VueDraggable
+        v-model="questions"
         :disabled="!$checkProp('faq_edit')"
         style="width: 100%"
-        @change="updateFaqEnabled = true"
+        @dragend="updateFaqEnabled = true"
       >
         <v-expansion-panel
           v-for="(question, index) in questions"
@@ -122,7 +122,7 @@
             </v-expansion-panel-text>
           </v-card>
         </v-expansion-panel>
-      </draggable>
+      </VueDraggable>
     </v-expansion-panels>
     <DialogForm
       ref="addQuestionDialog"
@@ -154,21 +154,11 @@
 </template>
 
 <script>
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../api/openapi';
-import DialogForm from '../components/DialogForm.vue';
-import Editor from '../components/Editor.vue';
-import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog.vue';
 import FaqForm from '../forms/FaqForm';
+import {VueDraggable} from "vue-draggable-plus";
 
 export default {
-  name: 'FAQ',
-  components: {
-    PageTitleFlat,
-    DialogForm,
-    Editor,
-    DeleteConfirmationDialog,
-  },
   data() {
     return {
       questions: null,

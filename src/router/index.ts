@@ -185,7 +185,7 @@ const routes = [
     path: '/faq',
     name: 'FAQ',
     meta: { title: i18n.global.t('_pageTitle.faq') },
-    component: () => import('../views/FAQ.vue'),
+    component: () => import('../views/FAQView.vue'),
   },
   {
     path: '/search',

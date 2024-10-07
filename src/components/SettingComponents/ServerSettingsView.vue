@@ -32,10 +32,10 @@
                   </th>
                 </tr>
               </thead>
-              <draggable
-                :list="bundles"
+              <VueDraggable
+                v-model="bundles"
                 tag="tbody"
-                @change="updateBundleEnabled = true"
+                @dragend="updateBundleEnabled = true"
               >
                 <tr
                   v-for="bundle in bundles"
@@ -101,7 +101,7 @@
                     </v-btn>
                   </td>
                 </tr>
-              </draggable>
+              </VueDraggable>
             </v-table>
             <v-divider />
             <div class="text-right mt-3">
@@ -490,6 +490,7 @@ import openapi from '@/api/openapi';
 import ServerForm from '@/forms/ServerForm';
 import ServerbundleForm from "../../forms/ServerbundleForm";
 import EventBus from '@/services/EventBus';
+import {VueDraggable} from "vue-draggable-plus";
 
 export default {
   data() {

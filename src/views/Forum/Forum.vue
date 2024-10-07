@@ -256,10 +256,10 @@
         class="mt-5"
         flat
       >
-        <draggable
-          :list="topicCategories"
+        <VueDraggable
+          v-model="topicCategories"
           style="width: 100%"
-          @change="updateForumCategories = true"
+          @dragend="updateForumCategories = true"
         >
           <v-expansion-panel
             v-for="category in topicCategories"
@@ -295,9 +295,9 @@
               <!-- Topic -->
               <v-card border>
                 <v-list v-if="selectedTopicCategory">
-                  <draggable
-                    :list="selectedTopicCategory.topics"
-                    @change="updateForumTopics = true"
+                  <VueDraggable
+                    v-model="selectedTopicCategory.topics"
+                    @dragend="updateForumTopics = true"
                   >
                     <v-list-item
                       v-for="topic in selectedTopicCategory.topics"
@@ -333,7 +333,7 @@
                         </v-col>
                       </v-row>
                     </v-list-item>
-                  </draggable>
+                  </VueDraggable>
                 </v-list>
                 <!-- Topic Actions -->
                 <div class="d-flex align-center justify-end pb-1 pr-4">
@@ -378,7 +378,7 @@
               </v-card>
             </v-expansion-panel-text>
           </v-expansion-panel>
-        </draggable>
+        </VueDraggable>
       </v-expansion-panels>
       <!-- Topic Category Actions -->
       <template #actions>
@@ -456,24 +456,10 @@
 <script>
 import ForumAddTopicCategory from '@/forms/ForumAddTopicCategoryForm';
 import ForumAddTopicForm from '@/forms/ForumAddTopicForm';
-import Dialog from '@/components/Dialog.vue';
-import DialogForm from '@/components/DialogForm.vue';
-import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
-import UserLink from '@/components/UserLink.vue';
-import Sidebar from '@/components/ForumComponents/Sidebar.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../../api/openapi';
+import {VueDraggable} from "vue-draggable-plus";
 
 export default {
-  name: 'Forum.vue',
-  components: {
-    PageTitleFlat,
-    Sidebar,
-    UserLink,
-    DialogForm,
-    Dialog,
-    ConfirmationDialog,
-  },
   data() {
     return {
       topicCategories: null,

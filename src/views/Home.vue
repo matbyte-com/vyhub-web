@@ -98,12 +98,12 @@
           flat
           tile
         >
-          <draggable
+          <VueDraggable
             v-model="blocks"
             style="width: 100%;
          border-style: none"
             :disabled="panelExposed != null"
-            @change="orderUpdated = true"
+            @dragend="orderUpdated = true"
           >
             <v-expansion-panel
               v-for="(component, index) in blocks"
@@ -154,7 +154,7 @@
                 </v-form>
               </v-expansion-panel-text>
             </v-expansion-panel>
-          </draggable>
+          </VueDraggable>
         </v-expansion-panels>
       </div>
       <v-list-item>
@@ -249,8 +249,6 @@
 
 <script>
 import components from '@/components/BuilderComponents/components';
-import Dialog from '@/components/Dialog.vue';
-import draggable from 'vuedraggable';
 import VJsf from '@koumoul/vjsf';
 import { v2compat } from "@koumoul/vjsf/compat/v2";
 // import '@koumoul/vjsf/dist/main.css';
@@ -259,14 +257,12 @@ import i18n from '@/plugins/i18n';
 import axios from 'axios';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
+import {VueDraggable} from "vue-draggable-plus";
 
 
 export default {
-  name: 'Home.vue',
   components: {
     VJsf,
-    Dialog,
-    draggable,
   },
   data() {
     return {
