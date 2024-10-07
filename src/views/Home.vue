@@ -262,7 +262,7 @@ import {VueDraggable} from "vue-draggable-plus";
 
 export default {
   components: {
-    VJsf,
+    VJsf,VueDraggable
   },
   data() {
     return {

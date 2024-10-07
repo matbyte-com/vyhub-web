@@ -55,20 +55,22 @@
         >
           <v-card-text class="pa-0">
             <v-list
-              subheader
-              class="pb-0"
+              class="pb-0 pt-0"
             >
               <v-list-group
-                :value="true"
                 class="vh-topic-category"
               >
-                <template #actions>
+                <!--<template #actions>
                   <v-icon class="icon ml-0 pl-0">
                     $expand
                   </v-icon>
-                </template>
-                <template #activator>
-                  <v-list-item-title style="font-size: 1.5em;">
+                </template>-->
+                <template #activator="{ props }">
+                  <v-list-item-title
+                    v-bind="props"
+                    style="font-size: 1.5em;"
+                    class="ml-3"
+                  >
                     {{ category.title }}
                   </v-list-item-title>
                 </template>
@@ -267,7 +269,7 @@
           >
             <v-expansion-panel-title>
               <!-- Topic Category -->
-              <div class="d-flex align-center">
+              <div class="d-flex align-center flex-grow-1">
                 {{ category.title }}
                 <v-spacer />
                 <v-btn
@@ -293,7 +295,7 @@
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               <!-- Topic -->
-              <v-card border>
+              <v-card variant="outlined">
                 <v-list v-if="selectedTopicCategory">
                   <VueDraggable
                     v-model="selectedTopicCategory.topics"
@@ -460,14 +462,15 @@ import openapi from '../../api/openapi';
 import {VueDraggable} from "vue-draggable-plus";
 
 export default {
+  components: {VueDraggable},
   data() {
     return {
-      topicCategories: null,
+      topicCategories: [],
       updateForumCategories: false,
       updateForumTopics: false,
       topicCategoryForm: ForumAddTopicCategory,
       TopicForm: ForumAddTopicForm,
-      expansionPanel: null,
+      expansionPanel: [],
     };
   },
   computed: {

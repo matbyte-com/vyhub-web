@@ -159,6 +159,7 @@ import FaqForm from '../forms/FaqForm';
 import {VueDraggable} from "vue-draggable-plus";
 
 export default {
+  components: {VueDraggable},
   data() {
     return {
       questions: [],
