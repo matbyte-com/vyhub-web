@@ -19,7 +19,7 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
@@ -36,7 +36,7 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 # Docs
-VyHub Web is built using [Vue2](https://v2.vuejs.org/v2/guide/) and [Vuetify](https://v2.vuetifyjs.com/en/).
+VyHub Web is built using [Vue3](https://vuejs.org/) and [Vuetify](https://vuetifyjs.com/).
 
 ## Config
 Config options are located in `/public/config.js`.   
