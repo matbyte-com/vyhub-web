@@ -38,14 +38,10 @@
 </template>
 
 <script>
-import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
-import Editor from '@/components/Editor.vue';
 
 export default {
-  name: 'Legal',
-  components: { Editor, SettingTitle },
   data() {
     return {
       content: '',

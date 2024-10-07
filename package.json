@@ -12,6 +12,7 @@
     "lint": "eslint \"src/**/*.{js,vue}\" --fix"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-vue": "^7.2.0",
     "@fontsource/roboto": "^4.5.1",
     "@koumoul/vjsf": "^3.0.0-beta.46",
     "@mdi/font": "^7.2.96",
@@ -27,6 +28,7 @@
     "apexcharts": "^3.53.0",
     "axios": "^1.7.7",
     "buffer": "^6.0.3",
+    "ckeditor5": "^43.2.0",
     "country-flag-icons": "^1.2.9",
     "country-list": "^2.2.0",
     "currency-codes": "^2.1.0",
@@ -43,7 +45,6 @@
     "prettier": "^2.7.1",
     "process": "^0.11.10",
     "qs": "^6.9.4",
-    "quill-image-resize-vue": "^1.0.4",
     "semver": "^7.3.5",
     "sortablejs": "^1.10.2",
     "stream-browserify": "^3.0.0",
@@ -59,7 +60,6 @@
     "vue-native-notification": "^1.1.1",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^4.4.3",
-    "vue2-editor": "^2.10.2",
     "vue3-apexcharts": "^1.6.0",
     "vuetify": "^3.6.14",
     "vuex": "^4.1.0",

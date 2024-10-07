@@ -84,7 +84,7 @@ export default {
       title: i18n.global.t(title),
       format: 'hexcolor',
       default: '#000000',
-      description: (description != null ? i18n.global.t(description) : null),
+      description: (description != null ? i18n.global.t(description) : undefined),
       'x-cols': 6,
       'x-props': {
         showSwatches: true,
