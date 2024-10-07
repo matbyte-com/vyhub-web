@@ -5,6 +5,7 @@ import i18n from '@/plugins/i18n';
 import UtilService from '@/services/UtilService';
 import AuthService from '@/services/AuthService';
 import AccessControlService from '@/services/AccessControlService';
+import {notify} from "@kyvg/vue3-notification";
 
 const routes = [
   {
@@ -275,18 +276,6 @@ router.beforeEach((to, from, next) => {
 });
 
 
-/*const router = new VueRouter({
-  mode: 'history',
-  base: '/',
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition;
-    }
-    return { x: 0, y: 0 };
-  },
-  routes,
-});*/
-
 function showLoginDialog(to: Route, from: Route, link_refresh_token: string | null) {
   const return_url = UtilService.data().utils.getFullUrl(to.fullPath);
 
@@ -310,20 +299,18 @@ router.beforeEach(async (to, from, next) => {
       // If user is not logged in, try to login with refresh token
       try {
         await AuthService.login(refreshToken);
-        /* TODO
-        Vue.prototype.$notify({
+        notify({
           title: i18n.global.t('_login.messages.loginSuccess'),
           type: 'success',
-        });*/
+        });
         success = true;
         console.log('Successful login!');
       } catch (e) {
         console.log(e);
-        /* TODO
-        Vue.prototype.$notify({
+        notify({
           title: i18n.global.t('_login.messages.loginError'),
           type: 'error',
-        });*/
+        });
         showLoginDialog(to, from, null);
       }
     } else {
