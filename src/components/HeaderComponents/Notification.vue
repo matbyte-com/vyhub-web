@@ -57,6 +57,7 @@
           >
             {{ $t('_notification.viewAll') }}
           </v-btn>
+          <!--
           <v-btn
             v-if="reqNotificationButton"
             size="x-small"
@@ -64,7 +65,7 @@
             @click="requestPermission"
           >
             {{ $t('_notification.browserNotifications') }}
-          </v-btn>
+          </v-btn>-->
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -202,6 +203,8 @@ export default {
       if (item.link) this.$router.push({ name: item.link.name, params: { ...item.link.kwargs } });
     },
     notifyBrowser(data) {
+      // TODO Maybe reenable in the future, for now disabled as probably not many people are using this
+      return;
       if (!('Notification' in window)) {
         console.log('This browser does not support desktop notification');
       } else if (Notification.permission === 'granted') {

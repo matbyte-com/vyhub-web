@@ -3,6 +3,7 @@ import openapi from '@/api/openapi';
 import store from '@/store';
 import { setOptions, bootstrap } from 'vue-gtag';
 import humanizeDuration from 'humanize-duration';
+import { notify } from "@kyvg/vue3-notification";
 
 const unitMeasures = {
   y: 31536000000,
@@ -43,14 +44,11 @@ export default {
           return false;
         },
         notifyUnexpectedError(detail: object) {
-          return;
-
-          /* TODO needs to be readded
-          Vue.notify({
+          notify({
             title: i18n.global.t('unexpectedErrorOccurred').toString(),
             text: JSON.stringify(detail),
             type: 'error',
-          });*/
+          });
         },
         showFile(blob: string, name: string, mediaType = 'application/pdf') {
           // It is necessary to create a new blob object with mime-type explicitly set
@@ -264,11 +262,10 @@ export default {
         copyServerAddress(server: any) {
           if (!['MINECRAFT', 'RUST', 'SEVEN_DAYS', 'ASA'].includes(server.type)) return;
           navigator.clipboard.writeText(server.address);
-          /* TODO Needs to be readded
-          Vue.notify({
+          notify({
             title: String(i18n.global.t('_messages.copyClipboard')),
             type: 'success',
-          });*/
+          });
         },
         getStatusColor(server: any) {
           switch (server.status) {

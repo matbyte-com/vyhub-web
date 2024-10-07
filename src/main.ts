@@ -28,7 +28,7 @@ app.use(i18n);
 
 app.mixin(AccessControlService);
 app.mixin(UtilService);
-app.mixin(ForumService)
+app.mixin(ForumService);
 
 app.config.compilerOptions.isCustomElement = (tag) => ['swiper-container', 'swiper-slide'].includes(tag);
 
@@ -37,7 +37,8 @@ Axios.defaults.headers.common['Content-Type'] = 'application/json';
 Axios.defaults.headers.common.Accept = 'application/json';
 
 app.use(VueApexCharts);
-app.use(Notifications)
+
+app.use(Notifications);
 // app.use(VueNativeNotification); TODO Replace with something modern or remove functionality completely
 
 app.use(VueGtag, {

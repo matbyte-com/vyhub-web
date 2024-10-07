@@ -49,7 +49,7 @@
               <v-btn
                 variant="outlined"
                 color="primary"
-                @click="$refs.markAsReadDialog.show"
+                @click="showMarkAsReadDialog"
               >
                 <v-icon start>
                   mdi-playlist-check
@@ -106,23 +106,23 @@
             </v-icon>
           </template>
           <template #item.message="{ item }">
-            <span :class="{ 'font-weight-medium': !item.read }">
+            <span :class="{ 'font-weight-bold': !item.read }">
               {{ $t(`_notification.${item.message.name}`, { ...item.message.kwargs }) }}
             </span>
           </template>
           <template #item.category="{ item }">
-            <span :class="{ 'font-weight-medium': !item.read }">
+            <span :class="{ 'font-weight-bold': !item.read }">
               {{ $t(`_notification.type.${item.category.toLowerCase()}`) }}
             </span>
           </template>
           <template #item.time="{ item }">
-            <span :class="{ 'font-weight-medium': !item.read }">
+            <span :class="{ 'font-weight-bold': !item.read }">
               {{ $t('_notification.timeAgo', {
                 time: utils.formatElapsedTime((new Date() - new Date(item.created_on)))
               }) }}
             </span>
           </template>
-          <template #item.action="{ item }">
+          <template #item.actions="{ item }">
             <div class="text-right">
               <v-tooltip
                 v-if="item.link"
@@ -185,7 +185,7 @@ export default {
         { title: this.$t('type'), key: 'category', sortable: false },
         { title: this.$t('createdOn'), key: 'time' },
         {
-          title: 'action', sortable: false, align: 'end', width: '150px',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end', width: '150px',
         },
       ],
     };
@@ -246,6 +246,9 @@ export default {
       });
 
       item.read = !item.read;
+    },
+    showMarkAsReadDialog() {
+      this.$refs.markAsReadDialog.show();
     },
   },
 };
