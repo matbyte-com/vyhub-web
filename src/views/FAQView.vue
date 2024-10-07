@@ -5,7 +5,7 @@
         v-if="$checkProp('faq_edit')"
         #end
       >
-        <div class="text-right">
+        <div class="justify-end d-flex">
           <v-btn
             color="success"
             variant="flat"

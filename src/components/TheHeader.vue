@@ -7,9 +7,9 @@
       style="z-index: 200;"
     >
       <div
-        class="d-flex align-center grow"
+        class="d-flex align-center grow mx-3 "
         style="width: 100%"
-        :class="{ 'container' : $store.getters.theme && $store.getters.theme.header_container
+        :class="{ 'v-container' : $store.getters.theme && $store.getters.theme.header_container
           && $vuetify.display.mdAndUp }"
       >
         <!-- burger menu on the left-->

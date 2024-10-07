@@ -56,7 +56,7 @@
                 <v-card
                   v-for="acc in items"
                   :key="acc.id"
-                  class="mb-2"
+                  class="mb-2 bg-transparent"
                   border
                   variant="outlined"
                   flat
@@ -117,16 +117,19 @@
                       </span>
                     </div>
                   </v-card-subtitle>
-                  <v-divider />
+                  <v-divider class="mt-3" />
                   <v-card-text
                     v-if="attributes != null
                       && attributes[acc.raw.id] != null
                       && Object.keys(attributes[acc.raw.id]).length > 0"
+                    class="pa-0"
                   >
                     <v-row>
                       <v-col>
                         <v-table
                           v-if="attributeDefinitions != null"
+                          class="bg-transparent"
+                          hover
                           dense
                         >
                           <tbody>

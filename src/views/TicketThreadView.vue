@@ -21,6 +21,7 @@
         <div class="d-flex flex-column">
           <v-chip
             v-if="thread && thread.status === 'OPEN'"
+            variant="flat"
             color="success"
             class="text-uppercase ml-auto"
           >
@@ -28,6 +29,7 @@
           </v-chip>
           <v-chip
             v-else
+            variant="flat"
             color="error"
             class="text-uppercase ml-auto"
           >
@@ -218,7 +220,9 @@
           </v-icon>
           <span>{{ $t('_forum.open') }}</span>
         </div>
-        <div v-else>
+        <div
+          v-else
+        >
           <v-icon start>
             mdi-lock
           </v-icon>
@@ -251,18 +255,9 @@
 </template>
 
 <script>
-import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import openapi from '../api/openapi';
-import ThreadAddDialog from '../components/ForumComponents/ThreadAddDialog.vue';
-import PageTitleFlat from '../components/PageTitleFlat.vue';
 
 export default {
-  name: 'Thread',
-  components: {
-    ConfirmationDialog,
-    ThreadAddDialog,
-    PageTitleFlat,
-  },
   data() {
     return {
       threadId: '',

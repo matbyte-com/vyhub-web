@@ -67,14 +67,17 @@
               />
             </span>
           </template>
-          <template #item.last_post="{ item }">
+          <template
+            #item.last_post="{ item }"
+          >
             <span
               v-if="item.last_post"
-              class="text-right"
+              class="d-flex align-center justify-end"
             >
               {{ utils.formatDate(item.last_post.created) }}
               <UserLink
                 :user="item.last_post.creator"
+                class="ml-1"
                 @click.prevent
               />
             </span>
@@ -118,7 +121,7 @@ export default {
         { title: this.$t('title'), key: 'title', sortable: false },
         { title: this.$t('_forum.created'), key: 'created' },
         {
-          title: this.$t('_forum.last_post'), key: 'last_post', sortable: false, align: 'right',
+          title: this.$t('_forum.last_post'), key: 'last_post', sortable: false, align: 'end',
         },
       ],
       page: 1,

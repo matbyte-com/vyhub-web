@@ -217,7 +217,7 @@ export default {
         { title: this.$t('percentage'), key: 'percentage' },
         { title: this.$t('maxUsages'), key: 'max_usages' },
         {
-          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       discounts: null,

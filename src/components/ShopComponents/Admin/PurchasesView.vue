@@ -398,7 +398,7 @@ export default {
         { title: this.$t('_purchases.labels.amountTotal'), key: 'amount_total' },
         { title: this.$store.getters.shopConfig.credits_display_title, key: 'credits' },
         {
-          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       purchases: null,

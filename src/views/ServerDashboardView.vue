@@ -290,7 +290,7 @@ export default {
         { title: this.$t('creator'), key: 'creator', sortable: false },
         { title: this.$t('createdOn'), key: 'created_on' },
         {
-          title: this.$t('actions'), key: 'actions', align: 'right', sortable: false,
+          title: this.$t('actions'), key: 'actions', align: 'end', sortable: false,
         },
       ],
     };

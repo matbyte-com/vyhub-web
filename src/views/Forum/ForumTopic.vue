@@ -276,14 +276,14 @@ export default {
         return [
           { title: this.$t('title'), key: 'title', sortable: false },
           {
-            title: this.$t('_forum.last_post'), value: 'last_post', align: 'right', sortable: false,
+            title: this.$t('_forum.last_post'), value: 'last_post', align: 'end', sortable: false,
           },
         ];
       }
       return [
         { title: this.$t('title'), value: 'title', sortable: false },
         {
-          title: this.$t('_forum.last_post'), value: 'last_post_sm', align: 'right', sortable: false,
+          title: this.$t('_forum.last_post'), value: 'last_post_sm', align: 'end', sortable: false,
         },
       ];
     },

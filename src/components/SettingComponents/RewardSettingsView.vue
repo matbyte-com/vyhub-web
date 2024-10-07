@@ -199,7 +199,7 @@ export default {
         { text: this.$t('type'), value: 'type' },
         { text: this.$t('oneTime'), value: 'once' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       rewards: null,

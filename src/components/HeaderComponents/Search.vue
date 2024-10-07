@@ -7,7 +7,6 @@
     class="expanding-search"
     hide-details="auto"
     :class="{ 'closed' : searchClosed && !search }"
-    variant="filled"
     density="compact"
     clearable
     hide-no-data
@@ -15,7 +14,6 @@
     :loading="isLoading"
     item-title="username"
     item-value="id"
-    append-icon=""
     auto-select-first
     return-object
     :custom-filter="searchFilter"
@@ -74,7 +72,6 @@ import openapi from '@/api/openapi';
 import pDebounce from 'p-debounce';
 
 export default {
-  name: 'Search',
   data() {
     return {
       searchClosed: true,
@@ -150,18 +147,21 @@ export default {
   .v-input.expanding-search
     transition: max-width 0.3s
     max-width: 500px
-    .v-input__slot
+    .v-input__slot // Does not work from here TODO
       cursor: pointer !important
       &:before
         border-color: transparent !important
       &:after
-        border-style: none !important
+        border-style: none !important // Upper things do not work TODO
     &.closed
       max-width: 45px
       .v-input__slot
-        background: transparent !important
+        background: transparent !important // This does not work either TODO
 
-  .v-input.expanding-search.v-input--is-focused .v-icon
+  .v-input.expanding-search.v-input--is-focused .v-icon // This works, but not sure whether we want to keep it TODO
     color: white !important
     caret-color: white !important
+
+  :deep(.v-field__append_inner) // This does not work TODO
+    display: none !important
 </style>

@@ -112,7 +112,6 @@
 
 <script>
 import openapi from '../api/openapi';
-import DialogForm from '../components/DialogForm.vue';
 import TeamEditForm from '../forms/TeamEditForm';
 
 export default {

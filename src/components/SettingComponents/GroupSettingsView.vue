@@ -224,7 +224,7 @@ export default {
         { title: this.$t('_settings.permissionLevel'), key: 'permission_level' },
         { title: this.$t('properties'), key: 'properties', width: '65%' },
         {
-          title: this.$t('actions'), key: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
         },
       ],
       groupMemberHeaders: [
@@ -235,7 +235,7 @@ export default {
           title: this.$t('end'), key: 'end', sortable: false,
         },
         {
-          title: this.$t('actions'), key: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
         },
       ],
       groupFormSchema: GroupForm.returnForm(),

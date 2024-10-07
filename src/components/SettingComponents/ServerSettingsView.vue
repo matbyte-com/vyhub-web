@@ -505,7 +505,7 @@ export default {
         { text: this.$t('port'), value: 'port' },
         { text: this.$t('bundle'), value: 'serverbundle.name' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right', width: 250,
+          text: this.$t('actions'), value: 'actions', sortable: false, align: 'end', width: 250,
         },
       ],
       addBundleSchema: ServerbundleForm.returnForm(),

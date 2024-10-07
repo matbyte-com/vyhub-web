@@ -184,7 +184,7 @@ export default {
         { text: this.$t('type'), value: 'type' },
         { text: this.$t('enabled'), value: 'enabled' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       gateways: null,
@@ -262,7 +262,7 @@ export default {
 
       const api = await openapi;
 
-       
+
       for (const [name, attr] of Object.entries(data.attributes)) {
         if (Array.isArray(attr) && attr.length === 0) {
           delete data.attributes[name];

@@ -214,28 +214,9 @@
 <script>
 import RequirementAddForm from '@/forms/RequirementAddForm';
 import RequirementSetAddForm from '@/forms/RequirementSetAddForm';
-import DialogForm from '@/components/DialogForm.vue';
-import Dialog from '@/components/Dialog.vue';
-import DataTable from '@/components/DataTable.vue';
-import GenForm from '@/components/GenForm.vue';
 import openapi from '@/api/openapi';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
-import UserSelect from '@/components/Miscellaneous/UserSelect.vue';
-import BoolIcon from '@/components/BoolIcon.vue';
 
 export default {
-  name: 'Requirements',
-  components: {
-    BoolIcon,
-    SettingTitle,
-    DeleteConfirmationDialog,
-    GenForm,
-    DialogForm,
-    DataTable,
-    Dialog,
-    UserSelect,
-  },
   data() {
     return {
       requirementAddForm: RequirementAddForm.returnForm(),
@@ -244,19 +225,19 @@ export default {
       requirementSets: null,
       requirements: null,
       headers: [
-        { text: this.$t('name'), value: 'name' },
+        { title: this.$t('name'), key: 'name' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
         },
       ],
       requirementHeaders: [
-        { text: 'ID', value: 'hId' },
-        { text: this.$t('type'), value: 'type' },
-        { text: this.$t('_requirement.requirementOperator'), value: 'operator' },
-        { text: this.$t('key'), value: 'key' },
-        { text: this.$t('value'), value: 'value' },
+        { title: 'ID', key: 'hId' },
+        { title: this.$t('type'), key: 'type' },
+        { title: this.$t('_requirement.requirementOperator'), key: 'operator' },
+        { title: this.$t('key'), key: 'key' },
+        { title: this.$t('value'), key: 'value' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
         },
       ],
       formula: null,

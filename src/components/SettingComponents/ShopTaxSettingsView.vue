@@ -92,7 +92,7 @@ export default {
         { text: this.$t('percentage'), value: 'percentage' },
         { text: this.$t('info'), value: 'info' },
         {
-          text: this.$t('actions'), value: 'actions', width: '100px', sortable: false, align: 'right',
+          text: this.$t('actions'), value: 'actions', width: '100px', sortable: false, align: 'end',
         },
       ],
       taxRules: null,

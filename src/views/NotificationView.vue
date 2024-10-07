@@ -185,7 +185,7 @@ export default {
         { title: this.$t('type'), key: 'category', sortable: false },
         { title: this.$t('createdOn'), key: 'time' },
         {
-          title: 'action', sortable: false, align: 'right', width: '150px',
+          title: 'action', sortable: false, align: 'end', width: '150px',
         },
       ],
     };

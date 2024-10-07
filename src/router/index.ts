@@ -149,7 +149,7 @@ const routes = [
     path: '/ticket/:id',
     name: 'TicketThread',
     meta: { title: i18n.global.t('_pageTitle.ticket') },
-    component: () => import('../views/TicketThread.vue'),
+    component: () => import('../views/TicketThreadView.vue'),
   },
   {
     path: '/forum/',

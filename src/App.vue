@@ -137,23 +137,32 @@
 
     <!-- Floating Alert to remember to set legal -->
     <router-link
-      v-if="showLegalReminder"
-      to="settings/legal"
+      v-if="showLegalReminder && $route.path !== '/settings/legal'"
+      to="/settings/legal"
       class="text-center"
     >
       <v-alert
         style="left: 50%; top: 10%; margin-left: -150px; position: fixed"
-        width="300px"
+        width="350px"
+        elevation="3"
         class="bg-red-darken-2"
         bottom
         to="settings/legal"
       >
-        <v-icon
-          start
-        >
-          mdi-alert
-        </v-icon>
-        {{ $t('_legal.showLegalReminder') }}
+        <div class="d-flex justify-center align-center">
+          <v-icon
+            start
+          >
+            mdi-alert
+          </v-icon>
+          {{ $t('_legal.showLegalReminder') }}
+          <v-icon
+            class="animate__animated animate__heartBeat animate__infinite animate__slow"
+            end
+          >
+            mdi-cursor-default-click
+          </v-icon>
+        </div>
       </v-alert>
     </router-link>
   </v-app>

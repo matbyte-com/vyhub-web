@@ -236,7 +236,7 @@ export default {
         { title: this.$t('begin'), key: 'begin' },
         { title: this.$t('end'), key: 'end' },
         {
-          title: this.$t('actions'), key: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
         },
       ],
       userMembershipAddForm: UserMembershipAddForm,

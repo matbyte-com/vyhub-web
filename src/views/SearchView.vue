@@ -145,7 +145,7 @@ export default {
         { title: this.$t('username'), key: 'username' },
         { title: this.$t('_search.labels.linkedUsers'), key: 'linked_users', sortable: false },
         {
-          title: this.$t('id'), key: 'identifier', align: 'right', sortable: false,
+          title: this.$t('id'), key: 'identifier', align: 'end', sortable: false,
         },
       ],
     };

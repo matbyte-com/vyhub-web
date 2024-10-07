@@ -109,7 +109,7 @@ export default {
         { title: this.$t('properties'), key: 'scope' },
         { title: this.$t('serverbundle'), key: 'serverbundle.name' },
         {
-          title: this.$t('actions'), key: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
         },
       ],
       apiTokenForm: APITokenForm,

@@ -104,7 +104,7 @@ export default {
         { title: this.$t('_purchases.labels.amountTotal'), key: 'amount_total', sortable: false },
         { title: this.$t('_purchases.labels.coupon'), key: 'coupon', sortable: false },
         {
-          title: this.$t('actions'), key: 'actions', align: 'right', sortable: false,
+          title: this.$t('actions'), key: 'actions', align: 'end', sortable: false,
         },
       ],
     };

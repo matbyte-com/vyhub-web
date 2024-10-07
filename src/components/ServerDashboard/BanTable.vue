@@ -147,7 +147,7 @@ export default {
         { text: this.$t('creator'), value: 'creator', sortable: false },
         { text: this.$t('createdOn'), value: 'created_on' },
         {
-          text: this.$t('actions'), value: 'actions', align: 'right', sortable: false,
+          text: this.$t('actions'), value: 'actions', align: 'end', sortable: false,
         },
       ],
       banAddFormSchema,

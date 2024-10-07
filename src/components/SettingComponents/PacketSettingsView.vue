@@ -164,7 +164,7 @@ export default {
         { title: this.$t('category'), key: 'category.name' },
         { title: this.$t('flags'), key: 'flags' },
         {
-          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       packets: null,

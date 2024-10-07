@@ -105,7 +105,7 @@ export default {
         { text: this.$t('name'), value: 'name' },
         { text: this.$t('enabled'), value: 'enabled' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'right',
+          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       categories: null,
