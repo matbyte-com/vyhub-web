@@ -169,6 +169,8 @@ import VueGtag from 'vue-gtag';
 import { register } from 'swiper/element';
 import UserService from '@/services/UserService';
 
+import 'ckeditor5/ckeditor5.css';
+
 /*Vue.mixin(AccessControlService);
 Vue.mixin(UtilService);
 Vue.mixin(ForumService);*/
@@ -359,8 +361,7 @@ export default {
 
 <style lang="sass">
 @import "assets/css/light.sass"
-@import '../node_modules/quill/dist/quill.snow.css'
-@import '../node_modules/@fontsource/roboto/latin.css'
+@import 'assets/css/quill.snow.css' // Needed for legacy Vue 2 Editor
 
 .theme--dark
   @import "assets/css/dark.sass"

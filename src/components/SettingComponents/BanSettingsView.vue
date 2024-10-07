@@ -23,23 +23,16 @@
 </template>
 
 <script>
-import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
-import GenForm from '@/components/GenForm.vue';
 import BanSettingsForm from '@/forms/BanSettingsForm';
 import openapi from '@/api/openapi';
 
 export default {
-  name: 'Warnings.vue',
-  components: {
-    SettingTitle,
-    GenForm,
-  },
   data() {
     return {
       formSchema: BanSettingsForm,
     };
   },
-  beforeMount() {
+  mounted() {
     this.fetchData();
   },
   methods: {

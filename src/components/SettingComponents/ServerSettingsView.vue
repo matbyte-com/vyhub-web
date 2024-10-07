@@ -46,10 +46,8 @@
                     <v-chip
                       :color="bundle.color ? bundle.color : '#000000'"
                       variant="outlined"
+                      :prepend-icon="bundle.icon"
                     >
-                      <v-icon start>
-                        {{ bundle.icon }}
-                      </v-icon>
                       {{ bundle.name }}
                     </v-chip>
                   </td>
@@ -493,10 +491,11 @@ import EventBus from '@/services/EventBus';
 import {VueDraggable} from "vue-draggable-plus";
 
 export default {
+  components: {VueDraggable},
   data() {
     return {
       icon: 'mdi-access-point',
-      bundles: null,
+      bundles: [],
       server: null,
       dataFetched: 0,
       gameserverHeaders: [
@@ -526,11 +525,12 @@ export default {
       this.refreshKeys();
     },
   },
-  beforeMount() {
+  mounted() {
     this.fetchData();
   },
   methods: {
     async fetchData() {
+      console.log('YEAHH');
       (await openapi).server_getBundles().then((rsp) => {
         this.bundles = rsp.data;
         this.dataFetched += 1;
@@ -745,5 +745,7 @@ export default {
 </script>
 
 <style scoped>
-
+.v-table {
+  background-color: rgba(0,0,0,0) !important;
+}
 </style>

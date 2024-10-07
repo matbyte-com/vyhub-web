@@ -5,7 +5,6 @@
     </SettingTitle>
     <VueDraggable
       v-model="adverts"
-      :items="adverts"
       @dragend="updateAdvertEnabled = true"
     >
       <v-expansion-panels
@@ -159,10 +158,11 @@ import AdvertsForm from '@/forms/AdvertsForm';
 import {VueDraggable} from "vue-draggable-plus";
 
 export default {
+  components: {VueDraggable},
   data() {
     return {
-      advert: [],
-      adverts: null,
+      advert: null,
+      adverts: [],
       advertAddSchema: AdvertsForm,
       updateAdvertEnabled: false,
     };

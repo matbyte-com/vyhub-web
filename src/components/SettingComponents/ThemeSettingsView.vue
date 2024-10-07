@@ -27,24 +27,17 @@
 
 <script>
 import emitter from '@/services/EventBus';
-import GenForm from '@/components/GenForm.vue';
-import ThemePickerSchema from '@/forms/ThemePicker';
 import openapi from '@/api/openapi';
-import SettingTitle from './SettingTitle.vue';
+import ThemePickerSchema from '../../forms/ThemePicker';
 
 export default {
-  name: 'ThemeChanger.vue',
-  components: {
-    SettingTitle,
-    GenForm,
-  },
   data() {
     return {
       formSchema: ThemePickerSchema,
       errorMessage: null,
     };
   },
-  beforeMount() {
+  mounted() {
     this.fetchData();
   },
   methods: {
@@ -54,6 +47,9 @@ export default {
       });
     },
     async setTheme() {
+      if (!this.$refs.themePicker) {
+        return;
+      }
       const data = this.$refs.themePicker.getData();
       // Set logo, image, favicon null to allow for removal of these attributes in database
       if (!data.logo) { data.logo = null; }

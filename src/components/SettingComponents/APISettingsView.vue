@@ -94,29 +94,22 @@
 </template>
 
 <script>
-import SettingTitle from '@/components/SettingComponents/SettingTitle.vue';
-import DataTable from '@/components/DataTable.vue';
 import openapi from '@/api/openapi';
 import APITokenForm from '@/forms/APITokenForm';
-import DialogForm from '@/components/DialogForm.vue';
-import PropertyPicker from '@/components/SettingComponents/PropertyPicker.vue';
 
 export default {
-  components: {
-    DialogForm, DataTable, SettingTitle, PropertyPicker,
-  },
   data() {
     return {
       activeBundle: null,
       apiKeys: null,
       createdToken: null,
       headers: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('key'), value: 'access_token_hidden', sortable: false },
-        { text: this.$t('properties'), value: 'scope' },
-        { text: this.$t('serverbundle'), value: 'serverbundle.name' },
+        { title: this.$t('name'), key: 'name' },
+        { title: this.$t('key'), key: 'access_token_hidden', sortable: false },
+        { title: this.$t('properties'), key: 'scope' },
+        { title: this.$t('serverbundle'), key: 'serverbundle.name' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'right',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'right',
         },
       ],
       apiTokenForm: APITokenForm,

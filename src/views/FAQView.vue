@@ -161,7 +161,7 @@ import {VueDraggable} from "vue-draggable-plus";
 export default {
   data() {
     return {
-      questions: null,
+      questions: [],
       content: null,
       faqAddSchema: FaqForm,
       updateFaqEnabled: false,
