@@ -87,119 +87,117 @@
           target="_blank"
           href="https://docs.vyhub.net/latest/game/gmod/"
           class="mr-2"
-        ><v-btn
-          class="mb-1"
-          variant="flat"
-          size="small"
-        >GMOD</v-btn></a>
+        >
+          <v-btn
+            class="mb-1"
+            variant="flat"
+            size="small"
+          >GMOD
+          </v-btn>
+        </a>
         <a
           target="_blank"
           href="https://docs.vyhub.net/latest/game/minecraft/"
           class="mr-2"
-        ><v-btn
-          class="mb-1"
-          variant="flat"
-          size="small"
-        >Minecraft</v-btn></a>
+        >
+          <v-btn
+            class="mb-1"
+            variant="flat"
+            size="small"
+          >Minecraft
+          </v-btn>
+        </a>
         <a
           target="_blank"
           href="https://docs.vyhub.net/latest/game/rust/"
           class="mr-2"
-        ><v-btn
-          class="mb-1"
-          variant="flat"
-          size="small"
-        >Rust</v-btn></a>
+        >
+          <v-btn
+            class="mb-1"
+            variant="flat"
+            size="small"
+          >Rust
+          </v-btn>
+        </a>
         <a
           target="_blank"
           href="https://docs.vyhub.net/latest/game/7days/"
           class="mr-2"
-        ><v-btn
-          class="mb-1"
-          variant="flat"
-          size="small"
-        >7 Days to Die</v-btn></a>
+        >
+          <v-btn
+            class="mb-1"
+            variant="flat"
+            size="small"
+          >7 Days to Die
+          </v-btn>
+        </a>
         <a
           target="_blank"
           href="https://docs.vyhub.net/latest/game/asa/"
           class="mr-2"
-        ><v-btn
-          class="mb-1"
-          variant="flat"
-          size="small"
-        >Ark Ascended</v-btn></a>
+        >
+          <v-btn
+            class="mb-1"
+            variant="flat"
+            size="small"
+          >Ark Ascended
+          </v-btn>
+        </a>
         <a
           target="_blank"
           href="https://docs.vyhub.net/latest/game/fivem/"
           class="mr-2"
-        ><v-btn
-          class="mb-1"
-          variant="flat"
-          size="small"
-        >FiveM</v-btn></a>
+        >
+          <v-btn
+            class="mb-1"
+            variant="flat"
+            size="small"
+          >FiveM
+          </v-btn>
+        </a>
       </slot>
     </dialogform>
   </div>
-</template>
-    </DialogForm>
-    <DialogForm
-      ref="editRewardDialog"
-      :form-schema="rewardSchema"
-      icon="mdi-star-shooting"
-      :submitText="$t('edit')"
-      @submit="editReward"
-      :title="$t('_reward.labels.edit')"
->
-    </DialogForm>
-    <Dialog :title="$t('_reward.labels.templates')"
-            ref="useTemplateDialog" icon="mdi-star-shooting"
->
-      <RewardCatalog @success="$refs.useTemplateDialog.close(); fetchData()"/>
-    </Dialog>
-    <DeleteConfirmationDialog
-      ref="deleteRewardDialog"
-      @submit="deleteReward"
-/>
-    <SyncAppliedRewardsPacketsDialog @success="fetchData" ref="appliedRewardSyncDialog" />
-  </div>
+  <DialogForm
+    ref="editRewardDialog"
+    :form-schema="rewardSchema"
+    icon="mdi-star-shooting"
+    :submit-text="$t('edit')"
+    :title="$t('_reward.labels.edit')"
+    @submit="editReward"
+  />
+  <Dialog
+    ref="useTemplateDialog"
+    :title="$t('_reward.labels.templates')"
+    icon="mdi-star-shooting"
+  >
+    <RewardCatalog @success="$refs.useTemplateDialog.close(); fetchData()" />
+  </Dialog>
+  <DeleteConfirmationDialog
+    ref="deleteRewardDialog"
+    @submit="deleteReward"
+  />
+  <SyncAppliedRewardsPacketsDialog
+    ref="appliedRewardSyncDialog"
+    @success="fetchData"
+  />
 </template>
 
 <script>
-import SyncAppliedRewardsPacketsDialog
-  from '@/components/ShopComponents/Admin/RewardToAppliedPacketAddDialog.vue';
-import Dialog from '@/components/Dialog.vue';
-import admin from '@/views/Shop/Admin.vue';
 import GMOD from '@/components/DashboardComponents/Dashboards/Bundle/GMOD.vue';
-import RewardCatalog from '@/components/SettingComponents/RewardCatalog.vue';
 import EventBus from '@/services/EventBus';
-import SettingTitle from './SettingTitle.vue';
-import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
-import DialogForm from '../DialogForm.vue';
-import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import RewardForm from '../../forms/RewardForm';
-import BoolIcon from '../BoolIcon.vue';
 
 export default {
-  name: 'Rewards',
-  components: {
-    SyncAppliedRewardsPacketsDialog,
-    RewardCatalog,
-    Dialog,
-    BoolIcon,
-    DeleteConfirmationDialog,
-    DialogForm,
-    DataTable,
-    SettingTitle,
-  },
   data() {
     return {
       headers: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('type'), value: 'type' },
-        { text: this.$t('oneTime'), value: 'once' },
+        {title: this.$t('name'), key: 'name'},
+        {title: this.$t('type'), key: 'type'},
+        {title: this.$t('oneTime'), key: 'once'},
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'end',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       rewards: null,
@@ -274,7 +272,7 @@ export default {
 
       const api = await openapi;
 
-      api.packet_editReward({ uuid: reward.id }, data).then(() => {
+      api.packet_editReward({uuid: reward.id}, data).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.editSuccess'),
@@ -289,7 +287,7 @@ export default {
     async deleteReward(reward) {
       const api = await openapi;
 
-      api.packet_deleteReward({ uuid: reward.id }).then(() => {
+      api.packet_deleteReward({uuid: reward.id}).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.deleteSuccess'),
@@ -302,9 +300,9 @@ export default {
       });
     },
     showEditDialog(reward) {
-      const data = { ...reward };
+      const data = {...reward};
 
-      data.on_event_group = { on_event: reward.on_event };
+      data.on_event_group = {on_event: reward.on_event};
 
       this.$refs.editRewardDialog.show(reward);
 

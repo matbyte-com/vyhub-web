@@ -3,7 +3,6 @@ import Axios from 'axios';
 import Notifications from "@kyvg/vue3-notification";
 import VueApexCharts from 'vue3-apexcharts';
 import VueGtag from 'vue-gtag';
-// import VueNativeNotification from 'vue-native-notification';
 import * as Sentry from '@sentry/vue';
 import config from './config';
 import App from './App.vue';

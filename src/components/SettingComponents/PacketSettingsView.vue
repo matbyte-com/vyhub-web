@@ -52,16 +52,13 @@
       <template #item.actions="{ item }">
         <div class="text-right">
           <v-btn
-            icon
+            variant="text"
+            icon="mdi-content-copy"
             color="secondary"
             size="small"
             class="mr-1"
             @click="copyPacket(item)"
-          >
-            <v-icon size="small">
-              mdi-content-copy
-            </v-icon>
-          </v-btn>
+          />
           <v-btn
             variant="outlined"
             color="primary"

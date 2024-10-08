@@ -12,7 +12,7 @@
       :items="gateways"
     >
       <template #footer-right>
-        <v-menu offset-y>
+        <v-menu location="bottom">
           <template #activator="{ props }">
             <v-btn
               variant="outlined"
@@ -33,8 +33,12 @@
               :key="typeName"
               @click="showCreateDialog(typeName)"
             >
-              <v-list-item-icon><v-icon>{{ typeData.icon }}</v-icon></v-list-item-icon>
-              <v-list-item-title>{{ typeData.label }}</v-list-item-title>
+              <v-list-item-title>
+                <v-icon start>
+                  {{ typeData.icon }}
+                </v-icon>
+                {{ typeData.label }}
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -160,31 +164,18 @@
 <script>
 import Common from '@/forms/Common';
 import EventBus from '@/services/EventBus';
-import SettingTitle from './SettingTitle.vue';
-import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
-import DialogForm from '../DialogForm.vue';
-import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import GatewayForm from '../../forms/PaymentGatewayForm';
-import BoolIcon from '../BoolIcon.vue';
 
 export default {
-  name: 'ShopGateways',
-  components: {
-    BoolIcon,
-    DeleteConfirmationDialog,
-    DialogForm,
-    DataTable,
-    SettingTitle,
-  },
   data() {
     return {
       headers: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('type'), value: 'type' },
-        { text: this.$t('enabled'), value: 'enabled' },
+        { title: this.$t('name'), key: 'name' },
+        { title: this.$t('type'), key: 'type' },
+        { title: this.$t('enabled'), key: 'enabled' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'end',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       gateways: null,

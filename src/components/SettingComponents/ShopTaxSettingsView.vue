@@ -73,26 +73,18 @@
 
 <script>
 import countryUnicodeFlags from 'country-flag-icons/unicode';
-import SettingTitle from './SettingTitle.vue';
-import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
-import DialogForm from '../DialogForm.vue';
-import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import TaxRuleForm from '../../forms/TaxRuleForm';
 
 export default {
-  name: 'ShopTax',
-  components: {
-    DeleteConfirmationDialog, DialogForm, DataTable, SettingTitle,
-  },
   data() {
     return {
       headers: [
-        { text: this.$t('country'), value: 'country' },
-        { text: this.$t('percentage'), value: 'percentage' },
-        { text: this.$t('info'), value: 'info' },
+        { title: this.$t('country'), key: 'country' },
+        { title: this.$t('percentage'), key: 'percentage' },
+        { title: this.$t('info'), key: 'info' },
         {
-          text: this.$t('actions'), value: 'actions', width: '100px', sortable: false, align: 'end',
+          title: this.$t('actions'), key: 'actions', width: '100px', sortable: false, align: 'end',
         },
       ],
       taxRules: null,

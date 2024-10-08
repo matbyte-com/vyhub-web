@@ -3,7 +3,7 @@
     <SettingTitle doc-path="/guide/shop/packet">
       {{ $t('categories') }}
     </SettingTitle>
-
+    <!-- TODO Update sortable table to make it more clear that it can be sorted? -->
     <DataTable
       id="categories-table"
       :headers="headers"
@@ -82,30 +82,17 @@
 <script>
 import Sortable from 'sortablejs';
 import EventBus from '@/services/EventBus';
-import SettingTitle from './SettingTitle.vue';
-import DataTable from '../DataTable.vue';
 import openapi from '../../api/openapi';
-import DialogForm from '../DialogForm.vue';
-import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 import CategoryForm from '../../forms/PacketCategoryForm';
-import BoolIcon from '../BoolIcon.vue';
 
 export default {
-  name: 'PacketCategories',
-  components: {
-    BoolIcon,
-    DeleteConfirmationDialog,
-    DialogForm,
-    DataTable,
-    SettingTitle,
-  },
   data() {
     return {
       headers: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('enabled'), value: 'enabled' },
+        { title: this.$t('name'), key: 'name' },
+        { title: this.$t('enabled'), key: 'enabled' },
         {
-          text: this.$t('actions'), value: 'actions', width: '200px', sortable: false, align: 'end',
+          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
       categories: null,

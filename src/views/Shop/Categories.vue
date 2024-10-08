@@ -128,11 +128,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 
 export default {
-  name: 'Categories',
-  components: { PageTitleFlat },
   data() {
     return {
       categories: null,
