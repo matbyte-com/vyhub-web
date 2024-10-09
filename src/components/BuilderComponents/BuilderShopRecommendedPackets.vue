@@ -77,13 +77,9 @@
 </template>
 
 <script>
-import Swiper from '@/components/Swiper.vue';
 import openapi from '@/api/openapi';
-import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
-  name: 'RecommendedPackets',
-  components: { PacketImage, Swiper },
   props: ['callToAction'],
   data() {
     return {

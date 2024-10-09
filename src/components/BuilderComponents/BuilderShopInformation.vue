@@ -81,12 +81,7 @@
 </template>
 
 <script>
-import TopDonators from '@/components/ShopComponents/TopDonators.vue';
-import DonationGoal from '../ShopComponents/DonationGoal.vue';
-
 export default {
-  name: 'ShopInformation',
-  components: { DonationGoal, TopDonators },
   props: ['imageCardUrl', 'whiteText'],
 };
 </script>

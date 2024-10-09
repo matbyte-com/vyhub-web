@@ -51,7 +51,6 @@
 
 <script>
 export default {
-  name: 'Wrapper',
   props: ['title', 'subtitle', 'no_wrap', 'height', 'css', 'backgroundColor', 'whiteText', 'imageUrl', 'noTitleInWrapper', 'marginTop'],
   computed: {
     getBackgroundColor() {

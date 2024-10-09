@@ -34,7 +34,6 @@
 
 <script>
 export default {
-  name: 'Columns',
   props: ['columns', 'maxImageWidth', 'maxContentWidth'],
   computed: {
     getMaxContentWidth() {

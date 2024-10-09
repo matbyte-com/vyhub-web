@@ -44,7 +44,6 @@
 
 <script>
 export default {
-  name: 'Discord',
   props: {
     headline: {
       type: String,

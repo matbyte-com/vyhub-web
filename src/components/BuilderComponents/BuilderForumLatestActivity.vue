@@ -129,12 +129,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import UserLink from '@/components/UserLink.vue';
-import CardTitle from '@/components/CardTitle.vue';
 
 export default {
-  name: 'ForumLatestActivity',
-  components: { CardTitle, UserLink },
   data() {
     return {
       latestPosts: [],

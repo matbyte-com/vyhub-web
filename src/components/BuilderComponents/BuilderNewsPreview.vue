@@ -107,7 +107,6 @@
 import openapiCached from '@/api/openapiCached';
 
 export default {
-  name: 'NewsPreview',
   props: {
     maxColumnHeight: {
       type: Number,

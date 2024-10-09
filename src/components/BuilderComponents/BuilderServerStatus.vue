@@ -250,11 +250,8 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
-import Swiper from '@/components/Swiper.vue';
 
 export default {
-  name: 'ServerStatus',
-  components: { Swiper },
   data() {
     return {
       servers: null,

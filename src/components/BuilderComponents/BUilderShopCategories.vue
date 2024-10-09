@@ -59,11 +59,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import Swiper from '@/components/Swiper.vue';
 
 export default {
-  name: 'ShopPreview',
-  components: { Swiper },
   props: ['callToAction'],
   data() {
     return {

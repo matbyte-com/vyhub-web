@@ -40,7 +40,6 @@
 
 <script>
 export default {
-  name: 'Faq',
   props: ['questions'],
 };
 </script>

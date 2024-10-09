@@ -98,11 +98,9 @@
 </template>
 
 <script>
-import Swiper from '@/components/Swiper.vue';
 
 export default {
   name: 'ColumnCards',
-  components: { Swiper },
   props: ['headline', 'subtitle', 'cards'],
 };
 </script>

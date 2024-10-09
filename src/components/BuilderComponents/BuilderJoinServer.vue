@@ -89,8 +89,6 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
-import { features } from 'process';
-import vuetify from '@/plugins/vuetify';
 
 export default {
   name: 'JoinServer',
@@ -101,9 +99,6 @@ export default {
     };
   },
   computed: {
-    features() {
-      return features;
-    },
     server1() {
       if (!this.servers || this.servers.length === 1) return null;
       if (this.fetchedServers) {
@@ -181,7 +176,7 @@ export default {
   border-radius: 15px;
 }
 .join-link:hover {
-  background-color: var(--v-primary-lighten2);
+  background-color: rgb(var(--v-primary-lighten2));
 }
 
 .join-btn {

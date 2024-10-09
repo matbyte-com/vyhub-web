@@ -10,7 +10,7 @@
           cols="11"
           sm="9"
           md="6"
-          Lg="5"
+          lg="5"
         >
           <div
             class="text-h4 mb-2"
@@ -145,7 +145,6 @@
 import openapiCached from '@/api/openapiCached';
 
 export default {
-  name: 'ServerStatus2',
   props: ['imageCardUrl', 'whiteText'],
   data() {
     return {

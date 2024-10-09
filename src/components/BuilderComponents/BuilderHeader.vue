@@ -55,7 +55,6 @@
             :width="logo_width"
             transition="scale-transition"
             height="60"
-            contain
           />
         </router-link>
         <!-- Do not overflow on bigger screens -->
@@ -151,13 +150,8 @@
 </template>
 
 <script>
-import LinkAccountDialog from '@/components/LinkAccountDialog.vue';
 
 export default {
-  name: 'Header',
-  components: {
-    LinkAccountDialog,
-  },
   props: ['headline', 'logoUrl', 'logo_width', 'app', 'backgroundColor', 'whiteText', 'links', 'dense', 'fixed', 'backgroundImage'],
   methods: {
     showLoginDialog() {

@@ -35,7 +35,6 @@
 
 <script>
 export default {
-  name: 'Carousel',
   props: ['height', 'slides', 'whiteText'],
 };
 </script>

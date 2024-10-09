@@ -124,11 +124,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import Swiper from '@/components/Swiper.vue';
 
 export default {
-  name: 'CommunityStats',
-  components: { Swiper },
   props: {
     headline: {
       type: String,

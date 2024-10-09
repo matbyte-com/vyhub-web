@@ -86,12 +86,9 @@
 </template>
 
 <script>
-import Swiper from '@/components/Swiper.vue';
 import openapi from '../../api/openapi';
 
 export default {
-  name: 'NewUsers',
-  components: { Swiper },
   props: {
     limit: {
       type: Number,

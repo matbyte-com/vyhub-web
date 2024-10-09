@@ -59,7 +59,6 @@
 
 <script>
 export default {
-  name: 'FirstComponent',
   props: ['title', 'subtitle', 'height', 'backgroundColor2', 'imageUrl', 'buttons', 'logoUrl', 'whiteText', 'container', 'marginTop'],
   computed: {
     getBackgroundColor() {
