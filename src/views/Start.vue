@@ -20,7 +20,6 @@
 import openapiCached from '@/api/openapiCached';
 
 export default {
-  name: 'Start.vue',
   beforeMount() {
     this.redirect();
   },

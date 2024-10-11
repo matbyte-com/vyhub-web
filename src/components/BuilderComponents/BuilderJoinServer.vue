@@ -14,7 +14,7 @@
         >
           <div
             class="d-flex align-center join-link pa-3"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             <v-card
               color="primary"
@@ -63,7 +63,7 @@
         >
           <div
             class="d-flex align-center justify-end join-link pa-3"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             <div class="text-right mr-3">
               <div class="text-h5">{{ server2.name }}</div>
@@ -176,7 +176,7 @@ export default {
   border-radius: 15px;
 }
 .join-link:hover {
-  background-color: rgb(var(--v-primary-lighten2));
+  background-color: rgb(var(--v-theme-primary-lighten-2)) !important;
 }
 
 .join-btn {

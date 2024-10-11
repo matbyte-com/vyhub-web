@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Notifications position="bottom left" />
+    <VueNotification />
     <LinkAccountDialog />
     <TheHeader v-if="!$route.meta.noHeader" />
 
@@ -176,16 +176,12 @@ import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
 import { register } from 'swiper/element';
 import UserService from '@/services/UserService';
-import { Notifications } from '@kyvg/vue3-notification';
 import 'ckeditor5/ckeditor5.css';
 
 register(); // register Swiper
 
 export default {
   name: 'App',
-  components: {
-    Notifications,
-  },
   data: () => ({
     background: '#FAFAFA',
     backgroundImage: null,

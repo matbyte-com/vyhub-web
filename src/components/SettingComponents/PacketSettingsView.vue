@@ -83,21 +83,20 @@
           </v-btn>
         </div>
       </template>
+      <template #footer-right>
+        <v-btn
+          variant="outlined"
+          color="success"
+          :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }"
+          @click="showAddPacketDialog"
+        >
+          <v-icon start>
+            mdi-plus
+          </v-icon>
+          <span>{{ $t('_packet.labels.add') }}</span>
+        </v-btn>
+      </template>
     </DataTable>
-    <div class="d-flex">
-      <v-spacer />
-      <v-btn
-        variant="outlined"
-        color="success"
-        :class="{ 'glow-effect':utils.customerJourneyActive('add-packet') }"
-        @click="showAddPacketDialog"
-      >
-        <v-icon start>
-          mdi-plus
-        </v-icon>
-        <span>{{ $t('_packet.labels.add') }}</span>
-      </v-btn>
-    </div>
     <DialogForm
       ref="addPacketDialog"
       :form-schema="packetSchema"
@@ -135,25 +134,12 @@
 
 <script>
 import Sortable from 'sortablejs';
-import DialogForm from '@/components/DialogForm.vue';
 import PacketForm from '@/forms/PacketForm';
-import DataTable from '@/components/DataTable.vue';
-import EditorForForm from '@/components/EditorForForm.vue';
 import ShopService from '@/services/ShopService';
 import EventBus from '@/services/EventBus';
-import SettingTitle from './SettingTitle.vue';
 import openapi from '../../api/openapi';
-import DeleteConfirmationDialog from '../DeleteConfirmationDialog.vue';
 
 export default {
-  name: 'Packets',
-  components: {
-    EditorForForm,
-    DeleteConfirmationDialog,
-    SettingTitle,
-    DataTable,
-    DialogForm,
-  },
   data() {
     return {
       headers: [

@@ -1,15 +1,12 @@
 <template>
-  <notifications
+  <Notifications
     position="bottom left"
     :duration="8000"
     :width="400"
     classes="vue-notification vuetify-notification"
   >
     <!--  Was before: <slot name="body" slot-scope="{ item }"> -->
-    <slot
-      name="body"
-      :item="{ item }"
-    >
+    <template #body="{ item }">
       <div :class="'vue-notification vuetify-notification ' + item.type">
         <div class="text-body-2">
           <v-row>
@@ -59,13 +56,16 @@
           </v-row>
         </div>
       </div>
-    </slot>
-  </notifications>
+    </template>
+  </Notifications>
 </template>
 
 <script>
+import {Notifications} from "@kyvg/vue3-notification";
+
 export default {
   name: 'VueNotification',
+  components: {Notifications},
 };
 </script>
 

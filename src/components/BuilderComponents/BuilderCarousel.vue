@@ -12,12 +12,13 @@
         <v-carousel-item
           v-for="slide in slides"
           :key="slide.title + slide.imageUrl"
+          cover
           :src="slide.imageUrl"
           :height="height ? height : '500px'"
         >
           <div
             style="width: 100%; height: 100%"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
             class="d-flex flex-column justify-center align-center text-center"
           >
             <h1 class="text-h3">

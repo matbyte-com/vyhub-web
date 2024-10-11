@@ -217,6 +217,7 @@ export default {
 
 .stat-card {
   transition: all .2s ease-in-out;
+  overflow: visible;
 }
 
 .stat-card:hover {

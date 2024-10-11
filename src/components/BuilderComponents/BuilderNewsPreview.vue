@@ -12,13 +12,13 @@
         <div>
           <div
             class="text-h3"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             {{ title }}
           </div>
           <div
             class="text-h5"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             {{ subtitle }}
           </div>
@@ -47,11 +47,11 @@
                   border
                   :max-height="maxColumnHeight"
                   :to="{ name: 'News' }"
-                  :img="n.background_url"
+                  :image="n.background_url"
                 >
                   <v-card-title>
                     <span
-                      :class="{ 'white--text' : !$vuetify.theme.current.dark && n.invert_title_color,
+                      :class="{ 'text-white' : !$vuetify.theme.current.dark && n.invert_title_color,
                                 'black--text' : $vuetify.theme.current.dark && n.invert_title_color }"
                     >
                       {{ n.subject }}
@@ -104,6 +104,7 @@
 
 <script>
 // TODO Mach mal Hübsch..
+// TODO Check whether this is still working
 import openapiCached from '@/api/openapiCached';
 
 export default {

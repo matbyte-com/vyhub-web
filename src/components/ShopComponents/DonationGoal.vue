@@ -36,7 +36,7 @@
           class="progress-bar"
           color="primary"
         >
-          <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'white--text' : '')">
+          <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'text-white' : '')">
             {{ donationProgress }}%
           </span>
         </v-progress-linear>

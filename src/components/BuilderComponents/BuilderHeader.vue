@@ -12,7 +12,7 @@
       <!-- Logo -->
       <div
         class="d-flex align-center grow"
-        :class="{ 'container' : $vuetify.display.mdAndUp }"
+        :class="{ 'v-container' : $vuetify.display.mdAndUp }"
       >
         <!-- burger menu on the left-->
         <v-menu
@@ -21,7 +21,7 @@
         >
           <template #activator="{ props }">
             <v-app-bar-nav-icon
-              :class="{ 'white--text': whiteText }"
+              :class="{ 'text-white': whiteText }"
               v-bind="props"
             />
           </template>
@@ -69,7 +69,7 @@
           >
             <v-toolbar-title
               class="ml-3"
-              :class="{ 'white--text': whiteText }"
+              :class="{ 'text-white': whiteText }"
             >
               {{ headline }}
             </v-toolbar-title>
@@ -84,7 +84,7 @@
         >
           <v-toolbar-title
             class="ml-3 mr-1"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             {{ headline }}
           </v-toolbar-title>
@@ -97,7 +97,7 @@
           <v-btn
             v-for="l in links"
             :key="l.text"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
             :target="l.targetBlank? '_blank' : ''"
             variant="text"
             class="my-1"
@@ -138,7 +138,7 @@
           </v-avatar>
           <span
             class="ml-1 mr-1"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             {{ $store.getters.user.username }}
           </span>

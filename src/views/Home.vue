@@ -2,7 +2,7 @@
   <div>
     <!-- Top Menu -->
     <div
-      v-if="$checkProp('theme_edit')"
+      v-if="$checkProp('theme_edit') && !editDrawer"
       style="position: fixed; z-index: 5; margin-top: 70px;"
       class="d-flex"
     >
@@ -34,7 +34,7 @@
       :no-title-in-wrapper="block.type === 'NewsPreview'"
     >
       <component
-        :is="`Builder${block.type}`"
+        :is="componentInstance(block.type)"
         v-bind="block.props_data"
       >
         {{ block.slot }}
@@ -60,13 +60,10 @@
     <v-navigation-drawer
       v-if="$checkProp('theme_edit')"
       v-model="editDrawer"
-      style="z-index: 201"
-      :location="drawerRight ? 'right' : undefined"
       :permanent="newComponentDialog"
-      app
-      location="bottom"
-      width="400px"
-      temporary
+      :location="drawerRight ? 'right' : 'left'"
+      style="z-index: 200;"
+      :width="400"
     >
       <v-list-item
         class="elevation-3"
@@ -84,7 +81,7 @@
           <v-icon
             ref="closeDrawerIcon"
             class="animate__animated animate__faster"
-            @click="closeDrawer();"
+            @click.stop="closeDrawer();"
           >
             mdi-close
           </v-icon>
@@ -159,6 +156,7 @@
       </div>
       <v-list-item>
         <v-btn
+          style="width: 100%"
           variant="outlined"
           @click="$refs.addComponentDialog.show();newComponentDialog = true;"
         >
@@ -169,22 +167,24 @@
         </v-btn>
       </v-list-item>
       <v-list-item>
-        <v-btn
-          size="small"
-          variant="text"
-          @click="fetchData"
-        >
-          <v-icon>mdi-restore</v-icon>
-        </v-btn>
-        <v-btn
-          variant="flat"
-          class="ml-3 grow"
-          color="success"
-          :disabled="!saveButton"
-          @click="savePage"
-        >
-          Save
-        </v-btn>
+        <div class="d-flex">
+          <v-btn
+            size="small"
+            variant="text"
+            @click="fetchData"
+          >
+            <v-icon>mdi-restore</v-icon>
+          </v-btn>
+          <v-btn
+            variant="flat"
+            class="ml-3 flex-grow-1"
+            color="success"
+            :disabled="!saveButton"
+            @click="savePage"
+          >
+            Save
+          </v-btn>
+        </div>
       </v-list-item>
     </v-navigation-drawer>
     <Dialog
@@ -201,12 +201,12 @@
           hide-details="auto"
           density="compact"
           class="mt-3"
-          append-icon="mdi-magnify"
+          append-inner-icon="mdi-magnify"
           :label="$t('search')"
         />
         <transition-group
           tag="div"
-          class="mt-3 row"
+          class="mt-3 v-row"
           name="list-complete"
         >
           <v-col
@@ -258,7 +258,10 @@ import axios from 'axios';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
 import {VueDraggable} from "vue-draggable-plus";
+import {defineAsyncComponent} from "vue";
 
+// TODO Internal Server error when Adding a new component without saving, then pressing the delete button and then saving. Fix needed!
+// TODO Skeleton Loader does not work as blocks starst with [] and not null . This is due to the draggable. -> All draggables effected
 
 export default {
   components: {
@@ -273,7 +276,7 @@ export default {
       componentEdited: false,
       newComponentDialog: false,
       addComponentSearch: '',
-      blocks: null,
+      blocks: [],
       count: 0,
       availableComponents: components.components,
       panelExposed: null,
@@ -310,6 +313,9 @@ export default {
     this.redirectWhenDisabled();
   },
   methods: {
+    componentInstance(type) {
+      return defineAsyncComponent(() => import(/* @vite-ignore */ `../components/BuilderComponents/Builder${type}.vue`));
+    },
     async redirectWhenDisabled() {
       if (!this.$store.getters.theme) {
         (await openapiCached).general_getTheme().then((rsp) => {
@@ -486,6 +492,9 @@ export default {
     },
   },
 };
+</script>
+
+<script setup lang="ts">
 </script>
 
 <style>

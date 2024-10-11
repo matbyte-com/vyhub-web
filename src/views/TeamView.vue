@@ -1,5 +1,6 @@
 <template>
   <div>
+    <TestComponent />
     <PageTitleFlat
       :title="$t('_team.title')"
       :hide-triangle="true"

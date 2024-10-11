@@ -930,7 +930,7 @@ export default {
 <style scoped>
 .clicked {
   background-color: rgba(84, 113, 252, 0.1);
-  border: 1px solid var(--v-primary-lighten3);
+  border: 1px solid var(--v-theme-primary-lighten-3);
   border-radius: 5px;
 }
 

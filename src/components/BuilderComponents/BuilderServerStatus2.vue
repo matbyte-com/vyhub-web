@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="card-rounded vh-home-shop-stats"
-    :img="imageCardUrl"
+    :image="imageCardUrl"
     flat
   >
     <v-card-text>
@@ -14,7 +14,7 @@
         >
           <div
             class="text-h4 mb-2"
-            :class="{ 'white--text' : whiteText }"
+            :class="{ 'text-white' : whiteText }"
           >
             {{ $t('server') }}
           </div>
@@ -25,7 +25,7 @@
           >
             <div
               class="d-flex align-center flex-wrap"
-              :class="{ 'white--text' : whiteText }"
+              :class="{ 'text-white' : whiteText }"
             >
               {{ $t(`_server.type.${server.type}`) }}
               <v-divider class="mx-3" />

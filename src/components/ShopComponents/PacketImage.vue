@@ -1,6 +1,7 @@
 <template>
   <v-img
     v-if="packet.image_url"
+    cover
     v-bind="$attrs"
     :src="packet.image_url"
   >
@@ -8,6 +9,7 @@
   </v-img>
   <v-img
     v-else
+    cover
     v-bind="$attrs"
     src="https://cdn.vyhub.net/vyhub/packet.jpg"
   >
@@ -17,7 +19,6 @@
 
 <script>
 export default {
-  name: 'PacketImage',
   props: {
     packet: {
       type: Object,

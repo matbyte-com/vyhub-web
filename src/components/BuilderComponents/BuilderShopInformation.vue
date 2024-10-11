@@ -43,7 +43,7 @@
     <v-card
       v-else
       class="card-rounded"
-      :img="imageCardUrl"
+      :image="imageCardUrl"
       flat
       :dark="whiteText"
     >
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+// TODO CHECK WHETHER THIS IS WORKING
 export default {
   props: ['imageCardUrl', 'whiteText'],
 };

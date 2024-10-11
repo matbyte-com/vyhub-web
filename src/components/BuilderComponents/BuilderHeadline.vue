@@ -1,13 +1,13 @@
 <template>
   <div
     class="vh-home-headline"
-    :class="{ 'container':container}"
+    :class="{ 'v-container':container}"
     :style="`margin-top: ${marginTop}`"
   >
     <v-card
       flat
       :height="height ? height : '300px'"
-      :img="imageUrl"
+      :image="imageUrl"
       :tile="!container"
       :class="{ 'card-rounded':container}"
     >
@@ -19,7 +19,6 @@
         <div>
           <div v-if="logoUrl">
             <v-img
-              v-if="imageUrl"
               :src="logoUrl"
               :alt="title"
               height="100px"
@@ -28,13 +27,13 @@
           </div>
           <h1
             class="text-h3"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             {{ title }}
           </h1>
           <p
             class="text-subtitle-1 mt-3"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             {{ subtitle }}
           </p>

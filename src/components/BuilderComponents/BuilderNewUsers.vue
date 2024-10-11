@@ -19,6 +19,7 @@
             :to="{ name: 'UserDashboard', params: { id: u.id } }"
           >
             <v-img
+              cover
               height="125"
               style="filter: blur(2px) brightness(80%);"
               :src="u.avatar"

@@ -100,13 +100,13 @@
 <script>
 
 export default {
-  name: 'ColumnCards',
   props: ['headline', 'subtitle', 'cards'],
 };
 </script>
 
 <style scoped>
 .feature-card {
+  overflow: visible;
   transition: all .2s ease-in-out;
 }
 

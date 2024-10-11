@@ -12,7 +12,7 @@
         <div>
           <div
             class="text-h3"
-            :class="{ 'white--text': whiteText }"
+            :class="{ 'text-white': whiteText }"
           >
             {{ headline }}
           </div>

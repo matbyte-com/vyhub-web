@@ -30,7 +30,7 @@
             v-model="properties"
             :label="$t(`_property.descriptions.${prop.name}`)"
             :value="prop.name"
-            dense
+            density="compact"
             hide-details="auto"
             v-on="{...on, change}"
           />
@@ -44,7 +44,6 @@
 import openapi from '../../api/openapi';
 
 export default {
-  name: 'PropertyPicker',
   props: {
     value: { type: Array[String], default: '' },
     options: { type: Object, required: true },

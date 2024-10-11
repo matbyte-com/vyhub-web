@@ -297,12 +297,12 @@ export default {
           {
             title: 'Slide 1',
             subtitle: 'Slide 1 Subtitle',
-            imageUrl: 'https://steam.cryotank.net/wp-content/gallery/minecraft/Minecraft-07-HD.png',
+            imageUrl: 'https://cdn.vyhub.net/vyhub/page-builder/minecraft_carousel.jpg',
           },
           {
             title: 'Slide 2',
             subtitle: 'Slide 2 Subtitle',
-            imageUrl: 'https://cdn.steamstatic.com/steam/apps/4000/header.jpg',
+            imageUrl: 'https://cdn.vyhub.net/vyhub/page-builder/gmod_carousel.jpg',
           },
         ],
       },
@@ -471,7 +471,7 @@ export default {
         },
       },
       defaults: {
-        imageCardUrl: 'https://media.discordapp.net/attachments/1078311411530346587/1154421955039068220/servers-transformed_cleanup.png?width=1033&height=579',
+        imageCardUrl: 'https://cdn.vyhub.net/vyhub/page-builder/server-status-background.webp',
         whiteText: true,
       },
     },
@@ -616,7 +616,7 @@ export default {
           },
           {
             question: 'How can I contact you?',
-            answer: 'The easiest way is to join our Discord server.',
+            answer: 'The easiest way is to join our <a href="https://discord.com/invite/QycQpd2AQP" target="_blank">Discord</a> server.',
           },
         ],
       },
@@ -696,7 +696,7 @@ export default {
           + '<p><h1>Hi 👋, I am an HTML block</h1></p><p class="mb-0">Writing HTML isn\'t that hard. The cool thing is, you can use all of Vuetify\'s css-classes. Since they are already injected.</p><p class="text-disabled">(Writing Vue or Vuetify tags doesn\'t work.)</p>'
           + '<p>TODO: Explanation on how to call the API</p>'
           + '<div class="d-flex justify-center">'
-          + '<div class="text-center grow">⬅️ Left Column</div><div class="text-center grow">Right Column ➡️</div></div></div>',
+          + '<div class="text-center flex-grow-1">⬅️ Left Column</div><div class="text-center flex-grow-1">Right Column ➡️</div></div></div>',
       },
     },
   ],

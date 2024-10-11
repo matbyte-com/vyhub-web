@@ -6,6 +6,7 @@
       </span>
       <v-switch
         v-model="model"
+        color="primary"
         hide-details="auto"
         class="ml-2"
         @update:model-value="toggleAdvancedSettings"

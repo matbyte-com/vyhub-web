@@ -31,6 +31,7 @@
             >
               <div style="overflow: hidden">
                 <v-img
+                  cover
                   max-height="200px"
                   :src="category.image_url"
                   :alt="category.name"
@@ -87,12 +88,12 @@ export default {
 }
 
 /* [2] Transition property for smooth transformation of images */
-.img-hover-zoom .v-image {
+.img-hover-zoom .v-img {
   transition: transform .3s ease;
 }
 
 /* [3] Finally, transforming the image when container gets hovered */
-.img-hover-zoom:hover .v-image {
+.img-hover-zoom:hover .v-img {
   transform: scale(1.08);
 }
 

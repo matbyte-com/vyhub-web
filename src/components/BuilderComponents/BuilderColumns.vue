@@ -6,26 +6,24 @@
         :key="index"
       >
         <div class="d-flex justify-center align-center">
-          <div>
-            <div v-if="column.title">
-              <h3 class="text-h3">
-                {{ column.title }}
-              </h3>
-            </div>
-            <div v-if="column.imageUrl">
-              <v-img
-                :src="column.imageUrl"
-                :alt="column.title"
-                :max-width="maxImageWidth"
-                style="border-radius: 3px"
-              />
-            </div>
-            <div
-              v-if="column.content"
-              :style="`max-width: ${getMaxContentWidth}`"
-              v-html="column.content"
+          <div v-if="column.title">
+            <h3 class="text-h3">
+              {{ column.title }}
+            </h3>
+          </div>
+          <div v-if="column.imageUrl">
+            <v-img
+              :src="column.imageUrl"
+              :alt="column.title"
+              :max-width="maxImageWidth"
+              style="border-radius: 3px"
             />
           </div>
+          <div
+            v-if="column.content"
+            :style="`max-width: ${getMaxContentWidth}`"
+            v-html="column.content"
+          />
         </div>
       </v-col>
     </v-row>
@@ -34,6 +32,7 @@
 
 <script>
 export default {
+  // TODO Does not work yet / looks good yet
   props: ['columns', 'maxImageWidth', 'maxContentWidth'],
   computed: {
     getMaxContentWidth() {

@@ -27,7 +27,6 @@
                 </div>
               </v-expansion-panel-title>
               <v-expansion-panel-text>
-                <v-divider class="pb-3" />
                 <p v-html="q.answer" />
               </v-expansion-panel-text>
             </v-expansion-panel>

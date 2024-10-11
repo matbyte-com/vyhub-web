@@ -12,7 +12,7 @@
       flat
       tile
       :color="backgroundColor"
-      :img="imageUrl"
+      :image="imageUrl"
       :height="height"
       class="wrapper-card bg-transparent"
     >
@@ -28,13 +28,13 @@
             >
               <h2
                 class="text-h3"
-                :class="{ 'white--text': whiteText, 'black--text': !whiteText }"
+                :class="{ 'text-white': whiteText, 'black--text': !whiteText }"
               >
                 {{ title }}
               </h2>
               <p
                 class="text-subtitle-1"
-                :class="{ 'white--text': whiteText, 'black--text': !whiteText }"
+                :class="{ 'text-white': whiteText, 'black--text': !whiteText }"
               >
                 {{ subtitle }}
               </p>

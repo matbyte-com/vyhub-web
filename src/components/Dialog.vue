@@ -4,7 +4,7 @@
     v-model="open"
     scrollable
     :max-width="maxWidth"
-    style="z-index: 200;"
+    :z-index="202"
     :fullscreen="$vuetify.display.xs"
   >
     <v-card :class="{ 'card-rounded' : !$vuetify.display.xs }">
