@@ -10,11 +10,8 @@
 </template>
 
 <script>
-import Editor from '@/components/Editor.vue';
 
 export default {
-  name: 'EditorForForm',
-  components: { Editor },
   props: {
     value: { type: Array[String], default: '' },
     options: { type: Object, required: true },
