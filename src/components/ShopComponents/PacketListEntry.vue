@@ -128,7 +128,7 @@
               size="large"
               :loading="loading"
               variant="flat"
-              class="ml-1 grow cta-btn"
+              class="ml-1 flex-grow-1 cta-btn"
               color="primary"
               @click="addToCart()"
             >
@@ -141,7 +141,7 @@
               v-else
               size="large"
               variant="flat"
-              class="ml-1 grow cta-btn"
+              class="ml-1 flex-grow-1 cta-btn"
               color="primary"
               @click="$refs.detailDialog.show()"
             >

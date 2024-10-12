@@ -1,23 +1,22 @@
 <template>
   <div>
-    <v-app-bar
-      :fixed="fixed"
-      :dense="dense"
-      :app="app"
-      :color="backgroundColor"
-      :flat="!app"
+    <!--       :fixed="fixed"       :color="backgroundColor"       :flat="!app"
+-->
+    <v-toolbar
+      :density="dense ? 'compact' : 'default'"
+      :class="{ 'position-fixed' : fixed }"
       style="z-index: 4;"
-      :src="backgroundImage"
+      :color="backgroundColor"
     >
       <!-- Logo -->
       <div
-        class="d-flex align-center grow"
+        class="d-flex align-center flex-grow-1"
         :class="{ 'v-container' : $vuetify.display.mdAndUp }"
       >
         <!-- burger menu on the left-->
         <v-menu
           v-if="$vuetify.display.smAndDown"
-          offset-y
+          location="bottom"
         >
           <template #activator="{ props }">
             <v-app-bar-nav-icon
@@ -30,15 +29,10 @@
             <v-list-item
               v-for="(l, index) in links"
               :key="index"
+              :prepend-icon="l.icon"
               :href="(!utils.localLink(l) ? l.link : null)"
               :to="utils.localLink(l) ? utils.getLocalLink(l) : null"
             >
-              <v-icon
-                v-if="l.icon"
-                start
-              >
-                {{ l.icon }}
-              </v-icon>
               <v-list-item-title>{{ l.btnText }}</v-list-item-title>
             </v-list-item>
           </v-list>
@@ -46,7 +40,7 @@
 
         <router-link
           v-if="logoUrl"
-          :to="{ name: 'news' }"
+          :to="{ name: 'News' }"
         >
           <v-img
             alt="Community Logo"
@@ -144,7 +138,7 @@
           </span>
         </v-chip>
       </div>
-    </v-app-bar>
+    </v-toolbar>
     <LinkAccountDialog ref="linkAccountDialog" />
   </div>
 </template>

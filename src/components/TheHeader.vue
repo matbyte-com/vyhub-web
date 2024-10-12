@@ -7,7 +7,7 @@
       style="z-index: 200;"
     >
       <div
-        class="d-flex align-center grow mx-3 "
+        class="d-flex align-center flex-grow-1 mx-3 "
         style="width: 100%"
         :class="{ 'v-container' : $store.getters.theme && $store.getters.theme.header_container
           && $vuetify.display.mdAndUp }"

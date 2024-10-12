@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center grow">
+  <div class="d-flex align-center flex-grow-1">
     <v-spacer v-if="centered" />
     <v-icon
       v-if="!noIcon"

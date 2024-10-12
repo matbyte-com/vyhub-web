@@ -55,7 +55,7 @@
                 </div>
               </PacketImage>
               <div
-                class="pa-2 d-flex flex-column grow"
+                class="pa-2 d-flex flex-column flex-grow-1"
                 style="height: 76px;"
               >
                 <h3
