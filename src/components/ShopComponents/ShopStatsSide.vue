@@ -62,13 +62,7 @@
 </template>
 
 <script>
-import LastDonators from '@/components/ShopComponents/LastDonators.vue';
-import DonationGoal from './DonationGoal.vue';
-import TopDonators from './TopDonators.vue';
-
 export default {
-  name: 'ShopStatsSide',
-  components: { LastDonators, TopDonators, DonationGoal },
   data() {
     return {
       tab: null,

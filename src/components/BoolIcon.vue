@@ -17,7 +17,6 @@
 
 <script>
 export default {
-  name: 'BoolIcon',
   props: {
     value: Boolean,
   },

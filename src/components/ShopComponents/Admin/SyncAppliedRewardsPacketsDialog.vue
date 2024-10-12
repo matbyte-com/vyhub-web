@@ -46,12 +46,8 @@
 <script>
 import openapi from '@/api/openapi';
 import AppliedRewardSync from '@/forms/AppliedRewardSync';
-import Dialog from '@/components/Dialog.vue';
-import GenForm from '@/components/GenForm.vue';
 
 export default {
-  name: 'SyncAppliedRewardsPacketsDialog',
-  components: { GenForm, Dialog },
   data() {
     return {
       appliedRewardSyncSchema: AppliedRewardSync,

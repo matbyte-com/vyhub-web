@@ -104,7 +104,7 @@
                     >
                       {{ utils.formatDecimal(packet.price_without_discount.total) }}
                     </span>
-                    <span style="color: var(--v-success-base); font-weight: 900; font-size: large">
+                    <span style="color: rgb(var(--v-theme-success)); font-weight: 900; font-size: large">
                       {{ utils.formatDecimal(packet.price_with_discount.total) }}
                       {{ packet.currency.name }}
                     </span>
@@ -129,7 +129,7 @@
               <!-- Custom Price -->
               <v-spacer />
               <!-- Recurring Packets
-            TODO TAX Rate
+            TODO TAX Rate This todo was here beforehand? Can it be removed?
             <div class="subtitle-2 font-italic mt-2"
                  v-if="packet.price_with_discount.tax_rate > 0">
               {{ $t('_shop.messages.includesVAT',
@@ -287,14 +287,10 @@
 <script>
 import openapi from '@/api/openapi';
 import ShopService from '@/services/ShopService';
-import DialogForm from '@/components/DialogForm.vue';
 import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 import EventBus from '@/services/EventBus';
-import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
-  name: 'PacketDetailDialog',
-  components: { PacketImage, DialogForm },
   props: ['packet', 'cartPacket', 'hideBuyBtns'],
   data() {
     return {

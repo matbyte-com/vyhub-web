@@ -62,11 +62,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import CardTitle from '@/components/CardTitle.vue';
 
 export default {
-  name: 'DonationGoal.vue',
-  components: { CardTitle },
   props: ['noIcon', 'noTitle', 'centerHeadline', 'textClasses', 'noShopBtn'],
   data() {
     return {

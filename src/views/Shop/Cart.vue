@@ -577,7 +577,7 @@
         <p>{{ $t('_shop.labels.redirectDescription') }}</p>
         <v-progress-circular
           indeterminate
-          class="mb-3 mt-3"
+          class="mb-3 mt-3 mx-auto"
           size="50"
           color="primary"
         />

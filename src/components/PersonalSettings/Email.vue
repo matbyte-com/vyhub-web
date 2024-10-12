@@ -61,7 +61,6 @@
 import openapi from '@/api/openapi';
 
 export default {
-  name: 'Email',
   props: {
     user: null,
     outlined: null,

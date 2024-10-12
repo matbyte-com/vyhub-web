@@ -119,17 +119,9 @@
 </template>
 
 <script>
-import PacketCard from '@/components/ShopComponents/PacketCard.vue';
-import Swiper from '@/components/Swiper.vue';
-import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
-import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 import openapiCached from '@/api/openapiCached';
 
 export default {
-  name: 'RecommendedPacketsSide',
-  components: {
-    PacketImage, PacketDetailDialog, Swiper, PacketCard,
-  },
   data() {
     return {
       selectedPacket: null,

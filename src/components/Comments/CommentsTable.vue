@@ -76,20 +76,10 @@
 </template>
 
 <script>
-import UserLink from '@/components/UserLink.vue';
 import openapi from '@/api/openapi';
-import DialogForm from '@/components/DialogForm.vue';
 import CommentForm from '@/forms/CommentForm';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import DataIterator from '@/components/DataIterator.vue';
 
 export default {
-  components: {
-    DataIterator,
-    DeleteConfirmationDialog,
-    DialogForm,
-    UserLink,
-  },
   props: {
     type: String,
     categories: Array,

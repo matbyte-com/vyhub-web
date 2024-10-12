@@ -46,7 +46,6 @@
 
 <script>
 export default {
-  name: 'PurchaseStatusChip',
   props: {
     status: String,
   },

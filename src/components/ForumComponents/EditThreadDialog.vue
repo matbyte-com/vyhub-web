@@ -172,13 +172,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import Dialog from '../Dialog.vue';
 
 export default {
-  name: 'EditThreadDialog',
-  components: {
-    Dialog,
-  },
   data() {
     return {
       threadId: null,

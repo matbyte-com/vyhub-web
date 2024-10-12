@@ -65,17 +65,10 @@
 </template>
 
 <script>
-import Editor from '@/components/Editor.vue';
-import Dialog from '../Dialog.vue';
 import config from '../../config';
 import i18n from '../../plugins/i18n';
 
 export default {
-  name: 'ThreadAddDialog',
-  components: {
-    Editor,
-    Dialog,
-  },
   props: ['dialogTitle', 'hideTitleInput'],
   data() {
     return {

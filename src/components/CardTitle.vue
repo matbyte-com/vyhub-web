@@ -22,7 +22,6 @@
 
 <script>
 export default {
-  name: 'CardTitle',
   props: {
     icon: String,
     title: String,

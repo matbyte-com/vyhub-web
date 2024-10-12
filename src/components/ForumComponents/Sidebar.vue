@@ -180,13 +180,9 @@
 </template>
 
 <script>
-import CardTitle from '@/components/CardTitle.vue';
 import openapi from '@/api/openapi';
-import UserLink from '@/components/UserLink.vue';
 
 export default {
-  name: 'Sidebar.vue',
-  components: { CardTitle, UserLink },
   data() {
     return {
       latestPosts: null,

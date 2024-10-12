@@ -51,9 +51,9 @@
                 && packet.price_with_discount.total !==
                   packet.price_without_discount.total"
             >
+              <!--          TODO all chips below check if needed       text-color="white" -->
               <v-chip
                 color="green-lighten-2"
-                text-color="white"
               >
                 <span class="strikethrough-diagonal text-disabled">
                   {{ utils.formatDecimal(packet.price_without_discount.total) }}
@@ -63,7 +63,6 @@
               <v-chip
                 class="ml-2"
                 color="orange"
-                text-color="white"
               >
                 {{
                   packet.price_with_discount.total
@@ -81,7 +80,6 @@
             <v-chip
               v-else-if="packet.price_with_discount != null"
               color="green"
-              text-color="white"
             >
               {{
                 packet.price_with_discount.total
@@ -220,13 +218,9 @@
 <script>
 import openapi from '@/api/openapi';
 import ShopService from '@/services/ShopService';
-import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
 import UtilService from '@/services/UtilService';
-import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
-  name: 'PacketCard',
-  components: { PacketImage, PacketDetailDialog },
   props: {
     packet: {
       type: Object,

@@ -211,16 +211,11 @@
 </template>
 
 <script>
-import GenForm from '@/components/GenForm.vue';
 import CheckoutCouponCodeForm from '@/forms/CheckoutCouponCodeForm';
-import SuccessIcon from '@/components/Icons/SuccessIcon.vue';
-import ErrorIcon from '@/components/Icons/ErrorIcon.vue';
 import openapi from '../../api/openapi';
 import ShopService from '../../services/ShopService';
 
 export default {
-  name: 'Checkout',
-  components: { ErrorIcon, SuccessIcon, GenForm },
   data() {
     return {
       debitId: null,

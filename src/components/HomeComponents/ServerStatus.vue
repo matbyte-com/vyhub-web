@@ -176,7 +176,6 @@
 import openapi from '@/api/openapi';
 
 export default {
-  name: 'ServerStatus',
   props: ['noIcon', 'noTitle', 'centerHeadline', 'outlined'],
   data() {
     return {

@@ -9,14 +9,7 @@
 </template>
 
 <script>
-
-import ConfirmationDialog from '../ConfirmationDialog.vue';
-
 export default {
-  name: 'CancelPurchaseConfirmationDialog',
-  components: {
-    ConfirmationDialog,
-  },
   methods: {
     show() {
       this.$refs.cancelPurchaseConfirmationDialog.show();

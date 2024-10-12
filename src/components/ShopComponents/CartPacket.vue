@@ -155,17 +155,9 @@
 
 <script>
 import openapi from '@/api/openapi';
-import DialogForm from '@/components/DialogForm.vue';
 import CartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
-import UserLink from '@/components/UserLink.vue';
-import PacketDetailDialog from '@/components/ShopComponents/PacketDetailDialog.vue';
-import PacketImage from '@/components/ShopComponents/PacketImage.vue';
 
 export default {
-  name: 'CartPacket',
-  components: {
-    PacketImage, PacketDetailDialog, UserLink, DialogForm,
-  },
   props: {
     cartPacket: Object,
     showRemove: Boolean,

@@ -87,11 +87,8 @@
 
 <script>
 import openapi from '@/api/openapi';
-import CardTitle from '@/components/CardTitle.vue';
 
 export default {
-  name: 'TopDonators',
-  components: { CardTitle },
   props: ['noTitle', 'noIcon', 'centerHeadline'],
   data() {
     return {

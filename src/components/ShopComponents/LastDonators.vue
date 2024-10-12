@@ -57,11 +57,8 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
-import CardTitle from '@/components/CardTitle.vue';
 
 export default {
-  name: 'LastDonators',
-  components: { CardTitle },
   props: ['noIcon', 'noTitle', 'centerHeadline'],
   data() {
     return {

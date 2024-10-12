@@ -100,28 +100,20 @@
 </template>
 
 <script>
-import DataTable from '@/components/DataTable.vue';
-import UserLink from '@/components/UserLink.vue';
 import openapi from '@/api/openapi';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import DialogForm from '@/components/DialogForm.vue';
 import warningAddForm from '@/forms/WarningAddForm';
 
 export default {
-  name: 'WarningTable',
-  components: {
-    DataTable, UserLink, DeleteConfirmationDialog, DialogForm,
-  },
   props: ['warnings', 'totalItems', 'user', 'serverbundle'],
   data() {
     return {
       headers: [
-        { value: 'color-status', sortable: false, width: '1px' },
-        { text: this.$t('reason'), value: 'reason' },
-        { text: this.$t('creator'), value: 'creator', sortable: false },
-        { text: this.$t('createdOn'), value: 'created_on' },
+        { key: 'color-status', sortable: false, width: '1px' },
+        { title: this.$t('reason'), key: 'reason' },
+        { title: this.$t('creator'), key: 'creator', sortable: false },
+        { title: this.$t('createdOn'), key: 'created_on' },
         {
-          text: this.$t('actions'), value: 'actions', align: 'end', sortable: false,
+          title: this.$t('actions'), key: 'actions', align: 'end', sortable: false,
         },
       ],
       warningAddSchema: warningAddForm,

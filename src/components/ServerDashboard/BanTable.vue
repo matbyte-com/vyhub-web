@@ -121,33 +121,22 @@
 </template>
 
 <script>
-import DialogForm from '@/components/DialogForm.vue';
-import UserLink from '@/components/UserLink.vue';
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
 import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
 import openapi from '@/api/openapi';
-import DataTable from '@/components/DataTable.vue';
 
 export default {
-  name: 'Ban.vue',
-  components: {
-    DialogForm,
-    UserLink,
-    DataTable,
-    DeleteConfirmationDialog,
-  },
   props: ['bans', 'totalItems', 'user', 'serverbundle'],
   data() {
     return {
       headers: [
-        { value: 'color-status', sortable: false, width: '1px' },
-        { text: this.$t('reason'), value: 'reason' },
-        { text: this.$t('length'), value: 'length' },
-        { text: this.$t('creator'), value: 'creator', sortable: false },
-        { text: this.$t('createdOn'), value: 'created_on' },
+        { key: 'color-status', sortable: false, width: '1px' },
+        { title: this.$t('reason'), key: 'reason' },
+        { title: this.$t('length'), key: 'length' },
+        { title: this.$t('creator'), key: 'creator', sortable: false },
+        { title: this.$t('createdOn'), key: 'created_on' },
         {
-          text: this.$t('actions'), value: 'actions', align: 'end', sortable: false,
+          title: this.$t('actions'), key: 'actions', align: 'end', sortable: false,
         },
       ],
       banAddFormSchema,

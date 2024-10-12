@@ -63,9 +63,10 @@
     <v-navigation-drawer
       v-if="$checkProp('theme_edit')"
       v-model="editDrawer"
+      :style="$vuetify.display.mdAndDown ? 'max-height: 60vh' : ''"
+      mobile-breakpoint="md"
       :permanent="newComponentDialog"
-      :location="drawerRight ? 'right' : 'left'"
-      style="z-index: 200;"
+      :location="drawerLocation"
       :width="400"
     >
       <v-list-item
@@ -296,6 +297,10 @@ export default {
     };
   },
   computed: {
+    drawerLocation() {
+      if (this.$vuetify.display.mdAndDown) return 'bottom';
+      return this.drawerRight ? 'right' : 'left';
+    },
     blocksToShow() {
       if (this.blocks == null) return null;
       return this.blocks.filter((block) => !block.deleted);
