@@ -33,8 +33,11 @@
       :margin-top="block.props_data ? block.props_data.marginTop : 0"
       :no-title-in-wrapper="block.type === 'NewsPreview'"
     >
+      <TheHeader v-if="block.type === 'DefaultHeader'" />
       <component
         :is="componentInstance(block.type)"
+        v-else
+        :key="block.id"
         v-bind="block.props_data"
       >
         {{ block.slot }}

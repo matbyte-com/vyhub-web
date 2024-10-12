@@ -5,13 +5,22 @@
         v-for="(column, index) in columns"
         :key="index"
       >
-        <div class="d-flex justify-center align-center">
-          <div v-if="column.title">
+        <div
+          class="d-flex justify-center align-center"
+          :class="{ 'text-white' : whiteText}"
+        >
+          <div
+            v-if="column.title"
+            class="flex-grow-1"
+          >
             <h3 class="text-h3">
               {{ column.title }}
             </h3>
           </div>
-          <div v-if="column.imageUrl">
+          <div
+            v-if="column.imageUrl"
+            class="flex-grow-1"
+          >
             <v-img
               :src="column.imageUrl"
               :alt="column.title"
@@ -33,7 +42,7 @@
 <script>
 export default {
   // TODO Does not work yet / looks good yet
-  props: ['columns', 'maxImageWidth', 'maxContentWidth'],
+  props: ['columns', 'maxImageWidth', 'maxContentWidth', 'whiteText'],
   computed: {
     getMaxContentWidth() {
       if (!this.maxContentWidth) return '100%';

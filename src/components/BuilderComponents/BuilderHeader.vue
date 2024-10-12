@@ -1,12 +1,11 @@
 <template>
   <div>
-    <!--       :fixed="fixed"       :color="backgroundColor"       :flat="!app"
--->
     <v-toolbar
       :density="dense ? 'compact' : 'default'"
       :class="{ 'position-fixed' : fixed }"
       style="z-index: 4;"
       :color="backgroundColor"
+      :image="backgroundImage"
     >
       <!-- Logo -->
       <div
@@ -139,14 +138,13 @@
         </v-chip>
       </div>
     </v-toolbar>
-    <LinkAccountDialog ref="linkAccountDialog" />
   </div>
 </template>
 
 <script>
 
 export default {
-  props: ['headline', 'logoUrl', 'logo_width', 'app', 'backgroundColor', 'whiteText', 'links', 'dense', 'fixed', 'backgroundImage'],
+  props: ['headline', 'logoUrl', 'logo_width', 'backgroundColor', 'whiteText', 'links', 'dense', 'fixed', 'backgroundImage'],
   methods: {
     showLoginDialog() {
       this.$router.push({

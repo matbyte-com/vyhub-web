@@ -61,14 +61,6 @@ export default {
               'hide-details': 'auto',
             },
           },
-          app: {
-            type: 'boolean',
-            title: i18n.global.t('_component._form.app'),
-            'x-display': 'switch',
-            'x-props': {
-              'hide-details': 'auto',
-            },
-          },
           fixed: {
             type: 'boolean',
             title: i18n.global.t('_component._form.fixed'),
@@ -114,6 +106,8 @@ export default {
       defaults: {
         headline: store.getters.generalConfig ? store.getters.generalConfig.community_name : 'Community Name',
         fixed: true,
+        backgroundColor: 'primary',
+        flat: false,
         links: [
           {
             icon: 'mdi-newspaper',

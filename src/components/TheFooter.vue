@@ -64,9 +64,6 @@ export default {
         .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || this.$checkProp(l.req_prop) === true));
     },
   },
-  beforeMount() {
-    emitter.on('navItemsUpdated', this.links);
-  },
 };
 </script>
 

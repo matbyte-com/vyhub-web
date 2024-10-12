@@ -19,7 +19,7 @@
             :help-links="allowedHelpCircleLinks"
             :menu-links="linksRight"
             @logout="logout"
-            @login="showLoginDialog()"
+            @login="showLoginDialog"
           />
         </div>
 
@@ -175,7 +175,8 @@ export default {
       }
     },
   },
-  beforeMount() {
+  mounted() {
+    console.log('Mounted');
     this.getNavItems();
     this.getLogo();
     // Event Emitted in Components/Settings/Navigation.vue
@@ -192,7 +193,14 @@ export default {
       });
     }
   },
-  created() {
+  beforeUnmount() {
+    // Event Emitted in Components/Settings/Navigation.vue
+    EventBus.off('navUpdated', this.getNavItems);
+    // Event Emitted in App.vue after Theme was updated
+    EventBus.off('themeUpdatedAfter', this.getLogo);
+    EventBus.off('themeUpdated', this.getNavItems);
+  },
+  beforeMount() {
     this.getNavItemsFromCache();
   },
   methods: {
@@ -209,8 +217,6 @@ export default {
       api.navigation_getNavigationLinks().then((rsp) => {
         this.$store.commit('SET_NAV_ITEMS', rsp.data);
         this.links = rsp.data;
-        // Caught in Footer
-        EventBus.emit('navItemsUpdated', undefined);
       }).catch((err) => console.log(`Could not query nav ${err}`));
     },
     getNavItemsFromCache() {
