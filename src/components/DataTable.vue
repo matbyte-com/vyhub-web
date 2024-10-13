@@ -4,8 +4,8 @@
     :search="externalSearch ? null : searchModel"
     :loading="loading"
     :item-key="itemKey"
-    :footer-props="footerProps"
     v-bind="$attrs"
+    :items-per-page-options="[5, 10, 25, 50]"
   >
     <template #top>
       <v-row dense>
@@ -71,14 +71,6 @@ export default {
     itemKey: {
       type: String,
       default: 'id',
-    },
-    footerProps: {
-      type: Object,
-      default() {
-        return {
-          'items-per-page-options': [5, 10, 25, 50],
-        };
-      },
     },
   },
   emits: ['update:search', 'search'],
