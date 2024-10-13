@@ -14,13 +14,15 @@
         mdi-circle-multiple
       </v-icon>
     </div>
+    <!--
+    -->
     <DataTable
       :headers="headers"
       :items="account.transactions"
       :total-items="account.transactions ? account.transactions.length : 0"
-      sort-by="date"
-      :sort-desc="true"
       :item-class="transactionRowFormatter"
+      :sort-by="['date']"
+      :sort-desc="[true]"
     >
       <template #item.author="{ item }">
         <UserLink

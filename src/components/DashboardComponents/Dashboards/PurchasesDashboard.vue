@@ -37,7 +37,7 @@
                 <v-row>
                   <v-col
                     v-for="purchase in props.items"
-                    :key="purchase.id"
+                    :key="purchase.raw.id"
                     cols="12"
                     lg="6"
                     xl="4"
@@ -48,7 +48,7 @@
                       border
                     >
                       <v-card-title class="subheading font-weight-bold">
-                        # {{ purchase.id }}
+                        # {{ purchase.raw.id }}
                       </v-card-title>
                       <v-divider />
                       <v-card-text>
@@ -62,13 +62,13 @@
                                 {{ $t('date') }}
 
 
-                                {{ new Date(purchase.date).toLocaleString() }}
+                                {{ new Date(purchase.raw.date).toLocaleString() }}
                               </v-list-item>
                               <v-list-item>
                                 {{ $t('status') }}
 
 
-                                <PurchaseStatusChip :status="purchase.status" />
+                                <PurchaseStatusChip :status="purchase.raw.status" />
                               </v-list-item>
                             </v-list>
                           </v-col>
@@ -83,7 +83,7 @@
                             <div>
                               <div>
                                 <v-chip
-                                  v-for="cp in purchase.cart_packets"
+                                  v-for="cp in purchase.raw.cart_packets"
                                   :key="cp.id"
                                   class="mr-1 mb-1"
                                 >
@@ -100,9 +100,9 @@
                               {{ $t('payments') }}
                             </div>
                             <DataTable
-                              :items="filterFinishedDebits(purchase.debits)"
+                              :items="filterFinishedDebits(purchase.raw.debits)"
                               :headers="headers"
-                              :total-items="purchase.debits ? purchase.debits.length : 0"
+                              :total-items="purchase.raw.debits ? purchase.raw.debits.length : 0"
                               :items-per-page="5"
                             >
                               <template #item.date="{ item }">
@@ -125,7 +125,7 @@
                                 <div v-if="item.amount_total != null">
                                   {{ item.amount_total
                                     .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                                  {{ purchase.currency.symbol }}
+                                  {{ purchase.raw.currency.symbol }}
                                 </div>
                                 <div v-else>
                                   {{ item.credits }}
@@ -136,12 +136,12 @@
                           </v-col>
                         </v-row>
                       </v-card-text>
-                      <v-card-actions v-if="purchase.status === 'RECURRING'">
+                      <v-card-actions v-if="purchase.raw.status === 'RECURRING'">
                         <v-btn
-                          v-if="purchase.status === 'RECURRING'"
+                          v-if="purchase.raw.status === 'RECURRING'"
                           variant="text"
                           color="error"
-                          @click="$refs.confirmSubCancelDialog.show(purchase)"
+                          @click="$refs.confirmSubCancelDialog.show(purchase.raw)"
                         >
                           <v-icon start>
                             mdi-cancel
@@ -188,10 +188,10 @@ export default {
     return {
       purchases: [],
       headers: [
-        { text: this.$t('date'), value: 'date' },
-        { text: this.$t('gateway'), value: 'payment_gateway.name' },
-        { text: this.$t('amount'), value: 'amount' },
-        { text: this.$t('invoice'), value: 'invoice', sortable: false },
+        { title: this.$t('date'), key: 'date' },
+        { title: this.$t('gateway'), key: 'payment_gateway.name' },
+        { title: this.$t('amount'), key: 'amount' },
+        { title: this.$t('invoice'), key: 'invoice', sortable: false },
       ],
     };
   },
@@ -227,6 +227,9 @@ export default {
       });
     },
     filterFinishedDebits(debits) {
+      if (!debits) {
+        return [];
+      }
       return debits.filter((debit) => debit.status === 'FINISHED');
     },
     async cancelSubscription(purchase) {

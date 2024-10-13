@@ -10,11 +10,11 @@
             v-if="$checkAdmin()"
             class="d-flex justify-end mr-1"
           >
-            <!-- TODO Icon is not displayed??!? -->
             <v-btn
               icon="mdi-delete"
               size="small"
-              variant="flat"
+              color="error"
+              variant="outlined"
               @click="$refs.deleteDialog.show()"
             />
           </span>

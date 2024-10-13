@@ -6,15 +6,12 @@
     >
       <v-card-title>
         <v-btn
-          :icon="logsShown"
+          v-if="!logsShown"
           variant="outlined"
           color="primary"
           @click="showLogs"
         >
-          <v-icon v-if="logsShown">
-            mdi-refresh
-          </v-icon>
-          <span v-else>
+          <span>
             <v-icon start>mdi-eye</v-icon>
             {{ $t('show') }}
           </span>
@@ -26,7 +23,18 @@
           type="user"
           :obj-id="user.id"
           :show-search="false"
-        />
+        >
+          <template #footer-right>
+            <v-btn
+              class="animate__animated animate__faster"
+              :class="{ 'animate__rotateOut' : rotatingOut}"
+              icon="mdi-refresh"
+              variant="outlined"
+              color="primary"
+              @click="showLogs"
+            />
+          </template>
+        </LogTable>
       </v-card-text>
     </v-card>
   </div>
@@ -38,6 +46,7 @@ export default {
   data() {
     return {
       logsShown: false,
+      rotatingOut: false,
     };
   },
   watch: {
@@ -49,6 +58,10 @@ export default {
     showLogs() {
       if (this.logsShown) {
         this.$refs.logTable.fetchData();
+        this.rotatingOut = true;
+        setTimeout(() => {
+          this.rotatingOut = false;
+        }, 800);
       } else {
         this.logsShown = true;
       }

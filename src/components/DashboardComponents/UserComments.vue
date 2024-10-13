@@ -10,7 +10,6 @@
           type="user"
           :obj-id="user.id"
           :show-search="false"
-          class="mt-5"
           :no-add-btn="readOnly"
         />
       </v-card-text>

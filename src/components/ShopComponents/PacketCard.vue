@@ -175,7 +175,7 @@
           variant="outlined"
           @click="$refs.detailDialog.show()"
         >
-          <v-icon size="large">
+          <v-icon size="x-large">
             mdi-information-slab-symbol
           </v-icon>
         </v-btn>
@@ -188,7 +188,9 @@
           color="primary"
           @click="addToCart()"
         >
-          <v-icon start>
+          <v-icon
+            start
+          >
             mdi-cart
           </v-icon>
           {{ $t('_shop.labels.addToCart13CharsMax') }}

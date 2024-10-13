@@ -4,29 +4,23 @@
     <v-navigation-drawer
       v-if="$vuetify.display.smAndDown"
       v-model="navigationDrawer"
-      app
       location="bottom"
     >
-      <v-card-title class="pb-0 mb-0 d-block">
+      <v-card-title class="text-h5 ">
         {{ $t('categories') }}
-        <v-divider />
       </v-card-title>
-      <v-list nav>
-        <transition-group
-          enter-active-class="animate__fadeIn"
-          leave-active-class="animate__fadeOut"
+      <v-divider class="" />
+      <v-list>
+        <v-list-item
+          v-for="c in categories"
+          :key="c.id"
+          class="animate__animated"
+          @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()"
         >
-          <v-list-item
-            v-for="c in categories"
-            :key="c.id"
-            class="animate__animated"
-            @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()"
-          >
-            <v-list-item-title>
-              {{ c.name }}
-            </v-list-item-title>
-          </v-list-item>
-        </transition-group>
+          <v-list-item-title class="font-weight-bold">
+            {{ c.name }}
+          </v-list-item-title>
+        </v-list-item>
         <v-skeleton-loader
           v-if="categories == null"
           type="list-item@4"
@@ -40,7 +34,7 @@
       class="no-bottom-border-radius card-rounded-top"
       @click="navigationDrawer = true"
     >
-      <v-card-title class="text-white">
+      <v-card-title class="text-white d-flex">
         <div style="width: 24px" />
         <v-spacer />
         <strong>{{ selectedCategory.name }}</strong>
@@ -148,14 +142,10 @@
 </template>
 
 <script>
-import PacketCard from '@/components/ShopComponents/PacketCard.vue';
 import openapiCached from '@/api/openapiCached';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
-import PacketListEntry from '@/components/ShopComponents/PacketListEntry.vue';
 import openapi from '../../api/openapi';
 
 export default {
-  components: { PacketListEntry, PageTitleFlat, PacketCard },
   data() {
     return {
       tab: null,

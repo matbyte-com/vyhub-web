@@ -1,40 +1,42 @@
 <template>
   <div>
-    <v-list>
-      <DataIterator
-        :items="comments"
-        sort-by="date"
-        :sort-desc="true"
-      >
-        <template #default="props">
+    <DataIterator
+      :items="comments"
+      sort-by="date"
+      class="mt-3"
+      :sort-desc="true"
+    >
+      <template #default="comments">
+        <template
+          v-for="comment in comments.items"
+          :key="comment.raw.id"
+        >
           <v-list-item
-            v-for="comment in props.items"
-            :key="comment.id"
             class="mb-1"
-            :style="`border-color: ${comment.color}; border-width: 0 0 0 10px; border-style: solid;`"
+            :style="`border-color: ${comment.raw.color}; border-width: 0 0 0 10px; border-style: solid;`"
           >
-            <div class="pb-1">
+            <div>
               <div class="mb-2">
-                {{ comment.message }}
+                {{ comment.raw.message }}
               </div>
               <div>
                 <div class="d-flex align-center justify-space-between">
                   <UserLink
-                    v-if="comment.creator != null"
-                    :user="comment.creator"
+                    v-if="comment.raw.creator != null"
+                    :user="comment.raw.creator"
                     :simple="true"
                   />
-                  <span class="text-disabled">{{ new Date(comment.date).toLocaleString() }}</span>
+                  <span class="text-disabled">{{ new Date(comment.raw.date).toLocaleString() }}</span>
                   <v-btn
                     v-if="($checkProp(`${type}_comment_edit`) &&
-                      comment.creator_id &&
+                      comment.raw.creator_id &&
                       $store.getters.user &&
-                      $store.getters.user.id === comment.creator_id) ||
+                      $store.getters.user.id === comment.raw.creator_id) ||
                       ($checkProp(`${type}_comment_delete`))"
                     variant="outlined"
                     color="error"
                     size="small"
-                    @click="$refs.commentDeleteConfirm.show(comment)"
+                    @click="$refs.commentDeleteConfirm.show(comment.raw)"
                   >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
@@ -43,23 +45,23 @@
             </div>
           </v-list-item>
         </template>
-        <template
-          v-if="!noAddBtn"
-          #footer-left
+      </template>
+      <template
+        v-if="!noAddBtn"
+        #footer-left
+      >
+        <v-btn
+          variant="outlined"
+          color="success"
+          @click="$refs.commentAddDialog.show()"
         >
-          <v-btn
-            variant="outlined"
-            color="success"
-            @click="$refs.commentAddDialog.show()"
-          >
-            <v-icon start>
-              mdi-comment-plus
-            </v-icon>
-            {{ $t('comment') }}
-          </v-btn>
-        </template>
-      </DataIterator>
-    </v-list>
+          <v-icon start>
+            mdi-comment-plus
+          </v-icon>
+          {{ $t('comment') }}
+        </v-btn>
+      </template>
+    </DataIterator>
     <DialogForm
       ref="commentAddDialog"
       :max-width="600"

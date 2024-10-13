@@ -61,6 +61,7 @@
                 v-if="category.image_url"
                 :src="category.image_url"
                 class="ma-1 img-rounded"
+                cover
                 max-height="300px"
               />
               <v-sheet

@@ -96,7 +96,7 @@
                 :size="!cartPacket.target_user ? 'small' : undefined"
                 color="secondary"
                 class="mr-1"
-                :fab="!cartPacket.target_user"
+                :icon="!cartPacket.target_user"
                 @click="openTargetUserEditDialog"
               >
                 <v-icon :start="cartPacket.target_user !== null">
@@ -105,14 +105,12 @@
                 <span v-if="cartPacket.target_user">{{ cartPacket.target_user.username }}</span>
               </v-btn>
               <v-btn
-                fab
+                icon="mdi-delete"
                 variant="outlined"
                 size="small"
                 color="error"
                 @click="$emit('remove')"
-              >
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
+              />
             </div>
           </v-col>
         </v-row>
@@ -167,6 +165,7 @@ export default {
       default: 3,
     },
   },
+emits: ['remove', 'removeDiscount', 'targetUserChanged'],
   data() {
     return {
       cartPacketTargetUserForm: CartPacketTargetUserForm,

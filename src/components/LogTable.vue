@@ -45,6 +45,9 @@
       <template #item.created_on="{ item }">
         <span>{{ new Date(item.date).toLocaleString() }}</span>
       </template>
+      <template #footer-right>
+        <slot name="footer-right" />
+      </template>
     </DataTable>
   </div>
 </template>
