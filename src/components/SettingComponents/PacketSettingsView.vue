@@ -52,12 +52,15 @@
       </template>
       <template #item.actions="{ item }">
         <div class="text-right">
+          <v-icon class="">
+            mdi-drag-horizontal-variant
+          </v-icon>
           <v-btn
             variant="text"
             icon="mdi-content-copy"
             color="secondary"
             size="small"
-            class="mr-1"
+            class=""
             @click="copyPacket(item)"
           />
           <v-btn
@@ -361,9 +364,12 @@ export default {
       const api = await openapi;
       const order = this.packets.map((p) => p.id);
 
-      console.log(this.packets);
-
-      await api.packet_updateOrder(null, order);
+      await api.packet_updateOrder(null, order).then(() => {
+        this.$notify({
+          title: this.$t('_messages.updateOrderSuccess'),
+          type: 'success',
+        });
+      });
     },
   },
 };

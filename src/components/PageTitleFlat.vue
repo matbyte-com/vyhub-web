@@ -2,7 +2,7 @@
   <v-card
     flat
     color="primary"
-    class="card-rounded-top d-flex align-center vh-page-title"
+    class="card-rounded-top d-flex align-center vh-page-title overflow-visible"
     :class="{ 'title-card': !hideTriangle,
               'no-bottom-border-radius': noBottomBorderRadius,
               'card-rounded': !isMenu, 'card-rounded-bottom': isMenu &&

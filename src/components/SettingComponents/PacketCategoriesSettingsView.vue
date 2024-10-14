@@ -17,6 +17,9 @@
       </template>
       <template #item.actions="{ item }">
         <div class="text-right">
+          <v-icon class="mr-1">
+            mdi-drag-horizontal-variant
+          </v-icon>
           <v-btn
             variant="outlined"
             color="primary"
@@ -109,16 +112,7 @@ export default {
         const rowSelected = this.categories.splice(oldIndex, 1)[0];
         this.categories.splice(newIndex, 0, rowSelected);
 
-        openapi.then((api) => {
-          for (let i = newIndex; i < this.categories.length; i += 1) {
-            const cat = this.categories[i];
-            api.packet_editCategory({ uuid: cat.id }, { sort_id: i })
-              .catch((err) => {
-                console.log(err);
-                this.utils.notifyUnexpectedError(err.response.data);
-              });
-          }
-        });
+        this.saveOrder();
       },
     });
   },
@@ -189,6 +183,17 @@ export default {
 
       this.$refs.editCategoryDialog.setData(data);
       this.$refs.editCategoryDialog.show(category);
+    },
+    async saveOrder() {
+      const api = await openapi;
+      const order = this.categories.map((c) => c.id);
+
+      await api.packet_updateCategoryOrder(null, order).then(() => {
+        this.$notify({
+          title: this.$t('_messages.updateOrderSuccess'),
+          type: 'success',
+        });
+      });
     },
   },
 };

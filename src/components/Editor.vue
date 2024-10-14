@@ -293,7 +293,6 @@ export default {
 }
 
 .editor-container_classic-editor .editor-container__editor {
-  min-width: 795px;
 }
 
 .ck-editor__editable_inline {

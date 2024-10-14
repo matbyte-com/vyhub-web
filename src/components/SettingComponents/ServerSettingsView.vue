@@ -35,14 +35,13 @@
               <VueDraggable
                 v-model="bundles"
                 tag="tbody"
-                @dragend="updateBundleEnabled = true"
+                @dragend="updateBundleOrder"
               >
                 <tr
                   v-for="bundle in bundles"
                   :key="bundle.id"
                 >
                   <td>
-                    <!-- TODO was :text-color="$vuetify.theme.dark ? 'white' : 'black'"-->
                     <v-chip
                       :color="bundle.color ? bundle.color : '#000000'"
                       variant="outlined"
@@ -62,7 +61,13 @@
                       {{ bundle.default_group.name }}
                     </span>
                   </td>
-                  <td class="text-right">
+                  <td
+                    style="width: 220px"
+                    class="text-right"
+                  >
+                    <v-icon class="mr-1">
+                      mdi-drag-horizontal-variant
+                    </v-icon>
                     <v-btn
                       variant="outlined"
                       color="info"
@@ -114,41 +119,6 @@
                 </v-icon>
                 <span>{{ $t('_settings.labels.addBundle') }}</span>
               </v-btn>
-              <v-tooltip location="bottom">
-                <template #activator="{ props}">
-                  <v-btn
-                    variant="outlined"
-                    color="primary"
-                    class="ml-5"
-                    v-bind="props"
-                    style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-                    :disabled="!updateBundleEnabled"
-                    @click="updateBundleOrder"
-                  >
-                    <v-icon>mdi-check</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  {{ $t('_settings.labels.updateOrder') }}
-                </span>
-              </v-tooltip>
-              <v-tooltip location="bottom">
-                <template #activator="{ props}">
-                  <v-btn
-                    variant="outlined"
-                    color="primary"
-                    v-bind="props"
-                    style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-                    :disabled="!updateBundleEnabled"
-                    @click="fetchData"
-                  >
-                    <v-icon>mdi-backspace-outline</v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  {{ $t('_settings.labels.resetOrder') }}
-                </span>
-              </v-tooltip>
             </div>
           </v-card-text>
         </v-card>
@@ -499,13 +469,13 @@ export default {
       server: null,
       dataFetched: 0,
       gameserverHeaders: [
-        { text: this.$t('name'), value: 'name' },
-        { text: this.$t('type'), value: 'type' },
-        { text: this.$t('ipAddress'), value: 'address' },
-        { text: this.$t('port'), value: 'port' },
-        { text: this.$t('bundle'), value: 'serverbundle.name' },
+        { title: this.$t('name'), key: 'name' },
+        { title: this.$t('type'), key: 'type' },
+        { title: this.$t('ipAddress'), key: 'address' },
+        { title: this.$t('port'), key: 'port' },
+        { title: this.$t('bundle'), key: 'serverbundle.name' },
         {
-          text: this.$t('actions'), value: 'actions', sortable: false, align: 'end', width: 250,
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end', width: 250,
         },
       ],
       addBundleSchema: ServerbundleForm.returnForm(),
@@ -517,7 +487,6 @@ export default {
       serverSetupServer: null,
       createdToken: null,
       createServerDataTemp: null,
-      updateBundleEnabled: false,
     };
   },
   watch: {
@@ -530,7 +499,6 @@ export default {
   },
   methods: {
     async fetchData() {
-      console.log('YEAHH');
       (await openapi).server_getBundles().then((rsp) => {
         this.bundles = rsp.data;
         this.dataFetched += 1;
@@ -730,7 +698,6 @@ export default {
       });
       (await openapi).server_updateBundleOrder(null, res).then(() => {
         this.fetchData();
-        this.updateBundleEnabled = false;
         this.$notify({
           title: this.$t('_messages.updateOrderSuccess'),
           type: 'success',

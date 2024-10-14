@@ -58,7 +58,6 @@
                   :key="acc.id"
                   class="mb-2 bg-transparent"
                   border
-                  variant="outlined"
                   flat
                 >
                   <v-card-title class="pb-0">

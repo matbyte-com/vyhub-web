@@ -1004,7 +1004,7 @@ export default {
 .card-error
   border-style: solid !important
   border-width: 2px !important
-  border-color: var(--v-error-base) !important
+  border-color: rgb(var(--v-theme-error)) !important
 
 .packet-list-move, .packet-list-enter-active, .packet-list-leave-active
   transition: all 0.5s ease

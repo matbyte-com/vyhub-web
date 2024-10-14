@@ -101,7 +101,7 @@ export default {
 
 <style>
 .active-btn-light {
-  background-color: var(--v-theme-primary-lighten-1);
+  background-color: rgb(var(--v-theme-primary-lighten-1));
 }
 
 .active-btn-light::before {

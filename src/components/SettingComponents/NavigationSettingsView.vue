@@ -186,7 +186,7 @@
     <v-list>
       <VueDraggable
         v-model="linksByLocation"
-        @dragend="updateLinkEnabled = true"
+        @dragend="updateLinkOrder"
       >
         <div
           v-for="link in linksByLocation"
@@ -409,6 +409,9 @@
                 cols="6"
                 sm="3"
               >
+                <v-icon class="mr-1">
+                  mdi-drag-horizontal-variant
+                </v-icon>
                 <v-icon
                   v-if="!link.enabled"
                   class="mr-1"
@@ -472,41 +475,6 @@
           </v-icon>
           <span>{{ $t('_navigation.addNavLink') }}</span>
         </v-btn>
-        <v-tooltip location="bottom">
-          <template #activator="{ props}">
-            <v-btn
-              variant="outlined"
-              color="primary"
-              class="ml-5"
-              v-bind="props"
-              style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-              :disabled="!updateLinkEnabled"
-              @click="updateLinkOrder"
-            >
-              <v-icon>mdi-check</v-icon>
-            </v-btn>
-          </template>
-          <span>
-            {{ $t('_navigation.navUpdate') }}
-          </span>
-        </v-tooltip>
-        <v-tooltip location="bottom">
-          <template #activator="{ props}">
-            <v-btn
-              variant="outlined"
-              color="primary"
-              v-bind="props"
-              :disabled="!updateLinkEnabled"
-              style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-              @click="getNavItems"
-            >
-              <v-icon>mdi-backspace-outline</v-icon>
-            </v-btn>
-          </template>
-          <span>
-            {{ $t('_navigation.navReset') }}
-          </span>
-        </v-tooltip>
       </v-col>
       <v-col
         class="text-disabled mr-5"
@@ -598,7 +566,6 @@ export default {
       cmsPageAddSchema: CmsPageAddForm,
       htmlInput: '',
       rawHtmlInput: '',
-      updateLinkEnabled: false,
       expansionPanels: null,
       htmlContentExpansionPanel: null,
       links: null,
@@ -618,14 +585,6 @@ export default {
         {
           value: 'HELP',
           title: i18n.global.t('_navigation._location.help'),
-        },
-      ],
-      linksRight: [
-        {
-          title: 'Profil', icon: 'mdi-account-circle', link: '/',
-        },
-        {
-          title: 'Settings', icon: 'mdi-cog', link: '/settings',
         },
       ],
     };
@@ -746,7 +705,6 @@ export default {
         }
       });
       (await openapi).navigation_updateOrder(null, array).then(() => {
-        this.updateLinkEnabled = false;
         this.getNavItems();
         EventBus.emit('navUpdated'); // Event caught in Header to Update Navlinks
         this.$notify({
