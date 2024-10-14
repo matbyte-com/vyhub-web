@@ -176,6 +176,7 @@
 import openapi from '@/api/openapi';
 
 export default {
+emits: ['submit'],
   data() {
     return {
       threadId: null,

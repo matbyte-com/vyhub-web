@@ -156,7 +156,7 @@ const routes = [
     path: '/forum/',
     name: 'Forum',
     meta: { title: i18n.global.t('_pageTitle.forum') },
-    component: () => import('../views/Forum/Forum.vue'),
+    component: () => import('../views/Forum/ForumStart.vue'),
   },
   {
     path: '/forum/topic/:id',

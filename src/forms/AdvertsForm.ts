@@ -1,5 +1,5 @@
 import i18n from '@/plugins/i18n';
-import Common from '@/forms/Common';
+import Common from './Common';
 
 export default {
   type: 'object',
@@ -14,14 +14,19 @@ export default {
     content: {
       type: 'string',
       title: i18n.global.t('_advert.formContent'),
-      'x-display': 'textarea',
+      layout: {
+        comp: 'textarea',
+      }
     },
     enabled: {
       type: 'boolean',
       title: i18n.global.t('_advert.formEnabled'),
       default: false,
+      layout: {
+        cols: 6,
+      },
     },
-    color: Common.colorPicker(),
+    color: Common.colorPicker(undefined, undefined, undefined, undefined, 6),
     serverbundle_id: {
       ...Common.serverbundleSelectField,
       type: 'array',

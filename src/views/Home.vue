@@ -120,6 +120,7 @@
                     <v-icon
                       v-show="panelExposed == null"
                       size="small"
+                      style="cursor: grab"
                     >
                       mdi-drag-horizontal-variant
                     </v-icon>

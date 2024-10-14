@@ -52,9 +52,7 @@
       </template>
       <template #item.actions="{ item }">
         <div class="text-right">
-          <v-icon class="">
-            mdi-drag-horizontal-variant
-          </v-icon>
+          <DragDropIcon />
           <v-btn
             variant="text"
             icon="mdi-content-copy"

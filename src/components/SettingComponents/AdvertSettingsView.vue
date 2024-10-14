@@ -22,9 +22,7 @@
             {{ advert.title }}
             <v-spacer />
             <div class="text-right my-auto">
-              <v-icon class="mr-1">
-                mdi-drag-horizontal-variant
-              </v-icon>
+              <DragDropIcon class="mr-1" />
               <v-icon
                 v-if="advert.enabled"
                 class="mr-1"

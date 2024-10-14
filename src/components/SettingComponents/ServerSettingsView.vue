@@ -65,9 +65,7 @@
                     style="width: 220px"
                     class="text-right"
                   >
-                    <v-icon class="mr-1">
-                      mdi-drag-horizontal-variant
-                    </v-icon>
+                    <DragDropIcon class="mr-1" />
                     <v-btn
                       variant="outlined"
                       color="info"

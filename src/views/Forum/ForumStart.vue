@@ -67,7 +67,6 @@
                     color="primary"
                     v-bind="props"
                     style="font-size: 1.5em;"
-                    class="ml-3"
                   >
                     {{ category.title }}
                   </v-list-item>
@@ -80,10 +79,10 @@
                   <v-divider style="border-width: 1px;" />
                   <v-list-item
                     density="compact"
+                    class="ml-0 pl-0"
                     link
                     :to="{ name: 'ForumTopic', params: { id: topic.id } }"
                   >
-                    <!-- TODO div above probably not needed anymore -->
                     <v-row
                       no-gutters
                       style="width: 100%"
@@ -238,7 +237,7 @@
         cols="12"
         md="3"
       >
-        <sidebar />
+        <ForumSidebar />
       </v-col>
     </v-row>
 
@@ -268,10 +267,7 @@
               <div class="d-flex align-center flex-grow-1">
                 {{ category.title }}
                 <v-spacer />
-                <v-icon
-                  start
-                  icon="mdi-drag-horizontal-variant"
-                />
+                <DragDropIcon class="mr-1" />
                 <v-btn
                   class="mr-1"
                   color="primary"
@@ -313,9 +309,7 @@
                           {{ topic.title }}
                         </v-col>
                         <v-col class="text-right">
-                          <v-icon
-                            icon="mdi-drag-horizontal-variant"
-                          />
+                          <DragDropIcon class="mr-1" />
                           <v-btn
                             class="ml-1 mr-1"
                             color="primary"
@@ -581,17 +575,13 @@ export default {
 </script>
 
 <style scoped>
-.cursor::v-deep td {
-  cursor: pointer !important;
-}
-
-.v-list-item--link::before {
+/*.v-list-item--link::before {
   border-bottom-right-radius: 10px !important;
   border-bottom-left-radius: 10px !important;
-}
+}*/
 
-::v-deep .v-list-group__header::before {
+/*::v-deep .v-list-group__header::before {
   border-top-left-radius: 10px !important;
   border-top-right-radius: 10px !important;
-}
+}*/
 </style>

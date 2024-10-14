@@ -17,7 +17,7 @@ i18n.global.availableLocales.forEach((l) => {
 function form(forum_enabled = false) {
   const ret: any = {
     type: 'object',
-    required: ['community_name', 'show_ticket', 'show_team', 'language'],
+    required: ['community_name', 'language'],
     properties: {
       community_name: {
         type: 'string',

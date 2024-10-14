@@ -409,9 +409,7 @@
                 cols="6"
                 sm="3"
               >
-                <v-icon class="mr-1">
-                  mdi-drag-horizontal-variant
-                </v-icon>
+                <DragDropIcon class="mr-1" />
                 <v-icon
                   v-if="!link.enabled"
                   class="mr-1"
