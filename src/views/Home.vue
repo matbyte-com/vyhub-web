@@ -121,7 +121,7 @@
                       v-show="panelExposed == null"
                       size="small"
                     >
-                      mdi-drag-variant
+                      mdi-drag-horizontal-variant
                     </v-icon>
                   </v-fade-transition>
                   <v-icon

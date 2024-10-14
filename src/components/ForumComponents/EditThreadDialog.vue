@@ -27,9 +27,10 @@
             v-model="title"
             :label="$t('title')"
             hide-details="auto"
+            variant="underlined"
           >
-            <template #append>
-              <div style="display: flex; flex-wrap: wrap;">
+            <template #append-inner>
+              <div class="d-flex">
                 <div
                   v-for="label in currentLabels"
                   :key="label.id"
@@ -37,6 +38,7 @@
                   <!-- Add current labels before the title text as chips -->
                   <v-chip
                     class="mr-1 mb-1 text-white"
+                    variant="flat"
                     :color="label.color"
                     size="small"
                     closable
@@ -92,6 +94,7 @@
               :key="label.name + label.color"
             >
               <v-chip
+                variant="flat"
                 class="mr-1 mb-1 text-white"
                 :color="label.color"
                 size="small"
@@ -112,6 +115,7 @@
             <v-col cols="8">
               <v-text-field
                 v-model="labelTitle"
+                variant="underlined"
                 :label="$t('_forum.labelTitle')"
                 hide-details="auto"
                 @keydown.enter="addLabel(null)"
@@ -125,12 +129,10 @@
                 variant="solo"
                 style="max-width: 200px"
               >
-                <template #append>
+                <template #append-inner>
                   <v-menu
                     v-model="colorPickerVisible"
                     location="top"
-                    nudge-bottom="105"
-                    nudge-left="16"
                     :close-on-content-click="false"
                   >
                     <template #activator="{ props }">

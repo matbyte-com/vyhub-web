@@ -12,7 +12,7 @@
             <v-chip
               v-for="(label, index) in thread.labels"
               :key="label.id"
-              class="text-white"
+              variant="flat"
               :color="label.color"
               :size="true ? 'small' : undefined"
               :style="{
@@ -154,15 +154,15 @@
                       size="small"
                       :color="membership.group.color"
                       v-bind="props"
-                      :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
                       variant="outlined"
                       class="mt-2"
                       style="max-width: 150px"
                     >
-                      <div style="max-width: 150px; width: 100%;">
-                        <p class="text-ellipsis mt-4">
-                          {{ membership.group.name }}
-                        </p>
+                      <div
+                        style="max-width: 150px; width: 100%;"
+                        class="text-ellipsis"
+                      >
+                        {{ membership.group.name }}
                       </div>
                     </v-chip>
                   </template>
@@ -209,15 +209,17 @@
                 mdi-account-remove
               </v-icon>
             </div>
-            <div v-if="post.creator.memberships && post.creator.memberships.length > 0">
+            <div
+              v-if="post.creator.memberships && post.creator.memberships.length > 0"
+              class="text-center"
+            >
               <v-chip
                 v-for="membership in post.creator.memberships"
                 :key="membership.id"
                 size="small"
                 :color="membership.group.color"
-                :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
                 variant="outlined"
-                class="mt-2 d-block text-center"
+                class="mt-2"
               >
                 <p class="text-ellipsis">
                   {{ membership.group.name }}
@@ -239,7 +241,7 @@
                     && post.creator.id === thread.creator.id"
                 >
                   <v-chip
-                    :color="$vuetify.theme.current.dark ? '#1c1c1c' : '#c5c5c5'"
+                    :color="$vuetify.theme.current.dark ? '#1c1c1c' : ''"
                     size="small"
                     label
                     class="vh-forum-post-op"
@@ -308,7 +310,6 @@
                             getReactionAccumulated(post, icon).count === 0}"
                           size="small"
                           variant="outlined"
-                          variant="flat"
                           class="pa-1 ma-0 reaction-btn"
                           :style="getReactionAccumulated(post, icon).has_reacted ?
                             `background-color: ${$vuetify.theme.current.primary}1A;
@@ -577,23 +578,11 @@
 </template>
 
 <script>
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog.vue';
-import editor from '@/components/Editor.vue';
-import EditThreadDialog from '@/components/ForumComponents/EditThreadDialog.vue';
-import PageTitleFlat from '@/components/PageTitleFlat.vue';
 import openapi from '../../api/openapi';
-import ThreadAddDialog from '../../components/ForumComponents/ThreadAddDialog.vue';
 import ForumPost from '../../forms/ForumPost';
 
 export default {
   name: 'ForumThread',
-  components: {
-    PageTitleFlat,
-    EditThreadDialog,
-    DeleteConfirmationDialog,
-    ThreadAddDialog,
-    editor,
-  },
   data() {
     return {
       threadId: '',
@@ -674,7 +663,7 @@ export default {
                   const iFrameID = `iFrame${Math.random().toString(36).slice(2, 9)}`;
                   const spoilerDiv = `
                     <div class="vh-iframe-closed" style="
-                        border: 2px solid var(--v-warning-darken3);
+                        border: 2px solid rgb(var(--v-theme-warning-darken-3));
                         cursor: pointer;
                         width: 30%;
                         min-height: 100px;
@@ -695,10 +684,10 @@ export default {
                     ">
                       <i class="vh-iframe-icon v-icon mdi mdi-eye-off" style="
                           font-size: 40px;
-                          color: var(--v-warning-darken3);
+                          color: rgb(var(--v-theme-warning-darken-3));
                           transition: all 0.3s ease;
                       "></i>
-                      <p class="vh-iframe-text" style="color: var(--v-warning-darken3); font-size: 14px;">${src}</p>
+                      <p class="vh-iframe-text" style="color: rgb(var(--v-theme-warning-darken-3)); font-size: 14px;">${src}</p>
                   </div>`;
                   const iFrameElement = `
                   <iframe id="${iFrameID}" data-src="${src}" ${iframeAttrsBefore} style="
@@ -706,7 +695,7 @@ export default {
                       width: 100%;
                       height: 500px;
                       border: none;
-                      border-top: 2px solid var(--v-warning-darken3);
+                      border-top: 2px solid rgb(var(--v-theme-warning-darken-3));
                       border-radius: 0 0 10px 10px;
                   " class="vh-iframe-open" ${iframeAttrsAfter}></iframe>`;
                   return `<div style="display: flex; justify-content: center;">${spoilerDiv}</div>${iFrameElement}`;
@@ -930,7 +919,7 @@ export default {
 <style scoped>
 .clicked {
   background-color: rgba(84, 113, 252, 0.1);
-  border: 1px solid var(--v-theme-primary-lighten-3);
+  border: 1px solid rgb(var(--v-theme-primary-lighten-3));
   border-radius: 5px;
 }
 

@@ -5,11 +5,12 @@
     </SettingTitle>
     <VueDraggable
       v-model="adverts"
-      @dragend="updateAdvertEnabled = true"
+      @dragend="updateLinkOrder"
     >
       <v-expansion-panels
         v-for="advert in adverts"
         :key="advert.id"
+        flat
       >
         <v-expansion-panel
           class="mt-4"
@@ -17,64 +18,61 @@
           style="border-style: solid; border-width: 1px"
           :style="{ 'border-color': advert.color }"
         >
-          <v-expansion-panel-title>
-            <v-row class="d-flex align-center">
-              <v-col cols="12">
-                {{ advert.title }}
-                <v-spacer />
-                <div class="text-right">
-                  <v-icon
-                    v-if="advert.enabled"
-                    class="mr-1"
-                    color="success"
-                  >
-                    mdi-check-circle
-                  </v-icon>
-                  <v-icon
-                    v-if="!advert.enabled"
-                    class="mr-1"
-                    color="error"
-                  >
-                    mdi-close-circle
-                  </v-icon>
-                  <!-- TODO Was before                     :text-color="$vuetify.theme.dark ? 'white' : 'black'"
--->
-                  <v-chip
-                    v-for="serverbundle in advert.serverbundles"
-                    :key="serverbundle.id"
-                    class="mr-1"
-                    :color="serverbundle.color"
-                    variant="outlined"
-                    size="small"
-                    @click.stop
-                  >
-                    {{ serverbundle.name }}
-                  </v-chip>
-                  <v-btn
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    class="ml-1 mr-1"
-                    @click.stop="openAdvertEditDialog(advert)"
-                  >
-                    <v-icon>
-                      mdi-pencil
-                    </v-icon>
-                  </v-btn>
-                  <v-btn
-                    class="mr-2"
-                    variant="outlined"
-                    color="error"
-                    size="small"
-                    @click.stop="$refs.deleteAdvertConfirmationDialog.show(advert)"
-                  >
-                    <v-icon>
-                      mdi-delete
-                    </v-icon>
-                  </v-btn>
-                </div>
-              </v-col>
-            </v-row>
+          <v-expansion-panel-title class="d-flex">
+            {{ advert.title }}
+            <v-spacer />
+            <div class="text-right my-auto">
+              <v-icon class="mr-1">
+                mdi-drag-horizontal-variant
+              </v-icon>
+              <v-icon
+                v-if="advert.enabled"
+                class="mr-1"
+                color="success"
+              >
+                mdi-check-circle
+              </v-icon>
+              <v-icon
+                v-if="!advert.enabled"
+                class="mr-1"
+                color="error"
+              >
+                mdi-close-circle
+              </v-icon>
+              <v-chip
+                v-for="serverbundle in advert.serverbundles"
+                :key="serverbundle.id"
+                class="mr-1"
+                :color="serverbundle.color"
+                variant="outlined"
+                size="small"
+                @click.stop
+              >
+                {{ serverbundle.name }}
+              </v-chip>
+              <v-btn
+                variant="outlined"
+                color="primary"
+                size="small"
+                class="ml-1 mr-1"
+                @click.stop="openAdvertEditDialog(advert)"
+              >
+                <v-icon>
+                  mdi-pencil
+                </v-icon>
+              </v-btn>
+              <v-btn
+                class="mr-2"
+                variant="outlined"
+                color="error"
+                size="small"
+                @click.stop="$refs.deleteAdvertConfirmationDialog.show(advert)"
+              >
+                <v-icon>
+                  mdi-delete
+                </v-icon>
+              </v-btn>
+            </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             {{ advert.content }}
@@ -95,41 +93,6 @@
         </v-icon>
         <span>{{ $t('_advert.add') }}</span>
       </v-btn>
-      <v-tooltip location="bottom">
-        <template #activator="{ props}">
-          <v-btn
-            variant="outlined"
-            color="primary"
-            class="ml-5"
-            v-bind="props"
-            style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-            :disabled="!updateAdvertEnabled"
-            @click="updateLinkOrder"
-          >
-            <v-icon>mdi-check</v-icon>
-          </v-btn>
-        </template>
-        <span>
-          {{ $t('_settings.labels.updateOrder') }}
-        </span>
-      </v-tooltip>
-      <v-tooltip location="bottom">
-        <template #activator="{ props}">
-          <v-btn
-            variant="outlined"
-            color="primary"
-            v-bind="props"
-            style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-            :disabled="!updateAdvertEnabled"
-            @click="fetchData"
-          >
-            <v-icon>mdi-backspace-outline</v-icon>
-          </v-btn>
-        </template>
-        <span>
-          {{ $t('_settings.labels.resetOrder') }}
-        </span>
-      </v-tooltip>
     </div>
     <DialogForm
       ref="addAdvertDialog"
@@ -164,7 +127,6 @@ export default {
       advert: null,
       adverts: [],
       advertAddSchema: AdvertsForm,
-      updateAdvertEnabled: false,
     };
   },
   beforeMount() {
@@ -232,7 +194,6 @@ export default {
       });
       (await openapi).advert_updateOrder(null, res).then(() => {
         this.fetchData();
-        this.updateAdvertEnabled = false;
         this.$notify({
           title: this.$t('_messages.updateOrderSuccess'),
           type: 'success',

@@ -20,6 +20,7 @@
     <v-text-field
       v-if="!hideTitleInput"
       v-model="title"
+      variant="underlined"
       :label="$t('title')"
     />
     <editor
@@ -73,7 +74,7 @@ export default {
   data() {
     return {
       title: null,
-      content: null,
+      content: '',
       ban_id: '',
       topic_id: '',
       pinned: false,
