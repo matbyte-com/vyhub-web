@@ -7,10 +7,9 @@
     class=""
     @cancel="cancelForm"
   >
-    <!--:text-class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'"-->
+    <!-- TODO Keine Ahnung was das ist?? :text-class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'       style="overflow-x: hidden""-->
     <template
       v-if="formSchema"
-      style="overflow-x: hidden"
     >
       <GenForm
         ref="form"
@@ -33,7 +32,7 @@
           #[name]="scope"
         >
           <slot
-            v-bind="scope"
+            v-bind="scope ?? {}"
             :name="name"
           />
         </template>
@@ -81,15 +80,7 @@
 </template>
 
 <script>
-import GenForm from '@/components/GenForm.vue';
-import Dialog from './Dialog.vue';
-
 export default {
-  name: 'DialogForm',
-  components: {
-    Dialog,
-    GenForm,
-  },
   props: {
     title: String,
     icon: String,
@@ -109,6 +100,7 @@ export default {
     },
     slots: Array,
   },
+emits: ['submit', 'cancel', 'updated'],
   data() {
     return {
       dataBeforeMount: null,

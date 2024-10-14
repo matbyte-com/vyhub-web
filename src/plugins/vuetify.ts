@@ -31,6 +31,33 @@ const vuetify = createVuetify({
       mdi,
       custom: customSVGs,
     }
+  },
+  defaults: {
+    VjsfSwitch: {
+      VSwitch: {
+        color: "primary"
+      }
+    },
+    VjsfTextField: {
+      VTextField: {
+        variant: "underlined"
+      }
+    },
+    VjsfAutocomplete: {
+      VAutocomplete: {
+        variant: "underlined"
+      }
+    },
+    VjsfSelect: {
+      VSelect: {
+        variant: "underlined"
+      }
+    },
+    VjsfNumberField: {
+      VTextField: {
+        variant: "underlined"
+      }
+    }
   }
 })
 

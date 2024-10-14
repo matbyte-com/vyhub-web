@@ -16,48 +16,58 @@ export default {
     },
     show_widgets_on_shop_page: {
       type: 'boolean',
-      'x-display': 'switch',
+      layout: {
+        comp: 'switch',
+      },
       title: i18n.global.t('_shop.labels.showWidgetsOnShopPage'),
       description: i18n.global.t('_shop.labels.showWidgetsOnShopPageDesc'),
       default: 'true',
     },
     donation_goal_enabled: {
       type: 'boolean',
-      'x-display': 'switch',
       title: i18n.global.t('_shop.labels.enableDonationGoal'),
       description: i18n.global.t('_shop.labels.widgetDescription'),
-      default: 'true',
-      'x-cols': 6,
+      default: true,
+      layout: {
+        cols: 6,
+        comp: 'switch',
+      },
     },
     donation_goal: {
       type: 'integer',
       title: i18n.global.t('_shop.labels.donationGoal'),
-      minimum: '0',
-      'x-cols': 6,
+      minimum: 0,
+      layout: {
+        cols: 6,
+      },
     },
     top_donators_enabled: {
       type: 'boolean',
-      'x-display': 'switch',
       title: i18n.global.t('_shop.labels.enableTopDonators'),
       description: i18n.global.t('_shop.labels.widgetDescription'),
-      default: 'true',
-      'x-cols': 4,
+      default: true,
+      layout: {
+        cols: 4,
+        comp: 'switch',
+      },
     },
     top_donators_limit: {
       type: 'integer',
       title: i18n.global.t('_shop.labels.topDonatorsLimit'),
-      minimum: '1',
-      'x-cols': 4,
-      'x-class': 'pl-1',
+      minimum: 1,
+      layout: {
+        cols: 4,
+      },
     },
     top_donators_days_limit: {
       type: 'integer',
       title: i18n.global.t('_shop.labels.topDonatorsDaysLimit'),
-      'x-class': 'pl-1',
-      'x-props': {
-        clearable: true,
+      layout: {
+        props: {
+          clearable: true,
+        },
+        cols: 4
       },
-      'x-cols': 4,
     },
     last_donators_enabled: {
       type: 'boolean',
@@ -71,21 +81,25 @@ export default {
       type: 'string',
       title: i18n.global.t('_shop.labels.donationGoalDisplayTitle'),
       default: 'Donation Goal',
-      'x-cols': 4,
+      layout: {
+        cols: 4,
+      }
     },
     top_donators_display_title: {
       type: 'string',
       title: i18n.global.t('_shop.labels.topDonatorDisplayTitle'),
       default: 'Donation Goal',
-      'x-cols': 4,
-      'x-class': 'pl-1',
+      layout: {
+        cols: 4,
+      }
     },
     last_donators_display_title: {
       type: 'string',
       title: i18n.global.t('_shop.labels.lastDonatorsDisplayTitle'),
       default: 'Donation Goal',
-      'x-cols': 4,
-      'x-class': 'pl-1',
+      layout: {
+        cols: 4,
+      }
     },
     tax_allow_unknown: {
       type: 'boolean',

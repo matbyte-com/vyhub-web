@@ -18,6 +18,7 @@
             @submit.prevent="validateAndRun"
           >
             <v-jsf
+              ref="vjsf"
               :key="componentKey"
               v-model="formModel"
               :schema="compatSchema"
@@ -25,12 +26,12 @@
               @input="$emit('updated')"
             >
               <template
-                v-for="(slot, name) in $slots"
-                #[name]
+                v-for="(_, name) in $slots"
+                #[name]="scope"
               >
                 <slot
                   :name="name"
-                  v-bind="slot.scope"
+                  v-bind="scope ?? {}"
                 />
               </template>
             </v-jsf>
@@ -107,6 +108,7 @@ export default {
       default: 0,
     },
   },
+emits: ['updated', 'mounted', 'submit', 'notValid', 'cancel'],
   data() {
     return {
       alertMessage: null,
@@ -115,6 +117,7 @@ export default {
       optionsBase: {
         locale: i18n.locale, // i18n.locale,
         httpLib: axios,
+        density: 'comfortable',
         timePickerProps: {
           format: '24hr',
         },

@@ -23,7 +23,7 @@ export default {
     },
     color: Common.colorPicker(),
     serverbundle_id: {
-      ...Common.serverbundleIdSelectField,
+      ...Common.serverbundleSelectField,
       type: 'array',
       items: {
         type: 'string',

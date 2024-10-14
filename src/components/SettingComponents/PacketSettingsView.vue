@@ -3,6 +3,7 @@
     <SettingTitle doc-path="/guide/shop/packet">
       {{ $t('packets') }}
     </SettingTitle>
+    <!-- TODO Make it more clear that table can be sorted -->
     <DataTable
       id="packets-table"
       :headers="headers"
@@ -106,8 +107,11 @@
       :title="$t('_packet.labels.add')"
       @submit="addPacket"
     >
-      <template #custom-editor="context">
-        <EditorForForm v-bind="context" />
+      <template #custom-editor="{ node, statefulLayout }">
+        <EditorForForm
+          :value="node.data"
+          @update="event => statefulLayout.input(node, event.target.value)"
+        />
       </template>
     </DialogForm>
     <DialogForm

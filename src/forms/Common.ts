@@ -31,13 +31,6 @@ export default {
     'x-itemIcon': 'avatar',
     'x-itemsProp': 'items',
   },
-  serverbundleIdSelectField: {
-    type: 'string',
-    title: i18n.global.t('serverbundle'),
-    'x-fromUrl': `${API_URL}/server/bundle/`,
-    'x-itemKey': 'id',
-    'x-itemTitle': 'name',
-  },
   serverbundleSelectField: {
     type: 'object',
     title: i18n.global.t('serverbundle'),
@@ -55,14 +48,13 @@ export default {
     };
   },
   serverTypeSelectField(disabled = false, selected = 'GMOD') {
-    const form = {
+    return {
       type: 'string',
       title: i18n.global.t('type'),
       default: selected,
       readOnly: disabled,
       'x-fromUrl': `${API_URL}/server/type/`,
     };
-    return form;
   },
   forumSelectCategory: {
     type: 'object',
@@ -78,23 +70,24 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
-  colorPicker(title = 'color', description?: string, colors?: string[][], inputs = true) {
-    const form = {
+  colorPicker(title = 'color', description?: string, colors?: string[][], inputs = true, cols = 6) {
+    return {
       type: 'string',
       title: i18n.global.t(title),
-      format: 'hexcolor',
       default: '#000000',
       description: (description != null ? i18n.global.t(description) : undefined),
-      'x-cols': 6,
-      'x-props': {
-        showSwatches: true,
-        hideCanvas: true,
-        hideSliders: true,
-        hideInputs: !inputs,
-        swatches: colors,
+      layout: {
+        comp: 'color-picker',
+        cols: cols,
+        props: {
+          showSwatches: true,
+          hideCanvas: true,
+          hideSliders: true,
+          hideInputs: !inputs,
+          swatches: colors,
+        }
       },
     };
-    return form;
   },
   packetCategorySelectField: {
     type: 'object',
@@ -123,9 +116,13 @@ export default {
   rewardSelectField: {
     type: 'object',
     title: i18n.global.t('_purchases.labels.reward'),
-    'x-fromUrl': `${API_URL}/packet/reward/?query={q}`,
-    'x-itemKey': 'id',
-    'x-itemTitle': 'name',
+    layout: {
+      getItems: {
+        url: `${API_URL}/packet/reward/?query={q}`,
+        itemKey: "item.id",
+        itemTitle: "item.name"
+      }
+    },
   },
   rewardsSelectField: {
     type: 'array',
@@ -133,26 +130,43 @@ export default {
     items: {
       type: 'object',
     },
-    'x-fromUrl': `${API_URL}/packet/reward/?query={q}`,
-    'x-itemKey': 'id',
-    'x-itemTitle': 'name',
+    layout: {
+      getItems: {
+        url: `${API_URL}/packet/reward/?query={q}`,
+        itemKey: "item.id",
+        itemTitle: "item.name"
+      }
+    }
   },
   requirementSetSelectField: {
-    type: 'object',
+    type: "object",
     title: i18n.global.t('requirementSet'),
-    'x-fromUrl': `${API_URL}/requirement/set`,
-    'x-itemKey': 'id',
-    'x-itemTitle': 'name',
+    layout: {
+      getItems: {
+        url: `${API_URL}/requirement/set`,
+        itemKey: "item.id",
+        itemTitle: "item.name"
+      }
+    }
   },
   iconPicker: {
     title: i18n.global.t('icon'),
     type: ['string', 'null'],
-    'x-slots': {
-      'append-outer': `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.global.t('_forms.labels.iconDescription')}</a>`,
-    },
-    'x-itemIcon': 'icon',
-    'x-itemTitle': 'icon',
-    'x-fromUrl': `${API_URL}/general/icons?query={q}`,
+    layout: {
+      getItems: {
+        url: {
+          type: 'js-tpl',
+          expr: `${API_URL}/general/icons?query={q}`,
+          pure: true
+        },
+        itemKey: 'item',
+        itemTitle: 'item',
+        itemIcon: 'item',
+      },
+      slots: {
+        // TODO FIX after: `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.global.t('_forms.labels.iconDescription')}</a>`
+      }
+    }
   },
   countryCodeField: {
     type: 'string',

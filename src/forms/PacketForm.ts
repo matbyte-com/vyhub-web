@@ -51,7 +51,12 @@ function form() {
           description: {
             type: 'string',
             title: i18n.global.t('description'),
-            'x-display': 'custom-editor',
+            layout: {
+              slots: {
+                component: "custom-editor"
+              }
+            }
+            // 'x-display': 'custom-editor',
           },
           image_url: {
             ...Common.imageURLField,

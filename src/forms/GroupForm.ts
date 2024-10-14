@@ -87,7 +87,10 @@ function returnForm() {
               type: 'object',
               required: ['name'],
               properties: {
-                serverbundle_id: Common.serverbundleIdSelectField,
+                serverbundle_id: {
+                  ... Common.serverbundleSelectField,
+                  type: ['string'],
+                },
                 name: {
                   type: 'string',
                   title: i18n.global.t('_group.mappings.name'),

@@ -7,12 +7,10 @@ const API_URL = config.backend_url;
 
 function returnForm(links: {}[], disabled?: false) {
   const ret = {
-    type: 'object',
     allOf: [
       {
-        required: [
-          'title',
-        ],
+        type: 'object',
+        required: ['title'],
         properties: {
           title: {
             type: 'string',
@@ -21,60 +19,58 @@ function returnForm(links: {}[], disabled?: false) {
           subLink: {
             type: 'boolean',
             title: i18n.global.t('_navigation.sublink'),
-            'x-cols': 4,
-            'x-class': 'mt-4',
-          },
-        },
-        if: {
-          required: ['subLink'],
-          properties: {
-            subLink: {
-              const: true,
+            default: false,
+            layout: {
+              cols: 4,
             },
           },
         },
-        then: {
-          properties: {
-            parent_navigation_link_id: {
-              type: ['string', 'null'],
-              title: i18n.global.t('_navigation.parentNavigationLink'),
-              oneOf: links,
-              'x-options': {
-                fieldColProps: {
-                  cols: 8,
+        dependentSchemas: {
+          subLink: {
+            layout: {
+              cols: 8,
+            },
+            if: {
+              properties: {
+                subLink: {
+                  const: true,
+                }
+              }
+            },
+            then: {
+              properties: {
+                parent_navigation_link_id: {
+                  type: ['string', 'null'],
+                  title: i18n.global.t('_navigation.parentNavigationLink'),
+                  oneOf: links,
                 },
               },
             },
-          },
-        },
-        else: {
-          required: ['location'],
-          properties: {
-            location: {
-              type: 'string',
-              title: i18n.global.t('_navigation.location'),
-              'x-options': {
-                fieldColProps: {
-                  cols: 8,
+            else: {
+              required: ['location'],
+              properties: {
+                location: {
+                  type: 'string',
+                  title: i18n.global.t('_navigation.location'),
+                  oneOf: [
+                    {
+                      const: 'HEADER',
+                      title: i18n.global.t('_navigation._location.header'),
+                    },
+                    {
+                      const: 'FOOTER',
+                      title: i18n.global.t('_navigation._location.footer'),
+                    },
+                    {
+                      const: 'HELP',
+                      title: i18n.global.t('_navigation._location.help'),
+                    },
+                  ],
                 },
               },
-              oneOf: [
-                {
-                  const: 'HEADER',
-                  title: i18n.global.t('_navigation._location.header'),
-                },
-                {
-                  const: 'FOOTER',
-                  title: i18n.global.t('_navigation._location.footer'),
-                },
-                {
-                  const: 'HELP',
-                  title: i18n.global.t('_navigation._location.help'),
-                },
-              ],
             },
-          },
-        },
+          }
+        }
       },
       {
         required: [
@@ -86,16 +82,15 @@ function returnForm(links: {}[], disabled?: false) {
             type: 'boolean',
             default: 'true',
             title: i18n.global.t('_navigation.enabled'),
-            'x-cols': 4,
-            'x-class': 'mt-4',
+            layout: {
+              cols: 4,
+            },
           },
           req_prop: {
             type: 'string',
             title: i18n.global.t('_navigation.reqProp'),
-            'x-options': {
-              fieldColProps: {
-                cols: 8,
-              },
+            layout: {
+              cols: 8,
             },
           },
           icon: Common.iconPicker,
@@ -114,52 +109,53 @@ function returnForm(links: {}[], disabled?: false) {
               },
             ],
             default: 'link',
-            'x-class': 'mr-3, pr-3',
-            'x-cols': 4,
-          },
-        },
-        if: {
-          required: ['linkType'],
-          properties: {
-            linkType: {
-              const: 'link',
+            layout: {
+              cols: 4,
             },
+            // 'x-class': 'mr-3, pr-3',
           },
         },
-        then: {
-          properties: {
-            link: {
-              type: 'string',
-              title: i18n.global.t('_navigation.link'),
-              pattern: '(^https?://.+$)|(/.*)',
-              readOnly: disabled,
-              'x-props': {
-                placeholder: 'https://vyhub.net',
-              },
-              'x-options': {
-                fieldColProps: {
-                  cols: 8,
+        dependentSchemas: {
+
+          linkType: {
+            if: {
+              properties: {
+                linkType: {
+                  const: 'link'
+                }
+              }
+            },
+            layout: {
+              cols: 8,
+            },
+            then: {
+              properties: {
+                link: {
+                  type: 'string',
+                  title: i18n.global.t('_navigation.link'),
+                  pattern: '(^https?://.+$)|(/.*)',
+                  readOnly: disabled,
+                  layout: {
+                    props: {
+                      placeholder: 'https://vyhub.net',
+                    }
+                  },
                 },
               },
             },
-          },
-        },
-        else: {
-          properties: {
-            cms_page_id: {
-              type: 'string',
-              title: i18n.global.t('_navigation.cmsPage'),
-              'x-fromUrl': `${API_URL}/general/html`,
-              'x-itemTitle': 'title',
-              'x-itemKey': 'id',
-              'x-options': {
-                fieldColProps: {
-                  cols: 8,
+            else: {
+              properties: {
+                cms_page_id: {
+                  type: 'string',
+                  title: i18n.global.t('_navigation.cmsPage'),
+                  'x-fromUrl': `${API_URL}/general/html`,
+                  'x-itemTitle': 'title',
+                  'x-itemKey': 'id',
                 },
               },
             },
-          },
-        },
+          }
+        }
       },
     ],
   };

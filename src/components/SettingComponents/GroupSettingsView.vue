@@ -9,8 +9,8 @@
         :items="groups"
         :items-per-page="10"
         class="no-padding"
-        sort-by="permission_level"
-        :sort-desc="true"
+        :sort-by="['permission_level']"
+        :sort-desc="[true]"
       >
         <!-- TODO was before:             :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
 -->
@@ -288,6 +288,7 @@ export default {
       } else {
         data = copy;
       }
+
 
       (await openapi).group_addGroup(
         null, data,

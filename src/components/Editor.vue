@@ -75,7 +75,12 @@ export default {
   components: {
     Ckeditor,
   },
-  props: ['modelValue'],
+  props: {
+    modelValue: {
+      type: String,
+      default: '',
+    }
+  },
   emits: ['update:modelValue'],
   data() {
     return {
@@ -236,7 +241,7 @@ export default {
           ]
         },
         // initialData: '',
-        language: 'de',
+        language: 'de', // TODO make this dynamic fitting to i18n locale
         link: {
           addTargetToExternalLinks: true,
           defaultProtocol: 'https://',

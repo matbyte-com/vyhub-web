@@ -11,7 +11,7 @@ export default {
     },
     requirement_set_id: {
       ...Common.requirementSetSelectField,
-      type: 'String',
+      type: ['string', 'null'],
     },
     wrapper: {
       type: 'boolean',
