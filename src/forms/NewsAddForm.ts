@@ -22,12 +22,10 @@ function returnForm() {
         type: 'boolean',
         title: i18n.global.t('_home.invertTitleColor'),
         default: false,
-        'x-cols': 5,
-        'x-class': 'ml-5 my-auto',
-        'x-display': 'switch',
-        'x-props': {
-          'hide-details': true,
-        },
+        layout: {
+          comp: 'switch',
+          cols: 5,
+        }
       },
       type: {
         type: 'string',

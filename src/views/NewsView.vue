@@ -9,7 +9,7 @@
       :max-width="1000"
       @submit="addMessage"
     >
-      <template #type-after>
+      <template #form-after>
         <Editor v-model="message" />
       </template>
     </dialog-form>
@@ -21,7 +21,7 @@
       :max-width="1000"
       @submit="editMessage"
     >
-      <template #type-after>
+      <template #form-after>
         <Editor v-model="message" />
       </template>
     </dialog-form>
@@ -199,6 +199,7 @@
           :img="message.background_url"
         >
           <v-card-title
+            class="d-flex"
             :class="{ 'grey-title': !message.background_url &&
               !$vuetify.theme.current.dark }"
           >
@@ -240,7 +241,7 @@
             class="mt-3 ql-editor"
             style="min-height: 50px"
           >
-            v-html="message.content"
+            <div v-html="message.content" />
           </v-card-text>
           <v-card-actions class="text-disabled pt-0">
             <span
@@ -335,7 +336,7 @@ export default {
   methods: {
     async fetchNews(page) {
       this.fetching = true;
-      (await openapi).news_getMessages({ page, size: 15 }).then((rsp) => {
+      (await openapi).news_getMessages({page, size: 15}).then((rsp) => {
         rsp.data.items.forEach((item) => this.news.push(item));
         if (rsp.data.items.length === 0) {
           this.exhausted = true;
@@ -346,7 +347,7 @@ export default {
     scroll() {
       window.onscroll = () => {
         const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 10
-            >= document.documentElement.offsetHeight;
+          >= document.documentElement.offsetHeight;
         if (bottomOfWindow && !this.fetching && !this.exhausted) {
           this.page += 1;
           this.fetchNews(this.page);
@@ -354,7 +355,7 @@ export default {
       };
     },
     showAddMessageDialog() {
-      this.message = null;
+      this.message = '';
       this.$refs.messageAddDialog.show();
     },
     async addMessage() {
@@ -365,13 +366,13 @@ export default {
         return;
       }
       if (data.content.length > this.maxInputLength) {
-        this.$refs.messageAddDialog.setErrorMessage(i18n.global.t('maxInputExceeded', { length: config.html_max_input_length }),
-          { length: config.html_max_input_length });
+        this.$refs.messageAddDialog.setErrorMessage(i18n.global.t('maxInputExceeded', {length: config.html_max_input_length}),
+          {length: config.html_max_input_length});
         return;
       }
       (await openapi).news_addMessage(null, data).then((rsp) => {
         this.$refs.messageAddDialog.closeAndReset();
-        this.message = null;
+        this.message = '';
         this.news.unshift(rsp.data);
         this.$notify({
           title: this.$t('_messages.addSuccess'),
