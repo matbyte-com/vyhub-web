@@ -6,14 +6,23 @@
       :items="userOptions"
       item-value="id"
       item-title="username"
-      item-icon="avatar"
       :loading="loadingUsers"
       :no-data-text="$t('noDataAvailable')"
       :menu-props="{ maxHeight: '200px' }"
-      :debounce-search="300"
       label="User"
+      variant="underlined"
+      hide-details="auto"
+      clearable
       @update:search="fetchUsers"
-    />
+    >
+      <template #item="{ props, item }">
+        <v-list-item
+          v-bind="props"
+          :prepend-avatar="item.raw.avatar"
+          :title="item.raw.username"
+        />
+      </template>
+    </v-autocomplete>
   </div>
 </template>
 
@@ -22,11 +31,12 @@ import openapi from '@/api/openapi';
 
 export default {
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: null,
     },
   },
+emits: ['update:modelValue'],
   data() {
     return {
       userOptions: [],
@@ -37,10 +47,10 @@ export default {
   computed: {
     selectedUser: {
       get() {
-        return this.value;
+        return this.modelValue;
       },
       set(val) {
-        this.$emit('input', val);
+        this.$emit('update:modelValue', val);
       },
     },
   },
@@ -48,7 +58,7 @@ export default {
     async fetchUsers() {
       this.loadingUsers = true;
       (await openapi).user_getUsers({ query: this.searchInput }).then((rsp) => {
-        this.userOptions = rsp.data;
+        this.userOptions = rsp.data.items;
         this.loadingUsers = false;
       });
     },

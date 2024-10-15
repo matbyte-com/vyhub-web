@@ -139,7 +139,10 @@
         {{ $t('_settings.requirementSetTest') }}
       </h3>
       <v-row class="align-center px-3 mt-1">
-        <UserSelect v-model="testUser" />
+        <UserSelect
+          v-model="testUser"
+          style="width: 250px"
+        />
         <v-btn
           color="primary"
           :disabled="!testUser"
