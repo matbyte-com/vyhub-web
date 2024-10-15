@@ -103,16 +103,6 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
-  packetsSelectField: {
-    type: 'array',
-    title: i18n.global.t('packets'),
-    'x-fromUrl': `${API_URL}/shop/packet/`,
-    'x-itemKey': 'id',
-    'x-itemTitle': 'title',
-    items: {
-      type: 'object',
-    },
-  },
   rewardSelectField: {
     type: 'object',
     title: i18n.global.t('_purchases.labels.reward'),
@@ -124,7 +114,7 @@ export default {
       }
     },
   },
-  rewardsSelectField: {
+  /*rewardsSelectField: {
     type: 'array',
     title: i18n.global.t('rewards'),
     items: {
@@ -137,7 +127,7 @@ export default {
         itemTitle: "item.name"
       }
     }
-  },
+  },*/
   requirementSetSelectField: {
     type: "object",
     title: i18n.global.t('requirementSet'),
@@ -164,7 +154,8 @@ export default {
         itemIcon: 'item',
       },
       slots: {
-        // TODO FIX after: `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.global.t('_forms.labels.iconDescription')}</a>`
+        // TODO Slot needs to become append outer or something
+        'after': `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.global.t('_forms.labels.iconDescription')}</a>`
       }
     }
   },
@@ -203,16 +194,6 @@ export default {
   groupSelectField: {
     title: i18n.global.t('group'),
     type: 'object',
-    'x-fromUrl': `${API_URL}/group/`,
-    'x-itemTitle': 'name',
-    'x-itemKey': 'id',
-  },
-  groupSelectFieldMulti: {
-    title: i18n.global.t('group'),
-    type: 'array',
-    items: {
-      type: 'string',
-    },
     'x-fromUrl': `${API_URL}/group/`,
     'x-itemTitle': 'name',
     'x-itemKey': 'id',

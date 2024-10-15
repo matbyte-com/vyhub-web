@@ -14,11 +14,11 @@ import rust from "../components/Icons/Rust.vue";
 const customSvgNameToComponent: any = {
   vyhub,
   teamspeak,
-  seven_days,
+  sevenDays: seven_days,
   asa,
   discord,
   errorIcon,
-  fiveM,
+  fivem: fiveM,
   gmod,
   successIcon,
   rust

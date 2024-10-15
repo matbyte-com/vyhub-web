@@ -6,6 +6,12 @@ export default {
     'groups',
   ],
   properties: {
-    groups: Common.groupSelectFieldMulti,
+    groups: {
+      ...Common.groupSelectField,
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
   },
 };

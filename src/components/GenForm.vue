@@ -76,8 +76,8 @@ import { v2compat } from "@koumoul/vjsf/compat/v2";
 // import '@koumoul/vjsf/src/styles/vjsf.css'; // Maybe needed TODO
 // import '@koumoul/vjsf/dist/main.css';
 // import '@koumoul/vjsf/lib/deps/third-party';
-import axios from 'axios';
 import i18n from '../plugins/i18n';
+import axios from "axios";
 
 export default {
   name: 'GenForm',
@@ -115,13 +115,14 @@ emits: ['updated', 'mounted', 'submit', 'notValid', 'cancel'],
       alertType: 'error',
       valid: false,
       optionsBase: {
-        locale: i18n.locale, // i18n.locale,
+        locale: i18n.global.locale, // i18n.locale,
+        // TODO API Does not seem to be respected it was just axios before
         httpLib: axios,
         density: 'comfortable',
         timePickerProps: {
           format: '24hr',
         },
-        markdownit: {
+        markdownItOptions: {
           html: true,
         },
       },

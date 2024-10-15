@@ -58,8 +58,12 @@ export default {
       type: 'object',
       properties: {
         excluded_rewards: {
-          ...Common.rewardsSelectField,
+          ...Common.rewardSelectField,
           title: i18n.global.t('_import.gextension.labels.excludedRewards'),
+          type: 'array',
+          items: {
+            type: 'object',
+          },
         },
         packet_translations: {
           type: 'array',

@@ -5,7 +5,7 @@
     scrollable
     :max-width="maxWidth"
     :fullscreen="$vuetify.display.xs"
-    :z-index="2000"
+    :z-index="1005"
   >
     <v-card :class="{ 'card-rounded' : !$vuetify.display.xs }">
       <v-card-title class="bg-primary d-flex">

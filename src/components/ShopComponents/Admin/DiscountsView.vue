@@ -131,6 +131,7 @@
       :title="$t('_discount.labels.create')"
       @submit="createDiscount"
     >
+      <!-- TODO This button is probably not there in the slot -->
       <template #code-after>
         <v-btn
           class="mb-4 higher"

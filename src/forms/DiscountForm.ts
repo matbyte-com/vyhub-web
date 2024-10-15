@@ -50,7 +50,14 @@ export default {
       title: i18n.global.t('_discount.labels.allPackets'),
       default: true,
     },
-    packets: Common.packetsSelectField,
+    packets: {
+      ...Common.packetSelectField,
+      type: 'array',
+      title: i18n.global.t('packets'),
+      items: {
+        type: 'object',
+      },
+    },
     requirement_set: Common.requirementSetSelectField,
   },
 };

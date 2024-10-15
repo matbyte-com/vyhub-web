@@ -6,9 +6,7 @@ export default {
   required: ['status'],
   properties: {
     reward: {
-      ...Common.rewardsSelectField,
-      type: 'object',
-      title: i18n.global.t('_purchases.labels.reward'),
+      ...Common.rewardSelectField,
     },
   },
 };

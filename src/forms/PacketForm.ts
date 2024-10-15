@@ -192,7 +192,14 @@ function form() {
         title: i18n.global.t('rewards'),
         type: 'object',
         properties: {
-          rewards: Common.rewardsSelectField,
+          rewards: {
+            ...Common.rewardSelectField,
+            title: i18n.global.t('rewards'),
+            type: 'array',
+            items: {
+              type: 'object'
+            }
+          },
         },
       },
     ],

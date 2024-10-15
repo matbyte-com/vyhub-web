@@ -142,7 +142,7 @@
       :title="getDetailDialogTitle"
       :max-width="1000"
     >
-      <template>
+      <template #default>
         <data-table
           :headers="appliedRewardsHeaders"
           :items="currentAppliedRewards"

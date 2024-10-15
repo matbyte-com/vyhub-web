@@ -159,7 +159,7 @@ export default {
         return 'custom:rust';
       }
       if (server.type === 'SEVEN_DAYS') {
-        return 'custom:seven_days';
+        return 'custom:sevenDays';
       }
       if (server.icon) {
         return server.icon;
