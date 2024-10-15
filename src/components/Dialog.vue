@@ -47,7 +47,7 @@ export default {
       type: Number,
       default: 600,
     },
-    value: {
+    modelValue: {
       default: null,
       type: Boolean,
     },
@@ -56,7 +56,7 @@ export default {
       type: Boolean,
     },
   },
-  emits: ['input', 'close', 'cancel'],
+  emits: ['input', 'close', 'cancel', 'update:modelValue'],
   data() {
     return {
       openValue: false,
@@ -67,24 +67,24 @@ export default {
   computed: {
     open: {
       get() {
-        if (this.value == null) {
+        if (this.modelValue == null) {
           return this.openValue;
         }
 
-        return this.value;
+        return this.modelValue;
       },
       set(newValue) {
-        if (this.value == null) {
+        if (this.modelValue == null) {
           this.openValue = newValue;
         } else {
-          this.$emit('input', newValue);
+        this.$emit('update:modelValue', newValue);
         }
       },
     },
   },
   watch: {
     open() {
-      if (this.value != null) {
+      if (this.modelValue != null) {
         this.$emit('input', this.open);
       }
 

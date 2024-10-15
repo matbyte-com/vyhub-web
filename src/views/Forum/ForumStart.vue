@@ -211,7 +211,7 @@
                           </div>
                         </div>
                         <div
-                          v-if="!$vuetify.display.xs"
+                          v-if="!$vuetify.display.xs && topic.last_post"
                           class="ml-1"
                         >
                           <router-link

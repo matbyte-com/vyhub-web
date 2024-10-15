@@ -9,8 +9,7 @@
     >
       <v-badge
         v-if="$store.getters.cartPacketCount > 0"
-        location="bottom"
-        overlap
+        location="bottom right"
         color="error"
       >
         <template #badge>
@@ -25,33 +24,19 @@
       </v-badge>
       <v-icon
         v-else
-        icon
-      >
-        mdi-cart-variant
-      </v-icon>
+        icon="mdi-cart-variant"
+      />
     </v-btn>
     <v-list-item
       v-else
       :to="{ name: 'ShopCart' }"
+      class="d-flex"
     >
-      <v-badge
-        v-if="$store.getters.cartPacketCount > 0 && !listItem"
-        location="bottom"
-        overlap
-        color="error"
-        :content="$store.getters.cartPacketCount"
-      >
-        <v-icon start>
-          mdi-cart-variant
-        </v-icon>
-      </v-badge>
-      <v-icon
-        v-else
-        start
-      >
-        mdi-cart-variant
-      </v-icon>
       <v-list-item-title>
+        <v-icon
+          start
+          icon="mdi-cart-variant"
+        />
         {{ $t('_shop.labels.cart') }}
         <span v-if="listItem && $store.getters.cartPacketCount > 0">
           ({{ $store.getters.cartPacketCount }})
@@ -65,7 +50,6 @@
 import ShopService from '@/services/ShopService';
 
 export default {
-  name: 'ShoppingCart',
   props: {
     listItem: {
       type: Boolean,

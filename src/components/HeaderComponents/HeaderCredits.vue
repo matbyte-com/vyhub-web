@@ -14,10 +14,11 @@
       v-else
       @click="$refs.creditHistoryDialog.show()"
     >
-      <v-icon start>
-        mdi-circle-multiple
-      </v-icon>
       <v-list-item-title>
+        <v-icon
+          icon="mdi-circle-multiple"
+          start
+        />
         {{ credits }}
       </v-list-item-title>
     </v-list-item>
@@ -35,15 +36,8 @@
 
 <script>
 import ShopService from '@/services/ShopService';
-import CreditHistory from '@/components/DashboardComponents/CreditHistory.vue';
-import Dialog from '@/components/Dialog.vue';
 
 export default {
-  name: 'Credits',
-  components: {
-    CreditHistory,
-    Dialog,
-  },
   props: {
     listItem: {
       type: Boolean,

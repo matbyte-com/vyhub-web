@@ -9,16 +9,16 @@
     }
 
     &.success {
-         border-color: var(--v-success-darken2) !important;
+         border-color: rgb(var(--v-theme-success-darken-2)) !important;
     }
 
     &.warn {
-        background: var(--v-warning-base) !important;
-        border-color: var(--v-warning-darken2) !important;
+        background: rgb(var(--v-theme-warning)) !important;
+        border-color: rgb(var(--v-theme-warning-darken-2)) !important;
     }
 
     &.error {
-         border-color: var(--v-error-darken2) !important;
+         border-color: rgb(var(--v-theme-error-darken-2)) !important;
     }
 }
 

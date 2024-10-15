@@ -75,7 +75,7 @@
         </div>
 
         <v-spacer />
-        <Search />
+        <HeaderSearch />
         <div v-if="$vuetify.display.lgAndUp">
           <HelpCircle
             :menu-links="allowedHelpCircleLinks"
@@ -88,11 +88,11 @@
             v-if="$store.getters.isLoggedIn"
             class="d-flex align-center"
           >
-            <Credits
+            <HeaderCredits
               v-if="$vuetify.display.smAndUp"
               class="ml-1 mr-1"
             />
-            <ShoppingCart />
+            <HeaderShoppingCart />
             <ProfileMenu
               v-if="$vuetify.display.smAndUp"
               class="ml-5"

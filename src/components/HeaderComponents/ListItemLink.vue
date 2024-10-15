@@ -3,36 +3,32 @@
     <!-- if tabs are existent -->
     <v-list-group
       v-if="(link.sublinks || []).length > 0"
-      @click.stop=""
     >
-      <template #activator>
-        <v-list-item-title>
-          <v-icon start>
-            {{ link.icon }}
-          </v-icon>
-          {{ link.title }}
-        </v-list-item-title>
-      </template>
-      <div
-        v-for="(tab, index) in link.sublinks"
-        :key="index"
-      >
-        <v-list-item
-          v-if="tab.enabled === true && $checkProp(tab.req_prop)"
-          class="ml-3"
-          :href="tab.cms_page_id === null && !localLink(tab) ? tab.link : null"
-          :to="tab.cms_page_id || localLink(tab) ? getLocalLink(tab) : null"
-          link
-        >
+      <template #activator="{props}">
+        <v-list-item v-bind="props">
           <v-list-item-title>
-            #
             <v-icon start>
-              {{ tab.icon }}
+              {{ link.icon }}
             </v-icon>
-            {{ tab.title }}
+            {{ link.title }}
           </v-list-item-title>
         </v-list-item>
-      </div>
+      </template>
+      <v-list-item
+        v-for="(tab, index) in allowedSublinks(link.sublinks)"
+        :key="index"
+        class="ml-3"
+        :href="tab.cms_page_id === null && !localLink(tab) ? tab.link : null"
+        :to="tab.cms_page_id || localLink(tab) ? getLocalLink(tab) : null"
+        link
+      >
+        <v-list-item-title>
+          <v-icon start>
+            {{ tab.icon }}
+          </v-icon>
+          {{ tab.title }}
+        </v-list-item-title>
+      </v-list-item>
     </v-list-group>
     <!-- if no tabs are existent -->
     <v-list-item
@@ -55,7 +51,6 @@
 
 <script>
 export default {
-  name: 'ListItemTab',
   props: {
     link: Object,
     subSubLink: Boolean,
@@ -70,6 +65,10 @@ export default {
     },
   },
   methods: {
+    allowedSublinks(links) {
+      // TODO war vorher so v-if="tab.enabled === true && $checkProp(tab.req_prop)"
+      return links.filter((tab) => tab.enabled === true && (!tab.req_prop || this.$checkProp(tab.req_prop) === true));
+    },
     getLocalLink(link) {
       if (!link.link) return '';
       if (link.default) return link.link;

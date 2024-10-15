@@ -1,9 +1,11 @@
 <template>
-  <v-menu offset-y>
+  <v-menu>
     <template #activator="{ props }">
       <v-app-bar-nav-icon v-bind="props" />
     </template>
-    <v-list density="compact">
+    <v-list
+      density="compact"
+    >
       <!-- render navlinks -->
       <div
         v-for="(navLink, index) in navLinks"
@@ -12,27 +14,29 @@
         <ListItemLink :link="navLink" />
       </div>
       <!-- render helpMenu -->
-      <v-list-group @click.stop="">
-        <template #activator>
-          <v-icon start>
-            mdi-account-circle
-          </v-icon>
-          <v-list-item-title>{{ $t('help') }}</v-list-item-title>
+      <v-list-group>
+        <template #activator="{ props }">
+          <v-list-item v-bind="props">
+            <v-list-item-title>
+              <v-icon
+                icon="mdi-account-circle"
+                start
+              />
+              {{ $t('help') }}
+            </v-list-item-title>
+          </v-list-item>
         </template>
-        <div
+        <ListItemLink
           v-for="helpLink in helpLinks"
           :key="helpLink.id"
-        >
-          <ListItemLink
-            :sub-sub-link="true"
-            :link="helpLink"
-          />
-        </div>
+          :sub-sub-link="true"
+          :link="helpLink"
+        />
       </v-list-group>
       <v-divider />
       <div v-if="$store.getters.isLoggedIn">
-        <ShoppingCart :list-item="true" />
-        <Credits :list-item="true" />
+        <HeaderShoppingCart :list-item="true" />
+        <HeaderCredits :list-item="true" />
       </div>
       <v-divider />
       <!-- render menuTabs + Logout-->
@@ -49,18 +53,22 @@
           <v-list-item-title>{{ $t(menuLink.title) }}</v-list-item-title>
         </v-list-item>
         <v-list-item @click="emitLogout">
-          <v-icon start>
-            mdi-logout-variant
-          </v-icon>
-          <v-list-item-title>{{ $t('_header.labels.logout') }}</v-list-item-title>
+          <v-list-item-title>
+            <v-icon start>
+              mdi-logout-variant
+            </v-icon>
+            {{ $t('_header.labels.logout') }}
+          </v-list-item-title>
         </v-list-item>
       </div>
       <div v-else>
         <v-list-item @click="emitLogin">
-          <v-icon start>
-            mdi-login
-          </v-icon>
-          <v-list-item-title>{{ $t('_header.labels.login') }}</v-list-item-title>
+          <v-list-item-title>
+            <v-icon start>
+              mdi-login
+            </v-icon>
+            {{ $t('_header.labels.login') }}
+          </v-list-item-title>
         </v-list-item>
       </div>
     </v-list>
@@ -68,16 +76,7 @@
 </template>
 
 <script>
-import ShoppingCart from '@/components/HeaderComponents/ShoppingCart.vue';
-import Credits from '@/components/HeaderComponents/Credits.vue';
-import LinkAccountListItem from '@/components/HeaderComponents/LinkAccountListItem.vue';
-import ListItemLink from '@/components/HeaderComponents/ListItemLink.vue';
-
 export default {
-  name: 'BurgerMenu.vue',
-  components: {
-    LinkAccountListItem, Credits, ShoppingCart, ListItemLink,
-  },
   props: {
     navLinks: Array,
     helpLinks: Array,

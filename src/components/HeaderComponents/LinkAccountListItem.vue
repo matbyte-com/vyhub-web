@@ -18,7 +18,6 @@
 import UtilService from '@/services/UtilService';
 
 export default {
-  name: 'LinkAccountListItem',
   methods: {
     getReturnUrl() {
       return UtilService.data().utils.getFullUrl(this.$route.path);
