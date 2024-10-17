@@ -54,8 +54,8 @@
         class="text-center"
         cols="12"
       >
-        <!--    TODO check whether needed       :text-color="$vuetify.theme.current.dark ? 'black' : 'white'" -->
         <v-chip
+          variant="flat"
           :color="group.color ? group.color : '#000000'"
           size="large"
           label
@@ -88,9 +88,8 @@
             </v-avatar>
           </router-link>
           <div style="position: absolute; top: 92%; width: 100%; text-align: center;">
-            <!-- TODO check whether needed               :text-color="$vuetify.theme.current.dark ? 'black' : 'white'"
- -->
             <v-chip
+              variant="flat"
               :color="group.color ? group.color : '#000000'"
             >
               {{ user.username }}
