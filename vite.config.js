@@ -44,16 +44,6 @@ export default defineConfig({
     }),
     Components(),
     nodePolyfills(), // Polyfill for Eventsource. TODO maybe rebuild eventsource later
-    // TODO need to be readded??
-    /*Components({
-      resolvers: [
-        (componentName) => {
-          if (componentName.startsWith("VJsf")) {
-            return { name: componentName, as:componentName, from: '@koumoul/vjsf' };
-          }
-        },
-      ],
-    }),*/
   ],
   define: {
     'process.env': process.env

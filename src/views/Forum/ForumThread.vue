@@ -534,7 +534,6 @@
                         <v-img :src="user.avatar" />
                       </v-avatar>
                     </v-list-item-avatar>-->
-
                     <v-list-item-title>{{ user.username }}</v-list-item-title>
                   </v-list-item>
                   <v-divider
@@ -771,6 +770,7 @@ export default {
       }
       (await openapi).forum_createPost(this.threadId, data).then(() => {
         this.$refs.addPostDialog.close();
+        if (this.message.content) { this.message.content = ''; }
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.addSuccess'),

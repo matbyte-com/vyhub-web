@@ -45,7 +45,7 @@
     </BuilderWrapper>
     <v-fade-transition>
       <v-card
-        v-if="blocksToShow == null"
+        v-if="showLoader"
         width="100vw"
         height="calc(100vh - 108px)"
         flat
@@ -266,7 +266,6 @@ import {VueDraggable} from "vue-draggable-plus";
 import {defineAsyncComponent} from "vue";
 
 // TODO Internal Server error when Adding a new component without saving, then pressing the delete button and then saving. Fix needed!
-// TODO Skeleton Loader does not work as blocks starst with [] and not null . This is due to the draggable. -> All draggables effected
 
 export default {
   components: {
@@ -281,6 +280,7 @@ export default {
       componentEdited: false,
       newComponentDialog: false,
       addComponentSearch: '',
+      showLoader: true,
       blocks: [],
       count: 0,
       availableComponents: components.components,
@@ -340,6 +340,7 @@ export default {
     async fetchData() {
       (await openapi).design_getSections().then((rsp) => {
         this.blocks = rsp.data;
+        this.showLoader = false;
         this.orderUpdated = false;
         this.componentAdded = false;
         this.componentEdited = false;

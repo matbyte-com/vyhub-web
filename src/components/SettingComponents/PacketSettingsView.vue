@@ -3,7 +3,6 @@
     <SettingTitle doc-path="/guide/shop/packet">
       {{ $t('packets') }}
     </SettingTitle>
-    <!-- TODO Make it more clear that table can be sorted -->
     <DataTable
       id="packets-table"
       :headers="headers"

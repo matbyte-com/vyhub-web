@@ -108,8 +108,6 @@
 <script>
 import openapi from '../api/openapi';
 
-// TODO Test as there seems to be recursion happening in this component
-
 export default {
   data() {
     return {

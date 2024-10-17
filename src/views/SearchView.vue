@@ -66,7 +66,6 @@
                 </router-link>
               </template>
               <template #item.username="{ item }">
-                <!-- TODO Check whether avatar is working right? I have seen an unknown avatar before.. -->
                 <router-link
                   :to="{ name: 'UserDashboard', params: { id: item.id } }"
                   style="text-decoration: none; color: inherit;"
@@ -76,11 +75,10 @@
                       size="35"
                       class="mr-2"
                     >
-                      <img
+                      <v-img
                         :src="item.avatar"
                         alt="avatar"
-                      >
-                    </v-avatar>
+                      /></v-avatar>
                     <span>{{ item.username }}</span>
                   </span>
                 </router-link>
