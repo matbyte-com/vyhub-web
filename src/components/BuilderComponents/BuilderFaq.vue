@@ -44,8 +44,7 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .v-expansion-panel-header__icon i {
+:deep(.v-expansion-panel-title__icon i) {
   color: rgb(var(--v-theme-primary)) !important;
 }
-
 </style>

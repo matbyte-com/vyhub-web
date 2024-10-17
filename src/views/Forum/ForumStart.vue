@@ -30,7 +30,7 @@
             </div>
           </template>
         </PageTitleFlat>
-        <div v-if="topicCategories == null">
+        <div v-if="showSkeletonLoaders">
           <v-card
             class="card-rounded mt-3"
             flat
@@ -424,6 +424,7 @@ export default {
       topicCategoryForm: ForumAddTopicCategory,
       TopicForm: ForumAddTopicForm,
       expansionPanel: [],
+      showSkeletonLoaders: true,
     };
   },
   computed: {
@@ -439,6 +440,7 @@ export default {
     async fetchData() {
       (await openapi).forum_getTopicCategories().then((rsp) => {
         this.topicCategories = rsp.data;
+        this.showSkeletonLoaders = false;
       });
     },
     // Hinzufügen

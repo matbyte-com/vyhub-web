@@ -17,122 +17,101 @@
             </v-icon>
             {{ $t('_faq.add') }}
           </v-btn>
-          <v-card
-            class="ml-3"
-            style="display: inline-block"
-            flat
-          >
-            <v-tooltip location="bottom">
-              <template #activator="{ props}">
-                <v-btn
-                  color="primary"
-                  v-bind="props"
-                  style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-                  size="small"
-                  :disabled="!updateFaqEnabled"
-                  @click="updateLinkOrder"
-                >
-                  <v-icon>mdi-check</v-icon>
-                </v-btn>
-              </template>
-              <span>
-                {{ $t('_settings.labels.updateOrder') }}
-              </span>
-            </v-tooltip>
-            <v-tooltip location="bottom">
-              <template #activator="{ props}">
-                <v-btn
-                  color="primary"
-                  v-bind="props"
-                  style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-                  size="small"
-                  :disabled="!updateFaqEnabled"
-                  @click="fetchData"
-                >
-                  <v-icon>mdi-backspace-outline</v-icon>
-                </v-btn>
-              </template>
-              <span>
-                {{ $t('_settings.labels.resetOrder') }}
-              </span>
-            </v-tooltip>
-          </v-card>
         </div>
       </template>
     </PageTitleFlat>
-    <v-expansion-panels
+    <div
+      v-if="showSkeletonLoaders"
       class="mt-4"
+    >
+      <v-skeleton-loader
+        type="list-item"
+        class="mb-3"
+      />
+      <v-skeleton-loader
+        type="list-item"
+        class="mb-3"
+      />
+      <v-skeleton-loader
+        type="list-item"
+        class="mb-3"
+      />
+    </div>
+    <v-card
+      class="vh-faq card-rounded mt-4"
       flat
     >
-      <VueDraggable
-        v-model="questions"
-        :disabled="!$checkProp('faq_edit')"
-        style="width: 100%"
-        @dragend="updateFaqEnabled = true"
+      <v-expansion-panels
+        flat
       >
-        <v-expansion-panel
-          v-for="(question, index) in questions"
-          :key="question.id"
-          class="mb-3"
+        <VueDraggable
+          v-model="questions"
+          :disabled="!$checkProp('faq_edit')"
+          style="width: 100%"
+          @dragend="updateLinkOrder"
         >
-          <v-card
-            class="vh-faq card-rounded"
-            flat
+          <v-expansion-panel
+            v-for="(question, index) in questions"
+            :key="question.id"
           >
-            <v-expansion-panel-title>
-              <div class="d-flex align-center flex-wrap">
-                <v-icon
-                  v-if="question.icon"
-                  class="mr-2"
-                >
-                  {{ question.icon }}
-                </v-icon>
-                <b>
-                  <span class="text-primary">{{ String(index + 1).padStart(2, '0') }}.</span>
-                  <span class="ml-2">{{ question.title }}</span>
-                </b>
-                <v-spacer />
-                <v-btn
-                  v-if="$checkProp('faq_edit')"
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                  class="mr-1"
-                  @click.stop="openQuestionEditDialog(question)"
-                >
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="$checkProp('faq_edit')"
-                  variant="outlined"
-                  color="error"
-                  size="small"
-                  @click.stop="$refs.deleteQuestionConfirmationDialog.show(question)"
-                >
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </div>
+            <v-expansion-panel-title class="d-flex align-center flex-wrap">
+              <v-icon
+                v-if="question.icon"
+                class="mr-3"
+              >
+                {{ question.icon }}
+              </v-icon>
+              <b>
+                <span class="text-primary">{{ String(index + 1).padStart(2, '0') }}.</span>
+                <span class="ml-2">{{ question.title }}</span>
+              </b>
+              <v-spacer />
+              <DragDropIcon
+                v-if="$checkProp('faq_edit')"
+                class="mr-1"
+              />
+              <v-btn
+                v-if="$checkProp('faq_edit')"
+                variant="outlined"
+                color="primary"
+                size="small"
+                class="mr-1"
+                @click.stop="openQuestionEditDialog(question)"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn
+                v-if="$checkProp('faq_edit')"
+                variant="outlined"
+                color="error"
+                size="small"
+                @click.stop="$refs.deleteQuestionConfirmationDialog.show(question)"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
             </v-expansion-panel-title>
-            <v-expansion-panel-text :style="{ background: 'rgba(19,19,19,0.2)' }">
-              <v-divider />
+            <v-expansion-panel-text>
               <span
-                class="ql-editor"
                 v-html="question.content"
               />
             </v-expansion-panel-text>
-          </v-card>
-        </v-expansion-panel>
-      </VueDraggable>
-    </v-expansion-panels>
+          </v-expansion-panel>
+        </VueDraggable>
+      </v-expansion-panels>
+    </v-card>
     <DialogForm
       ref="addQuestionDialog"
+      :width="700"
+      :max-width="700"
       :title="$t('_faq.addQuestionDialog')"
       icon="mdi-chat-question"
       :form-schema="faqAddSchema"
       @submit="addQuestion"
     >
-      <template #title-after>
-        <Editor v-model="content" />
+      <template #form-after>
+        <Editor
+          v-model="content"
+        />
       </template>
     </DialogForm>
     <DeleteConfirmationDialog
@@ -146,7 +125,7 @@
       :form-schema="faqAddSchema"
       @submit="editQuestion"
     >
-      <template #title-after>
+      <template #form-after>
         <Editor v-model="content" />
       </template>
     </DialogForm>
@@ -163,9 +142,9 @@ export default {
   data() {
     return {
       questions: [],
-      content: null,
+      content: '',
       faqAddSchema: FaqForm,
-      updateFaqEnabled: false,
+      showSkeletonLoaders: true,
     };
   },
   beforeMount() {
@@ -175,7 +154,7 @@ export default {
     async fetchData() {
       (await openapi).faq_getFaq().then((rsp) => {
         this.questions = rsp.data;
-        this.updateFaqEnabled = false;
+        this.showSkeletonLoaders = false;
       });
     },
     async addQuestion() {
@@ -234,13 +213,8 @@ export default {
       });
     },
     async updateLinkOrder() {
-      const res = [];
-      this.questions.forEach((item) => {
-        res.push(item.id);
-      });
-      (await openapi).faq_updateOrder(null, res).then(() => {
-        this.fetchData();
-        this.updateFaqEnabled = false;
+      const order = this.questions.map((c) => c.id);
+      (await openapi).faq_updateOrder(null, order).then(() => {
         this.$notify({
           title: this.$t('_messages.updateOrderSuccess'),
           type: 'success',
@@ -254,7 +228,7 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .v-expansion-panel-header__icon i {
+:deep(.v-expansion-panel-title__icon i) {
   color: rgb(var(--v-theme-primary)) !important;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <Dialog
     ref="dialog"
+    v-bind="$attrs"
     :max-width="maxWidth"
     :title="title"
     :icon="icon"
