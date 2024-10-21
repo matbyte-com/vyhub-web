@@ -163,7 +163,7 @@
               <v-divider />
               <v-card-text>
                 <span
-                  class="ql-editor pa-0"
+                  class="ql-editor pa-0 ck-content"
                   v-html="post.content"
                 />
               </v-card-text>

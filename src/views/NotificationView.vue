@@ -94,6 +94,7 @@
                   @update:model-value="fetchData"
                 />
                 <a
+                  href="javascript:void(0)"
                   class="ma-1"
                   @click="selectedCat = []; fetchData()"
                 >{{ $t('reset') }}</a>

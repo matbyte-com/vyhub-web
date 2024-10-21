@@ -4,6 +4,7 @@
       <div class="editor-container__editor">
         <div ref="editorElement">
           <ckeditor
+            v-if="isEditorReady"
             v-model="content"
             :editor="editor"
             :config="editorConfig"
@@ -67,8 +68,8 @@ import {
   Undo
 } from 'ckeditor5';
 
-import translations from 'ckeditor5/translations/de.js';
 
+import i18n from "../plugins/i18n";
 import {Ckeditor} from "@ckeditor/ckeditor5-vue";
 
 export default {
@@ -84,8 +85,44 @@ export default {
   emits: ['update:modelValue'],
   data() {
     return {
+      isEditorReady: false,
       editor: ClassicEditor,
-      editorConfig: {
+      editorConfig: {},
+    };
+  },
+  computed: {
+    content: {
+      get() {
+        return this.modelValue;
+      },
+      set(val) {
+        this.$emit('update:modelValue', val);
+      },
+    },
+  },
+  beforeMount() {
+    this.initializeEditor();
+  },
+  methods: {
+    async initializeEditor() {
+      const currentLocale = i18n.global.locale;
+      let translations = null;
+      const translationFiles = import.meta.glob('../../node_modules/ckeditor5/dist/translations/*.js'); // Adjust path as necessary
+
+      const importPath = `../../node_modules/ckeditor5/dist/translations/${currentLocale}.js`;  // Dynamically construct path
+      try {
+        // Check if the translation file exists in the glob map
+        if (translationFiles[importPath]) {
+          translations = await translationFiles[importPath]()
+            .catch(() => null);  // Handle potential import failure
+        } else {
+          console.warn(`No CKEditor translations found for locale: ${currentLocale}`);
+        }
+      } catch (e) {
+        console.warn(`Failed to load CKEditor translations for locale: ${currentLocale}`, e);
+      }
+
+      this.editorConfig = {
         toolbar: {
           items: [
             'heading',
@@ -241,7 +278,7 @@ export default {
           ]
         },
         // initialData: '',
-        language: 'de', // TODO make this dynamic fitting to i18n locale
+        language: currentLocale, // TODO make this dynamic fitting to i18n locale
         link: {
           addTargetToExternalLinks: true,
           defaultProtocol: 'https://',
@@ -262,23 +299,17 @@ export default {
             reversed: true
           }
         },
+        mediaEmbed: {
+          previewsInData: true
+        },
         placeholder: 'Type or paste your content here!',
         table: {
           contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
         },
-        translations: [translations]
+        translations: translations ? translations.default : undefined,
       }
-    };
-  },
-  computed: {
-    content: {
-      get() {
-        return this.modelValue;
-      },
-      set(val) {
-        this.$emit('update:modelValue', val);
-      },
-    },
+      this.isEditorReady = true;
+    }
   },
 };
 </script>

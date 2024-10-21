@@ -9,7 +9,7 @@ export default {
 
 <template>
   <div>
-    <v-list>
+    <v-list class="bg-transparent overflow-visible">
       <span
         v-for="tab in allowedTabs"
         :key="tab.id"

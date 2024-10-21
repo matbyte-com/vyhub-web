@@ -25,7 +25,7 @@
         </span>
         <!-- Only the text above -->
         <div
-          class="mt-2 ql-editor"
+          class="mt-2 ql-editor ck-content"
           v-html="content"
         />
       </v-card-text>

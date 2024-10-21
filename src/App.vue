@@ -317,7 +317,7 @@ export default {
     },
     setLocale() {
       if (this.$store.getters.generalConfig) {
-        i18n.locale = this.$store.getters.generalConfig.language;
+        i18n.global.locale = this.$store.getters.generalConfig.language;
       }
     },
     async setApiInterceptor() {

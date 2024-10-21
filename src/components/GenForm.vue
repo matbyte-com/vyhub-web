@@ -23,7 +23,7 @@
               v-model="formModel"
               :schema="compatSchema"
               :options="options"
-              @input="$emit('updated')"
+              @update:model-value="$emit('updated')"
             >
               <template
                 v-for="(_, name) in $slots"
@@ -80,7 +80,6 @@ import i18n from '../plugins/i18n';
 import axios from "axios";
 
 export default {
-  name: 'GenForm',
   components: {
     VJsf,
   },

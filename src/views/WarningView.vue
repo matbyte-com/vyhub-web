@@ -60,20 +60,23 @@
                       {{ $t('bundle') }}
                     </v-btn>
                   </template>
-                  <v-checkbox
-                    v-for="(bundle, index) in bundles"
-                    :key="index"
-                    v-model="selectedBundles"
-                    class="ml-2, mr-2"
-                    hide-details
-                    :label="bundle.name"
-                    :value="bundle.id"
-                    @update:model-value="fetchData()"
-                  />
-                  <a
-                    class="ma-1"
-                    @click="selectedBundles = []; fetchData()"
-                  >{{ $t('reset') }}</a>
+                  <v-card>
+                    <v-checkbox
+                      v-for="(bundle, index) in bundles"
+                      :key="index"
+                      v-model="selectedBundles"
+                      class="ml-2, mr-2"
+                      hide-details
+                      :label="bundle.name"
+                      :value="bundle.id"
+                      @update:model-value="fetchData()"
+                    />
+                    <a
+                      href="javascript:void(0)"
+                      class="ma-1"
+                      @click="selectedBundles = []; fetchData()"
+                    >{{ $t('reset') }}</a>
+                  </v-card>
                 </v-menu>
                 <v-alert
                   v-if="$route.query.user_id"

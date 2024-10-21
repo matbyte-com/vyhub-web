@@ -97,7 +97,7 @@ export default {
     },
     async saveData() {
       const data = this.$refs.form.getData();
-      if (data.language !== i18n.locale) {
+      if (data.language !== i18n.global.locale) {
         i18n.locale = data.language;
       }
       (await openapi).general_editConfig(null, data).then(() => {

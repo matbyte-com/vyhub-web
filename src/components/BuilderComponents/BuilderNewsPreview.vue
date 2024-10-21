@@ -57,7 +57,7 @@
                       {{ n.subject }}
                     </span>
                   </v-card-title>
-                  <v-card-text class="ql-editor">
+                  <v-card-text class="ql-editor ck-content">
                     <p
                       class="content-preview"
                       :style="`height: ${maxColumnHeight - 68}px`"

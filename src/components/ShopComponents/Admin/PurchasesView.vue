@@ -29,22 +29,25 @@
                   {{ $t('status') }}
                 </v-btn>
               </template>
-              <v-checkbox
-                v-for="(st, index) in availableStatus"
-                :key="index"
-                v-model="selectedStatus"
-                class="ml-2, mr-2"
-                density="compact"
-                hide-details
-                :label="$t(`_shop.purchaseStatus.${st.toLowerCase()}`)"
-                :value="st"
-                @update:model-value="newStatus"
-              />
-              <a
-                class="ma-1"
-                @click="selectedStatus = []; fetchData()"
-              >
-                {{ $t('reset') }}</a>
+              <v-card>
+                <v-checkbox
+                  v-for="(st, index) in availableStatus"
+                  :key="index"
+                  v-model="selectedStatus"
+                  class="ml-2, mr-2"
+                  density="compact"
+                  hide-details
+                  :label="$t(`_shop.purchaseStatus.${st.toLowerCase()}`)"
+                  :value="st"
+                  @update:model-value="newStatus"
+                />
+                <a
+                  href="javascript:void(0)"
+                  class="ma-1"
+                  @click="selectedStatus = []; fetchData()"
+                >
+                  {{ $t('reset') }}</a>
+              </v-card>
             </v-menu>
           </v-col>
         </v-row>

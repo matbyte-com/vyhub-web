@@ -279,7 +279,7 @@
               <v-card-text>
                 <!-- IMPORTANT - TOP -->
                 <span
-                  class="ql-editor pa-0 text-break"
+                  class="ql-editor pa-0 text-break ck-content"
                   v-html="post.content"
                 />
               </v-card-text>
@@ -563,11 +563,17 @@
               md="1"
               class="d-flex"
             >
-              <v-skeleton-loader type="avatar" />
+              <v-skeleton-loader
+                class="bg-transparent"
+                type="avatar"
+              />
             </v-col>
             <v-divider vertical />
             <v-col>
-              <v-skeleton-loader type="paragraph" />
+              <v-skeleton-loader
+                class="bg-transparent"
+                type="paragraph"
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -581,7 +587,6 @@ import openapi from '../../api/openapi';
 import ForumPost from '../../forms/ForumPost';
 
 export default {
-  name: 'ForumThread',
   data() {
     return {
       threadId: '',

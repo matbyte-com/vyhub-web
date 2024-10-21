@@ -500,7 +500,7 @@
       >
         {{ $t('_navigation.cmsPageTitle') }}
       </SettingTitle>
-      <v-list>
+      <v-list class="">
         <v-list-item
           v-for="page in cmsPages"
           :key="page.id"
@@ -814,5 +814,9 @@ export default {
 <style scoped>
 .subgroup :deep(.v-list-item__append) {
   display: none !important
+}
+
+.v-list {
+  background-color: transparent !important;
 }
 </style>

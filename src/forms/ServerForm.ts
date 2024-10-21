@@ -118,7 +118,9 @@ export default {
           type: 'boolean',
           title: i18n.global.t('_server.labels.hidden'),
           default: false,
-          'x-display': 'switch',
+          layout: {
+            comp: 'switch'
+          }
         },
       },
     },

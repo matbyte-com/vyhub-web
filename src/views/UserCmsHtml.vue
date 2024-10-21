@@ -4,7 +4,7 @@
       <v-card class="card-rounded">
         <v-card-text>
           <span
-            class="ql-editor"
+            class="ql-editor ck-content"
             v-html="data.content"
           />
         </v-card-text>
@@ -12,7 +12,7 @@
     </v-container>
     <span
       v-else
-      class="ql-editor"
+      class="ql-editor ck-content"
       v-html="data.content"
     />
   </div>

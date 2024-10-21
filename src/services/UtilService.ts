@@ -21,16 +21,16 @@ export default {
       utils: {
         formatLength(seconds: number) {
           return (seconds == null ? '∞' : humanizeDuration(seconds * 1000, {
-            fallbacks: [i18n.locale.slice(0, 2), 'en'],
-            language: i18n.locale,
+            fallbacks: [i18n.global.locale.slice(0, 2), 'en'],
+            language: i18n.global.locale,
             unitMeasures,
             units: ['y', 'mo', 'd', 'h', 'm'],
           }));
         },
         formatElapsedTime(mseconds: number) {
           return (mseconds == null ? '∞' : humanizeDuration(mseconds, {
-            fallbacks: [i18n.locale.slice(0, 2), 'en'],
-            language: i18n.locale,
+            fallbacks: [i18n.global.locale.slice(0, 2), 'en'],
+            language: i18n.global.locale,
             unitMeasures,
             units: ['y', 'mo', 'd', 'h', 'm', 's'],
             round: true,
@@ -38,9 +38,9 @@ export default {
           }));
         },
         isSingularTimeunit(seconds: number) {
-          if (seconds === 2592000) return i18n.global.t('everyMonth');
-          if (seconds === 31536000) return i18n.global.t('everyYear');
-          if (seconds === 86400) return i18n.global.t('everyDay');
+          if (seconds === 2592000) return i18n.global.global.t('everyMonth');
+          if (seconds === 31536000) return i18n.global.global.t('everyYear');
+          if (seconds === 86400) return i18n.global.global.t('everyDay');
           return false;
         },
         notifyUnexpectedError(detail: object) {

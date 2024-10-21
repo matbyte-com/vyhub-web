@@ -159,7 +159,7 @@
             </span>
           </v-card-title>
           <v-card-text
-            class="mt-3 ql-editor"
+            class="mt-3 ql-editor ck-content"
             style="min-height: 50px"
           >
             <div v-html="message.content" />
@@ -238,7 +238,7 @@
             </span>
           </v-card-title>
           <v-card-text
-            class="mt-3 ql-editor"
+            class="mt-3 ql-editor ck-content"
             style="min-height: 50px"
           >
             <div v-html="message.content" />

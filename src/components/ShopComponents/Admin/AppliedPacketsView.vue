@@ -29,21 +29,27 @@
                   {{ $t('active') }}
                 </v-btn>
               </template>
-              <v-radio-group v-model="active_filter">
-                <v-radio
-                  :value="true"
-                  :label="$t('active')"
-                />
-                <v-radio
-                  :value="false"
-                  :label="$t('inactive')"
-                />
-              </v-radio-group>
-              <a
-                class="ma-1"
-                @click="active_filter = null;"
-              >
-                {{ $t('reset') }}</a>
+              <v-card>
+                <v-radio-group
+                  v-model="active_filter"
+                  hide-details="auto"
+                >
+                  <v-radio
+                    :value="true"
+                    :label="$t('active')"
+                  />
+                  <v-radio
+                    :value="false"
+                    :label="$t('inactive')"
+                  />
+                </v-radio-group>
+                <a
+                  href="javascript:void(0)"
+                  class="ma-1"
+                  @click="active_filter = null;"
+                >
+                  {{ $t('reset') }}</a>
+              </v-card>
             </v-menu>
           </v-col>
         </v-row>

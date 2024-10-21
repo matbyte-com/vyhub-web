@@ -151,7 +151,7 @@
                     :options="vjsfOptions"
                     style="z-index: 202"
                     :schema="getComponentSchema(component)"
-                    @input="component.edited = true; componentEdited=true"
+                    @update:model-value="component.edited = true; componentEdited=true"
                   />
                 </v-form>
               </v-expansion-panel-text>
@@ -286,7 +286,7 @@ export default {
       availableComponents: components.components,
       panelExposed: null,
       vjsfOptions: {
-        locale: i18n.locale, // i18n.locale,
+        locale: i18n.global.locale, // i18n.locale,
         httpLib: axios,
         timePickerProps: {
           format: '24hr',

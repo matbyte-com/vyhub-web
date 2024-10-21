@@ -267,7 +267,7 @@
               </span>
             </v-card-title>
             <span
-              class="ql-editor ma-0 pa-0"
+              class="ql-editor ma-0 pa-0 ck-content"
               v-html="packet.description"
             />
           </v-card>
