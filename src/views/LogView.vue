@@ -4,6 +4,7 @@
       :title="$t('log')"
       :hide-triangle="true"
     />
+    <!-- TODO Categories and Labels does not work -->
     <v-card
       class="card-rounded-bottom"
       flat
@@ -23,14 +24,12 @@
           >
             <v-menu
               :close-on-content-click="false"
-              :offset="40"
               transition="scale-transition"
               location="bottom"
-              min-width="auto"
             >
               <template #activator="{ props }">
                 <v-text-field
-                  v-model="startDate"
+                  v-model="startDateString"
                   variant="underlined"
                   :label="$t('start')"
                   prepend-icon="mdi-calendar"
@@ -42,7 +41,7 @@
               </template>
               <v-date-picker
                 v-model="startDate"
-                @input="fetchData"
+                @update:model-value="fetchData"
               />
             </v-menu>
           </v-col>
@@ -54,9 +53,7 @@
           >
             <v-menu
               :close-on-content-click="false"
-              :offset="40"
               transition="scale-transition"
-              min-width="auto"
               location="bottom"
             >
               <template #activator="{ props }">
@@ -74,7 +71,7 @@
               <v-time-picker
                 v-model="startTime"
                 format="24hr"
-                @input="fetchData"
+                @update:model-value="fetchData"
               />
             </v-menu>
           </v-col>
@@ -86,14 +83,12 @@
           >
             <v-menu
               :close-on-content-click="false"
-              :offset="40"
               transition="scale-transition"
               location="bottom"
-              min-width="auto"
             >
               <template #activator="{ props }">
                 <v-text-field
-                  v-model="endDate"
+                  v-model="endDateString"
                   class="ml-5"
                   variant="underlined"
                   :label="$t('end')"
@@ -106,7 +101,7 @@
               </template>
               <v-date-picker
                 v-model="endDate"
-                @input="fetchData"
+                @update:model-value="fetchData"
               />
             </v-menu>
           </v-col>
@@ -118,10 +113,8 @@
           >
             <v-menu
               :close-on-content-click="false"
-              :offset="40"
               transition="scale-transition"
               location="bottom"
-              min-width="auto"
             >
               <template #activator="{ props }">
                 <v-text-field
@@ -139,7 +132,7 @@
               <v-time-picker
                 v-model="endTime"
                 format="24hr"
-                @input="fetchData"
+                @update:model-value="fetchData"
               />
             </v-menu>
           </v-col>
@@ -166,22 +159,25 @@
                   {{ $t('_log.labels.level') }}
                 </v-btn>
               </template>
-              <v-radio-group
-                v-model="selectedSeverity"
-                class="mx-2"
-              >
-                <v-radio
-                  v-for="(severity, index) in severities"
-                  :key="index"
-                  dense
-                  hide-details
-                  :label="severity"
-                />
-              </v-radio-group>
-              <a
-                class="ma-1"
-                @click="selectedSeverity = null;"
-              >{{ $t('reset') }}</a>
+              <v-card>
+                <v-radio-group
+                  v-model="selectedSeverity"
+                  class="mx-2"
+                >
+                  <v-radio
+                    v-for="(severity, index) in severities"
+                    :key="index"
+                    dense
+                    hide-details
+                    :label="severity"
+                  />
+                </v-radio-group>
+                <a
+                  class="ma-1"
+                  href="javascript:void(0)"
+                  @click="selectedSeverity = null;"
+                >{{ $t('reset') }}</a>
+              </v-card>
             </v-menu>
             <v-menu
               location="bottom"
@@ -201,23 +197,26 @@
                   {{ $t('category') }}
                 </v-btn>
               </template>
-              <v-radio-group
-                v-model="selectedCat"
-                class="mx-2"
-              >
-                <v-radio
-                  v-for="(category, index) in categories"
-                  :key="index"
-                  dense
-                  hide-details
-                  :label="category"
-                  :value="category"
-                />
-              </v-radio-group>
-              <a
-                class="ma-1"
-                @click="selectedCat = null;"
-              >{{ $t('reset') }}</a>
+              <v-card>
+                <v-radio-group
+                  v-model="selectedCat"
+                  class="mx-2"
+                >
+                  <v-radio
+                    v-for="(category, index) in categories"
+                    :key="index"
+                    dense
+                    hide-details
+                    :label="category"
+                    :value="category"
+                  />
+                </v-radio-group>
+                <a
+                  href="javascript:void(0)"
+                  class="ma-1"
+                  @click="selectedCat = null;"
+                >{{ $t('reset') }}</a>
+              </v-card>
             </v-menu>
           </v-col>
           <v-col
@@ -410,8 +409,10 @@ export default {
       maxIntervalDays: 89,
       logs: null,
       totalItems: 0,
-      startDate: new Date(Date.now() - 86400000 * 7).toISOString().split('T')[0],
-      endDate: new Date().toISOString().split('T')[0],
+      startDate: new Date(Date.now() - 86400000 * 7),
+      startDateString: new Date(Date.now() - 86400000 * 7).toISOString().split('T')[0],
+      endDate: new Date(),
+      endDateString: new Date().toISOString().split('T')[0],
       startTime: '00:00',
       endTime: '23:59',
       labels: {},
@@ -433,10 +434,10 @@ export default {
   },
   computed: {
     start() {
-      return new Date(`${this.startDate}T${this.startTime}`);
+      return new Date(`${this.startDate.toISOString().split('T')[0]}T${this.startTime}`);
     },
     end() {
-      return new Date(`${this.endDate}T${this.endTime}`);
+      return new Date(`${this.endDate.toISOString().split('T')[0]}T${this.endTime}`);
     },
     categories() {
       if ('category' in this.labels) {
@@ -503,7 +504,8 @@ export default {
       if (this.datediff(new Date(this.startDate), new Date(this.endDate)) > this.maxIntervalDays) {
         const newDate = new Date(this.endDate);
         newDate.setDate(newDate.getDate() - this.maxIntervalDays);
-        [this.startDate] = newDate.toISOString().split('T');
+        this.startDate = newDate;
+        this.startDateString = newDate.toISOString().split('T')[0];
       }
     },
     startDate() {
@@ -515,7 +517,8 @@ export default {
       if (this.datediff(new Date(this.startDate), new Date(this.endDate)) > this.maxIntervalDays) {
         const newDate = new Date(this.startDate);
         newDate.setDate(newDate.getDate() + this.maxIntervalDays);
-        [this.endDate] = newDate.toISOString().split('T');
+        this.endDate = newDate;
+        this.endDateString = newDate.toISOString().split('T')[0];
       }
     },
   },
@@ -523,11 +526,15 @@ export default {
     this.fetchData();
   },
   methods: {
+    formatDate(date) {
+      return new Date(date).toLocaleString();
+    },
     async fetchLabels() {
       (await openapi).log_getLabels({
         start: this.start.toISOString(),
         end: this.end.toISOString(),
       }).then((rsp) => {
+        console.log(rsp);
         this.labels = rsp.data;
       });
     },
@@ -582,6 +589,9 @@ export default {
     },
   },
 };
+</script>
+
+<script setup lang="ts">
 </script>
 
 <style scoped>
