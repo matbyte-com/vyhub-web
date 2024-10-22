@@ -47,12 +47,9 @@
 </template>
 
 <script>
-import RecommendedPacketsSide from '@/components/ShopComponents/RecommendedPacketsSide.vue';
-import ShopStatsSide from '@/components/ShopComponents/ShopStatsSide.vue';
 import openapiCached from '@/api/openapiCached';
 
 export default {
-  components: { ShopStatsSide, RecommendedPacketsSide },
   data() {
     return {
       recommendedPackets: false,

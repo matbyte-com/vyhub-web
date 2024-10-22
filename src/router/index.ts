@@ -93,6 +93,24 @@ const routes = [
     ],
   },
   {
+    path: '/store',
+    component: () => import('@/views/StoreOnly/StoreOnlyStart.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Shop',
+        component: () => import('@/views/StoreOnly/StoreOnlyCategories.vue'),
+        meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shop') },
+      },
+      {
+        path: ':categoryId',
+        name: 'ShopCategory',
+        component: () => import('@/views/StoreOnly/StoreOnlyCategories.vue'),
+        meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shopCategory') },
+      },
+    ],
+  },
+  {
     path: '/cart',
     name: 'ShopCart',
     meta: { title: i18n.global.t('_pageTitle.shopCart'), requiresAuth: true },
