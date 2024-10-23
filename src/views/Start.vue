@@ -16,32 +16,36 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import openapiCached from '@/api/openapiCached';
+import { useStore } from "vuex";
+import { onMounted} from "vue";
+import {useRouter} from "vue-router";
 
-export default {
-  beforeMount() {
-    this.redirect();
-  },
-  methods: {
-    async redirect() {
-      if (!this.$store.getters.theme) {
-        (await openapiCached).general_getTheme().then((rsp) => {
-          const theme = rsp.data;
-          if (theme.enable_landingpage) {
-            this.$router.replace({ name: 'Home' });
-          } else {
-            this.$router.replace({ name: 'News' });
-          }
-        });
-      } else if (this.$store.getters.theme.enable_landingpage) {
-        this.$router.replace({ name: 'Home' });
+const store = useStore();
+const router = useRouter();
+
+async function redirect() {
+  if (!store.state.theme) {
+    (await openapiCached).general_getTheme().then((rsp) => {
+      const theme = rsp.data;
+      if (theme.enable_landingpage) {
+        router.replace({ name: 'Home' });
       } else {
-        this.$router.replace({ name: 'News' });
+        router.replace({ name: 'News' });
       }
-    },
-  },
-};
+    });
+  } else if (store.state.theme.enable_landingpage) {
+    await router.replace({ name: 'Home' });
+  } else {
+    await router.replace({ name: 'News' });
+  }
+}
+
+onMounted(() => {
+  redirect();
+});
+
 </script>
 
 <style scoped>
