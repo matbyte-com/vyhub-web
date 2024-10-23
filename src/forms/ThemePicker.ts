@@ -55,19 +55,16 @@ function returnForm() {
         type: 'string',
         title: i18n.global.t('_theme.backgroundImageURL'),
         pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
-        props: {
-          clearable: true,
-          placeholder: i18n.global.t('_settings.httpPlaceholder'),
-        },
         layout: {
           cols: 7,
+          props: {
+            clearable: true,
+            placeholder: i18n.global.t('_settings.httpPlaceholder'),
+          },
         }
       },
       background: {
-        ...common.colorPicker('_theme.backgroundColor', '_theme.backgroundColorDescription'),
-        layout: {
-          cols: 5,
-        }
+        ...common.colorPicker('_theme.backgroundColor', '_theme.backgroundColorDescription', undefined, undefined, 5),
       },
       logo: {
         type: 'string',

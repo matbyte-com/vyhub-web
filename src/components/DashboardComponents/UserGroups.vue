@@ -15,6 +15,7 @@
       @submit="fetchData"
     />
     <v-tabs
+      color="primary"
       v-model="tab"
       grow
     >

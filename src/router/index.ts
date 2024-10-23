@@ -98,13 +98,13 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Shop',
+        name: 'Store',
         component: () => import('@/views/StoreOnly/StoreOnlyCategories.vue'),
         meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shop') },
       },
       {
         path: ':categoryId',
-        name: 'ShopCategory',
+        name: 'StoreCategory',
         component: () => import('@/views/StoreOnly/StoreOnlyCategories.vue'),
         meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shopCategory') },
       },

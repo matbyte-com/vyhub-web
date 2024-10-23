@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-tabs v-model="tabIndex">
+    <v-tabs v-model="tabIndex" color="primary">
       <v-tab
         v-for="tab in tabs.items"
         :key="tab.title"

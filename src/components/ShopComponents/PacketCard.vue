@@ -37,7 +37,7 @@
             v-if="!small"
             class="d-flex justify-space-between pa-1 mt-auto"
           >
-            <v-chip v-if="packet.credits != null">
+            <v-chip v-if="packet.credits != null" variant="flat">
               <div class="d-flex align-center">
                 <v-icon start>
                   mdi-circle-multiple
@@ -51,8 +51,8 @@
                 && packet.price_with_discount.total !==
                   packet.price_without_discount.total"
             >
-              <!--          TODO all chips below check if needed       text-color="white" -->
               <v-chip
+                variant="flat"
                 color="green-lighten-2"
               >
                 <span class="strikethrough-diagonal text-disabled">
@@ -61,6 +61,7 @@
                 </span>
               </v-chip>
               <v-chip
+                variant="flat"
                 class="ml-2"
                 color="orange"
               >
@@ -80,6 +81,7 @@
             <v-chip
               v-else-if="packet.price_with_discount != null"
               color="green"
+              variant="flat"
             >
               {{
                 packet.price_with_discount.total

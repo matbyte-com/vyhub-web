@@ -57,6 +57,7 @@
     >
       <v-card-text>
         <v-tabs
+          color="primary"
           v-if="$vuetify.display.mdAndUp"
           v-model="tab"
         >

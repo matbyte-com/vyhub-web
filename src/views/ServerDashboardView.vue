@@ -22,6 +22,7 @@
                   style="width: 100px; background-color: green"
                 >
                   <v-progress-linear
+                    bg-opacity="0.6"
                     rounded
                     :model-value="getPlayerOnlineProgress(server)"
                     height="18"

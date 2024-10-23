@@ -250,6 +250,7 @@ export default {
 </script>
 
 <style scoped>
+/* TODO maybe put scrollbar back to the top! */
 /*div.top-scrollbar {
   transform: rotateX(180deg);
 }

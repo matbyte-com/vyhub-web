@@ -53,6 +53,7 @@ const anyShopStatsEnabled = computed(() => {
           color="header"
         >
           <v-tabs
+            color="primary"
             style="width: 100%"
             align-tabs="center"
           >

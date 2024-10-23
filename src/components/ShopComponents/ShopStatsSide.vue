@@ -3,13 +3,14 @@
     <v-tabs
       v-show="numberOfTabs !== 1"
       v-model="tab"
+      color="primary"
       grow
     >
       <v-tab
         v-if="$store.getters.shopConfig.donation_goal_enabled"
         class="square"
       >
-        <v-icon :size="$vuetify.display.lgAndUp ? 'large' : undefined">
+        <v-icon :size="$vuetify.display.lgAndUp ? '35' : '25'">
           mdi-flag-checkered
         </v-icon>
       </v-tab>
@@ -17,7 +18,7 @@
         v-if="$store.getters.shopConfig.top_donators_enabled"
         class="square"
       >
-        <v-icon :size="$vuetify.display.lgAndUp ? 'large' : undefined">
+        <v-icon :size="$vuetify.display.lgAndUp ? '35' : '25'">
           mdi-podium
         </v-icon>
       </v-tab>
@@ -25,7 +26,7 @@
         v-if="$store.getters.shopConfig.last_donators_enabled"
         class="square"
       >
-        <v-icon :size="$vuetify.display.lgAndUp ? 'large' : undefined">
+        <v-icon :size="$vuetify.display.lgAndUp ? '35' : '25'">
           mdi-clock-end
         </v-icon>
       </v-tab>

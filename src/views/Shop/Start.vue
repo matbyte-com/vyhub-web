@@ -82,8 +82,4 @@ export default {
 </script>
 
 <style scoped>
-.absolute {
-  position: absolute;
-  opacity: 0;
-}
 </style>

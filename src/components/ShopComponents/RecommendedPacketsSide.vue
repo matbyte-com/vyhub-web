@@ -8,6 +8,7 @@
       <h2 class="text-h6">
         {{ $t('_shop.labels.recommended') }}
       </h2>
+      <!-- TODO Divider barely visible -->
       <v-divider class="ml-3 mb-1 align-self-end" />
     </v-card-title>
     <v-card-text>

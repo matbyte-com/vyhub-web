@@ -112,7 +112,7 @@
         <v-card
           v-for="(message, index) in getNewsOfTheDay"
           :key="message.id"
-          :img="message.background_url"
+          :image="message.background_url"
           flat
           class="news-of-day vh-news-of-day card-rounded-bottom animate__animated
                  animate__fadeIn animate__faster mb-3"
@@ -196,7 +196,7 @@
           :class="{ 'card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
                     'no-top-border-radius': $vuetify.display.smAndDown && index === 0 }"
           class="mb-3 vh-news card-rounded animate__animated animate__fadeIn animate__faster"
-          :img="message.background_url"
+          :image="message.background_url"
         >
           <v-card-title
             class="d-flex"

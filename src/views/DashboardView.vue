@@ -25,7 +25,7 @@
         flat
       >
         <v-card-text>
-          <v-tabs v-model="activeTabIndex">
+          <v-tabs v-model="activeTabIndex" color="primary">
             <v-tab @click="switchTab('General')">
               <v-icon start>
                 mdi-gamepad

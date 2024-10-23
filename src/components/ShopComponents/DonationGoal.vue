@@ -35,6 +35,7 @@
           height="20"
           class="progress-bar"
           color="primary"
+          bg-opacity="0.6"
         >
           <span :class="'subtitle-2 ' + (donationProgress >= 48 ? 'text-white' : '')">
             {{ donationProgress }}%

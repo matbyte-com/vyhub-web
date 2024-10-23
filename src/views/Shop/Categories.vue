@@ -14,7 +14,8 @@
           <h2 class="text-h5">
             {{ $t('news') }}
           </h2>
-          <v-divider class="ml-3 mb-1 divider-strong align-self-end" />
+          <!-- TODO Divider not well visible -->
+          <v-divider thickness="3" class="ml-3 mb-1 align-self-end" />
         </div>
         <div
           class="mt-2 ql-editor"
@@ -33,7 +34,8 @@
           <h2 class="text-h5">
             {{ $t('categories') }}
           </h2>
-          <v-divider class="ml-3 mb-1 divider-strong align-self-end" />
+          <!-- TODO Divider not well visible-->
+          <v-divider thickness="3" class="ml-3 mb-1 align-self-end" />
         </div>
         <v-row
           v-if="categories"

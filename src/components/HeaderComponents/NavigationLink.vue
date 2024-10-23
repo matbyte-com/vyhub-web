@@ -55,7 +55,7 @@
       variant="text"
       :dark="dark"
       class="nav-btn px-3"
-      :selected-class="lightHeader ? 'active-btn-light' : ''"
+      :class="{ 'active-btn-light' : btnActive && lightHeader }"
       :href="(link.cms_page_id === null && !utils.localLink(link) ? link.link : null)"
       :to="(link.cms_page_id || utils.localLink(link) ? utils.getLocalLink(link) : null)"
     >
@@ -73,7 +73,6 @@
 
 <script>
 export default {
-  name: 'NavigationLinks.vue',
   props: {
     link: Object, dark: Boolean,
   },
@@ -95,16 +94,19 @@ export default {
     lightHeader() {
       return this.$store.getters.theme && this.$store.getters.theme.light_header;
     },
+    btnActive() {
+      return this.$route.path.includes(this.link.link);
+    }
   },
 };
 </script>
 
-<style>
+<style scoped>
 .active-btn-light {
   background-color: rgb(var(--v-theme-primary-lighten-1));
 }
 
-.active-btn-light::before {
+.active-btn-light :deep(.v-btn__overlay) {
   opacity: 0 !important;
 }
 
@@ -113,3 +115,6 @@ export default {
 }
 
 </style>
+
+<script setup lang="ts">
+</script>

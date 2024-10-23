@@ -35,6 +35,7 @@
                   mdi-account-multiple
                 </v-icon>
                 <v-progress-linear
+                  bg-opacity="0.6"
                   rounded
                   :model-value="getPlayerOnlineProgress(s)"
                   height="18"
@@ -156,6 +157,7 @@
                   mdi-account-multiple
                 </v-icon>
                 <v-progress-linear
+                  bg-opacity="0.6"
                   rounded
                   :model-value="getPlayerOnlineProgress(s)"
                   height="18"
