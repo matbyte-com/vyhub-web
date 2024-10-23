@@ -31,6 +31,7 @@
         >
           <v-list-item
             v-for="(tab, index) in allowedTabs || []"
+            :active="$route.path.includes(tab.link)"
             :key="index"
             :href="(tab.cms_page_id === null && !utils.localLink(tab) ? tab.link : null)"
             :to="(tab.cms_page_id || utils.localLink(tab) ?
@@ -50,6 +51,7 @@
       </v-card>
     </v-menu>
     <!-- simple button when no tabs are existent -->
+    <!-- TODO Shop Button is also active when settings shop is selected -->
     <v-btn
       v-if="(allowedTabs || []).length === 0"
       variant="text"
@@ -107,13 +109,8 @@ export default {
 }
 
 .active-btn-light :deep(.v-btn__overlay) {
-  opacity: 0 !important;
+  opacity: 0;
 }
-
-.active-btn-light span {
-  color: #FFFFFF !important;
-}
-
 </style>
 
 <script setup lang="ts">
