@@ -24,7 +24,6 @@
     "@types/humanize-duration": "^3.27.1",
     "@types/uuid": "^8.3.0",
     "@vitejs/plugin-vue": "^4.6.2",
-    "@vue/compat": "^3.4.37",
     "animate.css": "^4.1.1",
     "apexcharts": "^3.53.0",
     "axios": "^1.7.7",
