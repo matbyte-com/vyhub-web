@@ -362,6 +362,12 @@ export default {
 @import "assets/css/light.sass"
 @import 'assets/css/quill.snow.css' // Needed for legacy Vue 2 Editor
 
+.v-main1
+  min-height: calc(100vh - 64px - 92px) !important
+
+.v-main
+  min-height: calc(100vh - 108px)
+
 .theme--dark
   @import "assets/css/dark.sass"
 
