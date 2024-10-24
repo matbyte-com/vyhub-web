@@ -86,18 +86,30 @@
           />
         </v-col>
       </v-row>
-      <OverviewStatistics
-        v-if="currentDashboard === 'overview'"
-        :time-range="timeRange"
-        :currency="currentCurrency"
-        :interval-items="intervalItems"
-      />
-      <PurchasesStatistics
-        v-if="currentDashboard === 'purchases'"
-        :time-range="timeRange"
-        :currency="currentCurrency"
-        :interval-items="intervalItems"
-      />
+      <div v-if="currentCurrency">
+        <OverviewStatistics
+          v-if="currentDashboard === 'overview'"
+          :time-range="timeRange"
+          :currency="currentCurrency"
+          :interval-items="intervalItems"
+        />
+        <PurchasesStatistics
+          v-if="currentDashboard === 'purchases'"
+          :time-range="timeRange"
+          :currency="currentCurrency"
+          :interval-items="intervalItems"
+        />
+      </div>
+      <div v-else>
+        <v-alert
+          variant="tonal"
+          class="mt-3"
+          color="info"
+          dense
+        >
+          {{ $t('noDataAvailable') }} (Purchases)
+        </v-alert>
+      </div>
     </div>
   </div>
 </template>
