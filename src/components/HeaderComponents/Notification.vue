@@ -37,13 +37,17 @@
             v-for="notification in notifications"
             v-else
             :key="notification.id"
-            :prepend-icon="notification.message.kwargs.icon"
             @click="rowClick(notification)"
           >
-            <div :class="{ 'font-weight-medium': !notification.read }">
-              {{ $t(`_notification.${notification.message.name}`,
-                    { ...notification.message.kwargs }) }}
-            </div>
+            <v-list-item-title class="d-flex">
+              <v-icon start v-if="notification.message.kwargs">
+                {{ notification.message.kwargs.icon }}
+              </v-icon>
+              <div :class="{ 'font-weight-medium': !notification.read }">
+                {{ $t(`_notification.${notification.message.name}`,
+                { ...notification.message.kwargs }) }}
+              </div>
+            </v-list-item-title>
           </v-list-item>
         </v-list>
         <v-divider />
