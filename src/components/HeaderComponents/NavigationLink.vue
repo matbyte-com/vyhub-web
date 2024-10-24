@@ -51,7 +51,6 @@
       </v-card>
     </v-menu>
     <!-- simple button when no tabs are existent -->
-    <!-- TODO Shop Button is also active when settings shop is selected -->
     <v-btn
       v-if="(allowedTabs || []).length === 0"
       variant="text"
@@ -97,7 +96,7 @@ export default {
       return this.$store.getters.theme && this.$store.getters.theme.light_header;
     },
     btnActive() {
-      return this.$route.path.includes(this.link.link);
+      return this.$route.path === this.link.link;
     }
   },
 };
