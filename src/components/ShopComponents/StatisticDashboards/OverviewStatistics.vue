@@ -84,7 +84,7 @@
           xl="6"
         >
           <v-card>
-            <v-card-title>
+            <v-card-title class="d-flex">
               <v-icon start>
                 mdi-cash
               </v-icon>
@@ -93,7 +93,6 @@
               <v-tooltip location="bottom">
                 <template #activator="{ props }">
                   <v-icon
-
                     v-bind="props"
                   >
                     mdi-information
@@ -115,7 +114,7 @@
           xl="6"
         >
           <v-card>
-            <v-card-title>
+            <v-card-title class="d-flex">
               <v-icon start>
                 mdi-calendar-refresh
               </v-icon>
