@@ -92,8 +92,8 @@
               <v-spacer />
               <v-tooltip location="bottom">
                 <template #activator="{ props }">
-                  <v-icon
-                    v-bind="props"
+                  <v-icon                     class="text-disabled"
+                                              v-bind="props"
                   >
                     mdi-information
                   </v-icon>
@@ -123,7 +123,7 @@
               <v-tooltip location="bottom">
                 <template #activator="{ props }">
                   <v-icon
-
+                    class="text-disabled"
                     v-bind="props"
                   >
                     mdi-information

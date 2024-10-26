@@ -19,17 +19,16 @@
                 variant="outlined"
                 :class="currentRangeBtn === 'range' ? 'v-btn--active' : ''"
                 color="primary"
-
                 v-bind="props"
               >
                 {{ $t('_purchases.labels.range') }}
               </v-btn>
             </template>
             <v-date-picker
-              v-model="timeRange"
+              v-model="timeRangeModel"
               multiple="range"
               :max="tomorrow.toISOString()"
-              @change="currentRangeBtn = 'range'"
+              @update:model-value="convertTimeRange(); currentRangeBtn = 'range';"
             />
           </v-menu>
           <v-btn
@@ -121,6 +120,7 @@ export default {
   data() {
     return {
       timeRange: null,
+      timeRangeModel: null,
       currencies: null,
       currentCurrency: null,
       currentRangeBtn: 'allTime',
@@ -192,6 +192,11 @@ export default {
         this.utils.notifyUnexpectedError(err.response.data);
       });
     },
+    convertTimeRange() {
+      const first = this.timeRangeModel.at(0);
+      const last = this.timeRangeModel.at(-1);
+      this.timeRange = [first, last];
+    }
   },
 };
 </script>
