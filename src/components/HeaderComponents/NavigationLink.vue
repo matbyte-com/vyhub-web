@@ -96,7 +96,11 @@ export default {
       return this.$store.getters.theme && this.$store.getters.theme.light_header;
     },
     btnActive() {
-      return this.$route.path === this.link.link;
+      if (this.link.link === '/shop') {
+        return this.$route.path === '/shop';
+      } else {
+        return this.$route.path.includes(this.link.link);
+      }
     }
   },
 };

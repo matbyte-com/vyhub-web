@@ -232,7 +232,7 @@
               variant="outlined"
               class="ml-3"
               density="compact"
-              @change="fetchLogs"
+              @update:modelValue="fetchLogs"
             >
               <template #prepend-inner>
                 <v-icon>

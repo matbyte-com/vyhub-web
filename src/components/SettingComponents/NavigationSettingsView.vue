@@ -256,8 +256,7 @@
               </v-list-item>
             </template>
             <VueDraggable
-              :list="link.sublinks"
-              @change="updateLinkEnabled = true"
+              v-model="link.sublinks"
             >
               <div
                 v-for="sublink in link.sublinks"
