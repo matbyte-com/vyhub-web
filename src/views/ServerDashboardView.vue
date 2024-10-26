@@ -12,7 +12,8 @@
               :title="server.name"
               :hide-triangle="true"
               :is-menu="true"
-              :no-bottom-border-radius="$vuetify.display.mdAndDown"
+              class="pageTitleFlat"
+              :no-bottom-border-radius="$vuetify.display.mdAndDown || menuOpen"
             >
               <template #start>
                 <v-card
@@ -402,5 +403,7 @@ export default {
 </script>
 
 <style scoped>
-
+.pageTitleFlat {
+  transition: all 0.3s ease;
+}
 </style>
