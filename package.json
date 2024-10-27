@@ -57,7 +57,6 @@
     "vue-draggable-plus": "^0.5.3",
     "vue-gtag": "^2.0.1",
     "vue-i18n": "^9.13.1",
-    "vue-property-decorator": "^8.4.2",
     "vue-router": "^4.4.3",
     "vue3-apexcharts": "^1.6.0",
     "vuetify": "^3.6.14",
