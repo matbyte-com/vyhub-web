@@ -3,6 +3,7 @@ import store from '@/store';
 import api from '@/api/api';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
+import { fetchHeaders } from '@/api/overwriteFetch';
 // import { authGetTokenResponse } from '@/api/api.d';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
@@ -56,12 +57,14 @@ export default {
     delete (await openapiCached).defaults.headers.common.Authorization;
     delete api.throttledHttp.defaults.headers.common.Authorization;
     delete axios.defaults.headers.common.Authorization;
+    delete fetchHeaders.Authorization;
 
     EventBus.emit('logout');
   },
   async setAuthTokens() {
     if (store.getters.accessToken) {
       const header = `Bearer ${store.getters.accessToken}`;
+      fetchHeaders.Authorization = header;
       axios.defaults.headers.common.Authorization = header;
       (await openapi).defaults.headers.common.Authorization = header;
       (await openapiCached).defaults.headers.common.Authorization = header;
