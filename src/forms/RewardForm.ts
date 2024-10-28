@@ -207,10 +207,13 @@ function rewardTypeFields(rewardType: string) {
                 type: 'string',
                 title: i18n.global.t('_reward.labels.onEvent'),
                 oneOf: on_event_reduced,
-                'x-if': 'root.serverbundle and root.serverbundle.server_type == "SOURCE"',
-                'x-options': {
-                  evalMethod: 'evalExpr',
-                },
+                layout: {
+                  if: {
+                    type: 'js-eval',
+                    expr: 'rootData.serverbundle && rootData.serverbundle.server_type == "SOURCE"',
+                    pure: false,
+                  }
+                }
               },
             },
           },
@@ -221,9 +224,12 @@ function rewardTypeFields(rewardType: string) {
                 type: 'string',
                 title: i18n.global.t('_reward.labels.onEvent'),
                 oneOf: (on_event_set === 'full' ? on_event_full : on_event_reduced),
-                'x-if': 'not root.serverbundle or root.serverbundle.server_type != "SOURCE"',
-                'x-options': {
-                  evalMethod: 'evalExpr',
+                layout: {
+                  if: {
+                    type: 'js-eval',
+                    expr: 'rootData.serverbundle && rootData.serverbundle.server_type != "SOURCE"',
+                    pure: false,
+                  }
                 },
               },
             },
@@ -293,7 +299,7 @@ function form() {
     },
     ],
   };
-  if (!utilService.data().utils.showAdvancedSettings()) {
+  /*if (!utilService.data().utils.showAdvancedSettings()) {
     if (res.allOf[1] && res.allOf[1].oneOf) {
       // eslint-disable-next-line guard-for-in,no-restricted-syntax
       for (const property of res.allOf[1].oneOf) {
@@ -304,7 +310,7 @@ function form() {
         }
       }
     }
-  }
+  }*/
   return res;
 }
 
