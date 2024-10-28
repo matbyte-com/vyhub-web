@@ -1,6 +1,5 @@
 <template>
   <svg
-    version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     x="0px"
@@ -9,9 +8,9 @@
     height="1200.000000pt"
     viewBox="0 0 1200.000000 1200.000000"
     xml:space="preserve"
+    class="custom-icon"
   >
     <g
-      class="custom-icon gmod"
       transform="translate(0.000000,1200.000000) scale(0.100000,-0.100000)"
     >
       <path
@@ -49,6 +48,4 @@ export default {
 </script>
 
 <style lang="sass">
-.gmod
-  fill: currentColor
 </style>

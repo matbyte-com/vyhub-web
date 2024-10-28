@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="rust"
+    class="custom-icon"
     width="800px"
     height="800px"
     viewBox="0 0 48 48"
@@ -52,6 +52,4 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.rust
-  fill: currentColor
 </style>

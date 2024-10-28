@@ -2,7 +2,7 @@
   <svg
     version="1.0"
     xmlns="http://www.w3.org/2000/svg"
-    class="sevenDays"
+    class="custom-icon"
     role="img"
     viewBox="0 0 900.000000 585.000000"
     preserveAspectRatio="xMidYMid meet"
@@ -815,7 +815,5 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.sevenDays
-  fill: currentColor
 
 </style>

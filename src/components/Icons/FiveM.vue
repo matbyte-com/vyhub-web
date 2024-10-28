@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="fiveM"
+    class="custom-icon"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     width="48px"
@@ -15,6 +15,4 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.fiveM
-  fill: currentColor
 </style>

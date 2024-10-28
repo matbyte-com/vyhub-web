@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="discord"
+    class="custom-icon discord"
     role="img"
     viewBox="0 -28.5 256 256"
     xmlns="http://www.w3.org/2000/svg"
@@ -14,12 +14,10 @@
 
 <script>
 export default {
-  name: 'Discord.vue',
+  name: 'Discord',
 };
 </script>
 
 <style scoped lang="sass">
-.discord
-  fill: currentColor
 
 </style>

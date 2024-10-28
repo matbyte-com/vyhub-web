@@ -9,6 +9,7 @@
       :height="height ? height : '300px'"
       :image="imageUrl"
       :tile="!container"
+      class="transparent"
       :class="{ 'card-rounded':container}"
     >
       <div
