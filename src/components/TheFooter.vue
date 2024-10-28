@@ -8,6 +8,7 @@
         v-for="(link, index) in navLinks"
         :key="index"
         class="ml-1 no-active"
+        :no-active="true"
         :link="link"
         :dark="true"
       />

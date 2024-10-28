@@ -10,7 +10,7 @@
         <v-btn
           variant="text"
           class="nav-btn pr-0 pl-2"
-          :class="{ 'active-btn-light' : listActive && lightHeader,
+          :class="{ 'active-btn-light' : listActive && lightHeader && !noActive,
                     'v-btn--active' : listActive && !lightHeader }"
           v-bind="props"
         >
@@ -56,7 +56,7 @@
       variant="text"
       :dark="dark"
       class="nav-btn px-3"
-      :class="{ 'active-btn-light' : btnActive && lightHeader }"
+      :class="{ 'active-btn-light' : btnActive && lightHeader && !noActive}"
       :href="(link.cms_page_id === null && !utils.localLink(link) ? link.link : null)"
       :to="(link.cms_page_id || utils.localLink(link) ? utils.getLocalLink(link) : null)"
     >
@@ -76,6 +76,7 @@
 export default {
   props: {
     link: Object, dark: Boolean,
+    noActive: Boolean
   },
   computed: {
     allowedTabs() {
