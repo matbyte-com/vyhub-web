@@ -10,6 +10,8 @@ import fiveM from "../components/Icons/FiveM.vue";
 import gmod from "../components/Icons/GMod.vue";
 import successIcon from "../components/Icons/SuccessIcon.vue";
 import rust from "../components/Icons/Rust.vue";
+import source from "../components/Icons/Source.vue";
+import minecraft from "../components/Icons/Minecraft.vue";
 
 const customSvgNameToComponent: any = {
   vyhub,
@@ -21,7 +23,9 @@ const customSvgNameToComponent: any = {
   fivem: fiveM,
   gmod,
   successIcon,
-  rust
+  rust,
+  source,
+  minecraft,
 };
 
 const customSVGs: IconSet = {
