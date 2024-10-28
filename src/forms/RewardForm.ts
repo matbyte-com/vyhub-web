@@ -115,7 +115,7 @@ function rewardTypeFields(rewardType: string) {
     required = ['group_id'];
     properties = {
       group_id: {
-        type: 'group',
+        type: 'string',
         title: i18n.global.t('group'),
         'x-fromUrl': `${Common.apiURL}/group/`,
         'x-itemKey': 'id',
@@ -159,6 +159,30 @@ function rewardTypeFields(rewardType: string) {
             },
           },
         },
+      },
+    };
+  } else if (rewardType === 'TEAMSPEAK_CHANNEL') {
+    on_event_set = 'reduced';
+    otherOptions = {};
+    required = ['parent_channel_id', 'channel_group_id'];
+    properties = {
+      parent_channel_id: {
+        type: 'integer',
+        title: i18n.global.t('_reward.labels.parentChannelId'),
+      },
+      channel_group_id: {
+        type: 'integer',
+        title: i18n.global.t('_reward.labels.channelGroupId'),
+      },
+      client_limit: {
+        type: 'integer',
+        title: i18n.global.t('_reward.labels.clientLimit'),
+        minimum: 0,
+      },
+      delete_on_expire: {
+        type: 'boolean',
+        title: i18n.global.t('_reward.labels.deleteOnExpire'),
+        default: false,
       },
     };
   }
@@ -260,6 +284,10 @@ function form() {
         {
           title: i18n.global.t('_reward.labels._types.http'),
           ...rewardTypeFields('HTTP'),
+        },
+        {
+          title: i18n.global.t('_reward.labels._types.teamspeak_channel'),
+          ...rewardTypeFields('TEAMSPEAK_CHANNEL'),
         },
       ],
     },

@@ -45,7 +45,7 @@ function serverTypeFields(serverType: string) {
         type: 'integer',
         title: i18n.global.t('_server.labels.sshQueryPort'),
         description: i18n.global.t('_server.labels.queryPortDescription'),
-        default: 1,
+        default: 10022,
         minimum: 1,
         maximum: 65535,
       },
