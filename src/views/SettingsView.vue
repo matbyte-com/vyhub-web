@@ -32,7 +32,7 @@
           v-model="navigationDrawer"
           location="bottom"
           :class="{ 'lighten-3': !$vuetify.theme.current.dark, 'darken-4': $vuetify.theme.current.dark }"
-          :color="$vuetify.theme.current.dark ? 'grey' : 'grey'"
+          :color="navigationDrawerColor"
         >
           <v-card-text>
             <SettingsNavigation
@@ -254,6 +254,12 @@ export default {
     };
   },
   computed: {
+    navigationDrawerColor() {
+      if (this.$vuetify.display.mdAndDown) {
+        return; // no special color on mobile devices
+      }
+      return $vuetify.theme.current.dark ? 'grey' : 'grey'
+    },
     componentInstance() {
       const type = this.activeTab.component;
       return defineAsyncComponent(() => import(/* @vite-ignore */ `../components/SettingComponents/${type}.vue`));
