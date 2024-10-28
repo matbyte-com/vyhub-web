@@ -53,7 +53,18 @@ export default {
       title: i18n.global.t('type'),
       default: selected,
       readOnly: disabled,
-      'x-fromUrl': `${API_URL}/server/type/`,
+      layout: {
+        getItems: {
+          url: {
+            type: 'js-tpl',
+            expr: `${API_URL}/server/type/?include_icons=true`,
+            pure: true
+          },
+          itemKey: 'data["type"]',
+          itemTitle: 'data["type"]',
+          itemIcon: 'data["icon"]',// TODO Would be awesome to show game icon
+        },
+      },
     };
   },
   forumSelectCategory: {
@@ -114,20 +125,6 @@ export default {
       }
     },
   },
-  /*rewardsSelectField: {
-    type: 'array',
-    title: i18n.global.t('rewards'),
-    items: {
-      type: 'object',
-    },
-    layout: {
-      getItems: {
-        url: `${API_URL}/packet/reward/?query={q}`,
-        itemKey: "item.id",
-        itemTitle: "item.name"
-      }
-    }
-  },*/
   requirementSetSelectField: {
     type: "object",
     title: i18n.global.t('requirementSet'),
