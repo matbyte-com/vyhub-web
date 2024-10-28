@@ -34,7 +34,6 @@
     "currency-codes": "^2.1.0",
     "debounce": "^2.0.0",
     "eslint": "^9.11.1",
-    "eslint-plugin-vuetify": "github:jewpaltz/eslint-plugin-vuetify",
     "eventsource": "^2.0.2",
     "humanize-duration": "^3.2.9",
     "iso-639-1-plus": "^3.0.3",

@@ -1,11 +1,9 @@
 import globals from "globals";
 import pluginVue from 'eslint-plugin-vue';
-import pluginVuetify from 'eslint-plugin-vuetify/lib/configs/flat/base.js';
 
 export default [
     ...pluginVue.configs["flat/essential"],
     ...pluginVue.configs["flat/recommended"],
-    pluginVuetify,
     {
         languageOptions: {
             globals: {
