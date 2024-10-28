@@ -101,7 +101,7 @@ export default {
     },
     slots: Array,
   },
-emits: ['submit', 'cancel', 'updated'],
+  emits: ['submit', 'cancel', 'updated'],
   data() {
     return {
       dataBeforeMount: null,

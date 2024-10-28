@@ -32,9 +32,6 @@ export default {
     closeAndReset() {
       this.$refs.deleteConfirmationDialog.closeAndReset();
     },
-    submit(item) {
-      this.$emit('submit', item);
-    },
     show(item) {
       this.$refs.deleteConfirmationDialog.show(item);
     },

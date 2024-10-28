@@ -75,6 +75,7 @@
 import i18n from '@/plugins/i18n';
 
 export default {
+  emits: ['submit'],
   data() {
     return {
       dialog: null,

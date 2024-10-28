@@ -107,7 +107,7 @@ export default {
       default: 0,
     },
   },
-emits: ['updated', 'mounted', 'submit', 'notValid', 'cancel'],
+  emits: ['updated', 'mounted', 'submit', 'notValid', 'cancel'],
   data() {
     return {
       alertMessage: null,
