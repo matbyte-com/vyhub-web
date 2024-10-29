@@ -57,9 +57,9 @@
     >
       <v-card-text>
         <v-tabs
-          color="primary"
           v-if="$vuetify.display.mdAndUp"
           v-model="tab"
+          color="primary"
         >
           <v-tab
             v-for="c in categories"
@@ -190,6 +190,12 @@ export default {
       );
 
       return ordered_cats;
+    },
+  },
+  watch: {
+    $route() {
+      this.packets = null;
+      this.fetchPackets();
     },
   },
   beforeMount() {

@@ -15,7 +15,10 @@
             {{ $t('news') }}
           </h2>
           <!-- TODO Divider not well visible -->
-          <v-divider thickness="3" class="ml-3 mb-1 align-self-end" />
+          <v-divider
+            thickness="3"
+            class="ml-3 mb-1 align-self-end"
+          />
         </div>
         <div
           class="mt-2 ql-editor"
@@ -35,7 +38,10 @@
             {{ $t('categories') }}
           </h2>
           <!-- TODO Divider not well visible-->
-          <v-divider thickness="3" class="ml-3 mb-1 align-self-end" />
+          <v-divider
+            thickness="3"
+            class="ml-3 mb-1 align-self-end"
+          />
         </div>
         <v-row
           v-if="categories"
@@ -68,7 +74,7 @@
               />
               <v-sheet
                 v-else
-                class="mb-1"
+                class="mb-1 bg-transparent"
                 height="200px"
               >
                 <div

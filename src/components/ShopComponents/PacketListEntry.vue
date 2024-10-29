@@ -16,6 +16,7 @@
           @click="$refs.detailDialog.show()"
         >
           <PacketImage
+            :cover="true"
             :packet="packet"
             class="text-white img-rounded ma-1"
             style="cursor: pointer;"

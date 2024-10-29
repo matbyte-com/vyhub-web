@@ -99,13 +99,13 @@ const routes = [
       {
         path: '',
         name: 'Store',
-        component: () => import('@/views/StoreOnly/StoreOnlyCategories.vue'),
+        component: () => import('@/views/StoreOnly/StoreOnlyNews.vue'),
         meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shop') },
       },
       {
         path: ':categoryId',
         name: 'StoreCategory',
-        component: () => import('@/views/StoreOnly/StoreOnlyCategories.vue'),
+        component: () => import('@/views/StoreOnly/StoreOnlyCategory.vue'),
         meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shopCategory') },
       },
     ],

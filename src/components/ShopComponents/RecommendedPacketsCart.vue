@@ -32,6 +32,7 @@
               style="width: 100%"
             >
               <PacketImage
+                :cover="true"
                 :packet="p"
                 :alt="p.title"
                 height="90px"

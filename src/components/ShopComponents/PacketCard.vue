@@ -9,6 +9,7 @@
   >
     <v-hover v-slot="{ hover }">
       <PacketImage
+        :cover="true"
         :packet="packet"
         class="text-white img-rounded ma-1"
         max-height="200px"
@@ -37,7 +38,10 @@
             v-if="!small"
             class="d-flex justify-space-between pa-1 mt-auto"
           >
-            <v-chip v-if="packet.credits != null" variant="flat">
+            <v-chip
+              v-if="packet.credits != null"
+              variant="flat"
+            >
               <div class="d-flex align-center">
                 <v-icon start>
                   mdi-circle-multiple

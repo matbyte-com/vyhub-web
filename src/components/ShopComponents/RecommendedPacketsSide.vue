@@ -31,6 +31,7 @@
               @click="selectedPacket = p; $refs.detailDialog.show()"
             >
               <PacketImage
+                :cover="true"
                 :packet="p"
                 :alt="p.title"
               >

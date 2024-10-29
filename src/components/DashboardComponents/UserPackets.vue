@@ -4,8 +4,8 @@
     flat
   >
     <v-tabs
-      color="primary"
       v-model="tabs"
+      color="primary"
       grow
     >
       <v-tab>
@@ -47,6 +47,7 @@
                       @click="showUserPacketDetails(userPacket)"
                     >
                       <PacketImage
+                        :cover="true"
                         height="90"
                         :packet="userPacket.packet"
                         :style="(userPacket.active ? '' : 'filter: grayscale(100%)')"

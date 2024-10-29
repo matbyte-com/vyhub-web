@@ -21,6 +21,7 @@
                 border
               >
                 <PacketImage
+                  :cover="true"
                   :packet="packet"
                   style="border-radius: 3px"
                 >
@@ -227,7 +228,12 @@
                     <v-icon start>
                       mdi-cart-arrow-down
                     </v-icon>
-                    {{ $t('_shop.labels.addToCart') }}
+                    <span v-if="$t('_shop.labels.addToCart').length <= 13">
+                      {{ $t('_shop.labels.addToCart') }}
+                    </span>
+                    <span v-else>
+                      {{ $t('_shop.labels.addToCart13CharsMax') }}
+                    </span>
                   </v-btn>
                   <v-btn
                     color="secondary"

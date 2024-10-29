@@ -31,6 +31,7 @@
             >
               <div>
                 <PacketImage
+                  :cover="true"
                   :packet="packet"
                   :alt="packet.title"
                   class="card-rounded-top"

@@ -17,6 +17,7 @@
             class="text-center"
           >
             <PacketImage
+              :cover="true"
               style="cursor: pointer; border-radius: 5px"
               :packet="cartPacket.packet"
               @click="showPacket"

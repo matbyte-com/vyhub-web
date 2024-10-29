@@ -1,7 +1,7 @@
 <template>
   <v-img
     v-if="packet.image_url"
-    cover
+    :cover="cover"
     v-bind="$attrs"
     :src="packet.image_url"
   >
@@ -20,6 +20,10 @@
 <script>
 export default {
   props: {
+    cover: {
+      type: Boolean,
+      default: true,
+    },
     packet: {
       type: Object,
       required: true,
