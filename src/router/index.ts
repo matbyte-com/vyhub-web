@@ -117,9 +117,15 @@ const routes = [
     component: () => import('../views/Shop/Cart.vue'),
   },
   {
+    path: '/basket',
+    name: 'StoreCart',
+    meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shopCart'), requiresAuth: true },
+    component: () => import('../views/StoreOnly/StoreOnlyCart.vue'),
+  },
+  {
     path: '/shop/checkout/:debitId/:action',
     name: 'ShopCheckout',
-    meta: { title: i18n.global.t('_pageTitle.shop'), requiresAuth: true },
+    meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shop'), requiresAuth: true },
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {

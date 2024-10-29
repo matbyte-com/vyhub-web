@@ -34,10 +34,18 @@ async function fetchPackets() {
   <div>
     <div>
       <div v-if="$store.getters.shopConfig.packet_list_view">
+        <v-skeleton-loader
+          v-for="index in 3"
+          v-if="packets == null"
+          :key="index"
+          type="list-item"
+          class="rounded-lg mb-2"
+          height="82px"
+        />
         <PacketListEntry
           v-for="packet in packets"
           :key="packet.id"
-          class="mt-2"
+          class="mb-2"
           :packet="packet"
         />
       </div>
@@ -50,7 +58,7 @@ async function fetchPackets() {
           sm="6"
           md="6"
           lg="4"
-          xl="3"
+          xl="4"
         >
           <v-card>
             <v-skeleton-loader type="card" />
@@ -63,7 +71,7 @@ async function fetchPackets() {
           sm="6"
           md="6"
           lg="4"
-          xl="3"
+          xl="4"
           class=""
         >
           <PacketCard :packet="packet" />

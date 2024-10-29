@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-row class="justify-center">
+    <!-- Header here because of different design between StoreOnly and Normal -->
+    <TheHeader />
+    <!-- TODO Add Store Only Design -->
+    <v-row class="justify-center mt-6">
       <v-col
         cols="12"
         sm="8"

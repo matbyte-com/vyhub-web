@@ -10,62 +10,102 @@
     <v-card-text class="vh-packet-card-text">
       <v-row align="center">
         <v-col
-          cols="12"
+          cols="3"
           md="3"
-          xl="1"
+          lg="2"
           @click="$refs.detailDialog.show()"
         >
           <PacketImage
-            :cover="true"
             :packet="packet"
-            class="text-white img-rounded ma-1"
-            style="cursor: pointer;"
+            class="text-white img-rounded ma-1 cursor-pointer"
           />
         </v-col>
         <v-col
-          cols="12"
+          v-if="$vuetify.display.mdAndDown"
+          cols="9"
+          sm="3"
           md="9"
-          xl="5"
-          style="cursor: pointer"
-          @click="$refs.detailDialog.show()"
         >
-          <div>
-            <h6
-              class="text-h6"
-              style="line-height: normal"
-            >
-              {{ packet.title }}
-            </h6>
-          </div>
-          <div v-if="packet.subtitle != null && !small">
-            <div class="text-subtitle-2">
-              {{ packet.subtitle }}
+          <!-- Title and Subtitle -->
+          <div
+            class="flex-grow-1 cursor-pointer"
+            @click="$refs.detailDialog.show()"
+          >
+            <div>
+              <h6
+                class="text-h6"
+                style="line-height: normal"
+              >
+                {{ packet.title }}
+              </h6>
+            </div>
+            <div v-if="packet.subtitle != null && !small">
+              <div class="text-subtitle-2">
+                {{ packet.subtitle }}
+              </div>
             </div>
           </div>
         </v-col>
         <v-col
-          cols="12"
-          xl="3"
-          class="text-end"
+          class="d-flex align-center justify-end"
         >
-          <span
-            v-if="packet.price_with_discount != null
-              && packet.price_with_discount.total !==
-                packet.price_without_discount.total"
+          <!-- Title and Subtitle -->
+          <div
+            v-if="$vuetify.display.lgAndUp"
+            class="flex-grow-1 cursor-pointer"
+            @click="$refs.detailDialog.show()"
           >
-            <!-- Was beforehand        TODO    all chips below   text-color="white" -->
-            <v-chip
-              color="green-lighten-2"
-              class="my-1"
+            <div>
+              <h6
+                class="text-h6"
+                style="line-height: normal"
+              >
+                {{ packet.title }}
+              </h6>
+            </div>
+            <div v-if="packet.subtitle != null && !small">
+              <div class="text-subtitle-2">
+                {{ packet.subtitle }}
+              </div>
+            </div>
+          </div>
+          <!-- Pricing -->
+          <div class="d-flex">
+            <span
+              v-if="packet.price_with_discount != null
+                && packet.price_with_discount.total !==
+                  packet.price_without_discount.total"
             >
-              <span class="strikethrough-diagonal text-disabled">
-                {{ utils.formatDecimal(packet.price_without_discount.total) }}
+              <v-chip
+                color="green-lighten-2"
+                class="my-1"
+              >
+                <span class="strikethrough-diagonal text-disabled">
+                  {{ utils.formatDecimal(packet.price_without_discount.total) }}
+                  {{ packet.currency.symbol }}
+                </span>
+              </v-chip>
+              <v-chip
+                class="ml-2"
+                color="orange"
+              >
+                {{
+                  packet.price_with_discount.total
+                    .toLocaleString(undefined, {minimumFractionDigits: 2})
+                }}
                 {{ packet.currency.symbol }}
-              </span>
-            </v-chip>
+                <div
+                  v-if="packet.recurring"
+                  class="pl-1"
+                >
+                  / {{ utils.formatLength(packet.active_for) }}
+                </div>
+              </v-chip>
+            </span>
             <v-chip
-              class="ml-2"
-              color="orange"
+              v-else-if="packet.price_with_discount != null"
+              color="green"
+              class="my-1"
             >
               {{
                 packet.price_with_discount.total
@@ -79,39 +119,21 @@
                 / {{ utils.formatLength(packet.active_for) }}
               </div>
             </v-chip>
-          </span>
-          <v-chip
-            v-else-if="packet.price_with_discount != null"
-            color="green"
-            class="my-1"
-          >
-            {{
-              packet.price_with_discount.total
-                .toLocaleString(undefined, {minimumFractionDigits: 2})
-            }}
-            {{ packet.currency.symbol }}
-            <div
-              v-if="packet.recurring"
-              class="pl-1"
+            <v-chip
+              v-if="packet.credits != null"
+              class="my-1 ml-2"
             >
-              / {{ utils.formatLength(packet.active_for) }}
-            </div>
-          </v-chip>
-          <v-chip
-            v-if="packet.credits != null"
-            class="my-1 ml-2"
-          >
-            <div class="d-flex align-center">
-              <v-icon start>
-                mdi-circle-multiple
-              </v-icon>
-              {{ packet.credits }}
-            </div>
-          </v-chip>
-        </v-col>
-        <v-col>
+              <div class="d-flex align-center">
+                <v-icon start>
+                  mdi-circle-multiple
+                </v-icon>
+                {{ packet.credits }}
+              </div>
+            </v-chip>
+          </div>
+          <v-spacer v-if="$vuetify.display.mdAndDown" />
           <div class="d-flex">
-            <v-btn
+            <!--<v-btn
               size="large"
               style="width: 44px; min-width: 44px"
               class="pa-0 cta-btn"
@@ -121,13 +143,13 @@
               <v-icon size="large">
                 mdi-information-slab-symbol
               </v-icon>
-            </v-btn>
+            </v-btn>-->
             <v-btn
               v-if="!packet.custom_price"
               size="large"
               :loading="loading"
               variant="flat"
-              class="ml-1 flex-grow-1 cta-btn"
+              class="ml-2 cta-btn"
               color="primary"
               @click="addToCart()"
             >

@@ -2,7 +2,7 @@
   <v-card
     v-if="recommendedPackets !== null && recommendedPackets.length > 0"
     class="vh-cart-recommended-packets card-rounded"
-    flat
+    :flat="flat"
   >
     <v-card-title class="d-flex">
       <h2 class="text-h6">
@@ -124,6 +124,12 @@
 import openapiCached from '@/api/openapiCached';
 
 export default {
+  props: {
+    flat: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       selectedPacket: null,

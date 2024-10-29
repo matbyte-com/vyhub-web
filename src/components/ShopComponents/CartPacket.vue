@@ -3,7 +3,7 @@
     <v-card
       class="vh-cart-packet card-rounded"
       border
-      min-height="120px"
+      min-height="100px"
     >
       <v-card-text>
         <v-row>

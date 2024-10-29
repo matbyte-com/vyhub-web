@@ -4,14 +4,19 @@
       open-on-hover
       location="bottom"
       eager
+      offset="12"
     >
       <template #activator="{ props }">
         <v-chip
-          pill
+          :pill="!tile"
+          :tile="tile"
+          :size="tile ? 'large' : undefined"
           v-bind="props"
-          class="header"
         >
-          <v-avatar start>
+          <v-avatar
+            start
+            class="rounded-lg"
+          >
             <v-img
               :src="$store.getters.user.avatar"
               lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
@@ -59,6 +64,10 @@ import AuthService from '@/services/AuthService';
 export default {
   props: {
     menuLinks: Array,
+    tile: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

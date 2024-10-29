@@ -51,116 +51,118 @@ const anyShopStatsEnabled = computed(() => {
 
 <template>
   <div>
-    <!-- Header Picture -->
-    <div
-      style="height: 30vh"
-      class="d-flex justify-center align-center"
-    >
-      Picture
-    </div>
+    <StoreOnlyHeaderButtons />
+    <StoreOnlyHeaderPicture />
     <!-- App Bar -->
-    <v-container>
-      <div>
-        <v-toolbar
-          style="margin-top: -50px"
-          rounded="lg"
-          color="header"
-        >
-          <div class="d-flex justify-center flex-grow-1">
-            <a
-              v-for="cat in categories"
-              :key="cat.id"
-              class="font-weight-bold ml-5 nav-button"
-              :class="{ 'button-active' : $route.params.categoryId == cat.name}"
-              @click="$router.push({ name: 'StoreCategory',
-                                     params: {categoryId: cat.name }})"
-            >
-              {{ cat.name }}
-            </a>
-          </div>
-        </v-toolbar>
-      </div>
-      <!-- Categories -->
-      <v-row
-        v-if="$route.name === 'Store'"
-        class="mt-3 vh-store-start-categories"
-        justify="center"
+    <v-row justify="center">
+      <v-col
+        cols="11"
+        sm="11"
+        md="8"
+        lg="7"
       >
-        <v-col
-          v-for="cat in categories"
-          :key="cat.id"
-          cols="3"
-        >
-          <v-card
-            class="category-card"
-            :to=" { name: 'StoreCategory',
-                    params: {categoryId: cat.name }}"
+        <div>
+          <v-toolbar
+            elevation="3"
+            style="margin-top: -35px"
+            rounded="lg"
+            color="header"
           >
-            <v-card-text>
-              <v-img
-                v-if="cat.image_url"
-                :src="cat.image_url"
-                class="ma-1 img-rounded"
-                max-height="300px"
-              />
-              <v-sheet
-                v-else
-                class="mb-1 bg-transparent"
-                height="200px"
+            <div class="d-flex justify-center flex-grow-1">
+              <a
+                v-for="cat in categories"
+                :key="cat.id"
+                class="font-weight-bold ml-5 nav-button"
+                :class="{ 'button-active' : $route.params.categoryId == cat.name}"
+                @click="$router.push({ name: 'StoreCategory',
+                                       params: {categoryId: cat.name }})"
               >
-                <div
-                  class="d-flex align-center justify-center"
-                  style="height: 100%;"
-                >
-                  <v-icon
-                    color="primary"
-                    size="150"
-                  >
-                    mdi-gift
-                  </v-icon>
-                </div>
-              </v-sheet>
-              <div class="text-center text-h5">
                 {{ cat.name }}
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row class="mt-3">
-        <!-- Sidebar -->
-        <v-col
-          v-if="anyShopStatsEnabled || recommendedPackets"
-          cols="12"
-          md="4"
-          lg="3"
-          class="d-flex flex-column"
+              </a>
+            </div>
+          </v-toolbar>
+        </div>
+        <!-- Categories -->
+        <Swiper
+          v-if="categories != null && $route.name === 'Store'"
+          :number-of-elements="categories.length"
+          :per-page-custom="[2,3,4,5,5]"
+          class="mt-3 vh-store-start-categories"
         >
-          <v-card
-            v-if="!$vuetify.display.smAndDown && anyShopStatsEnabled"
-            class="card-rounded"
-            flat
+          <swiper-slide
+            v-for="cat in categories"
+            :key="cat.id"
           >
-            <ShopStatsSide />
-          </v-card>
-          <div
-            class="card-rounded"
-            :class="{ 'mt-6':!$vuetify.display.smAndDown && anyShopStatsEnabled }"
+            <v-card
+              class="category-card"
+              :to=" { name: 'StoreCategory',
+                      params: {categoryId: cat.name }}"
+            >
+              <v-card-text>
+                <v-img
+                  v-if="cat.image_url"
+                  :src="cat.image_url"
+                  class="ma-1 img-rounded"
+                  max-height="300px"
+                />
+                <v-sheet
+                  v-else
+                  class="mb-1 bg-transparent"
+                  height="200px"
+                >
+                  <div
+                    class="d-flex align-center justify-center"
+                    style="height: 100%;"
+                  >
+                    <v-icon
+                      color="primary"
+                      size="150"
+                    >
+                      mdi-gift
+                    </v-icon>
+                  </div>
+                </v-sheet>
+                <div class="text-center text-h5">
+                  {{ cat.name }}
+                </div>
+              </v-card-text>
+            </v-card>
+          </swiper-slide>
+        </Swiper>
+        <v-row class="my-3">
+          <!-- Sidebar -->
+          <v-col
+            v-if="anyShopStatsEnabled || recommendedPackets"
+            cols="12"
+            md="4"
+            lg="3"
+            class="d-flex flex-column"
           >
-            <RecommendedPacketsSide />
-          </div>
-        </v-col>
-        <!-- Main Content -->
-        <v-col>
-          <transition
-            mode="out-in"
-            enter-active-class="animate__animated animate__fadeIn animate__faster"
-          >
-            <router-view />
-          </transition>
-        </v-col>
-      </v-row>
-    </v-container>
+            <v-card
+              v-if="!$vuetify.display.smAndDown && anyShopStatsEnabled"
+              class="card-rounded"
+            >
+              <ShopStatsSide />
+            </v-card>
+            <div
+              class="card-rounded"
+              :class="{ 'mt-3':!$vuetify.display.smAndDown && anyShopStatsEnabled }"
+            >
+              <RecommendedPacketsSide :flat="false" />
+            </div>
+          </v-col>
+          <!-- Main Content -->
+          <v-col>
+            <transition
+              mode="out-in"
+              enter-active-class="animate__animated animate__fadeIn animate__faster"
+            >
+              <router-view />
+            </transition>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

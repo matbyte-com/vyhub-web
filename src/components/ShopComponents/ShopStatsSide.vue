@@ -3,30 +3,35 @@
     <v-tabs
       v-show="numberOfTabs !== 1"
       v-model="tab"
+      :density="$vuetify.display.mdAndDown ? 'compact' : 'comfortable'"
       color="primary"
       grow
+      :show-arrows="false"
     >
       <v-tab
         v-if="$store.getters.shopConfig.donation_goal_enabled"
+        min-width="40px"
         class="square"
       >
-        <v-icon :size="$vuetify.display.lgAndUp ? '35' : '25'">
+        <v-icon :size="iconSize">
           mdi-flag-checkered
         </v-icon>
       </v-tab>
       <v-tab
         v-if="$store.getters.shopConfig.top_donators_enabled"
+        min-width="40px"
         class="square"
       >
-        <v-icon :size="$vuetify.display.lgAndUp ? '35' : '25'">
+        <v-icon :size="iconSize">
           mdi-podium
         </v-icon>
       </v-tab>
       <v-tab
         v-if="$store.getters.shopConfig.last_donators_enabled"
+        min-width="40px"
         class="square"
       >
-        <v-icon :size="$vuetify.display.lgAndUp ? '35' : '25'">
+        <v-icon :size="iconSize">
           mdi-clock-end
         </v-icon>
       </v-tab>
@@ -78,6 +83,9 @@ export default {
       if (this.$store.getters.shopConfig.last_donators_enabled) count += 1;
       return count;
     },
+    iconSize() {
+      return this.$vuetify.display.lgAndUp ? '30' : '20';
+    }
   },
 };
 </script>
