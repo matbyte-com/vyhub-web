@@ -232,7 +232,7 @@
               variant="outlined"
               class="ml-3"
               density="compact"
-              @update:modelValue="fetchLogs"
+              @update:model-value="fetchLogs"
             >
               <template #prepend-inner>
                 <v-icon>
@@ -474,7 +474,10 @@ export default {
       const form = {
         type: 'object',
         properties: {
-          author_id: Common.userIdSelectField,
+          author_id: {
+            ...Common.userSelectField,
+            type: 'string',
+          }
         },
       };
 

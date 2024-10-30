@@ -13,23 +13,18 @@ const countryOptions = Object.entries(countries.getCodeList())
   }));
 
 export default {
-  userIdSelectField: {
-    type: 'string',
-    title: i18n.global.t('user'),
-    'x-fromUrl': `${API_URL}/user/?query={q}&size=10`,
-    'x-itemKey': 'id',
-    'x-itemTitle': 'username',
-    'x-itemIcon': 'avatar',
-    'x-itemsProp': 'items',
-  },
   userSelectField: {
     type: 'object',
     title: i18n.global.t('user'),
-    'x-fromUrl': `${API_URL}/user/?query={q}&size=10`,
-    'x-itemKey': 'id',
-    'x-itemTitle': 'username',
-    'x-itemIcon': 'avatar',
-    'x-itemsProp': 'items',
+    layout: {
+      getItems: {
+        url: `${API_URL}/user/?query={q}&size=10`,
+        itemKey: "data[\"id\"]",
+        itemTitle: "data[\"username\"]",
+        itemIcon: "data[\"avatar\"]",
+        itemsResults: "data[\"items\"]",
+      }
+    },
   },
   serverbundleSelectField: {
     type: 'object',

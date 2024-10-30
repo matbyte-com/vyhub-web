@@ -2,13 +2,11 @@ import Common from '@/forms/Common';
 
 export default {
   type: 'object',
-  required: [
-    'title',
-  ],
+  required: ['target_user_id'],
   properties: {
     target_user_id: {
       ...Common.userSelectField,
-      type: ['string', 'null'],
+      type: ['string'],
     },
   },
 };

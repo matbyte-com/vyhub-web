@@ -7,7 +7,6 @@
       >
         <template #activator="{ props }">
           <div v-bind="props">
-            <!-- TODO Rounded Props do not work / when clicking opacity is weird likely to do with global styles from main.css -->
             <PageTitleFlat
               :title="server.name"
               :hide-triangle="true"
@@ -335,6 +334,13 @@ export default {
       }
 
       return null;
+    },
+  },
+  watch: {
+    $route(to, from) {
+      this.fetchServers();
+      this.fetchUserActivity();
+      this.startTimer();
     },
   },
   beforeMount() {
