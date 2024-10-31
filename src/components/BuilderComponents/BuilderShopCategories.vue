@@ -76,7 +76,7 @@ export default {
       const api = await openapi;
       api.packet_getCategories()
         .then((rsp) => {
-          this.categories = rsp.data;
+          this.categories = rsp.data.filter((cat) => cat.enabled === true);
         });
     },
   },
