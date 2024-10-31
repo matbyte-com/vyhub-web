@@ -11,13 +11,6 @@ function returnForm() {
       'dark',
     ],
     properties: {
-      enable_landingpage: {
-        type: 'boolean',
-        title: i18n.global.t('_theme.enable_landingpage'),
-        layout: {
-          comp: 'switch',
-        }
-      },
       header: {
         ...common.colorPicker('_theme.headerColor', undefined, undefined, undefined, 4),
       },

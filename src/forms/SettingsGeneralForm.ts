@@ -31,6 +31,13 @@ function form(forum_enabled = false) {
         },
         default: false
       },
+      enable_landingpage: {
+        type: 'boolean',
+        title: i18n.global.t('_theme.enable_landingpage'),
+        layout: {
+          comp: 'switch',
+        }
+      },
       // TODO Why do the following switches have the attribute cols: 7? Seems to be doing nothing
       enable_ticket: {
         type: 'boolean',
