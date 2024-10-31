@@ -23,6 +23,15 @@ function form(forum_enabled = false) {
         type: 'string',
         title: i18n.global.t('communityName'),
       },
+      shop_only: {
+        type: 'boolean',
+        title: i18n.global.t('_settings.shopOnly'),
+        layout: {
+          comp: 'switch',
+        },
+        default: false
+      },
+      // TODO Why do the following switches have the attribute cols: 7? Seems to be doing nothing
       enable_ticket: {
         type: 'boolean',
         title: i18n.global.t('_settings.showTicket'),
