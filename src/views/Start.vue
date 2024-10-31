@@ -26,17 +26,21 @@ const store = useStore();
 const router = useRouter();
 
 async function redirect() {
-  if (!store.state.theme) {
-    (await openapiCached).general_getTheme().then((rsp) => {
-      const theme = rsp.data;
-      if (theme.enable_landingpage) {
+  if (!store.state.generalConfig) {
+    (await openapiCached).general_getConfig().then((rsp) => {
+      const config = rsp.data;
+      if (config.enable_landingpage) {
         router.replace({ name: 'Home' });
+      } else if (config.shop_only) {
+        router.replace({ name: 'Store' });
       } else {
         router.replace({ name: 'News' });
       }
     });
-  } else if (store.state.theme.enable_landingpage) {
+  } else if (store.state.generalConfig.enable_landingpage) {
     await router.replace({ name: 'Home' });
+  } else if (store.state.generalConfig.shop_only) {
+    router.replace({ name: 'Store' });
   } else {
     await router.replace({ name: 'News' });
   }

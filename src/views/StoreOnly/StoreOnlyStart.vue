@@ -28,7 +28,7 @@ async function fetchCategories() {
       categories.value = rsp.data.filter((cat) => cat.enabled);
       // Redirect if there is only on category TODO Fix Redirect!?
       if (categories.value.length === 1) {
-        this.$router.replace({ name: 'ShopCategory', params: { categoryId: this.categories[0].id } });
+        this.$router.replace({ name: 'StoreCategory', params: { categoryId: this.categories[0].id } });
       }
     });
 }
