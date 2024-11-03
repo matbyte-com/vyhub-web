@@ -242,7 +242,7 @@ export default {
       memberGroup: null,
       groupMembers: null,
       totalItems: 0,
-      advancedProps: ['server_group'],
+      advancedProps: [],
     };
   },
   beforeMount() {

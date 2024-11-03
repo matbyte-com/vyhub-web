@@ -173,16 +173,6 @@ export default {
       type: 'string',
     },
   },
-  advancedProperties: {
-    type: 'object',
-    title: i18n.global.t('advancedProperties'),
-    properties: {
-      server_group: {
-        type: 'string',
-        title: i18n.global.t('_properties.server_group'),
-      },
-    },
-  },
   groupSelectField: {
     title: i18n.global.t('group'),
     type: 'object',
