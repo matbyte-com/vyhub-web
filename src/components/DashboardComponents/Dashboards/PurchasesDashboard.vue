@@ -2,161 +2,162 @@
   <div>
     <v-card
       class="vh-dashboard-purchases card-rounded"
-      flat
+      :flat="flat"
     >
-      <v-card-text>
-        <v-row>
-          <v-col>
-            <DataIterator
-              :items="purchases"
-              sort-by="date"
-              :items-per-page="6"
-              :sort-desc="true"
+      <DataIterator
+        :items="purchases"
+        sort-by="date"
+        :items-per-page="6"
+        :sort-desc="true"
+      >
+        <template
+          #header
+        >
+          <div class="d-flex v-card-title mt-6">
+            <span v-if="headline">
+              <v-icon start>
+                mdi-wallet
+              </v-icon>
+              {{ $t('purchases') }}
+            </span>
+            <v-spacer />
+            <v-btn
+              variant="flat"
+              color="success"
+              @click="$refs.creditHistoryDialog.show()"
             >
-              <template
-                #header
+              <v-icon start>
+                mdi-circle-multiple
+              </v-icon>
+              {{ $store.getters.shopConfig.credits_display_title }}
+            </v-btn>
+          </div>
+        </template>
+        <template #default="props">
+          <v-card-text class="mt-0 pt-0">
+            <v-row>
+              <v-col
+                v-for="purchase in props.items"
+                :key="purchase.raw.id"
+                cols="12"
+                lg="6"
+                xl="4"
+                class="d-flex"
               >
-                <v-row>
-                  <v-col>
-                    <div class="text-right">
-                      <v-btn
-                        variant="flat"
-                        color="success"
-                        @click="$refs.creditHistoryDialog.show()"
-                      >
-                        <v-icon start>
-                          mdi-circle-multiple
-                        </v-icon>
-                        {{ $store.getters.shopConfig.credits_display_title }}
-                      </v-btn>
-                    </div>
-                  </v-col>
-                </v-row>
-              </template>
-              <template #default="props">
-                <v-row>
-                  <v-col
-                    v-for="purchase in props.items"
-                    :key="purchase.raw.id"
-                    cols="12"
-                    lg="6"
-                    xl="4"
-                    class="d-flex"
-                  >
-                    <v-card
-                      class="flex-grow-1 card-rounded"
-                      border
-                    >
-                      <v-card-title class="subheading font-weight-bold">
-                        # {{ purchase.raw.id }}
-                      </v-card-title>
-                      <v-divider />
-                      <v-card-text>
-                        <v-row>
-                          <v-col>
-                            <div class="text-subtitle-1">
-                              {{ $t('details') }}
-                            </div>
-                            <v-list density="compact">
-                              <v-list-item>
-                                {{ $t('date') }}
+                <v-card
+                  class="flex-grow-1 card-rounded"
+                  border
+                >
+                  <v-card-title class="subheading font-weight-bold">
+                    # {{ purchase.raw.id }}
+                  </v-card-title>
+                  <v-divider />
+                  <v-card-text>
+                    <v-row>
+                      <v-col>
+                        <div class="text-subtitle-1">
+                          {{ $t('details') }}
+                        </div>
+                        <v-list density="compact">
+                          <v-list-item>
+                            {{ $t('date') }}
 
 
-                                {{ new Date(purchase.raw.date).toLocaleString() }}
-                              </v-list-item>
-                              <v-list-item>
-                                {{ $t('status') }}
+                            {{ new Date(purchase.raw.date).toLocaleString() }}
+                          </v-list-item>
+                          <v-list-item>
+                            {{ $t('status') }}
 
 
-                                <PurchaseStatusChip :status="purchase.raw.status" />
-                              </v-list-item>
-                            </v-list>
-                          </v-col>
-                        </v-row>
+                            <PurchaseStatusChip :status="purchase.raw.status" />
+                          </v-list-item>
+                        </v-list>
+                      </v-col>
+                    </v-row>
 
-                        <v-row>
-                          <v-col>
-                            <div class="text-subtitle-1">
-                              {{ $t('packets') }}
-                            </div>
+                    <v-row>
+                      <v-col>
+                        <div class="text-subtitle-1">
+                          {{ $t('packets') }}
+                        </div>
 
-                            <div>
-                              <div>
-                                <v-chip
-                                  v-for="cp in purchase.raw.cart_packets"
-                                  :key="cp.id"
-                                  class="mr-1 mb-1"
-                                >
-                                  {{ cp.packet_title }}
-                                </v-chip>
-                              </div>
-                            </div>
-                          </v-col>
-                        </v-row>
-
-                        <v-row>
-                          <v-col>
-                            <div class="text-subtitle-1">
-                              {{ $t('payments') }}
-                            </div>
-                            <DataTable
-                              :items="filterFinishedDebits(purchase.raw.debits)"
-                              :headers="headers"
-                              :total-items="purchase.raw.debits ? purchase.raw.debits.length : 0"
-                              :items-per-page="5"
+                        <div>
+                          <div>
+                            <v-chip
+                              v-for="cp in purchase.raw.cart_packets"
+                              :key="cp.id"
+                              class="mr-1 mb-1"
                             >
-                              <template #item.date="{ item }">
-                                {{ utils.formatDate(item.date) }}
-                              </template>
-                              <template #item.invoice="{ item }">
-                                <v-btn
-                                  color="primary"
-                                  variant="outlined"
-                                  size="small"
-                                  :disabled="!item.invoice_available"
-                                  @click="downloadInvoice(item)"
-                                >
-                                  <v-icon>
-                                    mdi-file-download
-                                  </v-icon>
-                                </v-btn>
-                              </template>
-                              <template #item.amount="{ item }">
-                                <div v-if="item.amount_total != null">
-                                  {{ item.amount_total
-                                    .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                                  {{ purchase.raw.currency.symbol }}
-                                </div>
-                                <div v-else>
-                                  {{ item.credits }}
-                                  {{ $t('credits') }}
-                                </div>
-                              </template>
-                            </DataTable>
-                          </v-col>
-                        </v-row>
-                      </v-card-text>
-                      <v-card-actions v-if="purchase.raw.status === 'RECURRING'">
-                        <v-btn
-                          v-if="purchase.raw.status === 'RECURRING'"
-                          variant="text"
-                          color="error"
-                          @click="$refs.confirmSubCancelDialog.show(purchase.raw)"
+                              {{ cp.packet_title }}
+                            </v-chip>
+                          </div>
+                        </div>
+                      </v-col>
+                    </v-row>
+
+                    <v-row>
+                      <v-col>
+                        <div class="text-subtitle-1">
+                          {{ $t('payments') }}
+                        </div>
+                        <DataTable
+                          :items="filterFinishedDebits(purchase.raw.debits)"
+                          :headers="headers"
+                          :total-items="purchase.raw.debits ? purchase.raw.debits.length : 0"
+                          :items-per-page="5"
                         >
-                          <v-icon start>
-                            mdi-cancel
-                          </v-icon>
-                          {{ $t('_purchases.labels.cancelSubscription') }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </template>
-            </DataIterator>
-          </v-col>
-        </v-row>
-      </v-card-text>
+                          <template #item.date="{ item }">
+                            {{ utils.formatDate(item.date) }}
+                          </template>
+                          <template #item.invoice="{ item }">
+                            <v-btn
+                              color="primary"
+                              variant="outlined"
+                              size="small"
+                              :disabled="!item.invoice_available"
+                              @click="downloadInvoice(item)"
+                            >
+                              <v-icon>
+                                mdi-file-download
+                              </v-icon>
+                            </v-btn>
+                          </template>
+                          <template #item.amount="{ item }">
+                            <div v-if="item.amount_total != null">
+                              {{
+                                item.amount_total
+                                  .toLocaleString(undefined, {minimumFractionDigits: 2})
+                              }}
+                              {{ purchase.raw.currency.symbol }}
+                            </div>
+                            <div v-else>
+                              {{ item.credits }}
+                              {{ $t('credits') }}
+                            </div>
+                          </template>
+                        </DataTable>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                  <v-card-actions v-if="purchase.raw.status === 'RECURRING'">
+                    <v-btn
+                      v-if="purchase.raw.status === 'RECURRING'"
+                      variant="text"
+                      color="error"
+                      @click="$refs.confirmSubCancelDialog.show(purchase.raw)"
+                    >
+                      <v-icon start>
+                        mdi-cancel
+                      </v-icon>
+                      {{ $t('_purchases.labels.cancelSubscription') }}
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </template>
+      </DataIterator>
     </v-card>
     <ConfirmationDialog
       ref="confirmSubCancelDialog"
@@ -183,15 +184,20 @@ import openapi from '@/api/openapi';
 export default {
   props: {
     user: Object,
+    headline: Boolean,
+    flat: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       purchases: [],
       headers: [
-        { title: this.$t('date'), key: 'date' },
-        { title: this.$t('gateway'), key: 'payment_gateway.name' },
-        { title: this.$t('amount'), key: 'amount' },
-        { title: this.$t('invoice'), key: 'invoice', sortable: false },
+        {title: this.$t('date'), key: 'date'},
+        {title: this.$t('gateway'), key: 'payment_gateway.name'},
+        {title: this.$t('amount'), key: 'amount'},
+        {title: this.$t('invoice'), key: 'invoice', sortable: false},
       ],
     };
   },
@@ -207,7 +213,7 @@ export default {
     async fetchData() {
       const api = await openapi;
 
-      api.user_getPurchases({ uuid: this.user.id }).then((rsp) => {
+      api.user_getPurchases({uuid: this.user.id}).then((rsp) => {
         this.purchases = rsp.data;
       }).catch((err) => {
         console.log(err);
@@ -216,9 +222,9 @@ export default {
     },
     async downloadInvoice(debit) {
       (await openapi).shop_getDebitInvoice(
-        { uuid: debit.id },
+        {uuid: debit.id},
         null,
-        { responseType: 'blob' },
+        {responseType: 'blob'},
       ).then((rsp) => {
         this.utils.showFile(rsp.data, `${debit.invoice_number}.pdf`);
       }).catch((err) => {
@@ -235,7 +241,7 @@ export default {
     async cancelSubscription(purchase) {
       const api = await openapi;
 
-      api.shop_editPurchase({ uuid: purchase.id }, { status: 'FINISHED' })
+      api.shop_editPurchase({uuid: purchase.id}, {status: 'FINISHED'})
         .then(() => {
           this.$notify({
             title: this.$t('_messages.cancelSuccess'),
@@ -244,9 +250,9 @@ export default {
           this.fetchData();
           this.$refs.confirmSubCancelDialog.closeAndReset();
         }).catch((err) => {
-          console.log(err);
-          this.$refs.confirmSubCancelDialog.setError(err);
-        });
+        console.log(err);
+        this.$refs.confirmSubCancelDialog.setError(err);
+      });
     },
   },
 };

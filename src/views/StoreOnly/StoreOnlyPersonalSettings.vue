@@ -41,6 +41,12 @@ async function refreshUser(fromChange = true) {
         class="mt-3"
         @user-changed="refreshUser"
       />
+      <PurchasesDashboard
+        :flat="false"
+        :headline="true"
+        class="mt-3"
+        :user="userCopy"
+      />
     </v-col>
   </v-row>
 </template>
