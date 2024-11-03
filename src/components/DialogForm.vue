@@ -5,6 +5,7 @@
     :max-width="maxWidth"
     :title="title"
     :icon="icon"
+    :retain-focus="false"
     class=""
     @cancel="cancelForm"
   >

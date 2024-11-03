@@ -161,3 +161,8 @@ a:hover::before {
   top: -9px;
   right: 4px;
 }
+
+/* Required for ckeditor in dialogs */
+.ck-balloon-panel {
+  z-index: 9999 !important;
+}
