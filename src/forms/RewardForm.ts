@@ -41,6 +41,13 @@ const on_event_reduced = [
   },
 ];
 
+const on_event_direct = [
+  {
+    const: 'DIRECT',
+    title: i18n.global.t('_reward.labels._events.direct'),
+  },
+];
+
 const serversSelectField = {
   type: 'array',
   title: i18n.global.t('_reward.labels.limitToServers'),
@@ -162,8 +169,9 @@ function rewardTypeFields(rewardType: string) {
       },
     };
   } else if (rewardType === 'TEAMSPEAK_CHANNEL') {
-    on_event_set = 'reduced';
+    on_event_set = 'direct';
     otherOptions = {};
+    serversSelectFieldOptional = serversSelectField;
     required = ['parent_channel_id', 'channel_group_id'];
     properties = {
       parent_channel_id: {
@@ -223,7 +231,8 @@ function rewardTypeFields(rewardType: string) {
               on_event: {
                 type: 'string',
                 title: i18n.global.t('_reward.labels.onEvent'),
-                oneOf: (on_event_set === 'full' ? on_event_full : on_event_reduced),
+                oneOf: (on_event_set === 'full' ? on_event_full : (on_event_set === 'reduced' ? on_event_reduced : on_event_direct)),
+                default: (on_event_set === 'direct' ? 'DIRECT' : null),
                 layout: {
                   if: {
                     type: 'js-eval',
