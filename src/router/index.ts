@@ -129,6 +129,12 @@ const routes = [
     component: () => import('../views/Shop/Checkout.vue'),
   },
   {
+    path: '/personal-settings',
+    name: 'StorePersonalSettings',
+    meta: { noContainer: true, noHeader: true, title: i18n.global.t('personalSettings'), requiresAuth: true },
+    component: () => import('../views/StoreOnly/StoreOnlyPersonalSettings.vue'),
+  },
+  {
     path: '/admin/shop/:component?',
     name: 'ShopAdmin',
     component: () => import('@/views/Shop/ShopAdminView.vue'),

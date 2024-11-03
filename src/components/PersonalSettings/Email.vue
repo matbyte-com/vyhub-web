@@ -65,6 +65,7 @@ export default {
     user: null,
     outlined: null,
   },
+emits: ['user-changed'],
   data() {
     return {
       showInput: false,
@@ -84,7 +85,7 @@ export default {
       });
     },
     async updateMail() {
-      if (!this.$refs.textfield.valid) { return; }
+      if (!this.$refs.textfield.isValid) { return; }
       (await openapi).user_editUser(this.$store.getters.user.id, { email: this.emailModel })
         .then(() => {
           this.showInput = false;

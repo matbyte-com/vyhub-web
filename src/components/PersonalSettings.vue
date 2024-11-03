@@ -20,17 +20,13 @@
 </template>
 
 <script>
-import Dialog from '@/components/Dialog.vue';
-import Email from '@/components/PersonalSettings/Email.vue';
-import EmailNotifications from '@/components/PersonalSettings/EmailNotifications.vue';
 import openapi from '@/api/openapi';
 
 export default {
-  name: 'PersonalSettings',
-  components: { EmailNotifications, Email, Dialog },
   props: {
     user: Object,
   },
+emits: ['user-changed'],
   data() {
     return {
       userCopy: Object,

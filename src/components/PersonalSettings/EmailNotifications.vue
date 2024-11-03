@@ -1,5 +1,5 @@
 <template>
-  <v-card class="vh-email-notifications">
+  <v-card class="vh-email-notifications card-rounded">
     <v-card-title>
       <v-icon start>
         mdi-bell-badge
@@ -9,6 +9,8 @@
     <v-card-text class="text-body-1">
       <v-switch
         v-model="notificationSwitch"
+        color="primary"
+        hide-details="auto"
         :label="$t('_personalSettings.enableEmailNotifications')"
         @update:model-value="updateSettings"
       />
@@ -23,6 +25,7 @@ export default {
   props: {
     user: {},
   },
+emits: ['user-changed'],
   data() {
     return {
       notificationSwitch: false,

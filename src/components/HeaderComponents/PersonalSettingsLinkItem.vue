@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-list-item :to="{path: $route.path, query: { personal_settings: 'true' } }">
+    <v-list-item @click="openPersonalSettings">
       <v-list-item-title>
         <v-icon start>
           mdi-account
@@ -14,6 +14,15 @@
 <script>
 export default {
   name: 'PersonalSettingsLinkItem',
+  methods: {
+    openPersonalSettings() {
+      if (this.$store.getters.generalConfig.shop_only) {
+        this.$router.push({ name: 'StorePersonalSettings'});
+      } else {
+        this.$router.push({ path: this.$route.path, query: { personal_settings: 'true' } });
+      }
+    },
+  }
 };
 </script>
 
