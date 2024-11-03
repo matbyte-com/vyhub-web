@@ -66,7 +66,7 @@
       >
         <v-card
           class="fill-height"
-          style="min-height: 75vh"
+          style="min-height: 80vh"
           flat
           border
           tile
@@ -126,6 +126,7 @@ export default {
           reqProp: 'group_edit',
           title: this.$t('groups'),
           customerJourney: 'add-group',
+          shopOnly: 'disabled'
         },
         {
           name: 'bans',
@@ -134,6 +135,7 @@ export default {
           reqProp: 'ban_config_edit',
           title: this.$t('bans'),
           advanced: true,
+          shopOnly: 'hidden'
         },
         {
           name: 'warnings',
@@ -142,6 +144,7 @@ export default {
           reqProp: 'warning_config_show',
           title: this.$t('warnings'),
           advanced: true,
+          shopOnly: 'hidden'
         },
         {
           name: 'server',
@@ -157,6 +160,7 @@ export default {
           component: 'AdvertSettingsView',
           reqProp: 'advert_show',
           title: this.$t('adverts'),
+          shopOnly: 'hidden',
         },
         {
           name: 'requirements',
@@ -165,6 +169,7 @@ export default {
           reqProp: 'requirement_show',
           title: this.$t('requirements'),
           advanced: true,
+          shopOnly: 'disabled'
         },
         {
           icon: 'mdi-cart',
@@ -226,6 +231,7 @@ export default {
           component: 'AuthorizationSettingsView',
           reqProp: 'authorization_show',
           title: this.$t('_authorization.title'),
+          shopOnly: 'hidden'
         },
         {
           name: 'import',
@@ -234,6 +240,7 @@ export default {
           reqProp: 'admin',
           title: this.$t('import'),
           advanced: true,
+          shopOnly: 'hidden'
         },
         {
           name: 'api',
@@ -242,6 +249,7 @@ export default {
           reqProp: 'apikey_edit',
           title: this.$t('api'),
           advanced: true,
+          shopOnly: 'disabled'
         },
         {
           name: 'legal',
@@ -271,7 +279,7 @@ export default {
       return this.allowedTabs[0];
     },
     allowedTabs(includeGroups = false) {
-      const allowed = [];
+      let allowed = [];
 
       this.tabs.forEach((tab) => {
         if ('tabs' in tab) {
@@ -297,8 +305,9 @@ export default {
         }
       });
 
+      // Reorder when advanced settings not enabled
       if (!this.utils.showAdvancedSettings()) {
-        return allowed.sort((a, b) => {
+        allowed = allowed.sort((a, b) => {
           if (a.advanced && !b.advanced) {
             return 1;
           }
@@ -308,6 +317,12 @@ export default {
           return 0;
         });
       }
+
+      // Filter out hidden options when shop only
+      if (this.$store.getters.generalConfig.shop_only) {
+        allowed = allowed.filter((l) => l.shopOnly !== 'hidden')
+      }
+
       return allowed;
     },
   },

@@ -1,8 +1,6 @@
 <script>
 export default {
   props: ['activeTab', 'allowedTabs'],
-  methods: {
-  }
 }
 
 </script>
@@ -14,19 +12,21 @@ export default {
         v-for="tab in allowedTabs"
         :key="tab.id"
       >
+
+        <!--     TODO TEXT DISABLED irgendwie broken      :disabled="tab.disabled || ($store.getters.generalConfig.shopOnly && tab.shopOnly === 'disabled')"
+-->
         <v-list-item
           v-if="!('tabs' in tab)"
           style="height: 48px"
           link
-          :disabled="tab.disabled"
           :class="{ 'active v-list-item--active' :
                       tab.name === activeTab.name,
                     'glow-effect': utils.customerJourneyActive(tab.customerJourney) }"
           :to="{ name: 'Settings', params: { component: tab.name} }"
         >
           <v-list-item-title
-            :class="!utils.showAdvancedSettings()
-              && tab.advanced ? 'text-disabled' : ''"
+            :class="(!utils.showAdvancedSettings()
+              && tab.advanced) || ($store.getters.generalConfig.shop_only && tab.shopOnly === 'disabled') ? 'text-disabled' : ''"
           >
             <v-icon start>{{ tab.icon }}</v-icon>
             {{ tab.title }}
