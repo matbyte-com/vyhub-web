@@ -166,3 +166,13 @@ a:hover::before {
 .ck-balloon-panel {
   z-index: 9999 !important;
 }
+
+/* VJSF Fix icon width in select */
+.vjsf .v-select__selection-text img {
+  width: 14px !important;
+}
+
+.v-menu .v-list-item__prepend img {
+  width: 22px !important;
+  margin-right: 5px;
+}
