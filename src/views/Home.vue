@@ -326,14 +326,14 @@ export default {
       return defineAsyncComponent(() => import(/* @vite-ignore */ `../components/BuilderComponents/Builder${type}.vue`));
     },
     async redirectWhenDisabled() {
-      if (!this.$store.getters.theme) {
-        (await openapiCached).general_getTheme().then((rsp) => {
-          const theme = rsp.data;
-          if (!theme.enable_landingpage) {
+      if (!this.$store.getters.generalConfig) {
+        (await openapiCached).general_getConfig().then((rsp) => {
+          const config = rsp.data;
+          if (!config.enable_landingpage) {
             this.$router.replace({ name: 'News' });
           }
         });
-      } else if (!this.$store.getters.theme.enable_landingpage) {
+      } else if (!this.$store.getters.generalConfig.enable_landingpage) {
         this.$router.replace({ name: 'News' });
       }
     },

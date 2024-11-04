@@ -40,7 +40,7 @@ async function redirect() {
   } else if (store.state.generalConfig.enable_landingpage) {
     await router.replace({ name: 'Home' });
   } else if (store.state.generalConfig.shop_only) {
-    router.replace({ name: 'Store' });
+    await router.replace({ name: 'Store' });
   } else {
     await router.replace({ name: 'News' });
   }
