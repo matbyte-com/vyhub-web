@@ -19,10 +19,10 @@ export default {
     layout: {
       getItems: {
         url: `${API_URL}/user/?query={q}&size=10`,
-        itemKey: "data[\"id\"]",
-        itemTitle: "data[\"username\"]",
-        itemIcon: "data[\"avatar\"]",
-        itemsResults: "data[\"items\"]",
+        itemKey: "data.id",
+        itemTitle: "data.username",
+        itemIcon: "data.avatar",
+        itemsResults: "data.items",
       }
     },
   },
@@ -55,9 +55,9 @@ export default {
             expr: `${API_URL}/server/type/?include_icons=true`,
             pure: true
           },
-          itemKey: 'data["type"]',
-          itemTitle: 'data["type"]',
-          itemIcon: 'data["icon"]',// TODO Would be awesome to show game icon
+          itemKey: 'data.type',
+          itemTitle: 'data.type',
+          itemIcon: 'data.icon',// TODO Would be awesome to show game icon
         },
       },
     };
