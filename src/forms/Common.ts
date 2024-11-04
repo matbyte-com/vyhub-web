@@ -168,7 +168,11 @@ export default {
   propertiesSelector: {
     type: 'array',
     title: i18n.global.t('properties'),
-    'x-display': 'custom-properties',
+    layout: {
+      slots: {
+        component: 'custom-properties'
+      }
+    },
     items: {
       type: 'string',
     },

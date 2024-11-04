@@ -32,10 +32,9 @@ function returnForm() {
             maximum: 100000,
           },
           max_ban_length: {
-            type: ['integer'],
+            type:  ['integer', 'null'],
             title: i18n.global.t('_group.maxBanLengthInDays'),
             description: i18n.global.t('_group.maxBanLengthInDaysDescription'),
-            default: null,
             minimum: 0,
             maximum: 365,
             'x-props': {
