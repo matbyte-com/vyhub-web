@@ -4,7 +4,7 @@
     class="vh-email flex-grow-1 d-flex flex-column card-rounded"
     :border="outlined"
   >
-    <v-card-title>
+    <v-card-title class="d-flex align-center">
       <v-icon start>
         mdi-email
       </v-icon>

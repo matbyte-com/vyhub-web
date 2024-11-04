@@ -14,6 +14,7 @@ export default defineComponent({
     src="https://picsum.photos/1500/300"
   >
     <div class="d-flex justify-center mt-15">
+      <BuilderJoinServer />
       <v-img
         class="vh-store-header-logo"
         style="max-width: 100px; max-height: 100px"

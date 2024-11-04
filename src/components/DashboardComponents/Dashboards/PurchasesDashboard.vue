@@ -14,7 +14,10 @@
           #header
         >
           <div class="d-flex v-card-title mt-6">
-            <span v-if="headline">
+            <span
+              v-if="headline"
+              class="d-flex align-center"
+            >
               <v-icon start>
                 mdi-wallet
               </v-icon>

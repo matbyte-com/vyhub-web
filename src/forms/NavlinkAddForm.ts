@@ -116,7 +116,6 @@ function returnForm(links: {}[], disabled?: false) {
           },
         },
         dependentSchemas: {
-
           linkType: {
             if: {
               properties: {
@@ -131,7 +130,7 @@ function returnForm(links: {}[], disabled?: false) {
             then: {
               properties: {
                 link: {
-                  type: 'string',
+                  type: ['string', 'null'],
                   title: i18n.global.t('_navigation.link'),
                   pattern: '(^https?://.+$)|(/.*)',
                   readOnly: disabled,
@@ -146,11 +145,15 @@ function returnForm(links: {}[], disabled?: false) {
             else: {
               properties: {
                 cms_page_id: {
-                  type: 'string',
+                  type: ['string','null'],
                   title: i18n.global.t('_navigation.cmsPage'),
-                  'x-fromUrl': `${API_URL}/general/html`,
-                  'x-itemTitle': 'title',
-                  'x-itemKey': 'id',
+                  layout: {
+                    getItems: {
+                      url: `${API_URL}/general/html`,
+                      itemTitle: 'title',
+                      itemValue: 'id'
+                    }
+                  }
                 },
               },
             },

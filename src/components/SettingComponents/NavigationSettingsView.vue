@@ -560,7 +560,7 @@ export default {
     return {
       subGroup: false,
       navlinkAddSchema: null,
-      cmsPageAddSchema: CmsPageAddForm,
+      cmsPageAddSchema: CmsPageAddForm.returnForm(),
       htmlInput: '',
       rawHtmlInput: '',
       expansionPanels: null,

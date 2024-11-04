@@ -1,6 +1,6 @@
 <script setup>
 import openapi from "../../api/openapi";
-import {ref, defineEmits} from "vue";
+import {ref} from "vue";
 import {useStore} from "vuex";
 
 const emit = defineEmits(['user-changed']);
@@ -24,7 +24,10 @@ async function refreshUser(fromChange = true) {
 <template>
   <StoreOnlyHeaderButtons />
   <StoreOnlyHeaderPicture />
-  <v-row justify="center">
+  <v-row
+    justify="center"
+    class="mb-3"
+  >
     <v-col
       cols="11"
       sm="11"

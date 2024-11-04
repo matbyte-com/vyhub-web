@@ -115,6 +115,13 @@ function returnForm() {
     delete ret.properties.warning;
     delete ret.properties.header_container;
   }
+  if (utilService.data().utils.shopOnly()) {
+    delete ret.properties.show_community_name;
+    delete ret.properties.light_header;
+    delete ret.properties.header_container;
+    ret.properties.header.layout.cols = 6;
+  }
+
   return ret;
 }
 

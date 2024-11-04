@@ -1,6 +1,6 @@
 <template>
   <v-card class="vh-email-notifications card-rounded">
-    <v-card-title>
+    <v-card-title class="d-flex align-center">
       <v-icon start>
         mdi-bell-badge
       </v-icon>

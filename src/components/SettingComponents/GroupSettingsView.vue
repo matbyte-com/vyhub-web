@@ -12,8 +12,6 @@
         :sort-by="['permission_level']"
         :sort-desc="[true]"
       >
-        <!-- TODO was before:             :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
--->
         <template #item.name="{ item }">
           <v-chip
             :color="item.color ? item.color : '#000000'"
@@ -65,13 +63,14 @@
         </template>
         <template #item.actions="{ item }">
           <div
-            class="d-flex"
+            class="d-flex align-center"
             :class="{ 'flex-column' : $vuetify.display.lgAndDown }"
           >
             <v-btn
               icon="mdi-content-copy"
               color="secondary"
-              size="small"
+              size="x-small"
+              variant="tonal"
               class="mr-xl-1 mt-xl-0"
               @click="copyGroup(item)"
             />

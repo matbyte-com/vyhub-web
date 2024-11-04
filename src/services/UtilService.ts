@@ -243,6 +243,12 @@ export default {
           // Returns the value inverted because the button is used to show the advanced settings
           return store.getters.generalConfig.show_advanced_settings;
         },
+        shopOnly() {
+          if (!store.getters.generalConfig) {
+            return false;
+          }
+          return store.getters.generalConfig.shop_only;
+        },
         getConnectionLink(server: any) {
           // TODO Add New Servers here for proper functioning of the connection link
           switch (server.type) {

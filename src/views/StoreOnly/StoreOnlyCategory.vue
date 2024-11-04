@@ -41,6 +41,7 @@ async function fetchPackets() {
           type="list-item"
           class="rounded-lg mb-2"
           height="82px"
+          elevation="3"
         />
         <PacketListEntry
           v-for="packet in packets"
@@ -61,7 +62,10 @@ async function fetchPackets() {
           xl="4"
         >
           <v-card>
-            <v-skeleton-loader type="card" />
+            <v-skeleton-loader
+              type="card"
+              elevation="3"
+            />
           </v-card>
         </v-col>
         <v-col

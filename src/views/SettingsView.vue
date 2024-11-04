@@ -111,6 +111,7 @@ export default {
           component: 'NavigationSettingsView',
           reqProp: 'nav_show',
           title: this.$t('navigation'),
+          shopOnly: 'hidden'
         },
         {
           name: 'theme',

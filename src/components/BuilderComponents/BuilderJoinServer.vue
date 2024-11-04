@@ -7,32 +7,31 @@
         lg="4"
         class="d-flex align-center justify-start"
       >
-        <a
-          :href="utils.getConnectionLink(server1)"
-          class="text-decoration-none"
-          target="_blank"
+        <div
+          class="d-flex align-center join-link pa-3 cursor-pointer"
+          :class="{ 'text-white': whiteText }"
+          @click="connect(server1)"
         >
-          <div
-            class="d-flex align-center join-link pa-3"
-            :class="{ 'text-white': whiteText }"
+          <v-card
+            color="primary"
+            class="pa-5 join-btn"
+            flat
+            style="border-radius: 15px"
           >
-            <v-card
-              color="primary"
-              class="pa-5 join-btn"
-              flat
-              style="border-radius: 15px"
+            <v-icon
+              :color="whiteText ? 'white' : 'black'"
+              size="40"
             >
-              <v-icon
-                :color="whiteText ? 'white' : 'black'"
-                size="40"
-              >{{ getServerIcon(server1) }}</v-icon>
-            </v-card>
-            <div class="ml-3">
-              <div class="text-h5">{{ server1.name }}</div>
-              <div>{{ $t('_component.currentPlayers') }} {{ server1.users_current }}</div>
+              {{ getServerIcon(server1) }}
+            </v-icon>
+          </v-card>
+          <div class="ml-3">
+            <div class="text-h5">
+              {{ server1.name }}
             </div>
+            <div>{{ $t('_component.currentPlayers') }} {{ server1.users_current }}</div>
           </div>
-        </a>
+        </div>
       </v-col>
       <v-col
         v-if="server2 || !servers"
@@ -56,32 +55,31 @@
         lg="4"
         class="d-flex align-center justify-end"
       >
-        <a
-          :href="utils.getConnectionLink(server2)"
-          target="_blank"
-          class="text-decoration-none"
+        <div
+          class="d-flex align-center justify-end join-link pa-3 cursor-pointer"
+          :class="{ 'text-white': whiteText }"
+          @click="connect(server2)"
         >
-          <div
-            class="d-flex align-center justify-end join-link pa-3"
-            :class="{ 'text-white': whiteText }"
-          >
-            <div class="text-right mr-3">
-              <div class="text-h5">{{ server2.name }}</div>
-              <div>{{ $t('_component.currentPlayers') }} {{ server2.users_current }}</div>
+          <div class="text-right mr-3">
+            <div class="text-h5">
+              {{ server2.name }}
             </div>
-            <v-card
-              color="primary"
-              class="pa-5 join-btn"
-              flat
-              style="border-radius: 15px"
-            >
-              <v-icon
-                :color="whiteText ? 'white' : 'black'"
-                size="40"
-              >{{ getServerIcon(server2) }}</v-icon>
-            </v-card>
+            <div>{{ $t('_component.currentPlayers') }} {{ server2.users_current }}</div>
           </div>
-        </a>
+          <v-card
+            color="primary"
+            class="pa-5 join-btn"
+            flat
+            style="border-radius: 15px"
+          >
+            <v-icon
+              :color="whiteText ? 'white' : 'black'"
+              size="40"
+            >
+              {{ getServerIcon(server2) }}
+            </v-icon>
+          </v-card>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -89,6 +87,8 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
+
+// TODO Custom Icons are not colored white
 
 export default {
   name: 'JoinServer',
@@ -127,8 +127,12 @@ export default {
     this.fetchData();
   },
   methods: {
-    vuetify() {
-      return vuetify;
+    async connect(server) {
+      if (this.utils.getConnectionLink(server) != null) {
+        window.open(this.utils.getConnectionLink(server), '_blank');
+      } else {
+        this.utils.copyServerAddress(server);
+      }
     },
     async fetchData() {
       (await openapiCached).server_getServers().then((rsp) => {
@@ -144,7 +148,7 @@ export default {
         return 'custom:discord';
       }
       if (server.type === 'MINECRAFT') {
-        return 'mdi-minecraft';
+        return 'custom:minecraft';
       }
       if (server.type === 'ASA') {
         return 'custom:asa';
