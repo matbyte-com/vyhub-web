@@ -126,6 +126,8 @@ export default {
       if (data != null) {
         this.setData(data);
       }
+
+      this.genFormMounted();
     },
     close() {
       this.loading = false;
@@ -142,7 +144,7 @@ export default {
       } return Object;
     },
     setData(data) {
-      if (this.$refs.form === undefined) {
+      if (this.$refs.form === undefined || this.$refs.form == null) {
         this.dataBeforeMount = data;
       } else {
         this.$refs.form.setData(data);
