@@ -65,10 +65,19 @@ const anyShopStatsEnabled = computed(() => {
           <v-toolbar
             elevation="3"
             style="margin-top: -35px"
+            class="overflow-hidden"
             rounded="lg"
             color="header"
           >
-            <div class="d-flex justify-center flex-grow-1">
+            <div
+              v-if="categories == null"
+              style="width: 100%; height: 65px"
+              class="v-skeleton-loader__bone"
+            />
+            <div
+              v-else
+              class="d-flex justify-center flex-grow-1"
+            >
               <a
                 v-for="cat in categories"
                 :key="cat.id"
@@ -83,10 +92,12 @@ const anyShopStatsEnabled = computed(() => {
           </v-toolbar>
         </div>
         <!-- Categories -->
+        <!-- TODO Skeleton Loader -->
         <Swiper
           v-if="categories != null && $route.name === 'Store'"
           :number-of-elements="categories.length"
           :per-page-custom="[2,3,4,5,5]"
+          style="min-height: 200px"
           class="mt-3 vh-store-start-categories"
         >
           <swiper-slide

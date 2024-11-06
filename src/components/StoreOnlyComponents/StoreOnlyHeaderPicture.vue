@@ -1,9 +1,18 @@
-<script lang="ts">
-import {defineComponent} from 'vue'
+<script lang="ts" setup>
 
-export default defineComponent({
-  name: "StoreOnlyHeaderPicture"
-})
+import {useStore} from "vuex";
+import {computed} from "vue";
+
+const store = useStore();
+
+const background = computed(() => {
+  if (store.state.theme) {
+    return store.state.theme.image;
+  } else {
+    return '';
+  }
+});
+
 </script>
 
 <template>
@@ -11,17 +20,26 @@ export default defineComponent({
     height="30vh"
     class="vh-store-header-img"
     cover
-    src="https://picsum.photos/1500/300"
+    :src="background"
   >
-    <div class="d-flex justify-center mt-15">
-      <BuilderJoinServer />
-      <v-img
-        class="vh-store-header-logo"
-        style="max-width: 100px; max-height: 100px"
-        src="https://picsum.photos/300/300"
-      />
-    </div>
+    <v-row
+      justify="center"
+      align="center"
+      style="height: 100%"
+    >
+      <v-col
+        cols="12"
+        md="10"
+      >
+        <BuilderJoinServer
+          :servers="store.state.theme.shop_only_servers"
+          :logo-url="store.state.theme.logo"
+          :white-text="true"
+        />
+      </v-col>
+    </v-row>
   </v-img>
+  <v-divider />
 </template>
 
 <style scoped>

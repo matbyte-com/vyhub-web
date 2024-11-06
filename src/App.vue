@@ -2,7 +2,7 @@
   <v-app>
     <VueNotification />
     <LinkAccountDialog />
-    <TheHeader v-if="!$route.meta.noHeader" />
+    <TheHeader v-if="!$route.meta.noHeader && $route.path !== '/'" />
 
     <v-main :style="backgroundColor">
       <div
@@ -41,7 +41,7 @@
       </v-container>
     </v-main>
 
-    <TheFooter />
+    <TheFooter v-if="$route.path !== '/'" />
 
     <!-- Welcome Overlay -->
     <v-overlay
@@ -190,7 +190,7 @@ export default {
   }),
   computed: {
     backgroundColor() {
-      if (this.backgroundImage) {
+      if (this.backgroundImage && (this.$store.getters.generalConfig && !this.$store.getters.generalConfig.shop_only)) {
         return `background: url(${this.backgroundImage}) no-repeat center fixed !important; background-size: cover;`;
       }
       return `background-color: ${this.background}`;

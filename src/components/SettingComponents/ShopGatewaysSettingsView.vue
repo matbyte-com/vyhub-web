@@ -183,11 +183,11 @@ export default {
       gatewayTypes: {
         PAYPAL: {
           label: this.$t('_gateway.labels.paypal'),
-          icon: 'mdi-parking',
+          icon: 'custom:paypal',
         },
         PAYPAL_LEGACY: {
           label: this.$t('_gateway.labels.paypalEasy'),
-          icon: 'mdi-parking',
+          icon: 'custom:paypal',
         },
         STRIPE: {
           label: this.$t('_gateway.labels.stripe'),

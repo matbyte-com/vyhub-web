@@ -56,15 +56,34 @@ watch(() => store.state.cartPacketCount, () => {
             mdi-cog
           </v-icon>
         </v-btn>
-        <v-btn
-          v-if="$checkProp('purchase_show')"
-          class="ml-3"
-          :to="{name: 'ShopAdmin'}"
+        <v-menu
+          open-on-hover
+          offset="12"
         >
-          <v-icon>
-            mdi-view-dashboard
-          </v-icon>
-        </v-btn>
+          <template #activator="{ props }">
+            <v-btn
+              v-if="$checkProp('purchase_show')"
+              class="ml-3"
+              v-bind="props"
+            >
+              <v-icon>
+                mdi-view-dashboard
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-list density="compact">
+            <!-- TODO Translate -->
+            <v-list-item :to="{name: 'ShopAdmin'}">
+              Shop Admin
+            </v-list-item>
+            <v-list-item :to="{name: 'Search'}">
+              User Search
+            </v-list-item>
+            <v-list-item :to="{name: 'Log'}">
+              Logs
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <v-spacer />
         <v-card
           v-if="$store.getters.isLoggedIn"
