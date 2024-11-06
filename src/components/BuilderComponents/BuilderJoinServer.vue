@@ -19,7 +19,7 @@
             style="border-radius: 15px"
           >
             <v-icon
-              :color="whiteText ? 'white' : 'black'"
+              :class="{ 'custom-icon-white': whiteText }"
               size="40"
             >
               {{ getServerIcon(server1) }}
@@ -35,7 +35,7 @@
       </v-col>
       <v-col
         v-if="server2 || !servers"
-        cols="3"
+        cols="11"
         md="2"
         lg="4"
         class="text-center"
@@ -44,10 +44,19 @@
           {{ $t('_component.specifyServers') }}
         </div>
         <v-img
+          v-if="logoUrl"
           height="200"
           :src="logoUrl ? logoUrl : $store.getters.theme.logo"
           :alt="$store.getters.theme.logo"
         />
+        <div
+          v-else
+          style="height: 200px"
+          class="text-h3 d-flex align-center justify-center vh-headline"
+          :class="{ 'text-white': whiteText }"
+        >
+          {{ $store.getters.generalConfig.community_name }}
+        </div>
       </v-col>
       <v-col
         v-if="server2 && $vuetify.display.mdAndUp"
@@ -73,7 +82,7 @@
             style="border-radius: 15px"
           >
             <v-icon
-              :color="whiteText ? 'white' : 'black'"
+              :class="{ 'custom-icon-white': whiteText }"
               size="40"
             >
               {{ getServerIcon(server2) }}
@@ -87,8 +96,6 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
-
-// TODO Custom Icons are not colored white
 
 export default {
   name: 'JoinServer',
