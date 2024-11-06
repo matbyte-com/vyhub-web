@@ -176,3 +176,15 @@ a:hover::before {
   width: 22px !important;
   margin-right: 5px;
 }
+
+  .ck-button {
+  border-radius: 3px !important;
+}
+
+.ck-button-action {
+  background-color: rgb(var(--v-theme-primary)) !important;
+}
+
+.ck-dialog {
+  border-radius: 5px !important;
+}
