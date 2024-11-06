@@ -12,6 +12,7 @@ import successIcon from "../components/Icons/SuccessIcon.vue";
 import rust from "../components/Icons/Rust.vue";
 import source from "../components/Icons/Source.vue";
 import minecraft from "../components/Icons/Minecraft.vue";
+import paypal from "../components/Icons/PayPal.vue";
 
 const customSvgNameToComponent: any = {
   vyhub,
@@ -26,6 +27,7 @@ const customSvgNameToComponent: any = {
   rust,
   source,
   minecraft,
+  paypal
 };
 
 const customSVGs: IconSet = {
