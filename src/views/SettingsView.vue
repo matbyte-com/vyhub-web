@@ -66,7 +66,7 @@
       >
         <v-card
           class="fill-height"
-          style="min-height: 80vh"
+          style="min-height: 82vh"
           flat
           border
           tile

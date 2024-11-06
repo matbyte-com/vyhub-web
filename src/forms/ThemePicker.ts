@@ -2,7 +2,9 @@ import common from '@/forms/Common';
 import i18n from '@/plugins/i18n';
 import utilService from '@/services/UtilService';
 
-// VJSF 3 compatible
+import config from "../config";
+const API_URL = config.backend_url;
+
 
 function returnForm() {
   const ret: any = {
@@ -120,6 +122,30 @@ function returnForm() {
     delete ret.properties.light_header;
     delete ret.properties.header_container;
     ret.properties.header.layout.cols = 6;
+
+    ret.properties.shop_only_servers = {
+     /* type: 'array',
+      title: i18n.global.t('servers'),
+      layout: {
+        getItems: {
+          url: `${API_URL}/server/`,
+          itemKey: "id",
+          itemTitle: "name",
+        },
+      },
+      items: {
+        type: 'string',
+      },*/
+        type: 'array',
+        title: i18n.global.t('servers'),
+      description: 'Select the servers that should be shown on the homepage', // TODO Describe better and translate
+        items: {
+          type: 'string',
+        },
+        'x-fromUrl': `${API_URL}/server/`,
+        'x-itemKey': 'id',
+        'x-itemTitle': 'name',
+    }
   }
 
   return ret;
