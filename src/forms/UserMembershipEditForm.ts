@@ -10,7 +10,7 @@ export default {
       type: 'string',
       title: i18n.global.t('begin'),
       format: 'date-time',
-      default: new Date(),
+      default: (new Date()).toISOString(),
     },
     end: {
       type: 'string',

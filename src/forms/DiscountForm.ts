@@ -14,10 +14,12 @@ export default {
       type: 'number',
       title: i18n.global.t('percentage'),
       minimum: 0,
+      maximum: 100,
     },
     code: {
       type: ['string', 'null'],
       title: i18n.global.t('code'),
+      description: i18n.global.t('_discount.labels.codeDescription'),
       //  default: uuidv4().substr(0, 18),
     },
     enabled: {
@@ -29,7 +31,7 @@ export default {
       type: 'string',
       title: i18n.global.t('begin'),
       format: 'date-time',
-      default: new Date(),
+      default: (new Date()).toISOString(),
     },
     end: {
       type: ['string', 'null'],
