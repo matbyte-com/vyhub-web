@@ -28,13 +28,13 @@
             >
               <h2
                 class="text-h3"
-                :class="{ 'text-white': whiteText, 'black--text': !whiteText }"
+                :class="{ 'text-white': whiteText, 'text-black': !whiteText }"
               >
                 {{ title }}
               </h2>
               <p
                 class="text-subtitle-1"
-                :class="{ 'text-white': whiteText, 'black--text': !whiteText }"
+                :class="{ 'text-white': whiteText, 'text-black': !whiteText }"
               >
                 {{ subtitle }}
               </p>

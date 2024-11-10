@@ -47,7 +47,7 @@
           >
             <div>
               <v-row dense>
-                <v-col :class="(cartPacket.discount ? 'green--text' : '')">
+                <v-col :class="(cartPacket.discount ? 'text-green' : '')">
                   <div class="text-h6 text-right">
                     {{ cartPacket.price.total
                       .toLocaleString(undefined, {minimumFractionDigits: 2}) }}

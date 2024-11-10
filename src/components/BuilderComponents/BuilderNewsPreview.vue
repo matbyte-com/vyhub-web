@@ -52,7 +52,7 @@
                   <v-card-title>
                     <span
                       :class="{ 'text-white' : !$vuetify.theme.current.dark && n.invert_title_color,
-                                'black--text' : $vuetify.theme.current.dark && n.invert_title_color }"
+                                'text-black' : $vuetify.theme.current.dark && n.invert_title_color }"
                     >
                       {{ n.subject }}
                     </span>

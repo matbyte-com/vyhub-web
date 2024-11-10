@@ -126,7 +126,7 @@
           >
             <span
               :class="{ 'text-white' : !$vuetify.theme.current.dark && message.invert_title_color,
-                        'black--text' : $vuetify.theme.current.dark && message.invert_title_color }"
+                        'text-black' : $vuetify.theme.current.dark && message.invert_title_color }"
             >
               {{ message.subject }}
             </span>
@@ -169,7 +169,7 @@
               class="mr-3"
               :class="{ 'text-white' : !$vuetify.theme.current.dark
                           && message.invert_title_color,
-                        'black--text' : $vuetify.theme.current.dark && message.invert_title_color }"
+                        'text-black' : $vuetify.theme.current.dark && message.invert_title_color }"
             >
               {{ $d(new Date(message.created), 'long') }}
             </span>
@@ -205,7 +205,7 @@
           >
             <span
               :class="{ 'text-white' : !$vuetify.theme.current.dark && message.invert_title_color,
-                        'black--text' : $vuetify.theme.current.dark && message.invert_title_color }"
+                        'text-black' : $vuetify.theme.current.dark && message.invert_title_color }"
             >
               {{ message.subject }}
             </span>
@@ -247,7 +247,7 @@
             <span
               class="mr-3"
               :class="{ 'text-white' : !$vuetify.theme.current.dark && message.invert_title_color,
-                        'black--text' : $vuetify.theme.current.dark && message.invert_title_color }"
+                        'text-black' : $vuetify.theme.current.dark && message.invert_title_color }"
             >
               {{ $d(new Date(message.created), 'long') }}</span>
             <user-link

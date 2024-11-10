@@ -20,7 +20,7 @@
           :key="step.id"
           style="cursor:pointer;"
           :class="{ 'list-item-active': selectedStep === index,
-                    'black--text': selectedStep === index}"
+                    'text-black': selectedStep === index}"
         >
           <div @click="selectJourney(index)">
             <v-list-item-title class="d-flex align-center">
@@ -40,7 +40,7 @@
               </v-icon>
               {{ step.title }}
               <v-spacer />
-              <v-icon :class="{ 'black--text': selectedStep === index}">
+              <v-icon :class="{ 'text-black': selectedStep === index}">
                 mdi-chevron-right
               </v-icon>
             </v-list-item-title>
