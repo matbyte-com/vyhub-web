@@ -38,9 +38,9 @@ export default {
           }));
         },
         isSingularTimeunit(seconds: number) {
-          if (seconds === 2592000) return i18n.global.global.t('everyMonth');
-          if (seconds === 31536000) return i18n.global.global.t('everyYear');
-          if (seconds === 86400) return i18n.global.global.t('everyDay');
+          if (seconds === 2592000) return i18n.global.t('everyMonth');
+          if (seconds === 31536000) return i18n.global.t('everyYear');
+          if (seconds === 86400) return i18n.global.t('everyDay');
           return false;
         },
         notifyUnexpectedError(detail: object) {
