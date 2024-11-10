@@ -49,8 +49,10 @@
               <v-row dense>
                 <v-col :class="(cartPacket.discount ? 'text-green' : '')">
                   <div class="text-h6 text-right">
-                    {{ cartPacket.price.total
-                      .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                    {{
+                      cartPacket.price.total
+                        .toLocaleString(undefined, {minimumFractionDigits: 2})
+                    }}
                     {{ cartPacket.currency.symbol }}
                     <div v-if="cartPacket.recurring != null">
                       <span v-if="utils.isSingularTimeunit(cartPacket.recurring)">
@@ -63,16 +65,24 @@
                     </div>
                   </div>
                   <div v-if="cartPacket.discount">
-                    <span class="text-caption">
-                      -{{ cartPacket.discount.percentage }}% {{ cartPacket.discount.name }}
-                    </span>
-                    <v-icon
-                      v-if="showRemove"
+                    <v-chip
+                      class="mt-1 font-italic"
+                      color="green"
                       size="small"
-                      @click="$emit('removeDiscount')"
                     >
-                      mdi-close
-                    </v-icon>
+                      <span>
+                        -{{ cartPacket.discount.percentage }}% {{ cartPacket.discount.name }}
+                      </span>
+                      <v-icon
+                        v-if="showRemove"
+                        size="small"
+                        end
+                        class="text-red"
+                        @click="$emit('removeDiscount')"
+                      >
+                        mdi-close-circle
+                      </v-icon>
+                    </v-chip>
                   </div>
                 </v-col>
               </v-row>
@@ -80,7 +90,7 @@
                 v-if="cartPacket.price.credits != null "
                 dense
               >
-                <v-col>
+                <v-col :class="(cartPacket.discount ? 'text-green' : '')">
                   <div class="text-subtitle-2">
                     {{ cartPacket.price.credits }}
                     {{ $store.getters.shopConfig.credits_display_title }}
@@ -166,7 +176,7 @@ export default {
       default: 3,
     },
   },
-emits: ['remove', 'removeDiscount', 'targetUserChanged'],
+  emits: ['remove', 'removeDiscount', 'targetUserChanged'],
   data() {
     return {
       cartPacketTargetUserForm: CartPacketTargetUserForm,
@@ -187,8 +197,8 @@ emits: ['remove', 'removeDiscount', 'targetUserChanged'],
           });
           this.$refs.targetUserEditDialog.closeAndReset();
         }).catch((err) => {
-          this.$refs.targetUserEditDialog.setError(err);
-        });
+        this.$refs.targetUserEditDialog.setError(err);
+      });
     },
     openTargetUserEditDialog() {
       this.$refs.targetUserEditDialog.show();
