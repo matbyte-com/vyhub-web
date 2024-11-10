@@ -127,7 +127,7 @@ export default {
         this.setData(data);
       }
 
-      this.genFormMounted();
+      // this.genFormMounted();
     },
     close() {
       this.loading = false;
