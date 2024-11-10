@@ -177,7 +177,9 @@ a:hover::before {
   margin-right: 5px;
 }
 
-  .ck-button {
+/* Make CKEditor look better */
+
+.ck-button {
   border-radius: 3px !important;
 }
 
@@ -189,6 +191,15 @@ a:hover::before {
   border-radius: 5px !important;
 }
 
+/* Icon Color */
+
 .custom-icon-white {
   fill: #FFFFFF;
+}
+
+
+/* VJSF fix popup (e.g. datetime editor) width */
+
+.vjsf-text-field-menu .v-overlay__content {
+  min-width: unset !important;
 }
