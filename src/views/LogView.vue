@@ -170,6 +170,7 @@
                     dense
                     hide-details
                     :label="severity"
+                    :value="severity"
                   />
                 </v-radio-group>
                 <a
@@ -253,7 +254,7 @@
               variant="outlined"
               color="primary"
               icon="mdi-filter-plus"
-              @click="$refs.labelFilterDialog.show()"
+              @click="showLabelFilterDialog"
             />
             <v-btn
               class="ml-3"
@@ -476,7 +477,7 @@ export default {
         properties: {
           author_id: {
             ...Common.userSelectField,
-            type: 'string',
+            type: ['string', 'null'],
           }
         },
       };
@@ -564,7 +565,7 @@ export default {
       this.fetchLogs();
     },
     cleanedLabels(labels) {
-      const newLabels = labels;
+      const newLabels = { ...labels };
 
       delete newLabels.app;
       delete newLabels.category;
@@ -575,6 +576,10 @@ export default {
       delete newLabels.log_entry_id;
 
       return newLabels;
+    },
+    showLabelFilterDialog() {
+      this.$refs.labelFilterDialog.setData(this.selectedFilters);
+      this.$refs.labelFilterDialog.show();
     },
     applyAdvancedFilters() {
       this.selectedFilters = this.$refs.labelFilterDialog.getData();
