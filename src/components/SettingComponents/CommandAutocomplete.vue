@@ -2,12 +2,13 @@
   <div>
     <!-- TODO Label Not Working -->
     <span class="text-subtitle-1">{{ label }}</span>
+    {{ formModel }}
     <v-combobox
       ref="autocomplete"
       :model-value="command"
       label="Enter command"
       :custom-filter="filterOptions"
-      :items="options"
+      :items="computedOptions"
       hide-no-data
       @blur="autocompleteOpen = false"
       @update:model-value="onAutocompleteChange"
@@ -28,12 +29,22 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  formModel: {
+    type: Object,
+    required: true,
+  },
 });
 
 const autocomplete = ref(null);
 const command = ref('');
-const options = ['{username}', '{map}'];
+// TODO ADD ALL REPLACEMENTS
+const options = {MINECRAFT: ['{username}', '{map}'], GMOD: ['{player}', '{map}']};
 const autocompleteOpen = ref(false);
+
+const computedOptions = computed(() => {
+  if (!props.formModel || !props.formModel.serverbundle) return [];
+  return options[props.formModel.serverbundle.server_type];
+});
 
 // Get the bounds of the current template variable being edited
 const getCurrentTemplateBounds = () => {
@@ -99,7 +110,7 @@ const onAutocompleteChange = (newValue) => {
   const input = autocomplete.value.$el.querySelector('input');
   const bounds = getCurrentTemplateBounds();
 
-  if (!bounds || !options.includes(newValue)) {
+  if (!bounds || !computedOptions.value.includes(newValue)) {
     // If it's not a selection from our options, just update normally
     command.value = newValue;
     return;

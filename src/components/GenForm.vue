@@ -32,6 +32,7 @@
                 <slot
                   :name="name"
                   v-bind="scope ?? {}"
+                  :form-model="formModel"
                 />
               </template>
             </v-jsf>
