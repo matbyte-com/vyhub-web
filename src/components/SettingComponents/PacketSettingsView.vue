@@ -107,11 +107,8 @@
       :title="$t('_packet.labels.add')"
       @submit="addPacket"
     >
-      <template #custom-editor="{ node, statefulLayout }">
-        <EditorForForm
-          :value="node.data"
-          @update="event => statefulLayout.input(node, event.target.value)"
-        />
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
       </template>
     </DialogForm>
     <DialogForm
@@ -321,7 +318,9 @@ export default {
       if (data.payment_gateways) {
         new_data.payment_gateway_ids = data.payment_gateways.map((gw) => gw.id);
       }
-      new_data.reward_ids = data.rewards.map((reward) => reward.id);
+      if (data.rewards) {
+        new_data.reward_ids = data.rewards.map((reward) => reward.id);
+      }
       delete new_data.category;
       delete new_data.payment_gateways;
       delete new_data.rewards;
