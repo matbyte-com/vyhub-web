@@ -4,7 +4,6 @@ import Common from '@/forms/Common';
 export default {
   type: 'object',
   required: [
-    'category',
     'title',
     'topic_category_id',
     'edit_post',
