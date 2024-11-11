@@ -66,12 +66,11 @@
             </span>
           </span>
           <span class="justify-end">
-            <v-btn
+            <v-icon
               v-if="$store.getters.user && $store.getters.user.admin"
               icon="mdi-close-circle"
               variant="flat"
               color="error"
-              size="x-small"
               @click="$refs.adminDeleteConfirmationDialog.show()"
             />
           </span>
