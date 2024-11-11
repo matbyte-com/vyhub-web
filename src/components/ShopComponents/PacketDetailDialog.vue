@@ -58,6 +58,7 @@
                   <v-icon
                     v-else
                     color="secondary"
+                    start
                   >
                     mdi-clock-end
                   </v-icon>
