@@ -29,6 +29,7 @@
     <Dialog
       ref="requirementSetEditDialog"
       :title="$t('_settings.editRequirementSet')"
+      icon="mdi-greater-than-or-equal"
       :max-width="1500"
     >
       <h3 class="display-h3 mt-5">
