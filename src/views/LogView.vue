@@ -538,7 +538,6 @@ export default {
         start: this.start.toISOString(),
         end: this.end.toISOString(),
       }).then((rsp) => {
-        console.log(rsp);
         this.labels = rsp.data;
       });
     },
