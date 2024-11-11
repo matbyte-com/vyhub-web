@@ -56,7 +56,6 @@ function form() {
                 component: "custom-editor"
               }
             }
-            // 'x-display': 'custom-editor',
           },
           image_url: {
             ...Common.imageURLField,

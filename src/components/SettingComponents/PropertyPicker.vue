@@ -1,6 +1,7 @@
 <template>
   <div v-if="allProperties">
     <div class="d-flex align-center">
+      <!-- TODO Label not working -->
       <span class="text-subtitle-1">{{ label }}</span>
       <v-spacer />
       <v-btn

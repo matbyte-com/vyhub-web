@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- TODO Label not working -->
     <span class="text-subtitle-1">{{ label }}</span>
     <Editor
       v-model="content"

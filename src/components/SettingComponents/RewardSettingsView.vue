@@ -157,6 +157,9 @@
           </v-btn>
         </a>
       </slot>
+      <template #custom-autocomplete="context">
+        <CommandAutocomplete v-bind="context" />
+      </template>
     </dialogform>
   </div>
   <DialogForm
@@ -166,7 +169,11 @@
     :submit-text="$t('edit')"
     :title="$t('_reward.labels.edit')"
     @submit="editReward"
-  />
+  >
+    <template #custom-autocomplete="context">
+      <CommandAutocomplete v-bind="context" />
+    </template>
+  </DialogForm>
   <Dialog
     ref="useTemplateDialog"
     :title="$t('_reward.labels.templates')"

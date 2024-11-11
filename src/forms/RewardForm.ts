@@ -93,6 +93,11 @@ function rewardTypeFields(rewardType: string) {
       command: {
         type: 'string',
         title: i18n.global.t('command'),
+        layout: {
+          slots: {
+            component: "custom-autocomplete"
+          }
+        }
       },
     };
   } else if (rewardType === 'SCRIPT') {
