@@ -37,7 +37,6 @@
     "eventsource": "^2.0.2",
     "humanize-duration": "^3.2.9",
     "iso-639-1-plus": "^3.0.3",
-    "minify-css-string": "^1.0.0",
     "mitt": "^3.0.1",
     "openapi-client-axios": "^7.5.5",
     "p-debounce": "^4.0.0",
