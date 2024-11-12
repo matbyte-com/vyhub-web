@@ -57,6 +57,11 @@ const vuetify = createVuetify({
       VTextField: {
         variant: "underlined"
       }
+    },
+    VjsfOneOfSelect: {
+      VSelect: {
+        variant: "underlined"
+      }
     }
   }
 })

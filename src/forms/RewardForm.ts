@@ -91,7 +91,8 @@ function rewardTypeFields(rewardType: string) {
     serversSelectFieldOptional = serversSelectField;
     properties = {
       command: {
-        type: 'string',
+        type: ['string', 'null'],
+        default: '',
         title: i18n.global.t('command'),
         layout: {
           slots: {
@@ -208,7 +209,7 @@ function rewardTypeFields(rewardType: string) {
     properties: {
       type: {
         title: i18n.global.t('type'),
-        type: 'string',
+        type: ['string'],
         const: rewardType,
       },
       on_event_group: {
@@ -265,7 +266,7 @@ function form() {
   const res = {
     type: 'object',
     allOf: [{
-      required: ['name', 'type'],
+      required: ['name'],
       properties: {
         name: {
           type: 'string',
@@ -273,13 +274,21 @@ function form() {
         },
         serverbundle: {
           ...Common.serverbundleSelectField,
-          type: ['object', 'null'],
+          type: 'object',
           description: i18n.global.t('_reward.labels.serverbundleDescription'),
         },
       },
     },
     {
       type: 'object',
+      layout: {
+        if: {
+          type: 'js-eval',
+          expr: 'rootData.serverbundle',
+          pure: false,
+        }
+      },
+      default: null,
       oneOf: [
         {
           title: i18n.global.t('_reward.labels._types.command'),
@@ -288,6 +297,13 @@ function form() {
         {
           title: i18n.global.t('_reward.labels._types.script'),
           ...rewardTypeFields('SCRIPT'),
+          layout: {
+            if: {
+              type: 'js-eval',
+              expr: 'rootData.serverbundle && (rootData.serverbundle.server_type == "GMOD" || rootData.serverbundle.server_type == "FIVEM")',
+              pure: false,
+            }
+          },
         },
         {
           title: i18n.global.t('_reward.labels._types.credits',
@@ -308,6 +324,13 @@ function form() {
         {
           title: i18n.global.t('_reward.labels._types.teamspeak_channel'),
           ...rewardTypeFields('TEAMSPEAK_CHANNEL'),
+          layout: {
+            if: {
+              type: 'js-eval',
+              expr: 'rootData.serverbundle && (rootData.serverbundle.server_type == "TEAMSPEAK3")',
+              pure: false,
+            }
+          },
         },
       ],
     },

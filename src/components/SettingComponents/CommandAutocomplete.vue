@@ -9,6 +9,7 @@
       :custom-filter="filterOptions"
       :items="computedOptions"
       hide-no-data
+      variant="underlined"
       @blur="autocompleteOpen = false"
       @update:model-value="onAutocompleteChange"
       @update:search="handleSearch"
