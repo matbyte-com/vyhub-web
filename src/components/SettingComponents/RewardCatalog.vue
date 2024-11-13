@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-tabs v-model="tabIndex" color="primary">
+    <v-tabs
+      v-model="tabIndex"
+      color="primary"
+    >
       <v-tab
         v-for="tab in tabs.items"
         :key="tab.title"
@@ -12,30 +15,33 @@
       <v-tabs-window-item
         v-for="tab in tabs.items"
         :key="tab.title"
+        class="pa-1"
       >
+        <v-text-field
+          v-model="search"
+          density="compact"
+          hide-details
+          :label="$t('search')"
+          append-inner-icon="mdi-magnify"
+          class="mt-3"
+          variant="outlined"
+        />
         <v-select
           v-model="serverbundle_id"
           :items="serverbundles"
           density="compact"
-          validate-on="blur"
           item-value="id"
-          :error="serverbundleSelectError"
-          :rules="[v => !!v || $t('required')]"
           item-title="name"
           hide-details="auto"
           :label="$t('serverbundle')"
           class="mt-3"
-        />
-        <v-text-field
-          v-model="search"
           variant="outlined"
-          density="compact"
-          hide-details
-          :label="$t('search')"
-          prepend-inner-icon="mdi-magnify"
-          class="mt-3"
+          :rules="[v => !!v || $t('required')]"
+          validate-on="blur"
+          required
+          :error-messages="serverbundleSelectError"
         />
-        <v-expansion-panels class="mb-5">
+        <v-expansion-panels class="mb-5 mt-3">
           <v-expansion-panel
             v-for="item in searchedRewards"
             :key="item.name"
@@ -123,10 +129,18 @@
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
-        <span v-if="tab.title !== 'Discord' && tab.title !== 'Teamspeak 3 (TS3)'">
-          Unlimited other rewards are possible by simply executing any command on the server.
-          There is no limit but your creativity.
-        </span>
+        <v-alert
+          v-if="tab.title !== 'Discord' && tab.title !== 'Teamspeak 3 (TS3)'"
+          variant="tonal"
+          type="info"
+        >
+          <span
+            class="text-subtitle-2"
+          >
+            Unlimited other rewards are possible by simply executing any command on the server.
+            There is no limit but your creativity.
+          </span>
+        </v-alert>
       </v-tabs-window-item>
     </v-tabs-window>
   </div>
@@ -137,13 +151,13 @@ import openapi from '@/api/openapi';
 
 export default {
   name: 'RewardCatalog',
-emits: ['success'],
+  emits: ['success'],
   data() {
     return {
       search: '',
       tabIndex: null,
       serverbundle_id: null,
-      serverbundles: null,
+      serverbundles: [],
       serverbundleSelectError: false,
       missingInput: false,
       /*
@@ -815,8 +829,8 @@ emits: ['success'],
     searchedRewards() {
       // Use search value to return only relevant reward templates
       return this.tabs.items[this.tabIndex]?.items?.filter((item) => item.name.includes(this.search)
-          || item.scripts.find((script) => script.name.includes(this.search)
-            || script.description.includes(this.search)));
+        || item.scripts.find((script) => script.name.includes(this.search)
+          || script.description.includes(this.search)));
     },
   },
   beforeMount() {
@@ -829,14 +843,15 @@ emits: ['success'],
       });
     },
     async createTemplateReward(reward, cat) {
-      const data = { ...reward };
+      const data = {...reward};
       this.missingInput = false;
 
       if (!this.serverbundle_id) {
-        this.serverbundleSelectError = true;
-        return;
+        this.serverbundleSelectError = [this.$t('required')];
+        return
       }
-      this.serverbundleSelectError = false;
+
+      this.serverbundleSelectError = [];
 
       data.name = `${data.name} (${cat.name})`;
       data.serverbundle_id = this.serverbundle_id;
