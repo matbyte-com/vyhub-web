@@ -293,6 +293,13 @@ function form() {
         {
           title: i18n.global.t('_reward.labels._types.command'),
           ...rewardTypeFields('COMMAND'),
+          layout: {
+            if: {
+              type: 'js-eval',
+              expr: 'rootData.serverbundle && (rootData.serverbundle.server_type != "TEAMSPEAK3" && rootData.serverbundle.server_type != "DISCORD")',
+              pure: false,
+            }
+          },
         },
         {
           title: i18n.global.t('_reward.labels._types.script'),
