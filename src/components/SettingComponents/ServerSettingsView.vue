@@ -541,7 +541,7 @@ export default {
 
       const data = this.$refs.createServerDialog.getData();
 
-      if (Object.keys(data.secrets).length === 0) {
+      if (!data.secrets || Object.keys(data.secrets).length === 0) {
         delete data.secrets;
       }
 

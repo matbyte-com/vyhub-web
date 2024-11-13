@@ -72,13 +72,14 @@ function serverTypeFields(serverType: string) {
 
   return {
     title: serverType,
-    required: ['type'],
+    required: ['type', 'serverbundle_id'],
     properties: {
       type: {
         title: i18n.global.t('type'),
         type: 'string',
         const: serverType,
       },
+      serverbundle_id: Common.serverbundleSelectFieldByType('string'),
       extra: {
         type: 'object',
         required,
@@ -155,12 +156,6 @@ export default {
           ...serverTypeFields('SOURCE'),
         },
       ],
-    },
-    {
-      required: ['serverbundle_id'],
-      properties: {
-        serverbundle_id: Common.serverbundleSelectFieldByType('string'),
-      },
     },
   ],
 };
