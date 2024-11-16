@@ -246,10 +246,10 @@ export default {
       await UserService.setUserMemberships();
     },
     async getGeneralConfig() {
-      await this.utils.getGeneralConfig().then(() => {
+      this.utils.getGeneralConfig().then(() => {
         this.utils.enableGTag();
+        this.setLocale();
       });
-      this.setLocale();
     },
     async getShopConfig() {
       await this.utils.getShopConfig();

@@ -107,7 +107,7 @@ export default {
           return result;
         },
         async getGeneralConfig() {
-          (await openapi).general_getConfig().then((rsp) => {
+          await (await openapi).general_getConfig().then((rsp) => {
             store.commit('SET_GENERAL_CONFIG', rsp.data);
           }).catch((err) => {
             console.log('Could not get General Settings');
