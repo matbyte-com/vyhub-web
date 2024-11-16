@@ -2,10 +2,8 @@ import { defineConfig } from 'vite';
 import { commonjsDeps, commonjsDepsPaths } from '@koumoul/vjsf/utils/build.js'
 import vue from "@vitejs/plugin-vue";
 import Components from 'unplugin-vue-components/vite';
-import vitePluginRequire from "vite-plugin-require";
 import vuetify from "vite-plugin-vuetify";
 import path from 'path';
-import {nodePolyfills} from "vite-plugin-node-polyfills";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -43,7 +41,6 @@ export default defineConfig({
       autoImport: { labs: true }
     }),
     Components(),
-    nodePolyfills(), // Polyfill for Eventsource. TODO maybe rebuild eventsource later
   ],
   define: {
     'process.env': process.env

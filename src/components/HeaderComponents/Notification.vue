@@ -40,12 +40,15 @@
             @click="rowClick(notification)"
           >
             <v-list-item-title class="d-flex">
-              <v-icon start v-if="notification.message.kwargs">
+              <v-icon
+                v-if="notification.message.kwargs"
+                start
+              >
                 {{ notification.message.kwargs.icon }}
               </v-icon>
               <div :class="{ 'font-weight-medium': !notification.read }">
                 {{ $t(`_notification.${notification.message.name}`,
-                { ...notification.message.kwargs }) }}
+                      { ...notification.message.kwargs }) }}
               </div>
             </v-list-item-title>
           </v-list-item>
@@ -77,7 +80,6 @@
 </template>
 
 <script>
-import Eventsource from 'eventsource';
 import store from '@/store/index';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
@@ -162,11 +164,11 @@ export default {
       if (store.getters.isLoggedIn && store.getters.accessToken) {
         const header = `Bearer ${store.getters.accessToken}`;
         const baseURL = `${config.backend_url}/notification/stream`;
-        this.evtSource = new Eventsource(baseURL, {
+        /*this.evtSource = new Eventsource(baseURL, {
           headers: {
             Authorization: header,
           },
-        });
+        });*/
         this.evtSource.addEventListener('update', (event) => {
           // Logic to handle status updates
           this.notifications.unshift(...JSON.parse(event.data));
