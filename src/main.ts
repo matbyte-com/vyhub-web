@@ -44,18 +44,7 @@ app.use(VueGtag, {
   bootstrap: false,
 });
 
-
 app.mount('#app');
-
-/* Can likely be removed
-new Vue({
-  router,
-  store,
-  vuetify,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app');
-*/
 
 /* TODO Sentry
 if (config.sentry_dsn != null && config.sentry_dsn.length > 5) {

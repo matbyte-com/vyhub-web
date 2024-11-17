@@ -18,6 +18,7 @@
         v-for="(tab, index) in allowedSublinks(link.sublinks)"
         :key="index"
         class="ml-3"
+        :cla
         :href="tab.cms_page_id === null && !localLink(tab) ? tab.link : null"
         :to="tab.cms_page_id || localLink(tab) ? getLocalLink(tab) : null"
         link
@@ -37,7 +38,7 @@
         link.link : null)"
       :to="(link.cms_page_id || localLink(link) ?
         getLocalLink(link) : null)"
-      :class="subSubLink ? 'ml-3' : ''"
+      :class="{ 'ml-3' : subSubLink, 'v-list-item--active' : btnActive }"
     >
       <v-list-item-title>
         <v-icon start>
@@ -63,10 +64,17 @@ export default {
 
       return this.link.sublinks.filter((t) => !t.req_prop || this.$checkProp(t.req_prop) === true);
     },
+    btnActive() {
+      // SAME AS in NavigationLink.vue
+      if (this.link.link === '/shop') {
+        return this.$route.path === '/shop';
+      } else {
+        return this.$route.path.includes(this.link.link);
+      }
+    }
   },
   methods: {
     allowedSublinks(links) {
-      // TODO war vorher so v-if="tab.enabled === true && $checkProp(tab.req_prop)"
       return links.filter((tab) => tab.enabled === true && (!tab.req_prop || this.$checkProp(tab.req_prop) === true));
     },
     getLocalLink(link) {

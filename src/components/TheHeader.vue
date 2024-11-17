@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!--   TODO Not sure whether this needs to be readded    :theme="$store.getters.theme && $store.getters.theme.light_header ? 'light' : 'dark'"
--->
     <v-app-bar
       color="header"
       style="z-index: 200;"

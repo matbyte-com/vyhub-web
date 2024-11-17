@@ -31,8 +31,8 @@
         >
           <v-list-item
             v-for="(tab, index) in allowedTabs || []"
-            :active="$route.path.includes(tab.link)"
             :key="index"
+            :active="$route.path.includes(tab.link)"
             :href="(tab.cms_page_id === null && !utils.localLink(tab) ? tab.link : null)"
             :to="(tab.cms_page_id || utils.localLink(tab) ?
               utils.getLocalLink(tab) : null)"
@@ -56,7 +56,7 @@
       variant="text"
       :dark="dark"
       class="nav-btn px-3"
-      :class="{ 'active-btn-light' : btnActive && lightHeader && !noActive}"
+      :class="{ 'active-btn-light' : btnActive && lightHeader && !noActive, 'v-btn--active' : btnActive && !lightHeader && !noActive}"
       :href="(link.cms_page_id === null && !utils.localLink(link) ? link.link : null)"
       :to="(link.cms_page_id || utils.localLink(link) ? utils.getLocalLink(link) : null)"
     >
@@ -97,6 +97,7 @@ export default {
       return this.$store.getters.theme && this.$store.getters.theme.light_header;
     },
     btnActive() {
+      // SAME AS IN ListItemLink.vue
       if (this.link.link === '/shop') {
         return this.$route.path === '/shop';
       } else {
@@ -105,6 +106,9 @@ export default {
     }
   },
 };
+</script>
+
+<script setup lang="ts">
 </script>
 
 <style scoped>
@@ -116,6 +120,3 @@ export default {
   opacity: 0;
 }
 </style>
-
-<script setup lang="ts">
-</script>
