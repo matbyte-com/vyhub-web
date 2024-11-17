@@ -116,7 +116,7 @@
           </div>
         </div>
         <div v-else>
-          <v-row>
+          <v-row class="mt-3">
             <v-col
               cols="12"
               sm="6"

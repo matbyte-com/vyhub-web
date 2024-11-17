@@ -168,208 +168,219 @@
   </v-app>
 </template>
 
-<script>
+<script setup>
 import emitter from '@/services/EventBus';
 import AuthService from '@/services/AuthService';
 import SessionService from '@/services/SessionService';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
-import { register } from 'swiper/element';
+import {register} from 'swiper/element';
 import UserService from '@/services/UserService';
 import 'ckeditor5/ckeditor5.css';
+import {computed, onBeforeMount, ref} from "vue";
+import {useStore} from "vuex";
+import {useTheme} from "vuetify";
+import {notify} from "@kyvg/vue3-notification";
+import { useUtils} from "@/services/useUtils";
+
+
 
 register(); // register Swiper
 
-export default {
-  name: 'App',
-  data: () => ({
-    background: '#FAFAFA',
-    backgroundImage: null,
-    firstSteps: false,
-    welcomeAnimation: false,
-  }),
-  computed: {
-    backgroundColor() {
-      if (this.backgroundImage && (this.$store.getters.generalConfig && !this.$store.getters.generalConfig.shop_only)) {
-        return `background: url(${this.backgroundImage}) no-repeat center fixed !important; background-size: cover;`;
-      }
-      return `background-color: ${this.background}`;
-    },
-    showLegalReminder() {
-      const { user } = this.$store.getters;
-      const general = this.$store.getters.generalConfig;
-      if (user && general) {
-        if (user.admin && !general.legal_exists) {
-          return true;
-        }
-      }
-      return false;
-    },
-    showCustomerJourney() {
-      const { user } = this.$store.getters;
-      const general = this.$store.getters.generalConfig;
-      if (user && general) {
-        if (user.admin && general.enable_customer_journey) {
-          return true;
-        }
-      }
-      return false;
-    },
-    welcomeOverlay() {
-      if (this.showCustomerJourney && !this.$store.getters.hideWelcomeOverlay) {
-        return true;
-      }
-      return false;
-    },
-  },
-  created() {
-    this.setThemeFromCache();
-    this.setApiInterceptor();
-  },
-  beforeMount() {
-    AuthService.setAuthTokens();
-    AuthService.setProperties();
-    SessionService.registerSessionService();
-    this.setTheme();
-    this.getGeneralConfig();
-    this.getShopConfig();
-    this.setLocale();
-    this.background = this.$vuetify.theme.current.colors.background;
-    // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
-    // and /Components/SettingComponents/General
-    emitter.on('themeUpdated', this.fetchData);
-  },
-  methods: {
-    async fetchData() {
-      await this.setTheme();
-      await this.getGeneralConfig();
-      await UserService.setUserMemberships();
-    },
-    async getGeneralConfig() {
-      this.utils.getGeneralConfig().then(() => {
-        this.utils.enableGTag();
-        this.setLocale();
-      });
-    },
-    async getShopConfig() {
-      await this.utils.getShopConfig();
-    },
-    async setTheme() {
-      (await openapi).general_getTheme().then((rsp) => {
-        const cachedTheme = {};
-        try {
-          const theme = rsp.data;
-          if (theme.image) {
-            this.backgroundImage = theme.image;
-          } else {
-            this.backgroundImage = null;
-          }
-          if (theme.background) {
-            this.background = theme.background;
-          }
-          if (theme.dark === true) {
-            this.$vuetify.theme.themes.light.dark = true;
-          } else {
-            this.$vuetify.theme.themes.light.dark = false;
-          }
-          cachedTheme.light_header = theme.light_header;
-          cachedTheme.header_container = theme.header_container;
-          // set colors, logo and more
-          const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
-          colorsToUpdate.forEach((color) => {
-            if (theme[color]) {
-              this.$vuetify.theme.themes.light.colors[color] = theme[color];
-            }
-          });
-          this.createStyleTag(theme.custom_css);
+const background = ref('#FAFAFA');
+const backgroundImage = ref(null);
+const firstSteps = ref(false);
+const welcomeAnimation = ref(false);
+const store = useStore();
+const theme = useTheme();
+const utils = useUtils();
 
-          // Cache theme and save it to VueX
-          Object.assign(cachedTheme, theme);
-          this.$store.commit('SET_THEME', cachedTheme);
+onBeforeMount(() => {
+  setThemeFromCache();
+  setApiInterceptor();
+  AuthService.setAuthTokens();
+  AuthService.setProperties();
+  SessionService.registerSessionService();
+  setTheme();
+  getGeneralConfig();
+  getShopConfig();
+  setLocale();
+  background.value = theme.global.current.value.colors.background;
+  // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
+  // and /Components/SettingComponents/General
+  emitter.on('themeUpdated', fetchData);
+})
 
-          emitter.emit('themeUpdatedAfter');
-        } catch (e) {
-          this.$vuetify.theme.themes.light.colors.primary = '#3f51b5';
-          console.log('Error While Setting Theme');
-          throw e;
+const backgroundColor = computed(() => {
+  if (backgroundImage.value && (store.state.generalConfig && !store.state.generalConfig.shop_only)) {
+    return `background: url(${backgroundImage.value}) no-repeat center fixed !important; background-size: cover;`;
+  }
+  return `background-color: ${background.value}`;
+})
+const showLegalReminder = computed(() => {
+  const {user} = store.state;
+  const general = store.state.generalConfig;
+  if (user && general) {
+    if (user.admin && !general.legal_exists) {
+      return true;
+    }
+  }
+  return false;
+})
+const showCustomerJourney = computed(() => {
+  const {user} = store.state;
+  const general = store.state.generalConfig;
+  if (user && general) {
+    if (user.admin && general.enable_customer_journey) {
+      return true;
+    }
+  }
+  return false;
+})
+const welcomeOverlay = computed(() => {
+  if (showCustomerJourney.value && !store.state.hideWelcomeOverlay) {
+    return true;
+  }
+  return false;
+})
+
+async function fetchData() {
+  await setTheme();
+  await getGeneralConfig();
+  await UserService.setUserMemberships();
+}
+
+async function getGeneralConfig() {
+  await utils.data().utils.getGeneralConfig();
+  utils.data().utils.enableGTag();
+  setLocale();
+}
+
+async function getShopConfig() {
+  await utils.data().utils.getShopConfig();
+}
+
+async function setTheme() {
+  (await openapi).general_getTheme().then((response) => {
+    const cachedTheme = {};
+    try {
+      const rsp = response.data;
+      console.log(rsp);
+      if (rsp.image) {
+        backgroundImage.value = rsp.image;
+      } else {
+        backgroundImage.value = null;
+      }
+      if (rsp.background) {
+        background.value = rsp.background;
+      }
+      if (rsp.dark === true) {
+        theme.global.name.value = 'dark';
+      } else {
+        theme.global.name.value = 'value';
+      }
+      cachedTheme.light_header = rsp.light_header;
+      cachedTheme.header_container = rsp.header_container;
+      // set colors, logo and more
+      const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
+      colorsToUpdate.forEach((color) => {
+        if (rsp[color]) {
+          theme.global.current.value.colors[color] = theme[color];
+          // this.$vuetify.theme.themes.light.colors[color] = theme[color];
+          // this.$vuetify.theme.themes.dark.colors[color] = theme[color];
         }
       });
-    },
-    setThemeFromCache() {
-      if (this.$store.getters.theme) {
-        const obj = this.$store.getters.theme;
-        this.backgroundImage = obj.image;
-        this.background = obj.background;
-        if (obj.dark === true) {
-          this.$vuetify.theme.themes.light.dark = true;
-        } else {
-          this.$vuetify.theme.themes.light.dark = false;
-        }
-        this.createStyleTag(obj.custom_css);
-        const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
-        colorsToUpdate.forEach((color) => {
-          if (obj[color]) {
-            this.$vuetify.theme.themes.light.colors[color] = obj[color];
-          }
-        });
-        this.customCss = obj.custom_css;
-      }
-    },
-    setLocale() {
-      if (this.$store.getters.generalConfig) {
-        i18n.global.locale = this.$store.getters.generalConfig.language;
-      }
-    },
-    async setApiInterceptor() {
-      const last_errors = {};
-      const client = await openapi;
-      client.interceptors.response.use((response) => response,
-        (err) => {
-          // Do not display error when same error was displayed within the last 3 seconds
-          if (err.response.status in last_errors
-            && Date.now() - last_errors[err.response.status] < 3000) {
-            last_errors[err.response.status] = Date.now();
-            return Promise.reject(err);
-          }
-          last_errors[err.response.status] = Date.now();
+      createStyleTag(rsp.custom_css);
 
-          const notificationObject = this.utils.formatErrorMessage(err);
-          this.$notify({
-            title: notificationObject.title,
-            text: notificationObject.text,
-            type: notificationObject.type,
-          });
-          return Promise.reject(err);
-        });
-    },
-    closeOverlay() {
-      this.welcomeAnimation = true;
-      setTimeout(() => {
-        this.$store.dispatch('setHideWelcomeOverlay', { hideWelcomeOverlay: true });
-        this.firstSteps = true;
-      }, 350);
-    },
-    createStyleTag(css) {
-      const style = document.createElement('style');
-      style.innerText = css;
-      document.head.appendChild(style);
-    },
-  },
-};
+      // Cache theme and save it to VueX
+      Object.assign(cachedTheme, rsp);
+      store.commit('SET_THEME', cachedTheme);
+
+      emitter.emit('themeUpdatedAfter');
+    } catch (e) {
+      theme.global.current.value.colors.primary = '#3f51b5';
+      console.log('Error While Setting Theme');
+      throw e;
+    }
+  });
+}
+
+function closeOverlay() {
+  welcomeAnimation.value = true;
+  setTimeout(() => {
+    store.dispatch('setHideWelcomeOverlay', {hideWelcomeOverlay: true});
+    firstSteps.value = true;
+  }, 350);
+}
+
+function createStyleTag(css) {
+  const style = document.createElement('style');
+  style.innerText = css;
+  document.head.appendChild(style);
+}
+
+function setLocale() {
+  if (store.state.generalConfig) {
+    i18n.global.locale = store.state.generalConfig.language;
+  }
+}
+
+function setThemeFromCache() {
+  if (store.state.theme) {
+    const obj = store.state.theme;
+    backgroundImage.value = obj.image;
+    background.value = obj.background;
+    if (obj.dark === true) {
+      theme.global.name.value = 'dark';
+    } else {
+      theme.global.name.value = 'light';
+    }
+    createStyleTag(obj.custom_css);
+    const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
+    colorsToUpdate.forEach((color) => {
+      if (obj[color]) {
+        theme.global.current.value.colors[color] = theme[color];
+        // this.$vuetify.theme.themes.light.colors[color] = obj[color];
+        // this.$vuetify.theme.themes.dark.colors[color] = obj[color];
+      }
+    });
+  }
+}
+
+async function setApiInterceptor() {
+  const last_errors = {};
+  const client = await openapi;
+  client.interceptors.response.use((response) => response,
+    (err) => {
+      // Do not display error when same error was displayed within the last 3 seconds
+      if (err.response.status in last_errors
+        && Date.now() - last_errors[err.response.status] < 3000) {
+        last_errors[err.response.status] = Date.now();
+        return Promise.reject(err);
+      }
+      last_errors[err.response.status] = Date.now();
+
+      const notificationObject = utils.formatErrorMessage(err);
+      notify({
+        title: notificationObject.title,
+        text: notificationObject.text,
+        type: notificationObject.type,
+      });
+      return Promise.reject(err);
+    });
+}
 </script>
 
 <style lang="sass">
-@import "assets/css/light.sass"
-@import 'assets/css/quill.snow.css' // Needed for legacy Vue 2 Editor
-
-.v-main1
-  min-height: calc(100vh - 64px - 92px) !important
+// @import "assets/css/light.sass"
+@import 'assets/css/quill.snow.css'
+// Needed for legacy Vue 2 Editor
 
 .v-main
   min-height: calc(100vh - 108px)
 
-.theme--dark
-  @import "assets/css/dark.sass"
+// .v-theme--dark
+//  @import "assets/css/dark.sass"
 
 .img-fluid
   max-width: 100%

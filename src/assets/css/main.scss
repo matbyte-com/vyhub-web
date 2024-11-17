@@ -203,3 +203,7 @@ a:hover::before {
 .vjsf-text-field-menu .v-overlay__content {
   min-width: unset !important;
 }
+
+.v-card.transparent {
+  background-color: transparent !important
+}
