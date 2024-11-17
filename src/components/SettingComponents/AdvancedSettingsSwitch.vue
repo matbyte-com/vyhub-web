@@ -1,5 +1,8 @@
 <template>
-  <v-card variant="flat">
+  <v-card
+    variant="flat"
+    color="surface-bright"
+  >
     <div class="d-flex align-center justify-center">
       <span>
         {{ $t('_settings.advancedSettings') }}
@@ -20,7 +23,6 @@ import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 
 export default {
-  name: 'AdvancedSettingsSwitch',
   data() {
     return {
       model: false,

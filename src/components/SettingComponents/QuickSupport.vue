@@ -28,7 +28,10 @@
             >
               <div>
                 <v-card-title class="d-flex">
-                  <v-icon start>
+                  <v-icon
+                    start
+                    :class="{ 'custom-icon-white': $vuetify.theme.current.dark === true }"
+                  >
                     {{ m.icon }}
                   </v-icon>
                   {{ m.title }}
@@ -125,6 +128,9 @@ export default {
       ],
     };
   },
+  computed: {
+
+  },
   methods: {
     async sendSupportRequest() {
       let data;
@@ -156,7 +162,7 @@ export default {
         this.supportMessage = null;
       });
     },
-  },
+  }
 };
 </script>
 
@@ -168,6 +174,6 @@ export default {
 }
 
 .support-card:hover {
-  background-color: #eceff1 !important;
+  background-color: rgb(var(--v-theme-surface-light));
 }
 </style>
