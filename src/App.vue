@@ -177,7 +177,7 @@ import i18n from '@/plugins/i18n';
 import {register} from 'swiper/element';
 import UserService from '@/services/UserService';
 import 'ckeditor5/ckeditor5.css';
-import {computed, onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import {useTheme} from "vuetify";
 import {notify} from "@kyvg/vue3-notification";
@@ -195,7 +195,7 @@ const store = useStore();
 const theme = useTheme();
 const utils = useUtils();
 
-onBeforeMount(() => {
+onMounted(() => {
   setThemeFromCache();
   setApiInterceptor();
   AuthService.setAuthTokens();
@@ -205,7 +205,7 @@ onBeforeMount(() => {
   getGeneralConfig();
   getShopConfig();
   setLocale();
-  background.value = theme.global.current.value.colors.background;
+  // background.value = theme.global.current.value.colors.background;
   // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
   // and /Components/SettingComponents/General
   emitter.on('themeUpdated', fetchData);
@@ -265,31 +265,23 @@ async function setTheme() {
     const cachedTheme = {};
     try {
       const rsp = response.data;
-      console.log(rsp);
-      if (rsp.image) {
-        backgroundImage.value = rsp.image;
-      } else {
-        backgroundImage.value = null;
-      }
-      if (rsp.background) {
-        background.value = rsp.background;
-      }
-      if (rsp.dark === true) {
-        theme.global.name.value = 'dark';
-      } else {
-        theme.global.name.value = 'value';
-      }
+      backgroundImage.value = rsp.image || null;
+      background.value = rsp.background || '#FAFAFA';
+
+      theme.global.name.value = rsp.dark ? 'dark' : 'light';
+
       cachedTheme.light_header = rsp.light_header;
       cachedTheme.header_container = rsp.header_container;
+
       // set colors, logo and more
       const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
       colorsToUpdate.forEach((color) => {
         if (rsp[color]) {
-          theme.global.current.value.colors[color] = theme[color];
-          // this.$vuetify.theme.themes.light.colors[color] = theme[color];
-          // this.$vuetify.theme.themes.dark.colors[color] = theme[color];
+          theme.themes.value.light.colors[color] = rsp[color];
+          theme.themes.value.dark.colors[color] = rsp[color];
         }
       });
+
       createStyleTag(rsp.custom_css);
 
       // Cache theme and save it to VueX
@@ -298,7 +290,8 @@ async function setTheme() {
 
       emitter.emit('themeUpdatedAfter');
     } catch (e) {
-      theme.global.current.value.colors.primary = '#3f51b5';
+      theme.themes.value.light.colors.primary = '#3f51b5';
+      theme.themes.value.dark.colors.primary = '#3f51b5';
       console.log('Error While Setting Theme');
       throw e;
     }
@@ -326,22 +319,20 @@ function setLocale() {
 }
 
 function setThemeFromCache() {
-  if (store.state.theme) {
-    const obj = store.state.theme;
-    backgroundImage.value = obj.image;
-    background.value = obj.background;
-    if (obj.dark === true) {
-      theme.global.name.value = 'dark';
-    } else {
-      theme.global.name.value = 'light';
-    }
-    createStyleTag(obj.custom_css);
+  const cachedTheme = store.state.theme;
+  if (cachedTheme) {
+    backgroundImage.value = cachedTheme.image;
+    background.value = cachedTheme.background;
+
+    // Set theme mode
+    theme.global.name.value = cachedTheme.dark ? 'dark' : 'light';
+    createStyleTag(cachedTheme.custom_css);
+
     const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
     colorsToUpdate.forEach((color) => {
-      if (obj[color]) {
-        theme.global.current.value.colors[color] = theme[color];
-        // this.$vuetify.theme.themes.light.colors[color] = obj[color];
-        // this.$vuetify.theme.themes.dark.colors[color] = obj[color];
+      if (cachedTheme[color]) {
+        theme.themes.value.light.colors[color] = cachedTheme[color];
+        theme.themes.value.dark.colors[color] = cachedTheme[color];
       }
     });
   }
