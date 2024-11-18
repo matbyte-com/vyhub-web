@@ -62,7 +62,7 @@
         <div
           v-if="$vuetify.display.lgAndUp"
           style="overflow-x: auto; min-width: 50%"
-          class="d-flex top-scrollbar ml-3 flex-grow-1"
+          class="top-scrollbar d-flex ml-3 flex-grow-1"
         >
           <NavigationLink
             v-for="(link, index) in allowedLinks"
@@ -240,11 +240,4 @@ export default {
 </script>
 
 <style scoped>
-/* TODO maybe put scrollbar back to the top! */
-/*div.top-scrollbar {
-  transform: rotateX(180deg);
-}
-div.top-scrollbar * {
-  transform: rotateX(180deg);
-}*/
 </style>

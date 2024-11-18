@@ -81,7 +81,6 @@
 </template>
 
 <script>
-// TODO CHECK WHETHER THIS IS WORKING
 export default {
   props: ['imageCardUrl', 'whiteText'],
 };

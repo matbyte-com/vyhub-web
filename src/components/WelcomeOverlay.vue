@@ -65,6 +65,12 @@ const open = ref(true);
             </template>
             <template #item.2>
               <div class="pa-1">
+                <v-alert
+                  type="info"
+                  class="mb-3"
+                >
+                  You can change the theme later in the settings
+                </v-alert>
                 <ThemePicker
                   :no-download="true"
                 />

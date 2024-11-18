@@ -528,12 +528,6 @@
                     :prepend-avatar="user.avatar"
                     :to="{ name: 'UserDashboard', params: { id: user.id } }"
                   >
-                    <!-- TODO was before with the avatar - now using avatar prepend
-                    <v-list-item-avatar class="mr-2">
-                      <v-avatar size="30">
-                        <v-img :src="user.avatar" />
-                      </v-avatar>
-                    </v-list-item-avatar>-->
                     <v-list-item-title>{{ user.username }}</v-list-item-title>
                   </v-list-item>
                   <v-divider

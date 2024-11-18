@@ -104,7 +104,6 @@
 
 <script>
 // TODO Mach mal Hübsch..
-// TODO Check whether this is still working
 import openapiCached from '@/api/openapiCached';
 
 export default {

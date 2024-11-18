@@ -114,6 +114,7 @@ export default {
 <style scoped>
 .active-btn-light {
   background-color: rgb(var(--v-theme-primary-lighten-1));
+  color: white;
 }
 
 .active-btn-light :deep(.v-btn__overlay) {

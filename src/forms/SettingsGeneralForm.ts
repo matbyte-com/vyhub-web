@@ -38,13 +38,11 @@ function form(forum_enabled = false) {
           comp: 'switch',
         }
       },
-      // TODO Why do the following switches have the attribute cols: 7? Seems to be doing nothing
       enable_ticket: {
         type: 'boolean',
         title: i18n.global.t('_settings.showTicket'),
         layout: {
           comp: 'switch',
-          cols: 7,
         },
         default: false,
       },
@@ -55,7 +53,6 @@ function form(forum_enabled = false) {
         default: false,
         layout: {
           comp: 'switch',
-          cols: 7,
         },
       },
       enable_team: {
@@ -64,7 +61,6 @@ function form(forum_enabled = false) {
         default: false,
         layout: {
           comp: 'switch',
-          cols: 7,
         },
       },
       enable_faq: {
@@ -73,7 +69,6 @@ function form(forum_enabled = false) {
         default: false,
         layout: {
           comp: 'switch',
-          cols: 7,
         },
       },
       language: {
