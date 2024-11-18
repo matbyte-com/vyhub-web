@@ -134,7 +134,6 @@ import UtilService from '@/services/UtilService';
 export default {
   data() {
     return {
-      links: [],
       imgSrc: null,
       communityName: null,
       logo_width: 50,
@@ -149,6 +148,9 @@ export default {
     allowedHelpCircleLinks() {
       return this.links
         .filter((l) => l.enabled && l.location === 'HELP' && (!l.req_prop || this.$checkProp(l.req_prop)));
+    },
+    links() {
+      return this.$store.getters.navItems;
     },
   },
   watch: {
@@ -174,8 +176,6 @@ export default {
     },
   },
   mounted() {
-    console.log('Mounted');
-    this.getNavItems();
     this.getLogo();
     // Event Emitted in Components/Settings/Navigation.vue
     EventBus.on('navUpdated', this.getNavItems);
@@ -208,14 +208,6 @@ export default {
     },
     refreshUser() {
       AuthService.refreshUser();
-    },
-    async getNavItems() {
-      const api = await openapi;
-
-      api.navigation_getNavigationLinks().then((rsp) => {
-        this.$store.commit('SET_NAV_ITEMS', rsp.data);
-        this.links = rsp.data;
-      }).catch((err) => console.log(`Could not query nav ${err}`));
     },
     getNavItemsFromCache() {
       if (this.$store.getters.navItems) this.links = this.$store.getters.navItems;

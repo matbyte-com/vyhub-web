@@ -43,68 +43,15 @@
 
     <TheFooter v-if="$route.path !== '/'" />
 
+    <!--       v-if="welcomeOverlay" -->
     <!-- Welcome Overlay -->
-    <v-overlay
-      v-if="welcomeOverlay"
-      light
-    >
-      <div
-        class="d-flex align-center justify-center"
-        style="width: 100vw; height: 100vh; position: relative"
-      >
-        <v-card
-          light
-          class="getStartedCard"
-          :class="{ 'get-started-animation': welcomeAnimation }"
-        >
-          <v-card-text
-            style="background-color: #FFFFFF"
-            class="text-center"
-          >
-            <video
-              loop
-              autoplay
-              muted
-              width="200px"
-            >
-              <source
-                src="https://cdn.vyhub.net/central/welcome-img/server-animated.mp4"
-                type="video/mp4"
-              >
-              <img
-                src="https://cdn.vyhub.net/central/welcome-img/server-fallback.png"
-                alt="Fallback Server img"
-              >
-            </video>
-            <div>
-              Welcome to your new VyHub instance! <br>
-              Follow the tutorial in the bottom right to get started. <br>
-            </div>
-            <v-btn
-              class="mt-5"
-              size="x-large"
-              color="success"
-              @click="closeOverlay()"
-            >
-              Get Started
-              <v-icon size="large">
-                mdi-chevron-right
-              </v-icon>
-            </v-btn>
-          </v-card-text>
-        </v-card>
-        <v-img
-          class="arrowBottomRight animate__animated animate__pulse animate__infinite
-         animate__delay-2s"
-          max-width="100px"
-          max-height="100px"
-          src="https://cdn.vyhub.net/central/welcome-img/arrow-right.png"
-        />
-      </div>
-    </v-overlay>
+    <WelcomeOverlay
+      :welcome-overlay="welcomeOverlay"
+      :welcome-animation="welcomeAnimation"
+      @close-overlay="closeOverlay"
+    />
 
     <!-- floating first steps button -->
-
     <v-fade-transition v-if="showCustomerJourney">
       <v-menu
         v-model="firstSteps"
@@ -177,7 +124,7 @@ import i18n from '@/plugins/i18n';
 import {register} from 'swiper/element';
 import UserService from '@/services/UserService';
 import 'ckeditor5/ckeditor5.css';
-import {computed, onBeforeMount, onMounted, ref} from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import {useStore} from "vuex";
 import {useTheme} from "vuetify";
 import {notify} from "@kyvg/vue3-notification";
@@ -195,12 +142,13 @@ const store = useStore();
 const theme = useTheme();
 const utils = useUtils();
 
-onMounted(() => {
+onBeforeMount(() => {
   setThemeFromCache();
   setApiInterceptor();
   AuthService.setAuthTokens();
   AuthService.setProperties();
   SessionService.registerSessionService();
+  getNavItems();
   setTheme();
   getGeneralConfig();
   getShopConfig();
@@ -338,6 +286,15 @@ function setThemeFromCache() {
   }
 }
 
+async function getNavItems() {
+  const api = await openapi;
+
+  api.navigation_getNavigationLinks().then((rsp) => {
+    store.commit('SET_NAV_ITEMS', rsp.data);
+  }).catch((err) => console.log(`Could not query nav ${err}`));
+}
+
+
 async function setApiInterceptor() {
   const last_errors = {};
   const client = await openapi;
@@ -364,33 +321,13 @@ async function setApiInterceptor() {
 
 <style lang="sass">
 // @import "assets/css/light.sass"
-@import 'assets/css/quill.snow.css'
-// Needed for legacy Vue 2 Editor
+@import 'assets/css/quill.snow.css' // Needed for legacy Vue 2 Editor
 
 .v-main
   min-height: calc(100vh - 108px)
 
 // .v-theme--dark
 //  @import "assets/css/dark.sass"
-
-.img-fluid
-  max-width: 100%
-  height: auto
-
-@keyframes closeAnimation
-  0%
-    background-color: #FFFFFF
-  100%
-    scale: 30%
-    opacity: 10%
-
-.get-started-animation
-  animation: closeAnimation 0.5s ease-in-out
-
-.getStartedCard
-  position: absolute
-  top: 30%
-  left: 40%
 
 .arrowBottomRight
   position: absolute

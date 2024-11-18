@@ -207,3 +207,7 @@ a:hover::before {
 .v-card.transparent {
   background-color: transparent !important
 }
+
+.v-theme--dark .v-icon {
+  fill: #FFFFFF;
+}

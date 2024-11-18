@@ -30,7 +30,6 @@
                 <v-card-title class="d-flex">
                   <v-icon
                     start
-                    :class="{ 'custom-icon-white': $vuetify.theme.current.dark === true }"
                   >
                     {{ m.icon }}
                   </v-icon>
