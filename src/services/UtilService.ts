@@ -152,10 +152,16 @@ export default {
             errDet = err.response.data.detail;
           }
 
-          if (err.response.status === 401) {
+          if (err.response && err.response.status === 401) {
             errDet = {
               code: 'unauthorized',
               msg: '',
+              detail: {},
+            };
+          } else if (err.response && err.response.status === 422) {
+            errDet = {
+              code: 'validation_error',
+              msg: err.response.data.detail[0].msg,
               detail: {},
             };
           }

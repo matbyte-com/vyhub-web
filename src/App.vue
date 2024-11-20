@@ -140,7 +140,7 @@ const firstSteps = ref(false);
 const welcomeAnimation = ref(false);
 const store = useStore();
 const theme = useTheme();
-const utils = useUtils();
+const utils = useUtils().data().utils;
 
 onBeforeMount(() => {
   setThemeFromCache();
@@ -199,13 +199,13 @@ async function fetchData() {
 }
 
 async function getGeneralConfig() {
-  await utils.data().utils.getGeneralConfig();
-  utils.data().utils.enableGTag();
+  await utils.getGeneralConfig();
+  utils.enableGTag();
   setLocale();
 }
 
 async function getShopConfig() {
-  await utils.data().utils.getShopConfig();
+  await utils.getShopConfig();
 }
 
 async function setTheme() {
@@ -300,13 +300,15 @@ async function setApiInterceptor() {
   const client = await openapi;
   client.interceptors.response.use((response) => response,
     (err) => {
-      // Do not display error when same error was displayed within the last 3 seconds
-      if (err.response.status in last_errors
-        && Date.now() - last_errors[err.response.status] < 3000) {
+      if (err.response) {
+        // Do not display error when same error was displayed within the last 3 seconds
+        if (err.response.status in last_errors
+          && Date.now() - last_errors[err.response.status] < 3000) {
+          last_errors[err.response.status] = Date.now();
+          return Promise.reject(err);
+        }
         last_errors[err.response.status] = Date.now();
-        return Promise.reject(err);
       }
-      last_errors[err.response.status] = Date.now();
 
       const notificationObject = utils.formatErrorMessage(err);
       notify({
