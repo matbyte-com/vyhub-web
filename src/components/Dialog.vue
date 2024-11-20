@@ -2,6 +2,7 @@
   <v-dialog
     v-bind="$attrs"
     v-model="open"
+    :class="{ 'ma-3' : !$vuetify.display.xs }"
     scrollable
     :max-width="maxWidth"
     :fullscreen="$vuetify.display.xs"

@@ -39,6 +39,7 @@
       ref="dialog"
       title="Predefined Templates"
       icon="mdi-brush-variant"
+      max-width="80%"
     >
       <ThemePicker />
     </Dialog>

@@ -3,6 +3,7 @@ import themes from '@/assets/predefinedThemes/index';
 import EventBus from "@/services/EventBus";
 import openapi from "@/api/openapi";
 import {useStore} from "vuex";
+import {notify} from "@kyvg/vue3-notification";
 
 const props = defineProps(['noDownload']);
 const store = useStore();
@@ -54,11 +55,39 @@ function filterValues(obj) {
   return obj;
 }
 
-async function uploadTheme() {
+async function uploadTheme(event) {
+  const file = event.target.files[0];
+  let data = null;
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        data = JSON.parse(e.target.result);
+        console.log("Uploaded file content:", data);
+        data = filterValues(data);
+        setTheme(data);
+      } catch (error) {
+        console.error("Invalid JSON file!", error);
+        notify({
+          title: 'Invalid JSON file!',
+          text: error,
+          type: 'error'
+        });
+      }
+    };
+    reader.readAsText(file);
   }
+}
 </script>
 
 <template>
+  <input
+    ref="fileInput"
+    type="file"
+    accept=".json"
+    style="display: none"
+    @change="uploadTheme"
+  >
   <div class="d-flex align-center">
     <v-divider />
     <div class="text-no-wrap mx-3 text-h6">
@@ -120,6 +149,7 @@ async function uploadTheme() {
   </div>
   <v-row>
     <v-col
+      v-if="!noDownload"
       cols="4"
     >
       <v-card
@@ -144,7 +174,7 @@ async function uploadTheme() {
       cols="4"
     >
       <v-card
-        @click="uploadTheme()"
+        @click="$refs.fileInput.click()"
       >
         <v-sheet
           height="100px"
