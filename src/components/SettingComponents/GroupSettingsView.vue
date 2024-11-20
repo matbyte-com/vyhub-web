@@ -283,7 +283,10 @@ export default {
         data.properties = this.formatProperties(data);
         data.negative_properties = this.formatNegativeProperties(data);
         delete data.advanced_properties;
-        data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
+
+        if (data.max_ban_length != null) {
+          data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
+        }
       } else {
         data = copy;
       }
@@ -360,7 +363,9 @@ export default {
       data.properties = this.formatProperties(data);
       data.negative_properties = this.formatNegativeProperties(data);
       // delete data.advanced_properties;
-      data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
+      if (data.max_ban_length != null) {
+        data.max_ban_length = data.max_ban_length * 60 * 60 * 24;
+      }
 
       (await openapi).group_editGroup(group.id, data)
         .then(() => {
