@@ -88,7 +88,7 @@ async function uploadTheme(event) {
     style="display: none"
     @change="uploadTheme"
   >
-  <div class="d-flex align-center">
+  <div class="d-flex align-center mt-2 mb-2">
     <v-divider />
     <div class="text-no-wrap mx-3 text-h6">
       Shop Only
@@ -100,9 +100,13 @@ async function uploadTheme(event) {
       <v-col
         v-for="theme in shopOnlyThemes"
         :key="theme.name"
-        cols="4"
+        cols="12"
+        lg="3"
+        md="4"
+        sm="6"
       >
         <v-card
+          class="fill-height"
           @click="setTheme(theme)"
         >
           <v-img :src="theme.preview_img" />
@@ -116,7 +120,7 @@ async function uploadTheme(event) {
   </div>
   <div class="d-flex align-center">
     <v-divider />
-    <div class="text-no-wrap mx-3 text-h6">
+    <div class="text-no-wrap mx-3 text-h6 mt-6 mb-2">
       Full Management System
     </div>
     <v-divider />
@@ -126,9 +130,13 @@ async function uploadTheme(event) {
       <v-col
         v-for="theme in fullManagementThemes"
         :key="theme.name"
-        cols="4"
+        cols="12"
+        lg="3"
+        md="4"
+        sm="6"
       >
         <v-card
+          class="fill-height"
           @click="setTheme(theme)"
         >
           <v-img :src="theme.preview_img" />
@@ -140,7 +148,7 @@ async function uploadTheme(event) {
       </v-col>
     </v-row>
   </div>
-  <div class="d-flex align-center">
+  <div class="d-flex align-center mt-6 mb-2">
     <v-divider />
     <div class="text-no-wrap mx-3 text-h6">
       Custom
@@ -150,9 +158,13 @@ async function uploadTheme(event) {
   <v-row>
     <v-col
       v-if="!noDownload"
-      cols="4"
+      cols="12"
+      lg="3"
+      md="4"
+      sm="6"
     >
       <v-card
+        class="fill-height"
         @click="downloadTheme()"
       >
         <v-sheet
@@ -171,9 +183,13 @@ async function uploadTheme(event) {
       </v-card>
     </v-col>
     <v-col
-      cols="4"
+      cols="12"
+      lg="3"
+      md="4"
+      sm="6"
     >
       <v-card
+        class="fill-height"
         @click="$refs.fileInput.click()"
       >
         <v-sheet

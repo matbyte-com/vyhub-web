@@ -278,7 +278,7 @@ export default {
           ]
         },
         // initialData: '',
-        language: currentLocale, // TODO make this dynamic fitting to i18n locale
+        language: currentLocale,
         link: {
           addTargetToExternalLinks: true,
           defaultProtocol: 'https://',
