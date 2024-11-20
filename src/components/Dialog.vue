@@ -29,7 +29,10 @@
       >
         <slot />
       </v-card-text>
-      <v-card-actions :class="actionClass">
+      <v-card-actions
+        v-if="$slots.actions"
+        :class="actionClass"
+      >
         <slot name="actions" />
       </v-card-actions>
     </v-card>
