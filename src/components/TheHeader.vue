@@ -8,7 +8,7 @@
         class="d-flex align-center flex-grow-1 mx-3 "
         style="width: 100%"
         :class="{ 'v-container' : $store.getters.theme && $store.getters.theme.header_container
-          && $vuetify.display.mdAndUp }"
+          && $vuetify.display.lgAndUp }"
       >
         <!-- burger menu on the left-->
         <div v-if="$vuetify.display.mdAndDown">
