@@ -72,24 +72,13 @@
 </template>
 
 <script>
-import GenForm from '@/components/GenForm.vue';
 import ShopGeneralForm from '@/forms/ShopGeneralForm';
 import openapi from '@/api/openapi';
-import Editor from '@/components/Editor.vue';
-import SettingTitle from './SettingTitle.vue';
 import BusinessAddressForm from '../../forms/BusinessAddressForm';
-import DialogForm from '../DialogForm.vue';
-import Address from '../Address.vue';
+
+// TODO News Editor not shown
 
 export default {
-  name: 'Shop',
-  components: {
-    Editor,
-    Address,
-    DialogForm,
-    SettingTitle,
-    GenForm,
-  },
   data() {
     return {
       formSchema: ShopGeneralForm,

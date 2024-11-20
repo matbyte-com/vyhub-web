@@ -5,6 +5,7 @@
         <slot />
       </h5>
       <v-spacer />
+      <slot name="header-right" />
       <v-tooltip
         v-if="docLink"
         location="left"

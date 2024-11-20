@@ -1,10 +1,23 @@
 <template>
   <div>
     <SettingTitle doc-path="/guide/customizability">
-      {{ $t('theme') }}
+      <template #default>
+        {{ $t('theme') }}
+      </template>
+      <template #header-right>
+        <v-btn
+          variant="outlined"
+          color="secondary"
+          prepend-icon="mdi-brush-variant"
+          @click="$refs.dialog.show()"
+        >
+          Predefined Templates
+        </v-btn>
+      </template>
     </SettingTitle>
     <v-row>
       <v-col
+        cols="12"
         lg="8"
         xl="6"
       >
@@ -22,6 +35,13 @@
         />
       </v-col>
     </v-row>
+    <Dialog
+      ref="dialog"
+      title="Predefined Templates"
+      icon="mdi-brush-variant"
+    >
+      <ThemePicker />
+    </Dialog>
   </div>
 </template>
 
