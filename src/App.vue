@@ -130,8 +130,6 @@ import {useTheme} from "vuetify";
 import {notify} from "@kyvg/vue3-notification";
 import { useUtils} from "@/services/useUtils";
 
-
-
 register(); // register Swiper
 
 const background = ref('#FAFAFA');
@@ -216,7 +214,14 @@ async function setTheme() {
       backgroundImage.value = rsp.image || null;
       background.value = rsp.background || '#FAFAFA';
 
-      theme.global.name.value = rsp.dark ? 'dark' : 'light';
+      if (rsp.dark) {
+        theme.global.name.value = 'dark';
+        import('./assets/css/dark.sass')
+      } else {
+        theme.global.name.value = 'light';
+        import('./assets/css/light.sass')
+      }
+
 
       cachedTheme.light_header = rsp.light_header;
       cachedTheme.header_container = rsp.header_container;
@@ -273,7 +278,13 @@ function setThemeFromCache() {
     background.value = cachedTheme.background;
 
     // Set theme mode
-    theme.global.name.value = cachedTheme.dark ? 'dark' : 'light';
+    if (cachedTheme.dark) {
+      theme.global.name.value = 'dark';
+      import('./assets/css/dark.sass')
+    } else {
+      theme.global.name.value = 'light';
+      import('./assets/css/light.sass')
+    }
     createStyleTag(cachedTheme.custom_css);
 
     const colorsToUpdate = ['primary', 'success', 'secondary', 'warning', 'error', 'header', 'footer'];
@@ -327,9 +338,6 @@ async function setApiInterceptor() {
 
 .v-main
   min-height: calc(100vh - 108px)
-
-// .v-theme--dark
-//  @import "assets/css/dark.sass"
 
 .arrowBottomRight
   position: absolute

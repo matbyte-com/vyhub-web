@@ -315,18 +315,19 @@ export default {
 </script>
 
 <style>
-.main-container {
+.ck-button {
+  border-radius: 3px !important;
 }
 
-.ck-content {
-  line-height: 1.6;
-  word-break: break-word;
+.ck-button-action {
+  background-color: rgb(var(--v-theme-primary)) !important;
 }
 
-.editor-container_classic-editor .editor-container__editor {
+.ck-dialog {
+  border-radius: 5px !important;
 }
 
 .ck-editor__editable_inline {
-  min-height: 350px;
+  min-height: 350px !important;
 }
 </style>
