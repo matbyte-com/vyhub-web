@@ -146,11 +146,14 @@ export default {
     this.$emit('mounted');
   },
   methods: {
-    validateAndRun() {
+    async validateAndRun() {
+      const valid = await (await this.$refs.form.validate()).valid;
       setTimeout(() => {
-        if (this.$refs.form.validate()) {
+        if (valid === true) {
+          console.log('Form is valid');
           this.$emit('submit');
         } else {
+          console.log('Form is not valid');
           this.$emit('notValid');
           this.loading = false;
         }
