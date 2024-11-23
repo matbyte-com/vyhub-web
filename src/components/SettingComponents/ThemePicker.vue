@@ -16,13 +16,13 @@ async function setTheme(theme) {
   const theme_config = theme.data.theme;
   const shop_config = theme.data.shop_settings;
   console.log(general_config, theme_config, shop_config);
-  (await openapi).general_editConfig(null, general_config).then(() => {
-  });
-  (await openapi).shop_editConfig(null, shop_config).then(() => {
-  });
-  (await openapi).general_editTheme(null, theme_config).then(() => {
-  });
-  EventBus.emit('themeUpdated');
+  Promise.all([
+    (await openapi).general_editConfig(null, general_config),
+    (await openapi).shop_editConfig(null, shop_config),
+    (await openapi).general_editTheme(null, theme_config)
+  ]).then(() => {
+    EventBus.emit('themeUpdated');
+  })
 }
 
 async function downloadTheme() {
@@ -38,7 +38,7 @@ async function downloadTheme() {
   // Filter
   res = filterValues(res);
   res = JSON.stringify(res, null, 2);
-  const blob = new Blob([res], { type: 'application/json' });
+  const blob = new Blob([res], {type: 'application/json'});
   const link = document.createElement('a');
   link.download = "vyhub-theme.json";
   link.href = URL.createObjectURL(blob);

@@ -128,7 +128,6 @@
 <script>
 import AuthService from '@/services/AuthService';
 import EventBus from '@/services/EventBus';
-import openapi from '@/api/openapi';
 import UtilService from '@/services/UtilService';
 
 export default {
@@ -178,10 +177,8 @@ export default {
   mounted() {
     this.getLogo();
     // Event Emitted in Components/Settings/Navigation.vue
-    EventBus.on('navUpdated', this.getNavItems);
     // Event Emitted in App.vue after Theme was updated
     EventBus.on('themeUpdatedAfter', this.getLogo);
-    EventBus.on('themeUpdated', this.getNavItems);
 
     if (this.$store.getters.isLoggedIn && this.$vuetify.display.xs) {
       this.linksRight.push({
@@ -190,13 +187,6 @@ export default {
         link: `${this.$route.path}?personal_settings=true`,
       });
     }
-  },
-  beforeUnmount() {
-    // Event Emitted in Components/Settings/Navigation.vue
-    EventBus.off('navUpdated', this.getNavItems);
-    // Event Emitted in App.vue after Theme was updated
-    EventBus.off('themeUpdatedAfter', this.getLogo);
-    EventBus.off('themeUpdated', this.getNavItems);
   },
   beforeMount() {
     this.getNavItemsFromCache();

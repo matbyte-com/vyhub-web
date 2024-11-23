@@ -155,6 +155,8 @@ onBeforeMount(() => {
   // watch global themeUpdated Event - emitted in /Components/SettingComponents/ThemeChanger
   // and /Components/SettingComponents/General
   emitter.on('themeUpdated', fetchData);
+  // Event Emitted in Components/Settings/Navigation.vue
+  emitter.on('navUpdated', getNavItems);
 })
 
 const backgroundColor = computed(() => {
@@ -193,6 +195,7 @@ const welcomeOverlay = computed(() => {
 async function fetchData() {
   await setTheme();
   await getGeneralConfig();
+  await getNavItems();
   await UserService.setUserMemberships();
 }
 
