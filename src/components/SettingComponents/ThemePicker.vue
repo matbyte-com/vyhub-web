@@ -21,6 +21,7 @@ async function setTheme(theme) {
     (await openapi).general_editTheme(null, theme_config)
   ]).then(() => {
     EventBus.emit('themeUpdated');
+    EventBus.emit('advancedSettingsUpdated');
   })
 
   // TODO Maybe also import the page builder content
