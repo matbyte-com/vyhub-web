@@ -38,7 +38,7 @@
                 height="90px"
                 width="40%"
                 max-width="150px"
-                class="card-rounded"
+                class=""
               >
                 <div
                   class="d-flex flex-column"

@@ -6,12 +6,11 @@ const minimalLightFull = {
   data: {
     general: {
       shop_only: false,
-      enable_landing_page: false,
+      enable_landingpage: false,
       enable_team: false,
       enable_ticket: false,
       enable_forum: false,
       enable_faq: false,
-      show_advanced_settings: false,
     },
     theme: {
       dark: false,
@@ -27,7 +26,9 @@ const minimalLightFull = {
       custom_css: 'body { background-color: #f0f0f0; }'
     },
     shop_settings: {
-      shop_message: 'Nice Message'
+      donation_goal_enabled: false,
+      top_donators_enabled: false,
+      last_donators_enabled: false,
     },
   }
 }

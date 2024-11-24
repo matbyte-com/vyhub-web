@@ -256,8 +256,6 @@
 import components from '@/components/BuilderComponents/components';
 import VJsf from '@koumoul/vjsf';
 import { v2compat } from "@koumoul/vjsf/compat/v2";
-// import '@koumoul/vjsf/dist/main.css';
-// import '@koumoul/vjsf/lib/deps/third-party';
 import i18n from '@/plugins/i18n';
 import axios from 'axios';
 import openapi from '@/api/openapi';

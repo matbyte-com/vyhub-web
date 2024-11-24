@@ -15,7 +15,6 @@ async function setTheme(theme) {
   const general_config = theme.data.general;
   const theme_config = theme.data.theme;
   const shop_config = theme.data.shop_settings;
-  console.log(general_config, theme_config, shop_config);
   Promise.all([
     (await openapi).general_editConfig(null, general_config),
     (await openapi).shop_editConfig(null, shop_config),
@@ -23,6 +22,8 @@ async function setTheme(theme) {
   ]).then(() => {
     EventBus.emit('themeUpdated');
   })
+
+  // TODO Maybe also import the page builder content
 }
 
 async function downloadTheme() {
@@ -34,6 +35,12 @@ async function downloadTheme() {
   res['data']['general'] = store.state.generalConfig;
   res['data']['theme'] = store.state.theme;
   res['data']['shop_settings'] = store.state.shopConfig;
+
+  // Download Homepage Content if enabled
+  if (store.state.generalConfig.enable_landingpage) {
+    const rsp = await (await openapi).design_getSections()
+    res['data']['page_builder'] = rsp.data;
+  }
 
   // Filter
   res = filterValues(res);
@@ -203,7 +210,7 @@ async function uploadTheme(event) {
         </v-sheet>
         <v-card-title>Upload</v-card-title>
         <v-card-text class="text-disabled">
-          You can upload any themes here
+          You can upload any theme here
         </v-card-text>
       </v-card>
     </v-col>

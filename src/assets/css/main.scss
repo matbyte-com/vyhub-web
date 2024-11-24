@@ -111,6 +111,10 @@
   height: 6px /* adjust as necessary */
 }
 
+a {
+    color: rgb(var(--v-theme-primary));
+}
+
 a:not([class]) {
   position: relative;
   color: rgb(var(--v-theme-primary));
