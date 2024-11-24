@@ -74,9 +74,6 @@
 <script>
 import VJsf from '@koumoul/vjsf';
 import { v2compat } from "@koumoul/vjsf/compat/v2";
-// import '@koumoul/vjsf/src/styles/vjsf.css'; // Maybe needed TODO
-// import '@koumoul/vjsf/dist/main.css';
-// import '@koumoul/vjsf/lib/deps/third-party';
 import i18n from '../plugins/i18n';
 import axios from "axios";
 
@@ -147,7 +144,9 @@ export default {
   },
   methods: {
     async validateAndRun() {
-      const valid = await (await this.$refs.form.validate()).valid;
+      const valid = (await this.$refs.form.validate()).valid;
+      console.log(await this.$refs.form.validate());
+
       setTimeout(() => {
         if (valid === true) {
           console.log('Form is valid');

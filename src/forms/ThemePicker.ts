@@ -9,9 +9,6 @@ const API_URL = config.backend_url;
 function returnForm() {
   const ret: any = {
     type: 'object',
-    required: [
-      'dark',
-    ],
     properties: {
       header: {
         ...common.colorPicker('_theme.headerColor', undefined, undefined, undefined, 4),
