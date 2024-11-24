@@ -15,7 +15,7 @@
         >
           <v-avatar
             start
-            class="rounded-lg"
+            :class="{ 'rounded-lg' : tile }"
           >
             <v-img
               :src="$store.getters.user.avatar"
