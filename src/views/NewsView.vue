@@ -6,7 +6,7 @@
       :form-schema="messageAddSchema"
       :title="$t('_home.addNews')"
       icon="mdi-newspaper-plus"
-      :max-width="1000"
+      :max-width="1100"
       @submit="addMessage"
     >
       <template #form-after>
@@ -18,7 +18,7 @@
       :form-schema="messageAddSchema"
       :title="$t('_home.editNews')"
       icon="mdi-newspaper"
-      :max-width="1000"
+      :max-width="1100"
       @submit="editMessage"
     >
       <template #form-after>

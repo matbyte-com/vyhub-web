@@ -65,7 +65,7 @@ import {
   TextTransformation,
   TodoList,
   Underline,
-  Undo
+  Undo, Alignment
 } from 'ckeditor5';
 
 
@@ -130,6 +130,7 @@ export default {
             'fontSize',
             //'fontFamily',
             'fontColor',
+            'alignment',
             //'fontBackgroundColor',
             '|',
             'bold',
@@ -139,13 +140,13 @@ export default {
             '|',
             'link',
             'insertImageViaUrl',
-            'mediaEmbed',
+            (this.$checkAdmin() ? 'mediaEmbed' : '|'),
             'insertTable',
             'blockQuote',
             '|',
             'bulletedList',
             'numberedList',
-            'todoList',
+            // 'todoList',
             'outdent',
             'indent',
             '|',
@@ -160,6 +161,7 @@ export default {
           Autoformat,
           AutoImage,
           Autosave,
+          Alignment,
           BalloonToolbar,
           BlockQuote,
           Bold,
