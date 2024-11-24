@@ -1,11 +1,11 @@
 const vyhubLightFull = {
   name: 'VyHub',
-  description: 'This is VyHubs demo theme!',
-  type: 'full_management',
+  description: 'This is VyHubs demo theme adapted to a shop-only instance!',
+  type: 'shop_only',
   preview_img: 'https://picsum.photos/600/400',
   data: {
     general: {
-      shop_only: false,
+      shop_only: true,
       enable_landingpage: false,
       enable_team: false,
       enable_ticket: false,
@@ -15,6 +15,7 @@ const vyhubLightFull = {
     theme: {
       dark: false,
       image: null,
+      image: 'https://images.unsplash.com/photo-1567360425618-1594206637d2?q=80&w=2068&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       primary: '#db2230',
       secondary: '#ef5350',
       header: '#ffffff',
@@ -23,19 +24,8 @@ const vyhubLightFull = {
       footer: '#101322',
       background: '#e6e6e6',
       show_community_name: false,
-      custom_css: '.vh-news-donation-goal, .vh-news-donation-goal i, .vh-news-donation-goal a.v-btn {\n' +
-        'background-color: #141d41 !important;\n' +
+      custom_css: '.vh-packet-card-text, .v-btn--outlined {\n' +
         'color: #ffffff !important;\n' +
-        '}\n' +
-        '.vh-packet-card-text, .v-btn--outlined {\n' +
-        'color: #ffffff !important;\n' +
-        '}\n' +
-        '.vh-news-top-donators, .vh-news-top-donators i, .vh-news-top-donators a.v-btn {\n' +
-        'background-color: #363944 !important;\n' +
-        'color: #ffffff !important;\n' +
-        '}\n' +
-        '.vh-new-users, .vh-new-users i, .vh-new-users div.v-card {\n' +
-        'background-color: #d8dbe7 !important;\n' +
         '}\n' +
         '.vh-cart-categories, .vh-cart-categories h2, .vh-cart-categories hr {\n' +
         'background-color: #20232a !important;\n' +
@@ -66,29 +56,6 @@ const vyhubLightFull = {
         '.vh-cart-category div.v-card, .vh-cart-category h6, .vh-cart-category div.text-subtitle-2 {\n' +
         'color: #ffffff !important;\n' +
         'background-color: #363a45 !important;\n' +
-        '}\n' +
-        '\n' +
-        '.vh-forum-latest-posts,.vh-forum-latest-posts .v-list , .vh-forum-latest-posts a.v-btn, .vh-forum-latest-posts span.vh-forum-link, .vh-forum-latest-posts a.vh-forum-link {\n' +
-        'background-color: #141d41 !important;\n' +
-        'color: #ffffff !important;\n' +
-        '}\n' +
-        '\n' +
-        '.vh-forum-latest-posts i {\n' +
-        'color: #ffffff !important;\n' +
-        '}\n' +
-        '\n' +
-        '.vh-forum-latest-threads, .vh-forum-latest-threads .v-list, .vh-forum-latest-threads a.v-btn, .vh-forum-latest-threads span.vh-forum-link, .vh-forum-latest-threads a.vh-forum-link {\n' +
-        'background-color: #353944 !important;\n' +
-        'color: #ffffff !important;\n' +
-        '}\n' +
-        '\n' +
-        '.vh-forum-latest-threads i {\n' +
-        'color: #ffffff !important;\n' +
-        '}\n' +
-        '\n' +
-        '.vh-forum-statistics, .vh-forum-statistics i {\n' +
-        'background-color: #d8dce7 !important;\n' +
-        'color: #1c1d1e !important;\n' +
         '}'
     },
     shop_settings: {

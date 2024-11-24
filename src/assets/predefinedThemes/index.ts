@@ -1,12 +1,18 @@
 import minimalLightFull from './minimalLightFull'
 import minimalLightShopOnly from "./minimalLightShopOnly";
 import vyhubLightFull from "./vyhubLightFull";
+import greenLightFull from "./greenLightFull";
+import blueLightFull from "./blueLightFull";
+import vyhubLightShopOnly from "./vyhubLightShopOnly";
 
 export default {
   themes: [
     minimalLightFull,
+    vyhubLightFull,
+    greenLightFull,
+    blueLightFull,
     minimalLightShopOnly,
-    vyhubLightFull
+    vyhubLightShopOnly
   ],
   allowedValues: {
     general: ['shop_only', 'enable_landingpage'],
