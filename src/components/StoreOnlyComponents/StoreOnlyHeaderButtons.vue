@@ -50,6 +50,7 @@ watch(() => store.state.cartPacketCount, () => {
         <v-btn
           v-if="$checkProp('admin_menu')"
           class="ml-3"
+          :active="false"
           :to="{name: 'Settings'}"
         >
           <v-icon>
@@ -110,6 +111,7 @@ watch(() => store.state.cartPacketCount, () => {
         <v-btn
           v-if="$store.getters.isLoggedIn"
           class="ml-3"
+          :active="false"
           :to="{name: 'StoreCart'}"
         >
           <v-badge
