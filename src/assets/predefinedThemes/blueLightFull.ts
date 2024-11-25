@@ -1,8 +1,8 @@
 const vyhubLightFull = {
-  name: 'VyHub',
-  description: 'This is VyHubs demo theme!',
+  name: 'Dark Ocean',
+  description: 'A sleek theme with deep blue tones, soft accents, and a light header for clarity.',
   type: 'full_management',
-  preview_img: 'https://picsum.photos/600/400',
+  preview_img: 'https://cdn.vyhub.net/vyhub/themes/blue-light-full.png',
   data: {
     general: {
       shop_only: false,

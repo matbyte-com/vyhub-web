@@ -1,8 +1,8 @@
 const minimalLightFull = {
   name: 'Minimal',
-  description: 'This is the minimal theme. It is minimal, you can add all options you want but that makes it easy to grow with the theme',
+  description: 'A clean, minimal theme designed for flexibility. Start simple and effortlessly expand with customizable options as your needs grow.',
   type: 'shop_only',
-  preview_img: 'https://picsum.photos/600/400',
+  preview_img: 'https://cdn.vyhub.net/vyhub/themes/minimal-light-shop-only.png',
   data: {
     general: {
       shop_only: true,
@@ -24,7 +24,7 @@ const minimalLightFull = {
       background: '#f0f0f0',
       show_community_name: false,
       custom_css: 'body { background-color: #f0f0f0; }',
-      image: 'https://images.unsplash.com/photo-1688413708993-39da5ee59315?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' // TODO Repalce with CDN
+      image: 'https://cdn.vyhub.net/vyhub/themes/abstract-dark.avif'
     },
     shop_settings: {
       donation_goal_enabled: false,

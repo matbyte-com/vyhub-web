@@ -1,8 +1,8 @@
 const minimalLightFull = {
   name: 'Minimal',
-  description: 'This is the minimal theme. It is minimal, you can add all options you want but that makes it easy to grow with the theme',
+  description: 'A clean, minimal theme designed for flexibility. Start simple and effortlessly expand with customizable options as your needs grow.',
   type: 'full_management',
-  preview_img: 'https://picsum.photos/600/400',
+  preview_img: 'https://cdn.vyhub.net/vyhub/themes/minimal-light-full.png',
   data: {
     general: {
       shop_only: false,

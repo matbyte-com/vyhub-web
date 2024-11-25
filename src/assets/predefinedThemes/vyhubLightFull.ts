@@ -2,7 +2,7 @@ const vyhubLightFull = {
   name: 'VyHub',
   description: 'This is VyHubs demo theme!',
   type: 'full_management',
-  preview_img: 'https://picsum.photos/600/400',
+  preview_img: 'https://cdn.vyhub.net/vyhub/themes/vyhub-light-full.png',
   data: {
     general: {
       shop_only: false,

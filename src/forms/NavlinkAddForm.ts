@@ -87,7 +87,7 @@ function returnForm(links: {}[], disabled?: false) {
             },
           },
           req_prop: {
-            type: 'string',
+            type: ['string', 'null'],
             title: i18n.global.t('_navigation.reqProp'),
             layout: {
               cols: 8,
