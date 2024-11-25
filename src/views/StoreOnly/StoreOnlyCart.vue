@@ -12,7 +12,10 @@
         md="8"
         lg="7"
       >
-        <RecommendedPacketsCart @cart-changed="fetchData" />
+        <RecommendedPacketsCart
+          :flat="false"
+          @cart-changed="fetchData"
+        />
         <v-row
           v-if="cartPackets != null"
           class="mt-4"
@@ -30,10 +33,10 @@
                 :title="$t('_shop.labels.unfinishedPurchase')"
                 :hide-triangle="true"
                 :no-bottom-border-radius="true"
+                :flat="false"
               />
               <v-card
                 class="vh-cart-packets-open-purchase card-rounded-bottom"
-                flat
                 style="border-top-right-radius: 0; border-top-left-radius: 0"
               >
                 <v-card-text>
@@ -78,11 +81,11 @@
                 :title="$t('_shop.labels.cart')"
                 :hide-triangle="true"
                 :no-bottom-border-radius="true"
+                :flat="false"
               />
               <!-- Either show cart-packets or open-purchase packets -->
               <v-card
                 class="vh-cart-packets card-rounded-bottom"
-                flat
                 style="border-top-right-radius: 0; border-top-left-radius: 0"
               >
                 <v-card-text>
@@ -147,7 +150,6 @@
               :class="{ 'card-next-step': billingAddressDrawer === 0,
                         animate__headShake:emailWobble === true || addressWobble === true,
                         'card-error': billingCardError }"
-              flat
             >
               <v-expansion-panels
                 v-model="billingAddressDrawer"
@@ -240,7 +242,6 @@
               <v-card
                 v-if="openPurchase || cartPackets.length > 0"
                 class="mt-3 card-rounded vh-select-payment-gateway"
-                flat
                 :class="{ 'card-next-step': billingAddressDrawer == null }"
               >
                 <v-card-title class="d-block">
@@ -333,7 +334,6 @@
             <!-- Cart total -->
             <v-card
               class="vh-cart-total card-rounded"
-              flat
             >
               <v-alert
                 v-if="errorMessage"
@@ -420,7 +420,6 @@
             <!-- Discount Codes -->
             <v-card
               class="vh-cart-discount card-rounded mt-3"
-              flat
             >
               <v-card-actions>
                 <v-text-field
@@ -448,7 +447,6 @@
             <!-- Your Accounts -->
             <v-card
               class="vh-cart-accounts card-rounded mt-3"
-              flat
             >
               <v-card-title>
                 <v-icon start>

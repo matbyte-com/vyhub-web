@@ -4,8 +4,8 @@
     class="vh-cart-recommended-packets card-rounded"
     :flat="flat"
   >
-    <v-card-title class="d-flex">
-      <h2 class="text-h6">
+    <v-card-title class="d-flex flex-wrap">
+      <h2 class="text-h6 text-wrap">
         {{ $t('_shop.labels.recommended') }}
       </h2>
       <!-- TODO Divider barely visible -->
@@ -20,9 +20,9 @@
           <v-col
             v-for="p in recommendedPackets"
             :key="p.id"
-            cols="12"
-            lg="6"
-            xl="4"
+            :cols="storeOnly ? 12 : 12"
+            :lg="storeOnly ? 6 : 6"
+            :xl="storeOnly ? 6 : 4"
             class="d-flex"
           >
             <v-card
@@ -84,10 +84,12 @@
             lg="6"
             xl="6"
           >
-            <v-skeleton-loader
-              type="card"
-              height="200"
-            />
+            <v-card :flat="flat">
+              <v-skeleton-loader
+                type="card"
+                height="200"
+              />
+            </v-card>
           </v-col>
         </v-row>
       </div>
@@ -129,6 +131,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    storeOnly: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {

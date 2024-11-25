@@ -95,7 +95,7 @@ function returnForm() {
         description: i18n.global.t('_theme.communityNameDescription'),
       },
       custom_css: {
-        type: 'string',
+        type: ['string','null'],
         title: i18n.global.t('_theme.customCss'),
         layout: {
           comp: 'textarea',

@@ -53,17 +53,18 @@ const anyShopStatsEnabled = computed(() => {
   <div>
     <StoreOnlyHeaderButtons />
     <StoreOnlyHeaderPicture />
-    <!-- App Bar -->
     <v-row justify="center">
       <v-col
         cols="11"
         sm="11"
         md="8"
-        lg="7"
+        lg="8"
+        xl="7"
       >
         <div>
+          <!-- App Bar -->
           <v-toolbar
-            elevation="3"
+            elevation="1"
             style="margin-top: -35px"
             class="overflow-hidden"
             rounded="lg"
@@ -159,7 +160,10 @@ const anyShopStatsEnabled = computed(() => {
               class="card-rounded"
               :class="{ 'mt-3':!$vuetify.display.smAndDown && anyShopStatsEnabled }"
             >
-              <RecommendedPacketsSide :flat="false" />
+              <RecommendedPacketsSide
+                :flat="false"
+                :store-only="true"
+              />
             </div>
           </v-col>
           <!-- Main Content -->
@@ -187,13 +191,14 @@ const anyShopStatsEnabled = computed(() => {
 
 .button-active {
   transition: none;
-  color: rgb(var(--v-theme-primary));
+  color: rgb(var(--v-theme-primary)) !important;
 }
 
 .nav-button {
   cursor: pointer;
   transition: color 0.2s;
   font-size: large;
+  color: black;
 }
 
 .nav-button:hover {

@@ -51,7 +51,36 @@
 <script>
 export default {
   name: 'PageTitleFlat',
-  props: ['title', 'hideTriangle', 'isMenu', 'noBottomBorderRadius', 'icon', 'centered'],
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    hideTriangle: {
+      type: Boolean,
+      default: false,
+    },
+    isMenu: {
+      type: Boolean,
+      default: false,
+    },
+    noBottomBorderRadius: {
+      type: Boolean,
+      default: false,
+    },
+    icon: {
+      type: String,
+      default: '',
+    },
+    centered: {
+      type: Boolean,
+      default: false,
+    },
+    flat: {
+      type: Boolean,
+      default: true,
+    },
+  },
   computed: {
     headlineClasses() {
       let res = '';

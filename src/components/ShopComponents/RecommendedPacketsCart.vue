@@ -2,7 +2,7 @@
   <v-card
     v-if="recommendedPackets !== null && recommendedPackets.length > 0"
     class="vh-cart-recommended-packets-cart card-rounded"
-    flat
+    :flat="flat"
   >
     <v-card-title>
       <h2 class="text-h6">
@@ -125,6 +125,12 @@ import openapi from '@/api/openapi';
 import ShopService from '@/services/ShopService';
 
 export default {
+  props: {
+    flat: {
+      type: Boolean,
+      default: true,
+    },
+  },
 emits: ['cartChanged'],
   data() {
     return {

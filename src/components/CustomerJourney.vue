@@ -105,11 +105,14 @@
           <span>Docs</span>
         </v-btn>
         <v-btn
-          class="bg-red-lighten-2 ml-2"
+          class="bg-red-lighten-2 ml-2 "
           href="https://discord.gg/QycQpd2AQP"
           target="_blank"
         >
-          <v-icon start>
+          <v-icon
+            start
+            class="custom-icon-white"
+          >
             custom:discord
           </v-icon>
           <span>Discord</span>

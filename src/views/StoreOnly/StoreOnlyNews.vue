@@ -4,7 +4,6 @@
 <template>
   <!-- News -->
   <v-card
-    flat
     class="mb-2 card-rounded vh-shop-news"
   >
     <v-card-text>
