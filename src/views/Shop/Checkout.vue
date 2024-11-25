@@ -1,9 +1,18 @@
 <template>
   <div>
     <!-- Header here because of different design between StoreOnly and Normal -->
-    <TheHeader />
+    <TheHeader v-if="!$store.getters.generalConfig?.shop_only" />
+    <div
+      v-if="$store.getters.generalConfig?.shop_only"
+      class="position-relative"
+    >
+      <StoreOnlyHeaderButtons />
+      <p style="visibility: hidden">
+        hidden // Needed for the correct positioning of header buttons
+      </p>
+    </div>
     <!-- TODO Add Store Only Design -->
-    <v-row class="justify-center mt-6">
+    <v-row class="justify-center mt-12">
       <v-col
         cols="12"
         sm="8"
@@ -186,7 +195,7 @@
               v-if="debit.status !== 'FINISHED'"
               color="primary"
               variant="text"
-              @click="$router.push({ name: 'ShopCart' })"
+              @click="$store.getters.generalConfig?.shop_only ? $router.push({ name: 'StoreCart' }) : $router.push({ name: 'ShopCart' })"
             >
               <v-icon>mdi-arrow-left</v-icon>
               {{ $t('_shop.labels.cart') }}
@@ -195,10 +204,10 @@
               v-if="debit.status === 'FINISHED'"
               color="primary"
               variant="text"
-              @click="$router.push({ name: 'Dashboard' })"
+              @click="$store.getters.generalConfig?.shop_only ? $router.push({ name: 'Store' }) : $router.push({ name: 'Dashboard' })"
             >
               <v-icon>mdi-arrow-right</v-icon>
-              {{ $t('dashboard') }}
+              {{ $store.getters.generalConfig?.shop_only ? $t('shop') : $t('dashboard') }}
             </v-btn>
           </v-card-actions>
         </v-card>

@@ -85,11 +85,11 @@ export default {
     formSchema: Object,
     submitText: {
       type: String,
-      default: 'submit',
+      default: i18n.global.t('submit'),
     },
     cancelText: {
       type: String,
-      default: 'cancel',
+      default: i18n.global.t('cancel'),
     },
     hideButtons: {
       type: Boolean,

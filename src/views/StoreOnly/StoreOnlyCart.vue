@@ -258,7 +258,8 @@
                       cols="6"
                       sm="6"
                       md="4"
-                      lg="3"
+                      lg="4"
+                      xl="3"
                       class="d-flex"
                     >
                       <v-card
@@ -445,46 +446,7 @@
               </v-card-actions>
             </v-card>
             <!-- Your Accounts -->
-            <v-card
-              class="vh-cart-accounts card-rounded mt-3"
-            >
-              <v-card-title>
-                <v-icon start>
-                  mdi-account-group
-                </v-icon>
-                {{ $t('_shop.labels.yourAccounts') }}
-              </v-card-title>
-              <v-card-text v-if="$store.getters.isLoggedIn">
-                <div>
-                  <v-chip
-                    style="width: 100%"
-                    variant="outlined"
-                  >
-                    <v-icon start>
-                      {{ UserService.userTypeIcons[$store.getters.user.type] }}
-                    </v-icon>
-                    {{ $store.getters.user.username }}
-                  </v-chip>
-                </div>
-                <div v-if="$store.getters.user.linked_users">
-                  <div
-                    v-for="acc in $store.getters.user.linked_users"
-                    :key="acc.id"
-                    class="mt-1"
-                  >
-                    <v-chip
-                      style="width: 100%"
-                      variant="outlined"
-                    >
-                      <v-icon start>
-                        {{ UserService.userTypeIcons[acc.type] }}
-                      </v-icon>
-                      {{ acc.username }}
-                    </v-chip>
-                  </div>
-                </div>
-              </v-card-text>
-            </v-card>
+            <StoreOnlyLinkedAccounts />
           </v-col>
         </v-row>
 
@@ -501,8 +463,7 @@
             <v-card
               v-for="n in 3"
               :key="n"
-              class="card-rounded"
-              flat
+              class="card-rounded mt-3"
             >
               <v-skeleton-loader
                 class="mb-3"
@@ -512,13 +473,11 @@
           </v-col>
           <v-col>
             <v-card
-              flat
               class="card-rounded"
             >
               <v-skeleton-loader type="article" />
             </v-card>
             <v-card
-              flat
               class="card-rounded mt-3"
             >
               <v-skeleton-loader type="article, actions" />
@@ -607,10 +566,12 @@ import openapiCached from '@/api/openapiCached';
 import EventBus from '@/services/EventBus';
 import UserService from '@/services/UserService';
 import openapi from '../../api/openapi';
+import StoreOnlyLinkedAccounts from "@/views/StoreOnly/StoreOnlyLinkedAccounts.vue";
 
 const images = import.meta.glob('@/assets/img/gateways/*.png', {eager: true});
 
 export default {
+  components: {StoreOnlyLinkedAccounts},
   data() {
     return {
       cartPackets: null,

@@ -2,6 +2,7 @@
 import openapi from "../../api/openapi";
 import {ref} from "vue";
 import {useStore} from "vuex";
+import StoreOnlyLinkedAccounts from "@/views/StoreOnly/StoreOnlyLinkedAccounts.vue";
 
 const emit = defineEmits(['user-changed']);
 const store = useStore();
@@ -34,20 +35,27 @@ async function refreshUser(fromChange = true) {
       md="8"
       lg="7"
     >
-      <Email
-        :user="userCopy"
-        class="mt-3"
-        @user-changed="refreshUser"
-      />
-      <EmailNotifications
-        :user="userCopy"
-        class="mt-3"
-        @user-changed="refreshUser"
-      />
+      <StoreOnlyLinkedAccounts />
+      <v-row dense>
+        <v-col>
+          <Email
+            :user="userCopy"
+            class="mt-3 fill-height"
+            @user-changed="refreshUser"
+          />
+        </v-col>
+        <v-col>
+          <EmailNotifications
+            :user="userCopy"
+            class="mt-3 fill-height"
+            @user-changed="refreshUser"
+          />
+        </v-col>
+      </v-row>
       <PurchasesDashboard
         :flat="false"
         :headline="true"
-        class="mt-3"
+        class="mt-5"
         :user="userCopy"
       />
     </v-col>

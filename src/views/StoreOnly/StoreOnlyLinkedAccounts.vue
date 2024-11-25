@@ -1,0 +1,51 @@
+<script setup lang="ts">
+
+import UserService from "../../services/UserService";
+</script>
+
+<template>
+  <v-card
+    class="vh-cart-accounts card-rounded mt-3"
+  >
+    <v-card-title class="d-flex">
+      <v-icon start>
+        mdi-account-group
+      </v-icon>
+      {{ $t('_shop.labels.yourAccounts') }}
+    </v-card-title>
+    <v-card-text v-if="$store.getters.isLoggedIn">
+      <div>
+        <v-chip
+          style="width: 100%"
+          variant="outlined"
+        >
+          <v-icon start>
+            {{ UserService.userTypeIcons[$store.getters.user.type] }}
+          </v-icon>
+          {{ $store.getters.user.username }}
+        </v-chip>
+      </div>
+      <div v-if="$store.getters.user.linked_users">
+        <div
+          v-for="acc in $store.getters.user.linked_users"
+          :key="acc.id"
+          class="mt-1"
+        >
+          <v-chip
+            style="width: 100%"
+            variant="outlined"
+          >
+            <v-icon start>
+              {{ UserService.userTypeIcons[acc.type] }}
+            </v-icon>
+            {{ acc.username }}
+          </v-chip>
+        </div>
+      </div>
+    </v-card-text>
+  </v-card>
+</template>
+
+<style scoped>
+
+</style>
