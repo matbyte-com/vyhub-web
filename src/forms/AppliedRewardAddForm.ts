@@ -3,7 +3,7 @@ import Common from '@/forms/Common';
 
 export default {
   type: 'object',
-  required: ['status'],
+  required: ['reward'],
   properties: {
     reward: {
       ...Common.rewardSelectField,
