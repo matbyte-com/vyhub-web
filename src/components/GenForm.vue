@@ -144,10 +144,11 @@ export default {
   },
   methods: {
     async validateAndRun() {
-      const valid = (await this.$refs.form.validate()).valid;
-      console.log(await this.$refs.form.validate());
+      setTimeout(async () => {
+        const result = await this.$refs.form.validate();
 
-      setTimeout(() => {
+        const valid = result.valid;
+
         if (valid === true) {
           console.log('Form is valid');
           this.$emit('submit');
@@ -188,7 +189,7 @@ export default {
       this.alertType = 'success';
     },
     forceRerender() {
-      this.componentKey += 1;
+      //this.componentKey += 1;
     },
   },
   /* watch: {
