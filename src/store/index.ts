@@ -101,7 +101,6 @@ const store = createStore({
       state.address = null;
       state.cartPacketCount = 0;
       state.creditAccount = null;
-      state.navItems = null;
       state.userMemberships = null;
     },
   },
