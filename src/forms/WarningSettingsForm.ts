@@ -11,6 +11,12 @@ export default {
         placeholder: i18n.global.t('_warning.ttlPlaceholder'),
       },
       description: i18n.global.t('_warning.ttlDescription'),
+      layout: {
+        slots: {
+          'after': i18n.global.t('_warning.settingFormDesc'),
+        }
+      }
+
     },
     count_till_ban: {
       type: 'integer',
