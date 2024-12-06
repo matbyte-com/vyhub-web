@@ -2,8 +2,8 @@
   <DataTable
     v-model:items-per-page="itemsPerPage"
     v-model:page="page"
-    v-model:sort-by="sortBy"
     v-model:search="search"
+    :sort-by="sortBy"
     :external-search="showSearch"
     :server-items-length="totalItems"
     must-sort
