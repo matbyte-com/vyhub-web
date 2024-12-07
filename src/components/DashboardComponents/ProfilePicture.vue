@@ -33,6 +33,29 @@
                       :outline="false"
                       :user="activeUser"
                     />
+                    <div
+                      v-if="$checkProp('user_edit')"
+                      class="mt-2"
+                    >
+                      <v-tooltip
+                        location="bottom"
+                        :text="$t('_user.labels.hideAvatar')"
+                      >
+                        <template #activator="{ props }">
+                          <v-btn
+                            icon
+                            size="x-small"
+                            v-bind="props"
+                            @click="toggleAvatarHidden(activeUser)"
+                          >
+                            <v-icon
+                              size="small"
+                              :icon="(activeUser.avatar_hidden ? 'mdi-eye' : 'mdi-eye-off')"
+                            />
+                          </v-btn>
+                        </template>
+                      </v-tooltip>
+                    </div>
                   </v-overlay>
                 </v-fade-transition>
               </v-avatar>
@@ -144,6 +167,15 @@ emits: ['user-updated'],
         this.$refs.adminDeleteConfirmationDialog.setError(err);
       });
     },
+    async toggleAvatarHidden(user) {
+      (await openapi).user_editUser(user.id, { avatar_hidden: !user.avatar_hidden }).then(() => {
+        this.$notify({
+          title: this.$t('_messages.updateSuccess'),
+          type: 'success',
+        });
+        this.$emit('user-updated');
+      })
+    }
   },
 };
 </script>
