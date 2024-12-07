@@ -92,7 +92,6 @@ function gatewayFields(gatewayType: string) {
             'promptpay',
             'revolut_pay',
             'sepa_debit',
-            'sofort',
             'us_bank_account',
             'wechat_pay',
             'zip',
