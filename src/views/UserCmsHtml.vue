@@ -1,11 +1,42 @@
+<script setup>
+import {onMounted, ref, watch} from "vue";
+import {useRoute} from "vue-router";
+import {useStore} from "vuex";
+import openapi from "@/api/openapi";
+
+const route = useRoute();
+const store = useStore();
+const html = ref(null);
+
+onMounted(() => {
+  document.title = route.params.title;
+  getHtml();
+});
+
+watch(store.state.navItems, () => {
+  getHtml();
+});
+
+async function getHtml() {
+  if (!store.state.navItems) return;
+  const htmlId = store.state.navItems
+    .find((l) => l.title.toLowerCase() === route.params.title).cms_page_id;
+  (await openapi).general_getCmsHtml(htmlId).then((rsp) => { html.value = rsp.data; })
+    .catch((err) => {
+      html.value = `Error while fetching HTML ${err}`;
+      console.log(err.data);
+    });
+}
+</script>
+
 <template>
-  <div v-if="data">
-    <v-container v-if="data.wrapper">
+  <div v-if="html">
+    <v-container v-if="html.wrapper">
       <v-card class="card-rounded">
         <v-card-text>
           <span
             class="ql-editor ck-content"
-            v-html="data.content"
+            v-html="html.content"
           />
         </v-card-text>
       </v-card>
@@ -13,53 +44,7 @@
     <span
       v-else
       class="ql-editor ck-content"
-      v-html="data.content"
+      v-html="html.content"
     />
   </div>
 </template>
-
-<script>
-import openapi from '@/api/openapi';
-
-export default {
-  name: 'UserRenderedHTML',
-  data() {
-    return {
-      links: [],
-      data: null,
-    };
-  },
-  watch: {
-    $route() {
-      this.getHtml();
-    },
-    links() {
-      this.getHtml();
-    },
-  },
-  beforeMount() {
-    this.getLinks();
-  },
-  mounted() {
-    document.title = this.$route.params.title;
-  },
-  methods: {
-    async getLinks() {
-      this.links = this.$store.getters.navItems;
-    },
-    async getHtml() {
-      const htmlId = this.links
-        .find((l) => l.title.toLowerCase() === this.$route.params.title).cms_page_id;
-      (await openapi).general_getCmsHtml(htmlId).then((rsp) => { this.data = rsp.data; })
-        .catch((err) => {
-          this.html = `Error while fetching HTML ${err}`;
-          console.log(err.data);
-        });
-    },
-  },
-};
-</script>
-
-<style scoped>
-
-</style>
