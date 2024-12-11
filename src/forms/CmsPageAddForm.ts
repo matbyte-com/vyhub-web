@@ -20,6 +20,15 @@ function returnForm() {
         title: i18n.global.t('wrapper'),
         'x-display': 'switch',
       },
+      content: {
+        type: 'string',
+        title: i18n.global.t('description'),
+        layout: {
+          slots: {
+            component: "custom-editor"
+          }
+        }
+      },
     },
   }
 

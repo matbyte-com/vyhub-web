@@ -11,6 +11,9 @@
       :title="$t('_navigation.addCmsPage')"
       @submit="createCmsPage"
     >
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
+      </template>
       <template #title-after>
         <v-alert
           type="warning"
@@ -19,68 +22,28 @@
         >
           {{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
-        <v-expansion-panels flat>
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <v-row>
-                <v-badge
-                  :model-value="htmlInput"
-                  inline
-                  dot
-                  class="float-left"
-                >
-                  {{ $t('_navigation.editor') }}
-                </v-badge>
-              </v-row>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <editor v-model="htmlInput" />
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <v-row>
-                <v-badge
-                  :model-value="rawHtmlInput"
-                  inline
-                  dot
-                  class="float-left"
-                >
-                  {{ $t('rawHtml') }}
-                </v-badge>
-              </v-row>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <v-textarea
-                v-model="rawHtmlInput"
-                :placeholder="$t('rawHtml')"
-              />
+        <!--
               <input
                 ref="fileInput"
                 type="file"
                 :accept="acceptedFileTypes.join(',')"
                 style="display: none"
                 @change="readFile"
-              >
-              <v-btn
-                color="secondary"
-                size="small"
-                @click="$refs.fileInput.click()"
-              >
-                {{ $t('_navigation.uploadFile') }}
-              </v-btn>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
+              >-->
       </template>
     </dialog-form>
     <dialog-form
       ref="cmsEditDialog"
+      :max-width="1000"
       :form-schema="cmsPageAddSchema"
       icon="mdi-content-save-cog"
       :title="$t('_navigation.editCmsPage')"
       @submit="editCmsPage"
     >
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
+      </template>
+      <!-- TODO doesnt work -->
       <template #title-after>
         <v-alert
           type="warning"
@@ -89,63 +52,14 @@
         >
           {{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
-        {{ htmlContentExpansionPanel }}
-        <v-expansion-panels
-          v-model="htmlContentExpansionPanel"
-          flat
-        >
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <v-row>
-                <v-badge
-                  :model-value="htmlInput"
-                  inline
-                  dot
-                  class="float-left"
-                >
-                  {{ $t('_navigation.editor') }}
-                </v-badge>
-              </v-row>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <editor v-model="htmlInput" />
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-          <v-expansion-panel>
-            <v-expansion-panel-title>
-              <v-row>
-                <v-badge
-                  :model-value="rawHtmlInput"
-                  inline
-                  dot
-                  class="float-left"
-                >
-                  {{ $t('rawHtml') }}
-                </v-badge>
-              </v-row>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <v-textarea
-                v-model="rawHtmlInput"
-                :placeholder="$t('rawHtml')"
-              />
+        <!--
               <input
                 ref="fileInput"
                 type="file"
                 :accept="acceptedFileTypes.join(',')"
                 style="display: none"
                 @change="readFile"
-              >
-              <v-btn
-                color="secondary"
-                size="small"
-                @click="$refs.fileInput.click()"
-              >
-                {{ $t('_navigation.uploadFile') }}
-              </v-btn>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
+              >-->
       </template>
     </dialog-form>
     <delete-confirmation-dialog
@@ -552,7 +466,7 @@ import CmsPageAddForm from '@/forms/CmsPageAddForm';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import i18n from '../../plugins/i18n';
-import { VueDraggable } from "vue-draggable-plus";
+import {VueDraggable} from "vue-draggable-plus";
 
 export default {
   components: {VueDraggable},
@@ -561,8 +475,6 @@ export default {
       subGroup: false,
       navlinkAddSchema: null,
       cmsPageAddSchema: CmsPageAddForm.returnForm(),
-      htmlInput: '',
-      rawHtmlInput: '',
       expansionPanels: null,
       htmlContentExpansionPanel: null,
       links: null,
@@ -585,18 +497,6 @@ export default {
         },
       ],
     };
-  },
-  watch: {
-    rawHtmlInput(newInput, oldInput) {
-      if (oldInput && newInput) {
-        this.htmlInput = null;
-      }
-    },
-    htmlInput(newInput, oldInput) {
-      if (oldInput && newInput) {
-        this.rawHtmlInput = null;
-      }
-    },
   },
   beforeMount() {
     this.getNavItems();
@@ -634,18 +534,8 @@ export default {
     },
     async createCmsPage() {
       const data = this.$refs.cmsAddDialog.getData();
-      if (this.htmlInput && this.rawHtmlInput) {
-        this.$refs.cmsAddDialog.setErrorMessage(this.$t('_navigation.bothHtmlInputsUsed'));
-        return;
-      }
-      if (this.htmlInput !== null && this.htmlInput.length !== 0) data.content = this.htmlInput;
-      if (this.rawHtmlInput !== null && this.rawHtmlInput.length !== 0) {
-        data.content = this.rawHtmlInput;
-      }
       (await openapi).general_createCmsHtml(null, data).then(() => {
         this.$refs.cmsAddDialog.closeAndReset();
-        this.htmlInput = null;
-        this.rawHtmlInput = null;
         this.getCmsPages();
         this.$notify({
           title: this.$t('_messages.addSuccess'),
@@ -669,19 +559,11 @@ export default {
     },
     async editCmsPage(page) {
       const data = this.$refs.cmsEditDialog.getData();
-      if (this.htmlInput && this.rawHtmlInput) {
-        this.$refs.cmsEditDialog.setErrorMessage(this.$t('_navigation.bothHtmlInputsUsed'));
-        return;
-      }
-      if (this.htmlInput !== null && this.htmlInput.length !== 0) data.content = this.htmlInput;
-      if (this.rawHtmlInput !== null && this.rawHtmlInput.length !== 0) {
-        data.content = this.rawHtmlInput;
-      }
+      console.log(data);
+      // TODO remove from i18n this.$t('_navigation.bothHtmlInputsUsed
       if (!data.requirement_set_id) data.requirement_set_id = null;
       (await openapi).general_editCmsHtml(page.id, data).then(() => {
         this.$refs.cmsEditDialog.closeAndReset();
-        this.htmlInput = null;
-        this.rawHtmlInput = null;
         this.getCmsPages();
         this.$notify({
           title: this.$t('_messages.editSuccess'),
@@ -751,21 +633,25 @@ export default {
       });
     },
     async openCmsEditDialog(page) {
-      (await openapi).general_getCmsHtml(page.id).then((rsp) => {
-        this.htmlInput = rsp.data.content;
-        this.rawHtmlInput = rsp.data.content;
+      await (await openapi).general_getCmsHtml(page.id).then((rsp) => {
+        page.content = rsp.data.content;
+        this.$refs.cmsEditDialog.show(page, page);
       });
-      this.$refs.cmsEditDialog.show(page);
-      this.$refs.cmsEditDialog.setData(page);
     },
     async openNavEditDialog(item) {
       const data = item;
       if (item.default === true) {
         this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject(), true);
       } else this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject());
-      if (item.cms_page_id) { data.linkType = 'html'; }
-      if (!item.cms_page_id) { data.linkType = 'link'; }
-      if (item.parent_navigation_link_id) { data.subLink = true; }
+      if (item.cms_page_id) {
+        data.linkType = 'html';
+      }
+      if (!item.cms_page_id) {
+        data.linkType = 'link';
+      }
+      if (item.parent_navigation_link_id) {
+        data.subLink = true;
+      }
       this.$refs.navEditDialog.show(data);
       this.$nextTick(() => {
         this.$refs.navEditDialog.setData(data);
@@ -773,14 +659,12 @@ export default {
     },
     async openNavAddDialog() {
       this.navlinkAddSchema = NavlinkAddForm.returnForm(this.transformLinkObject());
-      this.rawHtmlInput = '';
-      this.htmlInput = '';
       this.$refs.navAddDialog.show();
     },
     transformLinkObject() {
       const array = [];
       this.links.filter((l) => l.parent_navigation_link_id === null).forEach((l) => {
-        array.push({ const: l.id, title: l.title });
+        array.push({const: l.id, title: l.title});
       });
       return array;
     },
