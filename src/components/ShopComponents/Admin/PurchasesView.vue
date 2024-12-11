@@ -108,54 +108,54 @@
               <div class="text-h6 mt-3">
                 {{ $t('details') }}
               </div>
-              <v-list density="compact">
-                <v-list-item>
-                  {{ $t('id') }}
-
-
-                  {{ currentPurchase.id }}
-                </v-list-item>
-                <v-list-item>
-                  {{ $t('user') }}
-
-
-                  <span><UserLink :user="currentPurchase.user" /></span>
-                </v-list-item>
-                <v-list-item>
-                  {{ $t('date') }}
-
-
-                  {{ new Date(currentPurchase.date).toLocaleString() }}
-                </v-list-item>
-                <v-list-item>
-                  {{ $t('status') }}
-
-
-                  <PurchaseStatusChip :status="currentPurchase.status" />
-                </v-list-item>
-                <v-list-item v-if="currentPurchase.credits_used">
-                  {{ $store.getters.shopConfig.credits_display_title }}
-
-
-                  {{ currentPurchase.credits }}
-                </v-list-item>
-                <v-list-item v-if="!currentPurchase.credits_used">
-                  {{ $t('_purchases.labels.amountNet') }}
-
-
-                  {{ currentPurchase.amount_net
-                    .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                  {{ currentPurchase.currency.symbol }}
-                </v-list-item>
-                <v-list-item v-if="!currentPurchase.credits_used">
-                  {{ $t('_purchases.labels.amountTotal') }}
-
-
-                  {{ currentPurchase.amount_total
-                    .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                  {{ currentPurchase.currency.symbol }}
-                </v-list-item>
-              </v-list>
+              <v-table>
+                <template #default>
+                  <tbody>
+                    <tr>
+                      <td>{{ $t('id') }}</td>
+                      <td>{{ currentPurchase.id }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ $t('user') }}</td>
+                      <td><span><UserLink :user="currentPurchase.user" /></span></td>
+                    </tr>
+                    <tr>
+                      <td>{{ $t('date') }}</td>
+                      <td> {{ new Date(currentPurchase.date).toLocaleString() }}</td>
+                    </tr>
+                    <tr>
+                      <td>{{ $t('status') }}</td>
+                      <td>
+                        <PurchaseStatusChip :status="currentPurchase.status" />
+                      </td>
+                    </tr>
+                    <tr v-if="currentPurchase.credits_used">
+                      <td> {{ $store.getters.shopConfig.credits_display_title }}</td>
+                      <td>{{ currentPurchase.credits }}</td>
+                    </tr>
+                    <tr v-if="!currentPurchase.credits_used">
+                      <td>{{ $t('_purchases.labels.amountNet') }}</td>
+                      <td>
+                        {{
+                          currentPurchase.amount_net
+                            .toLocaleString(undefined, {minimumFractionDigits: 2})
+                        }}
+                        {{ currentPurchase.currency.symbol }}
+                      </td>
+                    </tr>
+                    <tr v-if="!currentPurchase.credits_used">
+                      <td> {{ $t('_purchases.labels.amountTotal') }}</td>
+                      <td>
+                        {{
+                          currentPurchase.amount_total
+                            .toLocaleString(undefined, {minimumFractionDigits: 2})
+                        }}
+                        {{ currentPurchase.currency.symbol }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-table>
             </v-col>
           </v-row>
 
@@ -193,8 +193,10 @@
                           ({{ $t('_shop.labels.net') }})
                         </td>
                         <td v-else-if="!currentPurchase.credits_used">
-                          {{ cp.price_total
-                            .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                          {{
+                            cp.price_total
+                              .toLocaleString(undefined, {minimumFractionDigits: 2})
+                          }}
                           {{ cp.currency.symbol }}
                         </td>
                         <td v-else>
@@ -262,8 +264,10 @@
                         </a>
                       </td>
                       <td v-if="debit.amount_total != null">
-                        {{ debit.amount_total
-                          .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                        {{
+                          debit.amount_total
+                            .toLocaleString(undefined, {minimumFractionDigits: 2})
+                        }}
                         {{ currentPurchase.currency.symbol }}
                       </td>
                       <td v-else>
@@ -393,13 +397,13 @@ export default {
   data() {
     return {
       headers: [
-        { title: this.$t('id'), key: 'id', sortable: false },
-        { title: this.$t('status'), key: 'status', sortable: false },
-        { title: this.$t('date'), key: 'date' },
-        { title: this.$t('user'), key: 'user', sortable: false },
-        { title: this.$t('_purchases.labels.amountNet'), key: 'amount_net' },
-        { title: this.$t('_purchases.labels.amountTotal'), key: 'amount_total' },
-        { title: this.$store.getters.shopConfig.credits_display_title, key: 'credits' },
+        {title: this.$t('id'), key: 'id', sortable: false},
+        {title: this.$t('status'), key: 'status', sortable: false},
+        {title: this.$t('date'), key: 'date'},
+        {title: this.$t('user'), key: 'user', sortable: false},
+        {title: this.$t('_purchases.labels.amountNet'), key: 'amount_net'},
+        {title: this.$t('_purchases.labels.amountTotal'), key: 'amount_total'},
+        {title: this.$store.getters.shopConfig.credits_display_title, key: 'credits'},
         {
           title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
@@ -420,7 +424,7 @@ export default {
       },
       set(newValue) {
         if (!newValue) {
-          this.$router.push({ query: { } });
+          this.$router.push({query: {}});
         }
       },
     },
@@ -440,7 +444,7 @@ export default {
       const api = await openapi;
 
       if (this.$route.query.purchase_id != null) {
-        api.shop_getPurchase({ uuid: this.$route.query.purchase_id }).then((rsp) => {
+        api.shop_getPurchase({uuid: this.$route.query.purchase_id}).then((rsp) => {
           this.currentPurchase = rsp.data;
         }).catch(() => {
           this.currentPurchase = null;
@@ -468,16 +472,16 @@ export default {
       });
     },
     showDetails(purchase) {
-      this.$router.push({ query: { purchase_id: purchase.id } });
+      this.$router.push({query: {purchase_id: purchase.id}});
     },
     filterFinishedDebits(debits) {
       return debits.filter((debit) => debit.status === 'FINISHED');
     },
     async downloadInvoice(debit) {
       (await openapi).shop_getDebitInvoice(
-        { uuid: debit.id },
+        {uuid: debit.id},
         null,
-        { responseType: 'blob' },
+        {responseType: 'blob'},
       ).then((rsp) => {
         this.utils.showFile(rsp.data, `${debit.invoice_number}.pdf`);
       }).catch((err) => {
@@ -488,7 +492,7 @@ export default {
     async revokePurchase(purchase) {
       const api = await openapi;
 
-      api.shop_editPurchase({ uuid: purchase.id }, { status: 'REVOKED' })
+      api.shop_editPurchase({uuid: purchase.id}, {status: 'REVOKED'})
         .then(() => {
           this.$notify({
             title: this.$t('_purchases.messages.revokeSuccess'),
@@ -496,14 +500,14 @@ export default {
           });
           this.fetchData();
         }).catch((err) => {
-          console.log(err);
-          this.utils.notifyUnexpectedError(err.response.data);
-        });
+        console.log(err);
+        this.utils.notifyUnexpectedError(err.response.data);
+      });
     },
     async deletePurchase(purchase) {
       const api = await openapi;
 
-      api.shop_deletePurchase({ uuid: purchase.id })
+      api.shop_deletePurchase({uuid: purchase.id})
         .then(() => {
           this.$notify({
             title: this.$t('_messages.deleteSuccess'),
@@ -517,7 +521,7 @@ export default {
     async unrevokePurchase(purchase) {
       const api = await openapi;
 
-      api.shop_editPurchase({ uuid: purchase.id }, { status: 'FINISHED' })
+      api.shop_editPurchase({uuid: purchase.id}, {status: 'FINISHED'})
         .then(() => {
           this.$notify({
             title: this.$t('_purchases.messages.unrevokeSuccess'),
@@ -525,14 +529,14 @@ export default {
           });
           this.fetchData();
         }).catch((err) => {
-          console.log(err);
-          this.utils.notifyUnexpectedError(err.response.data);
-        });
+        console.log(err);
+        this.utils.notifyUnexpectedError(err.response.data);
+      });
     },
     async refundPurchase(purchase) {
       const api = await openapi;
 
-      api.shop_editPurchase({ uuid: purchase.id }, { status: 'REFUNDED' })
+      api.shop_editPurchase({uuid: purchase.id}, {status: 'REFUNDED'})
         .then(() => {
           this.$notify({
             title: this.$t('_purchases.messages.refundInitSuccess'),
@@ -541,16 +545,16 @@ export default {
           this.fetchData();
           this.$refs.confirmRefundDialog.closeAndReset();
         }).catch((err) => {
-          console.log(err);
-          this.$refs.confirmRefundDialog.setError(err);
-        });
+        console.log(err);
+        this.$refs.confirmRefundDialog.setError(err);
+      });
     },
     async checkPurchase(purchase) {
       const api = await openapi;
 
       purchase.debits.forEach((debit) => {
         if (debit.status === 'STARTED' || debit.status === 'APPROVED') {
-          api.shop_checkPayment({ uuid: debit.id }).then(() => {
+          api.shop_checkPayment({uuid: debit.id}).then(() => {
             this.$notify({
               title: this.$t('_purchases.messages.refreshSuccess'),
               type: 'success',
@@ -566,7 +570,7 @@ export default {
     async cancelSubscription(purchase) {
       const api = await openapi;
 
-      api.shop_editPurchase({ uuid: purchase.id }, { status: 'FINISHED' })
+      api.shop_editPurchase({uuid: purchase.id}, {status: 'FINISHED'})
         .then(() => {
           this.$notify({
             title: this.$t('_messages.cancelSuccess'),
@@ -575,9 +579,9 @@ export default {
           this.fetchData();
           this.$refs.confirmSubCancelDialog.closeAndReset();
         }).catch((err) => {
-          console.log(err);
-          this.$refs.confirmSubCancelDialog.setError(err);
-        });
+        console.log(err);
+        this.$refs.confirmSubCancelDialog.setError(err);
+      });
     },
     newStatus(status) {
       this.selectedStatus = status;
