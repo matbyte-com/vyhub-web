@@ -68,6 +68,7 @@
     />
     <dialog-form
       ref="navAddDialog"
+      :max-width="800"
       :form-schema="navlinkAddSchema"
       icon="mdi-navigation-outline"
       :title="$t('_navigation.addNavLink')"

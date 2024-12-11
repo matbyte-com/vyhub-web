@@ -52,6 +52,7 @@ function returnForm(links: {}[], disabled?: false) {
                 location: {
                   type: 'string',
                   title: i18n.global.t('_navigation.location'),
+                  default: 'HEADER',
                   oneOf: [
                     {
                       const: 'HEADER',
@@ -80,7 +81,7 @@ function returnForm(links: {}[], disabled?: false) {
         properties: {
           enabled: {
             type: 'boolean',
-            default: 'true',
+            default: true,
             title: i18n.global.t('_navigation.enabled'),
             layout: {
               cols: 4,
@@ -90,7 +91,7 @@ function returnForm(links: {}[], disabled?: false) {
             type: ['string', 'null'],
             title: i18n.global.t('_navigation.reqProp'),
             layout: {
-              cols: 8,
+              cols: 7,
             },
           },
           icon: Common.iconPicker,
@@ -145,13 +146,13 @@ function returnForm(links: {}[], disabled?: false) {
             else: {
               properties: {
                 cms_page_id: {
-                  type: ['string','null'],
+                  type: ['string', 'null'],
                   title: i18n.global.t('_navigation.cmsPage'),
                   layout: {
                     getItems: {
                       url: `${API_URL}/general/html`,
-                      itemTitle: 'title',
-                      itemValue: 'id'
+                      itemTitle: 'item.title',
+                      itemKey: 'item.id'
                     }
                   }
                 },
@@ -164,6 +165,7 @@ function returnForm(links: {}[], disabled?: false) {
   };
   if (!utilService.data().utils.showAdvancedSettings()) {
     ret.allOf[1].properties.linkType?.oneOf.splice(1, 1);
+    delete ret.allOf[1].properties.req_prop
   }
   return ret;
 }
