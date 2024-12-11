@@ -381,7 +381,7 @@
             v-if="showDetails"
             class="text-red text-center"
           >
-            <span v-if="currentAddress == null">
+            <span v-if="addressRequired">
               {{ $t('_shop.messages.selectBillingAddressFirst') }}
             </span>
             <span v-if="$refs.emailCard.user.email == null">
@@ -611,6 +611,7 @@ export default {
       couponStyle: null,
       emailWobble: false,
       addressWobble: false,
+      addressRequired: false,
       showDetails: false,
       gateways: null,
       selectedGateway: null,
@@ -832,19 +833,14 @@ export default {
 
       // SKip checks when open purchase
       if (this.openPurchase == null) {
-        // Check for missing address or email and wobble
-        if (this.currentAddress == null || this.$refs.emailCard.user.email == null) {
-          if (this.currentAddress == null) {
-            this.addressWobble = true;
-            this.billingCardError = true;
-          }
+        // Check for missing email and wobble
+        if (this.$refs.emailCard.user.email == null) {
           if (this.$refs.emailCard.user.email == null) {
             this.emailWobble = true;
             this.billingCardError = true;
           }
           setTimeout(() => {
             this.emailWobble = false;
-            this.addressWobble = false;
           }, 500);
           this.showDetails = true;
           return;
@@ -860,6 +856,7 @@ export default {
 
       const api = await openapi;
       this.redirectDialog = true;
+      this.addressRequired = false;
 
       // Continue Purchase
       if (this.openPurchase != null) {
@@ -867,16 +864,28 @@ export default {
         return;
       }
       // Create and start Purchase
-      api.shop_startCheckout(undefined, {address_id: this.currentAddress.id}).then((rsp) => {
+      api.shop_startCheckout(undefined, {address_id: this.currentAddress?.id}).then((rsp) => {
         this.openPurchase = rsp.data;
         // this.$refs.checkoutDialog.show(purchase);
         this.startPayment();
         this.fetchData();
       }).catch((err) => {
-        console.log(err);
-        this.redirectDialog = false;
-        this.utils.notifyUnexpectedError(err.response.data);
+        if (err.response?.data?.detail?.code === 'address_required') {
+          this.billingCardError = true;
+          this.showDetails = true;
+          this.addressWobble = true;
+          this.addressRequired = true;
+
+          setTimeout(() => {
+            this.addressWobble = false;
+          }, 500);
+        } else {
+          console.log(err);
+          this.utils.notifyUnexpectedError(err.response.data);
+        }
+
         this.fetchData();
+        this.redirectDialog = false;
       });
     },
     async startPayment() {

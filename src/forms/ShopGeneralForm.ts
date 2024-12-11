@@ -8,6 +8,14 @@ export default {
     default_currency: {
       ...Common.currency_code,
       title: i18n.global.t('_shop.labels.defaultCurrency'),
+      'x-cols': 6,
+    },
+    purchases_without_address_limit: {
+      type: 'number',
+      title: i18n.global.t('_shop.labels.purchasesWithoutAddressLimit'),
+      description: i18n.global.t('_shop.labels.purchasesWithoutAddressLimitDescription'),
+      'x-cols': 6,
+      minimum: 0,
     },
     credits_display_title: {
       type: 'string',
