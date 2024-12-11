@@ -8,6 +8,7 @@ function returnForm() {
     required: [
       'subject',
       'type',
+      'content'
     ],
     properties: {
       subject: {
@@ -41,6 +42,15 @@ function returnForm() {
             title: i18n.global.t('_home.newsOfTheDay'),
           },
         ],
+      },
+      content: {
+        type: 'string',
+        title: i18n.global.t('description'),
+        layout: {
+          slots: {
+            component: "custom-editor"
+          }
+        }
       },
     },
   };

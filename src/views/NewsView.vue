@@ -9,8 +9,8 @@
       :max-width="1100"
       @submit="addMessage"
     >
-      <template #form-after>
-        <Editor v-model="message" />
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
       </template>
     </dialog-form>
     <dialog-form
@@ -21,8 +21,8 @@
       :max-width="1100"
       @submit="editMessage"
     >
-      <template #form-after>
-        <Editor v-model="message" />
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
       </template>
     </dialog-form>
     <delete-confirmation-dialog
@@ -314,7 +314,6 @@ export default {
       exhausted: false,
       fetching: false,
       messageAddSchema: NewsAddForm.returnForm(),
-      message: '',
       showServers: true,
     };
   },
@@ -355,16 +354,11 @@ export default {
       };
     },
     showAddMessageDialog() {
-      this.message = '';
       this.$refs.messageAddDialog.show();
     },
     async addMessage() {
       const data = this.$refs.messageAddDialog.getData();
-      data.content = this.message;
-      if (!this.message) {
-        this.$refs.messageAddDialog.setErrorMessage(i18n.global.t('_home.messages.messageEmpty'));
-        return;
-      }
+      // TODO remove from i18n global.t('_home.messages.messageEmpty')
       if (data.content.length > this.maxInputLength) {
         this.$refs.messageAddDialog.setErrorMessage(i18n.global.t('maxInputExceeded', {length: config.html_max_input_length}),
           {length: config.html_max_input_length});
@@ -372,7 +366,6 @@ export default {
       }
       (await openapi).news_addMessage(null, data).then((rsp) => {
         this.$refs.messageAddDialog.closeAndReset();
-        this.message = '';
         this.news.unshift(rsp.data);
         this.$notify({
           title: this.$t('_messages.addSuccess'),
@@ -401,15 +394,9 @@ export default {
     openEditMessageDialog(message) {
       this.$refs.messageEditDialog.show(message);
       this.$refs.messageEditDialog.setData(message);
-      this.message = message.content;
     },
     async editMessage(message) {
-      if (!this.message) {
-        this.$refs.messageEditDialog.setErrorMessage(i18n.global.t('_home.messages.messageEmpty'));
-        return;
-      }
       const data = this.$refs.messageEditDialog.getData();
-      data.content = this.message;
       (await openapi).news_editMessage(message.id, data)
         .then((rsp) => {
           const index = this.news.findIndex((n) => n.id === rsp.data.id);
