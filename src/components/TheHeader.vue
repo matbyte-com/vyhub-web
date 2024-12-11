@@ -141,10 +141,12 @@ export default {
   },
   computed: {
     allowedLinks() {
+      if (!this.links) return [];
       return this.links
         .filter((l) => l.enabled && l.location === 'HEADER' && (!l.req_prop || this.$checkProp(l.req_prop)));
     },
     allowedHelpCircleLinks() {
+      if (!this.links) return [];
       return this.links
         .filter((l) => l.enabled && l.location === 'HELP' && (!l.req_prop || this.$checkProp(l.req_prop)));
     },

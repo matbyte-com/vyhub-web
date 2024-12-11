@@ -15,7 +15,7 @@ onMounted(() => {
 
 watch(store.state.navItems, () => {
   getHtml();
-});
+}, {deep: true});
 
 async function getHtml() {
   if (!store.state.navItems) return;
