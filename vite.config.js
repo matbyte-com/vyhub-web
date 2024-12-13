@@ -21,16 +21,6 @@ export default defineConfig({
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
   plugins: [
-    // Compat Build
-    /*vue({
-      template: {
-        compilerOptions: {
-          compatConfig: {
-            MODE: 3
-          }
-        }
-      }
-    }),*/
     vue({
       compilerOptions: {
         // Your options go here
@@ -47,9 +37,9 @@ export default defineConfig({
   },
   build: {
     target: 'esnext', // you can also use 'es2020' here
-    commonjsOptions: {
+    /*commonjsOptions: {
       include: commonjsDepsPaths,
-    },
+    },*/
   },
   optimizeDeps: {
     include: commonjsDeps,
