@@ -43,7 +43,6 @@
 
     <TheFooter v-if="$route.path !== '/'" />
 
-    <!--       v-if="welcomeOverlay" -->
     <!-- Welcome Overlay -->
     <WelcomeOverlay
       :welcome-overlay="welcomeOverlay"

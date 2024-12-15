@@ -39,8 +39,7 @@
 </template>
 
 <script>
-import emitter from '@/services/EventBus';
-import { version } from '../../package.json';
+import {version} from '../../package.json';
 
 export default {
   data() {
@@ -57,6 +56,16 @@ export default {
       return this.$store.getters.navItems;
     },
     navLinks() {
+      if (this.$store.getters.generalConfig?.shop_only) {
+        return [{
+          title: this.$t('home'), link: '/store'
+        },
+          {
+            title: this.$t('legal'),
+            link: '/store/legal',
+          }];
+      }
+
       if (this.links == null) {
         return [];
       }

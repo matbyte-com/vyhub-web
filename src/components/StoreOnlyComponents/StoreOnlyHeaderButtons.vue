@@ -74,14 +74,23 @@ watch(() => store.state.cartPacketCount, () => {
           </template>
           <v-list density="compact">
             <!-- TODO Translate -->
-            <v-list-item :to="{name: 'ShopAdmin'}">
-              Shop Admin
+            <v-list-item
+              :to="{name: 'ShopAdmin'}"
+              prepend-icon="mdi-store"
+            >
+              {{ $t('_shop.label.admin') }}
             </v-list-item>
-            <v-list-item :to="{name: 'Search'}">
-              User Search
+            <v-list-item
+              :to="{name: 'Search'}"
+              prepend-icon="mdi-magnify"
+            >
+              {{ $t('_pageTitle.search') }}
             </v-list-item>
-            <v-list-item :to="{name: 'Log'}">
-              Logs
+            <v-list-item
+              :to="{name: 'Log'}"
+              prepend-icon="mdi-format-list-bulleted"
+            >
+              {{ $t('_pageTitle.log') }}
             </v-list-item>
           </v-list>
         </v-menu>

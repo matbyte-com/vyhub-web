@@ -14,7 +14,6 @@ const vyhubLightFull = {
     },
     theme: {
       dark: false,
-      image: null,
       image: 'https://cdn.vyhub.net/vyhub/themes/shop-only-background.webp',
       primary: '#db2230',
       secondary: '#ef5350',

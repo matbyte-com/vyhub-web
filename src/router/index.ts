@@ -103,11 +103,17 @@ const routes = [
         meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shop') },
       },
       {
+        path: 'legal',
+        name: 'StoreLegal',
+        component: () => import('@/views/StoreOnly/StoreOnlyLegal.vue'),
+        meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.legal') },
+      },
+      {
         path: ':categoryId',
         name: 'StoreCategory',
         component: () => import('@/views/StoreOnly/StoreOnlyCategory.vue'),
         meta: { noContainer: true, noHeader: true, title: i18n.global.t('_pageTitle.shopCategory') },
-      },
+      }
     ],
   },
   {

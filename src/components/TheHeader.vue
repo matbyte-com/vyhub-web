@@ -141,6 +141,9 @@ export default {
   },
   computed: {
     allowedLinks() {
+      if (this.$store.getters.generalConfig?.shop_only) {
+        return [ { "title": this.$t('shop'), "icon": "mdi-store", "link": "/store"}, { "title": "Admin", "icon": "mdi-shield-star", "req_prop": "admin_menu", "link": null, "id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c", "sublinks": [ { "title": this.$t('_pageTitle.shop'), "icon": "mdi-sack", "enabled": true, "req_prop": "purchase_show", "link": "/admin/shop", "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c", "id": "1be71279-8887-4763-b302-a27190b9b588" }, { "title": this.$t('_pageTitle.log'), "icon": "mdi-format-list-bulleted", "req_prop": "log_show", "link": "/log", "cms_page_id": null, "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c", "id": "2643e77e-04b0-4580-8e07-d163bec534f9" }, { "title": this.$t('_pageTitle.settings'), "icon": "mdi-cog-outline", "req_prop": "admin_menu", "link": "/settings", "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c", "id": "cdc914f8-369d-4db0-b932-adcfd2a5d202" } ] }, { "title": this.$t('_pageTitle.search'), "icon": "mdi-magnify", "link": "/search"} ];
+      }
       if (!this.links) return [];
       return this.links
         .filter((l) => l.enabled && l.location === 'HEADER' && (!l.req_prop || this.$checkProp(l.req_prop)));

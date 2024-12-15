@@ -33,7 +33,7 @@ async function fetchPackets() {
 <template>
   <div>
     <div>
-      <div v-if="$store.getters.shopConfig.packet_list_view">
+      <div v-if="store.state.shopConfig.packet_list_view">
         <v-skeleton-loader
           v-for="index in 3"
           v-if="packets == null"

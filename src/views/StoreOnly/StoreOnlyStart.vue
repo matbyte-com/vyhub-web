@@ -3,6 +3,7 @@ import {computed, ref, onMounted} from "vue";
 import openapiCached from "../../api/openapiCached";
 import {useStore} from "vuex";
 import openapi from "../../api/openapi";
+import {useDisplay} from "vuetify";
 import {useRoute} from "vue-router";
 
 onMounted(() => {
@@ -13,6 +14,8 @@ onMounted(() => {
 const recommendedPackets = ref(false);
 const categories = ref(null);
 const store = useStore();
+const display = ref(useDisplay());
+const route = useRoute();
 
 async function fetchRecommendedPackets() {
   (await openapiCached).shop_getPackets({recommended: true, limit: 1}).then((rsp) => {
@@ -28,7 +31,7 @@ async function fetchCategories() {
       categories.value = rsp.data.filter((cat) => cat.enabled);
       // Redirect if there is only on category TODO Fix Redirect!?
       if (categories.value.length === 1) {
-        this.$router.replace({ name: 'StoreCategory', params: { categoryId: this.categories[0].id } });
+        this.$router.replace({name: 'StoreCategory', params: {categoryId: this.categories[0].id}});
       }
     });
 }
@@ -79,23 +82,30 @@ const anyShopStatsEnabled = computed(() => {
               v-else
               class="d-flex justify-center flex-grow-1"
             >
-              <a
+              <router-link
+                class="font-weight-bold ml-5 nav-button"
+                :to="{ name: 'Store' }"
+                :class="{ 'button-active' : route.name === 'Store'}"
+              >
+                {{ $t('home') }}
+              </router-link>
+              <router-link
                 v-for="cat in categories"
                 :key="cat.id"
                 class="font-weight-bold ml-5 nav-button"
-                :class="{ 'button-active' : $route.params.categoryId == cat.name}"
-                @click="$router.push({ name: 'StoreCategory',
-                                       params: {categoryId: cat.name }})"
+                :class="{ 'button-active' : route.params.categoryId === cat.name}"
+                :to="{ name: 'StoreCategory',
+                       params: {categoryId: cat.name }}"
               >
                 {{ cat.name }}
-              </a>
+              </router-link>
             </div>
           </v-toolbar>
         </div>
         <!-- Categories -->
         <!-- TODO Skeleton Loader -->
         <Swiper
-          v-if="categories != null && $route.name === 'Store'"
+          v-if="categories != null && route.name === 'Store'"
           :number-of-elements="categories.length"
           :per-page-custom="[2,3,4,5,5]"
           style="min-height: 200px"
@@ -151,14 +161,14 @@ const anyShopStatsEnabled = computed(() => {
             class="d-flex flex-column"
           >
             <v-card
-              v-if="!$vuetify.display.smAndDown && anyShopStatsEnabled"
+              v-if="!display.smAndDown && anyShopStatsEnabled"
               class="card-rounded"
             >
               <ShopStatsSide />
             </v-card>
             <div
               class="card-rounded"
-              :class="{ 'mt-3':!$vuetify.display.smAndDown && anyShopStatsEnabled }"
+              :class="{ 'mt-3':!display.smAndDown && anyShopStatsEnabled }"
             >
               <RecommendedPacketsSide
                 :flat="false"
@@ -185,6 +195,7 @@ const anyShopStatsEnabled = computed(() => {
 .category-card {
   transition: color 0.2s;
 }
+
 .category-card:hover {
   color: rgb(var(--v-theme-primary));
 }
@@ -199,6 +210,7 @@ const anyShopStatsEnabled = computed(() => {
   transition: color 0.2s;
   font-size: large;
   color: black;
+  text-decoration: none;
 }
 
 .nav-button:hover {

@@ -110,6 +110,11 @@ export default {
         flat: false,
         links: [
           {
+            icon: 'mdi-cart-variant',
+            btnText: 'Shop Only',
+            link: '/store',
+          },
+          {
             icon: 'mdi-newspaper',
             btnText: 'News',
             link: '/news',

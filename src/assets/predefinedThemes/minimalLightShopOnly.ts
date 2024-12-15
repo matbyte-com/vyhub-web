@@ -14,7 +14,6 @@ const minimalLightFull = {
     },
     theme: {
       dark: false,
-      image: null,
       primary: '#000000',
       secondary: '#000000',
       header: '#000000',

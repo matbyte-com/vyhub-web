@@ -43,12 +43,16 @@
         <div v-if="!servers">
           {{ $t('_component.specifyServers') }}
         </div>
-        <v-img
+        <router-link
           v-if="logoUrl"
-          height="200"
-          :src="logoUrl ? logoUrl : $store.getters.theme.logo"
-          :alt="$store.getters.theme.logo"
-        />
+          :to="$props.link"
+        >
+          <v-img
+            height="200"
+            :src="logoUrl ? logoUrl : $store.getters.theme.logo"
+            :alt="$store.getters.theme.logo"
+          />
+        </router-link>
         <div
           v-else
           style="height: 200px"
@@ -99,7 +103,23 @@ import openapiCached from '@/api/openapiCached';
 
 export default {
   name: 'JoinServer',
-  props: ['logoUrl', 'servers', 'whiteText'],
+  props: {
+    logoUrl: {
+      type: String
+    },
+    servers: {
+      type: Array
+    },
+    whiteText: {
+      type: Boolean
+    },
+    link: {
+      type: Object,
+      default: () => ({
+        name: 'Home'
+      })
+    }
+  },
   data() {
     return {
       fetchedServers: null,
@@ -186,6 +206,7 @@ export default {
   transition: all .2s ease-in-out;
   border-radius: 15px;
 }
+
 .join-link:hover {
   background-color: rgb(var(--v-theme-primary-lighten-2)) !important;
 }

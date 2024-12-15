@@ -1,6 +1,8 @@
 <script setup lang="ts">
-
 import UserService from "../../services/UserService";
+import {useStore} from "vuex";
+
+const store = useStore();
 </script>
 
 <template>
@@ -22,7 +24,7 @@ import UserService from "../../services/UserService";
           <v-icon start>
             {{ UserService.userTypeIcons[$store.getters.user.type] }}
           </v-icon>
-          {{ $store.getters.user.username }}
+          {{ store.getters.user.username }}
         </v-chip>
       </div>
       <div v-if="$store.getters.user.linked_users">

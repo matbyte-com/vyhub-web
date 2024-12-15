@@ -35,6 +35,7 @@ const background = computed(() => {
           :servers="store.state.theme.shop_only_servers"
           :logo-url="store.state.theme.logo"
           :white-text="true"
+          :link="{ name: 'Store' }"
         />
       </v-col>
     </v-row>
