@@ -92,8 +92,8 @@
                   class="card-rounded"
                 >
                   <v-tabs
-                    color="primary"
                     v-model="tabs"
+                    color="primary"
                     grow
                   >
                     <v-tab

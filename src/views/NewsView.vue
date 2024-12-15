@@ -358,7 +358,6 @@ export default {
     },
     async addMessage() {
       const data = this.$refs.messageAddDialog.getData();
-      // TODO remove from i18n global.t('_home.messages.messageEmpty')
       if (data.content.length > this.maxInputLength) {
         this.$refs.messageAddDialog.setErrorMessage(i18n.global.t('maxInputExceeded', {length: config.html_max_input_length}),
           {length: config.html_max_input_length});

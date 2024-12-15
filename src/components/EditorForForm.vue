@@ -3,6 +3,7 @@
     <!-- TODO Label not working -->
     <span class="text-subtitle-1">{{ label }}</span>
     <Editor
+      v-if="content !== null"
       v-model="content"
       class="mt-1"
     />

@@ -12,9 +12,6 @@
       @submit="createCmsPage"
     >
       <template #custom-editor="context">
-        <EditorForForm v-bind="context" />
-      </template>
-      <template #title-after>
         <v-alert
           type="warning"
           variant="outlined"
@@ -22,6 +19,12 @@
         >
           {{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
+        <EditorForForm
+          class="mt-3"
+          v-bind="context"
+        />
+      </template>
+      <template #title-after>
         <!--
               <input
                 ref="fileInput"
@@ -41,10 +44,6 @@
       @submit="editCmsPage"
     >
       <template #custom-editor="context">
-        <EditorForForm v-bind="context" />
-      </template>
-      <!-- TODO doesnt work -->
-      <template #title-after>
         <v-alert
           type="warning"
           variant="outlined"
@@ -52,14 +51,10 @@
         >
           {{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
-        <!--
-              <input
-                ref="fileInput"
-                type="file"
-                :accept="acceptedFileTypes.join(',')"
-                style="display: none"
-                @change="readFile"
-              >-->
+        <EditorForForm
+          v-bind="context"
+          class="mt-3"
+        />
       </template>
     </dialog-form>
     <delete-confirmation-dialog

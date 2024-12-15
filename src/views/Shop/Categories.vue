@@ -7,6 +7,7 @@
     />
     <v-card
       v-if="newsContent"
+      flat
       class="mt-4 mb-2 card-rounded vh-shop-news"
     >
       <v-card-text>
@@ -14,9 +15,7 @@
           <h2 class="text-h5">
             {{ $t('news') }}
           </h2>
-          <!-- TODO Divider not well visible -->
           <v-divider
-            thickness="3"
             class="ml-3 mb-1 align-self-end"
           />
         </div>
@@ -37,9 +36,8 @@
           <h2 class="text-h5">
             {{ $t('categories') }}
           </h2>
-          <!-- TODO Divider not well visible-->
           <v-divider
-            thickness="3"
+            thickness="1"
             class="ml-3 mb-1 align-self-end"
           />
         </div>
@@ -60,7 +58,6 @@
             <v-card
               :to=" { name: 'ShopCategory',
                       params: {categoryId: category.name }}"
-              color=""
               flat
               border
               class="flex-grow-1 flex-column d-flex"

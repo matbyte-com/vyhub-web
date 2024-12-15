@@ -86,7 +86,6 @@
           <span class="mr-4 text-grey">
             {{ page }} of {{ numberOfPages }}
           </span>
-          <!-- TODO Both Buttons were fab and dark -->
           <v-btn
             size="small"
             color="primary"

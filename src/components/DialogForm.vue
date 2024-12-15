@@ -9,7 +9,6 @@
     class=""
     @cancel="cancelForm"
   >
-    <!-- TODO Keine Ahnung was das ist?? :text-class="formSchema.properties ? '' : 'pl-0 pr-0 pb-0'       style="overflow-x: hidden""-->
     <template
       v-if="formSchema"
     >

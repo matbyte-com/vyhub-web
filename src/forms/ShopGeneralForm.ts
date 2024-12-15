@@ -151,5 +151,14 @@ export default {
         },
       },
     },
+    news: {
+      type: 'string',
+      title: i18n.global.t('news'),
+      layout: {
+        slots: {
+          component: "custom-editor"
+        }
+      }
+    },
   },
 };

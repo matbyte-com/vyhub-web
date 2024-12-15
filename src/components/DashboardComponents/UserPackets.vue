@@ -15,7 +15,7 @@
         {{ $t('packets') }}
       </v-tab>
     </v-tabs>
-    <v-tabs-window>
+    <v-tabs-window v-model="tabs">
       <v-tabs-window-item>
         <v-card
           class="card-rounded"
@@ -28,12 +28,10 @@
               :show-page-selector="false"
             >
               <template #default="props">
-                <!-- TODO probably not working userPacket.raw.type...-->
-                {{ props }}
                 <v-row>
                   <v-col
                     v-for="userPacket in props.items"
-                    :key="userPacket.id"
+                    :key="userPacket.raw.id"
                     class="d-flex flex-column"
                     cols="6"
                     sm="4"
@@ -44,16 +42,16 @@
                     <v-card
                       class="flex-grow-1"
                       border
-                      @click="showUserPacketDetails(userPacket)"
+                      @click="showUserPacketDetails(userPacket.raw)"
                     >
                       <PacketImage
                         :cover="true"
                         height="90"
-                        :packet="userPacket.packet"
-                        :style="(userPacket.active ? '' : 'filter: grayscale(100%)')"
+                        :packet="userPacket.raw.packet"
+                        :style="(userPacket.raw.active ? '' : 'filter: grayscale(100%)')"
                       >
                         <v-chip
-                          v-if="!userPacket.active"
+                          v-if="!userPacket.raw.active"
                           size="small"
                           color="error"
                           class="ma-2"
@@ -65,7 +63,7 @@
                         </v-chip>
                       </PacketImage>
                       <v-card-subtitle class="pa-2 text-center">
-                        {{ userPacket.packet.title }}
+                        {{ userPacket.raw.packet.title }}
                       </v-card-subtitle>
                     </v-card>
                   </v-col>

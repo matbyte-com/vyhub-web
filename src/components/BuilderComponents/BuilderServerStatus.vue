@@ -276,25 +276,24 @@ export default {
       });
     },
     getImage(s) {
-      // TODO Put Pictures into cdn
       if (s.imageUrl != null) return s.imageUrl;
       switch (s.type) {
         case 'MINECRAFT':
-          return 'https://steam.cryotank.net/wp-content/gallery/minecraft/Minecraft-07-HD.png';
+          return 'https://cdn.vyhub.net/central/games/minecraft.webp';
         case 'GMOD':
-          return 'https://cdn.steamstatic.com/steam/apps/4000/header.jpg';
+          return 'https://cdn.vyhub.net/central/games/garrys-mod.webp';
         case 'TEAMSPEAK3':
           return 'https://cdn.vyhub.net/central/games/teamspeak.jpeg';
         case 'DISCORD':
           return 'https://cdn.vyhub.net/central/games/discord.png';
         case 'RUST':
-          return 'https://cdn.steamstatic.com/steam/apps/252490/header.jpg';
+          return 'https://cdn.vyhub.net/central/games/rust.webp';
         case 'FiveM':
-          return 'https://cdn.steamstatic.com/steam/apps/252490/header.jpg';
+          return 'https://cdn.vyhub.net/central/games/fivem.webp';
         case 'SEVEN_DAYS':
-          return 'https://cdn.akamai.steamstatic.com/steam/apps/251570/header.jpg?t=1702072288';
+          return 'https://cdn.vyhub.net/central/games/7days-to-die.webp';
         case 'ASA':
-          return 'https://cdn.cloudflare.steamstatic.com/steam/apps/2399830/header.jpg?t=1699643475';
+          return 'https://cdn.vyhub.net/central/games/ark-survival-ascended.webp';
         default:
           return 'https://cdn.vyhub.net/central/games/teamspeak.jpeg';
       }

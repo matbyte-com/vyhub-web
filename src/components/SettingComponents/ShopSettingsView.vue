@@ -22,11 +22,8 @@
           :action-button-top-margin="3"
           @submit="saveData"
         >
-          <template #checkout_checkboxes-after>
-            <div class="mt-5">
-              <span class="text-subtitle-1">{{ $t('news') }}</span>
-              <Editor v-model="shopNews" />
-            </div>
+          <template #custom-editor="context">
+            <EditorForForm v-bind="context" />
           </template>
         </GenForm>
       </v-col>
@@ -76,15 +73,12 @@ import ShopGeneralForm from '@/forms/ShopGeneralForm';
 import openapi from '@/api/openapi';
 import BusinessAddressForm from '../../forms/BusinessAddressForm';
 
-// TODO News Editor not shown
-
 export default {
   data() {
     return {
       formSchema: ShopGeneralForm,
       businessAddress: null,
       addressFormSchema: BusinessAddressForm,
-      shopNews: null,
     };
   },
   mounted() {
@@ -101,8 +95,6 @@ export default {
           data.checkout_checkboxes = [];
         }
 
-        this.shopNews = data.news;
-
         this.$refs.form.setData(data);
       }).catch((err) => {
         console.log(err);
@@ -118,7 +110,6 @@ export default {
     },
     async saveData() {
       const data = this.$refs.form.getData();
-      data.news = this.shopNews;
       (await openapi).shop_editConfig(null, data).then(() => {
         this.utils.getShopConfig();
         this.$notify({

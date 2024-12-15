@@ -113,7 +113,6 @@ export default {
       valid: false,
       optionsBase: {
         locale: i18n.global.locale, // i18n.locale,
-        // TODO API Does not seem to be respected it was just axios before
         httpLib: axios,
         density: 'comfortable',
         timePickerProps: {

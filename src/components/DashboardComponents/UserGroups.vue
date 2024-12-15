@@ -15,8 +15,8 @@
       @submit="fetchData"
     />
     <v-tabs
-      color="primary"
       v-model="tab"
+      color="primary"
       grow
     >
       <v-tab>
@@ -64,8 +64,6 @@
                       {{ bundle.name }}
                     </td>
                     <td>
-                      <!-- TODO CHeck whether this is still neded                         :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
--->
                       <v-chip
                         v-for="group in getUserActiveGroupsByBundle(bundle)"
                         :key="group.id"
@@ -116,8 +114,6 @@
               />
             </template>
             <template #item.group.name="{ item }">
-              <!-- Check whether this is needed TODO                :text-color="$vuetify.theme.current.dark ? 'white' : 'black'"
-  -->
               <v-chip
                 :color="item.group.color ? item.group.color : '#000000'"
                 variant="outlined"
