@@ -111,7 +111,6 @@
         >
           <v-icon
             start
-            class="custom-icon-white"
           >
             custom:discord
           </v-icon>

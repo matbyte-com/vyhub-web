@@ -11,6 +11,7 @@
     class="custom-icon"
   >
     <g
+      fill="currentColor"
       transform="translate(0.000000,1200.000000) scale(0.100000,-0.100000)"
     >
       <path

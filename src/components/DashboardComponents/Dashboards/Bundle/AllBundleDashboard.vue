@@ -30,7 +30,10 @@
                 ($checkProp('ban_show') && $checkProp('warning_show'))"
             >
               <v-col>
-                <v-card class="card-rounded">
+                <v-card
+                  class="card-rounded"
+                  flat
+                >
                   <v-card-text>
                     <BansAndWarnings
                       :user="user"

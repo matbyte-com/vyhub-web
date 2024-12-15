@@ -19,7 +19,7 @@
             style="border-radius: 15px"
           >
             <v-icon
-              :class="{ 'custom-icon-white': whiteText }"
+              :color="whiteText ? 'white' : ''"
               size="40"
             >
               {{ getServerIcon(server1) }}
@@ -82,7 +82,7 @@
             style="border-radius: 15px"
           >
             <v-icon
-              :class="{ 'custom-icon-white': whiteText }"
+              :color="whiteText ? 'white' : ''"
               size="40"
             >
               {{ getServerIcon(server2) }}

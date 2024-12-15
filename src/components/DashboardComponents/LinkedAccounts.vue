@@ -46,6 +46,15 @@
                 </v-col>
               </v-row>
             </div>
+            <div v-if="linkedUsers && linkedUsers.length === 0">
+              <v-alert
+                type="info"
+                variant="outlined"
+                class="mt-n2"
+              >
+                {{ $t('_dashboard.labels.noLinkedAccounts') }}
+              </v-alert>
+            </div>
             <v-data-iterator
               :items="linkedUsers"
               item-key="id"
@@ -74,6 +83,7 @@
                             <div class="d-flex align-center">
                               <v-icon
                                 class="mr-2"
+                                color="green"
                                 v-bind="props"
                               >
                                 {{ userTypeIcons[acc.raw.type] }}

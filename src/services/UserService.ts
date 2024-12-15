@@ -4,9 +4,9 @@ import store from '@/store';
 export default {
   userTypeIcons: {
     CENTRAL: 'custom:vyhub',
-    STEAM: 'mdi-steam',
+    STEAM: 'custom:steam',
     DISCORD: 'custom:discord',
-    MINECRAFT: 'mdi-minecraft',
+    MINECRAFT: 'custom:minecraft',
     TEAMSPEAK3: 'custom:teamspeak',
     FIVEM: 'custom:fivem',
     ASA: 'custom:asa',
