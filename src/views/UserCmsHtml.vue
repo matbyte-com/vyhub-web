@@ -17,6 +17,10 @@ watch(store.state.navItems, () => {
   getHtml();
 }, {deep: true});
 
+watch(route, () => {
+  getHtml();
+});
+
 async function getHtml() {
   if (!store.state.navItems) return;
   const htmlId = store.state.navItems

@@ -11,7 +11,6 @@
         hidden // Needed for the correct positioning of header buttons
       </p>
     </div>
-    <!-- TODO Add Store Only Design -->
     <v-row class="justify-center mt-12">
       <v-col
         cols="12"

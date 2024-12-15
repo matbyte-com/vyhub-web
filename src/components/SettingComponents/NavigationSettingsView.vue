@@ -556,7 +556,6 @@ export default {
     async editCmsPage(page) {
       const data = this.$refs.cmsEditDialog.getData();
       console.log(data);
-      // TODO remove from i18n this.$t('_navigation.bothHtmlInputsUsed
       if (!data.requirement_set_id) data.requirement_set_id = null;
       (await openapi).general_editCmsHtml(page.id, data).then(() => {
         this.$refs.cmsEditDialog.closeAndReset();
