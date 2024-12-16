@@ -241,7 +241,7 @@
                     && post.creator.id === thread.creator.id"
                 >
                   <v-chip
-                    :color="$vuetify.theme.current.dark ? '#1c1c1c' : ''"
+                    color="success"
                     size="small"
                     label
                     class="vh-forum-post-op"
