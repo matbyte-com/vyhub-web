@@ -1,3 +1,9 @@
+@media (min-width: 2560px) {
+  .v-container {
+    max-width: 1800px !important;
+  }
+}
+
 .vue-notification.vuetify-notification {
     .notification-title {
       font-size: 14px;
