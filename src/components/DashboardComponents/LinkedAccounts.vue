@@ -201,7 +201,7 @@
                       <br>
                       {{ link.user_1.type }}
                       <br>
-                      {{ link.user_1.id }}
+                      {{ link.user_1.identifier }}
                     </div>
                   </v-col>
                   <v-col
