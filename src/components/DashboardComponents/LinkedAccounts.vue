@@ -83,7 +83,6 @@
                             <div class="d-flex align-center">
                               <v-icon
                                 class="mr-2"
-                                color="green"
                                 v-bind="props"
                               >
                                 {{ userTypeIcons[acc.raw.type] }}
