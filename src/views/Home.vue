@@ -321,7 +321,7 @@ export default {
   },
   methods: {
     componentInstance(type) {
-      return defineAsyncComponent(() => import(/* @vite-ignore */ `../components/BuilderComponents/Builder${type}.vue`));
+      return defineAsyncComponent(() => import(`../components/BuilderComponents/Builder${type}.vue`));
     },
     async redirectWhenDisabled() {
       if (!this.$store.getters.generalConfig) {

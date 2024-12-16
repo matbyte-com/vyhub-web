@@ -98,7 +98,7 @@ export default {
   computed: {
     componentInstance() {
       const type = this.activeComponent;
-      return defineAsyncComponent(() => import(/* @vite-ignore */ `../../components/ShopComponents/Admin/${type}.vue`));
+      return defineAsyncComponent(() => import(`../../components/ShopComponents/Admin/${type}.vue`));
     },
     allowedTabs() {
       return this.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);

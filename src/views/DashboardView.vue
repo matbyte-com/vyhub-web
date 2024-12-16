@@ -25,7 +25,10 @@
         flat
       >
         <v-card-text>
-          <v-tabs v-model="activeTabIndex" color="primary">
+          <v-tabs
+            v-model="activeTabIndex"
+            color="primary"
+          >
             <v-tab @click="switchTab('General')">
               <v-icon start>
                 mdi-gamepad
@@ -157,17 +160,17 @@ export default {
   },
   computed: {
     componentInstance() {
-      let path;
+      const general = defineAsyncComponent(() => import('../components/DashboardComponents/Dashboards/GeneralDashboard.vue'));
+
       if (this.activeTab === 'Bundle' && this.activeBundle) {
-        path = `../components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}.vue`;
+        return defineAsyncComponent(() => import(`../components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}.vue`));
       }
       else if (this.activeTab === 'Bundle') {
-        path = '../components/DashboardComponents/Dashboards/GeneralDashboard.vue';
+        return general;
       }
       else {
-        path = `../components/DashboardComponents/Dashboards/${this.activeTab}Dashboard.vue`;
+        return defineAsyncComponent(() => import(`../components/DashboardComponents/Dashboards/${this.activeTab}Dashboard.vue`));
       }
-      return defineAsyncComponent(() => import(/* @vite-ignore */ path));
     },
     getBundles() {
       return this.bundles.filter((b) => b.server_type !== 'DISCORD' && b.server_type !== 'TEAMSPEAK3');

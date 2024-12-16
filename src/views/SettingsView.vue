@@ -271,7 +271,7 @@ export default {
     },
     componentInstance() {
       const type = this.activeTab.component;
-      return defineAsyncComponent(() => import(/* @vite-ignore */ `../components/SettingComponents/${type}.vue`));
+      return defineAsyncComponent(() => import(`../components/SettingComponents/${type}.vue`));
     },
     activeTab() {
       if (this.$route.params.component) {
