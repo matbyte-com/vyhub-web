@@ -16,7 +16,7 @@
               >
                 <v-col>
                   <v-btn
-                    variant="flat"
+                    variant="outlined"
                     color="success"
                     :to="{path: $route.path,
                           query: { login: 'true', return_url: getReturnUrl() } }"
