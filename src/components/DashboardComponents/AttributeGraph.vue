@@ -5,13 +5,14 @@
     flat
   >
     <v-tabs
-      bg-color="primary"
+      v-model="activeDef"
+      color="primary"
       center-active
     >
       <v-tab
         v-for="def in accumulatedDefinitions"
         :key="def.id"
-        @click="activeDef = def"
+        :value="def"
       >
         {{ def.title }}
       </v-tab>
