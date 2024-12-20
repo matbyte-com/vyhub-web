@@ -107,6 +107,7 @@ function close() {
       </v-card-title>
       <v-card-text
         :id="id"
+        class="pt-1"
         :class="textClass"
       >
         <slot />

@@ -8,12 +8,13 @@
       text-class="mb-0 pb-0"
       action-class="mt-0 pt-1"
     >
+      <!-- Hint when linking accounts -->
       <v-card
         v-if="$store.getters.isLoggedIn || $route.query.shop"
         variant="outlined"
         type="info"
         dense
-        class="description-card"
+        class="description-card mt-3"
       >
         <v-card-text>
           <v-row no-gutters>
@@ -40,6 +41,7 @@
           </v-row>
         </v-card-text>
       </v-card>
+      <!-- List -->
       <v-list
         v-if="backends != null"
         tile
@@ -51,14 +53,20 @@
           :data-cy="backend.id"
           @click="startAuth(backend)"
         >
-          <v-list-item-title>
-            <v-icon start>
-              {{ getIcon(backend.name) }}
-            </v-icon>
-            {{ $t(`_user.type.${backend.name}.name`) }}
-          </v-list-item-title>
-          <div class="text-grey">
-            {{ $t(`_user.type.${backend.name}.info`) }}
+          <div class="d-flex align-center">
+            <div>
+              <v-icon
+                size="25"
+              >
+                {{ getIcon(backend.name) }}
+              </v-icon>
+            </div>
+            <div class="ml-6">
+              <p>{{ $t(`_user.type.${backend.name}.name`) }}</p>
+              <div class="text-grey account-subtitle">
+                {{ $t(`_user.type.${backend.name}.info`) }}
+              </div>
+            </div>
           </div>
         </v-list-item>
       </v-list>
@@ -83,12 +91,14 @@
           density="compact"
         >
           <v-list-item @click="startAuth(backends.find((b) => b.type === 'CENTRAL'))">
-            <v-list-item-title>
-              <v-icon start>
+            <div class="d-flex align-center">
+              <v-icon size="25">
                 {{ getIcon('CENTRAL') }}
               </v-icon>
-              {{ $t(`_user.type.CENTRAL.name`) }}
-            </v-list-item-title>
+              <div class="ml-6">
+                {{ $t(`_user.type.CENTRAL.name`) }}
+              </div>
+            </div>
           </v-list-item>
         </v-list>
       </template>
@@ -410,5 +420,10 @@ export default {
 <style scoped>
 .description-card {
   border-color: rgb(var(--v-theme-secondary));
+}
+
+.account-subtitle {
+  font-weight: 400;
+  font-size: 14px;
 }
 </style>

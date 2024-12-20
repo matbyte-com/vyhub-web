@@ -11,6 +11,7 @@
   >
     <template
       v-if="formSchema"
+      #default
     >
       <GenForm
         ref="form"
@@ -20,7 +21,7 @@
         :cancel-text="cancelText"
         :submit-text="submitText"
         :options-extra="optionsExtra"
-        class="mt-1"
+        class="mt-2"
         @submit="$emit('submit', item)"
         @cancel="$refs.dialog.open = false; $emit('cancel');"
         @mounted="genFormMounted"
