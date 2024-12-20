@@ -283,6 +283,7 @@ export default {
       currentUser: null,
       menuOpen: false,
       reloading: false,
+      timer: null,
       banHeaders: [
         { title: this.$t('user'), key: 'user', sortable: false },
         { title: this.$t('reason'), key: 'reason' },
@@ -340,6 +341,7 @@ export default {
     $route(to, from) {
       this.fetchServers();
       this.fetchUserActivity();
+      this.stopTimer();
       this.startTimer();
     },
   },
@@ -365,7 +367,9 @@ export default {
       this.timer = setInterval(this.fetchData, 30000); // 30s
     },
     stopTimer() {
+      if (!this.timer) return;
       clearInterval(this.timer);
+      console.log('timer stopped');
     },
     async fetchServers() {
       (await openapi).server_getServers().then((rsp) => {

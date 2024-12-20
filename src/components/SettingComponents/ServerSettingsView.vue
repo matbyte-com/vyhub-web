@@ -44,8 +44,8 @@
                   <td>
                     <v-chip
                       :color="bundle.color ? bundle.color : '#000000'"
-                      variant="outlined"
                       :prepend-icon="bundle.icon"
+                      variant="flat"
                     >
                       {{ bundle.name }}
                     </v-chip>
@@ -680,6 +680,7 @@ export default {
       });
     },
     openEditServerDialog(item) {
+      console.log(item);
       this.$refs.editServerDialog.show(item);
       const data = { ...item };
       if (data.type === 'TEAMSPEAK3') {

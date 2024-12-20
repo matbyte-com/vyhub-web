@@ -82,7 +82,7 @@ function returnForm(links: {}[], disabled?: false) {
           enabled: {
             type: 'boolean',
             default: true,
-            title: i18n.global.t('_navigation.enabled'),
+            title: i18n.global.t('enabled'),
             layout: {
               cols: 4,
             },

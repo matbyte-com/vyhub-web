@@ -2,7 +2,7 @@
   <div class="d-flex">
     <v-text-field
       ref="textField"
-      style="border-bottom-right-radius: 0; border-top-right-radius: 0"
+      class="inputField"
       hide-details
       density="compact"
       readonly
@@ -46,5 +46,8 @@ export default {
 </script>
 
 <style scoped>
-
+.inputField :deep(.v-field){
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
 </style>

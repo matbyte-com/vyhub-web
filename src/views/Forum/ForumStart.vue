@@ -248,6 +248,13 @@
       :title="$t('_forum.manageTopicCategories')"
       :icon="'mdi-card-multiple'"
     >
+      <v-alert
+        v-if="topicCategories && topicCategories.length === 0"
+        color="info"
+        icon="mdi-information"
+      >
+        {{ $t('noDataAvailable') }}: Forum Categories
+      </v-alert>
       <v-expansion-panels
         v-model="expansionPanel"
         class="mt-5"

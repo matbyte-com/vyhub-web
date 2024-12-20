@@ -1,14 +1,95 @@
+<script setup>
+import {ref, watch, onMounted, defineProps, defineEmits, computed} from 'vue';
+import { useUtils} from "@/services/useUtils";
+import {useDisplay} from "vuetify"; // Import utils or adjust based on actual location
+
+const props = defineProps({
+  textClass: String,
+  actionClass: String,
+  title: String,
+  icon: String,
+  maxWidth: {
+    type: Number,
+    default: 600,
+  },
+  modelValue: {
+    type: Boolean,
+    default: null,
+  },
+  withId: {
+    type: Boolean,
+    default: null,
+  },
+});
+
+const emit = defineEmits(['input', 'close', 'cancel', 'update:modelValue']);
+defineExpose({show, close, getItem, cancel});
+
+const openValue = ref(false);
+const item = ref(null);
+const id = ref(null);
+const display = ref(useDisplay());
+const utils = useUtils().data().utils;
+
+const open = computed({
+  get() {
+    return props.modelValue === null ? openValue.value : props.modelValue;
+  },
+  set(newValue) {
+    if (props.modelValue === null) {
+      openValue.value = newValue;
+    } else {
+      emit('update:modelValue', newValue);
+    }
+  },
+});
+
+onMounted(() => {
+  if (props.withId) {
+    id.value = utils.random_string(6);
+  }
+});
+
+watch(open, (newValue) => {
+  if (props.modelValue !== null) {
+    emit('input', newValue);
+  }
+
+  if (!newValue) {
+    emit('close');
+  }
+});
+
+function cancel() {
+  close();
+  emit('cancel');
+}
+
+function show(newItem) {
+  open.value = true;
+  item.value = newItem;
+}
+
+function getItem() {
+  return item.value;
+}
+
+function close() {
+  open.value = false;
+}
+</script>
+
 <template>
   <v-dialog
     v-bind="$attrs"
     v-model="open"
-    :class="{ 'ma-3' : !$vuetify.display.xs }"
+    :class="{ 'ma-3' : !display.xs }"
     scrollable
     :max-width="maxWidth"
-    :fullscreen="$vuetify.display.xs"
+    :fullscreen="display.xs"
     :z-index="1005"
   >
-    <v-card :class="{ 'card-rounded' : !$vuetify.display.xs }">
+    <v-card :class="{ 'card-rounded' : !display.xs }">
       <v-card-title class="bg-primary d-flex">
         <v-icon
           :if="icon != null"
@@ -39,87 +120,6 @@
     </v-card>
   </v-dialog>
 </template>
-
-<script>
-export default {
-  props: {
-    textClass: String,
-    actionClass: String,
-    title: String,
-    icon: String,
-    maxWidth: {
-      type: Number,
-      default: 600,
-    },
-    modelValue: {
-      default: null,
-      type: Boolean,
-    },
-    withId: {
-      default: null,
-      type: Boolean,
-    },
-  },
-  emits: ['input', 'close', 'cancel', 'update:modelValue'],
-  data() {
-    return {
-      openValue: false,
-      item: null,
-      id: null,
-    };
-  },
-  computed: {
-    open: {
-      get() {
-        if (this.modelValue == null) {
-          return this.openValue;
-        }
-
-        return this.modelValue;
-      },
-      set(newValue) {
-        if (this.modelValue == null) {
-          this.openValue = newValue;
-        } else {
-        this.$emit('update:modelValue', newValue);
-        }
-      },
-    },
-  },
-  watch: {
-    open() {
-      if (this.modelValue != null) {
-        this.$emit('input', this.open);
-      }
-
-      if (!this.open) {
-        this.$emit('close');
-      }
-    },
-  },
-  mounted() {
-    if (this.withId) {
-      this.id = this.utils.random_string(6);
-    }
-  },
-  methods: {
-    cancel() {
-      this.close();
-      this.$emit('cancel');
-    },
-    show(item) {
-      this.open = true;
-      this.item = item;
-    },
-    getItem() {
-      return this.item;
-    },
-    close() {
-      this.open = false;
-    },
-  },
-};
-</script>
 
 <style scoped>
 

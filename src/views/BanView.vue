@@ -66,7 +66,7 @@
                   type="info"
                   color="primary"
                   density="compact"
-                  class="mt-4 ml-3"
+                  class="ml-3"
                 >
                   {{ $t('_ban.messages.showingUserBans', { id: $route.query.user_id }) }}
                 </v-alert>
@@ -145,6 +145,7 @@
     <Dialog
       ref="banDetailDialog"
       v-model="banDetailShown"
+      min-height="500px"
       icon="mdi-account-cancel"
       :title="$t('_ban.labels.details')"
       :max-width="800"
@@ -303,6 +304,12 @@
               </v-btn>
             </div>
           </div>
+        </div>
+        <div v-else>
+          <v-skeleton-loader
+            class="mt-3"
+            type="heading,list-item@7,actions"
+          />
         </div>
       </template>
       <template #actions>

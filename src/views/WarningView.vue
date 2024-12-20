@@ -14,7 +14,7 @@
     <DialogForm
       ref="editWarningDialog"
       :form-schema="WarningEditForm"
-      :title="$t('_warning.edit')"
+      :title="$t('edit')"
       icon="mdi-account-alert"
       @submit="editWarning"
     />
@@ -83,7 +83,7 @@
                   type="info"
                   color="primary"
                   density="compact"
-                  class="mt-4 ml-3"
+                  class="ml-3"
                 >
                   {{ $t('_warning.showUserWarnings', { id: $route.query.user_id }) }}
                 </v-alert>

@@ -83,6 +83,7 @@
               <v-btn
                 v-if="$checkProp('faq_edit')"
                 variant="outlined"
+                class="mr-3"
                 color="error"
                 size="small"
                 @click.stop="$refs.deleteQuestionConfirmationDialog.show(question)"
@@ -108,10 +109,8 @@
       :form-schema="faqAddSchema"
       @submit="addQuestion"
     >
-      <template #form-after>
-        <Editor
-          v-model="content"
-        />
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
       </template>
     </DialogForm>
     <DeleteConfirmationDialog
@@ -125,8 +124,8 @@
       :form-schema="faqAddSchema"
       @submit="editQuestion"
     >
-      <template #form-after>
-        <Editor v-model="content" />
+      <template #custom-editor="context">
+        <EditorForForm v-bind="context" />
       </template>
     </DialogForm>
   </div>
@@ -142,7 +141,6 @@ export default {
   data() {
     return {
       questions: [],
-      content: '',
       faqAddSchema: FaqForm,
       showSkeletonLoaders: true,
     };
@@ -159,14 +157,8 @@ export default {
     },
     async addQuestion() {
       const data = this.$refs.addQuestionDialog.getData();
-      data.content = this.content;
-      if (!this.content) {
-        this.$refs.addQuestionDialog.setErrorMessage(this.$t('_faq.messages.contentEmpty'));
-        return;
-      }
       (await openapi).faq_createQuestion(null, data).then(() => {
         this.$refs.addQuestionDialog.closeAndReset();
-        this.content = null;
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.addSuccess'),
@@ -177,9 +169,7 @@ export default {
       });
     },
     openQuestionEditDialog(question) {
-      this.$refs.editQuestionDialog.show(question);
-      this.content = question.content;
-      this.$refs.editQuestionDialog.setData(question);
+      this.$refs.editQuestionDialog.show(question, question);
     },
     async deleteQuestion(question) {
       (await openapi).faq_deleteQuestion(question.id).then(() => {
@@ -195,18 +185,12 @@ export default {
     },
     async editQuestion(question) {
       const data = this.$refs.editQuestionDialog.getData();
-      data.content = this.content;
-      if (!this.content) {
-        this.$refs.editQuestionDialog.setErrorMessage(this.$t('_faq.messages.contentEmpty'));
-        return;
-      }
       (await openapi).faq_editQuestion(question.id, data).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.editSuccess'),
           type: 'success',
         });
-        this.content = null;
         this.$refs.editQuestionDialog.closeAndReset();
       }).catch((err) => {
         this.$refs.editQuestionDialog.setError(err);

@@ -14,7 +14,7 @@
               :key="label.id"
               variant="flat"
               :color="label.color"
-              :size="true ? 'small' : undefined"
+              :size="'small'"
               :style="{
                 'border-top-right-radius': index === (thread.labels.length - 1) ? '20px' : '0',
                 'border-bottom-right-radius':
@@ -276,7 +276,7 @@
               </v-card-text>
               <!-- ADMIN HINT END -->
               <v-divider />
-              <v-card-text>
+              <v-card-text style="min-height: 70px">
                 <!-- IMPORTANT - TOP -->
                 <span
                   class="ql-editor pa-0 text-break ck-content"
@@ -418,30 +418,21 @@
                 {{ $t('_forum.messages.oldThread') }}
               </v-card-text>
             </v-card>
-            <v-card
+            <v-alert
               v-if="!$checkIsForumBanned() && thread.status === 'CLOSED'"
-              color="warning-darken-1"
-              flat
-              class="small-card mb-2"
+              density="compact"
+              type="warning"
+              class="mb-3"
             >
-              <v-card-text
-                class="d-flex"
-                style="color: white; align-items: center; height: 100%"
-              >
-                <v-icon class="mr-2">
-                  mdi-information-box
-                </v-icon>
-                {{ $t('_forum.messages.closedThread') }}
-              </v-card-text>
-            </v-card>
+              {{ $t('_forum.messages.closedThread') }}
+            </v-alert>
             <editor
               v-if="!$checkIsForumBanned()"
               v-model="message.content"
             />
-            <div class="d-flex">
+            <div class="d-flex align-center mt-3">
               <v-btn
                 v-if="!$checkIsForumBanned()"
-                class="mt-3"
                 variant="flat"
                 color="success"
                 @click="newPost(message.content)"
@@ -455,7 +446,9 @@
                 v-if="!$checkIsForumBanned()
                   && ($checkProp('forum_edit') || $checkTopicAdmin(admins))"
                 v-model="closeWithPost"
+                hide-details="auto"
                 class="ml-4"
+                density="dense"
                 :label="$t('_forum.lockWithAnswer')"
               />
             </div>
@@ -550,26 +543,21 @@
         flat
       >
         <v-card-text>
-          <v-row>
-            <v-col
-              cols="3"
-              sm="2"
-              md="1"
-              class="d-flex"
-            >
-              <v-skeleton-loader
-                class="bg-transparent"
-                type="avatar"
-              />
-            </v-col>
-            <v-divider vertical />
-            <v-col>
-              <v-skeleton-loader
-                class="bg-transparent"
-                type="paragraph"
-              />
-            </v-col>
-          </v-row>
+          <div class="d-flex">
+            <v-skeleton-loader
+              class="bg-transparent"
+              type="avatar"
+            />
+            <v-divider
+              vertical
+              class="ml-3"
+            />
+            <v-skeleton-loader
+              class="bg-transparent"
+              type="paragraph"
+              width="100%"
+            />
+          </div>
         </v-card-text>
       </v-card>
     </div>

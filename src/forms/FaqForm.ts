@@ -5,6 +5,7 @@ export default {
   type: 'object',
   required: [
     'title',
+    'content'
   ],
   properties: {
     title: {
@@ -12,5 +13,14 @@ export default {
       title: i18n.global.t('title'),
     },
     icon: Common.iconPicker,
+    content: {
+      type: 'string',
+      title: i18n.global.t('description'),
+      layout: {
+        slots: {
+          component: "custom-editor"
+        }
+      }
+    },
   },
 };

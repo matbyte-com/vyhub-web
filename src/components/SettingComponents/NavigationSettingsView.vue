@@ -71,6 +71,7 @@
     />
     <dialog-form
       ref="navEditDialog"
+      :max-width="800"
       :form-schema="navlinkAddSchema"
       icon="mdi-navigation-outline"
       :title="$t('_navigation.editNavLink')"
@@ -614,7 +615,8 @@ export default {
       if (data.linkType === 'link') {
         data.cms_page_id = null;
       }
-      if (!data.parent_navigation_link_id && !data.header) data.parent_navigation_link_id = null;
+
+      if (nav.subLink === true && data.subLink === false) data.parent_navigation_link_id = null; // Was sublink, and not anymore
       (await openapi).navigation_editNavigationLink(nav.id, data).then(() => {
         this.$refs.navEditDialog.closeAndReset();
         EventBus.emit('navUpdated');

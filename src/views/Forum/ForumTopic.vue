@@ -51,31 +51,35 @@
             @click:row="showThread"
           >
             <template #header>
-              <v-checkbox
-                v-model="hide_closed"
-                :label="$t('_forum.hideClosed')"
-                class="text-capitalize"
-                @update:model-value="fetchTopic"
-              />
-              <div v-if="topic.admins.length >= 1 || topic.admin_groups.length >= 1">
-                {{ $t('_forum.topicAdmins') }}
-                <v-chip
-                  v-for="admin in topic.admin_groups"
-                  :key="admin.id"
-                  variant="outlined"
-                  size="small"
-                  :color="admin.color"
-                  class="mr-1"
-                >
-                  {{ admin.name }}
-                </v-chip>
-                <UserLink
-                  v-for="admin in topic.admins"
-                  :key="admin.id"
-                  small
-                  :user="admin"
-                  class="mr-1"
+              <div class="d-flex align-center">
+                <v-checkbox
+                  v-model="hide_closed"
+                  :label="$t('_forum.hideClosed')"
+                  class="text-capitalize"
+                  hide-details="auto"
+                  @update:model-value="fetchTopic"
                 />
+                <v-spacer />
+                <div v-if="topic.admins.length >= 1 || topic.admin_groups.length >= 1">
+                  {{ $t('_forum.topicAdmins') }}
+                  <v-chip
+                    v-for="admin in topic.admin_groups"
+                    :key="admin.id"
+                    variant="outlined"
+                    size="small"
+                    :color="admin.color"
+                    class="mr-1"
+                  >
+                    {{ admin.name }}
+                  </v-chip>
+                  <UserLink
+                    v-for="admin in topic.admins"
+                    :key="admin.id"
+                    small
+                    :user="admin"
+                    class="mr-1"
+                  />
+                </div>
               </div>
             </template>
             <template #item.last_post="{ item }">
@@ -245,7 +249,7 @@
       <PageTitleFlat />
       <v-card
         flat
-        class="card-rounded mt-4"
+        class="card-rounded mt-4 py-4"
       >
         <v-skeleton-loader
           type="table-heading, list-item-avatar, divider,

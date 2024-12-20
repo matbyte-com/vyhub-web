@@ -25,7 +25,7 @@
             color="success"
             class="text-uppercase ml-auto"
           >
-            {{ $t('_forum.open') }}
+            {{ $t('_forum.opened') }}
           </v-chip>
           <v-chip
             v-else

@@ -9,6 +9,18 @@
             :editor="editor"
             :config="editorConfig"
           />
+          <div
+            v-else
+            style="min-height: 400px"
+          >
+            <v-skeleton-loader
+              type="table-heading"
+            />
+            <v-skeleton-loader
+              class="mr-10"
+              type="text@5,paragraph"
+            />
+          </div>
         </div>
       </div>
     </div>

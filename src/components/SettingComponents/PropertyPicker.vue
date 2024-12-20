@@ -39,6 +39,12 @@
       </v-expansion-panel>
     </v-expansion-panels>
   </div>
+  <div
+    v-else
+    style="min-height: 265px"
+  >
+    <v-skeleton-loader type="list-item@3" />
+  </div>
 </template>
 
 <script>

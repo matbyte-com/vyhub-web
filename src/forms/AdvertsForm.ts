@@ -20,7 +20,7 @@ export default {
     },
     enabled: {
       type: 'boolean',
-      title: i18n.global.t('_advert.formEnabled'),
+      title: i18n.global.t('enabled'),
       default: false,
       layout: {
         cols: 6,
