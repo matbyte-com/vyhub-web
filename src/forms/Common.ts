@@ -146,8 +146,9 @@ export default {
         itemIcon: 'item',
       },
       slots: {
-        // TODO Slot needs to become append outer or something
-        'after': `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.global.t('_forms.labels.iconDescription')}</a>`
+        append: {
+          markdown: `<a href="https://materialdesignicons.com/" style="white-space: nowrap;" target="_blank">${i18n.global.t('_forms.labels.iconDescription')}</a>`
+        }
       }
     }
   },
