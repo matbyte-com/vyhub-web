@@ -2,7 +2,7 @@
   <div v-if="allProperties">
     <div class="d-flex align-center">
       <!-- TODO Label not working -->
-      <span class="text-subtitle-1">{{ label }}</span>
+      <span class="text-subtitle-1">{{ node.layout.label }}</span>
       <v-spacer />
       <v-btn
         variant="outlined"
@@ -64,18 +64,28 @@ export default {
     return {
       properties: [],
       allProperties: null,
+      receivedContent: false,
     };
   },
   watch: {
     properties() {
+      this.receivedContent = true;
       this.statefulLayout.input(this.node, this.properties)
     },
+    node() {
+      this.loadContent();
+    }
   },
   beforeMount() {
-    this.properties = this.node.data;
     this.fetchData();
+    this.loadContent();
   },
   methods: {
+    loadContent() {
+      if (!this.receivedContent && this.node.data) {
+        this.properties = this.node.data;
+      }
+    },
     async fetchData() {
       (await openapi).group_getAllProperties().then((rsp) => {
         this.allProperties = rsp.data;

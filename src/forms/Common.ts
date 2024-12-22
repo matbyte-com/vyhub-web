@@ -165,7 +165,6 @@ export default {
       clearable: true,
     },
   },
-  // PropertyPicker Component needs to be put in the custom properties slot
   propertiesSelector: {
     type: 'array',
     title: i18n.global.t('properties'),

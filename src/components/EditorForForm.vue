@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- TODO Label not working -->
-    <span class="text-subtitle-1">{{ label }}</span>
+    <span class="text-subtitle-1">{{ node.layout.label }}</span>
     <Editor
       v-if="content !== null"
       v-model="content"
@@ -25,17 +25,26 @@ export default {
   },
   data() {
     return {
-      content: null,
+      content: "",
+      receivedContent: false,
     };
   },
   watch: {
     content() {
+      this.receivedContent = true;
       this.statefulLayout.input(this.node, this.content);
     },
+    node() {
+      this.loadContent();
+    }
   },
-  beforeMount() {
-    this.content = this.node.data;
-  },
+  methods: {
+    loadContent() {
+      if (!this.receivedContent && this.node.data) {
+        this.content = this.node.data;
+      }
+    }
+  }
 };
 </script>
 
