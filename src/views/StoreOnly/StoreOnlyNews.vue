@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import {useStore} from "vuex";
+
+const store = useStore();
 </script>
 
 <template>
@@ -8,9 +11,9 @@
   >
     <v-card-text>
       <div
-        v-if="newsContent"
+        v-if="store.state.shopConfig?.news"
         class="ql-editor"
-        v-html="newsContent"
+        v-html="store.state.shopConfig?.news"
       />
       <div v-else>
         {{ $t('noDataAvailable') }} (Shop Introduction)
