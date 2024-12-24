@@ -2,7 +2,6 @@
 import openapi from "../../api/openapi";
 import {ref} from "vue";
 import {useStore} from "vuex";
-import StoreOnlyLinkedAccounts from "@/views/StoreOnly/StoreOnlyLinkedAccounts.vue";
 
 const emit = defineEmits(['user-changed']);
 const store = useStore();
