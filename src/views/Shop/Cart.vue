@@ -384,7 +384,7 @@
             <span v-if="addressRequired">
               {{ $t('_shop.messages.selectBillingAddressFirst') }}
             </span>
-            <span v-if="$refs.emailCard.user.email == null">
+            <span v-if="$refs.emailCard?.user.email == null">
               {{ $t('_shop.messages.selectEmailFirst') }}
             </span>
           </v-card-text>
