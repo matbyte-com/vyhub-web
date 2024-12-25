@@ -23,7 +23,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['input', 'close', 'cancel', 'update:modelValue']);
-defineExpose({show, close, getItem, cancel});
 
 const openValue = ref(false);
 const item = ref(null);
@@ -77,6 +76,8 @@ function getItem() {
 function close() {
   open.value = false;
 }
+
+defineExpose({show, close, getItem, cancel, open});
 </script>
 
 <template>

@@ -73,12 +73,11 @@ watch(() => store.state.cartPacketCount, () => {
             </v-btn>
           </template>
           <v-list density="compact">
-            <!-- TODO Translate -->
             <v-list-item
               :to="{name: 'ShopAdmin'}"
               prepend-icon="mdi-store"
             >
-              {{ $t('_shop.label.admin') }}
+              {{ $t('_shop.labels.admin') }}
             </v-list-item>
             <v-list-item
               :to="{name: 'Search'}"

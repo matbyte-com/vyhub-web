@@ -130,7 +130,7 @@
                     <v-btn
                       class="ml-3"
                       color="primary"
-                      :to="{ name: 'Shop' }"
+                      :to="{ name: 'Store' }"
                       variant="flat"
                       selected-class="no-active"
                     >

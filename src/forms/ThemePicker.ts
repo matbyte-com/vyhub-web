@@ -120,7 +120,7 @@ function returnForm() {
     delete ret.properties.header_container;
     ret.properties.header.layout.cols = 6;
 
-    ret.properties.shop_only_servers = {
+    const shopOnlyServers = {
      /* type: 'array',
       title: i18n.global.t('servers'),
       layout: {
@@ -135,7 +135,7 @@ function returnForm() {
       },*/
         type: 'array',
         title: i18n.global.t('servers'),
-      description: 'Select the servers that should be shown on the homepage', // TODO Describe better and translate
+      description: i18n.global.t('_theme.shopOnlyServers'),
         items: {
           type: 'string',
         },
@@ -143,6 +143,10 @@ function returnForm() {
         'x-itemKey': 'id',
         'x-itemTitle': 'name',
     }
+    ret.properties = {
+      shop_only_servers: shopOnlyServers,
+      ...ret.properties,
+    };
   }
 
   return ret;

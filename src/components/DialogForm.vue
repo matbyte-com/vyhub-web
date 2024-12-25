@@ -23,7 +23,7 @@
         :options-extra="optionsExtra"
         class="mt-2"
         @submit="$emit('submit', item)"
-        @cancel="$refs.dialog.open = false; $emit('cancel');"
+        @cancel="$refs.dialog.close(); $emit('cancel');"
         @mounted="genFormMounted"
         @updated="$emit('updated')"
         @not-valid="loading=false;
@@ -115,7 +115,9 @@ export default {
   },
   computed: {
     open() {
-      return this.$refs.dialog.open;
+      if (this.$refs.dialog) {
+        return this.$refs.dialog.open;
+      } else false;
     },
   },
   methods: {
@@ -141,7 +143,8 @@ export default {
     getData() {
       if (this.$refs.form) {
         return this.$refs.form.getData();
-      } return Object;
+      }
+      return Object;
     },
     setData(data) {
       if (this.$refs.form === undefined || this.$refs.form == null) {
