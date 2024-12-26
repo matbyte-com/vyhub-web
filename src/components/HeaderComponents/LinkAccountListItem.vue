@@ -1,3 +1,16 @@
+<script setup>
+import { useRoute } from 'vue-router';
+import UtilService from '@/services/UtilService';
+
+// Vue Router
+const route = useRoute();
+
+// Method
+function getReturnUrl() {
+  return UtilService.data().utils.getFullUrl(route.path);
+}
+</script>
+
 <template>
   <div>
     <v-list-item
@@ -13,18 +26,6 @@
     </v-list-item>
   </div>
 </template>
-
-<script>
-import UtilService from '@/services/UtilService';
-
-export default {
-  methods: {
-    getReturnUrl() {
-      return UtilService.data().utils.getFullUrl(this.$route.path);
-    },
-  },
-};
-</script>
 
 <style scoped>
 

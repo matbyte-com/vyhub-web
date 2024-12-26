@@ -95,7 +95,7 @@ watch(() => store.state.cartPacketCount, () => {
         </v-menu>
         <v-spacer />
         <v-card
-          v-if="$store.getters.isLoggedIn"
+          v-if="store.getters.isLoggedIn"
           rounded
         >
           <ProfileMenu
@@ -117,13 +117,13 @@ watch(() => store.state.cartPacketCount, () => {
           {{ $t("_header.labels.login") }}
         </v-btn>
         <v-btn
-          v-if="$store.getters.isLoggedIn"
+          v-if="store.getters.isLoggedIn"
           class="ml-3"
           :active="false"
           :to="{name: 'StoreCart'}"
         >
           <v-badge
-            v-if="$store.getters.cartPacketCount > 0"
+            v-if="store.getters.cartPacketCount > 0"
             location="top right"
             offset-x="-5"
             offset-y="-5"
@@ -135,7 +135,7 @@ watch(() => store.state.cartPacketCount, () => {
                 style="margin-left: 1px"
                 :class="{ 'animate__heartBeat': bouncing }"
               >
-                {{ $store.getters.cartPacketCount }}
+                {{ store.getters.cartPacketCount }}
               </div>
             </template>
             <v-icon size="large">

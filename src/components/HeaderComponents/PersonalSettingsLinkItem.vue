@@ -1,3 +1,22 @@
+<script setup>
+import { useRouter, useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+
+// Vuex store and Vue Router
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+
+// Methods
+function openPersonalSettings() {
+  if (store.getters.generalConfig.shop_only) {
+    router.push({ name: 'StorePersonalSettings' });
+  } else {
+    router.push({ path: route.path, query: { personal_settings: 'true' } });
+  }
+}
+</script>
+
 <template>
   <div>
     <v-list-item @click="openPersonalSettings">
@@ -10,21 +29,6 @@
     </v-list-item>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'PersonalSettingsLinkItem',
-  methods: {
-    openPersonalSettings() {
-      if (this.$store.getters.generalConfig.shop_only) {
-        this.$router.push({ name: 'StorePersonalSettings'});
-      } else {
-        this.$router.push({ path: this.$route.path, query: { personal_settings: 'true' } });
-      }
-    },
-  }
-};
-</script>
 
 <style scoped>
 

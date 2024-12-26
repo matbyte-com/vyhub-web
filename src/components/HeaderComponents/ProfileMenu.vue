@@ -1,3 +1,28 @@
+<script setup>
+import {useStore} from "vuex";
+import {onBeforeMount} from "vue";
+import AuthService from "@/services/AuthService";
+
+const store = useStore();
+
+defineProps({
+  menuLinks: Array,
+  tile: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+onBeforeMount(() => {
+  AuthService.refreshUser(true);
+});
+
+// Methods
+function logout() {
+  AuthService.logout();
+}
+</script>
+
 <template>
   <div>
     <v-menu
@@ -18,12 +43,12 @@
             :class="{ 'rounded-lg' : tile }"
           >
             <v-img
-              :src="$store.getters.user.avatar"
+              :src="store.state.user.avatar"
               lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
             />
           </v-avatar>
           <span class="ml-1 mr-1">
-            {{ $store.getters.user.username }}
+            {{ store.state.user.username }}
           </span>
         </v-chip>
       </template>
@@ -57,33 +82,6 @@
     </v-menu>
   </div>
 </template>
-
-<script>
-import AuthService from '@/services/AuthService';
-
-export default {
-  props: {
-    menuLinks: Array,
-    tile: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-    };
-  },
-  beforeMount() {
-    AuthService.refreshUser(true);
-  },
-  methods: {
-    logout() {
-      AuthService.logout();
-    },
-  },
-};
-
-</script>
 
 <style scoped>
 .no-active :deep(.v-list-item__overlay) {
