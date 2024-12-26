@@ -231,57 +231,13 @@ const routes = [
     component: () => import('../views/SearchView.vue'),
   },
   {
-    path: '/pathMatch(.*)*',
+    path: '/:pathMatch(.*)*',
     name: '404 Path not found',
     redirect() {
-      return '/news';
+      return '/';
     },
   },
 ];
-
-/* TODO Maybe readd later
-// Restrict Error Message for Duplicated Navigation on Router.to and Router.replace methods
-const originalPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(location: RawLocation): Promise<Route> {
-  return new Promise((resolve, reject) => {
-    originalPush.call(this, location, () => {
-      // on complete
-
-      resolve(this.currentRoute);
-    }, (error) => {
-      // on abort
-
-      // only ignore NavigationDuplicated and Redirected error
-      if (VueRouter.isNavigationFailure(error, VueRouter.NavigationFailureType.redirected)
-        || VueRouter.isNavigationFailure(error, VueRouter.NavigationFailureType.duplicated)) {
-        // whatever, we are fine if it's aborted due to navigation redirect
-        resolve(this.currentRoute);
-      }
-      reject(error);
-    });
-  });
-};
-
-const originalReplace = VueRouter.prototype.replace;
-VueRouter.prototype.replace = function replace(location: RawLocation): Promise<Route> {
-  return new Promise((resolve, reject) => {
-    originalReplace.call(this, location, () => {
-      // on complete
-
-      resolve(this.currentRoute);
-    }, (error) => {
-      // on abort
-
-      // only ignore NavigationDuplicated and Redirected error
-      if (VueRouter.isNavigationFailure(error, VueRouter.NavigationFailureType.redirected)
-        || VueRouter.isNavigationFailure(error, VueRouter.NavigationFailureType.duplicated)) {
-        // whatever, we are fine if it's aborted due to navigation redirect
-        resolve(this.currentRoute);
-      }
-      reject(error);
-    });
-  });
-};*/
 
 const router = createRouter(
   {
