@@ -40,7 +40,7 @@ watch(() => store.state.cartPacketCount, () => {
         sm="11"
         md="8"
         lg="7"
-        class="d-flex align-center"
+        class="d-flex align-center flex-wrap header-row"
       >
         <v-btn :to="{name: 'Start'}">
           <v-icon size="large">
@@ -49,7 +49,6 @@ watch(() => store.state.cartPacketCount, () => {
         </v-btn>
         <v-btn
           v-if="$checkProp('admin_menu')"
-          class="ml-3"
           :active="false"
           :to="{name: 'Settings'}"
         >
@@ -64,7 +63,6 @@ watch(() => store.state.cartPacketCount, () => {
           <template #activator="{ props }">
             <v-btn
               v-if="$checkProp('purchase_show')"
-              class="ml-3"
               v-bind="props"
             >
               <v-icon>
@@ -119,7 +117,6 @@ watch(() => store.state.cartPacketCount, () => {
         </v-btn>
         <v-btn
           v-if="store.getters.isLoggedIn"
-          class="ml-3"
           :active="false"
           :to="{name: 'StoreCart'}"
         >
@@ -170,5 +167,10 @@ watch(() => store.state.cartPacketCount, () => {
 
 .v-btn:hover {
   color: rgb(var(--v-theme-primary));
+}
+
+.header-row {
+  column-gap: 8px;
+  row-gap: 6px;
 }
 </style>

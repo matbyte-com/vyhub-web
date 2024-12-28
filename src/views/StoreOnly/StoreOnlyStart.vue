@@ -64,26 +64,23 @@ const anyShopStatsEnabled = computed(() => {
         lg="8"
         xl="7"
       >
-        <div>
-          <!-- App Bar -->
-          <v-toolbar
-            elevation="1"
-            style="margin-top: -35px"
-            class="overflow-hidden"
-            rounded="lg"
-            color="header"
+        <div class="position-relative">
+          <!-- App Bar / Toolbar -->
+          <div
+            class="toolbar elevation-1 rounded-lg"
           >
             <div
               v-if="categories == null"
-              style="width: 100%; height: 65px"
+              style="width: 100%; min-height: 68px"
               class="v-skeleton-loader__bone"
             />
             <div
               v-else
-              class="d-flex justify-center flex-grow-1"
+              style="min-height: 68px"
+              class="d-flex justify-center align-center flex-wrap toolbar-column-gap mx-3 py-3"
             >
               <router-link
-                class="font-weight-bold ml-5 nav-button"
+                class="font-weight-bold nav-button"
                 :to="{ name: 'Store' }"
                 :class="{ 'button-active' : route.name === 'Store', 'nav-button-light': store.state.theme?.light_header, 'nav-button': !store.state.theme?.light_header}"
               >
@@ -92,7 +89,7 @@ const anyShopStatsEnabled = computed(() => {
               <router-link
                 v-for="cat in categories"
                 :key="cat.id"
-                class="font-weight-bold ml-5 nav-button"
+                class="font-weight-bold nav-button text-no-wrap"
                 :class="{ 'button-active' : route.params.categoryId === cat.name, 'nav-button-light': store.state.theme?.light_header, 'nav-button': !store.state.theme?.light_header}"
                 :to="{ name: 'StoreCategory',
                        params: {categoryId: cat.name }}"
@@ -100,7 +97,7 @@ const anyShopStatsEnabled = computed(() => {
                 {{ cat.name }}
               </router-link>
             </div>
-          </v-toolbar>
+          </div>
         </div>
         <!-- Categories -->
         <Swiper
@@ -153,7 +150,7 @@ const anyShopStatsEnabled = computed(() => {
         <!-- Skeleton Loaders -->
         <div
           v-if="categories == null && route.name === 'Store'"
-          class="d-flex justify-center"
+          class="d-flex justify-center mt-3"
         >
           <v-card
             v-for="i in 3"
@@ -239,5 +236,16 @@ const anyShopStatsEnabled = computed(() => {
 
 .nav-button:hover {
   color: rgb(var(--v-theme-primary));
+}
+
+.toolbar {
+  background-color: rgb(var(--v-theme-header));
+  min-height: 68px;
+  margin-top: -35px;
+  width: 100%;
+}
+
+.toolbar-column-gap {
+  column-gap: 18px;
 }
 </style>

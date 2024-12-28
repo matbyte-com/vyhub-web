@@ -78,7 +78,10 @@ async function fetchPackets() {
           xl="4"
           class=""
         >
-          <PacketCard :packet="packet" />
+          <PacketCard
+            :no-information-icon="['md', 'lg']"
+            :packet="packet"
+          />
         </v-col>
       </v-row>
     </div>

@@ -1,8 +1,82 @@
+<script setup>
+import openapi from '@/api/openapi';
+import ShopService from '@/services/ShopService';
+import UtilService from '@/services/UtilService';
+import {ref} from "vue";
+import {useDisplay} from "vuetify";
+import {useStore} from "vuex";
+import {useRoute, useRouter} from "vue-router";
+import {notify} from "@kyvg/vue3-notification";
+import {useI18n} from "vue-i18n";
+
+const display = ref(useDisplay());
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const i18n = useI18n();
+
+const props = defineProps({
+  packet: {
+    type: Object,
+    required: true,
+  },
+  small: {
+    type: Boolean,
+    default: false,
+  },
+  disableHover: {
+    type: Boolean,
+    default: false,
+  },
+  flat: {
+    type: Boolean,
+    default: false,
+  },
+  noInformationIcon: {
+    type: Array,
+    default: () => []
+  },
+});
+
+const hover = ref(false);
+const loading = ref(false);
+
+async function addToCart() {
+  if (!store.getters.isLoggedIn) {
+    await router.push({
+      path: route.path,
+      query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(route.path), shop: true },
+    });
+    return;
+  }
+  // Simpler Version of Add-To-Cart
+  loading.value = true;
+
+  const data = {
+    packet_id: props.packet.id,
+  };
+
+  (await openapi).shop_addPacketToCart(undefined, data).then(() => {
+    loading.value = false;
+
+    notify({
+      title: i18n.t('_messages.addSuccess'),
+      type: 'success',
+    });
+    ShopService.refreshCartPacketCount();
+  }).catch((err) => {
+    console.log(err);
+    loading.value = false;
+  });
+}
+</script>
+
+
 <template>
   <v-card
     class="flex-column d-flex vh-packet-card"
     border
-    :class="{'card-rounded': $vuetify.display.smAndDown}"
+    :class="{'card-rounded': display.smAndDown}"
     height="100%"
     :color="flat ? 'transparent' : ''"
     :flat="flat"
@@ -12,7 +86,6 @@
         :cover="true"
         :packet="packet"
         class="text-white img-rounded ma-1"
-        max-height="200px"
         style="cursor: pointer;"
         @click="$refs.detailDialog.show()"
       >
@@ -28,7 +101,7 @@
               justify="center"
               align="center"
               class="text-center ml-2 mr-2 font-weight-bold title-in-image"
-              :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h4'"
+              :class="display.smAndDown ? 'text-h6' : 'text-h4'"
               style="text-shadow: #000000 2px 2px 2px;"
             >
               {{ packet.title_in_image }}
@@ -165,7 +238,7 @@
             </span>
           </span>
           <span v-else-if="packet.credits">
-            {{ packet.credits }} {{ $store.getters.shopConfig.credits_display_title }}
+            {{ packet.credits }} {{ store.getters.shopConfig.credits_display_title }}
           </span>
         </div>
       </div>
@@ -175,6 +248,7 @@
         class="d-flex mt-2"
       >
         <v-btn
+          v-if="!noInformationIcon.includes(display.name)"
           size="large"
           style="width: 44px; min-width: 44px"
           class="pa-0 cta-btn"
@@ -222,69 +296,6 @@
     />
   </v-card>
 </template>
-
-<script>
-import openapi from '@/api/openapi';
-import ShopService from '@/services/ShopService';
-import UtilService from '@/services/UtilService';
-
-export default {
-  props: {
-    packet: {
-      type: Object,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-      default: false,
-    },
-    disableHover: {
-      type: Boolean,
-      default: false,
-    },
-    flat: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      hover: false,
-      loading: false,
-    };
-  },
-  methods: {
-    async addToCart() {
-      if (!this.$store.getters.isLoggedIn) {
-        this.$router.push({
-          path: this.$route.path,
-          query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path), shop: true },
-        });
-        return;
-      }
-      // Simpler Version of Add-To-Cart
-      this.loading = true;
-
-      const data = {
-        packet_id: this.packet.id,
-      };
-
-      (await openapi).shop_addPacketToCart(undefined, data).then(() => {
-        this.loading = false;
-
-        this.$notify({
-          title: this.$t('_messages.addSuccess'),
-          type: 'success',
-        });
-        ShopService.refreshCartPacketCount();
-      }).catch((err) => {
-        console.log(err);
-        this.loading = false;
-      });
-    },
-  },
-};
-</script>
 
 <style>
 .img-rounded {
