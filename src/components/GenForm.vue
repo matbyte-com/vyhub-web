@@ -153,15 +153,16 @@ export default {
           this.$emit('submit');
         } else {
           console.log('Form is not valid');
+          console.log(result.errors);
           this.$emit('notValid');
           this.loading = false;
         }
       }, 500);
     },
-    cancelForm() {
+    async cancelForm() {
       this.loading = false;
       this.alertMessage = null;
-      this.$refs.form.reset();
+      await this.$refs.form.reset();
       this.formModel = null;
       this.$emit('cancel');
       this.forceRerender();

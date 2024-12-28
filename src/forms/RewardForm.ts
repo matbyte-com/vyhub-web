@@ -212,8 +212,15 @@ function rewardTypeFields(rewardType: string) {
         type: ['string'],
         const: rewardType,
       },
-      on_event_group: {
+      on_event: {
+        type: 'string',
+        title: i18n.global.t('_reward.labels.onEvent'),
+        oneOf: (on_event_set === 'full' ? on_event_full : (on_event_set === 'reduced' ? on_event_reduced : on_event_direct)),
+        default: (on_event_set === 'direct' ? 'DIRECT' : null),
+      },
+      /*on_event_group: {
         type: 'object',
+        required: ['on_event'],
         allOf: [
           {
             properties: {
@@ -250,7 +257,7 @@ function rewardTypeFields(rewardType: string) {
             },
           },
         ],
-      },
+      },*/
       limit_servers: serversSelectFieldOptional,
       ...otherOptions,
       data: {
@@ -279,68 +286,68 @@ function form() {
         },
       },
     },
-    {
-      type: 'object',
-      layout: {
-        if: {
-          type: 'js-eval',
-          expr: 'rootData.serverbundle',
-          pure: false,
-        }
+      {
+        type: 'object',
+        layout: {
+          if: {
+            type: 'js-eval',
+            expr: 'rootData.serverbundle',
+            pure: false,
+          }
+        },
+        default: null,
+        oneOf: [
+          {
+            title: i18n.global.t('_reward.labels._types.command'),
+            ...rewardTypeFields('COMMAND'),
+            layout: {
+              if: {
+                type: 'js-eval',
+                expr: 'rootData.serverbundle && (rootData.serverbundle.server_type != "TEAMSPEAK3" && rootData.serverbundle.server_type != "DISCORD")',
+                pure: false,
+              }
+            },
+          },
+          {
+            title: i18n.global.t('_reward.labels._types.script'),
+            ...rewardTypeFields('SCRIPT'),
+            layout: {
+              if: {
+                type: 'js-eval',
+                expr: 'rootData.serverbundle && (rootData.serverbundle.server_type == "GMOD" || rootData.serverbundle.server_type == "FIVEM")',
+                pure: false,
+              }
+            },
+          },
+          {
+            title: i18n.global.t('_reward.labels._types.credits',
+              {
+                credits_display_title:
+                  store.getters.shopConfig.credits_display_title.toLowerCase(),
+              }),
+            ...rewardTypeFields('CREDITS'),
+          },
+          {
+            title: i18n.global.t('_reward.labels._types.membership'),
+            ...rewardTypeFields('MEMBERSHIP'),
+          },
+          {
+            title: i18n.global.t('_reward.labels._types.http'),
+            ...rewardTypeFields('HTTP'),
+          },
+          {
+            title: i18n.global.t('_reward.labels._types.teamspeak_channel'),
+            ...rewardTypeFields('TEAMSPEAK_CHANNEL'),
+            layout: {
+              if: {
+                type: 'js-eval',
+                expr: 'rootData.serverbundle && (rootData.serverbundle.server_type == "TEAMSPEAK3")',
+                pure: false,
+              }
+            },
+          },
+        ],
       },
-      default: null,
-      oneOf: [
-        {
-          title: i18n.global.t('_reward.labels._types.command'),
-          ...rewardTypeFields('COMMAND'),
-          layout: {
-            if: {
-              type: 'js-eval',
-              expr: 'rootData.serverbundle && (rootData.serverbundle.server_type != "TEAMSPEAK3" && rootData.serverbundle.server_type != "DISCORD")',
-              pure: false,
-            }
-          },
-        },
-        {
-          title: i18n.global.t('_reward.labels._types.script'),
-          ...rewardTypeFields('SCRIPT'),
-          layout: {
-            if: {
-              type: 'js-eval',
-              expr: 'rootData.serverbundle && (rootData.serverbundle.server_type == "GMOD" || rootData.serverbundle.server_type == "FIVEM")',
-              pure: false,
-            }
-          },
-        },
-        {
-          title: i18n.global.t('_reward.labels._types.credits',
-            {
-              credits_display_title:
-                store.getters.shopConfig.credits_display_title.toLowerCase(),
-            }),
-          ...rewardTypeFields('CREDITS'),
-        },
-        {
-          title: i18n.global.t('_reward.labels._types.membership'),
-          ...rewardTypeFields('MEMBERSHIP'),
-        },
-        {
-          title: i18n.global.t('_reward.labels._types.http'),
-          ...rewardTypeFields('HTTP'),
-        },
-        {
-          title: i18n.global.t('_reward.labels._types.teamspeak_channel'),
-          ...rewardTypeFields('TEAMSPEAK_CHANNEL'),
-          layout: {
-            if: {
-              type: 'js-eval',
-              expr: 'rootData.serverbundle && (rootData.serverbundle.server_type == "TEAMSPEAK3")',
-              pure: false,
-            }
-          },
-        },
-      ],
-    },
     ],
   };
   /*if (!utilService.data().utils.showAdvancedSettings()) {

@@ -5,10 +5,12 @@
     <v-combobox
       ref="autocomplete"
       :model-value="command"
-      label="Enter command"
+      :label="i18n.t('command')"
       :custom-filter="filterOptions"
       :items="computedOptions"
       hide-no-data
+      :rules="[isRequired]"
+      :error-messages="props.node.error"
       variant="underlined"
       @blur="autocompleteOpen = false"
       @update:model-value="onAutocompleteChange"
@@ -19,6 +21,9 @@
 
 <script setup>
 import { ref, watch, onBeforeMount, defineProps, computed } from "vue";
+import {useI18n} from "vue-i18n";
+
+const i18n = useI18n();
 
 const props = defineProps({
   node: {
@@ -51,6 +56,8 @@ const computedOptions = computed(() => {
   if (!props.formModel || !props.formModel.serverbundle) return [];
   return options[props.formModel.serverbundle.server_type];
 });
+
+const isRequired = (value) => !!value || i18n.t('required');
 
 // Get the bounds of the current template variable being edited
 const getCurrentTemplateBounds = () => {
@@ -139,7 +146,8 @@ const onAutocompleteChange = (newValue) => {
 };
 
 onBeforeMount(() => {
-  command.value = props.node.data;
+  command.value = ""
+  // command.value = props.node.data;
 });
 
 // Watch for changes to `content`
