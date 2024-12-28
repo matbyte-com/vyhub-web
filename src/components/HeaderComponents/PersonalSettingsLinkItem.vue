@@ -1,25 +1,34 @@
 <script setup>
-import { useRouter, useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import {useRouter, useRoute} from 'vue-router';
+import {useStore} from 'vuex';
 
 // Vuex store and Vue Router
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
 
+const props = defineProps({
+  shopOnly: {
+    type: Boolean,
+    default: false,
+  },
+})
+
 // Methods
 function openPersonalSettings() {
-  if (store.getters.generalConfig.shop_only) {
-    router.push({ name: 'StorePersonalSettings' });
-  } else {
-    router.push({ path: route.path, query: { personal_settings: 'true' } });
+  if (!props.shopOnly) {
+
+    router.push({path: route.path, query: {personal_settings: 'true'}});
   }
 }
 </script>
 
 <template>
   <div>
-    <v-list-item @click="openPersonalSettings">
+    <v-list-item
+      :to="shopOnly ? {name: 'StorePersonalSettings'} : undefined"
+      @click="openPersonalSettings"
+    >
       <v-list-item-title>
         <v-icon start>
           mdi-account

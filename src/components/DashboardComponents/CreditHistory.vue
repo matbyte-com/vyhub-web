@@ -14,16 +14,21 @@
         mdi-circle-multiple
       </v-icon>
     </div>
-    <!--
-    -->
     <DataTable
       :headers="headers"
       :items="account.transactions"
       :total-items="account.transactions ? account.transactions.length : 0"
-      :item-class="transactionRowFormatter"
       :sort-by="['date']"
       :sort-desc="[true]"
     >
+      <template #item.color-status="{ item }">
+        <v-sheet
+          :color="transactionRowFormatter(item)"
+          height="95%"
+          width="10px"
+          style="margin-left: -15px"
+        />
+      </template>
       <template #item.author="{ item }">
         <UserLink
           v-if="item.author"
@@ -57,6 +62,12 @@
       @submit="addTransaction"
     />
   </div>
+  <div
+    v-else
+    style="min-height: 200px"
+  >
+    <v-skeleton-loader type="list-item@3" />
+  </div>
 </template>
 
 <script>
@@ -74,6 +85,7 @@ export default {
     return {
       account: null,
       headers: [
+        { key: 'color-status', sortable: false, width: '1px' },
         { title: this.$t('date'), key: 'date' },
         { title: this.$t('amount'), key: 'amount' },
         { title: this.$t('author'), key: 'author' },
@@ -107,13 +119,11 @@ export default {
       });
     },
     transactionRowFormatter(item) {
-      const add = (this.$vuetify.theme.current.dark ? 'darken-4' : 'lighten-4');
-
       if (item.amount < 0) {
-        return `orange ${add}`;
+        return `orange`;
+      } else {
+        return 'green';
       }
-
-      return '';
     },
   },
 };

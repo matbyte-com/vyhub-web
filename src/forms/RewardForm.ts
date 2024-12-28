@@ -218,6 +218,7 @@ function rewardTypeFields(rewardType: string) {
         oneOf: (on_event_set === 'full' ? on_event_full : (on_event_set === 'reduced' ? on_event_reduced : on_event_direct)),
         default: (on_event_set === 'direct' ? 'DIRECT' : null),
       },
+      // TODO I just placed the following two properties into one. Should still work?? And solves the required issue. If the two properties are needed, requiredTop.push('on_event') needs to be removed
       /*on_event_group: {
         type: 'object',
         required: ['on_event'],

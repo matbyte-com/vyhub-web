@@ -100,6 +100,7 @@ watch(() => store.state.cartPacketCount, () => {
         >
           <ProfileMenu
             :tile="true"
+            :shop-only="true"
           />
         </v-card>
         <v-btn

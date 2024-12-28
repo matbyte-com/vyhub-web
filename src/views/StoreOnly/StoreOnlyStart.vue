@@ -85,7 +85,7 @@ const anyShopStatsEnabled = computed(() => {
               <router-link
                 class="font-weight-bold ml-5 nav-button"
                 :to="{ name: 'Store' }"
-                :class="{ 'button-active' : route.name === 'Store'}"
+                :class="{ 'button-active' : route.name === 'Store', 'nav-button-light': store.state.theme?.light_header, 'nav-button': !store.state.theme?.light_header}"
               >
                 {{ $t('home') }}
               </router-link>
@@ -93,7 +93,7 @@ const anyShopStatsEnabled = computed(() => {
                 v-for="cat in categories"
                 :key="cat.id"
                 class="font-weight-bold ml-5 nav-button"
-                :class="{ 'button-active' : route.params.categoryId === cat.name}"
+                :class="{ 'button-active' : route.params.categoryId === cat.name, 'nav-button-light': store.state.theme?.light_header, 'nav-button': !store.state.theme?.light_header}"
                 :to="{ name: 'StoreCategory',
                        params: {categoryId: cat.name }}"
               >
@@ -103,7 +103,6 @@ const anyShopStatsEnabled = computed(() => {
           </v-toolbar>
         </div>
         <!-- Categories -->
-        <!-- TODO Skeleton Loader -->
         <Swiper
           v-if="categories != null && route.name === 'Store'"
           :number-of-elements="categories.length"
@@ -151,6 +150,23 @@ const anyShopStatsEnabled = computed(() => {
             </v-card>
           </swiper-slide>
         </Swiper>
+        <!-- Skeleton Loaders -->
+        <div
+          v-if="categories == null && route.name === 'Store'"
+          class="d-flex justify-center"
+        >
+          <v-card
+            v-for="i in 3"
+            :key="i"
+            class="mx-1"
+            width="250px"
+          >
+            <v-skeleton-loader
+              class=""
+              type="card"
+            />
+          </v-card>
+        </div>
         <v-row class="my-3">
           <!-- Sidebar -->
           <v-col
@@ -209,7 +225,15 @@ const anyShopStatsEnabled = computed(() => {
   cursor: pointer;
   transition: color 0.2s;
   font-size: large;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-button-light {
   color: black;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: large;
   text-decoration: none;
 }
 

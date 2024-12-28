@@ -11,6 +11,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  shopOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 onBeforeMount(() => {
@@ -35,12 +39,14 @@ function logout() {
         <v-chip
           :pill="!tile"
           :tile="tile"
-          :size="tile ? 'large' : undefined"
           v-bind="props"
+          :style="tile ? `height: 36px` : ''"
+          class="chip"
         >
           <v-avatar
+            :size="tile ? 30 : undefined"
             start
-            :class="{ 'rounded-lg' : tile }"
+            :class="{ 'rounded-lg' : tile, 'margin-sides' : tile }"
           >
             <v-img
               :src="store.state.user.avatar"
@@ -55,7 +61,10 @@ function logout() {
       <v-card flat>
         <v-list density="compact">
           <LinkAccountListItem class="no-active" />
-          <PersonalSettingsLinkItem class="no-active" />
+          <PersonalSettingsLinkItem
+            :shop-only="shopOnly"
+            class="no-active"
+          />
           <v-list-item
             v-for="(link, index) in menuLinks"
             :key="index"
@@ -86,5 +95,9 @@ function logout() {
 <style scoped>
 .no-active :deep(.v-list-item__overlay) {
   opacity: 0 !important;
+}
+
+.chip {
+  cursor: pointer;
 }
 </style>

@@ -3,6 +3,7 @@ import i18n from '@/plugins/i18n';
 import utilService from '@/services/UtilService';
 
 import config from "../config";
+
 const API_URL = config.backend_url;
 
 
@@ -95,7 +96,7 @@ function returnForm() {
         description: i18n.global.t('_theme.communityNameDescription'),
       },
       custom_css: {
-        type: ['string','null'],
+        type: ['string', 'null'],
         title: i18n.global.t('_theme.customCss'),
         layout: {
           comp: 'textarea',
@@ -116,32 +117,33 @@ function returnForm() {
   }
   if (utilService.data().utils.shopOnly()) {
     delete ret.properties.show_community_name;
-    delete ret.properties.light_header;
+    delete ret.properties.logo_width;
     delete ret.properties.header_container;
     ret.properties.header.layout.cols = 6;
 
     const shopOnlyServers = {
-     /* type: 'array',
-      title: i18n.global.t('servers'),
-      layout: {
-        getItems: {
-          url: `${API_URL}/server/`,
-          itemKey: "id",
-          itemTitle: "name",
-        },
-      },
+      /* TODO this is the new writing, but does not seem to work
+      type: 'array',
+       title: i18n.global.t('servers'),
+       layout: {
+         getItems: {
+           url: `${API_URL}/server/`,
+           itemKey: "id",
+           itemTitle: "name",
+         },
+       },
+       items: {
+         type: 'string',
+       },*/
+      type: 'array',
+      title: i18n.global.t('_theme.featuredServers'),
+      description: i18n.global.t('_theme.shopOnlyServers'),
       items: {
         type: 'string',
-      },*/
-        type: 'array',
-        title: i18n.global.t('servers'),
-      description: i18n.global.t('_theme.shopOnlyServers'),
-        items: {
-          type: 'string',
-        },
-        'x-fromUrl': `${API_URL}/server/`,
-        'x-itemKey': 'id',
-        'x-itemTitle': 'name',
+      },
+      'x-fromUrl': `${API_URL}/server/`,
+      'x-itemKey': 'id',
+      'x-itemTitle': 'name',
     }
     ret.properties = {
       shop_only_servers: shopOnlyServers,
