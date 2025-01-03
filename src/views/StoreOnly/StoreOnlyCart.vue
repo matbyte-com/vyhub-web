@@ -463,7 +463,7 @@
             <v-card
               v-for="n in 3"
               :key="n"
-              class="card-rounded mt-3"
+              class="card-rounded mb-3"
             >
               <v-skeleton-loader
                 class="mb-3"

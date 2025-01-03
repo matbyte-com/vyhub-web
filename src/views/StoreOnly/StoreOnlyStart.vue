@@ -104,7 +104,6 @@ const anyShopStatsEnabled = computed(() => {
           v-if="categories != null && route.name === 'Store'"
           :number-of-elements="categories.length"
           :per-page-custom="[2,3,4,5,5]"
-          style="min-height: 200px"
           class="mt-3 vh-store-start-categories"
         >
           <swiper-slide
@@ -112,38 +111,36 @@ const anyShopStatsEnabled = computed(() => {
             :key="cat.id"
           >
             <v-card
-              class="category-card"
+              class="category-card mb-1"
               :to=" { name: 'StoreCategory',
                       params: {categoryId: cat.name }}"
             >
-              <v-card-text>
-                <v-img
-                  v-if="cat.image_url"
-                  :src="cat.image_url"
-                  class="ma-1 img-rounded"
-                  max-height="300px"
-                />
-                <v-sheet
-                  v-else
-                  class="mb-1 bg-transparent"
-                  height="200px"
+              <v-img
+                v-if="cat.image_url"
+                :src="cat.image_url"
+                class="img-rounded ma-2"
+                min-height="90px"
+              />
+              <v-sheet
+                v-else
+                class="mb-1 bg-transparent"
+                height="200px"
+              >
+                <div
+                  class="d-flex align-center justify-center"
+                  style="height: 100%;"
                 >
-                  <div
-                    class="d-flex align-center justify-center"
-                    style="height: 100%;"
+                  <v-icon
+                    color="primary"
+                    size="150"
                   >
-                    <v-icon
-                      color="primary"
-                      size="150"
-                    >
-                      mdi-gift
-                    </v-icon>
-                  </div>
-                </v-sheet>
-                <div class="text-center text-h5">
-                  {{ cat.name }}
+                    mdi-gift
+                  </v-icon>
                 </div>
-              </v-card-text>
+              </v-sheet>
+              <div class="text-center text-h5 mb-2">
+                {{ cat.name }}
+              </div>
             </v-card>
           </swiper-slide>
         </Swiper>
@@ -220,7 +217,7 @@ const anyShopStatsEnabled = computed(() => {
 
 .nav-button {
   cursor: pointer;
-  transition: color 0.2s;
+  transition: all 0.2s;
   font-size: large;
   color: white;
   text-decoration: none;
