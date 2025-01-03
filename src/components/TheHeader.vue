@@ -1,17 +1,160 @@
+<script setup>
+import {useStore} from "vuex";
+import {useDisplay} from "vuetify";
+import {useRoute, useRouter} from "vue-router";
+import {computed, onBeforeMount, onMounted, ref, useTemplateRef, watch} from "vue";
+import AuthService from '@/services/AuthService';
+import UtilService from '@/services/UtilService';
+import AccessControlService from "@/services/AccessControlService";
+import {useI18n} from "vue-i18n";
+
+const store = useStore();
+const display = ref(useDisplay())
+const router = useRouter()
+const route = useRoute()
+const i18n = useI18n()
+
+const communityName = ref(null)
+const logo_width = ref(50)
+const linksRight = ref([])
+
+const userSelfSettings = useTemplateRef('userSelfSettings')
+
+onBeforeMount(() => {
+  getNavItemsFromCache()
+})
+
+onMounted(() => {
+  if (store.getters.isLoggedIn && display.value.xs) {
+    linksRight.value.push({
+      title: 'personalSettings',
+      icon: 'mdi-account',
+      link: `${route.path}?personal_settings=true`,
+    });
+  }
+})
+
+watch(route, (to) => {
+  if (store.getters.isLoggedIn) {
+    if (to.query.personal_settings === 'true') {
+      userSelfSettings.value.show();
+    } else {
+      userSelfSettings.value.close();
+    }
+  }
+})
+
+watch(display, () => {
+    if (display.value.xs && store.getters.isLoggedIn) {
+      linksRight.value.push({
+        title: 'personalSettings',
+        icon: 'mdi-account',
+        link: `${route.path}?personal_settings=true`,
+      });
+    } else {
+      linksRight.value = linksRight.value.filter((l) => l.title !== 'personalSettings');
+    }
+})
+
+const allowedLinks = computed(() => {
+  if (store.getters.generalConfig?.shop_only) {
+    return [{
+      "title": i18n.t('shop'),
+      "icon": "mdi-store",
+      "link": "/store",
+      "default": true
+    }, {
+      "title": "Admin",
+      "icon": "mdi-shield-star",
+      "req_prop": "admin_menu",
+      "link": null,
+      "id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c",
+      "sublinks": [{
+        "title": i18n.t('_pageTitle.shop'),
+        "icon": "mdi-sack",
+        "enabled": true,
+        "req_prop": "purchase_show",
+        "link": "/admin/shop",
+        "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c",
+        "id": "1be71279-8887-4763-b302-a27190b9b588",
+        "default": true
+      }, {
+        "title": i18n.t('_pageTitle.log'),
+        "icon": "mdi-format-list-bulleted",
+        "req_prop": "log_show",
+        "link": "/log",
+        "enabled": true,
+        "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c",
+        "id": "2643e77e-04b0-4580-8e07-d163bec534f9",
+        "default": true
+      }, {
+        "title": i18n.t('_pageTitle.settings'),
+        "icon": "mdi-cog-outline",
+        "req_prop": "admin_menu",
+        "link": "/settings",
+        "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c",
+        "id": "cdc914f8-369d-4db0-b932-adcfd2a5d202",
+        "default": true,
+        "enabled": true,
+      }]
+    }, {
+      "title": i18n.t('_pageTitle.search'),
+      "icon": "mdi-magnify",
+      "link": "/search",
+      "default": true
+    }];
+  }
+  if (!links.value) return [];
+  return links.value
+    .filter((l) => l.enabled && l.location === 'HEADER' && (!l.req_prop || AccessControlService.methods.$checkProp(l.req_prop)));
+})
+
+const allowedHelpCircleLinks = computed(() => {
+  if (!links.value) return [];
+  return links.value
+    .filter((l) => l.enabled && l.location === 'HELP' && (!l.req_prop || AccessControlService.methods.$checkProp(l.req_prop)));
+})
+
+const links = computed(() => {
+  return store.getters.navItems;
+})
+
+function logout() {
+  AuthService.logout();
+  router.push('/');
+}
+
+function refreshUser() {
+  AuthService.refreshUser();
+}
+
+function getNavItemsFromCache() {
+  if (store.getters.navItems) links.value = store.getters.navItems;
+}
+
+function showLoginDialog() {
+  router.push({
+    path: route.path,
+    query: {login: 'true', return_url: UtilService.data().utils.getFullUrl(route.path)},
+  });
+}
+</script>
+
 <template>
   <div>
     <v-app-bar
       color="header"
       style="z-index: 200;"
+      class=""
     >
       <div
-        class="d-flex align-center flex-grow-1 mx-3 "
+        class="d-flex align-center mx-auto px-3"
         style="width: 100%"
-        :class="{ 'v-container' : $store.getters.theme && $store.getters.theme.header_container
-          && $vuetify.display.lgAndUp }"
+        :class="{ 'v-container' : store.getters.theme && store.getters.theme.header_container
+          && display.lgAndUp }"
       >
         <!-- burger menu on the left-->
-        <div v-if="$vuetify.display.mdAndDown">
+        <div v-if="display.mdAndDown">
           <BurgerMenu
             :nav-links="allowedLinks"
             :help-links="allowedHelpCircleLinks"
@@ -24,28 +167,29 @@
         <!-- Logo -->
         <div>
           <v-img
-            v-if="imgSrc"
+            v-if="store.state.theme"
             alt="Community Logo"
             class="shrink"
-            :src="imgSrc"
+            :src="store.state.theme.logo"
             style="cursor: pointer"
             transition="scale-transition"
-            :width="logo_width"
+            :width="store.state.theme?.logo_width"
             height="50"
-            @click="$router.push('/')"
+            @click="router.push('/')"
           />
         </div>
         <!-- Do not overflow on bigger screens -->
         <div
-          v-if="$vuetify.display.lgAndUp"
+          v-if="display.lgAndUp"
           class="mr-1"
         >
           <v-toolbar-title
+            v-if="store.state.theme?.show_community_name"
             class="ml-3"
             style="cursor: pointer"
-            @click="$router.push('/')"
+            @click="router.push('/')"
           >
-            {{ communityName }}
+            {{ store.getters.generalConfig?.community_name }}
           </v-toolbar-title>
         </div>
         <!-- Overflow ellipsis (...) on smaller screens -->
@@ -53,14 +197,14 @@
           v-else
           class="ml-3"
           style="cursor: pointer"
-          @click="$router.push('/')"
+          @click="router.push('/')"
         >
           {{ communityName }}
         </v-toolbar-title>
 
         <!-- navigation links-->
         <div
-          v-if="$vuetify.display.lgAndUp"
+          v-if="display.lgAndUp"
           style="overflow-x: auto; min-width: 50%"
           class="top-scrollbar d-flex ml-3 flex-grow-1"
         >
@@ -74,7 +218,7 @@
 
         <v-spacer />
         <HeaderSearch />
-        <div v-if="$vuetify.display.lgAndUp">
+        <div v-if="display.lgAndUp">
           <HelpCircle
             :menu-links="allowedHelpCircleLinks"
             class="ml-1"
@@ -83,22 +227,22 @@
         <!-- profile icon with dropdown or login-->
         <div>
           <div
-            v-if="$store.getters.isLoggedIn"
+            v-if="store.getters.isLoggedIn"
             class="d-flex align-center"
           >
             <HeaderCredits
-              v-if="$vuetify.display.smAndUp"
+              v-if="display.smAndUp"
               class="ml-1 mr-1"
             />
             <HeaderShoppingCart />
             <ProfileMenu
-              v-if="$vuetify.display.smAndUp"
+              v-if="display.smAndUp"
               class="ml-5"
               :menu-links="linksRight"
               @logout="logout"
             />
             <Notification
-              v-if="$vuetify.display.smAndUp && $store.getters.isLoggedIn"
+              v-if="display.smAndUp && store.getters.isLoggedIn"
               class="ml-1"
             />
           </div>
@@ -107,7 +251,6 @@
               style="height: 32px"
               class="header ml-1"
               data-cy="login-button"
-              :class="{ 'glow-effect':utils.customerJourneyActive('login') }"
               @click="showLoginDialog"
             >
               {{ $t("_header.labels.login") }}
@@ -117,122 +260,13 @@
       </div>
     </v-app-bar>
     <PersonalSettings
-      v-if="$store.getters.isLoggedIn"
+      v-if="store.getters.isLoggedIn"
       ref="userSelfSettings"
-      :user="$store.getters.user"
+      :user="store.getters.user"
       @user-changed="refreshUser"
     />
   </div>
 </template>
-
-<script>
-import AuthService from '@/services/AuthService';
-import EventBus from '@/services/EventBus';
-import UtilService from '@/services/UtilService';
-
-export default {
-  data() {
-    return {
-      imgSrc: null,
-      communityName: null,
-      logo_width: 50,
-      linksRight: [],
-    };
-  },
-  computed: {
-    allowedLinks() {
-      if (this.$store.getters.generalConfig?.shop_only) {
-        return [ { "title": this.$t('shop'), "icon": "mdi-store", "link": "/store"}, { "title": "Admin", "icon": "mdi-shield-star", "req_prop": "admin_menu", "link": null, "id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c", "sublinks": [ { "title": this.$t('_pageTitle.shop'), "icon": "mdi-sack", "enabled": true, "req_prop": "purchase_show", "link": "/admin/shop", "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c", "id": "1be71279-8887-4763-b302-a27190b9b588" }, { "title": this.$t('_pageTitle.log'), "icon": "mdi-format-list-bulleted", "req_prop": "log_show", "link": "/log", "cms_page_id": null, "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c", "id": "2643e77e-04b0-4580-8e07-d163bec534f9" }, { "title": this.$t('_pageTitle.settings'), "icon": "mdi-cog-outline", "req_prop": "admin_menu", "link": "/settings", "parent_navigation_link_id": "d06a64d2-7da0-4fd2-97e4-62aba67d9a6c", "id": "cdc914f8-369d-4db0-b932-adcfd2a5d202" } ] }, { "title": this.$t('_pageTitle.search'), "icon": "mdi-magnify", "link": "/search"} ];
-      }
-      if (!this.links) return [];
-      return this.links
-        .filter((l) => l.enabled && l.location === 'HEADER' && (!l.req_prop || this.$checkProp(l.req_prop)));
-    },
-    allowedHelpCircleLinks() {
-      if (!this.links) return [];
-      return this.links
-        .filter((l) => l.enabled && l.location === 'HELP' && (!l.req_prop || this.$checkProp(l.req_prop)));
-    },
-    links() {
-      return this.$store.getters.navItems;
-    },
-  },
-  watch: {
-    $route(to) {
-      if (this.$store.getters.isLoggedIn) {
-        if (to.query.personal_settings === 'true') {
-          this.$refs.userSelfSettings.show();
-        } else {
-          this.$refs.userSelfSettings.close();
-        }
-      }
-    },
-    '$vuetify.display.xs': function (val) {
-      if (val && this.$store.getters.isLoggedIn) {
-        this.linksRight.push({
-          title: 'personalSettings',
-          icon: 'mdi-account',
-          link: `${this.$route.path}?personal_settings=true`,
-        });
-      } else {
-        this.linksRight = this.linksRight.filter((l) => l.title !== 'personalSettings');
-      }
-    },
-  },
-  mounted() {
-    this.getLogo();
-    // Event Emitted in Components/Settings/Navigation.vue
-    // Event Emitted in App.vue after Theme was updated
-    EventBus.on('themeUpdatedAfter', this.getLogo);
-
-    if (this.$store.getters.isLoggedIn && this.$vuetify.display.xs) {
-      this.linksRight.push({
-        title: 'personalSettings',
-        icon: 'mdi-account',
-        link: `${this.$route.path}?personal_settings=true`,
-      });
-    }
-  },
-  beforeMount() {
-    this.getNavItemsFromCache();
-  },
-  methods: {
-    logout() {
-      AuthService.logout();
-      this.$router.push('/');
-    },
-    refreshUser() {
-      AuthService.refreshUser();
-    },
-    getNavItemsFromCache() {
-      if (this.$store.getters.navItems) this.links = this.$store.getters.navItems;
-    },
-    showLoginDialog() {
-      this.$router.push({
-        path: this.$route.path,
-        query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path) },
-      });
-    },
-    getLogo() {
-      if (this.$store.getters.theme) {
-        // Theme queried in App.vue
-        const obj = this.$store.getters.theme;
-        this.imgSrc = obj.logo;
-        if (obj.logo_width) this.logo_width = obj.logo_width;
-        if (obj.show_community_name) {
-          if (!this.$store.getters.generalConfig) {
-            this.communityName = null;
-          } else {
-            this.communityName = this.$store.getters.generalConfig.community_name;
-          }
-        } else {
-          this.communityName = null;
-        }
-      }
-    },
-  },
-};
-</script>
 
 <style scoped>
 </style>

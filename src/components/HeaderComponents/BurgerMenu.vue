@@ -1,3 +1,28 @@
+<script setup>
+import {useStore} from "vuex";
+
+const emit = defineEmits(['login', 'register', 'logout'])
+const store = useStore()
+
+defineProps({
+  navLinks: Array,
+  helpLinks: Array,
+  menuLinks: Array,
+})
+
+function emitLogin() {
+  emit('login');
+}
+
+function emitRegister() {
+  emit('register');
+}
+
+function emitLogout() {
+  emit('logout');
+}
+</script>
+
 <template>
   <v-menu>
     <template #activator="{ props }">
@@ -16,7 +41,10 @@
       <!-- render helpMenu -->
       <v-list-group>
         <template #activator="{ props }">
-          <v-list-item v-bind="props">
+          <v-list-item
+            v-if="helpLinks && helpLinks.length > 0"
+            v-bind="props"
+          >
             <v-list-item-title>
               <v-icon
                 icon="mdi-account-circle"
@@ -34,13 +62,13 @@
         />
       </v-list-group>
       <v-divider />
-      <div v-if="$store.getters.isLoggedIn">
+      <div v-if="store.getters.isLoggedIn">
         <HeaderShoppingCart :list-item="true" />
         <HeaderCredits :list-item="true" />
       </div>
       <v-divider />
       <!-- render menuTabs + Logout-->
-      <div v-if="$store.getters.isLoggedIn">
+      <div v-if="store.getters.isLoggedIn">
         <LinkAccountListItem />
         <v-list-item
           v-for="(menuLink, index) in menuLinks"
@@ -74,28 +102,3 @@
     </v-list>
   </v-menu>
 </template>
-
-<script>
-export default {
-  props: {
-    navLinks: Array,
-    helpLinks: Array,
-    menuLinks: Array,
-  },
-  data() {
-    return {
-    };
-  },
-  methods: {
-    emitLogin() {
-      this.$emit('login');
-    },
-    emitRegister() {
-      this.$emit('register');
-    },
-    emitLogout() {
-      this.$emit('logout');
-    },
-  },
-};
-</script>
