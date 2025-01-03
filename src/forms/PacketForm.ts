@@ -8,10 +8,7 @@ const API_URL = Common.apiURL;
 function form() {
   const res = {
     type: 'object',
-    'x-display': 'tabs',
-    'x-props': {
-      grow: true,
-    },
+    layout: 'tabs',
     allOf: [
       {
         title: i18n.global.t('general'),
@@ -25,17 +22,17 @@ function form() {
             title: i18n.global.t('title'),
           },
           title_in_image: {
-            type: 'string',
+            type: ['string', 'null'],
             title: i18n.global.t('_packet.labels.titleInImage'),
           },
           subtitle: {
-            type: 'string',
+            type: ['string', 'null'],
             title: i18n.global.t('subtitle'),
           },
           category: Common.packetCategorySelectField,
           subcategory: {
             'x-display': 'combobox',
-            type: 'string',
+            type: ['string', 'null'],
             title: i18n.global.t('subcategory'),
             'x-fromUrl': `${API_URL}/packet/category/{category.id}/subcategory`,
           },
@@ -110,17 +107,23 @@ function form() {
           price: {
             type: 'number',
             title: i18n.global.t('price'),
-            'x-cols': 4,
+            layout: {
+              cols: 4,
+            },
             minimum: 0,
           },
           currency_code: {
             ...Common.currency_code,
-            'x-cols': 4,
+            layout: {
+              cols: 4,
+            },
           },
           credits: {
             type: ['integer', 'null'],
             title: store.getters.shopConfig.credits_display_title,
-            'x-cols': 4,
+            layout: {
+              cols: 4,
+            },
             minimum: 0,
           },
           custom_price: {
