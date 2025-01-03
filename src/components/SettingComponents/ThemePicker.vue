@@ -89,6 +89,10 @@ async function uploadTheme(event) {
 </script>
 
 <template>
+  <confirmation-dialog
+    ref="confirmationDialog"
+    @submit="setTheme"
+  />
   <input
     ref="fileInput"
     type="file"
@@ -115,7 +119,7 @@ async function uploadTheme(event) {
       >
         <v-card
           class="fill-height"
-          @click="setTheme(theme)"
+          @click="$refs.confirmationDialog.show(theme)"
         >
           <v-img :src="theme.preview_img" />
           <v-card-title>{{ theme.name }}</v-card-title>
@@ -145,7 +149,7 @@ async function uploadTheme(event) {
       >
         <v-card
           class="fill-height"
-          @click="setTheme(theme)"
+          @click="$refs.confirmationDialog.show(theme)"
         >
           <v-img :src="theme.preview_img" />
           <v-card-title>{{ theme.name }}</v-card-title>
