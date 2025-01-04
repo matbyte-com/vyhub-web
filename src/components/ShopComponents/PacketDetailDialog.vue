@@ -43,7 +43,6 @@
                 <v-alert
                   v-if="packet.active_for != null || packet.recurring"
                   density="compact"
-                  text
                   color="secondary"
                   variant="outlined"
                   class="font-weight-bold text-center mt-2 mb-0"
@@ -145,16 +144,6 @@
               <span class="mr-3 ml-3">{{ $t('or') }}</span>
               <v-divider></v-divider>
             </v-row>-->
-              <!-- Abstracts -->
-              <!--
-            <v-list dense>
-              <p class="pa-0 ma-0" v-for="point in packet.abstract" :key="point">
-                  <v-icon>mdi-star</v-icon>
-                <span class="body-2 pa-0 ma-0">
-                  {{ point }}
-                </span>
-              </p>
-            </v-list>-->
               <!-- Buy Button -->
               <div
                 v-if="!hideBuyBtns"
@@ -259,7 +248,7 @@
             class="flex d-flex flex-column vh-shop-package-description bg-transparent"
             flat
           >
-            <v-card-title class="px-0 mx-0">
+            <v-card-title class="px-0 mx-0 align-center d-flex">
               <v-icon
                 color="primary"
                 start

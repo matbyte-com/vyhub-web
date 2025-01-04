@@ -45,7 +45,11 @@ async function addToCart() {
   if (!store.getters.isLoggedIn) {
     await router.push({
       path: route.path,
-      query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(route.path), shop: true },
+      query: {
+        login: 'true',
+        return_url: UtilService.data().utils.getFullUrl(route.path),
+        shop: true
+      },
     });
     return;
   }
@@ -81,84 +85,64 @@ async function addToCart() {
     :color="flat ? 'transparent' : ''"
     :flat="flat"
   >
-    <v-hover v-slot="{ hover }">
-      <PacketImage
-        :cover="true"
-        :packet="packet"
-        class="text-white img-rounded ma-1"
-        style="cursor: pointer;"
+    <PacketImage
+      :cover="true"
+      :packet="packet"
+      class="text-white img-rounded ma-1"
+      style="cursor: pointer;"
+      @click="$refs.detailDialog.show()"
+    >
+      <div
+        class="d-flex flex-column"
+        style="height: 100%"
         @click="$refs.detailDialog.show()"
       >
+        <v-fade-transition>
+          <v-row
+            v-if="packet.title_in_image"
+            justify="center"
+            align="center"
+            class="text-center ml-2 mr-2 font-weight-bold title-in-image"
+            :class="display.smAndDown ? 'text-h6' : 'text-h4'"
+            style="text-shadow: #000000 2px 2px 2px;"
+          >
+            {{ packet.title_in_image }}
+          </v-row>
+        </v-fade-transition>
         <div
-          class="d-flex flex-column"
-          style="height: 100%"
-          @click="$refs.detailDialog.show()"
+          v-if="!small"
+          class="d-flex justify-space-between pa-1 mt-auto"
         >
-          <v-fade-transition>
-            <v-row
-              v-if="packet.title_in_image &&
-                (!hover || packet.abstract == null || packet.abstract.length === 0)"
-              justify="center"
-              align="center"
-              class="text-center ml-2 mr-2 font-weight-bold title-in-image"
-              :class="display.smAndDown ? 'text-h6' : 'text-h4'"
-              style="text-shadow: #000000 2px 2px 2px;"
-            >
-              {{ packet.title_in_image }}
-            </v-row>
-          </v-fade-transition>
+          <v-chip
+            v-if="packet.credits != null"
+            variant="flat"
+          >
+            <div class="d-flex align-center">
+              <v-icon start>
+                mdi-circle-multiple
+              </v-icon>
+              {{ packet.credits }}
+            </div>
+          </v-chip>
+          <v-spacer />
           <div
-            v-if="!small"
-            class="d-flex justify-space-between pa-1 mt-auto"
+            v-if="packet.price_with_discount != null
+              && packet.price_with_discount.total !==
+                packet.price_without_discount.total"
           >
             <v-chip
-              v-if="packet.credits != null"
               variant="flat"
+              color="green-lighten-2"
             >
-              <div class="d-flex align-center">
-                <v-icon start>
-                  mdi-circle-multiple
-                </v-icon>
-                {{ packet.credits }}
-              </div>
-            </v-chip>
-            <v-spacer />
-            <div
-              v-if="packet.price_with_discount != null
-                && packet.price_with_discount.total !==
-                  packet.price_without_discount.total"
-            >
-              <v-chip
-                variant="flat"
-                color="green-lighten-2"
-              >
-                <span class="strikethrough-diagonal text-disabled">
-                  {{ utils.formatDecimal(packet.price_without_discount.total) }}
-                  {{ packet.currency.symbol }}
-                </span>
-              </v-chip>
-              <v-chip
-                variant="flat"
-                class="ml-2"
-                color="orange"
-              >
-                {{
-                  packet.price_with_discount.total
-                    .toLocaleString(undefined, {minimumFractionDigits: 2})
-                }}
+              <span class="strikethrough-diagonal text-disabled">
+                {{ utils.formatDecimal(packet.price_without_discount.total) }}
                 {{ packet.currency.symbol }}
-                <div
-                  v-if="packet.recurring"
-                  class="pl-1"
-                >
-                  / {{ utils.formatLength(packet.active_for) }}
-                </div>
-              </v-chip>
-            </div>
+              </span>
+            </v-chip>
             <v-chip
-              v-else-if="packet.price_with_discount != null"
-              color="green"
               variant="flat"
+              class="ml-2"
+              color="orange"
             >
               {{
                 packet.price_with_discount.total
@@ -173,31 +157,26 @@ async function addToCart() {
               </div>
             </v-chip>
           </div>
-        </div>
-        <v-fade-transition>
-          <v-overlay
-            v-if="packet.abstract != null && packet.abstract.length > 0 && hover &&
-              !disableHover"
-            absolute
-            :model-value="hover"
+          <v-chip
+            v-else-if="packet.price_with_discount != null"
+            color="green"
+            variant="flat"
           >
+            {{
+              packet.price_with_discount.total
+                .toLocaleString(undefined, {minimumFractionDigits: 2})
+            }}
+            {{ packet.currency.symbol }}
             <div
-              class="d-flex text-h6 text-white"
-              style="height: 100%;"
+              v-if="packet.recurring"
+              class="pl-1"
             >
-              <ul class="ma-2">
-                <li
-                  v-for="point in packet.abstract"
-                  :key="point"
-                >
-                  {{ point }}
-                </li>
-              </ul>
+              / {{ utils.formatLength(packet.active_for) }}
             </div>
-          </v-overlay>
-        </v-fade-transition>
-      </PacketImage>
-    </v-hover>
+          </v-chip>
+        </div>
+      </div>
+    </PacketImage>
     <v-card-text
       class="vh-packet-card-text flex-grow-1 d-flex flex-column"
       style="width: inherit"

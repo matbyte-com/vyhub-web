@@ -282,10 +282,6 @@ export default {
       const data = { ...packet };
       data.currency_code = data.currency.code;
 
-      if (data.abstract == null) {
-        data.abstract = [];
-      }
-
       delete data.currency;
       delete data.flags;
       delete data.price_with_discount;

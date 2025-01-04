@@ -36,15 +36,6 @@ function form() {
             title: i18n.global.t('subcategory'),
             'x-fromUrl': `${API_URL}/packet/category/{category.id}/subcategory`,
           },
-          abstract: {
-            type: 'array',
-            title: i18n.global.t('_packet.labels.abstract'),
-            description: i18n.global.t('_packet.labels.abstractDetail'),
-            items: {
-              type: 'string',
-            },
-            default: [],
-          },
           description: {
             type: 'string',
             title: i18n.global.t('description'),
@@ -210,7 +201,6 @@ function form() {
     delete res.allOf[0].properties.enabled;
     delete res.allOf[0].properties.buyable_active;
     delete res.allOf[0].properties.buyable_inactive;
-    delete res.allOf[0].properties.abstract;
     delete res.allOf[1].properties.payment_gateways;
     delete res.allOf[2];
   }
