@@ -2,7 +2,7 @@ const vyhubLightFull = {
   name: 'Verdant Harmony',
   description: 'Inspired by nature, this theme blends deep greens with light tones for a refreshing and modern aesthetic.',
   type: 'full_management',
-  preview_img: 'https://cdn.vyhub.net/vyhub/themes/green-light-full.png',
+  preview_img: 'https://cdn.vyhub.net/vyhub/themes/dark-green-full.webp',
   data: {
     general: {
       shop_only: false,
@@ -14,7 +14,7 @@ const vyhubLightFull = {
     },
     theme: {
       dark: true,
-      image: null,
+      image: 'https://cdn.vyhub.net/vyhub/themes/green-abstract-background.webp',
       primary: '#4caf50', // A calm green shade for a fresh feel
       secondary: '#81c784', // A lighter green accent for a harmonious touch
       header: '#222831', // A dark, sleek header

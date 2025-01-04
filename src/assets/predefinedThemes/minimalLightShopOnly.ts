@@ -1,8 +1,8 @@
 const minimalLightFull = {
   name: 'Minimal',
-  description: 'A clean, minimal theme designed for flexibility. Start simple and effortlessly expand with customizable options as your needs grow.',
+  description: 'A clean, minimal theme designed for the easiest use of VyHub. Start simple and effortlessly expand with customizable options as your needs grow.',
   type: 'shop_only',
-  preview_img: 'https://cdn.vyhub.net/vyhub/themes/minimal-light-shop-only.png',
+  preview_img: 'https://cdn.vyhub.net/vyhub/themes/shop-only-minimal.webp',
   data: {
     general: {
       shop_only: true,

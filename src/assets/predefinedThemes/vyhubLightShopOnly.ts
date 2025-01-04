@@ -2,7 +2,7 @@ const vyhubLightFull = {
   name: 'VyHub',
   description: 'This is VyHubs demo theme adapted to a shop-only instance!',
   type: 'shop_only',
-  preview_img: 'https://picsum.photos/600/400',
+  preview_img: 'https://cdn.vyhub.net/vyhub/themes/shop-only-vyhub.webp',
   data: {
     general: {
       shop_only: true,

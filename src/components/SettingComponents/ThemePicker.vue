@@ -121,7 +121,12 @@ async function uploadTheme(event) {
           class="fill-height"
           @click="$refs.confirmationDialog.show(theme)"
         >
-          <v-img :src="theme.preview_img" />
+          <v-img
+            cover
+            position="top"
+            height="180px"
+            :src="theme.preview_img"
+          />
           <v-card-title>{{ theme.name }}</v-card-title>
           <v-card-text class="text-disabled">
             {{ theme.description }}
@@ -151,7 +156,12 @@ async function uploadTheme(event) {
           class="fill-height"
           @click="$refs.confirmationDialog.show(theme)"
         >
-          <v-img :src="theme.preview_img" />
+          <v-img
+            cover
+            position="top"
+            :src="theme.preview_img"
+            height="180px"
+          />
           <v-card-title>{{ theme.name }}</v-card-title>
           <v-card-text class="text-disabled">
             {{ theme.description }}
