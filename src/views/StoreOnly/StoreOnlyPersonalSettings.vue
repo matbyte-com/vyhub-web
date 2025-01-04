@@ -22,43 +22,45 @@ async function refreshUser(fromChange = true) {
 </script>
 
 <template>
-  <StoreOnlyHeaderButtons />
-  <StoreOnlyHeaderPicture />
-  <v-row
-    justify="center"
-    class="mb-3"
-  >
-    <v-col
-      cols="11"
-      sm="11"
-      md="8"
-      lg="7"
+  <div>
+    <StoreOnlyHeaderButtons />
+    <StoreOnlyHeaderPicture />
+    <v-row
+      justify="center"
+      class="mb-3"
     >
-      <StoreOnlyLinkedAccounts />
-      <v-row dense>
-        <v-col>
-          <Email
-            :user="userCopy"
-            class="mt-3 fill-height"
-            @user-changed="refreshUser"
-          />
-        </v-col>
-        <v-col>
-          <EmailNotifications
-            :user="userCopy"
-            class="mt-3 fill-height"
-            @user-changed="refreshUser"
-          />
-        </v-col>
-      </v-row>
-      <PurchasesDashboard
-        :flat="false"
-        :headline="true"
-        class="mt-5"
-        :user="userCopy"
-      />
-    </v-col>
-  </v-row>
+      <v-col
+        cols="11"
+        sm="11"
+        md="8"
+        lg="7"
+      >
+        <StoreOnlyLinkedAccounts />
+        <v-row dense>
+          <v-col>
+            <Email
+              :user="userCopy"
+              class="mt-3 fill-height"
+              @user-changed="refreshUser"
+            />
+          </v-col>
+          <v-col>
+            <EmailNotifications
+              :user="userCopy"
+              class="mt-3 fill-height"
+              @user-changed="refreshUser"
+            />
+          </v-col>
+        </v-row>
+        <PurchasesDashboard
+          :flat="false"
+          :headline="true"
+          class="mt-5"
+          :user="userCopy"
+        />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <style scoped>
