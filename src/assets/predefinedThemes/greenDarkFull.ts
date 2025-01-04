@@ -25,23 +25,24 @@ const vyhubLightFull = {
       show_community_name: true, // Enables community name for brand visibility
       custom_css: `
         .vh-news-donation-goal, .vh-news-donation-goal i, .vh-news-donation-goal a.v-btn {
-            background-color: #00796b !important; /* Teal for a modern look */
+            background-color: #00796b !important;
             color: #ffffff !important;
         }
         .vh-packet-card-text, .v-btn--outlined {
             color: #4caf50 !important; /* Matches primary color */
         }
         .vh-news-top-donators, .vh-news-top-donators i, .vh-news-top-donators a.v-btn {
-            background-color: #388e3c !important; /* A darker green for differentiation */
+            background-color: #388e3c !important;
             color: #ffffff !important;
         }
-        .vh-new-users, .vh-new-users i, .vh-new-users div.v-card {
-            background-color: #e0f2f1 !important; /* Soft mint green for a welcoming vibe */
+        .vh-new-users {
+            background-color: #e0f2f1 !important;
+            color: #000000 !important;
         }
         .vh-cart-categories, .vh-cart-categories h2, .vh-cart-categories hr {
-            background-color: #263238 !important; /* Deep charcoal */
+            background-color: #263238 !important;
             color: #ffffff !important;
-            border-color: #546e7a !important; /* Bluish-gray */
+            border-color: #546e7a !important;
         }
         .vh-cart-categories a.v-card, .vh-cart-categories h3 {
             background-color: #37474f !important; /* Mid charcoal for depth */
@@ -52,7 +53,7 @@ const vyhubLightFull = {
             color: #ffffff !important;
         }
         .vh-cart-recommended-packets-cart .v-btn--icon {
-            color: #81c784 !important; /* Secondary green accent */
+            color: #81c784 !important
         }
         .vh-cart-category, .vh-cart-category h2, .vh-cart-category hr, .vh-cart-category a.v-card, .vh-cart-category div.v-tab:not(.v-tab--active), vh-cart-category button.v-btn {
             background-color: #263238 !important;
@@ -64,22 +65,22 @@ const vyhubLightFull = {
             background-color: #37474f !important;
         }
         .vh-forum-latest-posts, .vh-forum-latest-posts .v-list, .vh-forum-latest-posts a.v-btn, .vh-forum-latest-posts span.vh-forum-link, .vh-forum-latest-posts a.vh-forum-link {
-            background-color: #00796b !important; /* Consistent teal */
+            background-color: #00796b !important;
             color: #ffffff !important;
         }
         .vh-forum-latest-posts i {
             color: #ffffff !important;
         }
         .vh-forum-latest-threads, .vh-forum-latest-threads .v-list, .vh-forum-latest-threads a.v-btn, .vh-forum-latest-threads span.vh-forum-link, .vh-forum-latest-threads a.vh-forum-link {
-            background-color: #388e3c !important; /* Matches top-donator color */
+            background-color: #388e3c !important;
             color: #ffffff !important;
         }
         .vh-forum-latest-threads i {
             color: #ffffff !important;
         }
         .vh-forum-statistics, .vh-forum-statistics i {
-            background-color: #e0f7fa !important; /* Soft blue-green */
-            color: #004d40 !important; /* Dark teal for contrast */
+            background-color: #e0f7fa !important;
+            color: #004d40 !important;
         }
     `
     },

@@ -1,7 +1,7 @@
 import minimalLightFull from './minimalLightFull'
 import minimalLightShopOnly from "./minimalLightShopOnly";
 import vyhubLightFull from "./vyhubLightFull";
-import greenLightFull from "./greenLightFull";
+import greenDarkFull from "./greenDarkFull";
 import blueLightFull from "./blueLightFull";
 import vyhubLightShopOnly from "./vyhubLightShopOnly";
 
@@ -9,8 +9,8 @@ export default {
   themes: [
     minimalLightFull,
     vyhubLightFull,
-    greenLightFull,
     blueLightFull,
+    greenDarkFull,
     minimalLightShopOnly,
     vyhubLightShopOnly
   ],

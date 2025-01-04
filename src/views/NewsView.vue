@@ -1,3 +1,117 @@
+<script setup>
+import {computed, onMounted, ref, useTemplateRef} from 'vue';
+import {useDisplay, useTheme} from "vuetify";
+import {useStore} from "vuex";
+import NewsAddForm from "@/forms/NewsAddForm";
+import openapi from "@/api/openapi";
+import {notify} from "@kyvg/vue3-notification";
+import {useI18n} from "vue-i18n";
+
+const display = ref(useDisplay())
+const theme = ref(useTheme())
+const store = useStore()
+const i18n = useI18n()
+
+const news = ref([])
+const page = ref(1)
+const exhausted = ref(false)
+const fetching = ref(false)
+const messageAddSchema = ref(NewsAddForm.returnForm())
+const showServers = ref(true)
+const messageAddDialog = useTemplateRef('messageAddDialog')
+const deleteMessageDialog = useTemplateRef('deleteMessageDialog')
+const messageEditDialog = useTemplateRef('messageEditDialog')
+
+const getNews = computed(() => news.value.filter((n) => n.type === 'DEFAULT'))
+const getNewsOfTheDay = computed(() => news.value.filter((n) => n.type === 'PINNED'))
+const shopConfig = store.state.shopConfig
+
+onMounted(() => {
+  fetchNews()
+  scroll()
+})
+
+async function fetchNews(page) {
+  fetching.value = true;
+  (await openapi).news_getMessages({page, size: 15}).then((rsp) => {
+    rsp.data.items.forEach((item) => news.value.push(item));
+    if (rsp.data.items.length === 0) {
+      exhausted.value = true;
+    }
+    fetching.value = false;
+  });
+}
+
+function scroll() {
+  window.onscroll = () => {
+    const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 10
+      >= document.documentElement.offsetHeight;
+    if (bottomOfWindow && !fetching.value && !exhausted.value) {
+      page.value += 1;
+      fetchNews(page.value);
+    }
+  };
+}
+
+function showAddMessageDialog() {
+  console.log(messageAddDialog);
+  messageAddDialog.value.show();
+}
+
+async function addMessage() {
+  const data = messageAddDialog.value.getData();
+  (await openapi).news_addMessage(null, data).then((rsp) => {
+    messageAddDialog.value.closeAndReset();
+    news.value.unshift(rsp.data);
+    notify({
+      title: i18n.t('_messages.addSuccess'),
+      type: 'success',
+    });
+  }).catch((err) => messageAddDialog.setError(err));
+}
+
+function openDeleteMessageDialog(message) {
+  deleteMessageDialog.value.show(message);
+}
+
+async function deleteMessage(message) {
+  (await openapi).news_deleteMessage(message.id)
+    .then(() => {
+      deleteMessageDialog.value.closeAndReset();
+      notify({
+        title: i18n.t('_messages.deleteSuccess'),
+        type: 'success',
+      });
+    })
+    .catch((err) => deleteMessageDialog.value.setError(err));
+  const index = news.value.findIndex((n) => n.id === message.id);
+  if (index > -1) {
+    news.value.splice(index, 1);
+  }
+}
+
+function openEditMessageDialog(message) {
+  messageEditDialog.value.show(message, message);
+}
+
+async function editMessage(message) {
+  const data = messageEditDialog.value.getData();
+  (await openapi).news_editMessage(message.id, data)
+    .then((rsp) => {
+      const index = news.value.findIndex((n) => n.id === rsp.data.id);
+      if (index > -1) {
+        news.value.splice(index, 1, rsp.data);
+      }
+      messageEditDialog.value.closeAndReset();
+      notify({
+        title: i18n.t('_messages.editSuccess'),
+        type: 'success',
+      });
+    }).catch((err) => messageEditDialog.value.setError(err));
+}
+
+</script>
+
 <template>
   <div>
     <!-- Add Message Dialog -->
@@ -32,7 +146,7 @@
     <v-row class="mb-5">
       <!-- Smartphones Serverstatus + Donation Goal -->
       <v-col
-        v-if="$vuetify.display.smAndDown"
+        v-if="display.smAndDown"
         cols="12"
       >
         <v-card
@@ -51,19 +165,19 @@
               />
             </swiper-slide>
             <swiper-slide
-              v-if="$store.getters.shopConfig &&
-                ($store.getters.shopConfig.donation_goal_enabled ||
-                  $store.getters.shopConfig.top_donators_enabled)"
+              v-if="store.getters.shopConfig &&
+                (store.getters.shopConfig.donation_goal_enabled ||
+                  store.getters.shopConfig.top_donators_enabled)"
             >
               <v-card
-                v-if="$store.getters.shopConfig.donation_goal_enabled"
+                v-if="store.getters.shopConfig.donation_goal_enabled"
                 class="card-rounded pt-3"
                 border
               >
                 <DonationGoal />
               </v-card>
               <v-card
-                v-if="$store.getters.shopConfig.top_donators_enabled"
+                v-if="store.getters.shopConfig.top_donators_enabled"
                 class="card-rounded mt-3 pt-3"
                 border
               >
@@ -85,9 +199,9 @@
         <PageTitleFlat
           v-if="getNewsOfTheDay.length !== 0 || $checkProp('news_edit')"
           :title="$t('_home.newsOfTheDay')"
-          :hide-triangle="$vuetify.display.smAndDown"
-          :no-bottom-border-radius="$vuetify.display.smAndDown"
-          :class="{ 'mb-4': $vuetify.display.mdAndUp }"
+          :hide-triangle="display.smAndDown"
+          :no-bottom-border-radius="display.smAndDown"
+          :class="{ 'mb-4': display.mdAndUp }"
         >
           <template
             v-if="$checkProp('news_edit')"
@@ -116,17 +230,17 @@
           flat
           class="news-of-day vh-news-of-day card-rounded-bottom animate__animated
                  animate__fadeIn animate__faster mb-3"
-          :class="{ 'card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
-                    'no-top-border-radius': $vuetify.display.smAndDown && index === 0 }"
+          :class="{ 'card-rounded-top':!display.smAndDown || index !== 0,
+                    'no-top-border-radius': display.smAndDown && index === 0 }"
         >
           <v-card-title
             class="d-flex"
             :class="{ 'grey-title': !message.background_url &&
-              !$vuetify.theme.current.dark }"
+              !theme.current.dark }"
           >
             <span
-              :class="{ 'text-white' : !$vuetify.theme.current.dark && message.invert_title_color,
-                        'text-black' : $vuetify.theme.current.dark && message.invert_title_color }"
+              :class="{ 'text-white' : !theme.current.dark && message.invert_title_color,
+                        'text-black' : theme.current.dark && message.invert_title_color }"
             >
               {{ message.subject }}
             </span>
@@ -167,9 +281,9 @@
           <v-card-actions class="text-disabled pt-0">
             <span
               class="mr-3"
-              :class="{ 'text-white' : !$vuetify.theme.current.dark
+              :class="{ 'text-white' : !theme.current.dark
                           && message.invert_title_color,
-                        'text-black' : $vuetify.theme.current.dark && message.invert_title_color }"
+                        'text-black' : theme.current.dark && message.invert_title_color }"
             >
               {{ $d(new Date(message.created), 'long') }}
             </span>
@@ -184,17 +298,17 @@
           v-if="getNews.length !== 0"
           :title="$t('_home.news')"
           :class="{ 'mt-4': getNewsOfTheDay.length !== 0,
-                    'mb-4': $vuetify.display.mdAndUp }"
-          :hide-triangle="$vuetify.display.smAndDown"
-          :no-bottom-border-radius="$vuetify.display.smAndDown"
+                    'mb-4': display.mdAndUp }"
+          :hide-triangle="display.smAndDown"
+          :no-bottom-border-radius="display.smAndDown"
         />
         <v-card
           v-for="(message, index) in getNews"
           :key="message.id"
           flat
           border
-          :class="{ 'card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
-                    'no-top-border-radius': $vuetify.display.smAndDown && index === 0 }"
+          :class="{ 'card-rounded-top':!display.smAndDown || index !== 0,
+                    'no-top-border-radius': display.smAndDown && index === 0 }"
           class="mb-3 vh-news card-rounded animate__animated animate__fadeIn animate__faster"
           :image="message.background_url"
         >
@@ -204,8 +318,8 @@
               !$vuetify.theme.current.dark }"
           >
             <span
-              :class="{ 'text-white' : !$vuetify.theme.current.dark && message.invert_title_color,
-                        'text-black' : $vuetify.theme.current.dark && message.invert_title_color }"
+              :class="{ 'text-white' : !theme.current.dark && message.invert_title_color,
+                        'text-black' : theme.current.dark && message.invert_title_color }"
             >
               {{ message.subject }}
             </span>
@@ -246,8 +360,8 @@
           <v-card-actions class="text-disabled pt-0">
             <span
               class="mr-3"
-              :class="{ 'text-white' : !$vuetify.theme.current.dark && message.invert_title_color,
-                        'text-black' : $vuetify.theme.current.dark && message.invert_title_color }"
+              :class="{ 'text-white' : !theme.current.dark && message.invert_title_color,
+                        'text-black' : theme.current.dark && message.invert_title_color }"
             >
               {{ $d(new Date(message.created), 'long') }}</span>
             <user-link
@@ -270,23 +384,23 @@
         ref="StatusCol"
         cols="4"
       >
-        <div v-if="$vuetify.display.mdAndUp">
+        <div v-if="display.mdAndUp">
           <ServerStatus
             v-if="showServers"
             ref="serverStatus"
             @loaded="updateServerWidget"
           />
           <v-card
-            v-if="$store.getters.shopConfig &&
-              $store.getters.shopConfig.donation_goal_enabled"
+            v-if="store.getters.shopConfig &&
+              store.getters.shopConfig.donation_goal_enabled"
             class="mb-3 card-rounded vh-news-donation-goal"
             flat
           >
             <DonationGoal class="pt-3" />
           </v-card>
           <v-card
-            v-if="$store.getters.shopConfig &&
-              $store.getters.shopConfig.top_donators_enabled"
+            v-if="store.getters.shopConfig &&
+              store.getters.shopConfig.top_donators_enabled"
             class="mb-3 card-rounded vh-news-top-donators"
             flat
           >
@@ -298,123 +412,6 @@
     </v-row>
   </div>
 </template>
-
-<script>
-import openapi from '@/api/openapi';
-import NewsAddForm from '@/forms/NewsAddForm';
-import config from '../config';
-import i18n from '../plugins/i18n';
-
-
-export default {
-  data() {
-    return {
-      news: [],
-      page: 1,
-      exhausted: false,
-      fetching: false,
-      messageAddSchema: NewsAddForm.returnForm(),
-      showServers: true,
-    };
-  },
-  computed: {
-    getNews() {
-      return this.news.filter((n) => n.type === 'DEFAULT');
-    },
-    getNewsOfTheDay() {
-      return this.news.filter((n) => n.type === 'PINNED');
-    },
-    shopConfig() {
-      return this.$store.getters.shopConfig;
-    },
-  },
-  mounted() {
-    this.fetchNews();
-    this.scroll();
-  },
-  methods: {
-    async fetchNews(page) {
-      this.fetching = true;
-      (await openapi).news_getMessages({page, size: 15}).then((rsp) => {
-        rsp.data.items.forEach((item) => this.news.push(item));
-        if (rsp.data.items.length === 0) {
-          this.exhausted = true;
-        }
-        this.fetching = false;
-      });
-    },
-    scroll() {
-      window.onscroll = () => {
-        const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight + 10
-          >= document.documentElement.offsetHeight;
-        if (bottomOfWindow && !this.fetching && !this.exhausted) {
-          this.page += 1;
-          this.fetchNews(this.page);
-        }
-      };
-    },
-    showAddMessageDialog() {
-      this.$refs.messageAddDialog.show();
-    },
-    async addMessage() {
-      const data = this.$refs.messageAddDialog.getData();
-      if (data.content.length > this.maxInputLength) {
-        this.$refs.messageAddDialog.setErrorMessage(i18n.global.t('maxInputExceeded', {length: config.html_max_input_length}),
-          {length: config.html_max_input_length});
-        return;
-      }
-      (await openapi).news_addMessage(null, data).then((rsp) => {
-        this.$refs.messageAddDialog.closeAndReset();
-        this.news.unshift(rsp.data);
-        this.$notify({
-          title: this.$t('_messages.addSuccess'),
-          type: 'success',
-        });
-      }).catch((err) => this.$refs.messageAddDialog.setError(err));
-    },
-    openDeleteMessageDialog(message) {
-      this.$refs.deleteMessageDialog.show(message);
-    },
-    async deleteMessage(message) {
-      (await openapi).news_deleteMessage(message.id)
-        .then(() => {
-          this.$refs.deleteMessageDialog.closeAndReset();
-          this.$notify({
-            title: this.$t('_messages.deleteSuccess'),
-            type: 'success',
-          });
-        })
-        .catch((err) => this.$refs.deleteMessageDialog.setError(err));
-      const index = this.news.findIndex((n) => n.id === message.id);
-      if (index > -1) {
-        this.news.splice(index, 1);
-      }
-    },
-    openEditMessageDialog(message) {
-      this.$refs.messageEditDialog.show(message);
-      this.$refs.messageEditDialog.setData(message);
-    },
-    async editMessage(message) {
-      const data = this.$refs.messageEditDialog.getData();
-      (await openapi).news_editMessage(message.id, data)
-        .then((rsp) => {
-          const index = this.news.findIndex((n) => n.id === rsp.data.id);
-          if (index > -1) {
-            this.news.splice(index, 1, rsp.data);
-          }
-          this.$refs.messageEditDialog.closeAndReset();
-          this.$notify({
-            title: this.$t('_messages.editSuccess'),
-            type: 'success',
-          });
-        }).catch((err) => this.$refs.messageEditDialog.setError(err));
-    },
-    updateServerWidget(nonEmpty) {
-      this.showServers = nonEmpty;
-    },
-  },
-};
-</script>
 
 <style scoped lang="sass">
 .news-of-day
