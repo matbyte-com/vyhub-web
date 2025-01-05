@@ -77,7 +77,7 @@ function close() {
   open.value = false;
 }
 
-defineExpose({show, close, getItem, cancel, open});
+defineExpose({show, close, getItem, cancel, open, id});
 </script>
 
 <template>

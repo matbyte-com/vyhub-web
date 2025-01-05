@@ -259,7 +259,7 @@
         class="mt-2"
         color="success"
       >
-        <v-card-subtitle>
+        <v-card-subtitle class="mt-3">
           <div class="text-subtitle-2">
             {{ $t('_api.labels.createdKey') }}:
           </div>
@@ -290,7 +290,7 @@
         :key="token.id"
         class="mt-2"
       >
-        <v-card-subtitle class="d-flex justify-space-between">
+        <v-card-subtitle class="mt-3 d-flex justify-space-between">
           <span>
             <div>
               <div class="font-weight-bold ">
