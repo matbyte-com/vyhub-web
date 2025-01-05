@@ -5,14 +5,13 @@
         {{ $t('theme') }}
       </template>
       <template #header-right>
-        <v-btn
-          variant="outlined"
-          color="secondary"
-          prepend-icon="mdi-brush-variant"
+        <div
+          class="outer-div"
           @click="$refs.dialog.show()"
         >
-          Predefined Templates
-        </v-btn>
+          <v-icon>mdi-brush-variant</v-icon>
+          Predefined Themes
+        </div>
       </template>
     </SettingTitle>
     <v-row>
@@ -93,3 +92,37 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.outer-div {
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  justify-content: center;
+  color: black;
+  align-items: center;
+  background: linear-gradient(to right,
+  hsl(224, 85%, 66%),
+  hsl(269, 85%, 66%),
+  hsl(314, 85%, 66%),
+  hsl(359, 85%, 66%),
+  hsl(44, 85%, 66%),
+  hsl(359, 85%, 66%),
+  hsl(314, 85%, 66%),
+  hsl(269, 85%, 66%),
+  hsl(224, 85%, 66%)
+  );
+  background-size: 1800% 200%;
+  animation: moveGradient 6s linear infinite;
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+</style>

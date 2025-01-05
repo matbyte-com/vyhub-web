@@ -135,9 +135,9 @@ async function uploadTheme(event) {
       </v-col>
     </v-row>
   </div>
-  <div class="d-flex align-center">
+  <div class="d-flex align-center mt-6">
     <v-divider />
-    <div class="text-no-wrap mx-3 text-h6 mt-6 mb-2">
+    <div class="text-no-wrap mx-3 text-h6 mb-2">
       Full Management System
     </div>
     <v-divider />
