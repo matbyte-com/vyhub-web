@@ -103,7 +103,7 @@
       :form-schema="packetSchema"
       icon="mdi-gift-open"
       :submit-text="$t('add')"
-      :max-width="600"
+      :max-width="800"
       :title="$t('_packet.labels.add')"
       @submit="addPacket"
     >
@@ -116,7 +116,7 @@
       :form-schema="packetSchema"
       icon="mdi-gift-open"
       :submit-text="$t('edit')"
-      :max-width="600"
+      :max-width="800"
       :title="$t('_packet.labels.edit')"
       @submit="editPacket"
     >
