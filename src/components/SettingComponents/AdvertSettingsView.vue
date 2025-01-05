@@ -3,6 +3,12 @@
     <SettingTitle doc-path="/guide/adverts">
       {{ $t('_advert.title') }}
     </SettingTitle>
+    <div
+      v-if="!adverts.length"
+      class="text-center text-disabled font-italic"
+    >
+      {{ $t('noDataAvailable') }}
+    </div>
     <VueDraggable
       v-model="adverts"
       @dragend="updateLinkOrder"
