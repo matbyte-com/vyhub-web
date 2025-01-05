@@ -251,7 +251,7 @@
       ref="bundleApiKeysDialog"
       icon="mdi-key-chain"
       :title="$t('_serverbundle.labels.apiKeys')"
-      :max-width="500"
+      :max-width="700"
       :with-id="true"
     >
       <v-card
@@ -259,11 +259,14 @@
         class="mt-2"
         color="success"
       >
-        <v-card-subtitle class="mt-3">
-          <div class="text-subtitle-2">
+        <v-card-text>
+          <div class="d-flex align-center">
+            <v-icon start>
+              mdi-check-circle
+            </v-icon>
             {{ $t('_api.labels.createdKey') }}:
           </div>
-          <div class="font-weight-bold">
+          <div class="font-weight-bold mt-2">
             <v-text-field
               append-icon="mdi-content-copy"
               readonly
@@ -275,9 +278,7 @@
           <div>
             {{ createdToken.name }}
           </div>
-        </v-card-subtitle>
-        <v-card-text>
-          <div class="text-subtitle-2">
+          <div class="text-subtitle-2 mt-2">
             {{ $t('properties') }}:
           </div>
           <div>
@@ -666,7 +667,7 @@ export default {
       const data = this.$refs.createTokenForm.getData();
       const reqData = {
         serverbundle_id: this.activeBundle.id,
-        properties: data.properties.concat(['integration_token']),
+        properties: (data.properties || []).concat(['integration_token']),
         name: data.name,
       };
 
