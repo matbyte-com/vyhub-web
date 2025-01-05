@@ -65,6 +65,7 @@ function returnForm() {
           properties: Common.propertiesSelector,
           negative_properties: {
             type: 'array',
+            default: [],
             items: {
               type: 'string',
             },
