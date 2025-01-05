@@ -38,6 +38,9 @@ export default {
       this.loadContent();
     }
   },
+  mounted() {
+    this.loadContent();
+  },
   methods: {
     loadContent() {
       if (!this.receivedContent && this.node.data) {
