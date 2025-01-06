@@ -78,15 +78,19 @@
                     >{{ $t('reset') }}</a>
                   </v-card>
                 </v-menu>
-                <v-alert
-                  v-if="$route.query.user_id"
+                <v-chip
+                  v-if="user != null"
                   type="info"
                   color="primary"
                   density="compact"
                   class="ml-3"
+                  size="large"
                 >
-                  {{ $t('_warning.showUserWarnings', { id: $route.query.user_id }) }}
-                </v-alert>
+                  <v-icon start>
+                    mdi-filter
+                  </v-icon>
+                  {{ $t('limitedToUser', { username: user?.username }) }}
+                </v-chip>
               </v-col>
             </v-row>
           </template>
@@ -298,7 +302,16 @@ export default {
       WarningEditForm,
       selectedBundles: [],
       totalItems: 0,
+      user: null,
     };
+  },
+  watch: {
+    $route() {
+      if ( (this.user != null && this.$route.query.user_id != this.user.id) ||
+        (this.user == null && this.$route.query.user_id != null) ) {
+        this.fetchData()
+      }
+    },
   },
   mounted() {
     this.fetchServerbundles();
@@ -315,6 +328,17 @@ export default {
           this.warnings = rsp.data.items;
           this.totalItems = rsp.data.total;
         });
+
+
+      if (this.$route.query.user_id) {
+        if (this.user == null || this.user.id !== this.$route.query.user_id) {
+          (await openapi).user_getUser(this.$route.query.user_id).then((rsp) => {
+            this.user = rsp.data;
+          });
+        }
+      } else {
+        this.user = null;
+      }
     },
     async fetchServerbundles() {
       (await openapi).server_getBundles().then((rsp) => {
@@ -404,7 +428,7 @@ export default {
       });
     },
     showDetails(event, row) {
-      this.$router.push({ name: 'Warnings', params: { warningId: row.item.id } });
+      this.$router.push({ name: 'Warnings', params: { warningId: row.item.id }, query: this.$route.query });
       this.currentWarning = row.item;
       this.warningDetailShown = true;
     },

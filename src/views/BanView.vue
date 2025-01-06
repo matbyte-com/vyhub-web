@@ -61,15 +61,19 @@
                       {{ $t('reset') }}</a>
                   </v-card>
                 </v-menu>
-                <v-alert
-                  v-if="$route.query.user_id"
+                <v-chip
+                  v-if="user != null"
                   type="info"
                   color="primary"
                   density="compact"
                   class="ml-3"
+                  size="large"
                 >
-                  {{ $t('_ban.messages.showingUserBans', { id: $route.query.user_id }) }}
-                </v-alert>
+                  <v-icon start>
+                    mdi-filter
+                  </v-icon>
+                  {{ $t('limitedToUser', { username: user?.username }) }}
+                </v-chip>
               </v-col>
             </v-row>
           </template>
@@ -442,6 +446,7 @@ export default {
       config: null,
       currentBan: null,
       logsShown: false,
+      user: null,
     };
   },
   computed: {
@@ -452,34 +457,20 @@ export default {
       },
       set(newValue) {
         if (!newValue && !this.$refs.banEditDialog.open) {
-          this.$router.push({ name: 'Bans' });
+          this.$router.push({ name: 'Bans', query: this.$route.query });
           this.logsShown = false;
         }
       },
     },
-    // currentBan() {
-    //   if (this.bans && this.bans.length > 0) {
-    //     let ban = this.bans.find((b) => b.id === this.$route.params.banId);
-    //
-    //     if (!ban) {
-    //
-    //     }
-    //
-    //     if (bans.length > 0) {
-    //       if (this.$refs.banLogTable) {
-    //         this.$refs.banLogTable.fetchData();
-    //       }
-    //
-    //       return bans[0];
-    //     }
-    //   }
-    //
-    //   return null;
-    // },
   },
   watch: {
     $route() {
       this.updateCurrentBan();
+
+      if ( (this.user != null && this.$route.query.user_id != this.user.id) ||
+        (this.user == null && this.$route.query.user_id != null) ) {
+        this.fetchData()
+      }
     },
   },
   beforeMount() {
@@ -513,6 +504,16 @@ export default {
           this.bans = rsp.data.items;
           this.totalItems = rsp.data.total;
         });
+
+      if (this.$route.query.user_id) {
+        if (this.user == null || this.user.id !== this.$route.query.user_id) {
+          (await openapi).user_getUser(this.$route.query.user_id).then((rsp) => {
+            this.user = rsp.data;
+          });
+        }
+      } else {
+        this.user = null;
+      }
     },
     async getConfig() {
       (await openapi).ban_getConfig().then((rsp) => {
@@ -646,7 +647,7 @@ export default {
       this.$refs.deleteBanDialog.show(this.currentBan);
     },
     showDetails(event, row) {
-      this.$router.push({ name: 'Bans', params: { banId: row.item.id } });
+      this.$router.push({ name: 'Bans', params: { banId: row.item.id }, query: this.$route.query });
     },
     showProtestBanDialog() {
       this.$refs.protestBanDialog.show(this.currentBan);
