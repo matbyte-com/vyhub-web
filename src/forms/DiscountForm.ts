@@ -54,6 +54,7 @@ export default {
     },
     packets: {
       ...Common.packetSelectField,
+      default: [],
       type: 'array',
       title: i18n.global.t('packets'),
       items: {
