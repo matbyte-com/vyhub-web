@@ -24,34 +24,51 @@
     @keydown.esc="search = null"
   >
     <template #item="{ props, item }">
-      <v-list-item v-if="item.raw.id !== 'advanced'" v-bind="props" :title="undefined"
-                   :prepend-avatar="item.raw.avatar">
-        <v-list-item-title>
-          <h2 class="d-flex align-center">
-            <v-icon start>
-              {{ userTypeIcons[item.raw.type] }}
-            </v-icon>
-            {{ item.raw.username }}
-          </h2>
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          {{ item.raw.identifier }}
-        </v-list-item-subtitle>
-        <v-list-item-subtitle class="mt-2 ml-2">
-          <v-chip
-            v-for="linked in item.raw.linked_users"
-            :key="linked.id"
-            size="small"
-            class="mr-2"
-          >
+      <v-list-item
+        v-if="item.raw.id !== 'advanced'"
+        v-bind="props"
+        :title="undefined"
+      >
+        <div class="d-flex align-center my-1">
+          <v-avatar class="mr-3">
+            <v-img :src="item.raw.avatar" />
+          </v-avatar>
+          <div>
+            <v-list-item-title>
+              <h4 class="d-flex align-center">
+                <v-icon start>
+                  {{ userTypeIcons[item.raw.type] }}
+                </v-icon>
+                {{ item.raw.username }}
+              </h4>
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{ item.raw.identifier }}
+            </v-list-item-subtitle>
+            <v-list-item-subtitle
+              v-if="item.raw.linked_users.length > 0"
+              class="mt-2"
+            >
+              <v-chip
+                v-for="linked in item.raw.linked_users"
+                :key="linked.id"
+                size="small"
+                class="mr-2"
+              >
                 <span class="d-flex align-center">
                   <v-icon start>{{ userTypeIcons[linked.type] }}</v-icon>
                   {{ linked.username }}
                 </span>
-          </v-chip>
-        </v-list-item-subtitle>
+              </v-chip>
+            </v-list-item-subtitle>
+          </div>
+        </div>
       </v-list-item>
-      <v-list-item v-else v-bind="props" :title="undefined">
+      <v-list-item
+        v-else
+        v-bind="props"
+        :title="undefined"
+      >
         {{ $t('advanced') }}...
       </v-list-item>
     </template>
