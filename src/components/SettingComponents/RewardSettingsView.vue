@@ -246,10 +246,8 @@ export default {
 
       data.order = 0;
       data.serverbundle_id = (data.serverbundle ? data.serverbundle.id : null);
-      data.on_event = data.on_event_group.on_event;
       data.limit_servers_ids = (data.limit_servers ? data.limit_servers.map((s) => s.id) : null);
       delete data.serverbundle;
-      delete data.on_event_group;
 
       const api = await openapi;
 
@@ -274,9 +272,7 @@ export default {
       data.serverbundle_id = (data.serverbundle ? data.serverbundle.id : null);
       data.limit_servers_ids = (data.limit_servers ? data.limit_servers.map((s) => s.id) : null);
 
-      data.on_event = data.on_event_group.on_event;
       delete data.serverbundle;
-      delete data.on_event_group;
 
       const api = await openapi;
 
@@ -309,8 +305,6 @@ export default {
     },
     showEditDialog(reward) {
       const data = {...reward};
-
-      data.on_event_group = {on_event: reward.on_event};
 
       this.$refs.editRewardDialog.show(reward);
 
