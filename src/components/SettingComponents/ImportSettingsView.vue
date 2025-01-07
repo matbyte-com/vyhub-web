@@ -1,7 +1,7 @@
 <template>
   <div>
     <SettingTitle doc-path="/guide/import/general">
-      {{ $t('import') }}
+      {{ $t('_import.title') }}
     </SettingTitle>
     <v-row>
       <v-col>

@@ -239,7 +239,7 @@ export default {
           icon: 'mdi-database-import',
           component: 'ImportSettingsView',
           reqProp: 'admin',
-          title: this.$t('import'),
+          title: this.$t('_import.title'),
           advanced: true,
           shopOnly: 'hidden'
         },
