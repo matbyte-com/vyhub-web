@@ -218,10 +218,10 @@ async function setTheme() {
 
       if (rsp.dark) {
         theme.global.name.value = 'dark';
-        import('./assets/css/dark.sass')
+        loadStyleSheet('/assets/css/dark.css');
       } else {
         theme.global.name.value = 'light';
-        import('./assets/css/light.sass')
+        loadStyleSheet('/assets/css/light.css');
       }
 
 
@@ -282,10 +282,10 @@ function setThemeFromCache() {
     // Set theme mode
     if (cachedTheme.dark) {
       theme.global.name.value = 'dark';
-      import('./assets/css/dark.sass')
+      loadStyleSheet('/assets/css/dark.css');
     } else {
       theme.global.name.value = 'light';
-      import('./assets/css/light.sass')
+      loadStyleSheet('/assets/css/light.css');
     }
     createStyleTag(cachedTheme.custom_css);
 
@@ -332,10 +332,24 @@ async function setApiInterceptor() {
       return Promise.reject(err);
     });
 }
+
+function loadStyleSheet(path) {
+  const link_existing = document.getElementById('dynamic-stylesheet');
+  if (link_existing) {
+    document.head.removeChild(link_existing);
+  }
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = path;
+  link.type = 'text/css';
+  link.id = 'dynamic-stylesheet'; // Add an ID to identify it later
+  console.log('Loading Stylesheet', path);
+  console.log(link);
+  document.head.appendChild(link);
+}
 </script>
 
 <style lang="sass">
-// @import "assets/css/light.sass"
 @import 'assets/css/quill.snow.css' // Needed for legacy Vue 2 Editor
 
 .v-main
