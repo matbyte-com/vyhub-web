@@ -32,7 +32,6 @@ export default {
   },
   data() {
     return {
-
     };
   },
   computed: {
@@ -61,6 +60,9 @@ export default {
           mode: (this.$vuetify.theme.current.dark ? 'dark' : 'light'),
         },
         chart: {
+          animations: {
+            enabled: !this.data || this.data.length < 365,
+          },
           id: 'accumulated-attribute-chart',
           zoom: {
             autoScaleYaxis: true,

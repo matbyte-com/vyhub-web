@@ -25,7 +25,7 @@
     "@types/uuid": "^8.3.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "animate.css": "^4.1.1",
-    "apexcharts": "^4.0.0",
+    "apexcharts": "^4.3.0",
     "axios": "^1.7.7",
     "ckeditor5": "^43.2.0",
     "country-flag-icons": "^1.5.13",
