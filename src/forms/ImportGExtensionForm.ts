@@ -25,7 +25,6 @@ export default {
           default: 'https://',
         },
         api_key: {
-          'x-display': 'password',
           type: 'string',
           title: i18n.global.t('apiKey'),
           description: i18n.global.t('_import.gextension.labels.apiKeyDescription'),
@@ -38,7 +37,12 @@ export default {
       type: 'object',
       properties: {
         import_buttons_1: {
-          'x-display': 'custom-import-1',
+          type: 'string',
+          layout: {
+            slots: {
+              component: 'custom-import-1',
+            }
+          }
         },
       },
     },
@@ -48,7 +52,12 @@ export default {
       type: 'object',
       properties: {
         import_buttons_2: {
-          'x-display': 'custom-import-2',
+          type: 'string',
+          layout: {
+            slots: {
+              component: 'custom-import-2',
+            }
+          }
         },
       },
     },
@@ -61,6 +70,7 @@ export default {
           ...Common.rewardSelectField,
           title: i18n.global.t('_import.gextension.labels.excludedRewards'),
           type: 'array',
+          default: [],
           items: {
             type: 'object',
           },
@@ -68,6 +78,7 @@ export default {
         packet_translations: {
           type: 'array',
           title: i18n.global.t('_import.gextension.labels.packetTranslations'),
+          default: [],
           items: {
             type: 'object',
             required: ['gex_packet', 'packet'],
@@ -75,7 +86,7 @@ export default {
               gex_packet: {
                 title: i18n.global.t('_import.gextension.labels.gexPacket'),
                 type: 'object',
-                'x-fromUrl': `${Common.apiURL}/import/gextension/packet?url={url}&api_key={api_key}`,
+                'x-fromUrl': `${Common.apiURL}/import/gextension/packet?url={rootData.url}&api_key={rootData.api_key}`,
                 'x-itemKey': 'id',
                 'x-itemTitle': 'title',
               },
@@ -84,7 +95,12 @@ export default {
           },
         },
         import_buttons_3: {
-          'x-display': 'custom-import-3',
+          type: 'string',
+          layout: {
+            slots: {
+              component: 'custom-import-3',
+            }
+          }
         },
       },
     },

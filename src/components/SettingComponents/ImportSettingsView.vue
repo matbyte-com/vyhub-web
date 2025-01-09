@@ -32,7 +32,7 @@
                   :form-schema="gextensionSchema"
                   hide-buttons
                 >
-                  <slot name="custom-import-1">
+                  <template #custom-import-1>
                     <div
                       v-for="table in tables1"
                       :key="table"
@@ -43,6 +43,7 @@
                       </div>
                       <div class="d-flex align-center">
                         <v-progress-linear
+                          color="success"
                           height="25"
                           :model-value="((progress[table].total) ?
                             ((progress[table].imported / progress[table].total) * 100) : 0)"
@@ -61,7 +62,6 @@
                         <v-btn
                           v-if="currenTable !== table"
                           color="success"
-                          size="small"
                           class="ml-2"
                           :disabled="inProgress"
                           @click="startImport(table)"
@@ -71,7 +71,6 @@
                         <v-btn
                           v-else
                           color="error"
-                          size="small"
                           class="ml-2"
                           @click="cancelImport"
                         >
@@ -79,8 +78,8 @@
                         </v-btn>
                       </div>
                     </div>
-                  </slot>
-                  <slot name="custom-import-2">
+                  </template>
+                  <template #custom-import-2>
                     <div
                       v-for="table in tables2"
                       :key="table"
@@ -92,6 +91,7 @@
                       <div class="d-flex align-center">
                         <v-progress-linear
                           height="25"
+                          color="success"
                           :model-value="((progress[table].total) ?
                             ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
@@ -109,7 +109,6 @@
                         <v-btn
                           v-if="currenTable !== table"
                           color="success"
-                          size="small"
                           class="ml-2"
                           :disabled="inProgress"
                           @click="startImport(table)"
@@ -119,7 +118,6 @@
                         <v-btn
                           v-else
                           color="error"
-                          size="small"
                           class="ml-2"
                           @click="cancelImport"
                         >
@@ -127,8 +125,8 @@
                         </v-btn>
                       </div>
                     </div>
-                  </slot>
-                  <slot name="custom-import-3">
+                  </template>
+                  <template #custom-import-3>
                     <div
                       v-for="table in tables3"
                       :key="table"
@@ -140,6 +138,7 @@
                       <div class="d-flex align-center">
                         <v-progress-linear
                           height="25"
+                          color="success"
                           :model-value="((progress[table].total) ?
                             ((progress[table].imported / progress[table].total) * 100) : 0)"
                           :stream="progress[table].more === true"
@@ -157,7 +156,6 @@
                         <v-btn
                           v-if="currenTable !== table"
                           color="success"
-                          size="small"
                           class="ml-2"
                           :disabled="inProgress"
                           @click="startImport(table)"
@@ -167,7 +165,6 @@
                         <v-btn
                           v-else
                           color="error"
-                          size="small"
                           class="ml-2"
                           @click="cancelImport"
                         >
@@ -175,7 +172,7 @@
                         </v-btn>
                       </div>
                     </div>
-                  </slot>
+                  </template>
                 </GenForm>
               </v-card-text>
             </v-card>
@@ -229,6 +226,8 @@ export default {
   },
   methods: {
     async startImport(table) {
+      this.$refs.gexForm[0].setErrorMessage(null);
+
       this.cancel = false;
 
       const api = await openapi;
