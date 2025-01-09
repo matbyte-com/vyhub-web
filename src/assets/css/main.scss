@@ -180,16 +180,6 @@ a:hover::before {
   z-index: 9999 !important;
 }
 
-/* VJSF Fix icon width in select */
-.vjsf .v-select__selection-text img {
-  width: 14px !important;
-}
-
-.v-menu .v-list-item__prepend img {
-  width: 22px !important;
-  margin-right: 5px;
-}
-
 /* VJSF fix popup (e.g. datetime editor) width */
 
 .vjsf-text-field-menu .v-overlay__content {
