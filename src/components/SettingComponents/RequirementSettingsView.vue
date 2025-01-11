@@ -164,16 +164,6 @@
       </v-row>
     </Dialog>
     <!-- Real Component -->
-    <v-row>
-      <v-col
-        cols="12"
-        class="mt-4"
-      >
-        <v-alert type="warning">
-          {{ $t('_settings.formulaBeta') }}
-        </v-alert>
-      </v-col>
-    </v-row>
     <DataTable
       :headers="headers"
       :items="requirementSets"
