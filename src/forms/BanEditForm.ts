@@ -12,6 +12,7 @@ export default {
       type: 'integer',
       title: i18n.global.t('_ban.labels.lengthInMinutes'),
       minimum: 1,
+      maximum: 525600000,
     },
     serverbundle: Common.serverbundleSelectField,
   },
