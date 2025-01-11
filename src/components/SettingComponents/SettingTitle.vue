@@ -7,7 +7,7 @@
       <v-spacer />
       <slot name="header-right" />
       <v-tooltip
-        v-if="docLink"
+        v-if="docLink && docPath != null"
         location="left"
       >
         <template #activator="{ props }">

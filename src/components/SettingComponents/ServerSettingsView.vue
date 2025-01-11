@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-path="/guide/serverbundle">
+    <SettingTitle doc-path="/guide/server">
       {{ $t('_settings.serverAndServerbundle') }}
     </SettingTitle>
     <v-row>
@@ -13,7 +13,7 @@
           <v-card-text>
             <SettingTitle
               :divider="false"
-              doc-path="/guide/serverbundle"
+              :doc-path="null"
             >
               {{ $t('serverbundle') }}
             </SettingTitle>
@@ -137,7 +137,7 @@
               <template #header>
                 <SettingTitle
                   :divider="false"
-                  doc-path="/guide/server"
+                  :doc-path="null"
                 >
                   {{ $t('_settings.gameserver') }}
                 </SettingTitle>
