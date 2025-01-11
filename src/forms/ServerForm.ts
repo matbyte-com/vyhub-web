@@ -1,161 +1,171 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
 
-function serverTypeFields(serverType: string) {
-  let properties = {};
-  let required: Array<string> = [];
-  let properties_secrets = {};
-  let required_secrets: Array<string> = [];
-
-  if (serverType === 'GMOD') {
-    required = [];
-    properties = {
-      res_slots: {
-        type: 'integer',
-        title: i18n.global.t('_server.labels.numberOfReservedSlots'),
-        minimum: 0,
-        default: 0,
-      },
-      res_slots_keep_free: {
-        type: 'boolean',
-        title: i18n.global.t('_server.labels.keepReservedSlotsFree'),
-        default: false,
-      },
-      res_slots_hide: {
-        type: 'boolean',
-        title: i18n.global.t('_server.labels.hideReservedSlots'),
-        default: false,
-      },
-    };
-  }
-  if (serverType === 'DISCORD') {
-    properties = {
-      joinBotLink: {
-        'x-slots': {
-          before: i18n.global.t('_server.labels.discordEnterIdAsAddress'),
-        },
-      },
-    };
-  }
-  if (serverType === 'TEAMSPEAK3') {
-    required = ['query_port'];
-    required_secrets = ['username', 'password'];
-    properties = {
-      query_port: {
-        type: 'integer',
-        title: i18n.global.t('_server.labels.sshQueryPort'),
-        description: i18n.global.t('_server.labels.queryPortDescription'),
-        default: 10022,
-        minimum: 1,
-        maximum: 65535,
-      },
-    };
-    properties_secrets = {
-      username: {
-        type: 'string',
-        title: i18n.global.t('username'),
-      },
-      password: {
-        type: 'string',
-        title: i18n.global.t('password'),
-      },
-    };
-  } else if (serverType === 'SOURCE') {
-    required_secrets = [];
-    properties_secrets = {
-      password: {
-        type: 'string',
-        title: i18n.global.t('_server.labels.rconPassword'),
-      },
-    };
-  }
-
-  return {
-    title: serverType,
-    required: ['type', 'serverbundle_id'],
-    properties: {
-      type: {
-        title: i18n.global.t('type'),
-        type: 'string',
-        const: serverType,
-      },
-      serverbundle_id: Common.serverbundleSelectFieldByType('string'),
-      extra: {
-        type: 'object',
-        required,
-        properties,
-      },
-      secrets: {
-        type: 'object',
-        required: required_secrets,
-        properties: properties_secrets,
-      },
-    },
-  };
-}
-
 export default {
   type: 'object',
-  allOf: [
-    {
-      required: ['name', 'address', 'port'],
-      properties: {
-        name: {
-          type: 'string',
-          title: i18n.global.t('name'),
+  required: ['name', 'address', 'port'],
+  properties: {
+    name: {
+      type: 'string',
+      title: i18n.global.t('name'),
+    },
+    type: {
+      type: 'string',
+      title: i18n.global.t('type'),
+      enum: [
+        'GMOD',
+        'MINECRAFT',
+        'TEAMSPEAK3',
+        'DISCORD',
+        'FIVEM',
+        'RUST',
+        'SEVEN_DAYS',
+        'ASA',
+        'SOURCE',
+      ]
+    },
+    serverbundle_id: {
+      type: "string",
+      title: i18n.global.t('serverbundle'),
+      layout: {
+        getItems: {
+          url: {
+            type: 'js-tpl',
+            expr: `${Common.apiURL}/server/bundle/?server_type=\${rootData.type}`,
+            pure: false
+          },
+          itemKey: 'data.id',
+          itemTitle: 'data.name',
         },
-        address: {
-          type: 'string',
-          title: i18n.global.t('address'),
-        },
-        port: {
-          type: 'integer',
-          title: i18n.global.t('port'),
-          default: 1,
-          minimum: 1,
-          maximum: 65535,
-        },
-        hidden: {
-          type: 'boolean',
-          title: i18n.global.t('_server.labels.hidden'),
-          default: false,
-          layout: {
-            comp: 'switch'
-          }
+        if: {
+          expr: 'parent.data?.type != null',
         },
       },
     },
-    {
-      type: 'object',
-      oneOf: [
-        {
-          ...serverTypeFields('GMOD'),
-        },
-        {
-          ...serverTypeFields('MINECRAFT'),
-        },
-        {
-          ...serverTypeFields('TEAMSPEAK3'),
-        },
-        {
-          ...serverTypeFields('DISCORD'),
-        },
-        {
-          ...serverTypeFields('FIVEM'),
-        },
-        {
-          ...serverTypeFields('RUST'),
-        },
-        {
-          ...serverTypeFields('SEVEN_DAYS'),
-        },
-        {
-          ...serverTypeFields('ASA'),
-        },
-        {
-          ...serverTypeFields('SOURCE'),
-        },
-      ],
+    address: {
+      type: 'string',
+      title: i18n.global.t('address'),
     },
-  ],
+    port: {
+      type: 'integer',
+      title: i18n.global.t('port'),
+      default: 1,
+      minimum: 1,
+      maximum: 65535,
+      layout: {
+        if: {
+          expr: 'parent.data?.type !== "DISCORD"',
+        },
+      }
+    },
+    hidden: {
+      type: 'boolean',
+      title: i18n.global.t('_server.labels.hidden'),
+      default: false,
+      layout: {
+        comp: 'switch'
+      }
+    },
+    extra: {
+      type: 'object',
+      allOf: [
+        {
+          properties: {
+            /* GMOD */
+            res_slots: {
+              type: 'integer',
+              title: i18n.global.t('_server.labels.numberOfReservedSlots'),
+              minimum: 0,
+              default: 0,
+              layout: {
+                if: {
+                  expr: 'parent.parent.parent.data?.type === "GMOD"',
+                },
+              },
+            },
+            res_slots_keep_free: {
+              type: 'boolean',
+              title: i18n.global.t('_server.labels.keepReservedSlotsFree'),
+              default: false,
+              layout: {
+                if: {
+                  expr: 'parent.parent.parent.data?.type === "GMOD"',
+                },
+              },
+            },
+            res_slots_hide: {
+              type: 'boolean',
+              title: i18n.global.t('_server.labels.hideReservedSlots'),
+              default: false,
+              layout: {
+                if: {
+                  expr: 'parent.parent.parent.data?.type === "GMOD"',
+                },
+              },
+            },
+          },
+        },
+        {
+          //required: ['query_port'],
+          properties: {
+            /* TS3 */
+            query_port: { // Required
+              type: 'integer',
+              title: i18n.global.t('_server.labels.sshQueryPort'),
+              description: i18n.global.t('_server.labels.queryPortDescription'),
+              default: 10022,
+              minimum: 1,
+              maximum: 65535,
+              layout: {
+                if: {
+                  expr: 'parent.parent.parent.data?.type === "TEAMSPEAK3"',
+                },
+              },
+            },
+          }
+        }
+      ]
+    },
+  },
+  secrets: {
+    type: 'object',
+    //required: required_secrets,
+    allOf: [{
+      properties: {
+        /* TS3 */
+        username: {
+          type: 'string', // Required
+          title: i18n.global.t('username'),
+          layout: {
+            if: {
+              expr: 'parent.parent.parent.data?.type === "TEAMSPEAK3"',
+            },
+          },
+        },
+        password: {
+          type: 'string', // Required
+          title: i18n.global.t('password'),
+          layout: {
+            if: {
+              expr: 'parent.parent.parent.data?.type === "TEAMSPEAK3"',
+            },
+          },
+        },
+      },
+    }, {
+      properties: {
+        /* SOURCE */
+        password: {
+          type: 'string',
+          title: i18n.global.t('_server.labels.rconPassword'),
+          layout: {
+            if: {
+              expr: 'parent.parent.parent.data?.type === "SOURCE"',
+            },
+          },
+        },
+      },
+    }]
+  },
 };
+

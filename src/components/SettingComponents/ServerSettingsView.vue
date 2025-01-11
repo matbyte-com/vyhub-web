@@ -369,32 +369,37 @@
         v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'"
         #form-after
       >
-        <a
-          target="_blank"
-          href="https://docs.vyhub.net/latest/game/discord/"
-        >
-          {{ $t('_server.labels.guildIdDocs') }}
-        </a>
-        <span v-if="discordApplicationId">
+        <span>
+          {{ $t('_server.labels.discordEnterIdAsAddress') }}
+        </span>
+        <div class="mt-4">
           <a
             target="_blank"
+            href="https://docs.vyhub.net/latest/game/discord/"
+          >
+            {{ $t('_server.labels.guildIdDocs') }}
+          </a>
+          <span v-if="discordApplicationId">
+            <a
+              target="_blank"
+              style="float: right"
+              :href="getDiscordBotLink"
+            >
+              {{ $t('_server.labels.addBot') }}
+            </a>
+          </span>
+          <span
+            v-else
             style="float: right"
-            :href="getDiscordBotLink"
           >
-            {{ $t('_server.labels.addBot') }}
-          </a>
-        </span>
-        <span
-          v-else
-          style="float: right"
-        >
-          <a
-            target="_blank"
-            href="https://docs.vyhub.net/latest/guide/authorization"
-          >
-            {{ $t('_server.labels.discordApplicationIdNeeded') }}
-          </a>
-        </span>
+            <a
+              target="_blank"
+              href="https://docs.vyhub.net/latest/guide/authorization"
+            >
+              {{ $t('_server.labels.discordApplicationIdNeeded') }}
+            </a>
+          </span>
+        </div>
       </template>
     </DialogForm>
     <DeleteConfirmationDialog
@@ -432,20 +437,25 @@
         v-if="createServerDataTemp && createServerDataTemp.type === 'DISCORD'"
         #form-after
       >
-        <a
-          target="_blank"
-          href="https://docs.vyhub.net/latest/game/discord/"
-        >
-          <v-btn
-            size="small"
-            color="info"
+        <span>
+          {{ $t('_server.labels.discordEnterIdAsAddress') }}
+        </span>
+        <div class="mt-4">
+          <a
+            target="_blank"
+            href="https://docs.vyhub.net/latest/game/discord/"
           >
-            <v-icon start>
-              mdi-magnify
-            </v-icon>
-            {{ $t('_server.labels.guildIdDocs') }}
-          </v-btn>
-        </a>
+            <v-btn
+              size="small"
+              color="info"
+            >
+              <v-icon start>
+                mdi-magnify
+              </v-icon>
+              {{ $t('_server.labels.guildIdDocs') }}
+            </v-btn>
+          </a>
+        </div>
       </template>
     </DialogForm>
   </div>
@@ -624,7 +634,7 @@ export default {
         }
       }
 
-      if (Object.keys(data.secrets).length === 0) {
+      if ('secrets' in data && Object.keys(data.secrets).length === 0) {
         delete data.secrets;
       }
 
