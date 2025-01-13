@@ -2,3 +2,4 @@
 	path = src/lang
 	url = git@github.com:matbyte-com/vyhub-lang.git
 	branch = master
+	update = rebase

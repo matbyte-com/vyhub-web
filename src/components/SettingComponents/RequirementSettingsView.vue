@@ -106,7 +106,7 @@
         <ul class="ml-5">
           <li>
             <code>
-              ID1 & (ID2 | ID3)
+              0 & (1 | 2)
             </code>
             <div class="font-italic">
               {{ $t('_requirement.examples.abstract') }}
