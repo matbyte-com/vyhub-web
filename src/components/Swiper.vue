@@ -71,26 +71,24 @@ export default {
       if (!this.numberOfElements) return 0;
       let res = 1;
       if (this.$vuetify.display.xs) {
-
         res = this.perPageCustom[0];
         res += 0.15;
       }
       if (this.$vuetify.display.sm) {
-
         res = this.perPageCustom[1];
         res += 0.15;
       }
       if (this.$vuetify.display.md) {
-
         res = this.perPageCustom[2];
       }
       if (this.$vuetify.display.lg) {
-
         res = this.perPageCustom[3];
       }
       if (this.$vuetify.display.xl) {
-
         res = this.perPageCustom[4];
+      }
+      if (this.$vuetify.display.xxl) {
+        res = this.perPageCustom[5];
       }
       if (res > this.numberOfElements) {
         res = this.numberOfElements;

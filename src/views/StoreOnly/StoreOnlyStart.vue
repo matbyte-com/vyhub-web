@@ -103,7 +103,7 @@ const anyShopStatsEnabled = computed(() => {
         <Swiper
           v-if="categories != null && route.name === 'Store'"
           :number-of-elements="categories.length"
-          :per-page-custom="[2,3,4,5,5]"
+          :per-page-custom="[2,3,4,5,5,5]"
           class="mt-3 vh-store-start-categories"
         >
           <swiper-slide
