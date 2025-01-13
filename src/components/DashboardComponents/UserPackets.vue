@@ -46,6 +46,7 @@
                     >
                       <PacketImage
                         :cover="true"
+                        height="120"
                         :packet="userPacket.raw.packet"
                         :style="(userPacket.raw.active ? '' : 'filter: grayscale(100%)')"
                       >

@@ -2,7 +2,7 @@
   <div>
     <div v-if="series != null">
       <apexchart
-        height="300"
+        height="370"
         type="area"
         :options="options"
         :series="series"
