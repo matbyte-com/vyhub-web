@@ -2,6 +2,7 @@
   <v-card
     class="vh-dashboard-packets card-rounded"
     flat
+    width="100%"
   >
     <v-tabs
       v-model="tabs"
