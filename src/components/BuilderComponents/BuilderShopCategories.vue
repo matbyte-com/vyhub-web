@@ -14,7 +14,7 @@
       >
         <Swiper
           :number-of-elements="categories.length"
-          :per-page-custom="[1,2,3,3,3]"
+          :per-page-custom="[1,2,3,3,3,3]"
         >
           <swiper-slide
             v-for="category in categories"

@@ -129,7 +129,7 @@
     <Swiper
       v-else
       :number-of-elements="servers.length"
-      :per-page-custom="[1,2,3,4,5]"
+      :per-page-custom="[1,2,3,4,5,5]"
     >
       <swiper-slide
         v-for="s in servers"

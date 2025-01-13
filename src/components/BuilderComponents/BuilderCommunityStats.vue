@@ -35,7 +35,7 @@
       <Swiper
         v-else
         :number-of-elements="2"
-        :per-page-custom="[1,1,2,3,4]"
+        :per-page-custom="[1,1,2,3,4,4]"
       >
         <swiper-slide
           :key="1"

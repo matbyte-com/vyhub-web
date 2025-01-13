@@ -14,7 +14,7 @@
       >
         <Swiper
           :number-of-elements="packets.length"
-          :per-page-custom="[1,2,3,3,4]"
+          :per-page-custom="[1,2,3,3,4,4]"
         >
           <swiper-slide
             v-for="packet in packets"

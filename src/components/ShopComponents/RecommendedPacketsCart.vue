@@ -12,7 +12,7 @@
     <v-card-text>
       <Swiper
         :number-of-elements="recommendedPackets.length"
-        :per-page-custom="[1,2,2,3,4]"
+        :per-page-custom="[1,2,2,3,4,4]"
       >
         <swiper-slide
           v-for="p in recommendedPackets"
