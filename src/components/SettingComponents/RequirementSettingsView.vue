@@ -100,13 +100,51 @@
       <h3 class="display-h3 mt-5">
         {{ $t('_settings.logicFormula') }}
       </h3>
-      <p>
-        {{ $t('example') }} ID & (ID | ID) <br>
-        {{ $t('_settings.formulaSymbolOr') }}<br>
-        {{ $t('_settings.formulaSymbolAnd') }}
+      <p class="mt-2">
+        <span class="font-weight-bold">{{ $t('example') }}:</span>
+
+        <ul class="ml-5">
+          <li>
+            <code>
+              ID1 & (ID2 | ID3)
+            </code>
+            <div class="font-italic">
+              {{ $t('_requirement.examples.abstract') }}
+            </div>
+          </li>
+          <li>
+            <code>
+              0
+            </code>
+            <div class="font-italic">
+              {{ $t('_requirement.examples.basic') }}
+            </div>
+          </li>
+          <li>
+            <code>
+              (0 | 1) | 2
+            </code>
+            <div class="font-italic">
+              {{ $t('_requirement.examples.advanced') }}
+            </div>
+          </li>
+        </ul>
       </p>
+      <div class="mt-3">
+        <v-chip size="small">
+          |
+        </v-chip> {{ $t('_requirement.labels.forOrConnection') }}<br>
+      </div>
+      <div class="mt-1">
+        <v-chip
+          size="small"
+        >
+          &
+        </v-chip> {{ $t('_requirement.labels.forAndConnection') }}
+      </div>
       <v-text-field
         v-model="formula"
+        class="mt-4"
         label="Formula"
       />
       <v-btn

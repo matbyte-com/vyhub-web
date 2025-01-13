@@ -199,6 +199,7 @@ function requirementTypeField(requirementType: string) {
     properties: {
       type: {
         type: 'string',
+        title: i18n.global.t('_requirement.requirementType'),
         const: requirementType,
       },
       ...properties,
@@ -220,14 +221,10 @@ function returnForm() {
     type: 'object',
     required: [
       'type',
-      'requirement_set_id',
     ],
     properties: {
       type: {
         type: 'object',
-        title: i18n.global.t('_requirement.requirementType'),
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
         oneOf,
       },
     },
