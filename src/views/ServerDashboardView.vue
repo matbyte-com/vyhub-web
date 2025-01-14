@@ -26,7 +26,7 @@
                     rounded
                     :model-value="getPlayerOnlineProgress(server)"
                     height="18"
-                    class="text-white"
+                    color="success"
                   >
                     <strong v-if="server.status === 'ONLINE'">
                       <span v-if="server.users_current != null">
@@ -154,45 +154,47 @@
                 :active="listActive(user)"
                 @click="currentUser=user"
               >
-                <v-avatar size="35">
-                  <v-img
-                    v-if="user.avatar"
-                    :src="user.avatar"
-                  />
-                </v-avatar>
-                <span
-                  class="ml-3 text-h6"
-                  :style="{ color: getColor(user) }"
-                >
-                  {{ user.username }}
-                </span>
-                <v-spacer />
-                <div>
-                  <v-chip
-                    v-if="user.warnings.length > 0"
-                    color="warning-darken-1"
-                    size="small"
+                <div class="d-flex align-center">
+                  <v-avatar size="35">
+                    <v-img
+                      v-if="user.avatar"
+                      :src="user.avatar"
+                    />
+                  </v-avatar>
+                  <span
+                    class="ml-3 text-h6"
+                    :style="{ color: getColor(user) }"
                   >
-                    <v-icon start>
-                      mdi-account-alert
-                    </v-icon>
-                    <span>
-                      {{ user.warnings.length }}
-                    </span>
-                  </v-chip>
-                  <v-chip
-                    v-if="user.bans.length > 0"
-                    class="ml-2"
-                    size="small"
-                    color="error-darken-2"
-                  >
-                    <v-icon start>
-                      mdi-account-cancel
-                    </v-icon>
-                    <span>
-                      {{ user.bans.length }}
-                    </span>
-                  </v-chip>
+                    {{ user.username }}
+                  </span>
+                  <v-spacer />
+                  <div>
+                    <v-chip
+                      v-if="user.warnings.length > 0"
+                      color="warning-darken-2"
+                      size="small"
+                    >
+                      <v-icon start>
+                        mdi-account-alert
+                      </v-icon>
+                      <span>
+                        {{ user.warnings.length }}
+                      </span>
+                    </v-chip>
+                    <v-chip
+                      v-if="user.bans.length > 0"
+                      class="ml-2"
+                      size="small"
+                      color="error-darken-2"
+                    >
+                      <v-icon start>
+                        mdi-account-cancel
+                      </v-icon>
+                      <span>
+                        {{ user.bans.length }}
+                      </span>
+                    </v-chip>
+                  </div>
                 </div>
               </v-list-item>
             </v-list>
