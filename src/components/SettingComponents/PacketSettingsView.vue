@@ -10,6 +10,7 @@
       :disable-sort="currentCategory != null"
       :disable-pagination="currentCategory != null"
       :hide-default-footer="currentCategory != null"
+      :items-per-page="(currentCategory != null ? -1 : 10)"
       :sort-by="(currentCategory != null ? null : ['category.name'])"
       :show-search="true"
     >

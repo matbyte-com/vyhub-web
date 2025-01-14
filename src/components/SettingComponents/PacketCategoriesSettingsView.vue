@@ -10,6 +10,7 @@
       disable-sort
       hide-default-footer
       :show-search="true"
+      :items-per-page="-1"
     >
       <template #item.enabled="{ item }">
         <BoolIcon :value="item.enabled" />

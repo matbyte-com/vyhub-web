@@ -60,6 +60,7 @@
               item-key="id"
               class="vh-dashboard-linked-accounts"
               hide-default-footer
+              :items-per-page="-1"
             >
               <template #default="{ items }">
                 <v-card
