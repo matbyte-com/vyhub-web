@@ -12,7 +12,6 @@ export default {
         cartPacketCount: rsp.data.length,
       });
     }).catch((err) => {
-      UtilService.data().utils.notifyUnexpectedError(err.response.data);
       console.log(err);
     });
   },
@@ -30,7 +29,6 @@ export default {
         });
       }).catch((err) => {
         console.log(err);
-        UtilService.data().utils.notifyUnexpectedError(err.response.data);
       });
   },
   selectAddress(address: object) {

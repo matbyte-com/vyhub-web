@@ -44,6 +44,7 @@ export default {
           return false;
         },
         notifyUnexpectedError(detail: object) {
+          console.trace();
           notify({
             title: i18n.global.t('unexpectedErrorOccurred').toString(),
             text: JSON.stringify(detail),
