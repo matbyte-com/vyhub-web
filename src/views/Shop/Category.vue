@@ -15,7 +15,7 @@
           v-for="c in categories"
           :key="c.id"
           class="animate__animated"
-          @click="$router.push({ params: { categoryId: c.id } }); fetchPackets()"
+          @click="$router.push({ params: { categoryId: c.id } });"
         >
           <v-list-item-title class="font-weight-bold">
             {{ c.name }}
@@ -65,7 +65,7 @@
             v-for="c in categories"
             :key="c.id"
             class="animate__animated"
-            @click="$router.push({ params: { categoryId: c.name } }); fetchPackets();"
+            @click="$router.push({ params: { categoryId: c.name } });"
           >
             {{ c.name }}
           </v-tab>
@@ -194,7 +194,7 @@ export default {
   },
   watch: {
     $route() {
-      this.packets = null;
+      //this.packets = null;
       this.fetchPackets();
     },
   },
@@ -203,12 +203,14 @@ export default {
   },
   methods: {
     async fetchPackets() {
+      console.trace();
       const packetsData = { category_id: this.$route.params.categoryId };
       if (this.$store.getters.address != null) {
         packetsData.country_code = this.$store.getters.address.country.code;
       }
 
       (await openapiCached).shop_getPackets(packetsData).then((rsp) => {
+        console.log("Set packets", packetsData);
         this.packets = rsp.data;
       });
     },
