@@ -621,6 +621,7 @@ export default {
       generalConfig: null,
       errorMessage: null,
       billingCardError: null,
+      gatewayImgs: import.meta.glob('/src/assets/img/gateways/*', {eager: true}),
     };
   },
   computed: {
@@ -976,12 +977,12 @@ export default {
       // Return URL, when set, else return default
       if (gateway.image_url) return gateway.image_url;
 
-      // Extract the file name based on the gateway type
-      const imgPath = `../../assets/img/gateways/${gateway.type}.png`;
-      try {
-        return new URL(imgPath, import.meta.url).href;
-      } catch (e) {
-        return null; // Return null if the image doesn't exist
+      const filename = `/src/assets/img/gateways/${gateway.type}.png`;
+
+      if (this.gatewayImgs[filename]) {
+        return this.gatewayImgs[filename].default
+      } else {
+        return null;
       }
     },
   },
