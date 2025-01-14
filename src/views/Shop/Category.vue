@@ -86,7 +86,9 @@
               v-if="subcat"
               class="d-flex align-center mt-5 mb-1"
             >
-              <h2>{{ subcat }}</h2>
+              <h2 class="text-no-wrap">
+                {{ subcat }}
+              </h2>
               <v-divider class="ml-3" />
             </div>
             <div>
