@@ -151,30 +151,6 @@ a:hover::before {
   transform: scaleX(1);
 }
 
-.vjsf-help-message-comfortable {
-  margin-top: 0px !important;
-  margin-bottom: 0px !important;
-  min-height: 1px !important;
-  top: 10px;
-}
-
-.vjsf-help-message-comfortable + div {
-  width: 92%;
-}
-
-.vjsf-help-message-comfortable .v-alert {
-  bottom: 20px;
-}
-
-.vjsf-help-message-comfortable .bg-info {
-  background-color: rgb(var(--v-theme-secondary)) !important;
-}
-
-.vjsf-help-message-comfortable > .v-btn.elevation-0 {
-  top: -9px;
-  right: 4px;
-}
-
 /* Required for ckeditor in dialogs */
 .ck-balloon-panel {
   z-index: 9999 !important;
