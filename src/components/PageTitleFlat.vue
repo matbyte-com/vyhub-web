@@ -13,11 +13,24 @@
       v-if="!$slots.empty"
       class="pa-2 ml-1 text-white"
     >
+      <div
+        v-if="$slots.start_or_above"
+        class="hidden-sm-and-up"
+      >
+        <slot name="start_or_above" />
+      </div>
       <transition
         enter-active-class="animate__fadeIn animate__animated"
         leave-active-class="absolute"
       >
         <v-row class="justify-center align-center">
+          <v-col
+            v-if="$slots.start_or_above"
+            cols="2"
+            class="hidden-xs"
+          >
+            <slot name="start_or_above" />
+          </v-col>
           <v-col v-if="$slots.start">
             <slot name="start" />
           </v-col>

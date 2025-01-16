@@ -14,19 +14,18 @@
               class="pageTitleFlat"
               :no-bottom-border-radius="$vuetify.display.mdAndDown || menuOpen"
             >
-              <template #start>
+              <template #start_or_above>
                 <v-card
                   v-if="server.status === 'ONLINE'"
                   class="pa-1"
                   flat
-                  style="width: 100px; background-color: green"
                 >
                   <v-progress-linear
                     bg-opacity="0.6"
                     rounded
                     :model-value="getPlayerOnlineProgress(server)"
                     height="18"
-                    color="success"
+                    color="primary"
                   >
                     <strong v-if="server.status === 'ONLINE'">
                       <span v-if="server.users_current != null">

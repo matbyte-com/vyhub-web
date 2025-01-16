@@ -51,7 +51,7 @@
               </v-icon>
               <span v-if="server.status !== 'UNKNOWN'">
                 <router-link
-                  style="text-decoration: none"
+                  style="text-decoration: none; cursor: pointer;"
                   :disabled="true"
                   :to="{ name: (!['DISCORD', 'TEAMSPEAK3'].includes(server.type) ?
                            'ServerDashboard' : null),
@@ -63,7 +63,7 @@
                     </span>
                     <span v-else-if="server.status === 'OFFLINE'">0</span>
                     <span v-else>?</span>
-                    {{'/'}}
+                    {{ '/' }}
                   </span>
                   {{ server.users_max ? server.users_max : '?' }}
                 </router-link>
