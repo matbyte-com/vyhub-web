@@ -17,7 +17,7 @@
     "@koumoul/vjsf": "^3.9.0",
     "@kyvg/vue3-notification": "^3.4.1",
     "@mdi/font": "^7.2.96",
-    "@stripe/stripe-js": "^1.15.0",
+    "@stripe/stripe-js": "^5.0.0",
     "@types/country-flag-icons": "^1.2.2",
     "@types/country-list": "^2.1.0",
     "@types/humanize-duration": "^3.27.1",
