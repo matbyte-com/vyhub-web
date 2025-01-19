@@ -25,7 +25,6 @@
       <span v-if="success">
         <v-icon
           size="large"
-          color="success"
         >
           mdi-check
         </v-icon>

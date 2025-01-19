@@ -321,6 +321,7 @@ export default {
           contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
         },
         translations: translations ? translations.default : undefined,
+        licenseKey: 'GPL'
       }
       this.isEditorReady = true;
     }
