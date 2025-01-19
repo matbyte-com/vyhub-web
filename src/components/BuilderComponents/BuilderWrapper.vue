@@ -1,46 +1,61 @@
 <template>
-  <div class="vh-home-wrapper">
+  <div
+    v-for="block in blocksToShow"
+    class="vh-home-wrapper"
+  >
     <div
-      v-if="no_wrap"
+      v-if="block.no_wrap"
       class="text-no-wrap"
-      :style="`background-color: ${backgroundColor}`"
+      :style="`background-color: ${getBackgroundColor(block)}`"
     >
-      <slot />
+      <TheHeader v-if="block.type === 'DefaultHeader'" />
+      <component
+        :is="componentInstance(block.type)"
+        v-else
+        v-bind="block.props_data"
+      >
+        {{ block.slot }}
+      </component>
     </div>
     <v-card
       v-else
       flat
       tile
-      :color="backgroundColor"
-      :image="imageUrl"
-      :height="height"
+      :color="block.props_data.backgroundColor"
+      :image="block.props_data.imageUrl"
+      :height="block.props_data.height"
       class="wrapper-card bg-transparent"
     >
       <div
         class="pt-3 pb-3"
-        :style="`background-color: ${getBackgroundColor}`"
+        :style="`background-color: ${getBackgroundColor(block)}`"
       >
         <v-container class="d-flex align-center justify-center wrapper-container pt-0 mt-0">
-          <div :style="`margin-top: ${getMarginTop}`">
+          <div :style="`margin-top: ${getMarginTop(block)}`">
             <div
-              v-if="!noTitleInWrapper"
+              v-if="!block.props_data.noTitleInWrapper"
               class="text-center"
             >
               <h2
                 class="text-h3"
-                :class="{ 'text-white': whiteText, 'text-black': !whiteText }"
+                :class="{ 'text-white': block.props_data.whiteText, 'text-black': !block.props_data.whiteText }"
               >
-                {{ title }}
+                {{ block.props_data.title }}
               </h2>
               <p
                 class="text-subtitle-1"
-                :class="{ 'text-white': whiteText, 'text-black': !whiteText }"
+                :class="{ 'text-white': block.props_data.whiteText, 'text-black': !block.props_data.whiteText }"
               >
-                {{ subtitle }}
+                {{ block.props_data.subtitle }}
               </p>
             </div>
             <div>
-              <slot />
+              <component
+                :is="componentInstance(block.type)"
+                v-bind="block.props_data"
+              >
+                {{ block.slot }}
+              </component>
             </div>
           </div>
         </v-container>
@@ -49,27 +64,50 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['title', 'subtitle', 'no_wrap', 'height', 'css', 'backgroundColor', 'whiteText', 'imageUrl', 'noTitleInWrapper', 'marginTop'],
-  computed: {
-    getBackgroundColor() {
-      return this.backgroundColor ? this.backgroundColor : '';
-    },
-    getMarginTop() {
-      if (!this.marginTop) return 0;
-      // check if string is only number. If so, add px
-      if (/^\d+$/.test(this.marginTop)) return `${this.marginTop}px`;
-      return this.marginTop;
-    },
-  },
-};
+<script setup>
+import {defineAsyncComponent} from "vue";
+
+const props = defineProps({
+  blocksToShow: {
+    type: Object,
+  }
+});
+
+const componentMap = {};
+props.blocksToShow.forEach((block) => {
+  if (!componentMap[block.type]) {
+    componentMap[block.type] = defineAsyncComponent(() => import(`./Builder${block.type}.vue`));
+  }
+});
+
+function getBackgroundColor(block) {
+  return block.props_data.backgroundColor ? block.props_data.backgroundColor : '';
+}
+
+function getMarginTop(block) {
+  return block.props_data.marginTop ? block.props_data.marginTop : 0;
+}
+
+function componentInstance(type) {
+  return componentMap[type];
+}
+
+function addComponent(block) {
+  if (!componentMap[block.type]) {
+    componentMap[block.type] = defineAsyncComponent(() => import(`./Builder${block.type}.vue`));
+  }
+}
+
+defineExpose({
+  addComponent
+})
 </script>
 
 <style scoped>
 .wrapper-container {
   height: 100%;
 }
+
 .wrapper-container > div {
   width: 100%;
 }

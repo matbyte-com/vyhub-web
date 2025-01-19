@@ -21,28 +21,10 @@
     </div>
     <!-- Rendering of Components -->
     <BuilderWrapper
-      v-for="block in blocksToShow"
-      :key="block.id"
-      :no_wrap="block.no_wrap"
-      :title="block.props_data ? block.props_data.title : null"
-      :height="block.props_data ? block.props_data.height : null"
-      :subtitle="block.props_data ? block.props_data.subtitle : null"
-      :background-color="block.props_data ? block.props_data.backgroundColor : null"
-      :image-url="block.props_data ? block.props_data.imageUrl : null"
-      :white-text="block.props_data ? block.props_data.whiteText : null"
-      :margin-top="block.props_data ? block.props_data.marginTop : 0"
-      :no-title-in-wrapper="block.type === 'NewsPreview'"
-    >
-      <TheHeader v-if="block.type === 'DefaultHeader'" />
-      <component
-        :is="componentInstance(block.type)"
-        v-else
-        :key="block.id"
-        v-bind="block.props_data"
-      >
-        {{ block.slot }}
-      </component>
-    </BuilderWrapper>
+      v-if="blocksToShow.length > 0"
+      ref="builderWrapper"
+      :blocks-to-show="blocksToShow"
+    />
     <v-fade-transition>
       <v-card
         v-if="showLoader"
@@ -63,7 +45,7 @@
     <v-navigation-drawer
       v-if="$checkProp('theme_edit')"
       v-model="editDrawer"
-      :style="$vuetify.display.mdAndDown ? 'max-height: 60vh' : ''"
+      :style="display.mdAndDown ? 'max-height: 60vh' : ''"
       mobile-breakpoint="md"
       :permanent="newComponentDialog"
       :location="drawerLocation"
@@ -101,14 +83,13 @@
         >
           <VueDraggable
             v-model="blocks"
-            style="width: 100%;
-         border-style: none"
+            style="width: 100%; border-style: none"
             :disabled="panelExposed != null"
             @dragend="orderUpdated = true"
           >
             <v-expansion-panel
-              v-for="(component, index) in blocks"
-              :key="index"
+              v-for="(component) in blocks"
+              :key="component.id"
             >
               <v-expansion-panel-title class="py-0 my-0">
                 <div :class="{ 'text-decoration-line-through' : component.deleted }">
@@ -151,7 +132,7 @@
                     :options="vjsfOptions"
                     style="z-index: 202"
                     :schema="getComponentSchema(component)"
-                    @update:model-value="component.edited = true; componentEdited=true"
+                    @update:model-value="component.edited = true; componentEdited = true"
                   />
                 </v-form>
               </v-expansion-panel-text>
@@ -163,7 +144,7 @@
         <v-btn
           style="width: 100%"
           variant="outlined"
-          @click="$refs.addComponentDialog.show();newComponentDialog = true;"
+          @click="addComponentDialog.show();newComponentDialog = true;"
         >
           <v-icon start>
             mdi-plus
@@ -252,257 +233,262 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import components from '@/components/BuilderComponents/components';
 import VJsf from '@koumoul/vjsf';
-import { v2compat } from "@koumoul/vjsf/compat/v2";
-import i18n from '@/plugins/i18n';
-import axios from 'axios';
+import {v2compat} from "@koumoul/vjsf/compat/v2";
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
 import {VueDraggable} from "vue-draggable-plus";
-import {defineAsyncComponent} from "vue";
+import {computed, onBeforeMount, ref, useTemplateRef} from "vue";
+import {useDisplay} from "vuetify";
+import {notify} from "@kyvg/vue3-notification";
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
 
-// TODO Internal Server error when Adding a new component without saving, then pressing the delete button and then saving. Fix needed!
+const display = ref(useDisplay());
+const store = useStore();
+const router = useRouter();
+const i18n = useI18n();
 
-export default {
-  components: {
-    VJsf,VueDraggable
-  },
-  data() {
-    return {
-      editDrawer: false,
-      drawerRight: false,
-      orderUpdated: false,
-      componentAdded: false,
-      componentEdited: false,
-      newComponentDialog: false,
-      addComponentSearch: '',
-      showLoader: true,
-      blocks: [],
-      count: 0,
-      availableComponents: components.components,
-      panelExposed: null,
-      vjsfOptions: {
-        locale: i18n.global.locale, // i18n.locale,
-        httpLib: axios,
-        timePickerProps: {
-          format: '24hr',
-        },
-        markdownit: {
-          html: true,
-        },
-      },
-    };
-  },
-  computed: {
-    drawerLocation() {
-      if (this.$vuetify.display.mdAndDown) return 'bottom';
-      return this.drawerRight ? 'right' : 'left';
-    },
-    blocksToShow() {
-      if (this.blocks == null) return null;
-      return this.blocks.filter((block) => !block.deleted);
-    },
-    saveButton() {
-      if (this.orderUpdated || this.componentAdded || this.componentEdited) return true;
-      return false;
-    },
-    availableComponentsSearch() {
-      return this.availableComponents
-        .filter((cp) => cp.title.toLowerCase().includes(this.addComponentSearch.toLowerCase())
-          || cp.keywords.filter((k) => k.toLowerCase()
-            .includes(this.addComponentSearch.toLowerCase())).length > 0);
-    },
-  },
-  beforeMount() {
-    this.fetchData();
-    this.redirectWhenDisabled();
-  },
-  methods: {
-    componentInstance(type) {
-      return defineAsyncComponent(() => import(`../components/BuilderComponents/Builder${type}.vue`));
-    },
-    async redirectWhenDisabled() {
-      if (!this.$store.getters.generalConfig) {
-        (await openapiCached).general_getConfig().then((rsp) => {
-          const config = rsp.data;
-          if (!config.enable_landingpage) {
-            this.$router.replace({ name: 'News' });
-          }
-        });
-      } else if (!this.$store.getters.generalConfig.enable_landingpage) {
-        this.$router.replace({ name: 'News' });
-      }
-    },
-    async fetchData() {
-      (await openapi).design_getSections().then((rsp) => {
-        this.blocks = rsp.data;
-        this.showLoader = false;
-        this.orderUpdated = false;
-        this.componentAdded = false;
-        this.componentEdited = false;
-      });
-    },
-    async savePage() {
-      // First create, edit and delete necessary sections
-      // Second update order of sections
-      const api = await openapi;
-      // Do some magic that the forEach function is executed first
-      // Add all promises to the promises array
-      const promises = [];
-      this.blocks.forEach((b) => {
-        if (b.new && !b.deleted) {
-          const p = api.design_createSection(null, b).then((rsp) => {
-            console.log('Section Created');
+const closeDrawerIcon = useTemplateRef('closeDrawerIcon')
+const addComponentDialog = useTemplateRef('addComponentDialog')
+const builderWrapper = useTemplateRef('builderWrapper')
 
-            b.new = false;
 
-            b.id = rsp.data.id;
-          });
-          promises.push(p);
-        } else if (b.edited && !b.new) {
-          const p = api.design_editSection(b.id, b).then((rsp) => {
-            console.log('Section Edited');
-          });
-          promises.push(p);
-        }
-        if (b.deleted && !b.new) {
-          const p = api.design_deleteSection(b.id).then((rsp) => {
-            console.log('Section Deleted');
-          });
-          promises.push(p);
-        }
-      });
-      // Wait for all promises to resolve
-      Promise.all(promises).then(() => {
-        this.updateSectionOrder();
-      });
-    },
-    async updateSectionOrder() {
-      const res = [];
-      this.blocks.filter((b) => !b.deleted).forEach((item) => {
-        res.push(item.id);
-      });
-      (await openapi).design_updateOrder(null, res).then(() => {
-        this.fetchData();
-        this.orderUpdated = false;
-        this.$notify({
-          title: this.$t('_messages.editSuccess'),
-          type: 'success',
-        });
-      }).catch((err) => {
-        console.log(`${err}`);
-      });
-    },
-    addComponent(cp) {
-      this.blocks.push({
-        type: cp.component,
-        new: true,
-        edited: false,
-        id: this.count += 1,
-        no_wrap: cp.no_wrap,
-        props_data: {
-          ...cp.defaults,
-        },
-      // slot: 'Button',
-      });
-      this.$refs.addComponentDialog.close();
-      this.componentAdded = true;
-    },
-    toggleDeleteBlock(cp) {
-      const index = this.blocks.indexOf(cp);
-      const newBlock = { ...cp };
-      newBlock.deleted = !newBlock.deleted;
-      this.componentEdited = true;
-      this.blocks.splice(index, 1, newBlock);
-    },
-    getComponentSchema(cp) {
-      const el = this.availableComponents.find((c) => c.component === cp.type);
-      if (!el) return {};
-      const schema = { ...el.schema };
-      if (!el.no_wrap) {
-        schema.properties = {
-          ...schema.properties,
-          title: {
-            type: 'string',
-            title: this.$t('title'),
-            'x-cols': 6,
-            'x-props': {
-              clearable: true,
-            },
-          },
-          subtitle: {
-            type: 'string',
-            title: this.$t('subtitle'),
-            'x-cols': 6,
-            'x-class': 'pl-1',
-          },
-          height: {
-            type: 'string',
-            title: this.$t('_component._form.height'),
-            'x-cols': 6,
-          },
-          marginTop: {
-            type: 'string',
-            title: this.$t('_component._form.marginTop'),
-            'x-cols': 6,
-            'x-class': 'pl-1',
-          },
-          whiteText: {
-            type: 'boolean',
-            title: this.$t('_component.whiteText'),
-            'x-cols': 6,
-            'x-display': 'switch',
-            'x-props': {
-              'hide-details': 'auto',
-              clearable: true,
-            },
-            default: true,
-            'x-class': 'mt-5',
-          },
-          imageUrl: {
-            type: 'string',
-            'x-cols': 6,
-            title: this.$t('_theme.backgroundImageURL'),
-            'x-props': {
-              clearable: true,
-            },
-          },
-          backgroundColor: {
-            type: 'string',
-            'x-cols': 6,
-            title: this.$t('_theme.backgroundColor'),
-            format: 'hexcolor',
-          },
-        };
-      }
-      return v2compat(schema);
-    },
-    closeDrawer() {
-      this.$refs.closeDrawerIcon.$el.classList.add('animate__rotateOut');
-      setTimeout(() => {
-        this.editDrawer = false;
-        this.$refs.closeDrawerIcon.$el.classList.remove('animate__rotateOut');
-      }, 100);
-    },
-    copyBlock(block) {
-      const newBlock = { ...block };
-      newBlock.new = true;
-      newBlock.id = Math.random(100);
-      this.blocks.push(newBlock);
-      this.componentAdded = true;
-    },
-    getComponentTitle(cp) {
-      const el = this.availableComponents.find((c) => c.component === cp.type);
-      if (!el) return cp.type;
-      return el.title;
-    },
+const editDrawer = ref(false);
+const drawerRight = ref(false);
+const orderUpdated = ref(false);
+const componentAdded = ref(false);
+const componentEdited = ref(false);
+const newComponentDialog = ref(false);
+const addComponentSearch = ref('');
+const showLoader = ref(true);
+const blocks = ref([]);
+const count = ref(0);
+const availableComponents = components.components;
+const panelExposed = ref(null);
+const vjsfOptions = {
+  locale: i18n.locale,
+  timePickerProps: {
+    format: '24hr',
+  },
+  markdownit: {
+    html: true,
   },
 };
-</script>
 
-<script setup lang="ts">
+const drawerLocation = computed(() => {
+  if (display.value.mdAndDown) return 'bottom';
+  return drawerRight.value ? 'right' : 'left';
+});
+
+const blocksToShow = computed(() => {
+  return blocks.value.filter((block) => !block.deleted);
+})
+
+const saveButton = computed(() => {
+  if (orderUpdated.value || componentAdded.value || componentEdited.value) return true;
+  return false;
+})
+
+const availableComponentsSearch = computed(() => {
+  return availableComponents
+    .filter((cp) => cp.title.toLowerCase().includes(addComponentSearch.value.toLowerCase())
+      || cp.keywords.filter((k) => k.toLowerCase()
+        .includes(addComponentSearch.value.toLowerCase())).length > 0);
+})
+
+onBeforeMount(() => {
+  fetchData();
+  redirectWhenDisabled();
+})
+
+async function redirectWhenDisabled() {
+  if (!store.getters.generalConfig) {
+    (await openapiCached).general_getConfig().then((rsp) => {
+      const config = rsp.data;
+      if (!config.enable_landingpage) {
+        router.replace({name: 'News'});
+      }
+    });
+  } else if (!store.getters.generalConfig.enable_landingpage) {
+    await router.replace({name: 'News'});
+  }
+}
+
+async function fetchData() {
+  (await openapi).design_getSections().then((rsp) => {
+    blocks.value = rsp.data;
+    showLoader.value = false;
+    orderUpdated.value = false;
+    componentAdded.value = false;
+    componentEdited.value = false;
+  });
+}
+
+async function savePage() {
+  // First create, edit and delete the necessary sections
+  // Second update order of sections
+  const api = await openapi;
+  // Do some magic that the forEach function is executed first
+  // Add all promises to the promise array
+  const promises = [];
+  blocks.value.forEach((b) => {
+    if (b.new && !b.deleted) {
+      const p = api.design_createSection(null, b).then((rsp) => {
+        console.log('Section Created');
+
+        b.new = false;
+
+        b.id = rsp.data.id;
+      });
+      promises.push(p);
+    } else if (b.edited && !b.new) {
+      const p = api.design_editSection(b.id, b).then((rsp) => {
+        console.log('Section Edited');
+      });
+      promises.push(p);
+    }
+    if (b.deleted && !b.new) {
+      const p = api.design_deleteSection(b.id).then((rsp) => {
+        console.log('Section Deleted');
+      });
+      promises.push(p);
+    }
+  });
+  // Wait for all promises to resolve
+  Promise.allSettled(promises).then(() => {
+    updateSectionOrder();
+  });
+}
+
+async function updateSectionOrder() {
+  const res = [];
+  blocks.value.filter((b) => !b.deleted).forEach((item) => {
+    res.push(item.id);
+  });
+  (await openapi).design_updateOrder(null, res).then(() => {
+    fetchData();
+    orderUpdated.value = false;
+    notify({
+      title: i18n.t('_messages.editSuccess'),
+      type: 'success',
+    });
+  }).catch((err) => {
+    console.log(`${err}`);
+  });
+}
+
+function addComponent(cp) {
+  builderWrapper.value.addComponent({type: cp.component})
+  blocks.value.push({
+    type: cp.component,
+    new: true,
+    edited: false,
+    id: count.value += 1,
+    no_wrap: cp.no_wrap,
+    props_data: {
+      ...cp.defaults,
+    },
+  });
+  addComponentDialog.value.close();
+  componentAdded.value = true;
+}
+
+function toggleDeleteBlock(cp) {
+  const index = blocks.value.indexOf(cp);
+  const newBlock = {...cp};
+  newBlock.deleted = !newBlock.deleted;
+  componentEdited.value = true;
+  blocks.value.splice(index, 1, newBlock);
+}
+
+function getComponentSchema(cp) {
+  const el = availableComponents.find((c) => c.component === cp.type);
+  if (!el) return {};
+  const schema = {...el.schema};
+  if (!el.no_wrap) {
+    schema.properties = {
+      ...schema.properties,
+      title: {
+        type: 'string',
+        title: i18n.t('title'),
+        'x-cols': 6,
+        'x-props': {
+          clearable: true,
+        },
+      },
+      subtitle: {
+        type: 'string',
+        title: i18n.t('subtitle'),
+        'x-cols': 6,
+        'x-class': 'pl-1',
+      },
+      height: {
+        type: 'string',
+        title: i18n.t('_component._form.height'),
+        'x-cols': 6,
+      },
+      marginTop: {
+        type: 'string',
+        title: i18n.t('_component._form.marginTop'),
+        'x-cols': 6,
+        'x-class': 'pl-1',
+      },
+      whiteText: {
+        type: 'boolean',
+        title: i18n.t('_component.whiteText'),
+        'x-cols': 6,
+        'x-display': 'switch',
+        'x-props': {
+          'hide-details': 'auto',
+          clearable: true,
+        },
+        default: true,
+        'x-class': 'mt-5',
+      },
+      imageUrl: {
+        type: 'string',
+        'x-cols': 6,
+        title: i18n.t('_theme.backgroundImageURL'),
+        'x-props': {
+          clearable: true,
+        },
+      },
+      backgroundColor: {
+        type: 'string',
+        'x-cols': 6,
+        title: i18n.t('_theme.backgroundColor'),
+        format: 'hexcolor',
+      },
+    };
+  }
+  return v2compat(schema);
+}
+
+function closeDrawer() {
+  closeDrawerIcon.value.$el.classList.add('animate__rotateOut');
+  setTimeout(() => {
+    editDrawer.value = false;
+    closeDrawerIcon.value.$el.classList.remove('animate__rotateOut');
+  }, 100);
+}
+
+function copyBlock(block) {
+  const newBlock = {...block};
+  newBlock.new = true;
+  newBlock.id = Math.random(100);
+  blocks.value.push(newBlock);
+  componentAdded.value = true;
+}
+
+function getComponentTitle(cp) {
+  const el = availableComponents.find((c) => c.component === cp.type);
+  if (!el) return cp.type;
+  return el.title;
+}
 </script>
 
 <style>
@@ -517,8 +503,10 @@ export default {
 .list-complete-item {
   transition: transform 0.5s, opacity 0.3s;
 }
+
 .list-complete-enter, .list-complete-leave-to
-  /* .list-complete-leave-active below version 2.1.8 */ {
+  /* .list-complete-leave-active below version 2.1.8 */
+{
   opacity: 0;
 }
 
