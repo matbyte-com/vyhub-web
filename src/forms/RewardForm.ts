@@ -148,6 +148,7 @@ function rewardTypeFields(rewardType: string) {
       url: {
         type: 'string',
         title: i18n.global.t('url'),
+        pattern: '^https?://.+$',
       },
       max_tries: {
         type: 'integer',
