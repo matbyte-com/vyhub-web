@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-path="/guide/ban">
+    <SettingTitle doc-path="/guide/ban_warning">
       {{ $t('bans') }}
     </SettingTitle>
     <v-row>

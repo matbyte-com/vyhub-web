@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-path="/guide/authorization">
+    <SettingTitle doc-path="/game/discord">
       {{ $t('_authorization.title') }}
     </SettingTitle>
     <span>

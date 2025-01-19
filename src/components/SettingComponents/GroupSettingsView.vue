@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingTitle doc-path="/guide/group">
+    <SettingTitle doc-path="/guide/group/group">
       {{ $t('groups') }}
     </SettingTitle>
     <div class="mt-2">
