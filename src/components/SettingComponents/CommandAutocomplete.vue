@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onBeforeMount, defineProps, computed } from "vue";
+import {ref, watch, onBeforeMount, defineProps, computed} from "vue";
 import {useI18n} from "vue-i18n";
 
 const i18n = useI18n();
@@ -54,7 +54,9 @@ const autocompleteOpen = ref(false);
 
 const computedOptions = computed(() => {
   if (!props.formModel || !props.formModel.serverbundle) return [];
-  return options[props.formModel.serverbundle.server_type];
+  return Array.isArray(options[props.formModel.serverbundle.server_type])
+    ? options[props.formModel.serverbundle.server_type]
+    : [];
 });
 
 const isRequired = (value) => !!value || i18n.t('required');
@@ -147,6 +149,9 @@ const onAutocompleteChange = (newValue) => {
 
 onBeforeMount(() => {
   command.value = ""
+  if (props.node.data) {
+    command.value = props.node.data;
+  }
   // command.value = props.node.data;
 });
 
