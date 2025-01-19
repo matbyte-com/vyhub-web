@@ -4,9 +4,7 @@ function gatewayFields(gatewayType: string) {
   if (gatewayType === 'PAYPAL') {
     return {
       environment: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: i18n.global.t('environment'),
         enum: [
           'SANDBOX',
@@ -14,21 +12,15 @@ function gatewayFields(gatewayType: string) {
         ],
       },
       client_id: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: 'Client ID',
       },
       client_secret: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: 'Client Secret',
       },
       webhook_id: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: 'Webhook ID',
       },
     };
@@ -37,27 +29,19 @@ function gatewayFields(gatewayType: string) {
   if (gatewayType === 'STRIPE') {
     return {
       public_key: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: 'Public Key',
       },
       secret_key: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: 'Secret Key',
       },
       wh_secret: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: 'Webhook Secret',
       },
       payment_methods: {
-        type: [
-          'array',
-        ],
+        type: 'string',
         default: [],
         title: i18n.global.t('paymentMethods'),
         items: {
@@ -129,15 +113,11 @@ function gatewayFields(gatewayType: string) {
   if (gatewayType === 'PAYSAFECARD') {
     return {
       secret_key: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: 'API Key',
       },
       environment: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: i18n.global.t('environment'),
         enum: [
           'SANDBOX',
@@ -145,17 +125,13 @@ function gatewayFields(gatewayType: string) {
         ],
       },
       client_cert: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: i18n.global.t('clientCert'),
         description: i18n.global.t('_gateway.labels.clientCertDescription'),
         'x-display': 'textarea',
       },
       client_key: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: i18n.global.t('clientKey'),
         description: i18n.global.t('_gateway.labels.clientCertDescription'),
         'x-display': 'textarea',
@@ -166,9 +142,7 @@ function gatewayFields(gatewayType: string) {
   if (gatewayType === 'PAYPAL_LEGACY') {
     return {
       environment: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: i18n.global.t('environment'),
         enum: [
           'SANDBOX',
@@ -176,9 +150,7 @@ function gatewayFields(gatewayType: string) {
         ],
       },
       email: {
-        type: [
-          'string',
-        ],
+        type: 'string',
         title: `${i18n.global.t('email')} (PayPal)`,
       },
     };
