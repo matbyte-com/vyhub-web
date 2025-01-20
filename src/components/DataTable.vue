@@ -1,5 +1,6 @@
 <template>
-  <v-data-table
+  <component
+    :is="serverside ? 'v-data-table-server' : 'v-data-table'"
     :items="realItems"
     :search="externalSearch ? null : searchModel"
     :loading="loading"
@@ -53,7 +54,7 @@
         v-bind="scope"
       />
     </template>
-  </v-data-table>
+  </component>
 </template>
 
 <script>
@@ -71,6 +72,10 @@ export default {
     itemKey: {
       type: String,
       default: 'id',
+    },
+    serverside: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:search', 'search'],

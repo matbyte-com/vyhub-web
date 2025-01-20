@@ -3,10 +3,11 @@
     v-model:items-per-page="itemsPerPage"
     v-model:page="page"
     v-model:search="search"
-    :sort-by="sortBy"
+    v-model:sort-by="sortBy"
+    serverside
     :external-search="showSearch"
-    :server-items-length="totalItems"
-    must-sort
+    :items-length="totalItems"
+    multi-sort
     v-bind="$attrs"
   >
     <template
@@ -47,7 +48,7 @@ export default {
       page: 1,
       itemsPerPage: 10,
       selectedBundle: [],
-      sortDesc: true,
+      sortBy: [],
       search: null,
       lastParams: null,
       new: true,
@@ -58,20 +59,18 @@ export default {
       return {
         size: this.itemsPerPage,
         page: this.page,
-        sort_by: this.sortBy,
-        sort_desc: this.sortDesc,
+        sort_by: this.sortBy.map((s) => s.key),
+        sort_desc: this.sortBy.map((s) => s.order === 'desc'),
         query: this.search,
       };
     },
-    sortBy() {
-      const desc = this.defaultSortDesc ? 'desc' : 'asc';
-      return [{ key: this.defaultSortBy, order: desc}]
-    }
   },
   watch: {
     queryParams() {
       const params = { ...this.queryParams };
       this.lastParams = { ...params };
+
+      console.log(params);
 
       if (this.new) {
         this.$emit('reload', this.queryParams);
