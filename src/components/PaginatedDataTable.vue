@@ -85,6 +85,14 @@ export default {
       }, 200);
     },
   },
+  beforeMount() {
+    if (this.defaultSortBy) {
+      this.sortBy.push({
+        key: this.defaultSortBy,
+        order: this.defaultSortDesc ? 'desc' : 'asc',
+      });
+    }
+  },
   methods: {
     getQueryParameters() {
       return this.queryParams;
