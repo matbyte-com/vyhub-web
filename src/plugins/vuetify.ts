@@ -34,6 +34,9 @@ const vuetify = createVuetify({
     }
   },
   defaults: {
+    VMenu: {
+      openDelay: 100,
+    },
     VjsfSwitch: {
       VSwitch: {
         color: "primary"

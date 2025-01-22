@@ -260,6 +260,7 @@ export default {
           title: this.$t('legal'),
         },
       ],
+      componentImports: {},
     };
   },
   computed: {
@@ -271,7 +272,7 @@ export default {
     },
     componentInstance() {
       const type = this.activeTab.component;
-      return defineAsyncComponent(() => import(`../components/SettingComponents/${type}.vue`));
+      return this.componentImports[type];
     },
     activeTab() {
       if (this.$route.params.component) {
@@ -330,7 +331,21 @@ export default {
   mounted() {
     EventBus.on('advancedSettingsUpdated', this.rerenderComponents);
   },
+  beforeMount() {
+    this.importComponents();
+  },
   methods: {
+    importComponents() {
+      this.tabs.forEach((tab) => {
+        if ('tabs' in tab) {
+          tab.tabs.forEach((stab) => {
+            this.componentImports[stab.component] = defineAsyncComponent(() => import(`../components/SettingComponents/${stab.component}.vue`));
+          });
+        } else {
+          this.componentImports[tab.component] = defineAsyncComponent(() => import(`../components/SettingComponents/${tab.component}.vue`));
+        }
+      });
+    },
     rerenderComponents() {
       this.key += 1;
     },

@@ -156,20 +156,22 @@ export default {
       activeTab: 'General',
       activeTabIndex: 0,
       bundles: [],
+      dashboardImports: {},
     };
   },
   computed: {
     componentInstance() {
-      const general = defineAsyncComponent(() => import('../components/DashboardComponents/Dashboards/GeneralDashboard.vue'));
-
       if (this.activeTab === 'Bundle' && this.activeBundle) {
-        return defineAsyncComponent(() => import(`../components/DashboardComponents/Dashboards/Bundle/${this.activeBundle.server_type}.vue`));
+        return this.dashboardImports.allBundles;
       }
       else if (this.activeTab === 'Bundle') {
-        return general;
+        return this.dashboardImports.general;
+      }
+      else if (this.activeTab === 'Purchases') {
+        return this.dashboardImports.purchases;
       }
       else {
-        return defineAsyncComponent(() => import(`../components/DashboardComponents/Dashboards/${this.activeTab}Dashboard.vue`));
+        return this.dashboardImports.general;
       }
     },
     getBundles() {
@@ -187,8 +189,14 @@ export default {
   beforeMount() {
     this.fetchData();
     this.setActiveTab();
+    this.importDashboards();
   },
   methods: {
+    async importDashboards() {
+      this.dashboardImports.general = defineAsyncComponent(() => import('../components/DashboardComponents/Dashboards/GeneralDashboard.vue'));
+      this.dashboardImports.purchases = defineAsyncComponent(() => import('../components/DashboardComponents/Dashboards/PurchasesDashboard.vue'));
+      this.dashboardImports.allBundles = defineAsyncComponent(() => import('../components/DashboardComponents/Dashboards/Bundle/AllBundleDashboard.vue'));
+    },
     switchTab(name, bundle = null) {
       this.activeBundle = bundle;
       this.activeTab = name;

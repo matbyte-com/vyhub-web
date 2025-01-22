@@ -1,7 +1,41 @@
+<script setup>
+import openapiCached from '@/api/openapiCached';
+import {computed, onBeforeMount, ref} from "vue";
+import {useStore} from "vuex";
+import {useDisplay} from "vuetify";
+
+const recommendedPackets = ref(false);
+
+const store = useStore()
+const display = ref(useDisplay());
+
+onBeforeMount( () => {
+  fetchRecommended();
+});
+
+async function fetchRecommended() {
+  (await openapiCached).shop_getPackets({ recommended: true, limit: 1 }).then((rsp) => {
+    if (rsp.data !== null && rsp.data.length > 0) {
+      recommendedPackets.value = true;
+    }
+  });
+}
+
+const anyShopStatsEnabled = computed(() => {
+  if (!store.getters.shopConfig) { return false; }
+
+  if (!store.getters.shopConfig.show_widgets_on_shop_page) { return false; }
+
+  return store.getters.shopConfig.last_donators_enabled
+    || store.getters.shopConfig.top_donators_enabled
+    || store.getters.shopConfig.donation_goal_enabled;
+});
+</script>
+
 <template>
   <div>
     <v-card
-      v-if="$vuetify.display.smAndDown && anyShopStatsEnabled"
+      v-if="display.smAndDown && anyShopStatsEnabled"
       flat
       class="card-rounded mb-5"
     >
@@ -29,7 +63,7 @@
         class="d-flex flex-column"
       >
         <v-card
-          v-if="!$vuetify.display.smAndDown && anyShopStatsEnabled"
+          v-if="!display.smAndDown && anyShopStatsEnabled"
           class="card-rounded"
           flat
         >
@@ -37,7 +71,7 @@
         </v-card>
         <div
           class="card-rounded"
-          :class="{ 'mt-6':!$vuetify.display.smAndDown && anyShopStatsEnabled }"
+          :class="{ 'mt-6':!display.smAndDown && anyShopStatsEnabled }"
         >
           <RecommendedPacketsSide />
         </div>
@@ -45,41 +79,6 @@
     </v-row>
   </div>
 </template>
-
-<script>
-import openapiCached from '@/api/openapiCached';
-
-export default {
-  data() {
-    return {
-      recommendedPackets: false,
-    };
-  },
-  computed: {
-    anyShopStatsEnabled() {
-      if (!this.$store.getters.shopConfig) { return false; }
-
-      if (!this.$store.getters.shopConfig.show_widgets_on_shop_page) { return false; }
-
-      return this.$store.getters.shopConfig.last_donators_enabled
-        || this.$store.getters.shopConfig.top_donators_enabled
-        || this.$store.getters.shopConfig.donation_goal_enabled;
-    },
-  },
-  beforeMount() {
-    this.fetchRecommended();
-  },
-  methods: {
-    async fetchRecommended() {
-      (await openapiCached).shop_getPackets({ recommended: true, limit: 1 }).then((rsp) => {
-        if (rsp.data !== null && rsp.data.length > 0) {
-          this.recommendedPackets = true;
-        }
-      });
-    },
-  },
-};
-</script>
 
 <style scoped>
 </style>

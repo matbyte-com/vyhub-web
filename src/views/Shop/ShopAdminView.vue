@@ -93,12 +93,13 @@ export default {
       ],
       activeComponent: 'my-purchases',
       tabModel: null,
+      componentImports: {},
     };
   },
   computed: {
     componentInstance() {
       const type = this.activeComponent;
-      return defineAsyncComponent(() => import(`../../components/ShopComponents/Admin/${type}.vue`));
+      return this.componentImports[type];
     },
     allowedTabs() {
       return this.tabs.filter((t) => !t.reqProp || this.$checkProp(t.reqProp) === true);
@@ -110,6 +111,7 @@ export default {
     },
   },
   beforeMount() {
+    this.importComponents();
     this.init();
   },
   methods: {
@@ -121,6 +123,11 @@ export default {
       } else {
         this.activeComponent = this.allowedTabs[0].component;
       }
+    },
+    importComponents() {
+      this.tabs.forEach((tab) => {
+        this.componentImports[tab.component] = defineAsyncComponent(() => import(`../../components/ShopComponents/Admin/${tab.component}.vue`));
+      });
     },
   },
 };

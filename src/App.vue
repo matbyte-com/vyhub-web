@@ -123,11 +123,11 @@ import i18n from '@/plugins/i18n';
 import {register} from 'swiper/element';
 import UserService from '@/services/UserService';
 import 'ckeditor5/ckeditor5.css';
-import {computed, onBeforeMount, ref} from "vue";
+import {computed, defineAsyncComponent, onBeforeMount, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import {useTheme} from "vuetify";
 import {notify} from "@kyvg/vue3-notification";
-import { useUtils} from "@/services/useUtils";
+import {useUtils} from "@/services/useUtils";
 
 register(); // register Swiper
 
@@ -138,6 +138,7 @@ const welcomeAnimation = ref(false);
 const store = useStore();
 const theme = useTheme();
 const utils = useUtils().data().utils;
+let prefetchedComponents = {};
 
 onBeforeMount(() => {
   setThemeFromCache();
@@ -156,6 +157,10 @@ onBeforeMount(() => {
   emitter.on('themeUpdated', fetchData);
   // Event Emitted in Components/Settings/Navigation.vue
   emitter.on('navUpdated', getNavItems);
+})
+
+onMounted(() => {
+  prefetchComponents();
 })
 
 const backgroundColor = computed(() => {
@@ -251,6 +256,14 @@ async function setTheme() {
       throw e;
     }
   });
+}
+
+function prefetchComponents() {
+  setTimeout(() => {
+    console.log('Prefetching Components');
+    prefetchedComponents['Shop'] = import(`./views/Shop/Start.vue`);
+    prefetchedComponents['Shop'] = import(`./views/Shop/Categories.vue`);
+  }, 3000);
 }
 
 function closeOverlay() {
@@ -350,7 +363,8 @@ function loadStyleSheet(path) {
 </script>
 
 <style lang="sass">
-@import 'assets/css/quill.snow.css' // Needed for legacy Vue 2 Editor
+@import 'assets/css/quill.snow.css'
+// Needed for legacy Vue 2 Editor
 
 .v-main
   min-height: calc(100vh - 108px)
