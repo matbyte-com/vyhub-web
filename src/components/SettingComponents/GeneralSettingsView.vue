@@ -15,24 +15,18 @@
           :settings-mode="true"
           @submit="saveData"
         >
-          <template #language-after>
-            {{ $t('_settings.languageNewDescriptionText') }}
-            <a
-              href="https://github.com/matbyte-com/vyhub-lang"
-              target="_blank"
-            >{{ $t('here') }}</a>!
-          </template>
           <template
-            v-if="!forumEnabled"
-            #enable_forum-before
+            #forum-chip
           >
-            <AddOnChip :addon-title="$t('_forum.forum')" />
-          </template>
-          <template
-            v-if="!forumEnabled"
-            #enable_forum-after
-          >
-            <div class="mt-6" />
+            <div
+              class="full-height d-flex align-center justify-end"
+            >
+              <AddOnChip
+                v-if="forumEnabled"
+                class="my-auto"
+                :addon-title="$t('_forum.forum')"
+              />
+            </div>
           </template>
         </GenForm>
       </v-col>
@@ -84,7 +78,7 @@ export default {
   methods: {
     async fetchData() {
       (await openapi).general_getConfig().then((rsp) => {
-        const { data } = rsp;
+        const {data} = rsp;
         this.data = rsp.data;
         this.formSchema = SettingsGeneralFormSchema.form(this.forumEnabled);
         this.$nextTick(() => {
@@ -133,5 +127,7 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style>
+.full-height {
+  height: 48px;
+}</style>

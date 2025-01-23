@@ -18,6 +18,49 @@ function form(forum_enabled = false) {
   const ret: any = {
     type: 'object',
     required: ['community_name', 'language'],
+    layout: [
+      {
+        key: 'community_name',
+      },
+      {
+        key: 'shop_only',
+      },
+      {
+        key: 'enable_landingpage',
+      },
+      {
+        key: 'enable_ticket',
+      },
+      {
+        key: 'enable_forum',
+        cols: {
+          xs: 8,
+          md: 8,
+        },
+      },
+      {
+        name: 'forum-chip',
+        cols: {
+          xs: 4,
+          md: 4,
+        },
+      },
+      {
+        key: 'enable_team',
+      },
+      {
+        key: 'enable_faq',
+      },
+      {
+        key: 'language',
+      },
+      {
+        key: 'enable_customer_journey',
+      },
+      {
+        key: 'google_analytics_tag',
+      },
+    ],
     properties: {
       community_name: {
         type: 'string',
@@ -76,6 +119,14 @@ function form(forum_enabled = false) {
         title: i18n.global.t('_settings.language'),
         oneOf,
         layout: 'autocomplete',
+        layout: {
+          props: {
+            hideDetails: true,
+          },
+          slots: {
+            after: `[${i18n.global.t('_settings.languageNewDescriptionText')}](https://github.com/matbyte-com/vyhub-lang)`
+          }
+        }
       },
       enable_customer_journey: {
         type: 'boolean',
@@ -99,6 +150,7 @@ function form(forum_enabled = false) {
   };
   if (!utilService.data().utils.showAdvancedSettings()) {
     delete ret.properties.google_analytics_tag;
+    ret.layout = ret.layout.filter(obj => obj.key !== 'google_analytics_tag');
   }
   return ret;
 }

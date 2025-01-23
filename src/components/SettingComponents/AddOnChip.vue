@@ -8,9 +8,11 @@
       href="https://app.vyhub.net/dashboard"
       target="_blank"
       style="background-color: rgba(255,83,0,0); font-size: large"
-      text-color="white"
     >
-      {{ addonTitle }} {{ $t('add-on') }} <v-icon
+      <span class="text-white">
+        {{ addonTitle }} {{ $t('add-on') }}
+      </span>
+      <v-icon
         color="white"
         end
       >
@@ -20,13 +22,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'AddOnChip',
-  props: {
-    addonTitle: String,
-  },
-};
+<script setup>
+const props = defineProps(['addonTitle']);
 </script>
 
 <style lang="scss" scoped>
