@@ -61,7 +61,8 @@
           <v-chip color="info">
             <v-icon start>
               mdi-reload
-            </v-icon>{{ $t('automatic') }}
+            </v-icon>
+            {{ $t('automatic') }}
           </v-chip>
         </div>
         <div v-else>
@@ -131,10 +132,9 @@
       :title="$t('_discount.labels.create')"
       @submit="createDiscount"
     >
-      <!-- TODO This button is probably not there in the slot -->
       <template #code-after>
         <v-btn
-          class="mb-4 higher"
+          class="mb-4 mt-2"
           style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
           variant="outlined"
           size="small"
@@ -147,9 +147,8 @@
           <span>{{ $t('generate') }}</span>
         </v-btn>
         <v-btn
-          class="mb-4 higher"
+          class="mb-4 mt-2"
           style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
-          :disabled="!hasNameAndPercentage"
           variant="outlined"
           size="small"
           color="secondary"
@@ -166,34 +165,7 @@
       :submit-text="$t('edit')"
       :title="$t('_discount.labels.edit')"
       @submit="editDiscount"
-    >
-      <template #code-after>
-        <v-btn
-          class="mb-4 higher"
-          style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
-          variant="outlined"
-          size="small"
-          color="secondary"
-          @click="generateCode(true)"
-        >
-          <v-icon start>
-            mdi-code-greater-than
-          </v-icon>
-          <span>{{ $t('generate') }}</span>
-        </v-btn>
-        <v-btn
-          class="mb-4 higher"
-          style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
-          :disabled="!hasNameAndPercentage"
-          variant="outlined"
-          size="small"
-          color="secondary"
-          @click="generateCode(false)"
-        >
-          <v-icon>mdi-code-greater-than-or-equal</v-icon>
-        </v-btn>
-      </template>
-    </DialogForm>
+    />
     <DeleteConfirmationDialog
       ref="deleteDiscountDialog"
       @submit="deleteDiscount"
@@ -209,14 +181,14 @@ export default {
   data() {
     return {
       headers: [
-        { title: this.$t('name'), key: 'name' },
-        { title: this.$t('code'), key: 'code' },
-        { title: this.$t('packets'), key: 'all_packets' },
-        { title: this.$t('begin'), key: 'begin' },
-        { title: this.$t('end'), key: 'end' },
-        { title: this.$t('enabled'), key: 'enabled' },
-        { title: this.$t('percentage'), key: 'percentage' },
-        { title: this.$t('maxUsages'), key: 'max_usages' },
+        {title: this.$t('name'), key: 'name'},
+        {title: this.$t('code'), key: 'code'},
+        {title: this.$t('packets'), key: 'all_packets'},
+        {title: this.$t('begin'), key: 'begin'},
+        {title: this.$t('end'), key: 'end'},
+        {title: this.$t('enabled'), key: 'enabled'},
+        {title: this.$t('percentage'), key: 'percentage'},
+        {title: this.$t('maxUsages'), key: 'max_usages'},
         {
           title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
@@ -280,7 +252,7 @@ export default {
 
       const api = await openapi;
 
-      api.shop_editDiscount({ uuid: discount.id }, data).then(() => {
+      api.shop_editDiscount({uuid: discount.id}, data).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.editSuccess'),
@@ -295,7 +267,7 @@ export default {
     async deleteDiscount(discount) {
       const api = await openapi;
 
-      api.shop_deleteDiscount({ uuid: discount.id }).then(() => {
+      api.shop_deleteDiscount({uuid: discount.id}).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.deleteSuccess'),
@@ -309,9 +281,11 @@ export default {
     },
     generateCode(random) {
       const data = this.$refs.createDiscountDialog.getData();
+      if (!data.name) { data.name = "Title" }
+      if (!data.percentage) { data.percentage = 42 }
       let code = null;
       if (random) {
-        code = Array.from({ length: 4 }, () => Math.random().toString(36).substring(2, 6)).join('-');
+        code = Array.from({length: 4}, () => Math.random().toString(36).substring(2, 6)).join('-');
       } else {
         code = `${data.name}-${Math.random().toString(36).substring(2, 6)}-${data.percentage}`;
       }
@@ -319,7 +293,7 @@ export default {
       this.$refs.createDiscountDialog.setData(data);
     },
     showEditDialog(discount) {
-      const data = { ...discount };
+      const data = {...discount};
 
       this.$refs.editDiscountDialog.setData(data);
       this.$refs.editDiscountDialog.show(discount);
@@ -329,7 +303,4 @@ export default {
 </script>
 
 <style scoped>
-.higher {
-  margin-top: -0.75rem;
-}
 </style>

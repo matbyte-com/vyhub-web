@@ -81,7 +81,7 @@
       @submit="createReward"
     >
       <slot name="allOf-0.serverbundle-after">
-        <!-- TODO Das fehlt noch -->
+        <!-- TODO Das fehlt noch fix after -->
         <b>{{ $t('_reward.labels.checkForReplacements') }}:</b>
         <br>
         <a

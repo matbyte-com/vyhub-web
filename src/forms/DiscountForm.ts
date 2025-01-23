@@ -1,10 +1,47 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
-// import { v4 as uuidv4 } from 'uuid';
 
 export default {
   type: 'object',
   required: ['percentage', 'name', 'enabled', 'begin'],
+  layout: [
+    {
+      key: 'name',
+    },
+    {
+      key: 'percentage',
+    },
+    {
+      key: 'code',
+    },
+    {
+      name: 'code-after'
+    },
+    {
+      key: 'enabled',
+    },
+    {
+      key: 'begin',
+    },
+    {
+      key: 'end',
+    },
+    {
+      key: 'max_usages',
+    },
+    {
+      key: 'max_usages_per_user',
+    },
+    {
+      key: 'all_packets',
+    },
+    {
+      key: 'packets',
+    },
+    {
+      key: 'requirement_set'
+    }
+  ],
   properties: {
     name: {
       type: 'string',
@@ -21,6 +58,11 @@ export default {
       title: i18n.global.t('code'),
       description: i18n.global.t('_discount.labels.codeDescription'),
       //  default: uuidv4().substr(0, 18),
+      layout: {
+        props: {
+          hideDetails: 'auto',
+        }
+      }
     },
     enabled: {
       type: 'boolean',

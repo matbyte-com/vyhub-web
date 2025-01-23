@@ -24,6 +24,7 @@
           v-bind="context"
         />
       </template>
+      <!-- TODO fix after
       <template #title-after>
         <!--
               <input
@@ -33,7 +34,9 @@
                 style="display: none"
                 @change="readFile"
               >-->
-      </template>
+    </dialog-form>
+  </div>
+</template>
     </dialog-form>
     <dialog-form
       ref="cmsEditDialog"

@@ -121,7 +121,7 @@ function form(forum_enabled = false) {
         layout: 'autocomplete',
         layout: {
           props: {
-            hideDetails: true,
+            hideDetails: 'auto',
           },
           slots: {
             after: `[${i18n.global.t('_settings.languageNewDescriptionText')}](https://github.com/matbyte-com/vyhub-lang)`

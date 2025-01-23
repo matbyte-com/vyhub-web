@@ -144,6 +144,7 @@
           ['STRIPE', 'PAYPAL'].includes(selectedGateway.type)"
         name="attributes-after"
       >
+        <!-- TODO fix after
         <v-text-field
           :model-value="getWebhookUrl(selectedGateway)"
           :label="$t('_gateway.labels.webhookURL')"
