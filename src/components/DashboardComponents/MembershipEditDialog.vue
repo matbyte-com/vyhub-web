@@ -6,7 +6,7 @@
     :title="$t('_membership.labels.edit')"
     @submit="editUserMembership"
   >
-    <template #end-after>
+    <template #delete-membership>
       <ConfirmationDialog
         ref="endMembershipConfirmation"
         :btn-text="$t('_membership.labels.endMembership')"

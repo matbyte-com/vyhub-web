@@ -5,6 +5,17 @@ export default {
   required: [
     'begin',
   ],
+  layout: [
+    {
+      key: "begin"
+    },
+    {
+      key: "end"
+    },
+    {
+      name: "delete-membership"
+    }
+  ],
   properties: {
     begin: {
       type: 'string',
