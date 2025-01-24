@@ -118,6 +118,7 @@
       :title="$t('_gateway.labels.edit')"
       @submit="editGateway"
     >
+      <!-- TODO fix before -->
       <slot name="type-before">
         <v-alert
           v-if="gatewayType === 'PAYPAL_LEGACY'"
@@ -135,6 +136,7 @@
         </v-alert>
       </slot>
       <slot name="attributes-before">
+        <!-- TODO fix before -->
         <div class="text-center font-weight-bold">
           {{ $t('_gateway.messages.attributeChangeExplanation') }}
         </div>
@@ -150,7 +152,7 @@
           :label="$t('_gateway.labels.webhookURL')"
           readonly
           @focus="$event.target.select()"
-        />
+        />-->
       </slot>
     </DialogForm>
     <DeleteConfirmationDialog
@@ -172,9 +174,9 @@ export default {
   data() {
     return {
       headers: [
-        { title: this.$t('name'), key: 'name' },
-        { title: this.$t('type'), key: 'type' },
-        { title: this.$t('enabled'), key: 'enabled' },
+        {title: this.$t('name'), key: 'name'},
+        {title: this.$t('type'), key: 'type'},
+        {title: this.$t('enabled'), key: 'enabled'},
         {
           title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
@@ -261,7 +263,7 @@ export default {
         }
       }
 
-      api.shop_editGateway({ uuid: gateway.id }, data).then(() => {
+      api.shop_editGateway({uuid: gateway.id}, data).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.editSuccess'),
@@ -276,7 +278,7 @@ export default {
     async deleteGateway(gateway) {
       const api = await openapi;
 
-      api.shop_deleteGateway({ uuid: gateway.id }).then(() => {
+      api.shop_deleteGateway({uuid: gateway.id}).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.deleteSuccess'),
@@ -292,7 +294,7 @@ export default {
       this.gatewayType = gateway.type;
       this.selectedGateway = gateway;
 
-      const data = { ...gateway, attributes: gateway.safe_attributes };
+      const data = {...gateway, attributes: gateway.safe_attributes};
 
       this.$refs.editGatewayDialog.setData(data);
       this.$refs.editGatewayDialog.show(gateway);

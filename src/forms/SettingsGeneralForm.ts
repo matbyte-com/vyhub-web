@@ -118,8 +118,8 @@ function form(forum_enabled = false) {
         type: 'string',
         title: i18n.global.t('_settings.language'),
         oneOf,
-        layout: 'autocomplete',
         layout: {
+          comp: 'autocomplete',
           props: {
             hideDetails: 'auto',
           },

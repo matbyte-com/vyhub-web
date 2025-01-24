@@ -146,12 +146,13 @@
       icon="mdi-account-switch"
       @submit="changeTargetUser"
     >
-      <!-- TODO Fix After -->
-      <template #target_user_id-after>
-        <UserLink
-          v-if="cartPacket.target_user"
-          :user="cartPacket.target_user"
-        />
+      <template #user-chip>
+        <div>
+          <UserLink
+            v-if="cartPacket.target_user"
+            :user="cartPacket.target_user"
+          />
+        </div>
       </template>
     </DialogForm>
     <PacketDetailDialog

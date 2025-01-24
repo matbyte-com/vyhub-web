@@ -46,6 +46,9 @@ export default {
       if (!this.receivedContent && this.node.data) {
         this.content = this.node.data;
       }
+    },
+    setContent(content) {
+      this.content = content;
     }
   }
 };

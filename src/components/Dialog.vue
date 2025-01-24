@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch, onMounted, defineProps, defineEmits, computed} from 'vue';
+import {ref, watch, onMounted, computed} from 'vue';
 import { useUtils} from "@/services/useUtils";
 import {useDisplay} from "vuetify"; // Import utils or adjust based on actual location
 

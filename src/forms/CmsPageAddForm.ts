@@ -6,6 +6,23 @@ function returnForm() {
   const ret = {
     type: 'object',
     required: ['title'],
+    layout: [
+      {
+        key: 'title',
+      },
+      {
+        name: 'title-after'
+      },
+      {
+        key: 'requirement_set_id',
+      },
+      {
+        key: 'wrapper',
+      },
+      {
+        key: 'content',
+      },
+    ],
     properties: {
       title: {
         type: 'string',
@@ -34,6 +51,7 @@ function returnForm() {
 
   if (!utilService.data().utils.showAdvancedSettings()) {
     delete ret.properties.requirement_set_id;
+    ret.layout = ret.layout.filter(obj => obj.key !== 'requirement_set_id');
   }
 
   return ret;

@@ -17,7 +17,6 @@
           :settings-mode="true"
           @submit="saveData"
         >
-          <!-- TODO fix after maybe just description!??-->
           <slot name="time_to_live-after">
             {{ $t('_warning.settingFormDesc') }}
           </slot>

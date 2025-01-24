@@ -20,23 +20,21 @@
           {{ $t('_navigation.contentSanitizationWarning') }}
         </v-alert>
         <EditorForForm
+          ref="cmsPageAddEditor"
           class="mt-3"
           v-bind="context"
         />
       </template>
-      <!-- TODO fix after
       <template #title-after>
-        <!--
-              <input
-                ref="fileInput"
-                type="file"
-                :accept="acceptedFileTypes.join(',')"
-                style="display: none"
-                @change="readFile"
-              >-->
-    </dialog-form>
-  </div>
-</template>
+        <span class="text-disabled">{{ $t('_navigation.uploadFile') }}</span>
+        <input
+          ref="fileInput"
+          class="ml-2"
+          type="file"
+          :accept="acceptedFileTypes.join(',')"
+          @change="readFile"
+        >
+      </template>
     </dialog-form>
     <dialog-form
       ref="cmsEditDialog"
@@ -59,6 +57,7 @@
           class="mt-3"
         />
       </template>
+      <template #title-after />
     </dialog-form>
     <delete-confirmation-dialog
       ref="cmsDeleteDialog"
@@ -672,6 +671,7 @@ export default {
       this.linksByLocation = this.links.filter((l) => l.location === this.currentLocation);
     },
     readFile(event) {
+      console.log('reading file...')
       const file = event.target.files[0];
       const fileName = file.name;
       const fileExtension = fileName.substr(fileName.lastIndexOf('.')).toLowerCase();
@@ -686,7 +686,9 @@ export default {
 
       const reader = new FileReader();
       reader.onload = (e) => {
-        this.rawHtmlInput = e.target.result;
+        this.$refs.cmsAddDialog.setData({content: e.target.result});
+        this.$refs.cmsPageAddEditor.setContent(e.target.result);
+        // this.rawHtmlInput = e.target.result;
       };
       reader.readAsText(file);
     },
