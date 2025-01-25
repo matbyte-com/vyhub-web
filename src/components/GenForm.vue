@@ -1,74 +1,67 @@
 <template>
-  <v-row>
-    <v-col cols="12">
-      <v-row v-if="alertMessage != null">
-        <v-col
-          cols="12"
-          class="mt-4"
+  <div>
+    <div
+      v-if="alertMessage != null"
+      class="mt-4"
+    >
+      <v-alert :type="alertType">
+        {{ alertMessage }}
+      </v-alert>
+    </div>
+    <slot name="form-before" />
+    <div class="mt-4">
+      <v-form
+        ref="form"
+        @submit.prevent="validateAndRun"
+      >
+        <v-jsf
+          ref="vjsf"
+          :key="componentKey"
+          v-model="formModel"
+          :schema="compatSchema"
+          :options="options"
+          @update:model-value="$emit('updated')"
         >
-          <v-alert :type="alertType">
-            {{ alertMessage }}
-          </v-alert>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <v-form
-            ref="form"
-            @submit.prevent="validateAndRun"
+          <template
+            v-for="(_, name) in $slots"
+            #[name]="scope"
           >
-            <v-jsf
-              ref="vjsf"
-              :key="componentKey"
-              v-model="formModel"
-              :schema="compatSchema"
-              :options="options"
-              @update:model-value="$emit('updated')"
-            >
-              <template
-                v-for="(_, name) in $slots"
-                #[name]="scope"
-              >
-                <slot
-                  :name="name"
-                  v-bind="scope ?? {}"
-                  :form-model="formModel"
-                />
-              </template>
-            </v-jsf>
-            <slot name="form-after" />
-            <v-row v-if="!hideButtons && (submitText != null || cancelText != null)">
-              <v-col
-                cols="12"
-                :class="`mt-${actionButtonTopMargin}`"
-              >
-                <v-btn
-                  v-if="submitText != null"
-                  class="mr-4"
-                  variant="flat"
-                  color="primary"
-                  type="submit"
-                  :loading="loading"
-                >
-                  <span v-if="!settingsMode">{{ submitText }}</span>
-                  <span v-else>{{ $t('save') }}</span>
-                </v-btn>
+            <slot
+              :name="name"
+              v-bind="scope ?? {}"
+              :form-model="formModel"
+            />
+          </template>
+        </v-jsf>
+        <slot name="form-after" />
+        <div
+          v-if="!hideButtons && (submitText != null || cancelText != null)"
+          :class="`mt-${actionButtonTopMargin}`"
+        >
+          <v-btn
+            v-if="submitText != null"
+            class="mr-4"
+            variant="flat"
+            color="primary"
+            type="submit"
+            :loading="loading"
+          >
+            <span v-if="!settingsMode">{{ submitText }}</span>
+            <span v-else>{{ $t('save') }}</span>
+          </v-btn>
 
-                <v-btn
-                  v-if="cancelText != null && !settingsMode"
-                  color="lighten-5"
-                  variant="flat"
-                  @click="cancelForm"
-                >
-                  {{ cancelText }}
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-col>
-      </v-row>
-    </v-col>
-  </v-row>
+          <v-btn
+            v-if="cancelText != null && !settingsMode"
+            color="lighten-5"
+            variant="flat"
+            @click="cancelForm"
+          >
+            {{ cancelText }}
+          </v-btn>
+        </div>
+      </v-form>
+    </div>
+  </div>
 </template>
 
 <script>

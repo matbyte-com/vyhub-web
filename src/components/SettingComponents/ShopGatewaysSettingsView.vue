@@ -81,7 +81,7 @@
       :title="$t('_gateway.labels.create')"
       @submit="createGateway"
     >
-      <slot name="type-before">
+      <template #form-before>
         <v-alert
           v-if="$refs.title"
           type="info"
@@ -90,6 +90,7 @@
           <a
             :href="$refs.title.docLink"
             target="_blank"
+            class="text-white"
           >
             {{ $t('followInstructionsInDocs') }}
           </a>
@@ -108,7 +109,7 @@
         >
           {{ $t('_gateway.labels.paypalHint') }}
         </v-alert>
-      </slot>
+      </template>
     </DialogForm>
     <DialogForm
       ref="editGatewayDialog"
@@ -118,8 +119,7 @@
       :title="$t('_gateway.labels.edit')"
       @submit="editGateway"
     >
-      <!-- TODO fix before -->
-      <slot name="type-before">
+      <template #form-before>
         <v-alert
           v-if="gatewayType === 'PAYPAL_LEGACY'"
           type="warning"
@@ -134,26 +134,19 @@
         >
           {{ $t('_gateway.labels.paypalHint') }}
         </v-alert>
-      </slot>
-      <slot name="attributes-before">
-        <!-- TODO fix before -->
-        <div class="text-center font-weight-bold">
-          {{ $t('_gateway.messages.attributeChangeExplanation') }}
-        </div>
-      </slot>
-      <slot
+      </template>
+      <template
         v-if="selectedGateway != null &&
           ['STRIPE', 'PAYPAL'].includes(selectedGateway.type)"
-        name="attributes-after"
+        #form-after
       >
-        <!-- TODO fix after
         <v-text-field
           :model-value="getWebhookUrl(selectedGateway)"
           :label="$t('_gateway.labels.webhookURL')"
           readonly
           @focus="$event.target.select()"
-        />-->
-      </slot>
+        />
+      </template>
     </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteGatewayDialog"
@@ -174,9 +167,9 @@ export default {
   data() {
     return {
       headers: [
-        {title: this.$t('name'), key: 'name'},
-        {title: this.$t('type'), key: 'type'},
-        {title: this.$t('enabled'), key: 'enabled'},
+        { title: this.$t('name'), key: 'name' },
+        { title: this.$t('type'), key: 'type' },
+        { title: this.$t('enabled'), key: 'enabled' },
         {
           title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
@@ -263,7 +256,7 @@ export default {
         }
       }
 
-      api.shop_editGateway({uuid: gateway.id}, data).then(() => {
+      api.shop_editGateway({ uuid: gateway.id }, data).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.editSuccess'),
@@ -278,7 +271,7 @@ export default {
     async deleteGateway(gateway) {
       const api = await openapi;
 
-      api.shop_deleteGateway({uuid: gateway.id}).then(() => {
+      api.shop_deleteGateway({ uuid: gateway.id }).then(() => {
         this.fetchData();
         this.$notify({
           title: this.$t('_messages.deleteSuccess'),
@@ -294,7 +287,7 @@ export default {
       this.gatewayType = gateway.type;
       this.selectedGateway = gateway;
 
-      const data = {...gateway, attributes: gateway.safe_attributes};
+      const data = { ...gateway, attributes: gateway.safe_attributes };
 
       this.$refs.editGatewayDialog.setData(data);
       this.$refs.editGatewayDialog.show(gateway);

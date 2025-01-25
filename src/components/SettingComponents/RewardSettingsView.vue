@@ -80,8 +80,7 @@
       :title="$t('_reward.labels.create')"
       @submit="createReward"
     >
-      <slot name="allOf-0.serverbundle-after">
-        <!-- TODO Das fehlt noch fix after -->
+      <template #form-after>
         <b>{{ $t('_reward.labels.checkForReplacements') }}:</b>
         <br>
         <a
@@ -91,7 +90,7 @@
         >
           <v-btn
             class="mb-1"
-            variant="flat"
+            variant="outlined"
             size="small"
           >GMOD
           </v-btn>
@@ -103,7 +102,7 @@
         >
           <v-btn
             class="mb-1"
-            variant="flat"
+            variant="outlined"
             size="small"
           >Minecraft
           </v-btn>
@@ -115,7 +114,7 @@
         >
           <v-btn
             class="mb-1"
-            variant="flat"
+            variant="outlined"
             size="small"
           >Rust
           </v-btn>
@@ -127,7 +126,7 @@
         >
           <v-btn
             class="mb-1"
-            variant="flat"
+            variant="outlined"
             size="small"
           >7 Days to Die
           </v-btn>
@@ -139,7 +138,7 @@
         >
           <v-btn
             class="mb-1"
-            variant="flat"
+            variant="outlined"
             size="small"
           >Ark Ascended
           </v-btn>
@@ -151,12 +150,12 @@
         >
           <v-btn
             class="mb-1"
-            variant="flat"
+            variant="outlined"
             size="small"
           >FiveM
           </v-btn>
         </a>
-      </slot>
+      </template>
       <template #custom-autocomplete="context">
         <CommandAutocomplete v-bind="context" />
       </template>
@@ -192,7 +191,6 @@
 </template>
 
 <script>
-import GMOD from '@/components/DashboardComponents/Dashboards/Bundle/GMOD.vue';
 import EventBus from '@/services/EventBus';
 import openapi from '../../api/openapi';
 import RewardForm from '../../forms/RewardForm';
@@ -216,9 +214,6 @@ export default {
     };
   },
   computed: {
-    GMOD() {
-      return GMOD;
-    },
     admin() {
       return admin;
     },
