@@ -190,8 +190,9 @@ export default {
             returnObject.text = msg;
             returnObject.type = 'error';
           } else {
+            console.log(err);
             returnObject.title = `${i18n.global.t('unexpectedError')}`;
-            returnObject.text = '-';
+            returnObject.text = err.toString();
             returnObject.type = 'error';
           }
           return returnObject;
