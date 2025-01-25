@@ -21,9 +21,9 @@
       v-else
       flat
       tile
-      :color="block.props_data.backgroundColor"
-      :image="block.props_data.imageUrl"
-      :height="block.props_data.height"
+      :color="block.props_data?.backgroundColor"
+      :image="block.props_data?.imageUrl"
+      :height="block.props_data?.height"
       class="wrapper-card bg-transparent"
     >
       <div
@@ -33,20 +33,20 @@
         <v-container class="d-flex align-center justify-center wrapper-container pt-0 mt-0">
           <div :style="`margin-top: ${getMarginTop(block)}`">
             <div
-              v-if="!block.props_data.noTitleInWrapper"
+              v-if="!block.props_data?.noTitleInWrapper"
               class="text-center"
             >
               <h2
                 class="text-h3"
-                :class="{ 'text-white': block.props_data.whiteText, 'text-black': !block.props_data.whiteText }"
+                :class="{ 'text-white': block.props_data?.whiteText, 'text-black': !block.props_data?.whiteText }"
               >
-                {{ block.props_data.title }}
+                {{ block.props_data?.title }}
               </h2>
               <p
                 class="text-subtitle-1"
-                :class="{ 'text-white': block.props_data.whiteText, 'text-black': !block.props_data.whiteText }"
+                :class="{ 'text-white': block.props_data?.whiteText, 'text-black': !block.props_data?.whiteText }"
               >
-                {{ block.props_data.subtitle }}
+                {{ block.props_data?.subtitle }}
               </p>
             </div>
             <div>
@@ -81,11 +81,11 @@ props.blocksToShow.forEach((block) => {
 });
 
 function getBackgroundColor(block) {
-  return block.props_data.backgroundColor ? block.props_data.backgroundColor : '';
+  return block.props_data?.backgroundColor ? block.props_data.backgroundColor : '';
 }
 
 function getMarginTop(block) {
-  return block.props_data.marginTop ? block.props_data.marginTop : 0;
+  return block.props_data?.marginTop ? block.props_data.marginTop : 0;
 }
 
 function componentInstance(type) {

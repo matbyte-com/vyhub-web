@@ -357,7 +357,6 @@ function loadStyleSheet(path) {
   link.type = 'text/css';
   link.id = 'dynamic-stylesheet'; // Add an ID to identify it later
   console.log('Loading Stylesheet', path);
-  console.log(link);
   document.head.appendChild(link);
 }
 </script>

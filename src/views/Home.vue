@@ -13,7 +13,7 @@
       >
         <v-icon
           size="large"
-          @click="editDrawer = !editDrawer"
+          @click="openDrawer"
         >
           mdi-cog
         </v-icon>
@@ -269,6 +269,7 @@ const blocks = ref([]);
 const count = ref(0);
 const availableComponents = components.components;
 const panelExposed = ref(null);
+const vjsfSchemas = ref(null);
 const vjsfOptions = {
   locale: i18n.locale,
   timePickerProps: {
@@ -359,8 +360,11 @@ async function savePage() {
     }
   });
   // Wait for all promises to resolve
-  Promise.allSettled(promises).then(() => {
-    updateSectionOrder();
+  Promise.allSettled(promises).then(async () => {
+    await updateSectionOrder();
+    componentAdded.value = false;
+    componentEdited.value = false;
+    orderUpdated.value = false;
   });
 }
 
@@ -406,8 +410,46 @@ function toggleDeleteBlock(cp) {
 }
 
 function getComponentSchema(cp) {
+  if (vjsfSchemas.value[cp.type]) {
+    return vjsfSchemas.value[cp.type];
+  }
+  return generateVjsfSchema(cp);
+}
+
+function closeDrawer() {
+  closeDrawerIcon.value.$el.classList.add('animate__rotateOut');
+  setTimeout(() => {
+    editDrawer.value = false;
+    closeDrawerIcon.value.$el.classList.remove('animate__rotateOut');
+  }, 100);
+}
+
+function copyBlock(block) {
+  const newBlock = {...block};
+  newBlock.new = true;
+  newBlock.id = Math.random(100);
+  blocks.value.push(newBlock);
+  componentAdded.value = true;
+}
+
+function getComponentTitle(cp) {
   const el = availableComponents.find((c) => c.component === cp.type);
-  if (!el) return {};
+  if (!el) return cp.type;
+  return el.title;
+}
+
+function openDrawer() {
+  editDrawer.value = true;
+  if (!vjsfSchemas.value) {
+    console.log('Creating Schemas')
+    vjsfSchemas.value = {};
+    availableComponents.forEach((cp) => {
+      vjsfSchemas.value[cp.component] = generateVjsfSchema(cp);
+    });
+  }
+}
+
+function generateVjsfSchema(el) {
   const schema = {...el.schema};
   if (!el.no_wrap) {
     schema.properties = {
@@ -466,28 +508,6 @@ function getComponentSchema(cp) {
     };
   }
   return v2compat(schema);
-}
-
-function closeDrawer() {
-  closeDrawerIcon.value.$el.classList.add('animate__rotateOut');
-  setTimeout(() => {
-    editDrawer.value = false;
-    closeDrawerIcon.value.$el.classList.remove('animate__rotateOut');
-  }, 100);
-}
-
-function copyBlock(block) {
-  const newBlock = {...block};
-  newBlock.new = true;
-  newBlock.id = Math.random(100);
-  blocks.value.push(newBlock);
-  componentAdded.value = true;
-}
-
-function getComponentTitle(cp) {
-  const el = availableComponents.find((c) => c.component === cp.type);
-  if (!el) return cp.type;
-  return el.title;
 }
 </script>
 
