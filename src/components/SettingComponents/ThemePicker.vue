@@ -4,9 +4,12 @@ import EventBus from "@/services/EventBus";
 import openapi from "@/api/openapi";
 import {useStore} from "vuex";
 import {notify} from "@kyvg/vue3-notification";
+import {useTemplateRef} from "vue";
 
 const props = defineProps(['noDownload']);
 const store = useStore();
+
+const confirmDialog = useTemplateRef('confirmationDialog')
 
 const shopOnlyThemes = themes.themes.filter((theme) => theme.type == 'shop_only');
 const fullManagementThemes = themes.themes.filter((theme) => theme.type == 'full_management');
@@ -15,13 +18,14 @@ async function setTheme(theme) {
   const general_config = theme.data.general;
   const theme_config = theme.data.theme;
   const shop_config = theme.data.shop_settings;
-  Promise.all([
+  Promise.allSettled([
     (await openapi).general_editConfig(null, general_config),
     (await openapi).shop_editConfig(null, shop_config),
     (await openapi).general_editTheme(null, theme_config)
   ]).then(() => {
     EventBus.emit('themeUpdated');
     EventBus.emit('advancedSettingsUpdated');
+    confirmDialog.value.closeAndReset();
   })
 
   // TODO Maybe also import the page builder content

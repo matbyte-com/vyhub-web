@@ -22,7 +22,7 @@
               class="full-height d-flex align-center justify-end"
             >
               <AddOnChip
-                v-if="forumEnabled"
+                v-if="!forumEnabled"
                 class="my-auto"
                 :addon-title="$t('_forum.forum')"
               />

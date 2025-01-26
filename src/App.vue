@@ -2,11 +2,11 @@
   <v-app>
     <VueNotification />
     <LinkAccountDialog />
-    <TheHeader v-if="!$route.meta.noHeader && $route.path !== '/'" />
+    <TheHeader v-if="!route.meta.noHeader && route.path !== '/'" />
 
     <v-main :style="backgroundColor">
       <div
-        v-if="$route.meta.noContainer"
+        v-if="route.meta.noContainer"
         style="min-height: 70vh;"
       >
         <router-view v-slot="{ Component}">
@@ -41,7 +41,7 @@
       </v-container>
     </v-main>
 
-    <TheFooter v-if="$route.path !== '/'" />
+    <TheFooter v-if="route.path !== '/'" />
 
     <!-- Welcome Overlay -->
     <WelcomeOverlay
@@ -83,7 +83,7 @@
 
     <!-- Floating Alert to remember to set legal -->
     <router-link
-      v-if="showLegalReminder && $route.path !== '/settings/legal'"
+      v-if="showLegalReminder && route.path !== '/settings/legal'"
       to="/settings/legal"
       class="text-center"
     >
@@ -128,8 +128,11 @@ import {useStore} from "vuex";
 import {useTheme} from "vuetify";
 import {notify} from "@kyvg/vue3-notification";
 import {useUtils} from "@/services/useUtils";
+import {useRoute} from "vue-router";
 
 register(); // register Swiper
+
+const route = useRoute();
 
 const background = ref('#FAFAFA');
 const backgroundImage = ref(null);

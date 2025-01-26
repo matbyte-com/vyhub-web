@@ -1,11 +1,25 @@
 <script setup>
-import {ref, watch} from "vue";
+import welcomeForm from "@/forms/WelcomeForm";
+import {nextTick, onMounted, ref, useTemplateRef, watch} from "vue";
+import openapi from "@/api/openapi";
+import {notify} from "@kyvg/vue3-notification";
+import {useI18n} from "vue-i18n";
 
 defineEmits(['close-overlay']);
 
 const props = defineProps({
   welcomeOverlay: Boolean,
   welcomeAnimation: Boolean,
+});
+
+const welcomeSchema = welcomeForm.form()
+const welcomeGenForm = useTemplateRef('welcomeGenForm');
+const i18n = useI18n();
+
+const generalData = ref(null);
+
+onMounted(() => {
+  getGeneralData();
 });
 
 const isOverlayVisible = ref(props.welcomeOverlay);
@@ -15,27 +29,54 @@ watch(() => props.welcomeOverlay, (newVal) => {
 });
 
 const open = ref(true);
+
+async function setData() {
+  const data = welcomeGenForm.value.getData();
+  (await openapi).general_editConfig(null, data).then(() => {
+    notify({
+      title: i18n.t('_messages.editSuccess'),
+      type: 'success',
+    });
+    welcomeGenForm.value.setData(data);
+  }).catch((err) => {
+    welcomeGenForm.value.setError(err);
+  });
+}
+
+async function getGeneralData() {
+  (await openapi).general_getConfig().then((rsp) => {
+    generalData.value = rsp.data;
+  });
+}
+
+function setFormData() {
+  nextTick(() => {
+    welcomeGenForm.value.setData(generalData.value);
+  });
+}
 </script>
 
 <template>
   <v-overlay
     v-model="isOverlayVisible"
-    theme="light"
   >
     <v-row
       justify="center"
       align="center"
       style="width: 100vw; height: 100vh;"
+      class="overflow-y-scroll"
+      no-gutters
     >
       <v-card
-        width="750"
+        min-height="350px"
+        min-width="60%"
         max-width="90%"
         :class="{ 'get-started-animation': welcomeAnimation }"
       >
         <v-card-text>
           <v-stepper
             flat
-            :items="['Welcome', 'Theme', 'Tutorial']"
+            :items="['Welcome', 'Theme', 'General', 'Done']"
             non-linear
             color="primary"
           >
@@ -77,18 +118,29 @@ const open = ref(true);
               </div>
             </template>
             <template #item.3>
+              <GenForm
+                ref="welcomeGenForm"
+                :form-schema="welcomeSchema"
+                :settings-mode="true"
+                @mounted="setFormData"
+                @submit="setData"
+              />
+            </template>
+            <template #item.4>
               <div class="text-center">
                 <div>
                   Follow the tutorial in the bottom right to get started. <br>
                 </div>
                 <v-btn
-                  class="mt-5 mb-5"
+                  class="mt-5 mb-5 get-started-btn"
                   size="x-large"
                   color="success"
                   @click="$emit('close-overlay')"
                 >
                   Get Started
-                  <v-icon size="large">
+                  <v-icon
+                    size="large"
+                  >
                     mdi-chevron-right
                   </v-icon>
                 </v-btn>
@@ -119,4 +171,9 @@ const open = ref(true);
 .get-started-animation
   animation: closeAnimation 0.5s ease-in-out
 
+.get-started-btn :deep(i)
+  transition: all 0.2s ease-in-out
+
+.get-started-btn:hover :deep(i)
+  transform: translateX(7px)
 </style>
