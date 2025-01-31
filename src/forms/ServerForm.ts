@@ -126,46 +126,46 @@ export default {
         }
       ]
     },
-  },
-  secrets: {
-    type: 'object',
-    //required: required_secrets,
-    allOf: [{
-      properties: {
-        /* TS3 */
-        username: {
-          type: 'string', // Required
-          title: i18n.global.t('username'),
-          layout: {
-            if: {
-              expr: 'parent.parent.parent.data?.type === "TEAMSPEAK3"',
+    secrets: {
+      type: 'object',
+      //required: required_secrets,
+      allOf: [{
+        properties: {
+          /* TS3 */
+          username: {
+            type: 'string', // Required
+            title: i18n.global.t('username'),
+            layout: {
+              if: {
+                expr: 'parent.parent.parent.data?.type === "TEAMSPEAK3"',
+              },
+            },
+          },
+          password: {
+            type: 'string', // Required
+            title: i18n.global.t('password'),
+            layout: {
+              if: {
+                expr: 'parent.parent.parent.data?.type === "TEAMSPEAK3"',
+              },
             },
           },
         },
-        password: {
-          type: 'string', // Required
-          title: i18n.global.t('password'),
-          layout: {
-            if: {
-              expr: 'parent.parent.parent.data?.type === "TEAMSPEAK3"',
+      }, {
+        properties: {
+          /* SOURCE */
+          password: {
+            type: 'string',
+            title: i18n.global.t('_server.labels.rconPassword'),
+            layout: {
+              if: {
+                expr: 'parent.parent.parent.data?.type === "SOURCE"',
+              },
             },
           },
         },
-      },
-    }, {
-      properties: {
-        /* SOURCE */
-        password: {
-          type: 'string',
-          title: i18n.global.t('_server.labels.rconPassword'),
-          layout: {
-            if: {
-              expr: 'parent.parent.parent.data?.type === "SOURCE"',
-            },
-          },
-        },
-      },
-    }]
+      }]
+    },
   },
 };
 
