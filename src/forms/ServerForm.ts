@@ -9,6 +9,14 @@ export default {
       type: 'string',
       title: i18n.global.t('name'),
     },
+    hidden: {
+      type: 'boolean',
+      title: i18n.global.t('_server.labels.hidden'),
+      default: false,
+      layout: {
+        comp: 'switch'
+      }
+    },
     type: {
       type: 'string',
       title: i18n.global.t('type'),
@@ -58,23 +66,28 @@ export default {
         },
       }
     },
-    hidden: {
-      type: 'boolean',
-      title: i18n.global.t('_server.labels.hidden'),
-      default: false,
-      layout: {
-        comp: 'switch'
-      }
-    },
     extra: {
       type: 'object',
       allOf: [
         {
           properties: {
             /* GMOD */
+            sync_bans: {
+              type: 'boolean',
+              title: i18n.global.t('_server.labels.syncBans'),
+              description: i18n.global.t('_server.labels.syncBansDescription'),
+              default: false,
+              layout: {
+                comp: 'switch',
+                if: {
+                  expr: 'parent.parent.parent.data?.type === "GMOD"',
+                },
+              },
+            },
             res_slots: {
               type: 'integer',
               title: i18n.global.t('_server.labels.numberOfReservedSlots'),
+              description: i18n.global.t('_server.labels.numberOfReservedSlotsDesc'),
               minimum: 0,
               default: 0,
               layout: {
@@ -86,6 +99,7 @@ export default {
             res_slots_keep_free: {
               type: 'boolean',
               title: i18n.global.t('_server.labels.keepReservedSlotsFree'),
+              description: i18n.global.t('_server.labels.keepReservedSlotsFreeDesc'),
               default: false,
               layout: {
                 if: {
@@ -96,6 +110,7 @@ export default {
             res_slots_hide: {
               type: 'boolean',
               title: i18n.global.t('_server.labels.hideReservedSlots'),
+              description: i18n.global.t('_server.labels.hideReservedSlotsDesc'),
               default: false,
               layout: {
                 if: {
