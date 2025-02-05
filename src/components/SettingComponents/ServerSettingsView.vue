@@ -488,7 +488,7 @@ export default {
         },
       ],
       addBundleSchema: ServerbundleForm.returnForm(),
-      serverSchema: ServerForm,
+      serverSchema: ServerForm.returnForm(),
       editBundleSchema: null,
       createTokenSchema: ServerbundleAPITokenForm,
       activeBundle: null,
