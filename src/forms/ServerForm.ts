@@ -19,21 +19,7 @@ function returnForm() {
           comp: 'switch'
         }
       },
-      type: {
-        type: 'string',
-        title: i18n.global.t('type'),
-        enum: [
-          'GMOD',
-          'MINECRAFT',
-          'TEAMSPEAK3',
-          'DISCORD',
-          'FIVEM',
-          'RUST',
-          'SEVEN_DAYS',
-          'ASA',
-          'SOURCE',
-        ]
-      },
+      type: Common.serverTypeSelectField(),
       serverbundle_id: {
         type: "string",
         title: i18n.global.t('serverbundle'),
