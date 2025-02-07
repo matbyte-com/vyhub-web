@@ -139,7 +139,7 @@ export default {
           items: [
             'heading',
             '|',
-            'fontSize',
+            // 'fontSize',
             //'fontFamily',
             'fontColor',
             'alignment',
