@@ -104,7 +104,7 @@
                       </div>
                     </v-card>
                   </v-card-title>
-                  <v-card-subtitle class="mt-0 pt-0">
+                  <v-card-subtitle class="mt-0 pt-0 mb-3">
                     <div
                       class="text-caption"
                       style="pointer-events: initial;"
@@ -126,38 +126,40 @@
                       </span>
                     </div>
                   </v-card-subtitle>
-                  <v-divider class="mt-3" />
-                  <v-card-text
+                  <div
                     v-if="attributes != null
                       && attributes[acc.raw.id] != null
-                      && Object.keys(attributes[acc.raw.id]).length > 0"
-                    class="pa-0"
-                  >
-                    <v-row>
-                      <v-col>
-                        <v-table
-                          v-if="attributeDefinitions != null"
-                          class="bg-transparent"
-                          hover
-                          dense
-                        >
-                          <tbody>
-                            <tr
-                              v-for="(attrVal, attrName) in attributes[acc.raw.id]"
-                              :key="attrName"
-                            >
-                              <td>
-                                {{ attributeDefinitionsDict[attrName].title }}
-                              </td>
-                              <td>
-                                {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </v-table>
-                      </v-col>
-                    </v-row>
-                  </v-card-text>
+                      && Object.keys(attributes[acc.raw.id]).length > 0">
+                    <v-divider />
+                    <v-card-text
+                      class="pa-0"
+                    >
+                      <v-row>
+                        <v-col>
+                          <v-table
+                            v-if="attributeDefinitions != null"
+                            class="bg-transparent"
+                            hover
+                            dense
+                          >
+                            <tbody>
+                              <tr
+                                v-for="(attrVal, attrName) in attributes[acc.raw.id]"
+                                :key="attrName"
+                              >
+                                <td>
+                                  {{ attributeDefinitionsDict[attrName].title }}
+                                </td>
+                                <td>
+                                  {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </v-table>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                  </div>
                 </v-card>
               </template>
             </v-data-iterator>
