@@ -20,9 +20,10 @@
             v-for="category in categories"
             :key="category.id"
             style="height: auto"
+            class="py-2"
           >
             <v-card
-              class="img-hover-zoom overflow-hidden mt-3 mb-3 card-rounded mx-auto
+              class="img-hover-zoom overflow-hidden card-rounded mx-auto
              d-flex flex-column"
               hover
               max-width="350px"

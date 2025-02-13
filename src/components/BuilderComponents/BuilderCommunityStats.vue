@@ -8,7 +8,7 @@
         <v-card
           v-for="stat in stats"
           :key="stat.title"
-          class="ml-5 mt-10 stat-card card-rounded"
+          class="ml-5 mt-13 stat-card card-rounded"
         >
           <div class="icon-wrapper text-center">
             <v-card
@@ -34,6 +34,7 @@
       </div>
       <Swiper
         v-else
+        class="mt-5"
         :number-of-elements="2"
         :per-page-custom="[1,1,2,3,4,4]"
       >
