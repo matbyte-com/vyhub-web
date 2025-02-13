@@ -1,3 +1,34 @@
+<script setup>
+import {version} from '../../package.json';
+import {computed} from "vue";
+import {useStore} from "vuex";
+import {useI18n} from "vue-i18n";
+import accessControlService from "@/services/AccessControlService";
+
+const store = useStore();
+const i18n = useI18n();
+
+
+const navLinks = computed(() => {
+  if (store.getters.generalConfig?.shop_only) {
+    return [{
+      title: i18n.t('home'), link: '/store'
+    },
+      {
+        title: i18n.t('legal'),
+        link: '/store/legal',
+      }];
+  }
+
+  if (store.getters.navItems == null) {
+    return [];
+  }
+
+  return store.getters.navItems
+    .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || accessControlService.methods.$checkProp(l.req_prop) === true));
+})
+</script>
+
 <template>
   <v-footer
     color="footer-lighten-1"
@@ -19,10 +50,10 @@
     >
       <strong>
         {{ new Date().getFullYear() }}
-        <span v-if="$store.getters.generalConfig != null">
-          — {{ $store.getters.generalConfig.community_name }}
+        <span v-if="store.getters.generalConfig != null">
+          — {{ store.getters.generalConfig.community_name }}
         </span>
-        <span v-if="!removeBranding">
+        <span v-if="!store.state.generalConfig?.remove_branding">
           —
           <a
             class="text-decoration-none text-white"
@@ -37,45 +68,6 @@
     </div>
   </v-footer>
 </template>
-
-<script>
-import {version} from '../../package.json';
-
-export default {
-  data() {
-    return {
-      version,
-    };
-  },
-  computed: {
-    removeBranding() {
-      return this.$store.getters.generalConfig != null
-        && this.$store.getters.generalConfig.remove_branding;
-    },
-    links() {
-      return this.$store.getters.navItems;
-    },
-    navLinks() {
-      if (this.$store.getters.generalConfig?.shop_only) {
-        return [{
-          title: this.$t('home'), link: '/store'
-        },
-          {
-            title: this.$t('legal'),
-            link: '/store/legal',
-          }];
-      }
-
-      if (this.links == null) {
-        return [];
-      }
-
-      return this.links
-        .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || this.$checkProp(l.req_prop) === true));
-    },
-  },
-};
-</script>
 
 <style scoped>
 .no-active :deep(.v-btn__overlay) {
