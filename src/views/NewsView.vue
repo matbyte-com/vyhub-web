@@ -157,7 +157,7 @@ async function editMessage(message) {
             :number-of-elements="3"
             :per-page-custom="[1,2,3,3,3,3]"
           >
-            <swiper-slide v-if="showServers">
+            <swiper-slide v-if="showServers" :hidden="$refs.serverStatus && !$refs.serverStatus.nonEmpty">
               <ServerStatus
                 ref="serverStatus"
                 :outlined="true"
