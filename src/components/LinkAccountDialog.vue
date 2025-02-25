@@ -80,17 +80,17 @@
         />
       </div>
       <v-divider
-        v-if="!$route.query.shop"
+        v-if="!$route.query.shop && centralBackend != null"
         class="mt-1"
       />
       <template #actions>
         <v-list
-          v-if="!$route.query.shop"
+          v-if="!$route.query.shop && centralBackend != null"
           class="pa-0 mt-0 ml-4 mr-4"
           style="width: 100%"
           density="compact"
         >
-          <v-list-item @click="startAuth(backends.find((b) => b.type === 'CENTRAL'))">
+          <v-list-item @click="startAuth(centralBackend)">
             <div class="d-flex align-center">
               <v-icon size="25">
                 {{ getIcon('CENTRAL') }}
@@ -236,6 +236,12 @@ export default {
           this.authDialogType = null;
         }
       },
+    },
+    centralBackend() {
+      if (this.backends == null) {
+        return null;
+      }
+      return this.backends.find((b) => b.name === 'CENTRAL');
     },
     title() {
       if (this.$store.getters.isLoggedIn) {
