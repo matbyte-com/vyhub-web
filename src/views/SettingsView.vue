@@ -232,7 +232,6 @@ export default {
           component: 'AuthorizationSettingsView',
           reqProp: 'authorization_show',
           title: this.$t('_authorization.title'),
-          shopOnly: 'hidden'
         },
         {
           name: 'import',
