@@ -134,6 +134,21 @@
               :items="server"
               :show-search="true"
             >
+              <template
+                #item.status="{ item }"
+              >
+                <v-tooltip>
+                  <template #activator="{props}">
+                    <v-icon
+                      v-bind="props"
+                      style="margin-left: -17px; margin-right: 0px"
+                      icon="mdi-circle-medium"
+                      :color="getStatusColor(item.status)"
+                    />
+                  </template>
+                  {{ item.status }}
+                </v-tooltip>
+              </template>
               <template #header>
                 <SettingTitle
                   :divider="false"
@@ -478,13 +493,14 @@ export default {
       server: null,
       dataFetched: 0,
       gameserverHeaders: [
+        { key: 'status', width: '1px', sortable: false },
         { title: this.$t('name'), key: 'name' },
         { title: this.$t('type'), key: 'type' },
         { title: this.$t('ipAddress'), key: 'address' },
         { title: this.$t('port'), key: 'port' },
         { title: this.$t('bundle'), key: 'serverbundle.name' },
         {
-          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end', width: 250,
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end', width: '250px',
         },
       ],
       addBundleSchema: ServerbundleForm.returnForm(),
@@ -716,7 +732,18 @@ export default {
         console.log(`${err}`);
       });
     },
-
+    getStatusColor(server) {
+      switch (server.status) {
+        case 'UNKNOWN':
+          return '';
+        case 'ONLINE':
+          return 'success';
+        case 'OFFLINE':
+          return 'error';
+        default:
+          return '';
+      }
+    },
   },
 };
 </script>
