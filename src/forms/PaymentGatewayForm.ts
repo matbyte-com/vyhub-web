@@ -41,7 +41,7 @@ function gatewayFields(gatewayType: string) {
         title: 'Webhook Secret',
       },
       payment_methods: {
-        type: 'string',
+        type: 'array',
         default: [],
         title: i18n.global.t('paymentMethods'),
         items: {
