@@ -143,7 +143,7 @@
                       v-bind="props"
                       style="margin-left: -17px; margin-right: 0px"
                       icon="mdi-circle-medium"
-                      :color="getStatusColor(item.status)"
+                      :color="getStatusColor(item)"
                     />
                   </template>
                   {{ item.status }}
