@@ -89,7 +89,7 @@ function returnForm() {
               properties: {
                 serverbundle_id: {
                   ... Common.serverbundleSelectField,
-                  type: ['string'],
+                  type: 'string',
                 },
                 name: {
                   type: 'string',
