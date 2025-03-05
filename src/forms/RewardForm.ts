@@ -210,7 +210,7 @@ function rewardTypeFields(rewardType: string) {
     properties: {
       type: {
         title: i18n.global.t('type'),
-        type: ['string'],
+        type: 'string',
         const: rewardType,
       },
       on_event: {
