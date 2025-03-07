@@ -202,7 +202,7 @@ function form() {
     delete res.allOf[0].properties.buyable_active;
     delete res.allOf[0].properties.buyable_inactive;
     delete res.allOf[1].properties.payment_gateways;
-    delete res.allOf[2];
+    res.allOf.splice(2, 1);
   }
   return res;
 }
