@@ -14,7 +14,7 @@ export default {
   properties: {
     target_user_id: {
       ...Common.userSelectField,
-      type: ['string'],
+      type: 'string',
     },
   },
 };
