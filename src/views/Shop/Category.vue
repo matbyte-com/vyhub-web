@@ -205,7 +205,6 @@ export default {
   },
   methods: {
     async fetchPackets() {
-      console.trace();
       const packetsData = { category_id: this.$route.params.categoryId };
       if (this.$store.getters.address != null) {
         packetsData.country_code = this.$store.getters.address.country.code;

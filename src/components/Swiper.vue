@@ -12,7 +12,7 @@
           class=""
           :slides-per-view="perPage"
           :space-between="12"
-          @slidechange="slideChanged()"
+          @swiperslidechange="slideChanged()"
         >
           <slot />
         </swiper-container>
