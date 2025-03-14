@@ -276,7 +276,11 @@
       :form-schema="cartPacketTargetUserForm"
       icon="mdi-account-switch"
       @submit="buyForAnotherUser"
-    />
+    >
+      <template #user-chip>
+        <!-- Not needed -->
+      </template>
+    </DialogForm>
   </div>
 </template>
 
