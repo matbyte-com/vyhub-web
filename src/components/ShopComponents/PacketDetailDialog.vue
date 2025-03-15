@@ -83,12 +83,16 @@
               <!-- Headline -->
               <h1
                 class="mt-2"
+                style="line-height: 1.1"
                 :class="{ 'text-center': $vuetify.display.xs }"
               >
                 {{ packet.title }}
               </h1>
               <!-- Price -->
-              <div v-if="!cartPacket">
+              <div
+                v-if="!cartPacket"
+                class="d-flex align-center"
+              >
                 <div
                   v-if="!packet.custom_price"
                   class="mt-2 mb-1"
@@ -105,7 +109,9 @@
                     >
                       {{ utils.formatDecimal(packet.price_without_discount.total) }}
                     </span>
-                    <span style="color: rgb(var(--v-theme-success)); font-weight: 900; font-size: large">
+                    <span
+                      style="color: rgb(var(--v-theme-success)); font-weight: 900; font-size: large"
+                    >
                       {{ utils.formatDecimal(packet.price_with_discount.total) }}
                       {{ packet.currency.name }}
                     </span>
@@ -126,6 +132,39 @@
                 >
                   {{ $t('_packet.messages.customPricePossible') }}
                 </span>
+                <v-spacer />
+                <v-btn
+                  size="24"
+                  class="mr-1"
+                  rounded
+                  variant="tonal"
+                  @click="shareOnWhatsapp"
+                >
+                  <v-icon size="20">
+                    custom:whatsapp
+                  </v-icon>
+                </v-btn>
+                <v-btn
+                  size="24"
+                  rounded
+                  class="mr-1"
+                  variant="tonal"
+                  @click="shareOnX"
+                >
+                  <v-icon size="18">
+                    custom:x
+                  </v-icon>
+                </v-btn>
+                <v-btn
+                  size="24"
+                  rounded
+                  variant="tonal"
+                  @click="copyToClipboard"
+                >
+                  <v-icon size="17">
+                    mdi-content-copy
+                  </v-icon>
+                </v-btn>
               </div>
               <!-- Custom Price -->
               <v-spacer />
@@ -357,7 +396,7 @@ export default {
         if (err.response.status === 401) {
           errDet = {
             code: 'unauthorized',
-            detail: { },
+            detail: {},
           };
         }
 
@@ -372,6 +411,28 @@ export default {
       const data = this.$refs.giftPacketDialog.getData();
       await this.addToCart(data.target_user_id).then(() => {
         this.$refs.giftPacketDialog.closeAndReset();
+      });
+    },
+    getContentToShare() {
+      const store = this.$store.getters.generalConfig.community_name;
+      const url = window.location.href;
+      const text = this.$t('_shop.labels.sharePacket', {title: this.packet.title, store: store})
+      return `${text} ${url}`;
+    },
+    shareOnX() {
+      const text = encodeURIComponent(this.getContentToShare());
+      window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+    },
+    shareOnWhatsapp() {
+      const text = encodeURIComponent(this.getContentToShare());
+      window.open(`https://wa.me/?text=${text}`, '_blank');
+    },
+    copyToClipboard() {
+      const text = this.getContentToShare();
+      navigator.clipboard.writeText(text);
+      this.$notify({
+        type: 'success',
+        title: this.$t('_messages.linkCopied'),
       });
     },
   },

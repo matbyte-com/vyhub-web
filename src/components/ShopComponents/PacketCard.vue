@@ -73,6 +73,7 @@ async function addToCart() {
     loading.value = false;
   });
 }
+
 </script>
 
 

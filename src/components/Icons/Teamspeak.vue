@@ -14,9 +14,6 @@
 </template>
 
 <script>
-export default {
-  name: 'VyHub',
-};
 </script>
 
 <style scoped lang="sass">

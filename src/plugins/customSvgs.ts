@@ -14,6 +14,8 @@ import source from "../components/Icons/Source.vue";
 import minecraft from "../components/Icons/Minecraft.vue";
 import paypal from "../components/Icons/PayPal.vue";
 import steam from "../components/Icons/Steam.vue";
+import whatsapp from "../components/Icons/WhatsApp.vue";
+import x from "../components/Icons/X.vue";
 
 const customSvgNameToComponent: any = {
   vyhub,
@@ -29,7 +31,9 @@ const customSvgNameToComponent: any = {
   source,
   minecraft,
   paypal,
-  steam
+  steam,
+  whatsapp,
+  x
 };
 
 const customSVGs: IconSet = {
