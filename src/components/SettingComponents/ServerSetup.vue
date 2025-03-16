@@ -261,7 +261,42 @@
 
     <!-- FIVEM -->
     <div v-if="server.type === 'FIVEM'">
-      <div class="font-weight-bold">
+      <div
+        class="font-weight-bold"
+      >
+        0. {{ $t('_server.instructions.COMMON.prerequisites', {framework: 'ESX or QBCore'}) }}
+        <div class="d-flex justify-center mt-1">
+          <a
+            href="https://documentation.esx-framework.org"
+            target="_blank"
+            class="placeholder"
+          >
+            <v-btn
+              class="mx-2"
+              color="primary"
+              variant="flat"
+            >
+              <v-icon start>mdi-download</v-icon>
+              {{ $t('ESX') }}
+            </v-btn>
+          </a>
+          <a
+            href="https://qbcore.net/"
+            target="_blank"
+            class="placeholder"
+          >
+            <v-btn
+              class="mx-2"
+              color="primary"
+              variant="flat"
+            >
+              <v-icon start>mdi-download</v-icon>
+              {{ $t('QBCore') }}
+            </v-btn>
+          </a>
+        </div>
+      </div>
+      <div class="font-weight-bold mt-4">
         1. {{ $t('_server.instructions.FIVEM.download') }}
       </div>
       <div class="mt-1 text-center">
@@ -327,7 +362,41 @@
 
     <!-- RUST & 7 Days To Die-->
     <div v-if="server.type === 'RUST' || server.type === 'SEVEN_DAYS'">
-      <div class="font-weight-bold">
+      <div
+        class="font-weight-bold"
+      >
+        0. {{ $t('_server.instructions.COMMON.prerequisites', {framework: server.type === 'RUST' ? 'uMod or Carbon' : 'uMod'}) }}
+        <div class="d-flex justify-center mt-1">
+          <a
+            href="https://umod.org/"
+            target="_blank"
+            class="placeholder"
+          >
+            <v-btn
+              class="mx-2"
+              color="primary"
+              variant="flat"
+            >
+              <v-icon start>mdi-download</v-icon>
+              {{ $t('uMod') }}
+            </v-btn>
+          </a>
+          <a
+            v-if="server.type === 'RUST'"
+            href="https://carbonmod.gg/"
+            target="_blank"
+          >
+            <v-btn
+              color="primary"
+              variant="flat"
+            >
+              <v-icon start>mdi-download</v-icon>
+              {{ $t('Carbon Mod') }}
+            </v-btn>
+          </a>
+        </div>
+      </div>
+      <div class="font-weight-bold mt-1">
         1. {{ $t('_server.instructions.RUST.download') }}
       </div>
       <div class="mt-1 text-center">
@@ -407,7 +476,28 @@
 
     <!-- ASA -->
     <div v-if="server.type === 'ASA'">
-      <div class="font-weight-bold">
+      <div
+        class="font-weight-bold"
+      >
+        0. {{ $t('_server.instructions.COMMON.prerequisites', {framework: 'ServerAPI'}) }}
+        <div class="d-flex justify-center mt-1">
+          <a
+            href="https://ark-server-api.com/"
+            target="_blank"
+            class="placeholder"
+          >
+            <v-btn
+              class="mx-2"
+              color="primary"
+              variant="flat"
+            >
+              <v-icon start>mdi-download</v-icon>
+              {{ $t('Server API') }}
+            </v-btn>
+          </a>
+        </div>
+      </div>
+      <div class="font-weight-bold mt-1">
         1. {{ $t('_server.instructions.ASA.download') }}
       </div>
       <div class="mt-1 text-center">
