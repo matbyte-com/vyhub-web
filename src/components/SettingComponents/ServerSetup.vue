@@ -345,25 +345,26 @@
         </a>
       </div>
 
-      <div
-        v-if="server.type === 'RUST'"
-        class="font-weight-bold mt-4"
-      >
-        1.5 {{ $t('_server.instructions.RUST.imageLibrary') }}
-      </div>
-      <div class="mt-1 text-center">
-        <a
-          href="https://umod.org/plugins/image-library"
-          target="_blank"
+      <div v-if="server.type === 'RUST'">
+        <div
+          class="font-weight-bold mt-4"
         >
-          <v-btn
-            color="primary"
-            variant="flat"
+          1.5 {{ $t('_server.instructions.RUST.imageLibrary') }}
+        </div>
+        <div class="mt-1 text-center">
+          <a
+            href="https://umod.org/plugins/image-library"
+            target="_blank"
           >
-            <v-icon start>mdi-download</v-icon>
-            {{ $t('download') }}
-          </v-btn>
-        </a>
+            <v-btn
+              color="primary"
+              variant="flat"
+            >
+              <v-icon start>mdi-download</v-icon>
+              {{ $t('download') }}
+            </v-btn>
+          </a>
+        </div>
       </div>
 
       <div class="font-weight-bold mt-4">
