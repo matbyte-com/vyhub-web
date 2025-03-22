@@ -3,6 +3,7 @@ import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import {useStore} from "vuex";
 import openapi from "@/api/openapi";
+import {nextTick} from "vue";
 
 const route = useRoute();
 const store = useStore();
@@ -49,11 +50,49 @@ async function getHtml() {
   (await openapi).general_getCmsHtml(navItem.cms_page_id)
     .then((rsp) => {
       html.value = rsp.data;
+      nextTick(handleScriptsAndStyles)
     })
     .catch((err) => {
       html.value = `Error while fetching HTML: ${err}`;
       console.error(err);
     });
+}
+
+// This function is needed since Vue3 does not allow scripts and styles in v-html anymore...
+function handleScriptsAndStyles() {
+  const containerRef = document.querySelector('.ql-editor');
+  console.log('Container element:', containerRef);
+  if (!containerRef) return;
+  // Handle script tags
+  const scripts = containerRef.querySelectorAll('script');
+  scripts.forEach(oldScript => {
+    console.log('Processing script:', oldScript);
+    const newScript = document.createElement('script');
+    // Copy all attributes
+    Array.from(oldScript.attributes).forEach(attr => {
+      newScript.setAttribute(attr.name, attr.value);
+    });
+    // Copy content
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+    // Replace old script with new one to execute it
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+
+  // Handle style tags
+  const styles = containerRef.querySelectorAll('style');
+  styles.forEach(oldStyle => {
+    console.log('Processing style:', oldStyle);
+    const newStyle = document.createElement('style');
+    // Copy all attributes
+    Array.from(oldStyle.attributes).forEach(attr => {
+      newStyle.setAttribute(attr.name, attr.value);
+    });
+    // Copy content
+    newStyle.appendChild(document.createTextNode(oldStyle.innerHTML));
+    // For styles, you can either:
+    // Option 1: Replace in place (keeps styles scoped to container)
+    oldStyle.parentNode.replaceChild(newStyle, oldStyle);
+  });
 }
 </script>
 
