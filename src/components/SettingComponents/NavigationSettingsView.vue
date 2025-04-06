@@ -54,10 +54,20 @@
         </v-alert>
         <EditorForForm
           v-bind="context"
+          ref="cmsPageEditEditor"
           class="mt-3"
         />
       </template>
-      <template #title-after />
+      <template #title-after>
+        <span class="text-disabled">{{ $t('_navigation.uploadFile') }}</span>
+        <input
+          ref="fileInput"
+          class="ml-2"
+          type="file"
+          :accept="acceptedFileTypes.join(',')"
+          @change="readFile"
+        >
+      </template>
     </dialog-form>
     <delete-confirmation-dialog
       ref="cmsDeleteDialog"
@@ -448,7 +458,7 @@
       <v-btn
         variant="outlined"
         color="success"
-        @click="$refs.cmsAddDialog.show()"
+        @click="$refs.cmsAddDialog.show();"
       >
         <v-icon start>
           mdi-plus
@@ -466,6 +476,7 @@ import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import i18n from '../../plugins/i18n';
 import {VueDraggable} from "vue-draggable-plus";
+import {$Refs} from "json-schema-ref-parser";
 
 export default {
   components: {VueDraggable},
@@ -686,8 +697,10 @@ export default {
 
       const reader = new FileReader();
       reader.onload = (e) => {
+        if (this.$refs.cmsPageAddEditor) this.$refs.cmsPageAddEditor.setContent(e.target.result);
+        this.$refs.cmsEditDialog.setData({content: e.target.result});
+        if (this.$refs.cmsPageEditEditor) this.$refs.cmsPageEditEditor.setContent(e.target.result);
         this.$refs.cmsAddDialog.setData({content: e.target.result});
-        this.$refs.cmsPageAddEditor.setContent(e.target.result);
         // this.rawHtmlInput = e.target.result;
       };
       reader.readAsText(file);
