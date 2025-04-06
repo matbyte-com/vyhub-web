@@ -249,7 +249,10 @@ export default {
 
       const api = await openapi;
 
-
+      if (data.attributes == null) {
+        // Needed because some gateways don't have attributes
+        data.attributes = {};
+      }
       for (const [name, attr] of Object.entries(data.attributes)) {
         if (Array.isArray(attr) && attr.length === 0) {
           delete data.attributes[name];
