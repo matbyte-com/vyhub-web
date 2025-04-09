@@ -81,19 +81,14 @@
                 class="my-1"
               >
                 <span class="strikethrough-diagonal text-disabled">
-                  {{ utils.formatDecimal(packet.price_without_discount.total) }}
-                  {{ packet.currency.symbol }}
+                  {{ utils.formatCurrency(packet.price_without_discount.total, packet.currency.code) }}
                 </span>
               </v-chip>
               <v-chip
                 class="ml-2"
                 color="orange"
               >
-                {{
-                  packet.price_with_discount.total
-                    .toLocaleString(undefined, {minimumFractionDigits: 2})
-                }}
-                {{ packet.currency.symbol }}
+                {{ utils.formatCurrency(packet.price_with_discount.total, packet.currency.code) }}
                 <div
                   v-if="packet.recurring"
                   class="pl-1"
@@ -107,11 +102,7 @@
               color="green"
               class="my-1"
             >
-              {{
-                packet.price_with_discount.total
-                  .toLocaleString(undefined, {minimumFractionDigits: 2})
-              }}
-              {{ packet.currency.symbol }}
+              {{ utils.formatCurrency(packet.price_with_discount.total, packet.currency.code) }}
               <div
                 v-if="packet.recurring"
                 class="pl-1"

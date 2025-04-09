@@ -49,11 +49,7 @@
               <v-row dense>
                 <v-col :class="(cartPacket.discount ? 'text-green' : '')">
                   <div class="text-h6 text-right">
-                    {{
-                      cartPacket.price.total
-                        .toLocaleString(undefined, {minimumFractionDigits: 2})
-                    }}
-                    {{ cartPacket.currency.symbol }}
+                    {{ utils.formatCurrency(cartPacket.price.total, cartPacket.currency.code) }}
                     <div v-if="cartPacket.recurring != null">
                       <span v-if="utils.isSingularTimeunit(cartPacket.recurring)">
                         {{ utils.isSingularTimeunit(cartPacket.recurring) }}

@@ -46,7 +46,7 @@
             </router-link>
             <div class="ml-2">
               {{ donation.user.username }} <br>
-              {{ donation.amount_total }} {{ donation.currency.symbol }}
+              {{ utils.formatCurrency(donation.amount_total, donation.currency.code) }}
             </div>
           </div>
         </v-col>

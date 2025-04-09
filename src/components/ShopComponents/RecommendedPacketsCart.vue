@@ -71,17 +71,14 @@
                     v-if="p.price_with_discount.total !== p.price_without_discount.total"
                     class="strikethrough-diagonal text-disabled mr-2"
                   >
-                    {{ utils.formatDecimal(p.price_without_discount.total) }}
-                    {{ p.currency.symbol }}
+                    {{ utils.formatCurrency(p.price_without_discount.total, p.currency.code) }}
                   </span>
                   <v-spacer v-if="p.price_with_discount.total !== p.price_without_discount.total" />
                   <span
                     class="text-primary"
                     style="font-size: large"
                   >
-                    {{ p.price_with_discount.total
-                      .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                    {{ p.currency.symbol }}
+                    {{ utils.formatCurrency(p.price_with_discount.total, p.currency.code) }}
                   </span>
                   <v-spacer v-if="p.price_with_discount.total === p.price_without_discount.total" />
                   <v-icon

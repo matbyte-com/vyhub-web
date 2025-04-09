@@ -23,7 +23,7 @@
         {{ item.payment_gateway ? item.payment_gateway.name : '' }}
       </template>
       <template #item.amount_total="{ item }">
-        {{ item ? `${item.amount_total} ${item.purchase.currency.symbol}` : '' }}
+        {{ item ? `${utils.formatCurrency(item.amount_total, item.purchase.currency.code)}` : '' }}
       </template>
       <template #item.actions="{ item }">
         <v-btn

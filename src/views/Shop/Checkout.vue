@@ -84,8 +84,7 @@
                             { gateway_name: debit.payment_gateway.name }) }}
                     </div>
                     <div class="mt-3 font-weight-bold">
-                      {{ $t('_shop.labels.total') }}: {{ debit ? debit.amount_total : '' }}
-                      {{ debit ? debit.purchase.currency.symbol : '' }}
+                      {{ $t('_shop.labels.total') }}: {{ debit ? utils.formatCurrency(debit.amount_total, debit.purchase.currency.code) : '' }}
                     </div>
                   </div>
                   <div

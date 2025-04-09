@@ -8,12 +8,14 @@ import {useStore} from "vuex";
 import {useRoute, useRouter} from "vue-router";
 import {notify} from "@kyvg/vue3-notification";
 import {useI18n} from "vue-i18n";
+import {useUtils} from "@/services/useUtils.js";
 
 const display = ref(useDisplay());
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
 const i18n = useI18n();
+const utils = useUtils().data().utils;
 
 const props = defineProps({
   packet: {
@@ -136,8 +138,9 @@ async function addToCart() {
               color="green-lighten-2"
             >
               <span class="strikethrough-diagonal text-disabled">
-                {{ utils.formatDecimal(packet.price_without_discount.total) }}
-                {{ packet.currency.symbol }}
+                {{
+                  utils.formatCurrency(packet.price_without_discount.total, packet.currency.code)
+                }}
               </span>
             </v-chip>
             <v-chip
@@ -145,11 +148,7 @@ async function addToCart() {
               class="ml-2"
               color="orange"
             >
-              {{
-                packet.price_with_discount.total
-                  .toLocaleString(undefined, {minimumFractionDigits: 2})
-              }}
-              {{ packet.currency.symbol }}
+              {{ utils.formatCurrency(packet.price_with_discount.total, packet.currency.code) }}
               <div
                 v-if="packet.recurring"
                 class="pl-1"
@@ -163,11 +162,7 @@ async function addToCart() {
             color="green"
             variant="flat"
           >
-            {{
-              packet.price_with_discount.total
-                .toLocaleString(undefined, {minimumFractionDigits: 2})
-            }}
-            {{ packet.currency.symbol }}
+            {{ utils.formatCurrency(packet.price_with_discount.total, packet.currency.code) }}
             <div
               v-if="packet.recurring"
               class="pl-1"
@@ -205,11 +200,7 @@ async function addToCart() {
           class="text-green font-weight-bold mt-1"
         >
           <span v-if="packet.price_with_discount != null">
-            {{
-              packet.price_with_discount.total
-                .toLocaleString(undefined, {minimumFractionDigits: 2})
-            }}
-            {{ packet.currency.symbol }}
+            {{ utils.formatCurrency(packet.price_with_discount.total, packet.currency.code) }}
             <span
               v-if="packet.recurring"
               class="pl-1"

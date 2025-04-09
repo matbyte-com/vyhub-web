@@ -1,9 +1,9 @@
-import i18n from '@/plugins/i18n';
-import openapi from '@/api/openapi';
-import store from '@/store';
-import { setOptions, bootstrap } from 'vue-gtag';
+import i18n from '../plugins/i18n';
+import openapi from '../api/openapi';
+import store from '../store';
+import {setOptions, bootstrap} from 'vue-gtag';
 import humanizeDuration from 'humanize-duration';
-import { notify } from "@kyvg/vue3-notification";
+import {notify} from "@kyvg/vue3-notification";
 
 const unitMeasures = {
   y: 31536000000,
@@ -54,7 +54,7 @@ export default {
         showFile(blob: string, name: string, mediaType = 'application/pdf') {
           // It is necessary to create a new blob object with mime-type explicitly set
           // otherwise only Chrome works like it should
-          const newBlob = new Blob([blob], { type: mediaType });
+          const newBlob = new Blob([blob], {type: mediaType});
 
           // IE doesn't allow using a blob object directly as link href
           // instead it is necessary to use msSaveOrOpenBlob
@@ -76,7 +76,7 @@ export default {
           }, 100);
         },
         formatDecimal(decimal: number) {
-          return decimal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+          return decimal.toLocaleString(undefined, {minimumFractionDigits: 2});
         },
         getFullUrl(path: string) {
           return window.location.origin + path;
@@ -93,9 +93,30 @@ export default {
             return '-';
           }
           if (new Date(datetime).getTime() > new Date().getTime() - unitMeasures.d) {
-            return i18n.global.t('_notification.timeAgo', { time: this.formatElapsedTime(new Date().getTime() - new Date(datetime).getTime()) });
+            return i18n.global.t('_notification.timeAgo', {time: this.formatElapsedTime(new Date().getTime() - new Date(datetime).getTime())});
           }
           return new Date(datetime).toLocaleDateString();
+        },
+        formatCurrency(value: number, currencyCode: string) {
+          try {
+            const formatted = value.toLocaleString(undefined, {
+              style: 'currency',
+              currency: currencyCode,
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            });
+
+            // Magic to add a space between symbol and number
+            const match = formatted.match(/([^\d\s.,]+)?\s?([\d.,\s]+)([^\d\s.,]+)?/);
+            if (match) {
+              const [, prefix = '', number, suffix = ''] = match;
+              return `${prefix}${prefix && ' '}${number}${suffix && ' '}${suffix}`.trim();
+            }
+            return formatted;
+          } catch (error) {
+            // Fallback: format as number with 2 decimal places + currency code at the end
+            return `${Number(value).toFixed(2)} ${currencyCode}`;
+          }
         },
         random_string(length: number) {
           let result = '';
@@ -238,7 +259,7 @@ export default {
             return;
           }
           setOptions({
-            config: { id: store.getters.generalConfig?.google_analytics_tag },
+            config: {id: store.getters.generalConfig?.google_analytics_tag},
           });
           bootstrap().then(() => {
             // console.log('Analytics is ready');
@@ -305,7 +326,9 @@ export default {
           // Btn needs to have link property
           if (!btn.link) return '';
           if (btn.link.startsWith('/')) return btn.link;
-          if (this.localLink(btn)) { return btn.link.substring(window.location.origin.length); }
+          if (this.localLink(btn)) {
+            return btn.link.substring(window.location.origin.length);
+          }
           return btn.link;
         },
       },

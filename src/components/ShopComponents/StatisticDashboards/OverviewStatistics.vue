@@ -92,8 +92,9 @@
               <v-spacer />
               <v-tooltip location="bottom">
                 <template #activator="{ props }">
-                  <v-icon                     class="text-disabled"
-                                              v-bind="props"
+                  <v-icon
+                    class="text-disabled"
+                    v-bind="props"
                   >
                     mdi-information
                   </v-icon>
@@ -134,11 +135,7 @@
             </v-card-title>
             <v-card-text>
               <div class="text-h4 text-center">
-                {{
-                  purchaseStats.monthly_revenue
-                    .toLocaleString(undefined, {minimumFractionDigits: 2})
-                }}
-                {{ currency.symbol }}
+                {{ utils.formatCurrency(purchaseStats.monthly_revenue, currency.code) }}
               </div>
             </v-card-text>
           </v-card>
@@ -176,8 +173,7 @@
             </v-card-title>
             <v-card-text>
               <div class="text-h4 text-center">
-                {{ purchaseStats.average_purchase.
-                  toLocaleString(undefine, { minimumFractionDigits: 2 }) }} {{ currency.symbol }}
+                {{ utils.formatCurrency(purchaseStats.average_purchase, currency.code) }}
               </div>
             </v-card-text>
           </v-card>

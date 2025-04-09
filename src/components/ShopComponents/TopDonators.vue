@@ -28,7 +28,7 @@
               v-if="topDonators && topDonators.donators.length > 0"
               class="mr-2 text-subtitle-1 text-no-wrap"
             >
-              {{ Math.round(topDonators.donators[0].purchases_total) }} {{ currencySymbol }}
+              {{ utils.formatCurrency(Math.round(topDonators.donators[0].purchases_total), currencyCode) }}
             </span>
           </v-fade-transition>
           <v-tooltip
@@ -57,7 +57,7 @@
               </router-link>
             </template>
             <span>
-              {{ donator.user.username }} {{ donator.purchases_total }} {{ currencySymbol }}
+              {{ donator.user.username }} {{ utils.formatCurrency(Math.round(donator.purchases_total), currencyCode) }}
             </span>
           </v-tooltip>
           <v-fade-transition>
@@ -67,9 +67,7 @@
               style="margin-left: 18px"
               class="text-subtitle-1 text-no-wrap"
             >
-              {{ Math.round(topDonators.donators[topDonators.donators.length - 1]
-                .purchases_total) }}
-              {{ currencySymbol }}
+              {{ utils.formatCurrency(Math.round(topDonators.donators[topDonators.donators.length - 1].purchases_total), currencyCode) }}
             </span>
           </v-fade-transition>
           <v-spacer />
@@ -99,8 +97,8 @@ export default {
     };
   },
   computed: {
-    currencySymbol() {
-      return this.topDonators.currency.symbol;
+    currencyCode() {
+      return this.topDonators.currency.code;
     },
     shopConfig() {
       return this.$store.getters.shopConfig;

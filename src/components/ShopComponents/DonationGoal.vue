@@ -47,8 +47,7 @@
               v-if="donationGoal && donationGoal.currency"
               class="text-subtitle-1"
             >
-              {{ utils.formatDecimal(donationGoal.current) }}{{ donationGoal.currency.symbol }}
-              / {{ utils.formatDecimal(donationGoal.goal) }}{{ donationGoal.currency.symbol }}
+              {{ utils.formatCurrency(donationGoal.current, donationGoal.currency.code) }} / {{ utils.formatCurrency(donationGoal.goal, donationGoal.currency.code) }}
               {{ $t('_shop.labels.perMonth') }}</span>
           </v-fade-transition>
         </div>

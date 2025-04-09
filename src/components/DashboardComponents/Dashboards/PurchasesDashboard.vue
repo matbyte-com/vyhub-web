@@ -127,11 +127,7 @@
                           </template>
                           <template #item.amount="{ item }">
                             <div v-if="item.amount_total != null">
-                              {{
-                                item.amount_total
-                                  .toLocaleString(undefined, {minimumFractionDigits: 2})
-                              }}
-                              {{ purchase.raw.currency.symbol }}
+                              {{ utils.formatCurrency(item.amount_total, purchase.raw.currency.code ) }}
                             </div>
                             <div v-else>
                               {{ item.credits }}

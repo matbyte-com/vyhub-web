@@ -60,14 +60,12 @@
       </template>
       <template #item.amount_net="{ item }">
         <span v-if="!item.credits_used">
-          {{ item.currency.symbol }}
-          {{ item.amount_net.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+          {{ utils.formatCurrency(item.amount_net, item.currency.code) }}
         </span>
       </template>
       <template #item.amount_total="{ item }">
         <span v-if="!item.credits_used">
-          {{ item.currency.symbol }}
-          {{ item.amount_total.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+          {{ utils.formatCurrency(item.amount_total, item.currency.code) }}
         </span>
       </template>
       <template #item.credits="{ item }">
@@ -136,21 +134,13 @@
                     <tr v-if="!currentPurchase.credits_used">
                       <td>{{ $t('_purchases.labels.amountNet') }}</td>
                       <td>
-                        {{
-                          currentPurchase.amount_net
-                            .toLocaleString(undefined, {minimumFractionDigits: 2})
-                        }}
-                        {{ currentPurchase.currency.symbol }}
+                        {{ utils.formatCurrency(currentPurchase.amount_net, currentPurchase.currency.code) }}
                       </td>
                     </tr>
                     <tr v-if="!currentPurchase.credits_used">
                       <td> {{ $t('_purchases.labels.amountTotal') }}</td>
                       <td>
-                        {{
-                          currentPurchase.amount_total
-                            .toLocaleString(undefined, {minimumFractionDigits: 2})
-                        }}
-                        {{ currentPurchase.currency.symbol }}
+                        {{ utils.formatCurrency(currentPurchase.amount_total, currentPurchase.currency.code) }}
                       </td>
                     </tr>
                   </tbody>
@@ -188,16 +178,11 @@
                       >
                         <td>{{ cp.packet_title }}</td>
                         <td v-if="!currentPurchase.credits_used && cp.price_net != null">
-                          {{ cp.price_net.toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                          {{ cp.currency.symbol }}
+                          {{ utils.formatCurrency(cp.price_net, cp.currency.code) }}
                           ({{ $t('_shop.labels.net') }})
                         </td>
                         <td v-else-if="!currentPurchase.credits_used">
-                          {{
-                            cp.price_total
-                              .toLocaleString(undefined, {minimumFractionDigits: 2})
-                          }}
-                          {{ cp.currency.symbol }}
+                          {{ utils.formatCurrency(cp.price_total, cp.currency.code) }}
                         </td>
                         <td v-else>
                           {{ cp.credits }}
@@ -264,11 +249,7 @@
                         </a>
                       </td>
                       <td v-if="debit.amount_total != null">
-                        {{
-                          debit.amount_total
-                            .toLocaleString(undefined, {minimumFractionDigits: 2})
-                        }}
-                        {{ currentPurchase.currency.symbol }}
+                        {{ utils.formatCurrency(debit.amount_total, currentPurchase.currency.code) }}
                       </td>
                       <td v-else>
                         {{ debit.credits }}

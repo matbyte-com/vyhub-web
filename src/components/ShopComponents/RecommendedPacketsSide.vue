@@ -64,13 +64,11 @@
                   class="strikethrough-diagonal text-disabled mr-2"
                   style="font-size: small"
                 >
-                  {{ utils.formatDecimal(p.price_without_discount.total) }}
+                  {{ utils.formatCurrency(p.price_without_discount.total, p.currency.code) }}
                 </span>
                 <v-spacer v-if="p.price_with_discount.total !== p.price_without_discount.total" />
                 <span class="text-primary">
-                  {{ p.price_with_discount.total
-                    .toLocaleString(undefined, {minimumFractionDigits: 2}) }}
-                  {{ p.currency.symbol }}
+                  {{ utils.formatCurrency(p.price_with_discount.total, p.currency.code) }}
                 </span>
               </div>
             </v-card>
