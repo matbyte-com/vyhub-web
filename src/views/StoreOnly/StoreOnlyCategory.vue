@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 import openapiCached from "../../api/openapiCached";
@@ -18,7 +18,7 @@ watch(() => route.params.categoryId, () => {
 })
 
 async function fetchPackets() {
-  const packetsData = { category_id: route.params.categoryId };
+  const packetsData = {category_id: route.params.categoryId};
   if (store.state.address != null) {
     packetsData.country_code = store.state.address.country.code;
   }
@@ -27,6 +27,31 @@ async function fetchPackets() {
     packets.value = rsp.data;
   });
 }
+
+const subcategories = computed(() => {
+  const cats = {};
+  if (packets.value == null) {
+    return {};
+  }
+
+  packets.value.forEach((packet) => {
+    const subcat = packet.subcategory || '';
+
+    cats[subcat] = cats[subcat] || [];
+    cats[subcat].push(packet);
+  });
+
+  const ordered_cats = Object.keys(cats).sort().reduce(
+    (obj, key) => {
+      const newobj = obj;
+      newobj[key] = cats[key];
+      return newobj;
+    },
+    {},
+  );
+
+  return ordered_cats;
+})
 
 </script>
 
@@ -43,47 +68,84 @@ async function fetchPackets() {
           height="82px"
           elevation="3"
         />
-        <PacketListEntry
+        <div
+          v-for="subcategory in Object.keys(subcategories)"
+          :key="subcategory"
+        >
+          <div
+            v-if="subcategory !== ''"
+            class="mb-2 mt-3 d-flex align-center "
+          >
+            <div class="text-h6 font-weight-bold text-no-wrap mr-3">
+              {{ subcategory }}
+            </div>
+            <v-divider />
+          </div>
+          <PacketListEntry
+            v-for="packet in subcategories[subcategory]"
+            :key="packet.id"
+            class="mb-2"
+            :packet="packet"
+          />
+        </div>
+        <!-- <PacketListEntry
           v-for="packet in packets"
           :key="packet.id"
           class="mb-2"
           :packet="packet"
-        />
+        />-->
       </div>
-      <v-row v-else>
-        <v-col
-          v-for="index in 3"
-          v-if="packets == null"
-          :key="index"
-          cols="12"
-          sm="6"
-          md="6"
-          lg="4"
-          xl="4"
+      <div v-else>
+        <v-row v-if="packets == null">
+          <v-col
+            v-for="index in 3"
+            :key="index"
+            cols="12"
+            sm="6"
+            md="6"
+            lg="4"
+            xl="4"
+          >
+            <v-card>
+              <v-skeleton-loader
+                type="card"
+                elevation="3"
+              />
+            </v-card>
+          </v-col>
+        </v-row>
+        <div
+          v-for="subcategory in Object.keys(subcategories)"
+          :key="subcategory"
         >
-          <v-card>
-            <v-skeleton-loader
-              type="card"
-              elevation="3"
-            />
-          </v-card>
-        </v-col>
-        <v-col
-          v-for="packet in packets"
-          :key="packet.id"
-          cols="12"
-          sm="6"
-          md="6"
-          lg="4"
-          xl="4"
-          class=""
-        >
-          <PacketCard
-            :no-information-icon="['md', 'lg']"
-            :packet="packet"
-          />
-        </v-col>
-      </v-row>
+          <div
+            v-if="subcategory !== ''"
+            class="mb-2 mt-3 d-flex align-center "
+          >
+            <div class="text-h6 font-weight-bold text-no-wrap mr-3">
+              {{ subcategory }}
+            </div>
+            <v-divider />
+          </div>
+          <v-row class="">
+            <v-col
+              v-for="packet in subcategories[subcategory]"
+              :key="packet.id"
+              cols="12"
+              sm="6"
+              md="6"
+              lg="4"
+              xl="4"
+              class=""
+            >
+              <PacketCard
+                :no-information-icon="['md', 'lg']"
+                :packet="packet"
+              />
+            </v-col>
+          </v-row>
+        </div>
+      </div>
     </div>
   </div>
 </template>
