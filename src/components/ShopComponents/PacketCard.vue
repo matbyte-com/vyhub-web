@@ -8,7 +8,7 @@ import {useStore} from "vuex";
 import {useRoute, useRouter} from "vue-router";
 import {notify} from "@kyvg/vue3-notification";
 import {useI18n} from "vue-i18n";
-import {useUtils} from "@/services/useUtils.js";
+import {useUtils} from "@/services/useUtils.ts";
 
 const display = ref(useDisplay());
 const store = useStore();

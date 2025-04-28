@@ -476,7 +476,6 @@ import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import i18n from '../../plugins/i18n';
 import {VueDraggable} from "vue-draggable-plus";
-import {$Refs} from "json-schema-ref-parser";
 
 export default {
   components: {VueDraggable},
