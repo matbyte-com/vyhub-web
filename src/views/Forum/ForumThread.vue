@@ -452,6 +452,9 @@
                 :label="$t('_forum.lockWithAnswer')"
               />
             </div>
+            <div class="mt-1 text-error">
+              {{ editorErrorMessage }}
+            </div>
           </v-card-text>
         </v-card>
       </div>
@@ -567,6 +570,8 @@
 <script>
 import openapi from '../../api/openapi';
 import ForumPost from '../../forms/ForumPost';
+import config from "@/config.js";
+import i18n from "@/plugins/i18n.js";
 
 export default {
   data() {
@@ -587,6 +592,7 @@ export default {
       closeWithPost: false,
       threadIsOld: false,
       selectedReaction: null,
+      editorErrorMessage: null
     };
   },
   computed: {
@@ -750,6 +756,11 @@ export default {
       if (content) { data.content = content; }
       if (data.content === '') {
         this.$refs.addPostDialog.setError(this.$t('_forum.messages.emptyPost'));
+        return;
+      }
+      if (data.content && data.content.length > config.html_max_input_length) {
+        this.$refs.addPostDialog.setError(this.$t('maxInputExceeded', { length: config.html_max_input_length }));
+        this.editorErrorMessage = this.$t('maxInputExceeded', { length: config.html_max_input_length });
         return;
       }
       if (this.thread.status === 'CLOSED' && (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins))) {
