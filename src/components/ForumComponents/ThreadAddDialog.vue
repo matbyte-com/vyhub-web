@@ -88,7 +88,6 @@ emits: ['submit'],
     getData() {
       if (this.content && this.content.length > config.html_max_input_length) {
         this.errorMsg = i18n.global.t('maxInputExceeded', { length: config.html_max_input_length });
-        return {};
       }
       this.loading = true;
       return {
