@@ -277,14 +277,17 @@ function form() {
     allOf: [{
       required: ['name'],
       properties: {
-        name: {
-          type: 'string',
-          title: i18n.global.t('name'),
-        },
         serverbundle: {
           ...Common.serverbundleSelectField,
           type: 'object',
           description: i18n.global.t('_reward.labels.serverbundleDescription'),
+          'x-props': {
+            clearable: false,
+          },
+        },
+        name: {
+          type: 'string',
+          title: i18n.global.t('name'),
         },
       },
     },
@@ -293,8 +296,8 @@ function form() {
         layout: {
           if: {
             type: 'js-eval',
-            expr: 'rootData.serverbundle',
-            pure: false,
+            expr: 'rootData && rootData.serverbundle',
+            pure: false
           }
         },
         default: null,
