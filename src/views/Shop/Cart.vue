@@ -490,7 +490,7 @@
         <v-card
           v-for="n in 3"
           :key="n"
-          class="card-rounded mt-3"
+          class="card-rounded mb-3"
           flat
         >
           <v-skeleton-loader
@@ -850,7 +850,7 @@ export default {
 
         // Check for missing checkboxes
         await this.$refs.checkboxesForm.validate();
-        if (!this.allChecked) {
+        if (this.checkboxes & !this.allChecked) {
           return;
         }
       }

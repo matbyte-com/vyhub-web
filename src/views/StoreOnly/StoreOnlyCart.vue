@@ -823,7 +823,7 @@ export default {
 
         // Check for missing checkboxes
         await this.$refs.checkboxesForm.validate();
-        if (!this.allChecked) {
+        if (this.checkboxes & !this.allChecked) {
           return;
         }
       }
