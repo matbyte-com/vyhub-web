@@ -295,6 +295,7 @@ export default {
       const api = await openapi;
 
       const data = this.prepareDataForSending(this.$refs.editPacketDialog.getData());
+      data.relations = data.relations || [];
 
       api.packet_editPacket({ uuid: packetOld.id }, data).then(() => {
         this.fetchData();

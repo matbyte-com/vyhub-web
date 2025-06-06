@@ -110,6 +110,7 @@ export default {
     },
     async saveData() {
       const data = this.$refs.form.getData();
+      data.checkout_checkboxes = data.checkout_checkboxes || [];
       (await openapi).shop_editConfig(null, data).then(() => {
         this.utils.getShopConfig();
         this.$notify({

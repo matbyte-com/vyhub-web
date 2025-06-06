@@ -358,6 +358,9 @@
         @submit="createToken"
       >
         <template #custom-properties="context">
+          <h6 class="text-h6 mt-3">
+            {{ $t('_server.labels.additionalProperties') }}
+          </h6>
           <PropertyPicker
             class="mb-3"
             v-bind="context"

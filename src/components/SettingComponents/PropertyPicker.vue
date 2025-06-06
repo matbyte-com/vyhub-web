@@ -13,7 +13,7 @@
         <v-icon start>
           mdi-expand-all
         </v-icon>
-        {{ $t('selectAll') }}
+        {{ $t("selectAll") }}
       </v-btn>
     </div>
     <v-expansion-panels class="mt-1">
@@ -48,29 +48,34 @@
 </template>
 
 <script>
-import openapi from '../../api/openapi';
+import openapi from "../../api/openapi";
 
 export default {
   props: {
+    label: {
+      type: String,
+      default: null
+    },
     node: {
       type: Object,
-      required: true,
+      required: true
     },
     statefulLayout: {
       type: Object,
-      required: true,
-    },
-  },  data() {
+      required: true
+    }
+  },
+  data() {
     return {
       properties: [],
       allProperties: null,
-      receivedContent: false,
+      receivedContent: false
     };
   },
   watch: {
     properties() {
       this.receivedContent = true;
-      this.statefulLayout.input(this.node, this.properties)
+      this.statefulLayout.input(this.node, this.properties);
     },
     node() {
       this.loadContent();
@@ -99,8 +104,8 @@ export default {
         });
       });
       this.properties = res;
-    },
-  },
+    }
+  }
 };
 </script>
 
