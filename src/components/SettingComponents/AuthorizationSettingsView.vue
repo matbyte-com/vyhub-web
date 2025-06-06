@@ -3,14 +3,12 @@
     <SettingTitle doc-path="/game/discord">
       {{ $t('_authorization.title') }}
     </SettingTitle>
-    <span>
-      {{ `Discord ${$t('_authorization.redirectUrl')}: ${backend_url}/auth/social/discord/finish` }}
-    </span>
     <GenForm
       ref="form"
       :form-schema="AuthorizationSettingsFormSchema"
       :cancel-text="null"
       :submit-text="$t('save')"
+      :actionButtonTopMargin="2"
       @submit="patchConfig"
     />
   </div>
@@ -39,6 +37,9 @@ export default {
         if (rsp.data.discord_oauth_client_id) {
           data.discord = true;
         }
+
+        data.discord_redirect_url = `${this.backend_url}/auth/social/discord/finish`;
+
         this.$refs.form.setData(data);
       });
     },
@@ -51,6 +52,7 @@ export default {
       }
       if (data.discord_oauth_client_secret === '***') delete data.discord_oauth_client_secret;
       if (data.discord_bot_token === '***') delete data.discord_bot_token;
+      if (data.steam_api_key === '***') delete data.discord_bot_token;
 
       Object.entries(data).forEach(([key, value]) => {
         if (value === '') {

@@ -136,6 +136,8 @@ export default {
   },
   methods: {
     async validateAndRun() {
+      this.clearErrors();
+
       setTimeout(async () => {
         const result = await this.$refs.form.validate();
 
@@ -167,6 +169,9 @@ export default {
       // Copy data object to not modify the source object
       this.formModel = { ...data };
       this.forceRerender();
+    },
+    clearErrors() {
+      this.alertMessage = null;
     },
     setErrorMessage(text) {
       this.loading = false;
