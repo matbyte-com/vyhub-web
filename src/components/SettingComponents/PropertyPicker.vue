@@ -25,16 +25,23 @@
           {{ $t(`_property.categories.${Object.keys(category)[0]}`) }}
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <v-checkbox
+          <div
             v-for="prop in category[Object.keys(category)[0]]"
             :key="prop.name"
-            v-model="properties"
-            :label="$t(`_property.descriptions.${prop.name}`)"
-            :value="prop.name"
-            density="compact"
-            multiple
-            hide-details="auto"
-          />
+            class="d-flex align-center"
+          >
+            <v-checkbox
+              v-model="properties"
+              :label="$t(`_property.descriptions.${prop.name}`)"
+              :value="prop.name"
+              density="compact"
+              multiple
+              hide-details="auto"
+            />
+            <p class="ml-2 text-disabled text-body-2">
+              {{ prop.name }}
+            </p>
+          </div>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
