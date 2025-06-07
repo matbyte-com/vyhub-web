@@ -249,7 +249,7 @@
                   <td>{{ utils.formatDate(protest.created) }}</td>
                   <td class="text-right text-uppercase">
                     <v-chip :color="protest.status === 'OPEN' ? 'success' : 'error'">
-                      {{ $t(`_forum.status.${protest.status.toLowerCase()}`) }}
+                      {{ $t(`_forum.${protest.status.toLowerCase()}`) }}
                     </v-chip>
                   </td>
                 </tr>
@@ -325,7 +325,7 @@
         >
           <v-btn
             v-if="config && config.ban_protest_url"
-            :href="config.ban_protest_url"
+            :href="config.ban_protest_url.length > 0 ? config.ban_protest_url : null"
             variant="text"
             color="primary"
           >
