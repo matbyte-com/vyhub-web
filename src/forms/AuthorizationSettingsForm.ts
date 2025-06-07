@@ -17,9 +17,8 @@ export default {
           }
         },
         steam_api_key: {
-          type: 'string',
+          type: ['string', 'null'],
           title: i18n.global.t('_authorization.steamApiKey'),
-          default: '',
         }
       }
     },

@@ -63,7 +63,7 @@ export default {
       }
       if (data.discord_oauth_client_secret === '***') delete data.discord_oauth_client_secret;
       if (data.discord_bot_token === '***') delete data.discord_bot_token;
-      if (data.steam_api_key === '***') delete data.discord_bot_token;
+      if (data.steam_api_key === '***') delete data.steam_api_key;
 
       Object.entries(data).forEach(([key, value]) => {
         if (value === '') {
