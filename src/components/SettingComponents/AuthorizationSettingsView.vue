@@ -10,7 +10,18 @@
       :submit-text="$t('save')"
       :actionButtonTopMargin="2"
       @submit="patchConfig"
-    />
+    >
+      <template #steam-api-key-hints>
+        <v-alert
+          class="mb-2"
+          type="info"
+          :bordered="false"
+          :dense="true">
+          {{ $t('_authorization.steamApiKeyDescription') }}:
+          <a href="https://steamcommunity.com/dev/apikey" target="_blank">{{ $t('link') }}</a>
+        </v-alert>
+      </template>
+    </GenForm>
   </div>
 </template>
 

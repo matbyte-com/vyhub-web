@@ -8,11 +8,18 @@ export default {
       title: 'Steam',
       type: 'object',
       properties: {
+        steam_api_key_hints: {
+          type: 'string',
+          layout: {
+            slots: {
+              component: 'steam-api-key-hints',
+            }
+          }
+        },
         steam_api_key: {
           type: 'string',
           title: i18n.global.t('_authorization.steamApiKey'),
           default: '',
-          description: i18n.global.t('_authorization.steamApiKeyDescription'),
         }
       }
     },
