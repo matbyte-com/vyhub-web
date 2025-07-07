@@ -30,7 +30,21 @@
           :submit-text="$t('submit')"
           :settings-mode="true"
           @submit="setTheme"
-        />
+        >
+          <template #custom-image="context">
+            <ImageUpload
+              v-bind="context"
+              :title="$t('_theme.backgroundImageURL')"
+            />
+          </template>
+          <template #custom-logo="context">
+            <ImageUpload
+              v-bind="context"
+              :title="$t('_theme.logoDescription')"
+              :description="$t('_settings.communityDescriptionDescr')"
+            />
+          </template>
+        </GenForm>
       </v-col>
     </v-row>
     <Dialog

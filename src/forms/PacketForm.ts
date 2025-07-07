@@ -46,8 +46,12 @@ function form() {
             }
           },
           image_url: {
-            ...Common.imageURLField,
-            description: i18n.global.t('_packet.labels.imageDetail'),
+            type: ['string', 'null'],
+            layout: {
+              slots: {
+                component: 'custom-image'
+              },
+            },
           },
           active_for: {
             type: ['number', 'null'],

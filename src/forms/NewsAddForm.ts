@@ -16,8 +16,13 @@ function returnForm() {
         title: i18n.global.t('_home.messageSubject'),
       },
       background_url: {
-        ...Common.imageURLField,
-        'x-cols': 6,
+        type: ['string', 'null'],
+        layout: {
+          slots: {
+            component: 'custom-image'
+          },
+          cols: 6
+        },
       },
       invert_title_color: {
         type: 'boolean',

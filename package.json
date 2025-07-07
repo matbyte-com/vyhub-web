@@ -50,7 +50,8 @@
     "vue3-apexcharts": "^1.8.0",
     "vuetify": "^3.7.4",
     "vuex": "^4.1.0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "browser-image-compression": "^2.0.2"
   },
   "devDependencies": {
     "@types/qs": "^6.9.8",

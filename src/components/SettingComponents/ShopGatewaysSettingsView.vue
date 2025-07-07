@@ -81,6 +81,13 @@
       :title="$t('_gateway.labels.create')"
       @submit="createGateway"
     >
+      <template #custom-image="context">
+        <ImageUpload
+          v-bind="context"
+          :title="$t('imageURL')"
+          :description="$t('_gateway.labels.imageUrlDescription')"
+        />
+      </template>
       <template #form-before>
         <v-alert
           v-if="$refs.title"
@@ -119,6 +126,13 @@
       :title="$t('_gateway.labels.edit')"
       @submit="editGateway"
     >
+      <template #custom-image="context">
+        <ImageUpload
+          v-bind="context"
+          :title="$t('imageURL')"
+          :description="$t('_gateway.labels.imageUrlDescription')"
+        />
+      </template>
       <template #form-before>
         <v-alert
           v-if="gatewayType === 'PAYPAL_LEGACY'"

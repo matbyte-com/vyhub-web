@@ -111,6 +111,11 @@
       <template #custom-editor="context">
         <EditorForForm v-bind="context" />
       </template>
+      <template #custom-image="context">
+        <ImageUpload
+          v-bind="context"
+        />
+      </template>
     </DialogForm>
     <DialogForm
       ref="editPacketDialog"
@@ -123,6 +128,11 @@
     >
       <template #custom-editor="context">
         <EditorForForm v-bind="context" />
+      </template>
+      <template #custom-image="context">
+        <ImageUpload
+          v-bind="context"
+        />
       </template>
     </DialogForm>
     <DeleteConfirmationDialog

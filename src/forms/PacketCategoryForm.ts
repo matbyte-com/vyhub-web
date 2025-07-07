@@ -10,8 +10,12 @@ export default {
       title: i18n.global.t('name'),
     },
     image_url: {
-      ...Common.imageURLField,
-      description: i18n.global.t('_packetCategory.labels.imageDetail'),
+      type: ['string', 'null'],
+      layout: {
+        slots: {
+          component: 'custom-image'
+        },
+      },
     },
     enabled: {
       type: 'boolean',

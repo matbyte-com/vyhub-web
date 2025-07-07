@@ -64,7 +64,13 @@
       :submit-text="$t('create')"
       :title="$t('_packetCategory.labels.create')"
       @submit="createCategory"
-    />
+    >
+      <template #custom-image="context">
+        <ImageUpload
+          v-bind="context"
+        />
+      </template>
+    </DialogForm>
     <DialogForm
       ref="editCategoryDialog"
       :form-schema="categorySchema"
@@ -72,7 +78,13 @@
       :submit-text="$t('edit')"
       :title="$t('_packetCategory.labels.edit')"
       @submit="editCategory"
-    />
+    >
+      <template #custom-image="context">
+        <ImageUpload
+          v-bind="context"
+        />
+      </template>
+    </DialogForm>
     <DeleteConfirmationDialog
       ref="deleteCategoryDialog"
       @submit="deleteCategory"

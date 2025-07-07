@@ -41,7 +41,22 @@
           :submit-text="$t('submit')"
           :settings-mode="true"
           @submit="saveHtmlTags"
-        />
+        >
+          <template #custom-image="context">
+            <ImageUpload
+              v-bind="context"
+              title="Favicon"
+              :description="$t('_settings.communityDescriptionDescr')"
+            />
+          </template>
+          <template #custom-image-2="context">
+            <ImageUpload
+              v-bind="context"
+              :title="$t('_settings.labels.previewImageURL')"
+              :description="$t('_settings.communityDescriptionDescr')"
+            />
+          </template>
+        </GenForm>
       </v-col>
     </v-row>
     <v-divider class="mt-5" />
@@ -113,6 +128,7 @@ export default {
     },
     async saveHtmlTags() {
       const data = this.$refs.htmlTagForm.getData();
+      console.log(data.favicon_url);
       (await openapi).general_editHtmlMetaTags(null, data).then(() => {
         this.$notify({
           title: this.$t('_messages.editSuccess'),

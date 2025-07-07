@@ -126,6 +126,11 @@ async function editMessage(message) {
       <template #custom-editor="context">
         <EditorForForm v-bind="context" />
       </template>
+      <template #custom-image="context">
+        <ImageUpload
+          v-bind="context"
+        />
+      </template>
     </dialog-form>
     <dialog-form
       ref="messageEditDialog"
@@ -137,6 +142,11 @@ async function editMessage(message) {
     >
       <template #custom-editor="context">
         <EditorForForm v-bind="context" />
+      </template>
+      <template #custom-image="context">
+        <ImageUpload
+          v-bind="context"
+        />
       </template>
     </dialog-form>
     <delete-confirmation-dialog
@@ -157,7 +167,10 @@ async function editMessage(message) {
             :number-of-elements="3"
             :per-page-custom="[1,2,3,3,3,3]"
           >
-            <swiper-slide v-if="showServers" :hidden="$refs.serverStatus && !$refs.serverStatus.nonEmpty">
+            <swiper-slide
+              v-if="showServers"
+              :hidden="$refs.serverStatus && !$refs.serverStatus.nonEmpty"
+            >
               <ServerStatus
                 ref="serverStatus"
                 :outlined="true"

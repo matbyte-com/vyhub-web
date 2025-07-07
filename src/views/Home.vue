@@ -133,7 +133,14 @@
                     style="z-index: 202"
                     :schema="getComponentSchema(component)"
                     @update:model-value="component.edited = true; componentEdited = true"
-                  />
+                  >
+                    <template #custom-image="context">
+                      <ImageUpload
+                        v-bind="context"
+                        :title="$t('_theme.backgroundImageURL')"
+                      />
+                    </template>
+                  </v-jsf>
                 </v-form>
               </v-expansion-panel-text>
             </v-expansion-panel>
@@ -493,10 +500,11 @@ function generateVjsfSchema(el) {
       },
       imageUrl: {
         type: 'string',
-        'x-cols': 6,
-        title: i18n.t('_theme.backgroundImageURL'),
-        'x-props': {
-          clearable: true,
+        layout: {
+          slots: {
+            component: 'custom-image'
+          },
+          cols: 6,
         },
       },
       backgroundColor: {

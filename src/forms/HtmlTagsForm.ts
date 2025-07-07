@@ -16,23 +16,19 @@ export default {
     },
     favicon_url: {
       type: ['string', 'null'],
-      title: 'Favicon',
-      pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
-      'x-props': {
-        clearable: true,
-        placeholder: i18n.global.t('_settings.httpPlaceholder'),
+      layout: {
+        slots: {
+          component: 'custom-image'
+        }
       },
-      description: i18n.global.t('_settings.communityDescriptionDescr'),
     },
     image_url: {
       type: ['string', 'null'],
-      title: i18n.global.t('_settings.labels.previewImageURL'),
-      pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
-      'x-props': {
-        clearable: true,
-        placeholder: i18n.global.t('_settings.httpPlaceholder'),
+      layout: {
+        slots: {
+          component: 'custom-image-2'
+        }
       },
-      description: i18n.global.t('_settings.communityDescriptionDescr'),
     },
   },
 };

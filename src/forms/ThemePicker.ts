@@ -45,32 +45,25 @@ function returnForm() {
         }
       },
       image: {
-        type: 'string',
-        title: i18n.global.t('_theme.backgroundImageURL'),
-        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
+        type: ['string', 'null'],
         layout: {
-          cols: 7,
-          props: {
-            clearable: true,
-            placeholder: i18n.global.t('_settings.httpPlaceholder'),
+          slots: {
+            component: 'custom-image'
           },
-        }
+          cols: 7,
+        },
       },
       background: {
         ...common.colorPicker('_theme.backgroundColor', '_theme.backgroundColorDescription', undefined, undefined, 5),
       },
       logo: {
-        type: 'string',
-        title: i18n.global.t('_theme.logoURL'),
-        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
+        type: ['string', 'null'],
         layout: {
-          props: {
-            clearable: true,
-            placeholder: i18n.global.t('_settings.httpPlaceholder'),
+          slots: {
+            component: 'custom-logo'
           },
-          cols: 6,
+          cols: 7,
         },
-        description: i18n.global.t('_theme.logoDescription'),
       },
       logo_width: {
         type: 'integer',

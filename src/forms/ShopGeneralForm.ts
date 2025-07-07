@@ -127,10 +127,12 @@ export default {
       default: 'false',
     },
     invoice_logo_url: {
-      type: 'string',
-      title: i18n.global.t('_shop.labels.invoiceLogoURL'),
-      description: i18n.global.t('_shop.labels.invoiceLogoURLDetails'),
-      pattern: '^(http|https)://.+$',
+      type: ['string', 'null'],
+      layout: {
+        slots: {
+          component: 'custom-logo'
+        }
+      },
     },
     checkout_checkboxes: {
       type: 'array',

@@ -25,6 +25,13 @@
           <template #custom-editor="context">
             <EditorForForm v-bind="context" />
           </template>
+          <template #custom-logo="context">
+            <ImageUpload
+              v-bind="context"
+              :title="$t('_shop.labels.invoiceLogoURL')"
+              :description="$t('_shop.labels.invoiceLogoURLDetails')"
+            />
+          </template>
         </GenForm>
       </v-col>
       <v-col>

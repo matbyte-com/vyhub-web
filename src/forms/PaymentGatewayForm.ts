@@ -180,12 +180,10 @@ function form(gatewayType: string) {
       },
       image_url: {
         type: ['string', 'null'],
-        title: i18n.global.t('imageURL'),
-        description: i18n.global.t('_gateway.labels.imageUrlDescription'),
-        pattern: 'https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,10}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)',
-        'x-props': {
-          clearable: true,
-          placeholder: i18n.global.t('_settings.httpPlaceholder'),
+        layout: {
+          slots: {
+            component: 'custom-image'
+          },
         },
       },
       enabled: {
