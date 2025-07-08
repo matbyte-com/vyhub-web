@@ -34,6 +34,8 @@
       v-model="image_url"
       :label="title"
       :clearable="true"
+      placeholder="https://example.com/image.jpg"
+      :rules="[v => !v || /^(https?:\/\/)[^\s/$.?#].[^\s]*$/i.test(v) || 'Must be a valid http(s) URL']"
     >
       <template #append-inner>
         <v-btn
