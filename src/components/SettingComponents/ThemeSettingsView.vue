@@ -40,8 +40,8 @@
           <template #custom-logo="context">
             <ImageUpload
               v-bind="context"
-              :title="$t('_theme.logoDescription')"
-              :description="$t('_settings.communityDescriptionDescr')"
+              :title="$t('_theme.logoURL')"
+              :description="$t('_theme.logoDescription')"
             />
           </template>
         </GenForm>

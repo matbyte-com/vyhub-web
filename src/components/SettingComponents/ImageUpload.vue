@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-center">
     <v-file-input
-      ref="fileInput"
+      v-if="!rawUrlInput"
       v-model="image"
       :label="title"
       :loading="loading"
@@ -18,8 +18,34 @@
           icon="mdi-close"
           @click.stop="image = null; image_url = null;"
         />
+        <v-btn
+          v-if="errorMsg"
+          flat
+          class="ml-1"
+          variant="tonal"
+          size="small"
+          icon="mdi-swap-vertical"
+          @click.stop="rawUrlInput = true;"
+        />
       </template>
     </v-file-input>
+    <v-text-field
+      v-if="rawUrlInput"
+      v-model="image_url"
+      :label="title"
+      :clearable="true"
+    >
+      <template #append-inner>
+        <v-btn
+          flat
+          class="ml-1"
+          variant="tonal"
+          size="small"
+          icon="mdi-swap-vertical"
+          @click.stop="rawUrlInput = false;"
+        />
+      </template>
+    </v-text-field>
     <v-tooltip
       open-on-hover
       target="cursor"
@@ -105,6 +131,7 @@ export default {
       loading: false,
       errorMsg: null,
       tooltipOpen: false,
+      rawUrlInput: false,
     };
   },
   watch: {
