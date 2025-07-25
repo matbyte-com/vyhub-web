@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div>
     <v-row>
       <v-col>
@@ -89,6 +89,14 @@
                                 {{ userTypeIcons[acc.raw.type] }}
                               </v-icon>
                               {{ acc.raw.username }}
+                              <!-- Copy username to clipboard -->
+                              <v-icon
+                                size="15"
+                                end
+                                :color="copiedUsernames.has(acc.raw.username) ? 'success' : 'grey'"
+                                @click.prevent="copyUsername(acc.raw.username)">
+                                {{ copiedUsernames.has(acc.raw.username) ? 'mdi-check' : 'mdi-content-copy' }}
+                              </v-icon>
                             </div>
                           </template>
                           <span>{{ $t(`_user.type.${acc.raw.type}.name`).toUpperCase() }}</span>
@@ -119,8 +127,15 @@
                       {{ utils.formatDate(acc.raw.registered_on) }}
                       <!--{{ $i18n.d(new Date(acc.registered_on), 'short') }}-->
                       <br>
-                      {{ acc.raw.identifier }}
-                      <span v-if="$t(`_user.type.${acc.raw.type}.name`).toUpperCase() === 'STEAM'">
+                      <span
+                        style="cursor: pointer"
+                        @click="copyIdentifier(acc.raw.identifier)">
+                        {{ acc.raw.identifier }}
+                      </span>
+                      <span
+                        v-if="$t(`_user.type.${acc.raw.type}.name`).toUpperCase() === 'STEAM'"
+                        style="cursor: pointer"
+                        @click="copyIdentifier(getSteamid32(acc.raw.identifier))">
                         <br>
                         {{ getSteamid32(acc.raw.identifier) }}
                       </span>
@@ -130,7 +145,7 @@
                     v-if="attributes != null
                       && attributes[acc.raw.id] != null
                       && Object.keys(attributes[acc.raw.id]).length > 0">
-                    <v-divider />
+                    <v-divider/>
                     <v-card-text
                       class="pa-0"
                     >
@@ -143,17 +158,17 @@
                             dense
                           >
                             <tbody>
-                              <tr
-                                v-for="(attrVal, attrName) in attributes[acc.raw.id]"
-                                :key="attrName"
-                              >
-                                <td>
-                                  {{ attributeDefinitionsDict[attrName].title }}
-                                </td>
-                                <td>
-                                  {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
-                                </td>
-                              </tr>
+                            <tr
+                              v-for="(attrVal, attrName) in attributes[acc.raw.id]"
+                              :key="attrName"
+                            >
+                              <td>
+                                {{ attributeDefinitionsDict[attrName].title }}
+                              </td>
+                              <td>
+                                {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
+                              </td>
+                            </tr>
                             </tbody>
                           </v-table>
                         </v-col>
@@ -211,7 +226,9 @@
                     sm="2"
                     class="d-flex text-center justify-center align-center"
                   >
-                    <div><v-icon>mdi-link-variant</v-icon></div>
+                    <div>
+                      <v-icon>mdi-link-variant</v-icon>
+                    </div>
                     <v-btn
                       variant="outlined"
                       size="small"
@@ -281,6 +298,7 @@ export default {
       userTypeIcons: userService.userTypeIcons,
       currentAttributes: {},
       userLinks: null,
+      copiedUsernames: new Set(), // Track which usernames have been copied
     };
   },
   computed: {
@@ -421,6 +439,23 @@ export default {
         this.fetchUserLinks();
       }).catch((err) => {
         this.$refs.linkDeleteConfirmationDialog.setError(err);
+      });
+    },
+    copyUsername(username) {
+      this.utils.textToClipboard(username);
+      this.copiedUsernames.add(username);
+
+      // Remove the copied state after 2 seconds
+      setTimeout(() => {
+        this.copiedUsernames.delete(username);
+      }, 2000);
+    },
+    copyIdentifier(identifier) {
+      this.utils.textToClipboard(identifier);
+
+      this.$notify({
+        type: 'success',
+        text: this.$t('_messages.copyClipboard'),
       });
     },
   },
