@@ -155,6 +155,11 @@ export default {
     },
   },
   beforeMount() {
+    if (!this.$store.getters.isLoggedIn) {
+      this.isCurrentUser  = false;
+      return;
+    }
+
     this.isCurrentUser = this.user.id === this.$store.getters.user.id;
   },
   methods: {
