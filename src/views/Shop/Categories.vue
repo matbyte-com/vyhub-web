@@ -6,7 +6,7 @@
       :no-bottom-border-radius="$vuetify.display.smAndDown"
     />
     <v-card
-      v-if="newsContent"
+      v-if="newsContent && newsContent.length > 13"
       flat
       class="mt-4 mb-2 card-rounded vh-shop-news"
     >
