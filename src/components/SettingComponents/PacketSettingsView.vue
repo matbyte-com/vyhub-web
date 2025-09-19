@@ -109,7 +109,10 @@
       @submit="addPacket"
     >
       <template #custom-editor="context">
-        <EditorForForm v-bind="context" />
+        <EditorForForm
+          v-bind="context"
+          :title="$t('description')"
+        />
       </template>
       <template #custom-image="context">
         <ImageUpload
@@ -127,7 +130,10 @@
       @submit="editPacket"
     >
       <template #custom-editor="context">
-        <EditorForForm v-bind="context" />
+        <EditorForForm
+          v-bind="context"
+          :title="$t('description')"
+        />
       </template>
       <template #custom-image="context">
         <ImageUpload

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!-- TODO Label not working -->
-    <span class="text-subtitle-1">{{ node.layout.label }}</span>
+    <span v-if="title" class="text-subtitle-1">{{ title }}</span>
     <Editor
       v-if="content !== null"
       v-model="content"
@@ -14,6 +13,10 @@
 
 export default {
   props: {
+    title: {
+      type: String,
+      default: null,
+    },
     node: {
       type: Object,
       required: true,
