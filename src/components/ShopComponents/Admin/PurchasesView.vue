@@ -169,6 +169,9 @@
                         <th>
                           {{ $t('discount') }}
                         </th>
+                        <th>
+                          {{ $t('_shop.labels.recipient') }}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -199,6 +202,10 @@
                           <div v-else>
                             -
                           </div>
+                        </td>
+                        <td>
+                          <UserLink v-if="cp.target_user" :user="cp.target_user" />
+                          <UserLink v-else :user="currentPurchase.user" />
                         </td>
                       </tr>
                     </tbody>
