@@ -254,6 +254,7 @@ async function editMessage(message) {
             <span
               :class="{ 'text-white' : !theme.current.dark && message.invert_title_color,
                         'text-black' : theme.current.dark && message.invert_title_color }"
+              style="text-wrap: wrap"
             >
               {{ message.subject }}
             </span>
@@ -333,6 +334,7 @@ async function editMessage(message) {
             <span
               :class="{ 'text-white' : !theme.current.dark && message.invert_title_color,
                         'text-black' : theme.current.dark && message.invert_title_color }"
+              style="text-wrap: wrap"
             >
               {{ message.subject }}
             </span>
