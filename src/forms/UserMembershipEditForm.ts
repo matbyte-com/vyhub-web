@@ -24,7 +24,7 @@ export default {
       default: (new Date()).toISOString(),
     },
     end: {
-      type: 'string',
+      type: ['string', 'null'],
       title: i18n.global.t('end'),
       format: 'date-time',
       description: i18n.global.t('_dashboard.labels.membershipEndDescription'),
