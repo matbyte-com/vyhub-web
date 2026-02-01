@@ -193,10 +193,6 @@
                 @mouseleave="resetActives"
               >
                 {{ prop.name }}
-                <span v-if="prop.values != null && prop.values.length > 0">
-                  :
-                  {{ prop.values.join(', ') }}
-                </span>
               </v-chip>
             </span>
           </v-card-text>
