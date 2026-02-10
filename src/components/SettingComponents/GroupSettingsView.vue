@@ -39,9 +39,6 @@
                     class="mr-1 mb-1 mt-1"
                   >
                     {{ prop.name }}
-                    <span v-if="prop.value !== null">
-                      : {{ prop.value }}
-                    </span>
                   </v-chip>
                 </v-expansion-panel-text>
               </v-expansion-panel>
@@ -55,9 +52,6 @@
               class="mr-1 mb-1"
             >
               {{ prop.name }}
-              <span v-if="prop.value !== null">
-                : {{ prop.value }}
-              </span>
             </v-chip>
           </div>
         </template>
