@@ -51,6 +51,11 @@
       :location="drawerLocation"
       :width="400"
     >
+
+      <!-- Container for VJSF/Vuetify overlay attachments (select menus, date pickers, etc.) -->
+      <!-- (kept empty on purpose; select menu attachment is handled in schema x-props) -->
+      <div />
+
       <v-list-item
         class="elevation-3"
         density="compact"
@@ -128,11 +133,11 @@
                   @submit.prevent=""
                 >
                   <v-jsf
-                    v-model="component.props_data"
+                    :model-value="getDraftProps(component)"
                     :options="vjsfOptions"
                     style="z-index: 202"
                     :schema="getComponentSchema(component)"
-                    @update:model-value="component.edited = true; componentEdited = true"
+                    @update:model-value="(val) => onPropsChanged(component, val)"
                   >
                     <template #custom-image="context">
                       <ImageUpload
@@ -277,8 +282,33 @@ const count = ref(0);
 const availableComponents = components.components;
 const panelExposed = ref(null);
 const vjsfSchemas = ref(null);
+
+// Keep a stable object reference for each block's props while editing.
+// This avoids VJSF edit dialogs closing when the parent list reorders/replaces items.
+const propsDraftById = ref({});
+
+function getDraftProps(block: any) {
+  const key = String(block.id);
+  if (!propsDraftById.value[key]) {
+    // Use the existing object reference if possible; otherwise initialize.
+    propsDraftById.value[key] = block.props_data ?? {};
+  }
+  return propsDraftById.value[key];
+}
+
+function onPropsChanged(block: any, val: any) {
+  const key = String(block.id);
+  propsDraftById.value[key] = val;
+
+  // Sync back to the actual block.
+  // Important: mutate the existing block instance to keep VueDraggable stable.
+  block.props_data = val;
+  block.edited = true;
+  componentEdited.value = true;
+}
+
 const vjsfOptions = {
-  locale: i18n.locale,
+  locale: i18n.locale.value,
   timePickerProps: {
     format: '24hr',
   },
@@ -329,6 +359,10 @@ async function redirectWhenDisabled() {
 async function fetchData() {
   (await openapi).design_getSections().then((rsp) => {
     blocks.value = rsp.data;
+
+    // Reset drafts because blocks were reloaded from API.
+    propsDraftById.value = {};
+
     showLoader.value = false;
     orderUpdated.value = false;
     componentAdded.value = false;
