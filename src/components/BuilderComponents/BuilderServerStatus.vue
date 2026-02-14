@@ -288,14 +288,14 @@ export default {
           return 'https://cdn.vyhub.net/central/games/discord.png';
         case 'RUST':
           return 'https://cdn.vyhub.net/central/games/rust.webp';
-        case 'FiveM':
+        case 'FIVEM':
           return 'https://cdn.vyhub.net/central/games/fivem.webp';
         case 'SEVEN_DAYS':
           return 'https://cdn.vyhub.net/central/games/7days-to-die.webp';
         case 'ASA':
           return 'https://cdn.vyhub.net/central/games/ark-survival-ascended.webp';
         default:
-          return 'https://cdn.vyhub.net/central/games/teamspeak.jpeg';
+          return 'https://cdn.vyhub.net/central/games/generic.jpg';
       }
     },
     getPlayerOnlineProgress(server) {
