@@ -1,5 +1,8 @@
 <template>
-  <div class="vh-home-server-status">
+  <div
+    class="vh-home-server-status"
+    :style="{ '--vh-ss-title-scale': titleScale }"
+  >
     <v-row
       v-if="$vuetify.display.smAndUp"
       justify="center"
@@ -12,9 +15,10 @@
         md="4"
         lg="3"
         xl="2"
+        class="d-flex"
       >
         <v-card
-          class="card-rounded"
+          class="card-rounded flex-grow-1"
           hover
         >
           <v-img
@@ -25,7 +29,10 @@
             class="d-flex flex-column"
             style="min-height: 172px"
           >
-            <div class="text-center text-h6 mb-3">
+            <div
+              class="text-center mb-3 vh-ss-title"
+              :title="s.name"
+            >
               {{ s.name }}
             </div>
             <v-spacer />
@@ -59,7 +66,10 @@
                 </v-progress-linear>
               </div>
             </div>
-            <div>
+            <div
+              class="vh-ss-map"
+              :title="s.map"
+            >
               <v-icon
                 v-if="s.map"
                 start
@@ -126,6 +136,7 @@
         </v-card>
       </v-col>
     </v-row>
+
     <Swiper
       v-else
       :number-of-elements="servers.length"
@@ -147,7 +158,10 @@
             class="d-flex flex-column"
             style="min-height: 172px"
           >
-            <div class="text-center text-h6 mb-3">
+            <div
+              class="text-center mb-3 vh-ss-title"
+              :title="s.name"
+            >
               {{ s.name }}
             </div>
             <v-spacer />
@@ -181,7 +195,10 @@
                 </v-progress-linear>
               </div>
             </div>
-            <div>
+            <div
+              class="vh-ss-map"
+              :title="s.map"
+            >
               <v-icon
                 v-if="s.map"
                 start
@@ -278,6 +295,28 @@ export default {
       });
       return map;
     },
+
+    // Scale all server titles down together based on the longest name.
+    // 1.0 = normal size, lower numbers shrink.
+    titleScale() {
+      const list = this.servers || [];
+      let maxLen = 0;
+      for (const s of list) {
+        const len = (s?.name ?? '').length;
+        if (len > maxLen) maxLen = len;
+      }
+
+      // Tuned thresholds: adjust once a name is "too long" for typical cards.
+      // You can tweak these numbers later without touching templates.
+      const startShrinkAt = 18;
+      const minScale = 0.8;
+
+      if (maxLen <= startShrinkAt) return 1;
+
+      // Linear shrink: each extra char reduces scale a bit.
+      const scale = 1 - (maxLen - startShrinkAt) * 0.02;
+      return Math.max(minScale, Number(scale.toFixed(3)));
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -325,4 +364,26 @@ export default {
 </script>
 
 <style scoped>
+.vh-home-server-status {
+  --vh-ss-title-scale: 1;
+}
+
+/* Server name: keep on one line. Font size is globally scaled by --vh-ss-title-scale */
+.vh-ss-title {
+  --vh-ss-title-base: 1.25rem;
+  font-size: calc(var(--vh-ss-title-base) * var(--vh-ss-title-scale, 1));
+  font-weight: 500;
+  line-height: 1.2;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Map already abbreviated */
+.vh-ss-map {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>
