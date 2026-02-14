@@ -451,6 +451,44 @@ export default {
       previewImage: 'https://cdn.vyhub.net/vyhub/page-builder/ServerStatus.png',
       keywords: ['server', 'status', 'logo'],
       component: 'ServerStatus',
+      schema: {
+        type: 'object',
+        properties: {
+          serverImageOverrides: {
+            type: 'array',
+            title: 'Custom Images',
+            items: {
+              type: 'object',
+              required: ['serverId', 'imageUrl'],
+              properties: {
+                serverId: {
+                  type: 'string',
+                  title: i18n.global.t('server'),
+                  items: {
+                    type: 'string',
+                  },
+                  'x-fromUrl': `${API_URL}/server/`,
+                  'x-itemKey': 'id',
+                  'x-itemTitle': 'name',
+                  'x-cols': 6,
+                },
+                imageUrl: {
+                  title: i18n.global.t('imageURL'),
+                  type: 'string',
+                  'x-props': {
+                    clearable: true,
+                  },
+                  'x-cols': 6,
+                  'x-class': 'pl-1',
+                },
+              },
+            },
+          },
+        },
+      },
+      defaults: {
+        serverImageOverrides: [],
+      },
     },
     {
       title: 'Server Status 2',

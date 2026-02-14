@@ -254,6 +254,12 @@
 import openapiCached from '@/api/openapiCached';
 
 export default {
+  props: {
+    serverImageOverrides: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     return {
       servers: null,
@@ -262,6 +268,16 @@ export default {
     };
   },
   computed: {
+    serverImageOverrideMap() {
+      const map = {};
+      (this.serverImageOverrides || []).forEach((o) => {
+        if (!o) return;
+        const serverId = o.serverId ?? o.server ?? o.id;
+        const url = o.imageUrl ?? o.url;
+        if (serverId && url) map[String(serverId)] = url;
+      });
+      return map;
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -276,6 +292,8 @@ export default {
       });
     },
     getImage(s) {
+      const override = this.serverImageOverrideMap?.[String(s.id)];
+      if (override) return override;
       if (s.imageUrl != null) return s.imageUrl;
       switch (s.type) {
         case 'MINECRAFT':
