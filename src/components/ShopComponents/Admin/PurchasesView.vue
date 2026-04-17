@@ -49,8 +49,92 @@
                   {{ $t('reset') }}</a>
               </v-card>
             </v-menu>
+            <v-menu
+              v-if="selectedPurchases.length > 0"
+              location="bottom"
+            >
+              <template #activator="{ props }">
+                <v-btn
+                  variant="outlined"
+                  color="primary"
+                  v-bind="props"
+                  class="ml-2"
+                >
+                  <v-icon start>
+                    mdi-cog
+                  </v-icon>
+                  {{ $t('actions') }}
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-if="selectedPurchases.some(p => p.status === 'FINISHED' && p.refundable)"
+                  @click="openBulkAction('refund')"
+                >
+                  <v-list-item-title>
+                    <v-icon start>
+                      mdi-cash-refund
+                    </v-icon>
+                    {{ $t('_purchases.labels.refund') }}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  v-if="selectedPurchases.some(p => p.status === 'RECURRING')"
+                  @click="openBulkAction('cancelSub')"
+                >
+                  <v-list-item-title>
+                    <v-icon start>
+                      mdi-cancel
+                    </v-icon>
+                    {{ $t('_purchases.labels.cancelSubscription') }}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  v-if="selectedPurchases.some(p => p.status === 'FINISHED')"
+                  @click="openBulkAction('revoke')"
+                >
+                  <v-list-item-title>
+                    <v-icon start>
+                      mdi-cancel
+                    </v-icon>
+                    {{ $t('_purchases.labels.revoke') }}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  v-if="selectedPurchases.some(p => p.status === 'REVOKED')"
+                  @click="openBulkAction('unrevoke')"
+                >
+                  <v-list-item-title>
+                    <v-icon start>
+                      mdi-check
+                    </v-icon>
+                    {{ $t('_purchases.labels.unrevoke') }}
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  @click="openBulkAction('delete')"
+                >
+                  <v-list-item-title>
+                    <v-icon start>
+                      mdi-delete
+                    </v-icon>
+                    {{ $t('delete') }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-col>
         </v-row>
+      </template>
+      <template #item.select-field="{ item }">
+        <v-checkbox
+          v-if="$checkProp('purchase_edit')"
+          :disabled="(selectedPurchases.length > 0 && !selectedPurchases.some(p => p.status === item.status)) || (selectedPurchases.length >= 15 && !selectedPurchases.includes(item))"
+          v-model="selectedPurchases"
+          class="pt-3"
+          density="compact"
+          :value="item"
+        />
       </template>
       <template #item.date="{ item }">
         <span>{{ new Date(item.date).toLocaleString() }}</span>
@@ -375,6 +459,14 @@
       :width="500"
       @submit="cancelSubscription"
     />
+    <ConfirmationDialog
+      ref="bulkConfirmDialog"
+      :text="bulkConfirmText"
+      :btn-text="bulkConfirmBtnText"
+      btn-icon="mdi-check"
+      :width="500"
+      @submit="runBulkAction"
+    />
   </div>
 </template>
 
@@ -385,6 +477,7 @@ export default {
   data() {
     return {
       headers: [
+        { key: 'select-field', sortable: false, width: '50px' },
         {title: this.$t('id'), key: 'id', sortable: false},
         {title: this.$t('status'), key: 'status', sortable: false},
         {title: this.$t('date'), key: 'date'},
@@ -396,6 +489,7 @@ export default {
           title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
       ],
+      selectedPurchases: [],
       purchases: null,
       currentPurchase: null,
       totalItems: 0,
@@ -403,6 +497,9 @@ export default {
       sortDesc: true,
       selectedStatus: [],
       availableStatus: [],
+      bulkAction: null,
+      bulkActionItems: [],
+      bulkConfirmText: null,
     };
   },
   computed: {
@@ -415,6 +512,42 @@ export default {
           this.$router.push({query: {}});
         }
       },
+    },
+    bulkConfirmBtnText() {
+      const cfg = this.bulkActions[this.bulkAction];
+      return cfg?.label ?? this.$t('confirm');
+    },
+    bulkActions() {
+      return {
+        refund: {
+          label: this.$t('_purchases.labels.refund'),
+          confirmMessageKey: '_purchases.messages.refundConfirm',
+          filter: (p) => p.status === 'FINISHED' && p.refundable,
+          request: (api, purchase) => api.shop_editPurchase({uuid: purchase.id}, {status: 'REFUNDED'}),
+        },
+        cancelSub: {
+          label: this.$t('_purchases.labels.cancelSubscription'),
+          confirmMessageKey: '_purchases.messages.cancelSubscriptionConfirm',
+          filter: (p) => p.status === 'RECURRING',
+          request: (api, purchase) => api.shop_editPurchase({uuid: purchase.id}, {status: 'FINISHED'}),
+        },
+        revoke: {
+          label: this.$t('_purchases.labels.revoke'),
+          filter: (p) => p.status === 'FINISHED',
+          request: (api, purchase) => api.shop_editPurchase({uuid: purchase.id}, {status: 'REVOKED'}),
+        },
+        unrevoke: {
+          label: this.$t('_purchases.labels.unrevoke'),
+          filter: (p) => p.status === 'REVOKED',
+          request: (api, purchase) => api.shop_editPurchase({uuid: purchase.id}, {status: 'FINISHED'}),
+        },
+        delete: {
+          label: this.$t('delete'),
+          confirmMessageKey: '_purchases.messages.deleteConfirm',
+          filter: () => true,
+          request: (api, purchase) => api.shop_deletePurchase({uuid: purchase.id}),
+        },
+      };
     },
   },
   watch: {
@@ -450,6 +583,7 @@ export default {
         status: this.selectedStatus,
         ...(queryParams != null ? queryParams : this.$refs.purchaseTable.getQueryParameters()),
       }).then((rsp) => {
+        this.selectedPurchases = [];
         this.purchases = rsp.data.items;
         this.totalItems = rsp.data.total;
       });
@@ -575,10 +709,58 @@ export default {
       this.selectedStatus = status;
       this.fetchData();
     },
+    openBulkAction(action) {
+      const cfg = this.bulkActions[action];
+      if (!cfg) return;
+      const targets = this.selectedPurchases.filter(cfg.filter);
+      if (targets.length === 0) return;
+      this.bulkAction = action;
+      this.bulkActionItems = targets;
+      if (cfg.confirmMessageKey) {
+        this.bulkConfirmText = `${this.$t(cfg.confirmMessageKey)} (${targets.length})`;
+        this.$refs.bulkConfirmDialog.show();
+      } else {
+        this.runBulkAction();
+      }
+    },
+    // TODO: Change Back-End to support multiple IDs in one request and change this to send one request per action type instead of one per purchase
+    // TODO: Improve language keys to support pluralization and different wordings based on success/partial success/failure
+    async runBulkAction() {
+      if (!this.bulkAction || this.bulkActionItems.length === 0) return;
+      const cfg = this.bulkActions[this.bulkAction];
+      if (!cfg) return;
+      const api = await openapi;
+      const items = [...this.bulkActionItems];
+      const results = await Promise.allSettled(items.map((purchase) => cfg.request(api, purchase)));
+      const successCount = results.filter(r => r.status === 'fulfilled').length;
+      const failedCount = items.length - successCount;
+
+      if (successCount > 0) {
+        this.$notify({ title: `${cfg.label} ${successCount}/${items.length}`, type: 'success' });
+      }
+
+      if (failedCount > 0) {
+        const firstError = results.find(r => r.status === 'rejected');
+        if (firstError?.reason?.response?.data) {
+          this.utils.notifyUnexpectedError(firstError.reason.response.data);
+        } else if (failedCount === items.length && this.$refs.bulkConfirmDialog) {
+          this.$refs.bulkConfirmDialog.setErrorMessage(`${failedCount}/${items.length} failed`);
+        }
+      }
+
+      if (successCount > 0) {
+        await this.fetchData();
+      }
+
+      this.selectedPurchases = [];
+      this.bulkAction = null;
+      this.bulkActionItems = [];
+      this.bulkConfirmText = null;
+      if (this.$refs.bulkConfirmDialog) {
+        this.$refs.bulkConfirmDialog.closeAndReset();
+      }
+    },
   },
 };
 </script>
 
-<style scoped>
-
-</style>
