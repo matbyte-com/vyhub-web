@@ -395,28 +395,23 @@
             target="_blank"
             href="https://docs.vyhub.net/latest/game/discord/"
           >
-            {{ $t('_server.labels.guildIdDocs') }}
+            <v-btn
+              size="small"
+              color="info"
+            >
+              <v-icon start>
+                mdi-magnify
+              </v-icon>
+              {{ $t('_server.labels.guildIdDocs') }}
+            </v-btn>
           </a>
-          <span v-if="discordApplicationId">
-            <a
-              target="_blank"
-              style="float: right"
-              :href="getDiscordBotLink"
-            >
-              {{ $t('_server.labels.addBot') }}
-            </a>
-          </span>
-          <span
-            v-else
+          <a
+            target="_blank"
             style="float: right"
+            href="https://docs.vyhub.net/latest/game/discord/#authorization-setup"
           >
-            <a
-              target="_blank"
-              href="https://docs.vyhub.net/latest/guide/authorization"
-            >
-              {{ $t('_server.labels.discordApplicationIdNeeded') }}
-            </a>
-          </span>
+            {{ $t('_server.labels.discordApplicationIdNeeded') }}
+          </a>
         </div>
       </template>
     </DialogForm>

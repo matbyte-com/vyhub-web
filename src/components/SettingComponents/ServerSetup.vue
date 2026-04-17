@@ -130,7 +130,7 @@
       </div>
       <div class="mt-1 text-center">
         <a
-          href="https://docs.vyhub.net/latest/guide/authorization#discord"
+          href="https://docs.vyhub.net/latest/game/discord"
           target="_blank"
         >
           <v-btn
@@ -144,25 +144,7 @@
       </div>
 
       <div class="font-weight-bold mt-4">
-        2. {{ $t('_server.instructions.DISCORD.readInstructions') }}
-      </div>
-      <div class="mt-1 text-center">
-        <a
-          href="https://docs.vyhub.net/latest/game/discord#setup"
-          target="_blank"
-        >
-          <v-btn
-            color="primary"
-            variant="flat"
-          >
-            <v-icon start>mdi-book-open-variant</v-icon>
-            {{ $t('instructions') }}
-          </v-btn>
-        </a>
-      </div>
-
-      <div class="font-weight-bold mt-4">
-        3. {{ $t('_server.instructions.DISCORD.addBot') }}
+        2. {{ $t('_server.instructions.DISCORD.addBot') }}
       </div>
       <div class="mt-1 text-center">
         <a
@@ -187,7 +169,7 @@
         </v-btn>
       </div>
       <div class="font-weight-bold mt-4">
-        4. {{ $t('_server.instructions.DISCORD.restartBot') }}
+        3. {{ $t('_server.instructions.DISCORD.restartBot') }}
       </div>
       <div class="text-center">
         <v-btn
