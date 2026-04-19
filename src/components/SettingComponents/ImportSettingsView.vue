@@ -250,7 +250,7 @@
                       type="success"
                       variant="tonal"
                     >
-                      <div>Database import finished successfully.</div>
+                      <div>VyHub import finished successfully.</div>
                       <div>The instance is being restarted now. This may take a short while.</div>
                       <div>Source schema: {{ dbImportResult.source_schema }}</div>
                       <div>Target schema: {{ dbImportResult.target_schema }}</div>
@@ -328,7 +328,7 @@ export default {
   methods: {
     getSystemLabel(item) {
       if (item === 'Database') {
-        return this.$t('_import.database.title');
+        return 'VyHub';
       }
       return item;
     },
@@ -349,7 +349,7 @@ export default {
     async exportDatabase() {
       this.dbExportLoading = true;
       try {
-        const rsp = await (await openapi).import_dbExport(
+        const rsp = await (await openapi).import_exportVyhub(
           null,
           null,
           { responseType: 'blob' },
@@ -391,7 +391,7 @@ export default {
       formData.append('dump', this.dbDumpFile);
 
       try {
-        const rsp = await (await openapi).import_dbImport(
+        const rsp = await (await openapi).import_importVyhub(
           {
             skip_alembic_check: false,
             restart_process: true,

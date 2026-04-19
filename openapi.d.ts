@@ -719,12 +719,12 @@ declare namespace Components {
          */
         export type BanStatus = "ACTIVE" | "UNBANNED";
         /**
-         * Body_db_import_import_db_import_post
+         * Body_import_vyhub_import_vyhub_import_post
          */
-        export interface BodyDbImportImportDbImportPost {
+        export interface BodyImportVyhubImportVyhubImportPost {
             /**
              * Dump
-             * Archive produced by GET /import/db/export
+             * Archive produced by GET /import/vyhub/export
              */
             dump: string; // binary
         }
@@ -8224,30 +8224,9 @@ declare namespace Paths {
             export type $200 = /* PropertyModelShortWithDescription */ Components.Schemas.PropertyModelShortWithDescription[];
         }
     }
-    namespace ImportDbExport {
+    namespace ImportExportVyhub {
         namespace Responses {
             export type $200 = any;
-        }
-    }
-    namespace ImportDbImport {
-        namespace Parameters {
-            /**
-             * Restart Process
-             */
-            export type RestartProcess = boolean;
-            /**
-             * Skip Alembic Check
-             */
-            export type SkipAlembicCheck = boolean;
-        }
-        export interface QueryParameters {
-            skip_alembic_check?: /* Skip Alembic Check */ Parameters.SkipAlembicCheck;
-            restart_process?: /* Restart Process */ Parameters.RestartProcess;
-        }
-        export type RequestBody = /* Body_db_import_import_db_import_post */ Components.Schemas.BodyDbImportImportDbImportPost;
-        namespace Responses {
-            export type $200 = /* DBImportResult */ Components.Schemas.DBImportResult;
-            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
     namespace ImportGetGextensionPackets {
@@ -8281,6 +8260,32 @@ declare namespace Paths {
              */
             export interface $200 {
             }
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ImportImportVyhub {
+        namespace Parameters {
+            /**
+             * Dry Run
+             */
+            export type DryRun = boolean;
+            /**
+             * Restart Process
+             */
+            export type RestartProcess = boolean;
+            /**
+             * Skip Alembic Check
+             */
+            export type SkipAlembicCheck = boolean;
+        }
+        export interface QueryParameters {
+            skip_alembic_check?: /* Skip Alembic Check */ Parameters.SkipAlembicCheck;
+            dry_run?: /* Dry Run */ Parameters.DryRun;
+            restart_process?: /* Restart Process */ Parameters.RestartProcess;
+        }
+        export type RequestBody = /* Body_import_vyhub_import_vyhub_import_post */ Components.Schemas.BodyImportVyhubImportVyhubImportPost;
+        namespace Responses {
+            export type $200 = /* DBImportResult */ Components.Schemas.DBImportResult;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -14132,25 +14137,25 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ImportGetGextensionPackets.Responses.$200>
   /**
-   * import_dbExport - Db Export
+   * import_exportVyhub - Export Vyhub
    * 
    * Export all data from the configured database schema as a gzipped tar archive (manifest.json + dump.sql). Admin only.
    */
-  'import_dbExport'(
+  'import_exportVyhub'(
     parameters?: Parameters<UnknownParamsObject> | null,
     data?: any,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ImportDbExport.Responses.$200>
+  ): OperationResponse<Paths.ImportExportVyhub.Responses.$200>
   /**
-   * import_dbImport - Db Import
+   * import_importVyhub - Import Vyhub
    * 
    * Replace all data in the configured database schema with the contents of the uploaded archive. Destructive. The target schema must already be migrated to the same alembic revision as the source dump. Admin only.
    */
-  'import_dbImport'(
-    parameters?: Parameters<Paths.ImportDbImport.QueryParameters> | null,
-    data?: Paths.ImportDbImport.RequestBody,
+  'import_importVyhub'(
+    parameters?: Parameters<Paths.ImportImportVyhub.QueryParameters> | null,
+    data?: Paths.ImportImportVyhub.RequestBody,
     config?: AxiosRequestConfig  
-  ): OperationResponse<Paths.ImportDbImport.Responses.$200>
+  ): OperationResponse<Paths.ImportImportVyhub.Responses.$200>
   /**
    * import_importGextension - Import Gextension
    */
@@ -16893,9 +16898,9 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ImportGetGextensionPackets.Responses.$200>
   }
-  ['/import/db/export']: {
+  ['/import/vyhub/export']: {
     /**
-     * import_dbExport - Db Export
+     * import_exportVyhub - Export Vyhub
      * 
      * Export all data from the configured database schema as a gzipped tar archive (manifest.json + dump.sql). Admin only.
      */
@@ -16903,19 +16908,19 @@ export interface PathsDictionary {
       parameters?: Parameters<UnknownParamsObject> | null,
       data?: any,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ImportDbExport.Responses.$200>
+    ): OperationResponse<Paths.ImportExportVyhub.Responses.$200>
   }
-  ['/import/db/import']: {
+  ['/import/vyhub/import']: {
     /**
-     * import_dbImport - Db Import
+     * import_importVyhub - Import Vyhub
      * 
      * Replace all data in the configured database schema with the contents of the uploaded archive. Destructive. The target schema must already be migrated to the same alembic revision as the source dump. Admin only.
      */
     'post'(
-      parameters?: Parameters<Paths.ImportDbImport.QueryParameters> | null,
-      data?: Paths.ImportDbImport.RequestBody,
+      parameters?: Parameters<Paths.ImportImportVyhub.QueryParameters> | null,
+      data?: Paths.ImportImportVyhub.RequestBody,
       config?: AxiosRequestConfig  
-    ): OperationResponse<Paths.ImportDbImport.Responses.$200>
+    ): OperationResponse<Paths.ImportImportVyhub.Responses.$200>
   }
   ['/import/gextension']: {
     /**
@@ -17111,7 +17116,7 @@ export type BanModelReduced = Components.Schemas.BanModelReduced;
 export type BanModelShort = Components.Schemas.BanModelShort;
 export type BanProtestModelExtraShort = Components.Schemas.BanProtestModelExtraShort;
 export type BanStatus = Components.Schemas.BanStatus;
-export type Body_db_import_import_db_import_post = Components.Schemas.BodyDbImportImportDbImportPost;
+export type Body_import_vyhub_import_vyhub_import_post = Components.Schemas.BodyImportVyhubImportVyhubImportPost;
 export type Body_start_checkout_shop_cart_checkout_post = Components.Schemas.BodyStartCheckoutShopCartCheckoutPost;
 export type Body_start_payment_shop_checkout__post = Components.Schemas.BodyStartPaymentShopCheckoutPost;
 export type Body_upload_image_general_image_put = Components.Schemas.BodyUploadImageGeneralImagePut;
