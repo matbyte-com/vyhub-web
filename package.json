@@ -24,6 +24,7 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "animate.css": "^4.1.1",
     "axios": "^1.7.7",
+    "browser-image-compression": "^2.0.2",
     "ckeditor5": "^44.1.0",
     "country-flag-icons": "^1.5.13",
     "country-list": "^2.2.0",
@@ -33,6 +34,7 @@
     "iso-639-1-plus": "^3.0.3",
     "mitt": "^3.0.1",
     "openapi-client-axios": "^7.5.5",
+    "openapicmd": "^2.9.2",
     "p-debounce": "^4.0.0",
     "prettier": "^3.0.0",
     "process": "^0.11.10",
@@ -50,8 +52,7 @@
     "vue3-apexcharts": "^1.8.0",
     "vuetify": "^3.7.4",
     "vuex": "^4.1.0",
-    "vuex-persistedstate": "^4.1.0",
-    "browser-image-compression": "^2.0.2"
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@types/qs": "^6.9.8",
