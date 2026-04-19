@@ -4,8 +4,8 @@
     flat
   >
     <v-tabs
-      color="primary"
       v-model="tab"
+      color="primary"
       grow
     >
       <v-tab>

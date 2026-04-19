@@ -23,7 +23,10 @@
           @submit="saveData"
         >
           <template #custom-editor="context">
-            <EditorForForm v-bind="context" :title="$t('news')" />
+            <EditorForForm
+              v-bind="context"
+              :title="$t('news')"
+            />
           </template>
           <template #custom-logo="context">
             <ImageUpload

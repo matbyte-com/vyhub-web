@@ -1,6 +1,9 @@
 <template>
   <div>
-    <span v-if="title" class="text-subtitle-1">{{ title }}</span>
+    <span
+      v-if="title"
+      class="text-subtitle-1"
+    >{{ title }}</span>
     <Editor
       v-if="content !== null"
       v-model="content"

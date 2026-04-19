@@ -8,7 +8,7 @@
       :form-schema="AuthorizationSettingsFormSchema"
       :cancel-text="null"
       :submit-text="$t('save')"
-      :actionButtonTopMargin="2"
+      :action-button-top-margin="2"
       @submit="patchConfig"
     >
       <template #steam-api-key-hints>
@@ -16,9 +16,13 @@
           class="mb-2"
           type="info"
           :bordered="false"
-          :dense="true">
+          :dense="true"
+        >
           {{ $t('_authorization.steamApiKeyDescription') }}:
-          <a href="https://steamcommunity.com/dev/apikey" target="_blank">{{ $t('link') }}</a>
+          <a
+            href="https://steamcommunity.com/dev/apikey"
+            target="_blank"
+          >{{ $t('link') }}</a>
         </v-alert>
       </template>
     </GenForm>

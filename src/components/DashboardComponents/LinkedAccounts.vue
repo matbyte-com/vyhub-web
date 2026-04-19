@@ -94,7 +94,8 @@
                                 size="15"
                                 end
                                 :color="copiedUsernames.has(acc.raw.username) ? 'success' : 'grey'"
-                                @click.prevent="copyUsername(acc.raw.username)">
+                                @click.prevent="copyUsername(acc.raw.username)"
+                              >
                                 {{ copiedUsernames.has(acc.raw.username) ? 'mdi-check' : 'mdi-content-copy' }}
                               </v-icon>
                             </div>
@@ -129,13 +130,15 @@
                       <br>
                       <span
                         style="cursor: pointer"
-                        @click="copyIdentifier(acc.raw.identifier)">
+                        @click="copyIdentifier(acc.raw.identifier)"
+                      >
                         {{ acc.raw.identifier }}
                       </span>
                       <span
                         v-if="$t(`_user.type.${acc.raw.type}.name`).toUpperCase() === 'STEAM'"
                         style="cursor: pointer"
-                        @click="copyIdentifier(getSteamid32(acc.raw.identifier))">
+                        @click="copyIdentifier(getSteamid32(acc.raw.identifier))"
+                      >
                         <br>
                         {{ getSteamid32(acc.raw.identifier) }}
                       </span>
@@ -144,8 +147,9 @@
                   <div
                     v-if="attributes != null
                       && attributes[acc.raw.id] != null
-                      && Object.keys(attributes[acc.raw.id]).length > 0">
-                    <v-divider/>
+                      && Object.keys(attributes[acc.raw.id]).length > 0"
+                  >
+                    <v-divider />
                     <v-card-text
                       class="pa-0"
                     >
@@ -158,17 +162,17 @@
                             dense
                           >
                             <tbody>
-                            <tr
-                              v-for="(attrVal, attrName) in attributes[acc.raw.id]"
-                              :key="attrName"
-                            >
-                              <td>
-                                {{ attributeDefinitionsDict[attrName].title }}
-                              </td>
-                              <td>
-                                {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
-                              </td>
-                            </tr>
+                              <tr
+                                v-for="(attrVal, attrName) in attributes[acc.raw.id]"
+                                :key="attrName"
+                              >
+                                <td>
+                                  {{ attributeDefinitionsDict[attrName].title }}
+                                </td>
+                                <td>
+                                  {{ attrVal }} {{ attributeDefinitionsDict[attrName].unit }}
+                                </td>
+                              </tr>
                             </tbody>
                           </v-table>
                         </v-col>
