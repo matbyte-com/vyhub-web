@@ -179,7 +179,15 @@
                 <v-row>
                   <v-col cols="12">
                     <v-alert
-                      type="warning"
+                      type="info"
+                      variant="tonal"
+                    >
+                      {{ $t('_import.database.messages.versionNote') }}
+                    </v-alert>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-alert
+                      type="error"
                       variant="tonal"
                     >
                       {{ $t('_import.database.messages.dangerDescription') }}
@@ -261,6 +269,50 @@
                     </v-alert>
                   </v-col>
                 </v-row>
+                <v-dialog
+                  v-model="cryptSecretDialog"
+                  max-width="600"
+                  persistent
+                >
+                  <v-card>
+                    <v-card-title class="text-h5 bg-error pa-4">
+                      <v-icon start>
+                        mdi-key-alert
+                      </v-icon>
+                      {{ $t('_import.database.labels.cryptSecretChangedTitle') }}
+                    </v-card-title>
+                    <v-card-text class="pa-4">
+                      <v-alert
+                        type="error"
+                        variant="tonal"
+                        class="mb-4"
+                      >
+                        {{ $t('_import.database.messages.cryptSecretChanged') }}
+                      </v-alert>
+                      <div class="text-subtitle-2 mb-1">
+                        {{ $t('_import.database.labels.newCryptSecret') }}
+                      </div>
+                      <v-text-field
+                        :model-value="newCryptSecret"
+                        readonly
+                        variant="outlined"
+                        density="compact"
+                        append-inner-icon="mdi-content-copy"
+                        @click:append-inner="copyCryptSecret"
+                      />
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer />
+                      <v-btn
+                        color="error"
+                        variant="flat"
+                        @click="cryptSecretDialog = false"
+                      >
+                        {{ $t('_import.database.labels.cryptSecretAcknowledge') }}
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
                 <ConfirmationDialog
                   ref="dbImportConfirm"
                   :title="$t('_import.database.labels.importConfirmTitle')"
@@ -318,6 +370,8 @@ export default {
       dbExportLoading: false,
       dbImportLoading: false,
       dbImportResult: null,
+      cryptSecretDialog: false,
+      newCryptSecret: null,
     };
   },
   computed: {
@@ -402,10 +456,16 @@ export default {
         this.dbImportResult = rsp.data;
         this.dbDumpFile = null;
         dialog?.closeAndReset?.();
-        this.$notify({
-          title: this.$t('_messages.saveSuccess'),
-          type: 'success',
-        });
+
+        if (rsp.data.new_crypt_secret) {
+          this.newCryptSecret = rsp.data.new_crypt_secret;
+          this.cryptSecretDialog = true;
+        } else {
+          this.$notify({
+            title: this.$t('_messages.saveSuccess'),
+            type: 'success',
+          });
+        }
       } catch (err) {
         dialog?.setError?.(err);
       }
@@ -468,6 +528,13 @@ export default {
     },
     cancelImport() {
       this.cancel = true;
+    },
+    copyCryptSecret() {
+      navigator.clipboard.writeText(this.newCryptSecret);
+      this.$notify({
+        title: this.$t('_messages.copyClipboard'),
+        type: 'success',
+      });
     },
   },
 };

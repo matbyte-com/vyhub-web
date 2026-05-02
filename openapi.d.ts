@@ -2345,7 +2345,11 @@ declare namespace Components {
             /**
              * Serverbundle Id
              */
-            serverbundle_id: string; // uuid
+            serverbundle_id?: string; // uuid
+            /**
+             * Serverbundle Ids
+             */
+            serverbundle_ids?: string /* uuid */[];
         }
         /**
          * NavigationLinkLocation
@@ -10629,7 +10633,10 @@ declare namespace Paths {
         }
         export type RequestBody = /* MembershipModelUserAdd */ Components.Schemas.MembershipModelUserAdd;
         namespace Responses {
-            export type $200 = /* MembershipModel */ Components.Schemas.MembershipModel;
+            /**
+             * Response Add Membership User  Uuid  Membership Post
+             */
+            export type $200 = /* MembershipModel */ Components.Schemas.MembershipModel[];
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
