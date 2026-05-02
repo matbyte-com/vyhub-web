@@ -331,18 +331,16 @@ export default {
         this.$refs.addMembershipDialog.setErrorMessage('Begin date after end date');
       }
 
-      data.serverbundle_id.forEach((id) => {
-        const newData = { ...data, serverbundle_id: id };
-        api.user_addMembership(userId, newData).then(() => {
-          this.fetchData();
-          this.$refs.addMembershipDialog.closeAndReset();
-          this.$notify({
-            title: this.$t('_messages.addSuccess'),
-            type: 'success',
-          });
-        }).catch((err) => {
-          this.$refs.addMembershipDialog.setError(err);
+      const newData = { ...data, serverbundle_id: undefined, serverbundle_ids: data.serverbundle_id };
+      api.user_addMembership(userId, newData).then(() => {
+        this.fetchData();
+        this.$refs.addMembershipDialog.closeAndReset();
+        this.$notify({
+          title: this.$t('_messages.addSuccess'),
+          type: 'success',
         });
+      }).catch((err) => {
+        this.$refs.addMembershipDialog.setError(err);
       });
     },
     openEditMembershipDialog(membership) {
