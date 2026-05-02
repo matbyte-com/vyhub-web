@@ -230,7 +230,7 @@
                         <v-file-input
                           v-model="dbDumpFile"
                           :label="$t('_import.database.labels.dumpFile')"
-                          accept=".tar.gz,application/gzip,application/x-gzip"
+                          accept=".zip,application/zip"
                           prepend-icon="mdi-file-upload"
                           show-size
                         />
@@ -418,7 +418,7 @@ export default {
         ].join('_');
         const baseFilename = (filenameMatch ? filenameMatch[1] : 'vyhub')
           .replace(/\.tar\.gz$/i, '');
-        const filename = `${baseFilename}_${timestamp}.tar.gz`;
+        const filename = `${baseFilename}_${timestamp}.zip`;
 
         this.utils.showFile(rsp.data, filename, 'application/gzip');
       } catch (err) {
