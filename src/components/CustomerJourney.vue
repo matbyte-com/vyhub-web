@@ -118,7 +118,7 @@
         </v-btn>
         <v-btn
           class="bg-red-lighten-2 ml-2"
-          :href="`mailto:support@matbyte.com?subject=Feedback Demo Route: ${$route.path}`"
+          :href="`mailto:support@vyhub.net?subject=Feedback Demo Route: ${$route.path}`"
         >
           <v-icon start>
             mdi-email

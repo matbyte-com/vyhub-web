@@ -17,11 +17,11 @@
               target="_blank"
               href="https://vyhub.net"
             >VyHub</a>
-            gameserver and community management system by Matbyte.
+            gameserver and community management system.
             <br>
           </span>
-          The contents of this website are not managed by Matbyte UG, therefore
-          Matbyte UG is not responsible for them.
+          The contents of this website are not managed by the VyHub team.
+          You can report malicious behaviour to <b>abuse @at vyhub.net</b>.
         </span>
         <!-- Only the text above -->
         <div
