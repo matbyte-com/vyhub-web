@@ -109,7 +109,8 @@ export default {
             // Magic to add a space between symbol and number
             const match = formatted.match(/([^\d\s.,]+)?\s?([\d.,\s]+)([^\d\s.,]+)?/);
             if (match) {
-              const [, prefix = '', number, suffix = ''] = match;
+              const [, prefix = '', numberRaw, suffix = ''] = match;
+              const number = numberRaw.trim();
               return `${prefix}${prefix && ' '}${number}${suffix && ' '}${suffix}`.trim();
             }
             return formatted;

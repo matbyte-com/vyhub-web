@@ -36,6 +36,17 @@ function form() {
             title: i18n.global.t('subcategory'),
             'x-fromUrl': `${API_URL}/packet/category/{category.id}/subcategory`,
           },
+          active_for: {
+            type: ['number', 'null'],
+            title: i18n.global.t('_packet.labels.activeFor'),
+            description: i18n.global.t('_packet.labels.activeForDetail'),
+            layout: {
+              props: {
+                suffix: i18n.global.t('days'),
+              },
+            },
+            minimum: 1,
+          },
           description: {
             type: 'string',
             title: i18n.global.t('description'),
@@ -52,15 +63,6 @@ function form() {
                 component: 'custom-image'
               },
             },
-          },
-          active_for: {
-            type: ['number', 'null'],
-            title: i18n.global.t('_packet.labels.activeFor'),
-            description: i18n.global.t('_packet.labels.activeForDetail'),
-            'x-slots': {
-              'append-outer': i18n.global.t('days'),
-            },
-            minimum: 1,
           },
           enabled: {
             type: 'boolean',
@@ -176,6 +178,10 @@ function form() {
                     {
                       const: 'UPGRADES',
                       title: i18n.global.t('_packet.labels.relationUpgrades'),
+                    },
+                    {
+                      const: 'UPGRADE_WITH_DISCOUNT',
+                      title: i18n.global.t('_packet.labels.relationUpgradeWithDiscount'),
                     },
                   ],
                 },

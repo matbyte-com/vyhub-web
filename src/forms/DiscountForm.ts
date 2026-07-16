@@ -33,6 +33,9 @@ export default {
       key: 'max_usages_per_user',
     },
     {
+      key: 'first_cycle_only',
+    },
+    {
       key: 'all_packets',
     },
     {
@@ -61,6 +64,7 @@ export default {
       layout: {
         props: {
           hideDetails: 'auto',
+          clearable: true,
         }
       }
     },
@@ -88,6 +92,12 @@ export default {
       type: ['integer', 'null'],
       title: i18n.global.t('_discount.labels.maxUsagesPerUser'),
       minimum: 1,
+    },
+    first_cycle_only: {
+      type: 'boolean',
+      title: i18n.global.t('_shop.labels.firstCycleOnly'),
+      description: i18n.global.t('_shop.labels.firstCycleOnlyHint'),
+      default: false,
     },
     all_packets: {
       type: 'boolean',

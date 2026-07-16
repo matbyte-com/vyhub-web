@@ -20,6 +20,9 @@
       <template #item.enabled="{ item }">
         <BoolIcon :value="item.enabled" />
       </template>
+      <template #item.first_cycle_only="{ item }">
+        <BoolIcon :value="item.first_cycle_only" />
+      </template>
       <template #item.all_packets="{ item }">
         <v-chip
           v-if="item.all_packets"
@@ -188,6 +191,7 @@ export default {
         {title: this.$t('end'), key: 'end'},
         {title: this.$t('enabled'), key: 'enabled'},
         {title: this.$t('percentage'), key: 'percentage'},
+        {title: this.$t('_shop.labels.firstCycleOnly'), key: 'first_cycle_only'},
         {title: this.$t('maxUsages'), key: 'max_usages'},
         {
           title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',

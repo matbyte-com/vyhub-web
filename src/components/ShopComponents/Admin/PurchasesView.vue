@@ -227,6 +227,12 @@
                         {{ utils.formatCurrency(currentPurchase.amount_total, currentPurchase.currency.code) }}
                       </td>
                     </tr>
+                    <tr v-if="!currentPurchase.credits_used && currentPurchase.amount_total_first != null">
+                      <td>{{ $t('_shop.labels.firstCycle') }}</td>
+                      <td class="text-primary font-weight-bold">
+                        {{ utils.formatCurrency(currentPurchase.amount_total_first, currentPurchase.currency.code) }}
+                      </td>
+                    </tr>
                   </tbody>
                 </template>
               </v-table>

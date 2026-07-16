@@ -212,6 +212,14 @@ async function addToCart() {
             {{ packet.credits }} {{ store.getters.shopConfig.credits_display_title }}
           </span>
         </div>
+        <div
+          v-if="packet.price_with_discount != null && packet.price_with_discount.first_cycle_only
+            && packet.price_without_discount != null"
+          class="text-caption text-orange mt-1"
+        >
+          {{ $t('_shop.labels.firstCycleDiscountHint', {
+            price: utils.formatCurrency(packet.price_without_discount.total, packet.currency.code) }) }}
+        </div>
       </div>
       <v-spacer />
       <div

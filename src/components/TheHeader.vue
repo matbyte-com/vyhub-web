@@ -151,7 +151,7 @@ function showLoginDialog() {
         class="d-flex align-center mx-auto px-3"
         style="width: 100%"
         :class="{ 'v-container' : store.getters.theme && store.getters.theme.header_container
-          && display.lgAndUp }"
+          && display.xxl }"
       >
         <!-- burger menu on the left-->
         <div v-if="display.mdAndDown">

@@ -336,7 +336,11 @@
             {{ openPurchase ? $t('_shop.labels.total') : $t('_shop.labels.cartTotal') }}
           </v-card-title>
           <v-card-text class="text-body-1">
-            <CartTotal :price="price" />
+            <CartTotal
+              :price="price"
+              :price-first="priceFirst"
+              :recurring="recurring"
+            />
           </v-card-text>
           <!-- Checkboxes (hide when open purchase)-->
           <div
@@ -602,6 +606,7 @@ export default {
     return {
       cartPackets: null,
       cartPrice: null,
+      cartPriceFirst: null,
       cartCorrect: false,
       addressFormSchema: AddressForm,
       addresses: null,
@@ -679,6 +684,32 @@ export default {
         credits: this.openPurchase.credits,
       };
     },
+    recurring() {
+      if (this.openPurchase != null) {
+        return this.openPurchase.recurring;
+      }
+      if (this.cartPackets == null) {
+        return null;
+      }
+      const recurringPacket = this.cartPackets.find((cp) => cp.recurring != null);
+      return recurringPacket != null ? recurringPacket.recurring : null;
+    },
+    priceFirst() {
+      if (this.openPurchase == null) {
+        return this.cartPriceFirst;
+      }
+      if (this.openPurchase.amount_total_first == null) {
+        return null;
+      }
+      return {
+        net: this.openPurchase.amount_net_first,
+        total: this.openPurchase.amount_total_first,
+        currency: this.openPurchase.currency,
+        tax_rate: this.openPurchase.tax_rate,
+        amount_tax: this.openPurchase.amount_tax_first,
+        tax_info: this.openPurchase.tax_info,
+      };
+    },
   },
   beforeMount() {
     this.fetchData();
@@ -705,6 +736,7 @@ export default {
           console.log(rsp.data);
           this.cartPackets = rsp.data.packets;
           this.cartPrice = rsp.data.price;
+          this.cartPriceFirst = rsp.data.price_first;
           this.cartCorrect = rsp.data.correct;
 
           this.$store.dispatch('setCartPacketCount', {

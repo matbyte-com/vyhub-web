@@ -48,17 +48,32 @@
             <div>
               <v-row dense>
                 <v-col :class="(cartPacket.discount ? 'text-green' : '')">
-                  <div class="text-h6 text-right">
-                    {{ utils.formatCurrency(cartPacket.price.total, cartPacket.currency.code) }}
-                    <div v-if="cartPacket.recurring != null">
-                      <span v-if="utils.isSingularTimeunit(cartPacket.recurring)">
-                        {{ utils.isSingularTimeunit(cartPacket.recurring) }}
-                      </span>
-                      <span v-else>
-                        {{ $t('every') }}
-                        {{ utils.formatLength(cartPacket.recurring) }}
-                      </span>
+                  <template v-if="hasFirstCycle">
+                    <div
+                      class="text-h6 text-right"
+                      :class="cartPacket.discount ? 'text-green' : 'text-primary'"
+                    >
+                      {{ utils.formatCurrency(cartPacket.price_first.total, cartPacket.currency.code) }}
+                      <span
+                        v-if="durationText"
+                        class="text-caption"
+                      >{{ durationText }}</span>
                     </div>
+                    <div class="text-body-2 text-medium-emphasis text-right mt-1">
+                      {{ $t('_shop.labels.afterwardsRecurring', {
+                        price: utils.formatCurrency(cartPacket.price.total, cartPacket.currency.code) }) }}
+                      <span v-if="recurringText">{{ recurringText }}</span>
+                    </div>
+                  </template>
+                  <div
+                    v-else
+                    class="text-h6 text-right"
+                  >
+                    {{ utils.formatCurrency(cartPacket.price.total, cartPacket.currency.code) }}
+                    <span
+                      v-if="recurringText"
+                      class="text-caption"
+                    >{{ recurringText }}</span>
                   </div>
                   <div v-if="cartPacket.discount">
                     <v-chip
@@ -179,6 +194,22 @@ export default {
     return {
       cartPacketTargetUserForm: CartPacketTargetUserForm,
     };
+  },
+  computed: {
+    hasFirstCycle() {
+      return this.cartPacket.price_first != null;
+    },
+    recurringText() {
+      const { recurring } = this.cartPacket;
+      if (recurring == null) return null;
+      return this.utils.isSingularTimeunit(recurring)
+        || `${this.$t('every')} ${this.utils.formatLength(recurring)}`;
+    },
+    durationText() {
+      const { recurring } = this.cartPacket;
+      if (recurring == null) return null;
+      return this.utils.formatLength(recurring);
+    },
   },
   methods: {
     showPacket() {

@@ -5,20 +5,28 @@
         <div>
           {{ $t('_shop.labels.subtotal') }}
           <div class="float-right">
-            {{ utils.formatCurrency(price.net, price.currency.code) }}
+            {{ utils.formatCurrency(displayPrice.net, displayPrice.currency.code) }}
           </div>
         </div>
         <div>
-          {{ $t('_shop.labels.tax') }} ({{ price.tax_rate }}%)
+          {{ $t('_shop.labels.tax') }} ({{ displayPrice.tax_rate }}%)
           <div class="float-right">
-            {{ utils.formatCurrency(price.amount_tax, price.currency.code) }}
+            {{ utils.formatCurrency(displayPrice.amount_tax, displayPrice.currency.code) }}
           </div>
         </div>
         <div class="font-weight-bold">
-          {{ $t('_shop.labels.total') }}
+          {{ priceFirst != null ? $t('_shop.labels.payNow') : $t('_shop.labels.total') }}
           <div class="float-right">
-            {{ utils.formatCurrency(price.total, price.currency.code) }}
+            {{ utils.formatCurrency(displayPrice.total, displayPrice.currency.code) }}
           </div>
+        </div>
+        <div
+          v-if="priceFirst != null"
+          class="text-caption text-medium-emphasis mt-1"
+        >
+          {{ $t('_shop.labels.afterwardsRecurring', {
+            price: utils.formatCurrency(price.total, price.currency.code) }) }}
+          <span v-if="recurringText">{{ recurringText }}</span>
         </div>
       </v-col>
     </v-row>
@@ -57,10 +65,24 @@
 export default {
   props: {
     price: Object,
+    priceFirst: {
+      type: Object,
+      default: null,
+    },
+    recurring: {
+      type: Number,
+      default: null,
+    },
   },
-  data() {
-    return {
-    };
+  computed: {
+    displayPrice() {
+      return this.priceFirst != null ? this.priceFirst : this.price;
+    },
+    recurringText() {
+      if (this.recurring == null) return null;
+      return this.utils.isSingularTimeunit(this.recurring)
+        || `${this.$t('every')} ${this.utils.formatLength(this.recurring)}`;
+    },
   },
 };
 </script>
