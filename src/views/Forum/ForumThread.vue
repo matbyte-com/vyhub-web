@@ -49,8 +49,8 @@
             <v-spacer />
             <div v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins)">
               <v-btn
+                variant="flat"
                 color="success"
-                variant="outlined"
                 size="small"
                 class="ml-5 mr-1"
                 @click="openThreadTitleEditDialog(thread)"
@@ -61,7 +61,19 @@
                 <span>{{ $t('edit') }}</span>
               </v-btn>
               <v-btn
-                variant="outlined"
+                variant="flat"
+                color="info"
+                size="small"
+                class="mr-1"
+                @click="$refs.moveThreadDialog.show(thread)"
+              >
+                <v-icon start>
+                  mdi-folder-move
+                </v-icon>
+                <span>{{ $t('_forum.moveThread') }}</span>
+              </v-btn>
+              <v-btn
+                variant="flat"
                 size="small"
                 style="min-width: 18px; width: 18px"
                 color="error"
@@ -495,6 +507,10 @@
         :dialog-title="`${$t('_forum.editThread')}`"
         @submit="editThreadTitle"
       />
+      <MoveThreadDialog
+        ref="moveThreadDialog"
+        @submit="moveThread"
+      />
       <DeleteConfirmationDialog
         ref="deletePostConfirmationDialog"
         @submit="deletePost"
@@ -826,6 +842,18 @@ export default {
         this.$refs.editThreadTitleDialog.close();
       }).catch((err) => {
         this.$refs.editThreadTitleDialog.setError(err);
+      });
+    },
+    async moveThread(thread, data) {
+      (await openapi).forum_editThread(this.threadId, { topic_id: data.topic_id }).then(() => {
+        this.$notify({
+          title: this.$t('_messages.editSuccess'),
+          type: 'success',
+        });
+        this.$refs.moveThreadDialog.close();
+        this.$router.push({ name: 'ForumTopic', params: { id: data.topic_id } });
+      }).catch((err) => {
+        this.$refs.moveThreadDialog.setError(err);
       });
     },
     async deleteThread() {
