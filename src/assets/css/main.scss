@@ -1,5 +1,8 @@
-/* In Vuetify 3, they increased the max container size to 2400px */
-@media (min-width: 2560px) {
+/* Vuetify's default container caps content well below the viewport on the md
+   (960-1279px -> 900px) and lg (1280-1919px -> 1200px) ranges, wasting
+   horizontal space. Cap at 1800px from md upward so content uses the full
+   width up to that limit. */
+@media (min-width: 960px) {
   .v-container {
     max-width: 1800px !important;
   }
