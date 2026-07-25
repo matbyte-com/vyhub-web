@@ -157,10 +157,12 @@ export default {
     async cancelForm() {
       this.loading = false;
       this.alertMessage = null;
-      await this.$refs.form.reset();
+      // Remount v-jsf (via componentKey) instead of Vuetify's form.reset(). Resetting each
+      // input imperatively breaks vjsf's internal node tree for oneOf schemas (a child input
+      // resets after its parent oneOf node is gone -> "parent with key not found").
       this.formModel = null;
+      this.componentKey += 1;
       this.$emit('cancel');
-      this.forceRerender();
     },
     getData() {
       return { ...this.formModel };

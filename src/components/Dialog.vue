@@ -86,6 +86,7 @@ defineExpose({show, close, getItem, cancel, open, id});
     v-model="open"
     :class="{ 'ma-3' : !display.xs }"
     scrollable
+    persistent
     :max-width="maxWidth"
     :fullscreen="display.xs"
     :z-index="1005"

@@ -3,12 +3,16 @@
     <SettingTitle doc-path="/guide/requirement_set">
       {{ $t('_settings.requirements') }}
     </SettingTitle>
+    <p class="text-medium-emphasis mb-4">
+      {{ $t('_settings.requirementSetsHint') }}
+    </p>
     <DialogForm
       ref="requirementAddDialog"
       :form-schema="requirementAddForm"
       :title="$t('_requirement.addRequirement')"
       icon="mdi-approximately-equal"
       @submit="addRequirement"
+      @cancel="cancelRequirementInline"
     />
     <DialogForm
       ref="requirementSetAddDialog"
@@ -21,10 +25,6 @@
       ref="requirementSetDeleteConfirmationDialog"
       @submit="deleteRequirementSet"
     />
-    <DeleteConfirmationDialog
-      ref="requirementDeleteConfirmationDialog"
-      @submit="deleteRequirement"
-    />
     <!-- Edit Requirement Sets Dialog -->
     <Dialog
       ref="requirementSetEditDialog"
@@ -32,173 +32,111 @@
       icon="mdi-greater-than-or-equal"
       :max-width="1500"
     >
-      <h3 class="display-h3 mt-5">
-        {{ $t('general') }}
-      </h3>
-      <gen-form
-        ref="requirementSetEditForm"
-        :form-schema="requirementSetAddForm"
-        @submit="editRequirementSet"
-      />
-      <v-divider class="mt-5" />
-      <h3 class="display-h3 mt-5">
-        {{ $t('requirements') }}
-      </h3>
-      <DataTable
-        :headers="requirementHeaders"
-        :items="requirements"
-      >
-        <template #item.hId="{ item }">
-          {{ requirements.findIndex((i) => i.id === item.id) }}
-        </template>
-        <template #item.type="{ item }">
-          {{ $t(`_requirement.types.${item.type}`) }}
-        </template>
-        <template #item.value="{ item }">
-          {{ getValue(item) }}
-        </template>
-        <template #item.actions="{ item }">
-          <div class="text-right">
-            <v-btn
-              variant="outlined"
-              color="primary"
-              size="small"
-              disabled
-              class="mr-1"
-              @click="openEditRequirementSetDialog(item)"
-            >
-              <v-icon>
-                mdi-pencil
-              </v-icon>
-            </v-btn>
-            <v-btn
-              variant="outlined"
-              color="error"
-              size="small"
-              @click="openDeleteRequirementDialog(item)"
-            >
-              <v-icon>
-                mdi-delete
-              </v-icon>
-            </v-btn>
-          </div>
-        </template>
-        <template #footer-right>
-          <v-btn
-            color="success"
-            variant="outlined"
-            @click="openRequirementAddDialog($refs.requirementSetEditDialog.getItem())"
-          >
-            <v-icon start>
-              mdi-plus
-            </v-icon>
-            <span>{{ $t('_settings.addRequirement') }}</span>
-          </v-btn>
-        </template>
-      </DataTable>
-      <v-divider class="mt-5" />
-      <h3 class="display-h3 mt-5">
-        {{ $t('_settings.logicFormula') }}
-      </h3>
-      <p class="mt-2">
-        <span class="font-weight-bold">{{ $t('example') }}:</span>
-
-        <ul class="ml-5">
-          <li>
-            <code>
-              0 & (1 | 2)
-            </code>
-            <div class="font-italic">
-              {{ $t('_requirement.examples.abstract') }}
-            </div>
-          </li>
-          <li>
-            <code>
-              0
-            </code>
-            <div class="font-italic">
-              {{ $t('_requirement.examples.basic') }}
-            </div>
-          </li>
-          <li>
-            <code>
-              (0 | 1) | 2
-            </code>
-            <div class="font-italic">
-              {{ $t('_requirement.examples.advanced') }}
-            </div>
-          </li>
-        </ul>
-      </p>
-      <div class="mt-3">
-        <v-chip size="small">
-          |
-        </v-chip> {{ $t('_requirement.labels.forOrConnection') }}<br>
-      </div>
-      <div class="mt-1">
-        <v-chip
-          size="small"
-        >
-          &
-        </v-chip> {{ $t('_requirement.labels.forAndConnection') }}
-      </div>
-      <v-text-field
-        v-model="formula"
-        class="mt-4"
-        label="Formula"
-      />
-      <v-btn
-        :disabled="!formula"
-        :loading="formulaBtnLoading"
-        class="bg-primary"
-        variant="flat"
-        @click="validateFormula"
-      >
-        <v-icon
-          v-if="formulaScss"
-          size="large"
-          color="success"
-        >
-          mdi-check
-        </v-icon>
-        <span v-else>{{ $t('_settings.editFormula') }}</span>
-      </v-btn>
-      <v-row v-if="formulaMsg != null">
+      <v-row class="mt-1">
         <v-col
           cols="12"
-          class="mt-4"
+          md="5"
         >
-          <v-alert type="error">
-            {{ formulaMsg }}
-          </v-alert>
+          <h3 class="display-h3">
+            {{ $t('general') }}
+          </h3>
+          <gen-form
+            ref="requirementSetEditForm"
+            :form-schema="requirementSetAddForm"
+            :submit-text="$t('save')"
+            :cancel-text="null"
+            class="mt-2"
+            @submit="editRequirementSet"
+          />
+
+          <v-divider class="my-6" />
+
+          <h3 class="display-h3">
+            {{ $t('_settings.requirementSetTest') }}
+          </h3>
+          <p class="text-medium-emphasis mt-1 mb-3">
+            {{ $t('_settings.requirementSetTestHint') }}
+          </p>
+          <div class="d-flex align-center ga-3">
+            <UserSelect
+              v-model="testUser"
+              class="flex-grow-1"
+            />
+            <v-btn
+              color="primary"
+              :disabled="!testUser"
+              variant="flat"
+              @click="testRequirementSetAgainstUser"
+            >
+              {{ $t('test') }}
+            </v-btn>
+          </div>
+          <div
+            v-if="testResult !== null"
+            class="d-flex align-center mt-3"
+          >
+            <bool-icon
+              class="animate__animated animate__heartBeat mr-2"
+              :value="testResult"
+            />
+            <span>
+              {{ testResult ? $t('_settings.testFulfilled') : $t('_settings.testNotFulfilled') }}
+            </span>
+          </div>
         </v-col>
-      </v-row>
-      <v-divider class="mt-5" />
-      <h3 class="display-h3 mt-5">
-        {{ $t('_settings.requirementSetTest') }}
-      </h3>
-      <v-row class="align-center px-3 mt-1">
-        <UserSelect
-          v-model="testUser"
-          style="width: 250px"
-        />
-        <v-btn
-          color="primary"
-          :disabled="!testUser"
-          class="ml-3"
-          variant="flat"
-          @click="testRequirementSetAgainstUser"
+        <v-col
+          cols="12"
+          md="7"
+          class="req-manage-col"
         >
-          {{ $t('test') }}
-        </v-btn>
-        <bool-icon
-          v-if="testResult !== null"
-          class="animate__animated animate__heartBeat ml-3"
-          :value="testResult"
-        />
-        <div class="ml-1">
-          {{ testResult }}
-        </div>
+          <h3 class="display-h3">
+            {{ $t('requirements') }}
+          </h3>
+          <p class="text-medium-emphasis mt-1 mb-3">
+            {{ $t('_requirement.logicHint') }}
+          </p>
+          <RequirementLogicGroup
+            :model-value="logicTree"
+            :requirements="requirements || []"
+            :create-requirement="createRequirementInline"
+            :is-root="true"
+            @update:model-value="onLogicChange"
+          />
+          <div
+            class="d-flex align-center mt-3"
+            style="min-height: 28px;"
+          >
+            <template v-if="logicLoading">
+              <v-progress-circular
+                indeterminate
+                size="16"
+                width="2"
+                class="mr-2"
+              />
+              <span class="text-caption text-medium-emphasis">{{ $t('saving') }}</span>
+            </template>
+            <v-alert
+              v-else-if="formulaMsg != null"
+              type="error"
+              density="compact"
+              class="mb-0 py-1"
+            >
+              {{ formulaMsg }}
+            </v-alert>
+            <span
+              v-else
+              class="text-caption text-medium-emphasis d-flex align-center"
+            >
+              <v-icon
+                size="small"
+                class="mr-1"
+              >
+                mdi-content-save-check-outline
+              </v-icon>
+              {{ $t('savedAutomatically') }}
+            </span>
+          </div>
+        </v-col>
       </v-row>
     </Dialog>
     <!-- Real Component -->
@@ -247,8 +185,10 @@
 import RequirementAddForm from '@/forms/RequirementAddForm';
 import RequirementSetAddForm from '@/forms/RequirementSetAddForm';
 import openapi from '@/api/openapi';
+import RequirementLogicGroup from '@/components/SettingComponents/RequirementLogicGroup.vue';
 
 export default {
+  components: { RequirementLogicGroup },
   data() {
     return {
       requirementAddForm: RequirementAddForm.returnForm(),
@@ -262,20 +202,10 @@ export default {
           title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
         },
       ],
-      requirementHeaders: [
-        { title: 'ID', key: 'hId' },
-        { title: this.$t('type'), key: 'type' },
-        { title: this.$t('_requirement.requirementOperator'), key: 'operator' },
-        { title: this.$t('key'), key: 'key' },
-        { title: this.$t('value'), key: 'value' },
-        {
-          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
-        },
-      ],
-      formula: null,
       formulaMsg: null,
-      formulaBtnLoading: null,
-      formulaScss: null,
+      logicTree: { connector: '&', children: [] },
+      logicLoading: false,
+      pendingRequirementResolve: null,
       testUser: null,
       testResult: null,
     };
@@ -312,6 +242,19 @@ export default {
           this.$refs.requirementSetAddDialog.setError(err);
         });
     },
+    createRequirementInline() {
+      return new Promise((resolve) => {
+        this.pendingRequirementResolve = resolve;
+        this.$refs.requirementAddDialog.setData({});
+        this.$refs.requirementAddDialog.show();
+      });
+    },
+    cancelRequirementInline() {
+      if (this.pendingRequirementResolve) {
+        this.pendingRequirementResolve(null);
+        this.pendingRequirementResolve = null;
+      }
+    },
     async addRequirement() {
       const data = this.$refs.requirementAddDialog.getData().type;
       data.requirement_set_id = this.requirement_set_id;
@@ -322,10 +265,17 @@ export default {
         delete data.key;
       }
 
+      const existingIds = new Set((this.requirements || []).map((r) => r.id));
       (await openapi).requirements_createRequirement(null, data)
-        .then(() => {
-          this.fetchData();
-          this.fetchRequirements();
+        .then(async () => {
+          await this.fetchRequirements();
+          // Resolve the inline promise before closeAndReset(): closing emits 'cancel'
+          // (-> cancelRequirementInline), which would otherwise resolve it with null first.
+          const created = (this.requirements || []).find((r) => !existingIds.has(r.id));
+          if (this.pendingRequirementResolve) {
+            this.pendingRequirementResolve(created || null);
+            this.pendingRequirementResolve = null;
+          }
           this.$refs.requirementAddDialog.closeAndReset();
           this.$notify({
             title: this.$t('_messages.addSuccess'),
@@ -340,12 +290,8 @@ export default {
       this.$refs.requirementSetEditForm.setData(reqSet);
       this.requirement_set_id = reqSet.id;
       await this.fetchRequirements().then(() => {
-        this.formula = this.apiFormulaToReadable(reqSet.formula);
+        this.logicTree = this.apiToTree(reqSet.formula);
       });
-    },
-    async openRequirementAddDialog(reqSet) {
-      await this.$refs.requirementAddDialog.setData({});
-      await this.$refs.requirementAddDialog.show();
     },
     async editRequirementSet() {
       this.$refs.requirementSetEditForm.loading = true;
@@ -381,133 +327,91 @@ export default {
         this.$refs.requirementSetDeleteConfirmationDialog.setError(err);
       });
     },
-    openDeleteRequirementDialog(requirement) {
-      this.$refs.requirementDeleteConfirmationDialog.show(requirement);
-    },
-    async deleteRequirement(requirement) {
-      (await openapi).requirements_deleteRequirement(requirement.id).then(() => {
-        this.fetchRequirements();
-        this.$refs.requirementDeleteConfirmationDialog.closeAndReset();
-        this.$notify({
-          title: this.$t('_messages.deleteSuccess'),
-          type: 'success',
-        });
-      }).catch((err) => {
-        this.$refs.requirementDeleteConfirmationDialog.setError(err);
-      });
-    },
-    getValue(item) {
-      if (item.type === 'DATE') {
-        return this.utils.formatDate(item.value);
-      } return item.value;
-    },
-    async editFormula(formula) {
-      const reqSet = this.$refs.requirementSetEditDialog.getItem();
-      (await openapi)
-        .requirements_editRequirementSet(reqSet.id, { formula }).then(() => {
-          this.formulaBtnLoading = false;
-          this.formulaScss = true;
-          setTimeout(() => { this.formulaScss = false; }, 5000);
-          this.$notify({
-            title: this.$t('_messages.editSuccess'),
-            type: 'success',
-          });
-        }).catch((err) => {
-          this.formulaBtnLoading = false;
-          this.formulaMsg = err.response.data.detail;
-        });
-    },
-    validateFormula() {
-      this.formulaBtnLoading = true;
-      let res = null;
-      try {
-        res = this.validateF(this.formula.replace(/ /g, ''));
-        this.editFormula(res);
-      } catch (e) {
-        if (e instanceof TypeError) {
-          this.formulaMsg = this.$t('_settings.formulaTypeError');
-        } else {
-          this.formulaMsg = this.$t('_settings.formulaError');
-        }
-        console.log(e);
-        this.formulaBtnLoading = false;
+    apiToTree(apiFormula) {
+      if (!Array.isArray(apiFormula) || apiFormula.length === 0) {
+        return { connector: '&', children: [] };
       }
-    },
-    validateF(s) {
-      // push groups of parenthesis, numbers or operators to array
-      let substring = '';
-      let parenthesisCount = 0;
-      const arrayToCheck = [];
-      for (let j = 0; j < s.length; j += 1) {
-        switch (true) {
-          case s[j] === '(':
-            parenthesisCount += 1;
-            break;
-          case s[j] === ')':
-            parenthesisCount -= 1;
-            break;
-          default:
-        }
-        substring += s[j];
-        if (parenthesisCount === 0 && s[j] === ')') {
-          arrayToCheck.push(substring);
-          substring = '';
-        } else if (parenthesisCount === 0 && s[j] !== ')') {
-          if (s[j] === '&' || s[j] === '|') {
-            if (substring.length > 1) {
-              arrayToCheck.push(substring.substring(0, substring.length - 1));
-            }
-            substring = '';
-            arrayToCheck.push(s[j]);
-          }
-        }
-      }
-      if (substring.length > 0) {
-        arrayToCheck.push(substring);
-      }
-      // Evaluate IDs, Operators and also recursion
-      const res = [];
-      arrayToCheck.forEach((t) => {
-        switch (true) {
-          case /(\(.+?\))/.test(t):
-            res.push(this.validateF(t.substring(1, t.length - 1)));
-            break;
-          case /(\d+)|(\(\d+\))/.test(t):
-            res.push([this.requirements[t].id]);
-            break;
-          case /(&|\|)/.test(t):
-            res.push([t]);
-            break;
-          default:
-            throw new Error(`Error While Parsing ${t}`);
-        }
-      });
-      return res;
-    },
-    apiFormulaToReadable(apiFormula) {
-      if (apiFormula == null) return '';
-      const formula = [];
+      const operands = [];
+      const connectors = [];
       apiFormula.forEach((item) => {
-        if (Array.isArray(item)) {
-          if (item.length === 1 && (item[0] === '&' || item[0] === '|')) {
-            formula.push(item[0]);
-          } else if (item.length === 1) {
-            const requirementId = item[0];
-            const requirement = this.requirements
-              .find((req) => req.id === requirementId);
-            if (requirement) {
-              formula.push(this.requirements.findIndex((i) => i.id === requirement.id));
-            } else {
-              throw new Error(`Invalid requirement ID: ${requirementId}`);
-            }
-          } else {
-            formula.push(this.apiFormulaToReadable(item));
-          }
+        if (Array.isArray(item) && item.length === 1 && (item[0] === '&' || item[0] === '|')) {
+          connectors.push(item[0]);
         } else {
-          throw new Error(`Invalid result item: ${item}`);
+          operands.push(this.apiToNode(item));
         }
       });
-      return formula.join('');
+      if (operands.length === 1) {
+        const only = operands[0];
+        return only.children ? only : { connector: '&', children: [only] };
+      }
+      const uniform = connectors.every((c) => c === connectors[0]);
+      if (uniform) {
+        return { connector: connectors[0] || '&', children: operands };
+      }
+      let node = { connector: connectors[0], children: [operands[0], operands[1]] };
+      for (let i = 2; i < operands.length; i += 1) {
+        node = { connector: connectors[i - 1], children: [node, operands[i]] };
+      }
+      return node;
+    },
+    apiToNode(item) {
+      if (Array.isArray(item) && item.length === 1 && !Array.isArray(item[0])) {
+        return { requirementId: item[0] };
+      }
+      return this.apiToTree(item);
+    },
+    treeToApi(group) {
+      const arr = [];
+      group.children.forEach((child, i) => {
+        if (i > 0) arr.push([group.connector]);
+        arr.push(child.children ? this.treeToApi(child) : [child.requirementId]);
+      });
+      return arr;
+    },
+    pruneTree(group) {
+      const children = [];
+      group.children.forEach((child) => {
+        if (child.children) {
+          const pruned = this.pruneTree(child);
+          if (pruned.children.length > 0) children.push(pruned);
+        } else if ((this.requirements || []).find((r) => r.id === child.requirementId)) {
+          children.push(child);
+        }
+      });
+      return { connector: group.connector, children };
+    },
+    collectIds(group, set) {
+      group.children.forEach((child) => {
+        if (child.children) this.collectIds(child, set);
+        else set.add(child.requirementId);
+      });
+    },
+    onLogicChange(tree) {
+      this.logicTree = tree;
+      this.saveLogic();
+    },
+    async saveLogic() {
+      this.logicLoading = true;
+      this.formulaMsg = null;
+      const pruned = this.pruneTree(this.logicTree);
+      const formula = pruned.children.length > 0 ? this.treeToApi(pruned) : null;
+      const referenced = new Set();
+      this.collectIds(pruned, referenced);
+      const reqSet = this.$refs.requirementSetEditDialog.getItem();
+      try {
+        await (await openapi).requirements_editRequirementSet(reqSet.id, { formula });
+        const orphans = (this.requirements || []).filter((r) => !referenced.has(r.id));
+        if (orphans.length > 0) {
+          await Promise.all(orphans.map(async (r) => {
+            await (await openapi).requirements_deleteRequirement(r.id);
+          }));
+          await this.fetchRequirements();
+        }
+      } catch (err) {
+        this.formulaMsg = err.response?.data?.detail || this.utils.formatErrorMessage(err);
+      } finally {
+        this.logicLoading = false;
+      }
     },
     async testRequirementSetAgainstUser() {
       this.testResult = null;
@@ -529,5 +433,9 @@ export default {
 </script>
 
 <style scoped>
-
+@media (min-width: 960px) {
+  .req-manage-col {
+    border-left: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  }
+}
 </style>

@@ -8,6 +8,7 @@
     :retain-focus="false"
     class=""
     @cancel="cancelForm"
+    @close="onDialogClose"
   >
     <template
       v-if="formSchema"
@@ -23,7 +24,7 @@
         :options-extra="optionsExtra"
         class="mt-2"
         @submit="$emit('submit', item)"
-        @cancel="$refs.dialog.close(); $emit('cancel');"
+        @cancel="$refs.dialog.close();"
         @mounted="genFormMounted"
         @updated="$emit('updated')"
         @not-valid="loading=false;
@@ -159,6 +160,10 @@ export default {
     cancelForm() {
       this.loading = false;
       return this.$refs.form.cancelForm();
+    },
+    onDialogClose() {
+      this.loading = false;
+      this.$emit('cancel');
     },
     setSuccessMessage(text) {
       this.loading = false;

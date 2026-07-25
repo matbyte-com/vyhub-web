@@ -183,6 +183,21 @@ export default {
     'x-itemTitle': 'name',
     'x-itemKey': 'id',
   },
+  propertySelectField: {
+    type: 'string',
+    title: i18n.global.t('_requirement.propertyName'),
+    layout: {
+      getItems: {
+        // /group/property/ returns properties grouped by category:
+        // [{ categoryName: [{ name, ... }] }, ...] -> flatten to a single list.
+        url: `${API_URL}/group/property/`,
+        itemsResults: 'data.flatMap((category) => Object.values(category).flat())',
+        itemValue: 'item.name',
+        itemKey: 'item.name',
+        itemTitle: 'item.name',
+      },
+    },
+  },
   currency_code: {
     type: 'string',
     title: i18n.global.t('_packet.labels.currency'),

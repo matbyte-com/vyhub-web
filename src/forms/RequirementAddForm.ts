@@ -41,13 +41,6 @@ const operators: IOperators = {
   NHAVE: { const: 'NHAVE', title: i18n.global.t('_requirement.operators.NHAVE').toString(), icon: 'mdi-close' },
 };
 
-function checkIfTypeSB(requirementType: string) {
-  if (requirementType === 'PERMISSION_LEVEL_SB' || requirementType === 'PROPERTY_SB') {
-    return Common.serverbundleSelectField;
-  }
-  return {};
-}
-
 function requirementTypeField(requirementType: string) {
   let properties = {};
   let required: Array<string> = [];
@@ -58,8 +51,6 @@ function requirementTypeField(requirementType: string) {
       operator: {
         type: 'string',
         title: i18n.global.t('_requirement.requirementOperator'),
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
         oneOf: [
           operators.EQ,
           operators.NEQ,
@@ -68,13 +59,12 @@ function requirementTypeField(requirementType: string) {
       key: Common.groupSelectField,
     };
   } else if (requirementType === 'PERMISSION_LEVEL' || requirementType === 'PERMISSION_LEVEL_SB') {
-    required = ['operator', 'key', 'value'];
+    const isSB = requirementType === 'PERMISSION_LEVEL_SB';
+    required = isSB ? ['operator', 'key', 'value'] : ['operator', 'value'];
     properties = {
       operator: {
         type: 'string',
         title: i18n.global.t('_requirement.requirementOperator'),
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
         oneOf: [
           operators.EQ,
           operators.NEQ,
@@ -84,7 +74,7 @@ function requirementTypeField(requirementType: string) {
           operators.GEQ,
         ],
       },
-      key: checkIfTypeSB(requirementType),
+      ...(isSB ? { key: Common.serverbundleSelectField } : {}),
       value: {
         type: 'integer',
         title: i18n.global.t('_requirement.permissionLevel'),
@@ -93,23 +83,19 @@ function requirementTypeField(requirementType: string) {
       },
     };
   } else if (requirementType === 'PROPERTY' || requirementType === 'PROPERTY_SB') {
-    required = ['operator', 'value', 'key'];
+    const isSB = requirementType === 'PROPERTY_SB';
+    required = isSB ? ['operator', 'value', 'key'] : ['operator', 'value'];
     properties = {
       operator: {
         type: 'string',
         title: i18n.global.t('_requirement.requirementOperator'),
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
         oneOf: [
           operators.HAVE,
           operators.NHAVE,
         ],
       },
-      key: checkIfTypeSB(requirementType),
-      value: {
-        type: 'string',
-        title: i18n.global.t('_requirement.propertyName'),
-      },
+      ...(isSB ? { key: Common.serverbundleSelectField } : {}),
+      value: Common.propertySelectField,
     };
   } else if (requirementType === 'USER_ATTRIBUTE') {
     required = ['operator', 'value', 'key'];
@@ -117,8 +103,6 @@ function requirementTypeField(requirementType: string) {
       operator: {
         type: 'string',
         title: i18n.global.t('_requirement.requirementOperator'),
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
         oneOf: [
           operators.EQ,
           operators.NEQ,
@@ -143,8 +127,6 @@ function requirementTypeField(requirementType: string) {
       operator: {
         type: 'string',
         title: i18n.global.t('_requirement.requirementOperator'),
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
         oneOf: [
           operators.ACTIVE,
           operators.ONLY_ACTIVE,
@@ -161,8 +143,6 @@ function requirementTypeField(requirementType: string) {
       operator: {
         type: 'string',
         title: i18n.global.t('_requirement.requirementOperator'),
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
         oneOf: [
           operators.EQ,
           operators.NEQ,
@@ -184,8 +164,6 @@ function requirementTypeField(requirementType: string) {
       operator: {
         type: 'string',
         title: i18n.global.t('_requirement.requirementOperator'),
-        'x-display': 'icon',
-        'x-itemIcon': 'icon',
         oneOf: [
           operators.EQ,
           operators.NEQ,
