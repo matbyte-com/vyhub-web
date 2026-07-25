@@ -296,14 +296,18 @@ export default {
     },
     async addRequirementSet() {
       const data = this.$refs.requirementSetAddDialog.getData();
+      const existingIds = new Set((this.requirementSets || []).map((s) => s.id));
       (await openapi).requirements_createRequirementSet(null, data)
-        .then(() => {
-          this.fetchData();
+        .then(async () => {
           this.$refs.requirementSetAddDialog.closeAndReset();
           this.$notify({
             title: this.$t('_messages.addSuccess'),
             type: 'success',
           });
+          const rsp = await (await openapi).requirements_getRequirementSets();
+          this.requirementSets = rsp.data;
+          const created = this.requirementSets.find((s) => !existingIds.has(s.id));
+          if (created) this.openEditRequirementSetDialog(created);
         }).catch((err) => {
           this.$refs.requirementSetAddDialog.setError(err);
         });
