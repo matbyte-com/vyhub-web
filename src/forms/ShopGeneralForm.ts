@@ -134,6 +134,10 @@ export default {
         }
       },
     },
+    invoice_accent_color: Common.colorPicker(
+      '_shop.labels.invoiceAccentColor',
+      '_shop.labels.invoiceAccentColorDescription',
+    ),
     checkout_checkboxes: {
       type: 'array',
       title: i18n.global.t('_shop.labels.checkoutCheckboxes'),
