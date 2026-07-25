@@ -304,6 +304,10 @@ export default {
           this.topic = rsp.data;
           this.breadcrumbs = [
             { text: this.$t('title'), to: { name: 'Forum' } },
+            ...(this.topic.topic_category.subforum ? [{
+              text: this.topic.topic_category.subforum.title,
+              to: { name: 'Forum' },
+            }] : []),
             {
               text: this.topic.topic_category.title,
               to: { name: 'ForumCategory', params: { id: this.topic.topic_category.id } },

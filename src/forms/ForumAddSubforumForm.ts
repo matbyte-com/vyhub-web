@@ -13,9 +13,10 @@ function returnForm() {
         type: 'string',
         title: i18n.global.t('title'),
       },
-      subforum_id: {
-        ...Common.forumSelectSubforum,
-        type: 'string',
+      icon: Common.iconPicker,
+      description: {
+        type: ['string', 'null'],
+        title: i18n.global.t('description'),
       },
       requirement_set_id: {
         ...Common.requirementSetSelectField,

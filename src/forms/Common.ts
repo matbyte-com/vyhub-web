@@ -60,6 +60,13 @@ export default {
     'x-itemKey': 'id',
     'x-itemTitle': 'title',
   },
+  forumSelectSubforum: {
+    type: 'object',
+    title: i18n.global.t('_forum.subforum'),
+    'x-fromUrl': `${API_URL}/forum/subforum`,
+    'x-itemKey': 'id',
+    'x-itemTitle': 'title',
+  },
   forumSelectTopicLabels: {
     type: 'object',
     title: i18n.global.t('category'),

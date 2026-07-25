@@ -31,6 +31,16 @@
           <div class="d-flex align-center">
             <div class="text-white thread-breadcrumbs">
               <router-link
+                v-if="topic.topic_category.subforum"
+                :to="{ name: 'Forum' }"
+                class="text-white"
+              >
+                {{ topic.topic_category.subforum.title }}
+              </router-link>
+              <template v-if="topic.topic_category.subforum">
+                /
+              </template>
+              <router-link
                 :to="{ name: 'Forum' }"
                 class="text-white"
               >
