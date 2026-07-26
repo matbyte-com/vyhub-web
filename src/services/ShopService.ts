@@ -1,4 +1,3 @@
-import { loadStripe } from '@stripe/stripe-js/pure';
 import store from '@/store';
 import router from '@/router';
 import openapi from '@/api/openapi';
