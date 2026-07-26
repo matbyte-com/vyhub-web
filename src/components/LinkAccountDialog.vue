@@ -45,6 +45,7 @@
       <v-list
         v-if="backends != null"
         tile
+        density="compact"
         class="pb-0 mb-0"
       >
         <v-list-item
@@ -61,8 +62,10 @@
                 {{ getIcon(backend.name) }}
               </v-icon>
             </div>
-            <div class="ml-6">
-              <p>{{ $t(`_user.type.${backend.name}.name`) }}</p>
+            <div class="ml-4">
+              <div class="font-weight-medium">
+                {{ $t(`_user.type.${backend.name}.name`) }}
+              </div>
               <div class="text-grey account-subtitle">
                 {{ $t(`_user.type.${backend.name}.info`) }}
               </div>
@@ -95,7 +98,7 @@
               <v-icon size="25">
                 {{ getIcon('CENTRAL') }}
               </v-icon>
-              <div class="ml-6">
+              <div class="ml-4">
                 {{ $t(`_user.type.CENTRAL.name`) }}
               </div>
             </div>
