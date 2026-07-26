@@ -63,16 +63,36 @@ export default defineConfig({
         // one chunk per component + each internal directive/composable) into a
         // few large, cacheable bundles so a page load fetches a handful of JS
         // files instead of 150+.
-        manualChunks(id) {
-          if (id.includes('/node_modules/vuetify/')) return 'vuetify';
-          if (/\/node_modules\/(@vue\/|vue\/|vue-router\/|vuex\/|vue-i18n\/|vue-demi\/|@intlify\/)/.test(id)) return 'vue';
-          if (id.includes('/node_modules/')) return; // leave remaining vendors to Vite (keeps big libs like ckeditor/apexcharts lazy)
-          // App-wide shared modules that sit in the initial graph (services, api
-          // client, and the generic dialog/table/util components used by the
-          // layout). Merging them trims the eager request count. Route-specific
-          // views/components are NOT matched, so they stay lazily code-split.
-          if (id.includes('/src/services/') || id.includes('/src/api/')) return 'app-common';
-          if (/\/src\/components\/(Dialog|DialogForm|GenForm|ConfirmationDialog|DataTable|DataIterator|UserLink|ThemePicker|CardTitle)\.vue$/.test(id)) return 'app-common';
+        //
+        // Rolldown's `priority` matters: a higher-priority group claims its
+        // modules first and removes them from lower groups. `app-common`
+        // components import Vuetify components, so without vuetify/vue winning
+        // first their recursive deps would drag the whole Vuetify core into
+        // `app-common`. Vendors not matched by any group fall back to automatic
+        // chunking, keeping big libs (ckeditor/apexcharts) lazy.
+        codeSplitting: {
+          groups: [
+            {
+              name: 'vuetify',
+              test: /node_modules[\\/]vuetify[\\/]/,
+              priority: 30,
+            },
+            {
+              name: 'vue',
+              test: /node_modules[\\/](@vue|vue|vue-router|vuex|vue-i18n|vue-demi|@intlify)[\\/]/,
+              priority: 20,
+            },
+            {
+              // App-wide shared modules in the initial graph (services, api
+              // client, generic dialog/table/util components used by the
+              // layout). Route-specific views are NOT matched, so they stay
+              // lazily code-split.
+              name: 'app-common',
+              test: (id) => /[\\/]src[\\/](services|api)[\\/]/.test(id)
+                || /[\\/]src[\\/]components[\\/](Dialog|DialogForm|GenForm|ConfirmationDialog|DataTable|DataIterator|UserLink|ThemePicker|CardTitle)\.vue$/.test(id),
+              priority: 10,
+            },
+          ],
         },
       },
     },
