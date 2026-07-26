@@ -123,6 +123,8 @@ import i18n from '@/plugins/i18n';
 import {register} from 'swiper/element';
 import UserService from '@/services/UserService';
 import 'ckeditor5/ckeditor5.css';
+import lightThemeUrl from '@/assets/css/light.css?url';
+import darkThemeUrl from '@/assets/css/dark.css?url';
 import {computed, defineAsyncComponent, onBeforeMount, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import {useTheme} from "vuetify";
@@ -226,10 +228,10 @@ async function setTheme() {
 
       if (rsp.dark) {
         theme.global.name.value = 'dark';
-        loadStyleSheet('/assets/css/dark.css');
+        loadStyleSheet(darkThemeUrl);
       } else {
         theme.global.name.value = 'light';
-        loadStyleSheet('/assets/css/light.css');
+        loadStyleSheet(lightThemeUrl);
       }
 
 
@@ -298,10 +300,10 @@ function setThemeFromCache() {
     // Set theme mode
     if (cachedTheme.dark) {
       theme.global.name.value = 'dark';
-      loadStyleSheet('/assets/css/dark.css');
+      loadStyleSheet(darkThemeUrl);
     } else {
       theme.global.name.value = 'light';
-      loadStyleSheet('/assets/css/light.css');
+      loadStyleSheet(lightThemeUrl);
     }
     createStyleTag(cachedTheme.custom_css);
 
