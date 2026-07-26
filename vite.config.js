@@ -50,9 +50,32 @@ export default defineConfig({
   },
   build: {
     target: 'esnext', // you can also use 'es2020' here
+    // Bundle every component's styles into a single stylesheet instead of one
+    // file per component. Avoids hundreds of tiny CSS requests per page load
+    // (which trip CDN rate limits / HTTP 429).
+    cssCodeSplit: false,
     /*commonjsOptions: {
       include: commonjsDepsPaths,
     },*/
+    rollupOptions: {
+      output: {
+        // Collapse the many granular vendor chunks (vite-plugin-vuetify emits
+        // one chunk per component + each internal directive/composable) into a
+        // few large, cacheable bundles so a page load fetches a handful of JS
+        // files instead of 150+.
+        manualChunks(id) {
+          if (id.includes('/node_modules/vuetify/')) return 'vuetify';
+          if (/\/node_modules\/(@vue\/|vue\/|vue-router\/|vuex\/|vue-i18n\/|vue-demi\/|@intlify\/)/.test(id)) return 'vue';
+          if (id.includes('/node_modules/')) return; // leave remaining vendors to Vite (keeps big libs like ckeditor/apexcharts lazy)
+          // App-wide shared modules that sit in the initial graph (services, api
+          // client, and the generic dialog/table/util components used by the
+          // layout). Merging them trims the eager request count. Route-specific
+          // views/components are NOT matched, so they stay lazily code-split.
+          if (id.includes('/src/services/') || id.includes('/src/api/')) return 'app-common';
+          if (/\/src\/components\/(Dialog|DialogForm|GenForm|ConfirmationDialog|DataTable|DataIterator|UserLink|ThemePicker|CardTitle)\.vue$/.test(id)) return 'app-common';
+        },
+      },
+    },
   },
   optimizeDeps: {
     // Settings tabs and most routes are loaded via variable dynamic imports
