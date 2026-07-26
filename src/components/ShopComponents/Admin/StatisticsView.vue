@@ -2,7 +2,7 @@
   <div>
     <div v-if="currencies != null">
       <v-row
-        class="align-center justify-space-between"
+        class="align-center justify-space-between mb-2"
         dense
       >
         <v-col

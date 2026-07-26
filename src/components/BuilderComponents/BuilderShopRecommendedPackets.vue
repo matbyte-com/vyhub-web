@@ -29,13 +29,11 @@
               height="95%"
               :to="{ name: 'ShopCategory', params: { categoryId: packet.category.id} }"
             >
-              <div>
+              <div class="card-rounded-top overflow-hidden">
                 <PacketImage
-                  :cover="true"
+                  :blur-fill="true"
                   :packet="packet"
                   :alt="packet.title"
-                  class="card-rounded-top"
-                  max-height="200px"
                 >
                   <div
                     class="d-flex flex-column"
@@ -101,16 +99,11 @@ export default {
 </script>
 
 <style scoped>
-.img-hover-zoom {
-}
-
-/* [2] Transition property for smooth transformation of images */
-.img-hover-zoom .v-img {
+.img-hover-zoom :deep(.packet-image-fg) {
   transition: transform .3s ease;
 }
 
-/* [3] Finally, transforming the image when container gets hovered */
-.img-hover-zoom:hover .v-img {
+.img-hover-zoom:hover :deep(.packet-image-fg) {
   transform: scale(1.08);
 }
 </style>

@@ -1,5 +1,18 @@
 <template>
   <div>
+    <v-btn
+      v-if="$checkProp('forum_edit')"
+      color="success"
+      variant="flat"
+      block
+      class="mb-3"
+      @click="$emit('manage')"
+    >
+      <v-icon start>
+        mdi-card-multiple
+      </v-icon>
+      {{ $t('_forum.manageForum') }}
+    </v-btn>
     <v-card
       class="vh-forum-latest-posts card-rounded"
       flat
@@ -183,6 +196,7 @@
 import openapi from '@/api/openapi';
 
 export default {
+  emits: ['manage'],
   data() {
     return {
       latestPosts: null,

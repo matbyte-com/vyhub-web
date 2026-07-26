@@ -48,10 +48,6 @@ const vyhubLightFull = {
             background-color: #37474f !important; /* Mid charcoal for depth */
             color: #ffffff !important;
         }
-        .vh-cart-recommended-packets-cart, .vh-cart-recommended-packets h2 {
-            background-color: #37474f !important;
-            color: #ffffff !important;
-        }
         .vh-cart-recommended-packets-cart .v-btn--icon {
             color: #81c784 !important
         }

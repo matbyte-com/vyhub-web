@@ -4,7 +4,7 @@
     flat
     :border="outlined"
   >
-    <v-card-title class="pb-0">
+    <v-card-title class="pb-0 pt-3">
       <CardTitle
         icon="mdi-account-arrow-right"
         :title="$t('_user.labels.newUsers')"

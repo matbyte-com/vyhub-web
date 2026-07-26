@@ -15,9 +15,6 @@
           <h2 class="text-h5">
             {{ $t('news') }}
           </h2>
-          <v-divider
-            class="ml-3 mb-1 align-self-end"
-          />
         </div>
         <div
           class="mt-2 ql-editor"
@@ -36,14 +33,10 @@
           <h2 class="text-h5">
             {{ $t('categories') }}
           </h2>
-          <v-divider
-            thickness="1"
-            class="ml-3 mb-1 align-self-end"
-          />
         </div>
         <v-row
           v-if="categories"
-          class="mt-1"
+          class="mt-2"
         >
           <v-col
             v-for="category in categories"

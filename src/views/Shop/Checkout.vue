@@ -22,9 +22,8 @@
         <v-card class="card-rounded">
           <v-card-title class="d-block">
             {{ $t('_shop.labels.payment') }}
-            <v-divider />
           </v-card-title>
-          <v-card-text>
+          <v-card-text class="mt-2">
             <div v-if="errorMessage != null">
               <v-alert type="error">
                 {{ errorMessage }}

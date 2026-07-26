@@ -115,30 +115,34 @@ const anyShopStatsEnabled = computed(() => {
               :to=" { name: 'StoreCategory',
                       params: {categoryId: cat.name }}"
             >
-              <v-img
+              <div
                 v-if="cat.image_url"
-                :src="cat.image_url"
-                class="img-rounded ma-2"
-                min-height="90px"
-              />
-              <v-sheet
-                v-else
-                class="mb-1 bg-transparent"
-                height="200px"
+                class="category-image-square"
               >
-                <div
-                  class="d-flex align-center justify-center"
-                  style="height: 100%;"
+                <img
+                  class="category-image-blur"
+                  :src="cat.image_url"
+                  alt=""
+                  aria-hidden="true"
                 >
-                  <v-icon
-                    color="primary"
-                    size="150"
-                  >
-                    mdi-gift
-                  </v-icon>
-                </div>
-              </v-sheet>
-              <div class="text-center text-h5 mb-2">
+                <img
+                  class="category-image-fg"
+                  :src="cat.image_url"
+                  :alt="cat.name"
+                >
+              </div>
+              <div
+                v-else
+                class="category-image-square d-flex align-center justify-center"
+              >
+                <v-icon
+                  color="primary"
+                  size="150"
+                >
+                  mdi-gift
+                </v-icon>
+              </div>
+              <div class="text-center text-h5 mb-2 mt-1">
                 {{ cat.name }}
               </div>
             </v-card>
@@ -208,6 +212,31 @@ const anyShopStatsEnabled = computed(() => {
 
 .category-card:hover {
   color: rgb(var(--v-theme-primary));
+}
+
+.category-image-square {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.category-image-blur {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(18px) brightness(0.9);
+  transform: scale(1.15);
+}
+
+.category-image-fg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .button-active {

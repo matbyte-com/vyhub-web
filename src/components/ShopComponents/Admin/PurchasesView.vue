@@ -131,8 +131,8 @@
           v-if="$checkProp('purchase_edit')"
           :disabled="(selectedPurchases.length > 0 && !selectedPurchases.some(p => p.status === item.status)) || (selectedPurchases.length >= 15 && !selectedPurchases.includes(item))"
           v-model="selectedPurchases"
-          class="pt-3"
           density="compact"
+          hide-details
           :value="item"
         />
       </template>

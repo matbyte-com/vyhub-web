@@ -20,6 +20,10 @@ const props = defineProps({
     type: Boolean,
     default: null,
   },
+  persistent: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['input', 'close', 'cancel', 'update:modelValue']);
@@ -86,15 +90,16 @@ defineExpose({show, close, getItem, cancel, open, id});
     v-model="open"
     :class="{ 'ma-3' : !display.xs }"
     scrollable
-    persistent
+    :persistent="persistent"
     :max-width="maxWidth"
     :fullscreen="display.xs"
     :z-index="1005"
   >
     <v-card :class="{ 'card-rounded' : !display.xs }">
-      <v-card-title class="bg-primary d-flex">
+      <v-card-title class="bg-primary d-flex align-center">
         <v-icon
           :if="icon != null"
+          size="small"
           start
         >
           {{ icon }}

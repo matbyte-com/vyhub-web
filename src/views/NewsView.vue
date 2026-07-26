@@ -165,7 +165,7 @@ async function editMessage(message) {
         >
           <Swiper
             :number-of-elements="3"
-            :per-page-custom="[1,2,3,3,3,3]"
+            :per-page-custom="[1,1,3,3,3,3]"
           >
             <swiper-slide
               v-if="showServers"

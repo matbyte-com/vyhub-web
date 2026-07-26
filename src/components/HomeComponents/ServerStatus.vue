@@ -6,7 +6,7 @@
       flat
       :border="outlined"
     >
-      <v-card-title class="pb-0">
+      <v-card-title class="pb-0 pt-3">
         <CardTitle
           :title="$t('server')"
           icon="mdi-server"
@@ -16,94 +16,67 @@
         <div
           v-for="bundle in nonEmptyBundles"
           :key="bundle.id"
-          class="mt-3"
+          class="mt-4"
           :class="`vh-bundle-${bundle.id}`"
         >
-          <v-icon
-            v-if="bundle.icon"
-            start
-            size="small"
-          >
-            {{ bundle.icon }}
-          </v-icon>
-          <span>{{ bundle.name }}</span>
-          <v-divider class="mb-2" />
-          <v-row
+          <div class="d-flex align-center mb-2">
+            <v-icon
+              v-if="bundle.icon"
+              start
+              size="small"
+              class="text-medium-emphasis"
+            >
+              {{ bundle.icon }}
+            </v-icon>
+            <span class="text-subtitle-2 font-weight-medium">{{ bundle.name }}</span>
+          </div>
+          <v-divider />
+          <div
             v-for="server in getServer(bundle.id)"
             :key="server.id"
-            dense
-            align="center"
-            :no-gutters="$vuetify.display.smAndDown"
-            class="mt-0"
+            class="d-flex align-center flex-wrap py-2"
+            style="gap: 6px 10px"
           >
-            <v-col
-              order="1"
-              order-xl="1"
-              cols="6"
-              lg="6"
-              xl="3"
+            <v-icon
+              :color="getStatusColor(server)"
+              size="small"
             >
-              <v-icon
-                :color="getStatusColor(server)"
-                start
-              >
-                mdi-flash
-              </v-icon>
-              <span v-if="server.status !== 'UNKNOWN'">
-                <router-link
-                  style="text-decoration: none; cursor: pointer;"
-                  :disabled="true"
-                  :to="{ name: (!['DISCORD', 'TEAMSPEAK3'].includes(server.type) ?
-                           'ServerDashboard' : null),
-                         params: { id: server.id }}"
-                >
-                  <span v-if="server.type !== 'DISCORD'">
-                    <span v-if="server.users_current != null && server.status === 'ONLINE'">
-                      {{ server.users_current }}
-                    </span>
-                    <span v-else-if="server.status === 'OFFLINE'">0</span>
-                    <span v-else>?</span>
-                    {{ '/' }}
-                  </span>
-                  {{ server.users_max ? server.users_max : '?' }}
-                </router-link>
-              </span>
-              <span
-                v-if="server.status === 'UNKNOWN'"
-                class="font-italic text-disabled"
-              >
-                {{ $t('unknown') }}
-              </span>
-            </v-col>
-            <v-col
-              order="3"
-              order-xl="2"
-              cols="10"
-              lg="6"
-              xl="7"
+              mdi-flash
+            </v-icon>
+            <router-link
+              style="text-decoration: none; color: inherit"
+              class="font-weight-medium text-truncate"
+              :to="{ name: (server.type !== 'DISCORD' && server.type
+                       !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
+                     params: { id: server.id }}"
             >
-              <router-link
-                style="text-decoration: none;"
-                :to="{ name: (server.type !== 'DISCORD' && server.type
-                         !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
-                       params: { id: server.id }}"
-              >
-                {{ server.name }}
-              </router-link>
-            </v-col>
-            <v-col
-              order="2"
-              order-xl="3"
-              cols="6"
-              lg="6"
-              xl="2"
-              class="text-right"
+              {{ server.name }}
+            </router-link>
+            <span
+              v-if="server.status === 'UNKNOWN'"
+              class="font-italic text-disabled text-caption"
             >
+              {{ $t('unknown') }}
+            </span>
+            <span
+              v-else
+              class="text-caption text-medium-emphasis"
+            >
+              <template v-if="server.type !== 'DISCORD'">
+                <span v-if="server.users_current != null && server.status === 'ONLINE'">{{ server.users_current }}</span>
+                <span v-else-if="server.status === 'OFFLINE'">0</span>
+                <span v-else>?</span>
+                /
+              </template>
+              {{ server.users_max ? server.users_max : '?' }}
+            </span>
+            <v-spacer />
+            <div class="d-flex align-center">
               <v-btn
                 icon="mdi-information-symbol"
-                size="xs"
+                size="x-small"
                 color="info"
-                variant="flat"
+                variant="outlined"
                 @click="currentServer = server; $refs.serverDetailsDialog.show()"
               />
               <v-tooltip location="bottom">
@@ -124,8 +97,8 @@
                 </template>
                 <span>{{ $t('connect') }}</span>
               </v-tooltip>
-            </v-col>
-          </v-row>
+            </div>
+          </div>
         </div>
       </v-card-text>
     </v-card>

@@ -145,6 +145,9 @@
                         :title="$t('_theme.backgroundImageURL')"
                       />
                     </template>
+                    <template #custom-editor="context">
+                      <EditorForForm v-bind="context" />
+                    </template>
                   </v-jsf>
                 </v-form>
               </v-expansion-panel-text>
@@ -204,7 +207,7 @@
         />
         <transition-group
           tag="div"
-          class="mt-3 v-row"
+          class="mt-3 v-row v-row--density-default"
           name="list-complete"
         >
           <v-col

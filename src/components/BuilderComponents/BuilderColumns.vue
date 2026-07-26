@@ -6,7 +6,7 @@
         :key="index"
       >
         <div
-          class="d-flex justify-center align-center"
+          class="d-flex flex-column justify-center align-center"
           :class="{ 'text-white' : whiteText}"
         >
           <div
@@ -19,9 +19,10 @@
           </div>
           <div
             v-if="column.imageUrl"
-            class="flex-grow-1"
+            class="align-self-stretch text-center"
           >
             <v-img
+              class="mx-auto"
               :src="column.imageUrl"
               :alt="column.title"
               :max-width="maxImageWidth"

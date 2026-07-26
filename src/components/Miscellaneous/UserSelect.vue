@@ -15,7 +15,7 @@
       clearable
       @update:search="fetchUsers"
     >
-      <template #item="{ props, item }">
+      <template #item="{ props, internalItem: item }">
         <v-list-item
           v-bind="props"
           :prepend-avatar="item.raw.avatar"

@@ -26,7 +26,7 @@
               :to="{ name: 'ForumThread', params: { id: post.thread.id },
                      query: {lastPage: true}}"
             >
-              <div class="d-flex">
+              <div class="d-flex align-center">
                 <router-link
                   :to="{ name: 'UserDashboard',
                          params: { id: post.creator.id } }"
@@ -87,7 +87,7 @@
               class="listItem pt-0 pb-0"
               :to="{ name: 'ForumThread', params: { id: thread.id } }"
             >
-              <div class="d-flex">
+              <div class="d-flex align-center">
                 <router-link
                   :to="{ name: 'UserDashboard',
                          params: { id: thread.creator.id } }"

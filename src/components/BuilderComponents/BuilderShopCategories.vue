@@ -30,13 +30,32 @@
               height="95%"
               :to="{ name: 'ShopCategory', params: { categoryId: category.id} }"
             >
-              <div style="overflow: hidden">
-                <v-img
-                  cover
-                  max-height="200px"
+              <div
+                v-if="category.image_url"
+                class="category-image-square"
+              >
+                <img
+                  class="category-image-blur"
+                  :src="category.image_url"
+                  alt=""
+                  aria-hidden="true"
+                >
+                <img
+                  class="category-image-fg"
                   :src="category.image_url"
                   :alt="category.name"
-                />
+                >
+              </div>
+              <div
+                v-else
+                class="category-image-square d-flex align-center justify-center"
+              >
+                <v-icon
+                  color="primary"
+                  size="150"
+                >
+                  mdi-gift
+                </v-icon>
               </div>
               <div class="text-center text-h5 mt-3 mx-1">
                 {{ category.name }}
@@ -85,16 +104,34 @@ export default {
 </script>
 
 <style scoped>
-.img-hover-zoom {
+.category-image-square {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
 }
 
-/* [2] Transition property for smooth transformation of images */
-.img-hover-zoom .v-img {
+.category-image-blur {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(18px) brightness(0.9);
+  transform: scale(1.15);
+}
+
+.category-image-fg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   transition: transform .3s ease;
 }
 
-/* [3] Finally, transforming the image when container gets hovered */
-.img-hover-zoom:hover .v-img {
+/* Zoom the fitted image when the card is hovered */
+.img-hover-zoom:hover .category-image-fg {
   transform: scale(1.08);
 }
 

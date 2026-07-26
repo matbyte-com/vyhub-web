@@ -1,3 +1,48 @@
+/* Vuetify 4 dropped the minireset heading normalization and renamed all
+   typography utilities to MD3 names (text-headline-small, etc.), so the legacy
+   text-h1..h6 / subtitle / body / caption classes used across the app no longer
+   resolve and bare headings fall back to oversized browser defaults. Restore
+   both so existing markup keeps its Vuetify 3 appearance.
+
+   The heading element reset lives in Vuetify's own `vuetify-core > base` layer:
+   Vuetify 4 dropped `!important` from spacing utilities (`.mt-13` etc.) and
+   relies on cascade layers instead, so an unlayered `h1..h6 { margin: 0 }` would
+   override those utilities and break heading spacing everywhere (e.g. the
+   landing-page feature cards, where the icon overlaps the title). Layering it
+   below `vuetify-utilities` lets the utilities win while still beating the UA
+   defaults on bare headings. */
+@layer vuetify-core {
+  @layer base {
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 100%;
+      font-weight: normal;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.text-h1 { font-size: 6rem; font-weight: 300; line-height: 1; letter-spacing: -0.015625em; }
+.text-h2 { font-size: 3.75rem; font-weight: 300; line-height: 1.05; letter-spacing: -0.0083333333em; }
+.text-h3 { font-size: 3rem; font-weight: 400; line-height: 1.05; letter-spacing: normal; }
+.text-h4 { font-size: 2.125rem; font-weight: 400; line-height: 1.175; letter-spacing: 0.0073529412em; }
+.text-h5 { font-size: 1.5rem; font-weight: 400; line-height: 1.334; letter-spacing: normal; }
+.text-h6 { font-size: 1.25rem; font-weight: 500; line-height: 1.6; letter-spacing: 0.0125em; }
+.text-subtitle-1 { font-size: 1rem; font-weight: 400; line-height: 1.75; letter-spacing: 0.009375em; }
+.text-subtitle-2 { font-size: 0.875rem; font-weight: 500; line-height: 1.375; letter-spacing: 0.0071428571em; }
+.text-body-1 { font-size: 1rem; font-weight: 400; line-height: 1.5; letter-spacing: 0.03125em; }
+.text-body-2 { font-size: 0.875rem; font-weight: 400; line-height: 1.425; letter-spacing: 0.0178571429em; }
+.text-caption { font-size: 0.75rem; font-weight: 400; line-height: 1.667; letter-spacing: 0.0333333333em; }
+
+/* VJSF renders the icon-picker's "Available icons" hint as a markdown <p> in the
+   input's append slot. Vuetify 4 no longer zeroes <p> margins, so the default
+   16px top/bottom margin stretches the input row and nearly doubles the field
+   height. Collapse the margin so append/prepend slot text stays inline. */
+.v-input__append p,
+.v-input__prepend p {
+  margin: 0;
+}
+
 /* Vuetify's default container caps content well below the viewport on the md
    (960-1279px -> 900px) and lg (1280-1919px -> 1200px) ranges, wasting
    horizontal space. Cap at 1800px from md upward so content uses the full
@@ -123,10 +168,6 @@
   height: 6px /* adjust as necessary */
 }
 
-a {
-    color: rgb(var(--v-theme-primary));
-}
-
 a:not([class]) {
   position: relative;
   color: rgb(var(--v-theme-primary));
@@ -150,7 +191,7 @@ a:not([class])::before {
   transition: transform 0.3s ease;
 }
 
-a:hover::before {
+a:not([class]):hover::before {
   transform: scaleX(1);
 }
 
@@ -184,4 +225,8 @@ a:hover::before {
 
 .ck-content ul, .ck-content ol {
   margin-left: 20px
+}
+
+.vjsf-help-message-tooltip p {
+  line-height: 1px;
 }

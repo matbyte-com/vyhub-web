@@ -4,6 +4,7 @@
     <v-icon
       v-if="!noIcon"
       color="primary"
+      size="small"
       start
     >
       {{ icon }}

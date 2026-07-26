@@ -724,14 +724,17 @@ export default {
           html: {
             title: 'HTML',
             type: 'string',
-            'x-display': 'textarea',
+            layout: {
+              slots: {
+                component: 'custom-editor',
+              },
+            },
           },
         },
       },
       defaults: {
         html: '<div class="pa-5" style="width: 100%; text-align: center; background-color: #FFA500">'
           + '<p><h1>Hi 👋, I am an HTML block</h1></p><p class="mb-0">Writing HTML isn\'t that hard. The cool thing is, you can use all of Vuetify\'s css-classes. Since they are already injected.</p><p class="text-disabled">(Writing Vue or Vuetify tags doesn\'t work.)</p>'
-          + '<p>TODO: Explanation on how to call the API</p>'
           + '<div class="d-flex justify-center">'
           + '<div class="text-center flex-grow-1">⬅️ Left Column</div><div class="text-center flex-grow-1">Right Column ➡️</div></div></div>',
       },

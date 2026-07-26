@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import Axios from 'axios';
 import Notifications from "@kyvg/vue3-notification";
 import VueApexCharts from 'vue3-apexcharts';
-import VueGtag from 'vue-gtag';
+import { createGtag } from 'vue-gtag';
 import config from './config';
 import App from './App.vue';
 import router from './router';
@@ -39,9 +39,10 @@ app.use(VueApexCharts);
 app.use(Notifications);
 // app.use(VueNativeNotification); TODO Replace with something modern or remove functionality completely
 
-app.use(VueGtag, {
-  bootstrap: false,
-});
+app.use(createGtag({
+  tagId: '',
+  initMode: 'manual',
+}));
 
 app.mount('#app');
 

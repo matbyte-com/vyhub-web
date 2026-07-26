@@ -28,12 +28,20 @@ export default {
       description: i18n.global.t('_dashboard.labels.membershipEndDescription'),
     },
     serverbundle_id: {
-      ...Common.serverbundleSelectField,
       type: 'array',
+      title: i18n.global.t('serverbundle'),
       items: {
         type: 'string',
       },
-      default: null,
+      default: [],
+      layout: {
+        getItems: {
+          url: `${API_URL}/server/bundle/`,
+          itemKey: 'item.id',
+          itemValue: 'item.id',
+          itemTitle: 'item.name',
+        },
+      },
     },
   },
 };

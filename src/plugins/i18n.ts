@@ -45,7 +45,7 @@ function loadLocaleMessages() {
     const matched = path.match(/([A-Za-z0-9-_]+)\./i);
     if (matched && matched.length > 1) {
       const locale: string = matched[1];
-      messages[locale] = locales[path];
+      messages[locale] = (locales[path] as any).default;
     }
   }
 

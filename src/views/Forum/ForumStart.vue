@@ -5,23 +5,6 @@
         cols="12"
         md="9"
       >
-        <div
-          v-if="$checkProp('forum_edit')"
-          class="d-flex mb-3"
-        >
-          <v-spacer />
-          <v-btn
-            color="success"
-            size="small"
-            variant="flat"
-            @click="$refs.manageForumDialog.show()"
-          >
-            <v-icon start>
-              mdi-card-multiple
-            </v-icon>
-            <span>{{ $t('_forum.manageForum') }}</span>
-          </v-btn>
-        </div>
         <div v-if="showSkeletonLoaders">
           <v-card
             class="card-rounded mt-3"
@@ -111,7 +94,7 @@
                         <v-divider style="border-width: 1px;" />
                         <v-list-item
                           density="compact"
-                          class="ml-0 pl-0"
+                          class="ml-0 pl-4"
                           link
                           :to="{ name: 'ForumTopic', params: { id: topic.id } }"
                         >
@@ -210,6 +193,7 @@
                                     :to="{ name: 'ForumThread',
                                            params: { id: topic.last_post.thread.id } }"
                                     class="ml-1"
+                                    style="text-decoration: none"
                                   >
                                     {{ topic.last_post.thread.title }}
                                   </router-link>
@@ -272,7 +256,7 @@
         cols="12"
         md="3"
       >
-        <ForumSidebar />
+        <ForumSidebar @manage="$refs.manageForumDialog.show()" />
       </v-col>
     </v-row>
 

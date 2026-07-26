@@ -10,7 +10,6 @@
           {{ $t('_shop.labels.recommended') }}
         </h2>
       </div>
-      <v-divider class="ml-3 mb-1 align-self-end" />
     </v-card-title>
     <v-card-text>
       <div v-if="$vuetify.display.mdAndUp">
@@ -32,7 +31,7 @@
               @click="selectedPacket = p; $refs.detailDialog.show()"
             >
               <PacketImage
-                :cover="true"
+                :blur-fill="true"
                 :packet="p"
                 :alt="p.title"
               >
@@ -51,25 +50,25 @@
                   </v-row>
                 </div>
               </PacketImage>
-              <h3
-                class="text-wrap overflow-hidden text-center mt-1"
-                style="font-size: 1em; line-height: 1.4em; height: 40px"
-              >
-                {{ p.title }}
-              </h3>
-              <v-spacer />
-              <div class="d-flex justify-center align-end px-2 pb-1">
-                <span
-                  v-if="p.price_with_discount.total !== p.price_without_discount.total"
-                  class="strikethrough-diagonal text-disabled mr-2"
-                  style="font-size: small"
+              <div class="px-3 pt-2 pb-2">
+                <h3
+                  class="text-wrap overflow-hidden text-center"
+                  style="font-size: 1em; line-height: 1.3em;"
                 >
-                  {{ utils.formatCurrency(p.price_without_discount.total, p.currency.code) }}
-                </span>
-                <v-spacer v-if="p.price_with_discount.total !== p.price_without_discount.total" />
-                <span class="text-primary">
-                  {{ utils.formatCurrency(p.price_with_discount.total, p.currency.code) }}
-                </span>
+                  {{ p.title }}
+                </h3>
+                <div class="d-flex justify-center align-center mt-1">
+                  <span
+                    v-if="p.price_with_discount.total !== p.price_without_discount.total"
+                    class="strikethrough-diagonal text-disabled mr-2"
+                    style="font-size: small"
+                  >
+                    {{ utils.formatCurrency(p.price_without_discount.total, p.currency.code) }}
+                  </span>
+                  <span class="text-primary">
+                    {{ utils.formatCurrency(p.price_with_discount.total, p.currency.code) }}
+                  </span>
+                </div>
               </div>
             </v-card>
           </v-col>

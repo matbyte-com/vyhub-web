@@ -1,7 +1,7 @@
 import i18n from '../plugins/i18n';
 import openapi from '../api/openapi';
 import store from '../store';
-import {setOptions, bootstrap} from 'vue-gtag';
+import {configure, addGtag} from 'vue-gtag';
 import humanizeDuration from 'humanize-duration';
 import {notify} from "@kyvg/vue3-notification";
 
@@ -259,10 +259,10 @@ export default {
           if (!store.getters.generalConfig?.google_analytics_tag) {
             return;
           }
-          setOptions({
-            config: {id: store.getters.generalConfig?.google_analytics_tag},
+          configure({
+            tagId: store.getters.generalConfig?.google_analytics_tag,
           });
-          bootstrap().then(() => {
+          addGtag().then(() => {
             // console.log('Analytics is ready');
           });
         },

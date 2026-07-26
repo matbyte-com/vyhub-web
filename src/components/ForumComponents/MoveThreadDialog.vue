@@ -30,7 +30,7 @@
             hide-details="auto"
             autofocus
           >
-            <template #item="{ props, item }">
+            <template #item="{ props, internalItem: item }">
               <v-list-item
                 v-bind="props"
                 :title="item.raw.title"

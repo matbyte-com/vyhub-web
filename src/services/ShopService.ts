@@ -46,22 +46,6 @@ export default {
     } else if (action.type === 'finish') {
       router.push({ name: 'ShopCheckout', params: { action: 'finish', debitId: debit.id } });
       return true;
-    } else if (action.type === 'stripe_redirect_to_checkout') {
-      const stripe = await loadStripe(action.data.public_key);
-
-      if (stripe == null) {
-        throw new Error('Stripe object is null.');
-      }
-
-      const result = await stripe.redirectToCheckout({
-        sessionId: action.data.session_id,
-      });
-
-      if (result.error) {
-        throw new Error(result.error.message);
-      }
-
-      return true;
     } else if (action.type === 'form') {
       const { fields, method, url } = action.data;
 

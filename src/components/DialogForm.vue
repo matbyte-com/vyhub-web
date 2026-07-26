@@ -5,6 +5,7 @@
     :max-width="maxWidth"
     :title="title"
     :icon="icon"
+    :persistent="true"
     :retain-focus="false"
     class=""
     @cancel="cancelForm"
@@ -83,6 +84,8 @@
 </template>
 
 <script>
+import i18n from '@/plugins/i18n';
+
 export default {
   props: {
     title: String,
@@ -95,11 +98,11 @@ export default {
     },
     submitText: {
       type: String,
-      default: 'submit',
+      default: () => i18n.global.t('submit'),
     },
     cancelText: {
       type: String,
-      default: 'cancel',
+      default: () => i18n.global.t('cancel'),
     },
     slots: Array,
   },

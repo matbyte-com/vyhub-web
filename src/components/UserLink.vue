@@ -19,9 +19,16 @@
       <v-icon size="small">mdi-account</v-icon>
       {{ user.username }}
     </v-chip>
-    <span v-if="simple">
+    <span
+      v-if="simple"
+      class="d-inline-flex align-center"
+      style="gap: 2px; vertical-align: middle"
+    >
       <v-icon size="small">mdi-account</v-icon>
-      <router-link :to="{ name: 'UserDashboard', params: {id: user.id}}">{{ user.username }}</router-link>
+      <router-link
+        :to="{ name: 'UserDashboard', params: {id: user.id}}"
+        style="text-decoration: none"
+      >{{ user.username }}</router-link>
     </span>
   </span>
 </template>

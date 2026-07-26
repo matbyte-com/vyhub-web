@@ -95,8 +95,8 @@
           class="card-rounded"
           flat
         >
-          <v-card-title class="d-flex">
-            <v-icon start>
+          <v-card-title class="d-flex align-center">
+            <v-icon start size="small">
               mdi-account-clock
             </v-icon>
             {{ $t('_search.labels.recentlyActiveUsers') }}

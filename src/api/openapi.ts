@@ -1,4 +1,4 @@
-import OpenAPIClientAxios from 'openapi-client-axios';
+import { OpenAPIClientAxios } from 'openapi-client-axios';
 // import { Client } from '@/api/openapi.d';
 import store from '@/store';
 import qs from 'qs';

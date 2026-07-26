@@ -1,4 +1,4 @@
-.v-card {
+.v-card:not([class*="bg-"]) {
   background-color: rgba(255, 255, 255, 0.9);
 }
 
@@ -30,11 +30,11 @@
   background-color: transparent !important;
 }
 
-.v-dialog .v-card {
+.v-dialog .v-card:not([class*="bg-"]) {
   background-color: rgba(255, 255, 255, 1);
 }
 
-.v-overlay__content .v-card {
+.v-overlay__content .v-card:not([class*="bg-"]) {
   background-color: rgba(255, 255, 255, 1);
 }
 

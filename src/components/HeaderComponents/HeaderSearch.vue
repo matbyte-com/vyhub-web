@@ -23,7 +23,7 @@
     @update:model-value="showUser"
     @keydown.esc="search = null"
   >
-    <template #item="{ props, item }">
+    <template #item="{ props, internalItem: item }">
       <v-list-item
         v-if="item.raw.id !== 'advanced'"
         v-bind="props"

@@ -1,4 +1,4 @@
-.v-card {
+.v-card:not([class*="bg-"]) {
   background-color: rgba(33, 33, 33, 0.95);
 }
 
@@ -34,11 +34,11 @@
   background-color: transparent !important;
 }
 
-.v-dialog .v-card {
+.v-dialog .v-card:not([class*="bg-"]) {
   background-color: rgba(33, 33, 33);
 }
 
-.v-overlay__content .v-card {
+.v-overlay__content .v-card:not([class*="bg-"]) {
   background-color: rgba(33, 33, 33, 1);
 }
 
@@ -59,6 +59,11 @@
 
 /* CKEditor Dark */
 :root {
+  /* CKEditor 5 (v43+) forces `.ck-content { color: var(--ck-content-font-color) }`
+     with a #000 default, which made editor + rendered content text black in dark
+     mode. Override it so content text stays light. */
+  --ck-content-font-color: #e0e0e0;
+
   --ck-color-base-foreground: #2b2b2b;
   --ck-color-base-background: #1e1e1e;
   --ck-color-base-border: #454545;

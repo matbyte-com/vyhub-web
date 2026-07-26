@@ -112,6 +112,14 @@ export default {
 </script>
 
 <style scoped>
+.nav-btn {
+  font-size: 0.875rem;
+}
+
+.v-list-item-title {
+  font-size: 0.875rem;
+}
+
 .active-btn-light {
   background-color: rgb(var(--v-theme-primary-lighten-1));
   color: white;
