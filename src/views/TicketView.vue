@@ -24,12 +24,60 @@
           @click:row="showTicket"
         >
           <template #header>
-            <v-checkbox
-              v-model="show_closed"
-              :label="$t('_forum.showClosed')"
-              class="text-capitalize"
-              @update:model-value="fetchData"
-            />
+            <div class="d-flex align-center ga-3">
+              <v-checkbox
+                v-model="show_closed"
+                :label="$t('_forum.showClosed')"
+                class="text-capitalize flex-grow-0"
+                hide-details
+                @update:model-value="() => fetchData()"
+              />
+              <v-menu
+                location="bottom"
+                :close-on-content-click="false"
+              >
+                <template #activator="{ props }">
+                  <v-btn
+                    variant="outlined"
+                    color="primary"
+                    v-bind="props"
+                  >
+                    <v-icon start>
+                      mdi-filter
+                    </v-icon>
+                    {{ $t('category') }}
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-checkbox
+                    v-for="(category, index) in categories"
+                    :key="index"
+                    v-model="selectedCategories"
+                    class="ml-2 mr-2"
+                    hide-details
+                    :label="category.name"
+                    :value="category.id"
+                    @update:model-value="fetchData()"
+                  />
+                  <a
+                    class="ma-1"
+                    href="javascript:void(0)"
+                    @click="selectedCategories = []; fetchData()"
+                  >
+                    {{ $t('reset') }}</a>
+                </v-card>
+              </v-menu>
+            </div>
+          </template>
+          <template #item.category="{ item }">
+            <v-chip
+              v-if="item.category"
+              :color="item.category.color || '#9E9E9E'"
+              variant="flat"
+              size="small"
+            >
+              {{ item.category.name }}
+            </v-chip>
           </template>
           <template #item.color-status="{ item }">
             <v-sheet
@@ -84,6 +132,18 @@
           </template>
           <template #footer-right>
             <v-btn
+              v-if="$checkProp('ticket_edit')"
+              color="primary"
+              variant="outlined"
+              class="mr-2"
+              @click="$refs.categoriesDialog.show()"
+            >
+              <v-icon start>
+                mdi-tag-multiple
+              </v-icon>
+              <span>{{ $t('_forum.manageTicketCategories') }}</span>
+            </v-btn>
+            <v-btn
               color="success"
               variant="outlined"
               @click="$refs.addThreadDialog.show()"
@@ -100,7 +160,12 @@
     <ThreadAddDialog
       ref="addThreadDialog"
       :dialog-title="$t('_forum.addTicket')"
+      :show-category="true"
       @submit="newThread"
+    />
+    <TicketCategoriesDialog
+      ref="categoriesDialog"
+      @updated="fetchCategories"
     />
   </div>
 </template>
@@ -113,10 +178,13 @@ export default {
     return {
       tickets: null,
       show_closed: false,
+      categories: [],
+      selectedCategories: [],
       headers: [
         { key: 'color-status', sortable: false, width: '1px' },
         { title: this.$t('_forum.creator'), key: 'creator', sortable: false },
         { title: this.$t('title'), key: 'title', sortable: false },
+        { title: this.$t('category'), key: 'category', sortable: false },
         { title: this.$t('_forum.created'), key: 'created' },
         {
           title: this.$t('_forum.last_post'), key: 'last_post', sortable: false, align: 'end',
@@ -127,12 +195,19 @@ export default {
     };
   },
   mounted() {
+    this.fetchCategories();
     this.fetchData();
   },
   methods: {
+    async fetchCategories() {
+      (await openapi).forum_getTicketCategories().then((rsp) => {
+        this.categories = rsp.data;
+      });
+    },
     async fetchData(queryParams = null) {
       (await openapi).forum_getTickets({
         show_closed: this.show_closed,
+        category_id: this.selectedCategories,
         ...(queryParams != null ? queryParams : this.$refs.ticketTable.getQueryParameters()),
       })
         .then((rsp) => {

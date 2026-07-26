@@ -18,12 +18,54 @@
       :open="$vuetify.display.smAndDown"
     >
       <template #end>
-        <div class="d-flex flex-column">
+        <div class="d-flex align-center justify-end ga-2 w-100">
+          <v-menu
+            v-if="thread && thread.type === 'ticket' && $checkProp('ticket_edit')"
+            location="bottom end"
+          >
+            <template #activator="{ props }">
+              <v-chip
+                v-bind="props"
+                :color="thread.category ? (thread.category.color || '#9E9E9E') : undefined"
+                variant="flat"
+                style="cursor: pointer"
+              >
+                {{ thread.category ? thread.category.name : $t('category') }}
+                <v-icon end>
+                  mdi-menu-down
+                </v-icon>
+              </v-chip>
+            </template>
+            <v-list density="compact">
+              <v-list-item
+                v-for="category in categories"
+                :key="category.id"
+                :active="thread.category && thread.category.id === category.id"
+                @click="changeCategory(category)"
+              >
+                <template #prepend>
+                  <v-avatar
+                    :color="category.color || '#9E9E9E'"
+                    size="16"
+                    class="mr-2"
+                  />
+                </template>
+                <v-list-item-title>{{ category.name }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+          <v-chip
+            v-else-if="thread && thread.category"
+            :color="thread.category.color || '#9E9E9E'"
+            variant="flat"
+          >
+            {{ thread.category.name }}
+          </v-chip>
           <v-chip
             v-if="thread && thread.status === 'OPEN'"
             variant="flat"
             color="success"
-            class="text-uppercase ml-auto"
+            class="text-uppercase"
           >
             {{ $t('_forum.opened') }}
           </v-chip>
@@ -31,7 +73,7 @@
             v-else
             variant="flat"
             color="error"
-            class="text-uppercase ml-auto"
+            class="text-uppercase"
           >
             {{ $t('_forum.closed') }}
           </v-chip>
@@ -264,6 +306,7 @@ export default {
       posts: null,
       avatarWidth: '100px',
       thread: null,
+      categories: [],
       page: 1,
       totalPages: 1,
     };
@@ -280,8 +323,27 @@ export default {
     }
     this.fetchData();
     this.getThread();
+    if (this.$checkProp('ticket_edit')) {
+      this.fetchCategories();
+    }
   },
   methods: {
+    async fetchCategories() {
+      (await openapi).forum_getTicketCategories().then((rsp) => {
+        this.categories = rsp.data;
+      });
+    },
+    async changeCategory(category) {
+      (await openapi).forum_setTicketCategory(
+        { uuid: this.threadId }, { category_id: category ? category.id : null },
+      ).then((rsp) => {
+        this.thread = rsp.data;
+        this.$notify({
+          title: this.$t('_messages.editSuccess'),
+          type: 'success',
+        });
+      });
+    },
     async fetchData() {
       (await openapi)
         .forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 25 }).then((rsp) => {
