@@ -4,6 +4,84 @@ import Common from '@/forms/Common';
 export default {
   type: 'object',
   required: ['donation_goal_enabled', 'default_currency'],
+  layout: {
+    children: [
+      {
+        comp: 'card',
+        title: i18n.global.t('general'),
+        children: [
+          'default_currency',
+          'purchases_without_address_limit',
+          'credits_display_title',
+          'packet_list_view',
+        ],
+      },
+      {
+        comp: 'card',
+        title: i18n.global.t('statistics'),
+        children: [
+          'show_widgets_on_shop_page',
+          {
+            comp: 'section',
+            title: i18n.global.t('_shop.labels.donationGoal'),
+            children: [
+              'donation_goal_enabled',
+              'donation_goal',
+              'donation_goal_display_title',
+            ],
+          },
+          {
+            comp: 'section',
+            title: i18n.global.t('_shop.labels.topDonators'),
+            children: [
+              'top_donators_enabled',
+              'top_donators_limit',
+              'top_donators_days_limit',
+              'top_donators_display_title',
+            ],
+          },
+          {
+            comp: 'section',
+            title: i18n.global.t('_shop.labels.lastDonations'),
+            children: [
+              'last_donators_enabled',
+              'last_donators_display_title',
+            ],
+          },
+        ],
+      },
+      {
+        comp: 'card',
+        title: i18n.global.t('tax'),
+        children: [
+          'tax_allow_unknown',
+          'tax_included_in_packet_price',
+        ],
+      },
+      {
+        comp: 'card',
+        title: i18n.global.t('invoice'),
+        children: [
+          'invoice_logo_url',
+          'invoice_accent_color',
+        ],
+      },
+      {
+        comp: 'card',
+        title: i18n.global.t('checkout'),
+        children: [
+          'checkout_checkboxes',
+        ],
+      },
+      {
+        comp: 'card',
+        title: i18n.global.t('news'),
+        children: [
+          'news',
+        ],
+      },
+    ],
+  },
   properties: {
     default_currency: {
       ...Common.currency_code,
@@ -37,7 +115,7 @@ export default {
       description: i18n.global.t('_shop.labels.widgetDescription'),
       default: true,
       layout: {
-        cols: 6,
+        cols: 12,
         comp: 'switch',
       },
     },
@@ -55,7 +133,7 @@ export default {
       description: i18n.global.t('_shop.labels.widgetDescription'),
       default: true,
       layout: {
-        cols: 4,
+        cols: 12,
         comp: 'switch',
       },
     },
@@ -68,7 +146,7 @@ export default {
       },
     },
     top_donators_days_limit: {
-      type: 'integer',
+      type: ['integer', 'null'],
       title: i18n.global.t('_shop.labels.topDonatorsDaysLimit'),
       layout: {
         props: {
@@ -79,18 +157,20 @@ export default {
     },
     last_donators_enabled: {
       type: 'boolean',
-      'x-display': 'switch',
       title: i18n.global.t('_shop.labels.enableLastDonators'),
       description: i18n.global.t('_shop.labels.widgetDescription'),
       default: 'true',
-      'x-cols': 12,
+      layout: {
+        cols: 12,
+        comp: 'switch',
+      },
     },
     donation_goal_display_title: {
       type: 'string',
       title: i18n.global.t('_shop.labels.donationGoalDisplayTitle'),
       default: 'Donation Goal',
       layout: {
-        cols: 4,
+        cols: 6,
       }
     },
     top_donators_display_title: {
@@ -106,7 +186,7 @@ export default {
       title: i18n.global.t('_shop.labels.lastDonatorsDisplayTitle'),
       default: 'Donation Goal',
       layout: {
-        cols: 4,
+        cols: 6,
       }
     },
     tax_allow_unknown: {

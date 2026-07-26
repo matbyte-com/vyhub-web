@@ -8,15 +8,13 @@
       <v-col
         sm="12"
         md="7"
+        class="shop-general-form"
       >
-        <h6 class="text-h6">
-          {{ $t('general') }}
-        </h6>
         <GenForm
           ref="form"
           :form-schema="formSchema"
           :cancel-text="$t('cancel')"
-          :options-extra="{editMode: 'inline'}"
+          :options-extra="{editMode: 'inline', titleDepth: 4}"
           :submit-text="$t('submit')"
           :settings-mode="true"
           :action-button-top-margin="3"
@@ -152,5 +150,7 @@ export default {
 </script>
 
 <style scoped>
-
+.shop-general-form :deep(.v-card) {
+  margin-bottom: 16px;
+}
 </style>

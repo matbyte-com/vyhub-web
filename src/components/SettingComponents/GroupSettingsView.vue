@@ -217,7 +217,7 @@ export default {
         { title: this.$t('_settings.permissionLevel'), key: 'permission_level' },
         { title: this.$t('properties'), key: 'properties', width: '65%' },
         {
-          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end',
+          title: this.$t('actions'), key: 'actions', sortable: false, align: 'end', width: '10%'
         },
       ],
       groupMemberHeaders: [
