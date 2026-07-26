@@ -17,7 +17,7 @@
       class="vh-forum-latest-posts card-rounded"
       flat
     >
-      <v-card-title class="pb-0">
+      <v-card-title class="pb-0 pt-3">
         <CardTitle
           icon="mdi-message-text-clock"
           :title="$t('_forum.latestPosts')"
@@ -88,7 +88,7 @@
       class="mt-3 vh-forum-latest-threads card-rounded"
       flat
     >
-      <v-card-title class="d-block pb-0">
+      <v-card-title class="d-block pb-0 pt-3">
         <CardTitle
           icon="mdi-forum"
           :title="$t('_forum.latestThreads')"
@@ -157,7 +157,7 @@
       class="mt-3 vh-forum-statistics card-rounded"
       flat
     >
-      <v-card-title>
+      <v-card-title class="pt-3">
         <CardTitle
           icon="mdi-counter"
           :title="$t('statistics')"

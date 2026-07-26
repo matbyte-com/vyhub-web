@@ -4,7 +4,7 @@
     class="vh-cart-recommended-packets card-rounded"
     :flat="flat"
   >
-    <v-card-title class="d-flex">
+    <v-card-title class="d-flex pt-3">
       <div>
         <h2 class="text-h6">
           {{ $t('_shop.labels.recommended') }}

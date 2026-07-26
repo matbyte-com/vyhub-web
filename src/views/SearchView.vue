@@ -14,7 +14,7 @@
           class="mt-3 card-rounded"
           flat
         >
-          <v-card-title>
+          <v-card-title class="pt-3">
             <v-icon start>
               mdi-magnify
             </v-icon>
@@ -95,7 +95,7 @@
           class="card-rounded"
           flat
         >
-          <v-card-title class="d-flex align-center">
+          <v-card-title class="d-flex align-center pt-3">
             <v-icon start size="small">
               mdi-account-clock
             </v-icon>

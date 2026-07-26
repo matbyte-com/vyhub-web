@@ -142,9 +142,12 @@
                               xl="5"
                               class="d-flex align-center justify-end"
                             >
+                              <!-- Thread/post counts: fixed width so the icons
+                                   align across topics regardless of last-post content -->
                               <div
                                 v-if="$vuetify.display.lgAndUp"
                                 class="d-flex align-center mr-1"
+                                style="width: 120px"
                               >
                                 <v-tooltip location="bottom">
                                   <template #activator="{ props }">
@@ -171,42 +174,47 @@
                                 </v-tooltip>
                                 <span>{{ topic.posts_total }}</span>
                               </div>
+                              <!-- Last post: fixed width (reserved even when empty)
+                                   so the counts keep a consistent position -->
                               <div
-                                v-if="topic.last_post !== null && $vuetify.display.mdAndUp"
+                                v-if="$vuetify.display.mdAndUp"
                                 class="d-flex justify-end"
+                                style="width: 260px"
                               >
-                                <router-link
-                                  v-if="topic.last_post.creator"
-                                  :to="{ name: 'UserDashboard',
-                                         params: { id: topic.last_post.creator.id } }"
-                                >
-                                  <v-avatar class="ma-1 mr-2">
-                                    <v-img :src="topic.last_post.creator.avatar" />
-                                  </v-avatar>
-                                </router-link>
-                                <!-- Last Thread Title -->
-                                <div
-                                  class="align-self-center text-ellipsis"
-                                  style="width: 200px"
-                                >
+                                <template v-if="topic.last_post !== null">
                                   <router-link
-                                    :to="{ name: 'ForumThread',
-                                           params: { id: topic.last_post.thread.id } }"
-                                    class="ml-1"
-                                    style="text-decoration: none"
+                                    v-if="topic.last_post.creator"
+                                    :to="{ name: 'UserDashboard',
+                                           params: { id: topic.last_post.creator.id } }"
                                   >
-                                    {{ topic.last_post.thread.title }}
+                                    <v-avatar class="ma-1 mr-2">
+                                      <v-img :src="topic.last_post.creator.avatar" />
+                                    </v-avatar>
                                   </router-link>
-                                  <div class="d-flex align-center">
-                                    <UserLink
-                                      :simple="true"
-                                      :user="topic.last_post.creator"
-                                      class="mr-1 text-ellipsis"
-                                    />
-                                    •
-                                    {{ utils.formatTimeForForum(topic.last_post.created) }}
+                                  <!-- Last Thread Title -->
+                                  <div
+                                    class="align-self-center text-ellipsis"
+                                    style="width: 200px"
+                                  >
+                                    <router-link
+                                      :to="{ name: 'ForumThread',
+                                             params: { id: topic.last_post.thread.id } }"
+                                      class="ml-1"
+                                      style="text-decoration: none"
+                                    >
+                                      {{ topic.last_post.thread.title }}
+                                    </router-link>
+                                    <div class="d-flex align-center">
+                                      <UserLink
+                                        :simple="true"
+                                        :user="topic.last_post.creator"
+                                        class="mr-1 text-ellipsis"
+                                      />
+                                      •
+                                      {{ utils.formatTimeForForum(topic.last_post.created) }}
+                                    </div>
                                   </div>
-                                </div>
+                                </template>
                               </div>
                             </v-col>
                             <!-- Mobile -->

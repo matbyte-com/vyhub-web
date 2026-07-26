@@ -261,6 +261,7 @@
                 <div
                   v-if="post.creator && thread.creator
                     && post.creator.id === thread.creator.id"
+                  class="d-flex align-center"
                 >
                   <v-chip
                     color="success"

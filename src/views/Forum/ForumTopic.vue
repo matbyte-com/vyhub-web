@@ -85,10 +85,11 @@
             <template #item.last_post="{ item }">
               <div
                 v-if="item.last_post && item.last_post.creator"
-                class="d-flex align-center"
+                class="d-flex align-center justify-end"
               >
-                <v-spacer />
-                <div class="mr-3 align-center d-flex">
+                <!-- Status icons (variable width, kept left of the count so they
+                     never shift the count icon's horizontal position) -->
+                <div class="d-flex align-center">
                   <v-tooltip
                     v-if="item.pinned === false"
                     location="bottom"
@@ -115,22 +116,29 @@
                     </template>
                     <span> {{ $t('_forum.pinned') }} </span>
                   </v-tooltip>
-                  <div class="d-flex align-center">
-                    <v-tooltip location="bottom">
-                      <template #activator="{ props }">
-                        <v-icon
-                          class="mr-1"
-                          v-bind="props"
-                        >
-                          mdi-comment
-                        </v-icon>
-                      </template>
-                      <span> {{ $t('_forum.numberOfPosts') }} </span>
-                    </v-tooltip>
-                    {{ item.posts_total }}
-                  </div>
                 </div>
-                <div class="align-self-center d-flex flex-column text-ellipsis">
+                <!-- Post count: fixed width so the icon aligns across rows -->
+                <div
+                  class="d-flex align-center mr-3"
+                  style="width: 64px"
+                >
+                  <v-tooltip location="bottom">
+                    <template #activator="{ props }">
+                      <v-icon
+                        class="mr-1"
+                        v-bind="props"
+                      >
+                        mdi-comment
+                      </v-icon>
+                    </template>
+                    <span> {{ $t('_forum.numberOfPosts') }} </span>
+                  </v-tooltip>
+                  {{ item.posts_total }}
+                </div>
+                <div
+                  class="align-self-center d-flex flex-column text-ellipsis"
+                  style="width: 160px"
+                >
                   <UserLink
                     :small="true"
                     :user="item.last_post.creator"
@@ -169,24 +177,27 @@
                       {{ item.title }}
                     </router-link>
                   </div>
-                  <user-link
-                    :user="item.creator"
-                    :simple="true"
-                  />
-                  <b class="ml-1">·</b>
-                  <span>
-                    {{ new Date(item.created).toLocaleDateString() }}
-                  </span>
-                  <v-chip
-                    v-for="l in item.labels"
-                    :key="l.id"
-                    label
-                    size="x-small"
-                    class="text-white ml-1"
-                    :color="l.color"
-                  >
-                    {{ l.name }}
-                  </v-chip>
+                  <div class="d-flex align-center">
+                    <user-link
+                      :user="item.creator"
+                      :simple="true"
+                      class="mr-1"
+                    />
+                    •
+                    <span class="ml-1">
+                      {{ new Date(item.created).toLocaleDateString() }}
+                    </span>
+                    <v-chip
+                      v-for="l in item.labels"
+                      :key="l.id"
+                      label
+                      size="x-small"
+                      class="text-white ml-1"
+                      :color="l.color"
+                    >
+                      {{ l.name }}
+                    </v-chip>
+                  </div>
                 </div>
               </div>
             </template>

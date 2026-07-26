@@ -11,7 +11,10 @@
           v-if="latestPosts"
           class="vh-forum-latest-posts flex-grow-1 flex-column d-flex card-rounded"
         >
-          <v-card-title style="word-break: break-word">
+          <v-card-title
+            class="pt-3"
+            style="word-break: break-word"
+          >
             <CardTitle
               icon="mdi-message-text-clock"
               :title="$t('_forum.latestPosts')"
@@ -73,7 +76,10 @@
           v-if="latestThreads"
           class="vh-forum-latest-threads flex-grow-1 flex-column d-flex card-rounded"
         >
-          <v-card-title style="word-break: break-word">
+          <v-card-title
+            class="pt-3"
+            style="word-break: break-word"
+          >
             <CardTitle
               icon="mdi-forum"
               :title="$t('_forum.latestThreads')"
