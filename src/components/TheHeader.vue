@@ -165,7 +165,7 @@ function showLoginDialog() {
         </div>
 
         <!-- Logo -->
-        <div>
+        <div v-if="store.state.theme && store.state.theme.logo">
           <v-img
             v-if="store.state.theme"
             alt="Community Logo"
