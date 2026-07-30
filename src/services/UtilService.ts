@@ -5,6 +5,10 @@ import {configure, addGtag} from 'vue-gtag';
 import humanizeDuration from 'humanize-duration';
 import {notify} from "@kyvg/vue3-notification";
 
+// Shared in-flight request so concurrent callers (e.g. App.vue on mount and a
+// redirect view like Start/Home) don't each fire their own /general/config GET.
+let generalConfigPromise: Promise<void> | null = null;
+
 const unitMeasures = {
   y: 31536000000,
   mo: 2592000000,
@@ -129,13 +133,23 @@ export default {
           }
           return result;
         },
-        async getGeneralConfig() {
-          await (await openapi).general_getConfig().then((rsp) => {
-            store.commit('SET_GENERAL_CONFIG', rsp.data);
-          }).catch((err) => {
-            console.log('Could not get General Settings');
-            throw err;
-          });
+        getGeneralConfig() {
+          if (generalConfigPromise) {
+            return generalConfigPromise;
+          }
+          generalConfigPromise = openapi
+            .then((client) => client.general_getConfig())
+            .then((rsp) => {
+              store.commit('SET_GENERAL_CONFIG', rsp.data);
+            })
+            .catch((err) => {
+              console.log('Could not get General Settings');
+              throw err;
+            })
+            .finally(() => {
+              generalConfigPromise = null;
+            });
+          return generalConfigPromise;
         },
         async getShopConfig() {
           (await openapi).shop_getConfig().then((rsp) => {

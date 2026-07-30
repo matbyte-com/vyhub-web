@@ -4,6 +4,8 @@ import {nextTick, onMounted, ref, useTemplateRef, watch} from "vue";
 import openapi from "@/api/openapi";
 import {notify} from "@kyvg/vue3-notification";
 import {useI18n} from "vue-i18n";
+import {useStore} from "vuex";
+import {useUtils} from "@/services/useUtils";
 
 defineEmits(['close-overlay']);
 
@@ -15,6 +17,8 @@ const props = defineProps({
 const welcomeSchema = welcomeForm.form()
 const welcomeGenForm = useTemplateRef('welcomeGenForm');
 const i18n = useI18n();
+const store = useStore();
+const utils = useUtils().data().utils;
 
 const generalData = ref(null);
 
@@ -44,9 +48,10 @@ async function setData() {
 }
 
 async function getGeneralData() {
-  (await openapi).general_getConfig().then((rsp) => {
-    generalData.value = rsp.data;
-  });
+  if (!store.getters.generalConfig) {
+    await utils.getGeneralConfig();
+  }
+  generalData.value = { ...store.getters.generalConfig };
 }
 
 function setFormData() {

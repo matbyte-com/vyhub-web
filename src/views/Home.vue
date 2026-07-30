@@ -253,7 +253,6 @@ import components from '@/components/BuilderComponents/components';
 import VJsf from '@koumoul/vjsf';
 import {v2compat} from "@koumoul/vjsf/compat/v2";
 import openapi from '@/api/openapi';
-import openapiCached from '@/api/openapiCached';
 import {VueDraggable} from "vue-draggable-plus";
 import {computed, onBeforeMount, ref, useTemplateRef} from "vue";
 import {useDisplay} from "vuetify";
@@ -261,11 +260,13 @@ import {notify} from "@kyvg/vue3-notification";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
+import {useUtils} from "@/services/useUtils";
 
 const display = ref(useDisplay());
 const store = useStore();
 const router = useRouter();
 const i18n = useI18n();
+const utils = useUtils().data().utils;
 
 const closeDrawerIcon = useTemplateRef('closeDrawerIcon')
 const addComponentDialog = useTemplateRef('addComponentDialog')
@@ -348,13 +349,9 @@ onBeforeMount(() => {
 
 async function redirectWhenDisabled() {
   if (!store.getters.generalConfig) {
-    (await openapiCached).general_getConfig().then((rsp) => {
-      const config = rsp.data;
-      if (!config.enable_landingpage) {
-        router.replace({name: 'News'});
-      }
-    });
-  } else if (!store.getters.generalConfig.enable_landingpage) {
+    await utils.getGeneralConfig();
+  }
+  if (!store.getters.generalConfig?.enable_landingpage) {
     await router.replace({name: 'News'});
   }
 }
