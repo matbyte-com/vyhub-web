@@ -12,6 +12,7 @@
     <v-card-text
       v-if="!$slots.empty"
       class="pa-2 ml-1 text-white"
+      style="min-width: 0"
     >
       <div
         v-if="$slots.start_or_above"
@@ -50,7 +51,10 @@
               {{ title }}
             </h1>
           </v-col>
-          <v-col v-if="$slots.end">
+          <v-col
+            v-if="$slots.end"
+            cols="auto"
+          >
             <slot name="end" />
           </v-col>
         </v-row>

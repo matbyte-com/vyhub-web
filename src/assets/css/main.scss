@@ -168,6 +168,24 @@
   height: 6px /* adjust as necessary */
 }
 
+/* Plain content links (forum thread titles, usernames, etc.) should use the
+   theme primary color for both visited and unvisited states, not the browser
+   default blue/purple. Match every anchor that isn't a Vuetify component -
+   those carry a `v-` prefixed class and bring their own colors. `:where()`
+   keeps specificity at zero so intentional `text-*` color utilities, editor
+   link styles, and inline `color` overrides still win. */
+a:where(:not([class*="v-"])) {
+  color: rgb(var(--v-theme-primary));
+  text-decoration: none;
+}
+
+/* Links inside the primary-colored page title (e.g. forum breadcrumbs) must not
+   take the primary color from the rule above - they'd be unreadable on the
+   primary background. Inherit the title's white text instead. */
+.vh-page-title a:where(:not([class*="v-"])) {
+  color: inherit;
+}
+
 a:not([class]) {
   position: relative;
   color: rgb(var(--v-theme-primary));

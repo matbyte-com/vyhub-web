@@ -56,7 +56,8 @@ const navLinks = computed(() => {
         <span v-if="!store.state.generalConfig?.remove_branding">
           —
           <a
-            class="text-decoration-none text-white"
+            class="text-decoration-none"
+            style="color: #fff"
             href="https://vyhub.net"
           >
             Powered by VyHub

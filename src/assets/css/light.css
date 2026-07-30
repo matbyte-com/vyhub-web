@@ -26,6 +26,13 @@
   background-color: rgba(255, 255, 255, 0);
 }
 
+/* Lists floating in an overlay (v-menu / v-select dropdowns) need an opaque
+   surface so page content doesn't bleed through. The transparent rule above is
+   intended only for in-page lists that blend into their container. */
+.v-overlay__content .v-list {
+  background-color: rgb(var(--v-theme-surface));
+}
+
 .v-tabs-items {
   background-color: transparent !important;
 }

@@ -3,7 +3,7 @@
     <v-row class="mt-1">
       <v-col
         cols="12"
-        md="9"
+        lg="9"
       >
         <div v-if="showSkeletonLoaders">
           <v-card
@@ -262,7 +262,7 @@
       <!-- Sidebar -->
       <v-col
         cols="12"
-        md="3"
+        lg="3"
       >
         <ForumSidebar @manage="$refs.manageForumDialog.show()" />
       </v-col>

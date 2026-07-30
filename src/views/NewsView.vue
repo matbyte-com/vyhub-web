@@ -287,7 +287,7 @@ async function editMessage(message) {
             </span>
           </v-card-title>
           <v-card-text
-            class="mt-3 ql-editor ck-content"
+            class="ql-editor ck-content"
             style="min-height: 50px"
           >
             <div v-html="message.content" />
