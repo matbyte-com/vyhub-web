@@ -2,7 +2,7 @@
   <div>
     <v-btn
       v-if="$checkProp('forum_edit')"
-      color="success"
+      color="primary"
       variant="flat"
       block
       class="mb-3"
