@@ -136,51 +136,123 @@
         :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown || index !== 0,
                   'no-top-border-radius': $vuetify.display.smAndDown && index === 0}"
       >
-        <div>
+        <div
+          class="d-flex"
+          :class="{ 'flex-column': $vuetify.display.xs }"
+        >
+          <!-- Desktop avatar sidebar -->
+          <div
+            v-if="$vuetify.display.smAndUp"
+            class="pa-3 text-center flex-shrink-0"
+            style="width: 200px"
+          >
+            <router-link
+              v-if="!post.creator.deleted"
+              :to="{ name: 'UserDashboard', params: { id: post.creator.id } }"
+              class="text-decoration-none"
+              style="color: inherit"
+            >
+              <v-avatar size="80">
+                <v-img
+                  class="mx-auto"
+                  :src="post.creator.avatar"
+                />
+              </v-avatar>
+              <div class="text-h6">
+                {{ post.creator.username }}
+              </div>
+            </router-link>
+            <div v-else>
+              <v-avatar size="80">
+                <v-img
+                  class="mx-auto"
+                  :src="post.creator.avatar"
+                />
+              </v-avatar>
+              <div class="text-h6">
+                {{ post.creator.username }}
+              </div>
+              <v-icon
+                color="red"
+                class="mt-2"
+              >
+                mdi-account-remove
+              </v-icon>
+            </div>
+            <div
+              v-for="membership in post.creator.memberships"
+              :key="membership.id"
+              class="justify-center"
+            >
+              <v-tooltip location="bottom">
+                <template #activator="{ props }">
+                  <v-chip
+                    size="small"
+                    :color="membership.group.color"
+                    v-bind="props"
+                    variant="outlined"
+                    class="mt-2"
+                    style="max-width: 150px"
+                  >
+                    <span class="text-ellipsis">
+                      {{ membership.group.name }}
+                    </span>
+                  </v-chip>
+                </template>
+                {{ membership.group.name }}
+              </v-tooltip>
+            </div>
+          </div>
+          <v-divider
+            v-if="$vuetify.display.smAndUp"
+            vertical
+          />
+          <div style="width: 100%; min-width: 0">
               <!-- TOP START -->
               <!-- ORIGINAL POSTER HINT -->
               <v-card-text class="d-flex align-center flex-wrap" style="gap: 8px">
-                <!-- User chip -->
-                <v-chip
-                  :to="!post.creator.deleted
-                    ? { name: 'UserDashboard', params: { id: post.creator.id } }
-                    : undefined"
-                  size="small"
-                  variant="tonal"
-                >
-                  <v-avatar start>
-                    <v-img :src="post.creator.avatar" />
-                  </v-avatar>
-                  {{ post.creator.username }}
-                </v-chip>
-                <v-icon
-                  v-if="post.creator.deleted"
-                  color="red"
-                  size="small"
-                >
-                  mdi-account-remove
-                </v-icon>
-                <!-- Membership chips -->
-                <v-tooltip
-                  v-for="membership in post.creator.memberships"
-                  :key="membership.id"
-                  location="bottom"
-                >
-                  <template #activator="{ props }">
-                    <v-chip
-                      size="small"
-                      :color="membership.group.color"
-                      v-bind="props"
-                      variant="outlined"
-                      style="max-width: 150px"
-                    >
-                      <span class="text-ellipsis">
-                        {{ membership.group.name }}
-                      </span>
-                    </v-chip>
-                  </template>
-                  {{ membership.group.name }}
-                </v-tooltip>
+                <!-- User chip + memberships (mobile only; desktop shows these in the sidebar) -->
+                <template v-if="$vuetify.display.xs">
+                  <v-chip
+                    :to="!post.creator.deleted
+                      ? { name: 'UserDashboard', params: { id: post.creator.id } }
+                      : undefined"
+                    size="small"
+                    variant="tonal"
+                  >
+                    <v-avatar start>
+                      <v-img :src="post.creator.avatar" />
+                    </v-avatar>
+                    {{ post.creator.username }}
+                  </v-chip>
+                  <v-icon
+                    v-if="post.creator.deleted"
+                    color="red"
+                    size="small"
+                  >
+                    mdi-account-remove
+                  </v-icon>
+                  <v-tooltip
+                    v-for="membership in post.creator.memberships"
+                    :key="membership.id"
+                    location="bottom"
+                  >
+                    <template #activator="{ props }">
+                      <v-chip
+                        size="small"
+                        :color="membership.group.color"
+                        v-bind="props"
+                        variant="outlined"
+                        style="max-width: 150px"
+                      >
+                        <span class="text-ellipsis">
+                          {{ membership.group.name }}
+                        </span>
+                      </v-chip>
+                    </template>
+                    {{ membership.group.name }}
+                  </v-tooltip>
+                </template>
                 <!-- ORIGINAL POSTER HINT -->
                 <v-chip
                   v-if="post.creator && thread.creator
@@ -305,6 +377,7 @@
                   </div>
                 </div>
               </div>
+          </div>
         </div>
       </v-card>
       <v-pagination
