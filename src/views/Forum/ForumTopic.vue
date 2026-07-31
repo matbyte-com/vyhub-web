@@ -47,7 +47,7 @@
             default-sort-by="last_post"
             :default-sort-desc="true"
             class="cursor"
-            @reload="fetchTopic"
+            @reload="fetchThreads"
             @click:row="showThread"
           >
             <template #header>
@@ -57,7 +57,7 @@
                   :label="$t('_forum.hideClosed')"
                   class="text-capitalize"
                   hide-details="auto"
-                  @update:model-value="fetchTopic"
+                  @update:model-value="fetchThreads()"
                 />
                 <v-spacer />
                 <div v-if="topic.admins.length >= 1 || topic.admin_groups.length >= 1">
@@ -325,7 +325,6 @@ export default {
             },
             { text: this.topic.title },
           ];
-          this.fetchThreads();
         }
       });
     },
