@@ -22,6 +22,9 @@
         v-if="activeDef != null"
         :data="activeHistory"
         :definition="activeDef"
+        :start="historyStart"
+        :loading="loadingMore"
+        @load-more="loadEarlier"
       />
       <div v-else>
         {{ $t('noDataAvailable') }}
@@ -46,6 +49,9 @@ export default {
       attributeDefinitions: [],
       activeDef: null,
       activeHistory: null,
+      // null means "full history"; otherwise the earliest date currently loaded.
+      historyStart: null,
+      loadingMore: false,
     };
   },
   computed: {
@@ -71,7 +77,33 @@ export default {
       this.activeDef = null;
       this.fetchData();
     },
-    async activeDef() {
+    activeDef() {
+      // Every attribute tab starts with only the most recent year loaded.
+      this.historyStart = this.defaultStart();
+      this.fetchHistory();
+    },
+  },
+  beforeMount() {
+    this.fetchData();
+  },
+  methods: {
+    defaultStart() {
+      const d = new Date();
+      d.setFullYear(d.getFullYear() - 1);
+      return d;
+    },
+    async fetchData() {
+      (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
+        this.attributeDefinitions = rsp.data;
+
+        const accDefs = this.accumulatedDefinitions;
+
+        if (accDefs.length > 0) {
+          [this.activeDef] = accDefs;
+        }
+      });
+    },
+    async fetchHistory() {
       if (this.activeDef == null) {
         this.activeHistory = null;
         return;
@@ -86,30 +118,38 @@ export default {
         historyReq.serverbundle_id = this.bundle.id;
       }
 
-      (await openapiCached).user_getAttributeHistory(
-        historyReq,
-      ).then((rsp) => {
+      if (this.historyStart != null) {
+        historyReq.start = this.historyStart.toISOString();
+      }
+
+      this.loadingMore = true;
+
+      try {
+        const rsp = await (await openapiCached).user_getAttributeHistory(historyReq);
         this.activeHistory = rsp.data;
-      }).catch((err) => {
+      } catch (err) {
         this.activeHistory = null;
         this.utils.notifyUnexpectedError(err.response.data);
-      });
+      } finally {
+        this.loadingMore = false;
+      }
     },
-  },
-  beforeMount() {
-    this.fetchData();
-  },
-  methods: {
-    async fetchData() {
-      (await openapiCached).user_getAttributeDefinitions().then((rsp) => {
-        this.attributeDefinitions = rsp.data;
+    // target: a Date to extend the window back to, or null to load everything.
+    loadEarlier(target) {
+      if (this.loadingMore) {
+        return;
+      }
 
-        const accDefs = this.accumulatedDefinitions;
+      if (this.historyStart == null) {
+        return; // already showing full history
+      }
 
-        if (accDefs.length > 0) {
-          [this.activeDef] = accDefs;
-        }
-      });
+      if (target != null && target >= this.historyStart) {
+        return; // requested range is already loaded
+      }
+
+      this.historyStart = target;
+      this.fetchHistory();
     },
   },
 };

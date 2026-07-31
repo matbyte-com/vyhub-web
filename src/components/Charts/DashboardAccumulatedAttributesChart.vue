@@ -29,7 +29,14 @@ export default {
   props: {
     data: Array,
     definition: Object,
+    // Earliest date currently loaded (null = full history already loaded).
+    start: {
+      type: Date,
+      default: null,
+    },
+    loading: Boolean,
   },
+  emits: ['load-more'],
   data() {
     return {
     };
@@ -67,6 +74,10 @@ export default {
           zoom: {
             autoScaleYaxis: true,
           },
+          events: {
+            zoomed: this.onRangeChange,
+            scrolled: this.onRangeChange,
+          },
         },
         colors: [this.$vuetify.theme.current.primary],
         stroke: {
@@ -98,6 +109,20 @@ export default {
           },
         },
       };
+    },
+  },
+  methods: {
+    // ApexCharts hands us the visible x-axis range after a zoom/scroll. If the
+    // user pans/zooms out to before the loaded window, ask the parent to fetch
+    // the missing older data.
+    onRangeChange(chartContext, { xaxis }) {
+      if (this.loading || this.start == null || xaxis == null || xaxis.min == null) {
+        return;
+      }
+
+      if (xaxis.min < this.start.getTime()) {
+        this.$emit('load-more', new Date(Math.floor(xaxis.min)));
+      }
     },
   },
 };
