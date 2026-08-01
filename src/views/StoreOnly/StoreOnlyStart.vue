@@ -59,10 +59,8 @@ const anyShopStatsEnabled = computed(() => {
     <v-row justify="center">
       <v-col
         cols="11"
-        sm="11"
-        md="8"
-        lg="8"
-        xl="7"
+        xl="10"
+        xxl="7"
       >
         <div class="position-relative">
           <!-- App Bar / Toolbar -->
@@ -133,7 +131,7 @@ const anyShopStatsEnabled = computed(() => {
               </div>
               <div
                 v-else
-                class="category-image-square d-flex align-center justify-center"
+                class="category-image-square category-image-square--placeholder"
               >
                 <v-icon
                   color="primary"
@@ -172,6 +170,8 @@ const anyShopStatsEnabled = computed(() => {
             cols="12"
             md="4"
             lg="3"
+            order="last"
+            order-md="first"
             class="d-flex flex-column"
           >
             <v-card
@@ -214,11 +214,19 @@ const anyShopStatsEnabled = computed(() => {
   color: rgb(var(--v-theme-primary));
 }
 
+/* Fixed 4:3 (width:height) box so every card is the same height regardless of
+   image aspect ratio or the no-image placeholder. */
 .category-image-square {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
+}
+
+.category-image-square--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .category-image-blur {
@@ -234,6 +242,7 @@ const anyShopStatsEnabled = computed(() => {
 .category-image-fg {
   position: absolute;
   inset: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: contain;

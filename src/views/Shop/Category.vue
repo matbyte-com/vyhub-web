@@ -15,7 +15,7 @@
           v-for="c in categories"
           :key="c.id"
           class="animate__animated"
-          @click="$router.push({ params: { categoryId: c.id } });"
+          @click="$router.push({ params: { categoryId: c.name } });"
         >
           <v-list-item-title class="font-weight-bold">
             {{ c.name }}

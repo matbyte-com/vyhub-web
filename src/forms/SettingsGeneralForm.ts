@@ -123,9 +123,6 @@ function form(forum_enabled = false) {
           props: {
             hideDetails: 'auto',
           },
-          slots: {
-            after: `[${i18n.global.t('_settings.languageNewDescriptionText')}](https://github.com/matbyte-com/vyhub-lang)`
-          }
         }
       },
       enable_customer_journey: {

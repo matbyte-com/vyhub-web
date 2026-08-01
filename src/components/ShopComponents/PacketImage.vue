@@ -67,10 +67,12 @@ export default {
 </script>
 
 <style scoped>
+/* Fixed 4:3 (width:height) box so every card is the same height regardless of
+   image aspect ratio. */
 .packet-image-square {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
@@ -87,6 +89,7 @@ export default {
 .packet-image-fg {
   position: absolute;
   inset: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -95,5 +98,8 @@ export default {
 .packet-image-content {
   position: absolute;
   inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
 }
 </style>

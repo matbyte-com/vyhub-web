@@ -12,7 +12,7 @@
       </div>
     </v-card-title>
     <v-card-text>
-      <div v-if="$vuetify.display.mdAndUp">
+      <div v-if="$vuetify.display.mdAndUp || storeOnly">
         <v-row
           v-if="recommendedPackets"
           dense
@@ -20,7 +20,8 @@
           <v-col
             v-for="p in recommendedPackets"
             :key="p.id"
-            :cols="storeOnly ? 12 : 12"
+            :cols="storeOnly ? 6 : 12"
+            :md="12"
             :lg="storeOnly ? 6 : 6"
             :xl="storeOnly ? 6 : 4"
             class="d-flex"
