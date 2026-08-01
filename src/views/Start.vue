@@ -19,11 +19,12 @@
 <script setup>
 import { useStore } from "vuex";
 import { onMounted} from "vue";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import { useUtils } from "@/services/useUtils";
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 const utils = useUtils().data().utils;
 
 async function redirect() {
@@ -31,12 +32,15 @@ async function redirect() {
     await utils.getGeneralConfig();
   }
   const config = store.state.generalConfig;
+  // Preserve query params (e.g. login=true / return_url) so redirecting through
+  // this landing route does not drop the pending login dialog.
+  const query = route.query;
   if (config?.enable_landingpage) {
-    await router.replace({ name: 'Home' });
+    await router.replace({ name: 'Home', query });
   } else if (config?.shop_only) {
-    await router.replace({ name: 'Store' });
+    await router.replace({ name: 'Store', query });
   } else {
-    await router.replace({ name: 'News' });
+    await router.replace({ name: 'News', query });
   }
 }
 

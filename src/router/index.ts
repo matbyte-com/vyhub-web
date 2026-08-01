@@ -271,6 +271,8 @@ router.beforeEach((to, from, next) => {
 function showLoginDialog(to: Route, from: Route, link_refresh_token: string | null) {
   const return_url = UtilService.data().utils.getFullUrl(to.fullPath);
 
+  // Keep the user on the page they came from and overlay the login dialog, so
+  // that closing it without logging in leaves them where they were.
   if (link_refresh_token != null) {
     const query = { login: 'true', link_refresh_token };
     router.push({ path: from.path, query });

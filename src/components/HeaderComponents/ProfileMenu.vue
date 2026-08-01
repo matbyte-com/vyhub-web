@@ -1,9 +1,11 @@
 <script setup>
 import {useStore} from "vuex";
 import {onBeforeMount} from "vue";
+import {useRouter} from "vue-router";
 import AuthService from "@/services/AuthService";
 
 const store = useStore();
+const router = useRouter();
 
 defineProps({
   menuLinks: Array,
@@ -24,6 +26,7 @@ onBeforeMount(() => {
 // Methods
 function logout() {
   AuthService.logout();
+  router.push('/');
 }
 </script>
 
