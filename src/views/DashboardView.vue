@@ -200,7 +200,11 @@ export default {
     switchTab(name, bundle = null) {
       this.activeBundle = bundle;
       this.activeTab = name;
-      this.$router.replace({ name: 'UserDashboard', params: { component: name.toLowerCase(), id: this.user.id }, query: this.$route.query });
+      // Keep the identifier already in the URL (username for CENTRAL users, id
+      // otherwise) so switching tabs never changes the id param - changing it
+      // would trigger a refetch and the CENTRAL id->username normalization,
+      // causing the URL and graph to flicker.
+      this.$router.replace({ name: 'UserDashboard', params: { component: name.toLowerCase(), id: this.$route.params.id }, query: this.$route.query });
     },
     async fetchData() {
       const userId = this.$route.params.id;
