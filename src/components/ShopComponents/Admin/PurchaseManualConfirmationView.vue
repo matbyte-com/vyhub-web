@@ -109,9 +109,6 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.fetchData();
-  },
   methods: {
     async fetchData(queryParams = null) {
       const status = ['STARTED'];

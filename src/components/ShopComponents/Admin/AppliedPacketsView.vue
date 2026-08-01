@@ -290,9 +290,6 @@ export default {
       this.fetchData();
     },
   },
-  mounted() {
-    this.fetchData();
-  },
   methods: {
     async fetchData(queryParams = null) {
       const api = await openapi;

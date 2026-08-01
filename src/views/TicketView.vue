@@ -196,7 +196,6 @@ export default {
   },
   mounted() {
     this.fetchCategories();
-    this.fetchData();
   },
   methods: {
     async fetchCategories() {

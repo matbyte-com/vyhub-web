@@ -70,8 +70,6 @@ export default {
       const params = { ...this.queryParams };
       this.lastParams = { ...params };
 
-      console.log(params);
-
       if (this.new) {
         this.$emit('reload', this.queryParams);
         this.new = false;

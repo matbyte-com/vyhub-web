@@ -193,7 +193,6 @@ export default {
   },
   mounted() {
     EventBus.on('notification', this.newNotification);
-    this.fetchData();
     this.fetchCategories();
   },
   methods: {

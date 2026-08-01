@@ -476,7 +476,6 @@ export default {
   beforeMount() {
     this.getBundles();
     this.getConfig();
-    this.fetchData();
   },
   methods: {
     async updateCurrentBan() {

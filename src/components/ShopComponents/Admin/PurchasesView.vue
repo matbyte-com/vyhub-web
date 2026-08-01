@@ -569,7 +569,6 @@ export default {
   },
   mounted() {
     this.updateCurrentPurchase();
-    this.fetchData();
     this.queryAvailableStatus();
   },
   methods: {

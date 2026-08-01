@@ -315,7 +315,6 @@ export default {
   },
   mounted() {
     this.fetchServerbundles();
-    this.fetchData();
   },
   methods: {
     async fetchData(queryParams = null) {
