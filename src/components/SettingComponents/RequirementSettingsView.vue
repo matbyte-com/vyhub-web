@@ -9,9 +9,9 @@
     <DialogForm
       ref="requirementAddDialog"
       :form-schema="requirementAddForm"
-      :title="$t('_requirement.addRequirement')"
+      :title="requirementDialogTitle"
       icon="mdi-approximately-equal"
-      @submit="addRequirement"
+      @submit="saveRequirement"
       @cancel="cancelRequirementInline"
     />
     <DialogForm
@@ -99,6 +99,8 @@
             :model-value="logicTree"
             :requirements="requirements || []"
             :create-requirement="createRequirementInline"
+            :edit-requirement="editRequirementInline"
+            :resolve-key="resolveKey"
             :is-root="true"
             @update:model-value="onLogicChange"
           />
@@ -185,6 +187,7 @@
 import RequirementAddForm from '@/forms/RequirementAddForm';
 import RequirementSetAddForm from '@/forms/RequirementSetAddForm';
 import openapi from '@/api/openapi';
+import openapiCached from '@/api/openapiCached';
 import RequirementLogicGroup from '@/components/SettingComponents/RequirementLogicGroup.vue';
 
 export default {
@@ -206,14 +209,33 @@ export default {
       logicTree: { connector: '&', children: [] },
       logicLoading: false,
       pendingRequirementResolve: null,
+      editingRequirementId: null,
+      groupsById: {},
+      packetsById: {},
+      bundlesById: {},
       testUser: null,
       testResult: null,
     };
   },
+  computed: {
+    requirementDialogTitle() {
+      return this.editingRequirementId
+        ? this.$t('_requirement.editRequirement')
+        : this.$t('_requirement.addRequirement');
+    },
+  },
   beforeMount() {
     this.fetchData();
+    this.loadKeyLookups();
   },
   methods: {
+    async loadKeyLookups() {
+      const api = await openapiCached;
+      const byId = (list) => Object.fromEntries((list || []).map((i) => [i.id, i]));
+      api.group_getGroups().then((rsp) => { this.groupsById = byId(rsp.data); });
+      api.packet_getPackets().then((rsp) => { this.packetsById = byId(rsp.data); });
+      api.server_getBundles().then((rsp) => { this.bundlesById = byId(rsp.data); });
+    },
     async fetchData() {
       (await openapi).requirements_getRequirementSets().then((rsp) => {
         this.requirementSets = rsp.data;
@@ -244,16 +266,82 @@ export default {
     },
     createRequirementInline() {
       return new Promise((resolve) => {
+        this.editingRequirementId = null;
         this.pendingRequirementResolve = resolve;
         this.$refs.requirementAddDialog.setData({});
         this.$refs.requirementAddDialog.show();
       });
     },
+    editRequirementInline(req) {
+      if (!req) return;
+      this.editingRequirementId = req.id;
+      this.$refs.requirementAddDialog.setData({ type: this.reqToFormModel(req) });
+      this.$refs.requirementAddDialog.show();
+    },
     cancelRequirementInline() {
+      this.editingRequirementId = null;
       if (this.pendingRequirementResolve) {
         this.pendingRequirementResolve(null);
         this.pendingRequirementResolve = null;
       }
+    },
+    // For object-select key types, the loaded lookup gives the full object (id + title)
+    // so the form's autocomplete and the leaf label can show a name instead of a raw id.
+    keyLookup(type) {
+      if (type === 'GROUP_MEMBER') return this.groupsById;
+      if (type === 'PACKET') return this.packetsById;
+      if (type === 'PERMISSION_LEVEL_SB' || type === 'PROPERTY_SB') return this.bundlesById;
+      return null;
+    },
+    resolveKey(req) {
+      if (req.key == null) return null;
+      const lookup = this.keyLookup(req.type);
+      if (!lookup) return req.key;
+      const item = lookup[req.key];
+      if (!item) return req.key;
+      return item.name ?? item.title ?? req.key;
+    },
+    resolveKeyObject(req) {
+      const lookup = this.keyLookup(req.type);
+      if (!lookup) return req.key;
+      return lookup[req.key] ?? { id: req.key };
+    },
+    reqToFormModel(req) {
+      const model = { type: req.type, operator: req.operator };
+      if (req.key !== undefined && req.key !== null) {
+        model.key = this.resolveKeyObject(req);
+      }
+      if (req.value !== undefined && req.value !== null) {
+        const isLevel = req.type === 'PERMISSION_LEVEL' || req.type === 'PERMISSION_LEVEL_SB';
+        model.value = isLevel ? Number(req.value) : req.value;
+      }
+      return model;
+    },
+    saveRequirement() {
+      return this.editingRequirementId ? this.updateRequirement() : this.addRequirement();
+    },
+    async updateRequirement() {
+      const data = this.$refs.requirementAddDialog.getData().type;
+      data.requirement_set_id = this.requirement_set_id;
+      if (data.key && data.key.id) {
+        data.key = data.key.id;
+      }
+      if (data.key && (data.type === 'PERMISSION_LEVEL' || data.type === 'PROPERTY')) {
+        delete data.key;
+      }
+
+      (await openapi).requirements_editRequirement(this.editingRequirementId, data)
+        .then(async () => {
+          await this.fetchRequirements();
+          this.editingRequirementId = null;
+          this.$refs.requirementAddDialog.closeAndReset();
+          this.$notify({
+            title: this.$t('_messages.editSuccess'),
+            type: 'success',
+          });
+        }).catch((err) => {
+          this.$refs.requirementAddDialog.setError(err);
+        });
     },
     async addRequirement() {
       const data = this.$refs.requirementAddDialog.getData().type;
@@ -436,6 +524,7 @@ export default {
 @media (min-width: 960px) {
   .req-manage-col {
     border-left: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+    padding-left: 24px;
   }
 }
 </style>

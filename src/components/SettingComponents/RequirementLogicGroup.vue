@@ -59,6 +59,8 @@
         :model-value="child"
         :requirements="requirements"
         :create-requirement="createRequirement"
+        :edit-requirement="editRequirement"
+        :resolve-key="resolveKey"
         @update:model-value="updateChild(index, $event)"
         @remove="removeChild(index)"
       />
@@ -80,6 +82,13 @@
           {{ $t('_requirement.missingRequirement') }}
         </span>
         <v-spacer />
+        <v-btn
+          v-if="editRequirement && reqById(child.requirementId)"
+          icon="mdi-pencil"
+          size="x-small"
+          variant="text"
+          @click="editRequirement(reqById(child.requirementId))"
+        />
         <v-btn
           icon="mdi-close"
           size="x-small"
@@ -134,6 +143,14 @@ export default {
       type: Function,
       default: null,
     },
+    editRequirement: {
+      type: Function,
+      default: null,
+    },
+    resolveKey: {
+      type: Function,
+      default: null,
+    },
     isRoot: {
       type: Boolean,
       default: false,
@@ -164,7 +181,9 @@ export default {
     },
     label(id) {
       const req = this.reqById(id);
-      return req ? requirementLabel(req, this.utils.formatDate) : '';
+      if (!req) return '';
+      const keyName = this.resolveKey ? this.resolveKey(req) : null;
+      return requirementLabel(req, this.utils.formatDate, keyName);
     },
     emitUpdate(group) {
       this.$emit('update:modelValue', group);
