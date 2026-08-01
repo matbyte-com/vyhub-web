@@ -55,7 +55,7 @@
       :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
                 'no-top-border-radius': $vuetify.display.smAndDown }"
     >
-      <v-card-text>
+      <v-card-text class="pt-1">
         <v-tabs
           v-if="$vuetify.display.mdAndUp"
           v-model="tab"

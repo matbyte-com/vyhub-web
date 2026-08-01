@@ -91,7 +91,7 @@ async function addToCart() {
     <PacketImage
       :cover="true"
       :packet="packet"
-      class="text-white img-rounded ma-1"
+      class="text-white img-rounded ma-1 flex-grow-0 flex-shrink-0"
       style="cursor: pointer;"
       @click="$refs.detailDialog.show()"
     >

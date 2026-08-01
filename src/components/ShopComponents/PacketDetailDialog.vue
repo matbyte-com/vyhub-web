@@ -82,7 +82,7 @@
             >
               <!-- Headline -->
               <h1
-                class="mt-2"
+                class="text-h5"
                 style="line-height: 1.1"
                 :class="{ 'text-center': $vuetify.display.xs }"
               >
@@ -91,7 +91,7 @@
               <!-- Price -->
               <div
                 v-if="!cartPacket"
-                class="d-flex align-center"
+                class="d-flex align-center mt-2"
               >
                 <div
                   v-if="!packet.custom_price"
