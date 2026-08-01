@@ -27,7 +27,7 @@
         @submit="$emit('submit', item)"
         @cancel="$refs.dialog.close();"
         @mounted="genFormMounted"
-        @updated="$emit('updated')"
+        @updated="(model) => $emit('updated', model)"
         @not-valid="loading=false;
                     $refs.form.$el.scrollIntoView({ block: 'start', behavior: 'smooth' });"
       >

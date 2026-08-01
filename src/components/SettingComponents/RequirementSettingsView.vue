@@ -13,6 +13,7 @@
       icon="mdi-approximately-equal"
       @submit="saveRequirement"
       @cancel="cancelRequirementInline"
+      @updated="onRequirementFormUpdate"
     />
     <DialogForm
       ref="requirementSetAddDialog"
@@ -210,9 +211,11 @@ export default {
       logicLoading: false,
       pendingRequirementResolve: null,
       editingRequirementId: null,
+      lastRequirementType: null,
       groupsById: {},
       packetsById: {},
       bundlesById: {},
+      attributesByName: {},
       testUser: null,
       testResult: null,
     };
@@ -235,6 +238,11 @@ export default {
       api.group_getGroups().then((rsp) => { this.groupsById = byId(rsp.data); });
       api.packet_getPackets().then((rsp) => { this.packetsById = byId(rsp.data); });
       api.server_getBundles().then((rsp) => { this.bundlesById = byId(rsp.data); });
+      api.user_getAttributeDefinitions().then((rsp) => {
+        this.attributesByName = Object.fromEntries(
+          (rsp.data || []).map((d) => [d.name, d]),
+        );
+      });
     },
     async fetchData() {
       (await openapi).requirements_getRequirementSets().then((rsp) => {
@@ -267,6 +275,7 @@ export default {
     createRequirementInline() {
       return new Promise((resolve) => {
         this.editingRequirementId = null;
+        this.lastRequirementType = null;
         this.pendingRequirementResolve = resolve;
         this.$refs.requirementAddDialog.setData({});
         this.$refs.requirementAddDialog.show();
@@ -275,15 +284,30 @@ export default {
     editRequirementInline(req) {
       if (!req) return;
       this.editingRequirementId = req.id;
+      this.lastRequirementType = req.type;
       this.$refs.requirementAddDialog.setData({ type: this.reqToFormModel(req) });
       this.$refs.requirementAddDialog.show();
     },
     cancelRequirementInline() {
       this.editingRequirementId = null;
+      this.lastRequirementType = null;
       if (this.pendingRequirementResolve) {
         this.pendingRequirementResolve(null);
         this.pendingRequirementResolve = null;
       }
+    },
+    // When the requirement type changes, wipe the previous type's operator/key/value so
+    // stale (and now invalid) selections don't linger in the form. Skip the first selection
+    // and the edit pre-fill (previous == null / same type) so we don't clear what we just set.
+    onRequirementFormUpdate(model) {
+      const type = model?.type?.type ?? null;
+      if (type === this.lastRequirementType) return;
+      const previous = this.lastRequirementType;
+      this.lastRequirementType = type;
+      if (previous == null || type == null) return;
+      this.$nextTick(() => {
+        this.$refs.requirementAddDialog.setData({ type: { type } });
+      });
     },
     // For object-select key types, the loaded lookup gives the full object (id + title)
     // so the form's autocomplete and the leaf label can show a name instead of a raw id.
@@ -295,6 +319,11 @@ export default {
     },
     resolveKey(req) {
       if (req.key == null) return null;
+      // USER_ATTRIBUTE stores the attribute name (a string) as its key; show its title.
+      if (req.type === 'USER_ATTRIBUTE') {
+        const def = this.attributesByName[req.key];
+        return def?.title ?? req.key;
+      }
       const lookup = this.keyLookup(req.type);
       if (!lookup) return req.key;
       const item = lookup[req.key];
@@ -317,18 +346,33 @@ export default {
       }
       return model;
     },
+    requirementKeyApplicable(type) {
+      return ['GROUP_MEMBER', 'PERMISSION_LEVEL_SB', 'PROPERTY_SB', 'USER_ATTRIBUTE', 'PACKET'].includes(type);
+    },
+    requirementValueApplicable(type) {
+      return ['PERMISSION_LEVEL', 'PERMISSION_LEVEL_SB', 'PROPERTY', 'PROPERTY_SB', 'USER_ATTRIBUTE', 'DATE'].includes(type);
+    },
+    // Flatten the key object to its id and null out fields that don't apply to the
+    // selected type, so switching type while editing clears stale key/value in the backend.
+    // value is always sent as a string (the backend stores it as text, e.g. permission level).
+    normalizeRequirementData(raw) {
+      const data = { ...raw };
+      if (data.key && data.key.id) {
+        data.key = data.key.id;
+      }
+      data.key = this.requirementKeyApplicable(data.type) ? (data.key ?? null) : null;
+      const valueApplies = this.requirementValueApplicable(data.type);
+      data.value = valueApplies && data.value != null && data.value !== ''
+        ? String(data.value)
+        : null;
+      return data;
+    },
     saveRequirement() {
       return this.editingRequirementId ? this.updateRequirement() : this.addRequirement();
     },
     async updateRequirement() {
-      const data = this.$refs.requirementAddDialog.getData().type;
+      const data = this.normalizeRequirementData(this.$refs.requirementAddDialog.getData().type);
       data.requirement_set_id = this.requirement_set_id;
-      if (data.key && data.key.id) {
-        data.key = data.key.id;
-      }
-      if (data.key && (data.type === 'PERMISSION_LEVEL' || data.type === 'PROPERTY')) {
-        delete data.key;
-      }
 
       (await openapi).requirements_editRequirement(this.editingRequirementId, data)
         .then(async () => {
@@ -344,14 +388,8 @@ export default {
         });
     },
     async addRequirement() {
-      const data = this.$refs.requirementAddDialog.getData().type;
+      const data = this.normalizeRequirementData(this.$refs.requirementAddDialog.getData().type);
       data.requirement_set_id = this.requirement_set_id;
-      if (data.key && data.key.id) {
-        data.key = data.key.id;
-      }
-      if (data.key && (data.type === 'PERMISSION_LEVEL' || data.type === 'PROPERTY')) {
-        delete data.key;
-      }
 
       const existingIds = new Set((this.requirements || []).map((r) => r.id));
       (await openapi).requirements_createRequirement(null, data)
@@ -374,12 +412,15 @@ export default {
         });
     },
     async openEditRequirementSetDialog(reqSet) {
-      await this.$refs.requirementSetEditDialog.show(reqSet);
-      this.$refs.requirementSetEditForm.setData(reqSet);
       this.requirement_set_id = reqSet.id;
-      await this.fetchRequirements().then(() => {
-        this.logicTree = this.apiToTree(reqSet.formula);
-      });
+      // Re-fetch the set: the table item can be stale because the logic/formula is
+      // autosaved (saveLogic) without refreshing the requirementSets list.
+      const rsp = await (await openapi).requirements_getRequirementSet(reqSet.id);
+      const freshSet = rsp.data;
+      this.requirements = freshSet.requirements;
+      await this.$refs.requirementSetEditDialog.show(freshSet);
+      this.$refs.requirementSetEditForm.setData(freshSet);
+      this.logicTree = this.apiToTree(freshSet.formula);
     },
     async editRequirementSet() {
       this.$refs.requirementSetEditForm.loading = true;

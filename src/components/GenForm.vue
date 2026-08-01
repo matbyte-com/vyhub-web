@@ -20,7 +20,7 @@
           v-model="formModel"
           :schema="compatSchema"
           :options="options"
-          @update:model-value="$emit('updated')"
+          @update:model-value="$emit('updated', $event)"
         >
           <template
             v-for="(_, name) in $slots"

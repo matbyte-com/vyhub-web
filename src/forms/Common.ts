@@ -203,5 +203,17 @@ export default {
     title: i18n.global.t('_packet.labels.currency'),
     enum: cc.codes(),
   },
+  userAttributeSelectField: {
+    type: 'string',
+    title: i18n.global.t('_requirement.attributeName'),
+    layout: {
+      getItems: {
+        url: `${API_URL}/user/attribute/definition`,
+        itemValue: 'item.name',
+        itemKey: 'item.name',
+        itemTitle: 'item.title',
+      },
+    },
+  },
   apiURL: API_URL,
 };

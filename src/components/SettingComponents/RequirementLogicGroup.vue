@@ -165,7 +165,9 @@ export default {
   },
   computed: {
     connectorLabel() {
-      return this.modelValue.connector === '|' ? 'OR' : 'AND';
+      return this.modelValue.connector === '|'
+        ? this.$t('_requirement.or')
+        : this.$t('_requirement.and');
     },
   },
   methods: {

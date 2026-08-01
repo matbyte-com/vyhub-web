@@ -22,7 +22,6 @@ const types: ITypes = {
   USER_ATTRIBUTE: { icon: 'mdi-account-details' },
   PACKET: { icon: 'mdi-gift-open' },
   DATE: { icon: 'mdi-calendar' },
-  USER_SELF: { icon: 'mdi-account-box' },
 };
 
 const operators: IOperators = {
@@ -112,10 +111,7 @@ function requirementTypeField(requirementType: string) {
           operators.GEQ,
         ],
       },
-      key: {
-        type: 'string',
-        title: i18n.global.t('_requirement.attributeName'),
-      },
+      key: Common.userAttributeSelectField,
       value: {
         type: 'string',
         title: i18n.global.t('_requirement.attributeValue'),
@@ -158,18 +154,6 @@ function requirementTypeField(requirementType: string) {
         format: 'date-time',
       },
     };
-  } else if (requirementType === 'USER_SELF') {
-    required = ['operator'];
-    properties = {
-      operator: {
-        type: 'string',
-        title: i18n.global.t('_requirement.requirementOperator'),
-        oneOf: [
-          operators.EQ,
-          operators.NEQ,
-        ],
-      },
-    };
   }
 
   return {
@@ -188,10 +172,21 @@ function requirementTypeField(requirementType: string) {
 function returnForm() {
   const oneOf: { properties: object }[] = [];
   Object.entries(types).forEach(([key, value]) => {
+    const field = requirementTypeField(key);
+    const description = i18n.global.t(`_requirement.typeDescriptions.${key}`).toString();
+    // Render the type's description inline (above the operator) once the type is selected.
+    // Every type has an operator field, so this shows for all options.
+    const operator = (field.properties as Record<string, any>).operator;
+    if (operator) {
+      operator.layout = {
+        ...(operator.layout || {}),
+        slots: { before: { markdown: description } },
+      };
+    }
     const reqType = {
       title: i18n.global.t(`_requirement.types.${key}`),
       icon: value.icon.toString(),
-      ...requirementTypeField(key),
+      ...field,
     };
     oneOf.push(reqType);
   });
