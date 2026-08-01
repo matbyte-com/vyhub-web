@@ -72,6 +72,15 @@ export default {
       api.throttledHttp.defaults.headers.common.Authorization = header;
     }
   },
+  // Tokens travel back from a social login in the URL fragment, which browsers never
+  // send to a server, so they cannot leak through Referer headers or access logs.
+  getHashParam(hash: string, name: string): string | null {
+    if (hash == null || hash === '') {
+      return null;
+    }
+
+    return new URLSearchParams(hash.replace(/^#/, '')).get(name);
+  },
   getSocialAuthUrl(backend: string, returnUrl: string, authRequestId: string) {
     const step = (authRequestId != null ? 'finish' : 'start');
 

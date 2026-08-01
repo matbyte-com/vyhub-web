@@ -263,10 +263,12 @@ export default {
     $route(to) {
       this.dialog = to.query.login === 'true';
 
-      if (this.$route.query.link_refresh_token != null && this.$store.getters.isLoggedIn) {
-        this.fetchUserToLink(this.$route.query.link_refresh_token).then((userToLink) => {
+      const linkRefreshToken = AuthService.getHashParam(to.hash, 'link_refresh_token');
+
+      if (linkRefreshToken != null && this.$store.getters.isLoggedIn) {
+        this.fetchUserToLink(linkRefreshToken).then((userToLink) => {
           if (userToLink != null) {
-            delete this.$route.query.link_refresh_token;
+            this.$router.replace({ path: to.path, query: to.query, hash: '' });
             this.$refs.linkUsersDialog.show();
           } else {
             this.$notify({
@@ -286,8 +288,7 @@ export default {
       if (this.dialog === false) {
         const query = { ...this.$route.query };
         delete query.login;
-        delete query.link_refresh_token;
-        this.$router.replace({ path: this.$route.path, query });
+        this.$router.replace({ path: this.$route.path, query, hash: '' });
       } else {
         this.fetchBackends();
       }

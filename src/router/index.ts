@@ -268,27 +268,22 @@ router.beforeEach((to, from, next) => {
 });
 
 
-function showLoginDialog(to: Route, from: Route, link_refresh_token: string | null) {
+function showLoginDialog(to: Route, from: Route) {
   const return_url = UtilService.data().utils.getFullUrl(to.fullPath);
 
   // Keep the user on the page they came from and overlay the login dialog, so
   // that closing it without logging in leaves them where they were.
-  if (link_refresh_token != null) {
-    const query = { login: 'true', link_refresh_token };
-    router.push({ path: from.path, query });
-  } else {
-    const query = { login: 'true', return_url };
-    router.push({ path: from.path, query });
-  }
+  router.push({ path: from.path, query: { login: 'true', return_url } });
 }
 
 // Handle Route requires Login
 router.beforeEach(async (to, from, next) => {
-  const refreshToken = to.query.refresh_token;
+  const refreshToken = AuthService.getHashParam(to.hash, 'refresh_token');
+  const linkRefreshToken = AuthService.getHashParam(to.hash, 'link_refresh_token');
 
   let success = false;
 
-  if (refreshToken != null && typeof refreshToken === 'string') {
+  if (refreshToken != null) {
     if (!store.getters.isLoggedIn) {
       // If user is not logged in, try to login with refresh token
       try {
@@ -305,22 +300,19 @@ router.beforeEach(async (to, from, next) => {
           title: i18n.global.t('_login.messages.loginError'),
           type: 'error',
         });
-        showLoginDialog(to, from, null);
+        showLoginDialog(to, from);
       }
     } else {
       // If the user is already logged in, redirect to the same page with login=true
-      // to trigger the login dialog to finish account linking
-      const query = {
-        ...to.query,
-        login: 'true',
-        link_refresh_token: refreshToken,
-        refresh_token: undefined,
-      };
+      // to trigger the login dialog to finish account linking. The token stays in the
+      // fragment so it is never sent to a server.
+      const query = { ...to.query, login: 'true' };
+      const hash = `#link_refresh_token=${encodeURIComponent(refreshToken)}`;
 
       if (to.name != null) {
-        next({ name: to.name, query, params: to.params });
+        next({ name: to.name, query, params: to.params, hash });
       } else {
-        next({ name: 'News', query });
+        next({ name: 'News', query, hash });
       }
     }
   } else if ((to.query.login !== 'true')
@@ -329,7 +321,7 @@ router.beforeEach(async (to, from, next) => {
     // redirect to the same page with login=true
     if (!store.getters.isLoggedIn) {
       console.log('Showing login dialog.');
-      showLoginDialog(to, from, null);
+      showLoginDialog(to, from);
     } else {
       success = true;
     }
@@ -343,15 +335,12 @@ router.beforeEach(async (to, from, next) => {
     if (reqProp == null || AccessControlService.methods.$checkProp(`${reqProp}`)) {
       const query = { ...to.query };
 
-      // If refresh_token is present, remove it from query
-      if (!query.login && (query.refresh_token || query.link_refresh_token)) {
-        delete query.refresh_token;
-        delete query.link_refresh_token;
-
+      // If a token is present, drop it from the fragment
+      if (!query.login && (refreshToken != null || linkRefreshToken != null)) {
         if (to.name != null) {
-          next({ name: to.name, query, params: to.params });
+          next({ name: to.name, query, params: to.params, hash: '' });
         } else {
-          next({ name: 'News', query });
+          next({ name: 'News', query, hash: '' });
         }
       } else {
         next();
