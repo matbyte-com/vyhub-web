@@ -186,6 +186,13 @@ a:where(:not([class*="v-"])) {
   color: inherit;
 }
 
+/* Links inside alerts must not take the primary color - they'd clash with the
+   alert's contextual color. Inherit the alert's text color instead. */
+.v-alert a:where(:not([class*="v-"])) {
+  color: inherit;
+  text-decoration: underline;
+}
+
 a:not([class]) {
   position: relative;
   color: rgb(var(--v-theme-primary));

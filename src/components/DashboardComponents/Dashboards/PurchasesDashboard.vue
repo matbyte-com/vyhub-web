@@ -63,16 +63,16 @@
                         </div>
                         <v-list density="compact">
                           <v-list-item>
-                            {{ $t('date') }}
-
-
-                            {{ new Date(purchase.raw.date).toLocaleString() }}
+                            <div class="d-flex align-center justify-space-between ga-4">
+                              <span>{{ $t('date') }}</span>
+                              <span>{{ new Date(purchase.raw.date).toLocaleString() }}</span>
+                            </div>
                           </v-list-item>
                           <v-list-item>
-                            {{ $t('status') }}
-
-
-                            <PurchaseStatusChip :status="purchase.raw.status" />
+                            <div class="d-flex align-center justify-space-between ga-4">
+                              <span>{{ $t('status') }}</span>
+                              <PurchaseStatusChip :status="purchase.raw.status" />
+                            </div>
                           </v-list-item>
                         </v-list>
                       </v-col>
