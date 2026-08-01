@@ -270,7 +270,7 @@ async function editMessage(message) {
                 class="mr-1"
                 @click="openEditMessageDialog(message)"
               >
-                <v-icon>
+                <v-icon size="small">
                   mdi-pencil
                 </v-icon>
               </v-btn>
@@ -280,7 +280,7 @@ async function editMessage(message) {
                 size="small"
                 @click="openDeleteMessageDialog(message)"
               >
-                <v-icon>
+                <v-icon size="small">
                   mdi-delete
                 </v-icon>
               </v-btn>
@@ -350,7 +350,7 @@ async function editMessage(message) {
                 class="mr-1"
                 @click="openEditMessageDialog(message)"
               >
-                <v-icon>
+                <v-icon size="small">
                   mdi-pencil
                 </v-icon>
               </v-btn>
@@ -360,7 +360,7 @@ async function editMessage(message) {
                 size="small"
                 @click="openDeleteMessageDialog(message)"
               >
-                <v-icon>
+                <v-icon size="small">
                   mdi-delete
                 </v-icon>
               </v-btn>

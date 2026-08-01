@@ -4,19 +4,20 @@
       class="vh-dashboard-logs card-rounded"
       flat
     >
-      <v-card-title>
+      <div
+        v-if="!logsShown"
+        class="pa-4"
+      >
         <v-btn
-          v-if="!logsShown"
           variant="outlined"
           color="primary"
+          size="small"
+          prepend-icon="mdi-eye"
           @click="showLogs"
         >
-          <span>
-            <v-icon start>mdi-eye</v-icon>
-            {{ $t('show') }}
-          </span>
+          {{ $t('show') }}
         </v-btn>
-      </v-card-title>
+      </div>
       <v-card-text v-if="user != null && logsShown">
         <LogTable
           ref="logTable"
