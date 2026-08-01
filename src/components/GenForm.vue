@@ -108,9 +108,6 @@ export default {
         locale: i18n.global.locale, // i18n.locale,
         httpLib: axios,
         density: 'comfortable',
-        timePickerProps: {
-          format: '24hr',
-        },
         markdownItOptions: {
           html: true,
         },

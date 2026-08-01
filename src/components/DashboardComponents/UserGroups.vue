@@ -154,7 +154,7 @@
               <v-checkbox
                 v-model="showPassedMemberships"
                 density="compact"
-                class="mb-1"
+                class="mb-1 me-auto flex-grow-0"
                 hide-details="auto"
                 :label="$t('_membership.labels.showInactive')"
               />
