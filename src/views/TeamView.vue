@@ -23,9 +23,9 @@
       </template>
     </PageTitleFlat>
     <v-card
-      class="vh-team card-rounded-bottom px-2"
+      class="vh-team card-rounded-top px-2"
       flat
-      :class="{ 'mt-4 card-rounded-top':!$vuetify.display.smAndDown,
+      :class="{ 'mt-4':!$vuetify.display.smAndDown,
                 'no-top-border-radius': $vuetify.display.smAndDown }"
     >
       <v-tabs v-model="tab">
@@ -45,60 +45,63 @@
         </v-tab>
       </v-tabs>
     </v-card>
-    <v-row
-      v-for="group in getCurrentTabGroups"
-      :key="group.id"
-      class="justify-center mt-10 mb-3"
+    <v-card
+      flat
+      class="vh-team-content card-rounded-bottom px-2 pb-8"
+      :class="{ 'no-top-border-radius': $vuetify.display.smAndDown }"
     >
-      <v-col
-        class="text-center"
-        cols="12"
+      <template
+        v-for="group in getCurrentTabGroups"
+        :key="group.id"
       >
-        <v-chip
-          variant="flat"
-          :color="group.color ? group.color : '#000000'"
-          size="large"
-          label
-        >
-          <h2 class="display-h5">
+        <div class="d-flex align-center justify-center mt-8 mb-5">
+          <v-chip
+            variant="flat"
+            :color="group.color ? group.color : '#000000'"
+            size="large"
+            label
+            class="text-h6 font-weight-bold px-4"
+          >
             {{ group.name }}
-          </h2>
-        </v-chip>
-      </v-col>
-      <v-col
-        v-for="user in getUsersByGroup(group.id)"
-        :key="user.id"
-        cols="6"
-        sm="4"
-        lg="2"
-        class="text-center"
-      >
-        <div style="position:relative;">
-          <router-link :to="{ name: 'UserDashboard', params: { id: user.id } }">
-            <v-avatar
-              size="100%"
-              style="border-style: solid;"
-              :style="{ borderColor: group.color }"
-            >
-              <v-img
-                :src="user.avatar"
-                alt="User Avatar"
-                lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
-              />
-            </v-avatar>
-          </router-link>
-          <div style="position: absolute; top: 92%; width: 100%; text-align: center;">
-            <v-chip
-              variant="flat"
-              :color="group.color ? group.color : '#000000'"
-            >
-              {{ user.username }}
-            </v-chip>
-          </div>
+          </v-chip>
         </div>
-      </v-col>
-    </v-row>
-    <v-card />
+        <v-row class="justify-center">
+          <v-col
+            v-for="user in getUsersByGroup(group.id)"
+            :key="user.id"
+            cols="6"
+            sm="4"
+            md="3"
+            lg="2"
+            class="d-flex"
+          >
+            <v-card
+              :to="{ name: 'UserDashboard', params: { id: user.id } }"
+              class="team-member-card flex-grow-1 text-center pa-4 card-rounded"
+              variant="flat"
+              border
+            >
+              <div class="d-flex justify-center">
+                <v-avatar
+                  size="88"
+                  class="team-member-avatar"
+                  :style="{ borderColor: group.color ? group.color : '#000000' }"
+                >
+                  <v-img
+                    :src="user.avatar"
+                    alt="User Avatar"
+                    lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
+                  />
+                </v-avatar>
+              </div>
+              <div class="mt-3 font-weight-bold text-truncate">
+                {{ user.username }}
+              </div>
+            </v-card>
+          </v-col>
+        </v-row>
+      </template>
+    </v-card>
     <DialogForm
       ref="editForm"
       :form-schema="schema"
@@ -201,5 +204,16 @@ export default {
 </script>
 
 <style scoped>
+.team-member-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
+.team-member-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18) !important;
+}
+
+.team-member-avatar {
+  border: 3px solid;
+}
 </style>
