@@ -290,6 +290,7 @@ async function editMessage(message) {
             class="ql-editor ck-content"
             style="min-height: 50px"
           >
+            <!-- eslint-disable-next-line vue/no-v-html -- trusted admin/staff-authored content -->
             <div v-html="message.content" />
           </v-card-text>
           <v-card-actions class="text-disabled pt-0">
@@ -370,6 +371,7 @@ async function editMessage(message) {
             class="mt-3 ql-editor ck-content"
             style="min-height: 50px"
           >
+            <!-- eslint-disable-next-line vue/no-v-html -- trusted admin/staff-authored content -->
             <div v-html="message.content" />
           </v-card-text>
           <v-card-actions class="text-disabled pt-0">

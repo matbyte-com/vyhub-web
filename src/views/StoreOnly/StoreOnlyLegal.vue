@@ -48,10 +48,12 @@ const removeBranding = computed(() => {
           You can report malicious behaviour to <b>abuse @at vyhub.net</b>.
         </span>
         <!-- Only the text above -->
+        <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
         <div
           class="mt-2 ql-editor ck-content"
           v-html="content"
         />
+        <!-- eslint-enable vue/no-v-html -->
       </v-card-text>
     </v-card>
   </div>

@@ -51,7 +51,6 @@
       :location="drawerLocation"
       :width="400"
     >
-
       <!-- Container for VJSF/Vuetify overlay attachments (select menus, date pickers, etc.) -->
       <!-- (kept empty on purpose; select menu attachment is handled in schema x-props) -->
       <div />
@@ -248,7 +247,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import components from '@/components/BuilderComponents/components';
 import VJsf from '@koumoul/vjsf';
 import {v2compat} from "@koumoul/vjsf/compat/v2";
@@ -291,7 +290,7 @@ const vjsfSchemas = ref(null);
 // This avoids VJSF edit dialogs closing when the parent list reorders/replaces items.
 const propsDraftById = ref({});
 
-function getDraftProps(block: any) {
+function getDraftProps(block) {
   const key = String(block.id);
   if (!propsDraftById.value[key]) {
     // Use the existing object reference if possible; otherwise initialize.
@@ -300,7 +299,7 @@ function getDraftProps(block: any) {
   return propsDraftById.value[key];
 }
 
-function onPropsChanged(block: any, val: any) {
+function onPropsChanged(block, val) {
   const key = String(block.id);
   propsDraftById.value[key] = val;
 

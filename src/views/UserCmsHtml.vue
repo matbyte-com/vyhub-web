@@ -101,17 +101,21 @@ function handleScriptsAndStyles() {
     <v-container v-if="html.wrapper">
       <v-card class="card-rounded">
         <v-card-text>
+          <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
           <span
             class="ql-editor ck-content"
             v-html="html.content"
           />
+          <!-- eslint-enable vue/no-v-html -->
         </v-card-text>
       </v-card>
     </v-container>
+    <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
     <span
       v-else
       class="ql-editor ck-content"
       v-html="html.content"
     />
+    <!-- eslint-enable vue/no-v-html -->
   </div>
 </template>

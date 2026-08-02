@@ -92,9 +92,11 @@
               </v-btn>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
+              <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
               <span
                 v-html="question.content"
               />
+              <!-- eslint-enable vue/no-v-html -->
             </v-expansion-panel-text>
           </v-expansion-panel>
         </VueDraggable>

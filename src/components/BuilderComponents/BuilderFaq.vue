@@ -27,6 +27,7 @@
                 </div>
               </v-expansion-panel-title>
               <v-expansion-panel-text>
+                <!-- eslint-disable-next-line vue/no-v-html -- trusted admin/staff-authored content -->
                 <p v-html="q.answer" />
               </v-expansion-panel-text>
             </v-expansion-panel>

@@ -29,11 +29,13 @@
               style="border-radius: 3px"
             />
           </div>
+          <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
           <div
             v-if="column.content"
             :style="`max-width: ${getMaxContentWidth}`"
             v-html="column.content"
           />
+          <!-- eslint-enable vue/no-v-html -->
         </div>
       </v-col>
     </v-row>

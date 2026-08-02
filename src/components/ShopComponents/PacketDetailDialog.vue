@@ -301,10 +301,12 @@
                 {{ $t('_shop.labels.productDescription') }}
               </span>
             </v-card-title>
+            <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
             <span
               class="ql-editor ma-0 pa-0 ck-content"
               v-html="packet.description"
             />
+            <!-- eslint-enable vue/no-v-html -->
           </v-card>
         </v-card-text>
       </v-card>

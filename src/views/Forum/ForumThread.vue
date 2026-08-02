@@ -295,10 +295,12 @@
             <v-divider />
             <v-card-text style="min-height: 70px">
               <!-- IMPORTANT - TOP -->
+              <!-- eslint-disable vue/no-v-html -- user content sanitized via sanitizeUserHtml -->
               <span
                 class="ql-editor pa-0 text-break ck-content"
-                v-html="post.content"
+                v-html="sanitizeUserHtml(post.content)"
               />
+              <!-- eslint-enable vue/no-v-html -->
             </v-card-text>
             <v-divider /> <!-- IMPORTANT - BOTTOM -->
             <div class="px-3 py-1">
@@ -592,6 +594,7 @@ import openapi from '../../api/openapi';
 import ForumPost from '../../forms/ForumPost';
 import config from "@/config.js";
 import i18n from "@/plugins/i18n.js";
+import { sanitizeUserHtml } from '@/services/sanitizeHtml';
 
 export default {
   data() {
@@ -640,6 +643,7 @@ export default {
     this.getThread();
   },
   methods: {
+    sanitizeUserHtml,
     async fetchData() {
       (await openapi).forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 20 })
         .then((rsp) => {

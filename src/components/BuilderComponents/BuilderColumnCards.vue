@@ -31,6 +31,7 @@
               <h3 class="text-h5 mt-13">
                 {{ card.title }}
               </h3>
+              <!-- eslint-disable-next-line vue/no-v-html -- trusted admin/staff-authored content -->
               <p v-html="card.content" />
               <v-spacer />
               <div>
@@ -78,6 +79,7 @@
                 <h3 class="text-h5 mt-13">
                   {{ card.title }}
                 </h3>
+                <!-- eslint-disable-next-line vue/no-v-html -- trusted admin/staff-authored content -->
                 <p v-html="card.content" />
                 <v-spacer />
                 <div>

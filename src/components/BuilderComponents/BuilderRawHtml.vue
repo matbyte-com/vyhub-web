@@ -1,5 +1,6 @@
 <template>
   <div class="vh-home-html">
+    <!-- eslint-disable-next-line vue/no-v-html -- trusted admin-authored raw HTML block -->
     <span v-html="html" />
   </div>
 </template>

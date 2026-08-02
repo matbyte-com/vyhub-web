@@ -58,12 +58,14 @@
                     </span>
                   </v-card-title>
                   <v-card-text class="ql-editor ck-content">
+                    <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
                     <p
                       class="content-preview"
                       :style="`height: ${maxColumnHeight - 68}px`"
                       style="cursor: pointer"
                       v-html="n.content"
                     />
+                    <!-- eslint-enable vue/no-v-html -->
                   </v-card-text>
                 </v-card>
                 <v-divider

@@ -16,10 +16,12 @@
             {{ $t('news') }}
           </h2>
         </div>
+        <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
         <div
           class="mt-2 ql-editor"
           v-html="newsContent"
         />
+        <!-- eslint-enable vue/no-v-html -->
       </v-card-text>
     </v-card>
     <v-card

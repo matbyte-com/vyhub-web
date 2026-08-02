@@ -33,10 +33,12 @@
                   'text-end': inverted && $vuetify.display.mdAndUp,
                   'text-center': $vuetify.display.smAndDown }"
       >
+        <!-- eslint-disable vue/no-v-html -- trusted admin-configured embed -->
         <div
           style="max-width: 100%"
           v-html="discordWidget"
         />
+        <!-- eslint-enable vue/no-v-html -->
       </v-col>
     </v-row>
   </div>

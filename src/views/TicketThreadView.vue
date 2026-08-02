@@ -204,10 +204,12 @@
               </v-card-text>
               <v-divider />
               <v-card-text>
+                <!-- eslint-disable vue/no-v-html -- user content sanitized via sanitizeUserHtml -->
                 <span
                   class="ql-editor pa-0 ck-content"
-                  v-html="post.content"
+                  v-html="sanitizeUserHtml(post.content)"
                 />
+                <!-- eslint-enable vue/no-v-html -->
               </v-card-text>
             </div>
           </div>
@@ -298,6 +300,7 @@
 
 <script>
 import openapi from '../api/openapi';
+import { sanitizeUserHtml } from '@/services/sanitizeHtml';
 
 export default {
   data() {
@@ -328,6 +331,7 @@ export default {
     }
   },
   methods: {
+    sanitizeUserHtml,
     async fetchCategories() {
       (await openapi).forum_getTicketCategories().then((rsp) => {
         this.categories = rsp.data;

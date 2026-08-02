@@ -59,10 +59,12 @@
                     {{ script.name }}
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>
+                    <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
                     <div
                       class="mb-1 ml-3"
                       v-html="script.description"
                     />
+                    <!-- eslint-enable vue/no-v-html -->
                     <v-divider
                       v-if="script.script || script.command"
                       class="mb-4"
