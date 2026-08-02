@@ -307,3 +307,13 @@ a:not([class]):hover::before {
   border-top: 2px solid rgb(var(--v-theme-warning-darken-3));
   border-radius: 0 0 10px 10px;
 }
+
+/* Vuetify caps the page container at 700px from 840px upward, so on
+   small-laptop/tablet widths (~840-1144px) the content sits in a narrow column
+   with large empty gutters. Use the full width in that zone; the wider caps
+   (1000/1400/2000px) still apply from 1145px up. */
+@media (min-width: 840px) and (max-width: 1144.98px) {
+  .v-container:not(.v-container--fluid) {
+    max-width: 100%;
+  }
+}
