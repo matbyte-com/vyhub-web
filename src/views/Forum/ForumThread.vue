@@ -998,7 +998,7 @@ export default {
 }
 
 .small-card {
-  height: 40px;
+  min-height: 40px;
 }
 
 .vh-forum-avatar-ring {
