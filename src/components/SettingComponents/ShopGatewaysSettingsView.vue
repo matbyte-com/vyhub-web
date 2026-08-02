@@ -7,72 +7,97 @@
       {{ $t('paymentGateways') }}
     </SettingTitle>
 
-    <DataTable
-      :headers="headers"
-      :items="gateways"
-    >
-      <template #footer-right>
-        <v-menu location="bottom">
-          <template #activator="{ props }">
+    <v-table class="bg-transparent">
+      <thead>
+        <tr>
+          <th>{{ $t('name') }}</th>
+          <th>{{ $t('type') }}</th>
+          <th>{{ $t('enabled') }}</th>
+          <th
+            style="width: 200px"
+            class="text-right"
+          >
+            {{ $t('actions') }}
+          </th>
+        </tr>
+      </thead>
+      <VueDraggable
+        v-model="gateways"
+        tag="tbody"
+        @dragend="updateGatewayOrder"
+      >
+        <tr
+          v-for="gateway in gateways"
+          :key="gateway.id"
+        >
+          <td>{{ gateway.name }}</td>
+          <td>{{ gateway.type }}</td>
+          <td>
+            <BoolIcon :value="gateway.enabled" />
+          </td>
+          <td
+            style="width: 200px"
+            class="text-right"
+          >
+            <DragDropIcon class="mr-1" />
             <v-btn
               variant="outlined"
-              color="success"
-              :class="{ 'glow-effect':utils.customerJourneyActive('add-pm-gateway') }"
-
-              v-bind="props"
+              color="primary"
+              size="small"
+              class="mr-1"
+              @click="showEditDialog(gateway)"
             >
-              <v-icon start>
-                mdi-plus
+              <v-icon>
+                mdi-pencil
               </v-icon>
-              <span>{{ $t('_gateway.labels.create') }}</span>
             </v-btn>
-          </template>
-          <v-list density="compact">
-            <v-list-item
-              v-for="(typeData, typeName) in gatewayTypes"
-              :key="typeName"
-              @click="showCreateDialog(typeName)"
+            <v-btn
+              variant="outlined"
+              color="error"
+              size="small"
+              :disabled="!gateway.deletable"
+              @click="$refs.deleteGatewayDialog.show(gateway)"
             >
-              <v-list-item-title>
-                <v-icon start>
-                  {{ typeData.icon }}
-                </v-icon>
-                {{ typeData.label }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </template>
-      <template #item.enabled="{ item }">
-        <BoolIcon :value="item.enabled" />
-      </template>
-      <template #item.actions="{ item }">
-        <div class="text-right">
+              <v-icon>
+                mdi-delete
+              </v-icon>
+            </v-btn>
+          </td>
+        </tr>
+      </VueDraggable>
+    </v-table>
+    <v-divider />
+    <div class="text-right mt-3">
+      <v-menu location="bottom">
+        <template #activator="{ props }">
           <v-btn
             variant="outlined"
-            color="primary"
-            size="small"
-            class="mr-1"
-            @click="showEditDialog(item)"
+            color="success"
+            :class="{ 'glow-effect':utils.customerJourneyActive('add-pm-gateway') }"
+            v-bind="props"
           >
-            <v-icon>
-              mdi-pencil
+            <v-icon start>
+              mdi-plus
             </v-icon>
+            <span>{{ $t('_gateway.labels.create') }}</span>
           </v-btn>
-          <v-btn
-            variant="outlined"
-            color="error"
-            size="small"
-            :disabled="!item.deletable"
-            @click="$refs.deleteGatewayDialog.show(item)"
+        </template>
+        <v-list density="compact">
+          <v-list-item
+            v-for="(typeData, typeName) in gatewayTypes"
+            :key="typeName"
+            @click="showCreateDialog(typeName)"
           >
-            <v-icon>
-              mdi-delete
-            </v-icon>
-          </v-btn>
-        </div>
-      </template>
-    </DataTable>
+            <v-list-item-title>
+              <v-icon start>
+                {{ typeData.icon }}
+              </v-icon>
+              {{ typeData.label }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
     <DialogForm
       ref="createGatewayDialog"
       :form-schema="gatewaySchema"
@@ -174,21 +199,15 @@
 <script>
 import Common from '@/forms/Common';
 import EventBus from '@/services/EventBus';
+import { VueDraggable } from 'vue-draggable-plus';
 import openapi from '../../api/openapi';
 import GatewayForm from '../../forms/PaymentGatewayForm';
 
 export default {
+  components: { VueDraggable },
   data() {
     return {
-      headers: [
-        { title: this.$t('name'), key: 'name' },
-        { title: this.$t('type'), key: 'type' },
-        { title: this.$t('enabled'), key: 'enabled' },
-        {
-          title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
-        },
-      ],
-      gateways: null,
+      gateways: [],
       gatewayType: null,
       gatewayTypes: {
         PAYPAL: {
@@ -237,6 +256,19 @@ export default {
       }).catch((err) => {
         console.log(err);
         this.utils.notifyUnexpectedError(err.response.data);
+      });
+    },
+    async updateGatewayOrder() {
+      const res = this.gateways.map((item) => item.id);
+
+      (await openapi).shop_updateGatewayOrder(null, res).then(() => {
+        this.fetchData();
+        this.$notify({
+          title: this.$t('_messages.updateOrderSuccess'),
+          type: 'success',
+        });
+      }).catch((err) => {
+        console.log(`${err}`);
       });
     },
     async createGateway() {

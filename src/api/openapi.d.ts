@@ -3649,6 +3649,10 @@ declare namespace Components {
             safe_attributes: {
                 [name: string]: string | any[];
             };
+            /**
+             * Sort Id
+             */
+            sort_id: number;
         }
         /**
          * PaymentGatewayModelAdd
@@ -11024,6 +11028,16 @@ declare namespace Paths {
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
+    namespace ShopUpdateGatewayOrder {
+        /**
+         * Ordered List
+         */
+        export type RequestBody = string /* uuid */[];
+        namespace Responses {
+            export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace UserAddAddress {
         export type RequestBody = /* AddressModelAdd */ Components.Schemas.AddressModelAdd;
         namespace Responses {
@@ -13563,6 +13577,14 @@ export interface OperationMethods {
     data?: Paths.ShopCreateGateway.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopCreateGateway.Responses.$200>
+  /**
+   * shop_updateGatewayOrder - Update Gateway Order
+   */
+  'shop_updateGatewayOrder'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.ShopUpdateGatewayOrder.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopUpdateGatewayOrder.Responses.$200>
   /**
    * shop_editGateway - Edit Gateway
    */
@@ -16228,6 +16250,16 @@ export interface PathsDictionary {
       data?: Paths.ShopCreateGateway.RequestBody,
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopCreateGateway.Responses.$200>
+  }
+  ['/shop/gateway/order']: {
+    /**
+     * shop_updateGatewayOrder - Update Gateway Order
+     */
+    'put'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.ShopUpdateGatewayOrder.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopUpdateGatewayOrder.Responses.$200>
   }
   ['/shop/gateway/{uuid}']: {
     /**
