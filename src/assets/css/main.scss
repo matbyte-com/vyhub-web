@@ -267,3 +267,43 @@ a:not([class]):hover::before {
 .vjsf-help-message-tooltip p {
   line-height: 1px;
 }
+
+/* Click-to-load video placeholder for embedded iframes in forum posts. The
+   markup is injected as sanitized user content (see ForumThread.vue), so the
+   styling lives here rather than inline - DOMPurify strips inline `var()`
+   styles, and this keeps the theme colors resolvable. */
+.vh-iframe-closed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  min-height: 100px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid rgb(var(--v-theme-warning-darken-3));
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(100, 100, 100, 0.4);
+  transition: all 0.3s ease;
+}
+
+.vh-iframe-icon {
+  font-size: 40px;
+  color: rgb(var(--v-theme-warning-darken-3));
+  transition: all 0.3s ease;
+}
+
+.vh-iframe-text {
+  color: rgb(var(--v-theme-warning-darken-3));
+  font-size: 14px;
+  margin: 0;
+}
+
+.vh-iframe-open {
+  width: 100%;
+  height: 500px;
+  border: none;
+  border-top: 2px solid rgb(var(--v-theme-warning-darken-3));
+  border-radius: 0 0 10px 10px;
+}

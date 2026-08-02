@@ -298,6 +298,7 @@
               <!-- eslint-disable vue/no-v-html -- user content sanitized via sanitizeUserHtml -->
               <span
                 class="ql-editor pa-0 text-break ck-content"
+                @click="loadVideoOnClick"
                 v-html="sanitizeUserHtml(post.content)"
               />
               <!-- eslint-enable vue/no-v-html -->
@@ -644,6 +645,19 @@ export default {
   },
   methods: {
     sanitizeUserHtml,
+    loadVideoOnClick(event) {
+      const placeholder = event.target.closest('.vh-iframe-closed');
+      if (!placeholder) return;
+
+      const src = placeholder.getAttribute('data-video-src');
+      if (!src || !/^https?:\/\//i.test(src)) return;
+
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.className = 'vh-iframe-open';
+      iframe.setAttribute('allowfullscreen', '');
+      placeholder.replaceWith(iframe);
+    },
     async fetchData() {
       (await openapi).forum_getThreadPosts({ uuid: this.threadId, page: this.page, size: 20 })
         .then((rsp) => {
@@ -673,49 +687,20 @@ export default {
               }, {});
 
 
+              // Replace each embedded <iframe> with a click-to-load placeholder.
+              // The markup must survive `sanitizeUserHtml` (DOMPurify), which
+              // strips inline event handlers and <iframe> tags - so the URL is
+              // carried in `data-video-src` and the actual iframe is built on
+              // click by `loadVideoOnClick` instead of an inline onclick.
               p.content = p.content.replace(
-                /<iframe([^>]*)src="([^"]+)"([^>]*)><\/iframe>/g,
-                (_, iframeAttrsBefore, src, iframeAttrsAfter) => {
-                  const iFrameID = `iFrame${Math.random().toString(36).slice(2, 9)}`;
-                  const spoilerDiv = `
-                    <div class="vh-iframe-closed" style="
-                        border: 2px solid rgb(var(--v-theme-warning-darken-3));
-                        cursor: pointer;
-                        width: 30%;
-                        min-height: 100px;
-                        text-align: center;
-                        transition: all 0.3s ease;
-                        border-radius: 10px;
-                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                        background-color: rgba(100, 100, 100, 0.4);
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                      " onclick="
-                        var iframe = document.getElementById('${iFrameID}');
-                        iframe.src = iframe.getAttribute('data-src');
-                        iframe.style.display = 'block';
-                        this.style.display = 'none';
-                    ">
-                      <i class="vh-iframe-icon v-icon mdi mdi-eye-off" style="
-                          font-size: 40px;
-                          color: rgb(var(--v-theme-warning-darken-3));
-                          transition: all 0.3s ease;
-                      "></i>
-                      <p class="vh-iframe-text" style="color: rgb(var(--v-theme-warning-darken-3)); font-size: 14px;">${src}</p>
-                  </div>`;
-                  const iFrameElement = `
-                  <iframe id="${iFrameID}" data-src="${src}" ${iframeAttrsBefore} style="
-                      display: none;
-                      width: 100%;
-                      height: 500px;
-                      border: none;
-                      border-top: 2px solid rgb(var(--v-theme-warning-darken-3));
-                      border-radius: 0 0 10px 10px;
-                  " class="vh-iframe-open" ${iframeAttrsAfter}></iframe>`;
-                  return `<div style="display: flex; justify-content: center;">${spoilerDiv}</div>${iFrameElement}`;
-                },
+                /<iframe[^>]*src="([^"]+)"[^>]*><\/iframe>/g,
+                (_, src) => `
+                  <div style="display: flex; justify-content: center;">
+                    <div class="vh-iframe-closed" data-video-src="${src}">
+                      <i class="vh-iframe-icon v-icon mdi mdi-eye-off"></i>
+                      <p class="vh-iframe-text">${src}</p>
+                    </div>
+                  </div>`,
               );
 
               this.icons.forEach((i) => {

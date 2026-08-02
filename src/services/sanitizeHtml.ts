@@ -22,6 +22,7 @@ const ALLOWED_ATTR = [
   'alt', 'src', 'width', 'height', // img
   'style', 'class', // *
   'data-oembed-url', // div
+  'data-video-src', // div - carries the embed URL for the click-to-load video placeholder
 ];
 
 // Backend permits the `smb` protocol in addition to DOMPurify's defaults
