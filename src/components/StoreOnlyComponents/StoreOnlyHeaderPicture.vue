@@ -40,7 +40,7 @@ const background = computed(() => {
       </v-col>
     </v-row>
   </v-img>
-  <v-divider />
+  <v-divider v-if="background" />
 </template>
 
 <style scoped>

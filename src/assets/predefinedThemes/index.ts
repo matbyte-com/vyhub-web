@@ -6,6 +6,7 @@ import goldDarkFull from "./goldDarkFull";
 import blueLightFull from "./blueLightFull";
 import vyhubLightShopOnly from "./vyhubLightShopOnly";
 import greenDarkShopOnly from "./greenDarkShopOnly";
+import goldDarkShopOnly from "./goldDarkShopOnly";
 
 export default {
   themes: [
@@ -16,7 +17,8 @@ export default {
     goldDarkFull,
     minimalLightShopOnly,
     vyhubLightShopOnly,
-    greenDarkShopOnly
+    greenDarkShopOnly,
+    goldDarkShopOnly
   ],
   allowedValues: {
     general: ['shop_only', 'enable_landingpage'],
