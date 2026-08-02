@@ -2,6 +2,7 @@ import minimalLightFull from './minimalLightFull'
 import minimalLightShopOnly from "./minimalLightShopOnly";
 import vyhubLightFull from "./vyhubLightFull";
 import greenDarkFull from "./greenDarkFull";
+import goldDarkFull from "./goldDarkFull";
 import blueLightFull from "./blueLightFull";
 import vyhubLightShopOnly from "./vyhubLightShopOnly";
 import greenDarkShopOnly from "./greenDarkShopOnly";
@@ -12,6 +13,7 @@ export default {
     vyhubLightFull,
     blueLightFull,
     greenDarkFull,
+    goldDarkFull,
     minimalLightShopOnly,
     vyhubLightShopOnly,
     greenDarkShopOnly
