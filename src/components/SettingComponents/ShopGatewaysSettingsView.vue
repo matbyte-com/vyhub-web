@@ -176,7 +176,7 @@
       </template>
       <template
         v-if="selectedGateway != null &&
-          ['STRIPE', 'PAYPAL'].includes(selectedGateway.type)"
+          selectedGateway.type === 'PAYPAL'"
         #form-after
       >
         <v-text-field

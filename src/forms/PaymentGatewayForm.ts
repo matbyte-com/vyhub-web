@@ -36,10 +36,6 @@ function gatewayFields(gatewayType: string) {
         type: 'string',
         title: 'Secret Key',
       },
-      wh_secret: {
-        type: 'string',
-        title: 'Webhook Secret',
-      },
       payment_methods: {
         type: 'array',
         default: [],
