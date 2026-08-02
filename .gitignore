@@ -28,3 +28,5 @@ components.d.ts
 /tests/e2e/videos/
 
 public/config.js
+/.mcp.json
+/.vuetify/mcp/claude-code.json
