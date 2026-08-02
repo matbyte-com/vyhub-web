@@ -1,63 +1,81 @@
 <template>
   <v-card
-    class="vh-latest-forum-posts card-rounded mb-3"
+    class="vh-forum-latest-posts card-rounded mb-3"
     flat
     :border="outlined"
   >
-    <v-card-title class="pb-0 pt-3">
+    <v-card-title class="d-block pb-0 pt-3">
       <CardTitle
         icon="mdi-message-text-clock"
         :title="$t('_forum.latestPosts')"
       />
     </v-card-title>
-    <v-card-text
-      v-if="latestPosts != null"
-      style="width: inherit"
+    <div
+      v-if="latestPosts && latestPosts.length === 0"
+      class="text-disabled px-4 py-3"
     >
-      <div
-        v-if="latestPosts.length === 0"
-        class="text-medium-emphasis text-caption mt-3"
+      {{ $t('noDataAvailable') }}
+    </div>
+    <v-list
+      v-else-if="latestPosts"
+      density="compact"
+    >
+      <v-list-item
+        v-for="post in latestPosts"
+        :key="post.id"
+        class="listItem"
+        :to="{ name: 'ForumThread', params: { id: post.thread.id },
+               query: { lastPage: true } }"
       >
-        {{ $t('noDataAvailable') }}
-      </div>
-      <v-list
-        v-else
-        density="compact"
-        class="pt-0 mt-3"
-      >
-        <v-list-item
-          v-for="post in latestPosts"
-          :key="post.id"
-          class="px-0"
-          :to="{ name: 'ForumThread', params: { id: post.thread.id },
-                 query: { lastPage: true } }"
-        >
-          <div class="d-flex align-center">
+        <div class="d-flex align-center">
+          <router-link
+            v-if="post.creator"
+            :to="{ name: 'UserDashboard',
+                   params: { id: post.creator.id } }"
+          >
             <v-avatar
-              class="mr-2 flex-shrink-0"
-              size="30"
+              class="ma-1 mr-2"
+              size="35"
             >
               <v-img :src="post.creator.avatar" />
             </v-avatar>
-            <div style="min-width: 0">
-              <div class="text-truncate font-weight-medium">
+          </router-link>
+          <div>
+            <div>
+              <router-link
+                :to="{ name: 'ForumThread', params: { id: post.thread.id },
+                       query: { lastPage: true } }"
+                class="vh-forum-link"
+                style="font-size: 1em; white-space: nowrap;
+                                    text-overflow: ellipsis; color: inherit;
+                                     text-decoration: none"
+              >
                 {{ post.thread.title }}
-              </div>
-              <div class="text-disabled text-caption text-truncate">
+              </router-link>
+            </div>
+            <div
+              v-if="post.creator"
+              class="text-disabled"
+            >
+              <span class="vh-forum-link">
                 {{ utils.formatTimeForForum(post.created) }} {{ $t('_forum.by') }}
-                <UserLink
-                  :simple="true"
-                  :user="post.creator"
-                />
-              </div>
+              </span>
+              <UserLink
+                :simple="true"
+                :user="post.creator"
+              />
             </div>
           </div>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
-    <v-card-text v-else>
-      <v-skeleton-loader type="paragraph" />
-    </v-card-text>
+        </div>
+      </v-list-item>
+    </v-list>
+    <v-skeleton-loader
+      v-else
+      dark
+      style="background-color: rgba(0,0,0,0)"
+      type="list-item-avatar, divider, list-item-avatar,
+       divider, list-item-avatar"
+    />
   </v-card>
 </template>
 

@@ -27,6 +27,7 @@
       <v-icon size="small">mdi-account</v-icon>
       <router-link
         :to="{ name: 'UserDashboard', params: {id: user.id}}"
+        class="vh-forum-link"
         style="text-decoration: none"
       >{{ user.username }}</router-link>
     </span>
