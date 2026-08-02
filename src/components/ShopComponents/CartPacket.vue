@@ -181,9 +181,15 @@ import CartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 
 export default {
   props: {
-    cartPacket: Object,
+    cartPacket: {
+      type: Object,
+      default: null,
+    },
     showRemove: Boolean,
-    openPurchase: Object,
+    openPurchase: {
+      type: Object,
+      default: null,
+    },
     priceCols: {
       type: Number,
       default: 3,

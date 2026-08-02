@@ -16,8 +16,14 @@ import countries from 'country-list';
 export default {
   name: 'PurchaseCountryChart',
   props: {
-    data: Object,
-    currency: Object,
+    data: {
+      type: Object,
+      default: null,
+    },
+    currency: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {

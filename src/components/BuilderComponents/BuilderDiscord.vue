@@ -51,6 +51,7 @@ export default {
     },
     discordWidget: {
       type: String,
+      default: '',
     },
     inverted: {
       type: Boolean,

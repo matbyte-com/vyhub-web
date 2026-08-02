@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: 'Asa.vue',
+  name: 'AsaIcon',
 };
 </script>
 

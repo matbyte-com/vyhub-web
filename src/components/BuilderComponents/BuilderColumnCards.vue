@@ -102,7 +102,11 @@
 <script>
 
 export default {
-  props: ['headline', 'subtitle', 'cards'],
+  props: {
+    headline: { type: String, default: '' },
+    subtitle: { type: String, default: '' },
+    cards: { type: Array, default: () => [] },
+  },
 };
 </script>
 

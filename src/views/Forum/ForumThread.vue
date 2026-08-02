@@ -208,175 +208,178 @@
             vertical
           />
           <div style="width: 100%; min-width: 0">
-              <!-- TOP START -->
-              <!-- ORIGINAL POSTER HINT -->
-              <v-card-text class="d-flex align-center flex-wrap" style="gap: 8px">
-                <!-- User chip + memberships (mobile only; desktop shows these in the sidebar) -->
-                <template v-if="$vuetify.display.xs">
-                  <v-chip
-                    :to="!post.creator.deleted
-                      ? { name: 'UserDashboard', params: { id: post.creator.id } }
-                      : undefined"
-                    size="small"
-                    variant="tonal"
-                  >
-                    <v-avatar start>
-                      <v-img :src="post.creator.avatar" />
-                    </v-avatar>
-                    {{ post.creator.username }}
-                  </v-chip>
-                  <v-icon
-                    v-if="post.creator.deleted"
-                    color="red"
-                    size="small"
-                  >
-                    mdi-account-remove
-                  </v-icon>
-                  <v-tooltip
-                    v-for="membership in post.creator.memberships"
-                    :key="membership.id"
-                    location="bottom"
-                  >
-                    <template #activator="{ props }">
-                      <v-chip
-                        size="small"
-                        :color="membership.group.color"
-                        v-bind="props"
-                        variant="outlined"
-                        style="max-width: 150px"
-                      >
-                        <span class="text-ellipsis">
-                          {{ membership.group.name }}
-                        </span>
-                      </v-chip>
-                    </template>
-                    {{ membership.group.name }}
-                  </v-tooltip>
-                </template>
-                <!-- ORIGINAL POSTER HINT -->
+            <!-- TOP START -->
+            <!-- ORIGINAL POSTER HINT -->
+            <v-card-text
+              class="d-flex align-center flex-wrap"
+              style="gap: 8px"
+            >
+              <!-- User chip + memberships (mobile only; desktop shows these in the sidebar) -->
+              <template v-if="$vuetify.display.xs">
                 <v-chip
-                  v-if="post.creator && thread.creator
-                    && post.creator.id === thread.creator.id"
-                  color="success"
+                  :to="!post.creator.deleted
+                    ? { name: 'UserDashboard', params: { id: post.creator.id } }
+                    : undefined"
                   size="small"
-                  label
-                  class="vh-forum-post-op"
+                  variant="tonal"
                 >
-                  OP
+                  <v-avatar start>
+                    <v-img :src="post.creator.avatar" />
+                  </v-avatar>
+                  {{ post.creator.username }}
                 </v-chip>
-                <!-- Post created -->
-                <span class="font-weight-light">
-                  {{ utils.formatDate(post.created) }}
-                </span>
-                <!-- ORIGINAL POSTER HINT END -->
-                <!-- ADMIN HINT -->
-                <div class="ml-auto">
-                  <v-chip
-                    v-if="$checkTopicAdmin(admins, post.creator)"
-                    round
-                    variant="outlined"
-                    color="red"
-                    size="small"
-                  >
-                    <v-icon
+                <v-icon
+                  v-if="post.creator.deleted"
+                  color="red"
+                  size="small"
+                >
+                  mdi-account-remove
+                </v-icon>
+                <v-tooltip
+                  v-for="membership in post.creator.memberships"
+                  :key="membership.id"
+                  location="bottom"
+                >
+                  <template #activator="{ props }">
+                    <v-chip
                       size="small"
-                      start
+                      :color="membership.group.color"
+                      v-bind="props"
+                      variant="outlined"
+                      style="max-width: 150px"
                     >
-                      mdi-shield-sword-outline
-                    </v-icon>
-                    <span>{{ $t('_forum.admin') }}</span>
-                  </v-chip>
-                </div>
-              </v-card-text>
-              <!-- ADMIN HINT END -->
-              <v-divider />
-              <v-card-text style="min-height: 70px">
-                <!-- IMPORTANT - TOP -->
-                <span
-                  class="ql-editor pa-0 text-break ck-content"
-                  v-html="post.content"
-                />
-              </v-card-text>
-              <v-divider /> <!-- IMPORTANT - BOTTOM -->
-              <div class="px-3 py-1">
-                <div class="d-flex align-center">
-                  <div
-                    v-if="post.last_edit"
-                    class="text-disabled mr-2"
-                    style="font-size: 0.9em"
+                      <span class="text-ellipsis">
+                        {{ membership.group.name }}
+                      </span>
+                    </v-chip>
+                  </template>
+                  {{ membership.group.name }}
+                </v-tooltip>
+              </template>
+              <!-- ORIGINAL POSTER HINT -->
+              <v-chip
+                v-if="post.creator && thread.creator
+                  && post.creator.id === thread.creator.id"
+                color="success"
+                size="small"
+                label
+                class="vh-forum-post-op"
+              >
+                OP
+              </v-chip>
+              <!-- Post created -->
+              <span class="font-weight-light">
+                {{ utils.formatDate(post.created) }}
+              </span>
+              <!-- ORIGINAL POSTER HINT END -->
+              <!-- ADMIN HINT -->
+              <div class="ml-auto">
+                <v-chip
+                  v-if="$checkTopicAdmin(admins, post.creator)"
+                  round
+                  variant="outlined"
+                  color="red"
+                  size="small"
+                >
+                  <v-icon
+                    size="small"
+                    start
                   >
-                    <span>{{ $t('_forum.edited') }}:
-                      {{ utils.formatTimeForForum(post.last_edit) }}
-                    </span>
-                  </div>
+                    mdi-shield-sword-outline
+                  </v-icon>
+                  <span>{{ $t('_forum.admin') }}</span>
+                </v-chip>
+              </div>
+            </v-card-text>
+            <!-- ADMIN HINT END -->
+            <v-divider />
+            <v-card-text style="min-height: 70px">
+              <!-- IMPORTANT - TOP -->
+              <span
+                class="ql-editor pa-0 text-break ck-content"
+                v-html="post.content"
+              />
+            </v-card-text>
+            <v-divider /> <!-- IMPORTANT - BOTTOM -->
+            <div class="px-3 py-1">
+              <div class="d-flex align-center">
+                <div
+                  v-if="post.last_edit"
+                  class="text-disabled mr-2"
+                  style="font-size: 0.9em"
+                >
+                  <span>{{ $t('_forum.edited') }}:
+                    {{ utils.formatTimeForForum(post.last_edit) }}
+                  </span>
+                </div>
 
-                  <!-- POST REACTIONS -->
-                  <div class="d-flex flex-row flex-wrap align-center">
-                    <div
-                      v-for="icon in icons"
-                      :key="icon"
-                    >
-                      <span class="mr-2 d-flex align-center">
-                        <!-- BTN when logged in -->
-                        <v-btn
-                          v-if="$store.getters.isLoggedIn"
-                          :class="{ 'text-disabled':
-                            getReactionAccumulated(post, icon).count === 0}"
-                          size="small"
-                          variant="outlined"
-                          class="pa-1 ma-0 reaction-btn"
-                          :style="getReactionAccumulated(post, icon).has_reacted ?
-                            `background-color: ${$vuetify.theme.current.primary}1A;
+                <!-- POST REACTIONS -->
+                <div class="d-flex flex-row flex-wrap align-center">
+                  <div
+                    v-for="icon in icons"
+                    :key="icon"
+                  >
+                    <span class="mr-2 d-flex align-center">
+                      <!-- BTN when logged in -->
+                      <v-btn
+                        v-if="$store.getters.isLoggedIn"
+                        :class="{ 'text-disabled':
+                          getReactionAccumulated(post, icon).count === 0}"
+                        size="small"
+                        variant="outlined"
+                        class="pa-1 ma-0 reaction-btn"
+                        :style="getReactionAccumulated(post, icon).has_reacted ?
+                          `background-color: ${$vuetify.theme.current.primary}1A;
                                 border-color: ${$vuetify.theme.current.primary}` : ''"
-                          style="min-width: 30px; border-color: transparent"
-                          @click="toggleReaction(post, icon)"
-                          @click.right.prevent="showAllReactors(post, icon)"
-                        >
-                          <span class="reaction-icon">{{ icon }}</span>
-                          <span
-                            v-if="getReactionAccumulated(post, icon).count !== 0"
-                            class="ml-1 animate__animated animate__fadeInUp animate__faster"
-                          >
-                            {{ getReactionAccumulated(post, icon).count }}
-                          </span>
-                        </v-btn>
+                        style="min-width: 30px; border-color: transparent"
+                        @click="toggleReaction(post, icon)"
+                        @click.right.prevent="showAllReactors(post, icon)"
+                      >
+                        <span class="reaction-icon">{{ icon }}</span>
                         <span
-                          v-else
-                          :class="{ 'text-disabled':
-                            getReactionAccumulated(post, icon).count === 0}"
+                          v-if="getReactionAccumulated(post, icon).count !== 0"
+                          class="ml-1 animate__animated animate__fadeInUp animate__faster"
                         >
-                          {{ icon }}
-                          <span v-if="getReactionAccumulated(post, icon).count !== 0">
-                            {{ getReactionAccumulated(post, icon).count }}
-                          </span>
+                          {{ getReactionAccumulated(post, icon).count }}
+                        </span>
+                      </v-btn>
+                      <span
+                        v-else
+                        :class="{ 'text-disabled':
+                          getReactionAccumulated(post, icon).count === 0}"
+                      >
+                        {{ icon }}
+                        <span v-if="getReactionAccumulated(post, icon).count !== 0">
+                          {{ getReactionAccumulated(post, icon).count }}
                         </span>
                       </span>
-                    </div>
-                  </div>
-                  <v-spacer />
-                  <div class="d-flex align-center justify-end">
-                    <v-btn
-                      v-if="postEditable(post)"
-                      size="small"
-                      variant="outlined"
-                      color="primary"
-                      class="mr-2"
-                      @click.stop="openEditPostDialog(post)"
-                    >
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                    <v-btn
-                      v-if="postEditable(post) && posts[0].id !== post.id"
-                      size="small"
-                      variant="outlined"
-                      color="error"
-                      @click.stop="$refs.deletePostConfirmationDialog.show(post)"
-                    >
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
+                    </span>
                   </div>
                 </div>
+                <v-spacer />
+                <div class="d-flex align-center justify-end">
+                  <v-btn
+                    v-if="postEditable(post)"
+                    size="small"
+                    variant="outlined"
+                    color="primary"
+                    class="mr-2"
+                    @click.stop="openEditPostDialog(post)"
+                  >
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn
+                    v-if="postEditable(post) && posts[0].id !== post.id"
+                    size="small"
+                    variant="outlined"
+                    color="error"
+                    @click.stop="$refs.deletePostConfirmationDialog.show(post)"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </div>
               </div>
+            </div>
           </div>
         </div>
       </v-card>

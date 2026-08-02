@@ -43,7 +43,12 @@
 <script>
 export default {
   // TODO Does not work yet / looks good yet
-  props: ['columns', 'maxImageWidth', 'maxContentWidth', 'whiteText'],
+  props: {
+    columns: { type: Array, default: () => [] },
+    maxImageWidth: { type: String, default: '' },
+    maxContentWidth: { type: String, default: '' },
+    whiteText: { type: Boolean },
+  },
   computed: {
     getMaxContentWidth() {
       if (!this.maxContentWidth) return '100%';

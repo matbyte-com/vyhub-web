@@ -8,9 +8,16 @@
 export default {
   name: 'LogLabel',
   props: {
-    label: String,
-    value: String,
+    label: {
+      type: String,
+      default: '',
+    },
+    value: {
+      type: String,
+      default: '',
+    },
   },
+  emits: ['click'],
 };
 </script>
 

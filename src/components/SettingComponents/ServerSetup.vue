@@ -555,7 +555,7 @@ export default {
     ServerSetupTextField,
   },
   props: {
-    server: Object,
+    server: { type: Object, default: null },
   },
   data() {
     return {

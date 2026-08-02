@@ -1,6 +1,7 @@
 <template>
   <div
     v-for="block in blocksToShow"
+    :key="block.id"
     class="vh-home-wrapper"
   >
     <div
@@ -70,6 +71,7 @@ import {defineAsyncComponent} from "vue";
 const props = defineProps({
   blocksToShow: {
     type: Object,
+    default: null,
   }
 });
 

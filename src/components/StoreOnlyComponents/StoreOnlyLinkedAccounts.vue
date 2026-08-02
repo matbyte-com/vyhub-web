@@ -26,21 +26,22 @@ const store = useStore();
           </v-icon>
           {{ store.state.user.username }}
         </v-chip>
-        <div
-          v-for="acc in store.state.user.linked_users"
-          v-if="store.state.user.linked_users"
-          :key="acc.id"
-          class="ma-1"
-        >
-          <v-chip
-            variant="outlined"
+        <template v-if="store.state.user.linked_users">
+          <div
+            v-for="acc in store.state.user.linked_users"
+            :key="acc.id"
+            class="ma-1"
           >
-            <v-icon start>
-              {{ UserService.userTypeIcons[acc.type] }}
-            </v-icon>
-            {{ acc.username }}
-          </v-chip>
-        </div>
+            <v-chip
+              variant="outlined"
+            >
+              <v-icon start>
+                {{ UserService.userTypeIcons[acc.type] }}
+              </v-icon>
+              {{ acc.username }}
+            </v-chip>
+          </div>
+        </template>
       </div>
     </v-card-text>
   </v-card>

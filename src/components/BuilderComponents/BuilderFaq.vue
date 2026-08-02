@@ -39,7 +39,9 @@
 
 <script>
 export default {
-  props: ['questions'],
+  props: {
+    questions: { type: Array, default: () => [] },
+  },
 };
 </script>
 

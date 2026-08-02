@@ -138,7 +138,10 @@
 
 export default {
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   emits: ['user-updated'],
   data() {

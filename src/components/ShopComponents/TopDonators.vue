@@ -87,7 +87,11 @@
 import openapi from '@/api/openapi';
 
 export default {
-  props: ['noTitle', 'noIcon', 'centerHeadline'],
+  props: {
+    noTitle: { type: Boolean },
+    noIcon: { type: Boolean },
+    centerHeadline: { type: Boolean },
+  },
   data() {
     return {
       donatorsToShow: [],

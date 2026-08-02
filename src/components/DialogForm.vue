@@ -88,10 +88,22 @@ import i18n from '@/plugins/i18n';
 
 export default {
   props: {
-    title: String,
-    icon: String,
-    formSchema: Object,
-    errorMessage: String,
+    title: {
+      type: String,
+      default: '',
+    },
+    icon: {
+      type: String,
+      default: '',
+    },
+    formSchema: {
+      type: Object,
+      default: null,
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
     maxWidth: {
       type: Number,
       default: 500,
@@ -104,7 +116,10 @@ export default {
       type: String,
       default: () => i18n.global.t('cancel'),
     },
-    slots: Array,
+    slots: {
+      type: Array,
+      default: () => [],
+    },
   },
   emits: ['submit', 'cancel', 'updated'],
   data() {
@@ -121,7 +136,8 @@ export default {
     open() {
       if (this.$refs.dialog) {
         return this.$refs.dialog.open;
-      } else false;
+      }
+      return false;
     },
   },
   methods: {

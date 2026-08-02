@@ -19,7 +19,10 @@
 <script>
 export default {
   props: {
-    text: String,
+    text: {
+      type: String,
+      default: null,
+    },
     countdown: {
       type: Boolean,
       default: false,

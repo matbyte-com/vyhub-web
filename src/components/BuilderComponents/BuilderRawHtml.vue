@@ -7,7 +7,9 @@
 <script>
 export default {
   // TODO Explain how to use Vue Axios
-  props: ['html'],
+  props: {
+    html: { type: String, default: '' },
+  },
 };
 </script>
 

@@ -343,7 +343,10 @@
                 {{ errorMessage }}
               </v-alert>
               <v-card-title class="d-flex align-center">
-                <v-icon start size="small">
+                <v-icon
+                  start
+                  size="small"
+                >
                   mdi-cart
                 </v-icon>
                 {{ openPurchase ? $t('_shop.labels.total') : $t('_shop.labels.cartTotal') }}

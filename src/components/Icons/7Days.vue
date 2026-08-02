@@ -810,7 +810,7 @@ c-16 0 -36 -8 -44 -17z"
 
 <script>
 export default {
-  name: '7Days.vue',
+  name: 'SevenDaysIcon',
 };
 </script>
 

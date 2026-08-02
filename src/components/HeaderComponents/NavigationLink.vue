@@ -75,7 +75,11 @@
 <script>
 export default {
   props: {
-    link: Object, dark: Boolean,
+    link: {
+      type: Object,
+      default: () => ({}),
+    },
+    dark: Boolean,
     noActive: Boolean
   },
   computed: {

@@ -24,8 +24,14 @@
 <script>
 export default {
   props: {
-    icon: String,
-    title: String,
+    icon: {
+      type: String,
+      default: '',
+    },
+    title: {
+      type: String,
+      default: '',
+    },
     noIcon: Boolean,
     centered: Boolean,
   },

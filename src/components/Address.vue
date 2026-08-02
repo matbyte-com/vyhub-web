@@ -69,7 +69,10 @@
 <script>
 export default {
   props: {
-    address: Object,
+    address: {
+      type: Object,
+      default: () => ({}),
+    },
     hidden: {
       type: Boolean,
       default: false,

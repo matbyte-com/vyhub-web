@@ -1,6 +1,9 @@
 <script>
 export default {
-  props: ['activeTab', 'allowedTabs'],
+  props: {
+    activeTab: { type: Object, default: null },
+    allowedTabs: { type: Array, default: () => [] },
+  },
 }
 
 </script>

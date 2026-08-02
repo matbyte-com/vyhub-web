@@ -34,6 +34,7 @@ export default {
   props: {
     menuLinks: {
       type: Array,
+      default: () => [],
     },
   },
   data() {

@@ -79,7 +79,12 @@ import CardTitle from '../CardTitle.vue';
 export default {
   name: 'NewUsers',
   components: { CardTitle },
-  props: ['noIcon', 'noTitle', 'centerHeadline', 'outlined'],
+  props: {
+    noIcon: { type: Boolean },
+    noTitle: { type: Boolean },
+    centerHeadline: { type: Boolean },
+    outlined: { type: Boolean },
+  },
   data() {
     return {
       newUsers: null,

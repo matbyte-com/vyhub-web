@@ -59,15 +59,16 @@ const subcategories = computed(() => {
   <div>
     <div>
       <div v-if="store.state.shopConfig.packet_list_view">
-        <v-skeleton-loader
-          v-for="index in 3"
-          v-if="packets == null"
-          :key="index"
-          type="list-item"
-          class="rounded-lg mb-2"
-          height="82px"
-          elevation="3"
-        />
+        <template v-if="packets == null">
+          <v-skeleton-loader
+            v-for="index in 3"
+            :key="index"
+            type="list-item"
+            class="rounded-lg mb-2"
+            height="82px"
+            elevation="3"
+          />
+        </template>
         <div
           v-for="subcategory in Object.keys(subcategories)"
           :key="subcategory"

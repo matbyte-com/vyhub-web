@@ -129,8 +129,8 @@
       <template #item.select-field="{ item }">
         <v-checkbox
           v-if="$checkProp('purchase_edit')"
-          :disabled="(selectedPurchases.length > 0 && !selectedPurchases.some(p => p.status === item.status)) || (selectedPurchases.length >= 15 && !selectedPurchases.includes(item))"
           v-model="selectedPurchases"
+          :disabled="(selectedPurchases.length > 0 && !selectedPurchases.some(p => p.status === item.status)) || (selectedPurchases.length >= 15 && !selectedPurchases.includes(item))"
           density="compact"
           hide-details
           :value="item"

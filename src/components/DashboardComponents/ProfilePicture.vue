@@ -41,11 +41,11 @@
                         location="bottom"
                         :text="$t('_user.labels.hideAvatar')"
                       >
-                        <template #activator="{ props }">
+                        <template #activator="{ props: activatorProps }">
                           <v-btn
                             icon
                             size="x-small"
-                            v-bind="props"
+                            v-bind="activatorProps"
                             @click="toggleAvatarHidden(activeUser)"
                           >
                             <v-icon
@@ -115,7 +115,10 @@ import openapi from '@/api/openapi';
 
 export default {
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      default: null,
+    },
   },
 emits: ['user-updated'],
   data() {

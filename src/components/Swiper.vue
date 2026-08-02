@@ -55,7 +55,10 @@
 export default {
   // TODO Swiper is responsive, but not during a live update of the breakpoint size
   //  -> Remount needed
-  props: ['numberOfElements', 'perPageCustom'],
+  props: {
+    numberOfElements: { type: Number, default: 0 },
+    perPageCustom: { type: Array, default: () => [] },
+  },
   data() {
     return {
       currentSlide: 0,

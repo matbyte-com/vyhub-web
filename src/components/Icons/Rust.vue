@@ -48,7 +48,7 @@
 
 <script>
 export default {
-  name: 'Rust.vue',
+  name: 'RustIcon',
 };
 </script>
 

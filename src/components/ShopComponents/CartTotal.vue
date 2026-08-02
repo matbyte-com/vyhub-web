@@ -64,7 +64,10 @@
 <script>
 export default {
   props: {
-    price: Object,
+    price: {
+      type: Object,
+      default: () => ({}),
+    },
     priceFirst: {
       type: Object,
       default: null,

@@ -111,7 +111,10 @@
 <script>
 export default {
   props: {
-    items: Array,
+    items: {
+      type: Array,
+      default: null,
+    },
     search: {
       type: Boolean,
       default: false,

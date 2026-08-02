@@ -64,7 +64,13 @@
 import openapi from '@/api/openapi';
 
 export default {
-  props: ['noIcon', 'noTitle', 'centerHeadline', 'textClasses', 'noShopBtn'],
+  props: {
+    noIcon: { type: Boolean },
+    noTitle: { type: Boolean },
+    centerHeadline: { type: Boolean },
+    textClasses: { type: [String, Array, Object], default: undefined },
+    noShopBtn: { type: Boolean },
+  },
   data() {
     return {
       donationGoal: null,

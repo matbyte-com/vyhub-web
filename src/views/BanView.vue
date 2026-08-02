@@ -422,7 +422,9 @@ import openapiCached from '@/api/openapiCached';
 import openapi from '../api/openapi';
 
 export default {
-  props: ['banId'],
+  props: {
+    banId: { type: String, default: '' },
+  },
   data() {
     return {
       headers: [

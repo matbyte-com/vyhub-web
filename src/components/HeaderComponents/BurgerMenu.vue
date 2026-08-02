@@ -5,9 +5,18 @@ const emit = defineEmits(['login', 'register', 'logout'])
 const store = useStore()
 
 defineProps({
-  navLinks: Array,
-  helpLinks: Array,
-  menuLinks: Array,
+  navLinks: {
+    type: Array,
+    default: () => [],
+  },
+  helpLinks: {
+    type: Array,
+    default: null,
+  },
+  menuLinks: {
+    type: Array,
+    default: () => [],
+  },
 })
 
 function emitLogin() {

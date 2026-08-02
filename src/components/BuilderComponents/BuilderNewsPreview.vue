@@ -122,9 +122,11 @@ export default {
     },
     title: {
       type: String,
+      default: '',
     },
     subtitle: {
       type: String,
+      default: '',
     },
   },
   data() {

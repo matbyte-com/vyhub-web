@@ -21,7 +21,10 @@
 
 export default {
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      default: () => ({}),
+    },
     readOnly: {
       type: Boolean,
       default: false,

@@ -27,8 +27,14 @@
 export default {
   name: 'DashboardAccumulatedAttributesChart',
   props: {
-    data: Array,
-    definition: Object,
+    data: {
+      type: Array,
+      default: null,
+    },
+    definition: {
+      type: Object,
+      default: null,
+    },
     // Earliest date currently loaded (null = full history already loaded).
     start: {
       type: Date,

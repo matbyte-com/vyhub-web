@@ -148,7 +148,13 @@
 import openapi from '@/api/openapi';
 
 export default {
-  props: ['noIcon', 'noTitle', 'centerHeadline', 'outlined'],
+  props: {
+    noIcon: { type: Boolean },
+    noTitle: { type: Boolean },
+    centerHeadline: { type: Boolean },
+    outlined: { type: Boolean },
+  },
+  emits: ['loaded'],
   data() {
     return {
       servers: null,

@@ -36,7 +36,10 @@
 <script>
 export default {
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      default: null,
+    },
     outline: {
       type: Boolean,
       default: null,

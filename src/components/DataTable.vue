@@ -64,7 +64,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    items: Array,
+    items: {
+      type: Array,
+      default: null,
+    },
     showSearch: {
       type: Boolean,
       default: false,

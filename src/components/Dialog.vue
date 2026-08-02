@@ -4,10 +4,22 @@ import { useUtils} from "@/services/useUtils";
 import {useDisplay} from "vuetify"; // Import utils or adjust based on actual location
 
 const props = defineProps({
-  textClass: String,
-  actionClass: String,
-  title: String,
-  icon: String,
+  textClass: {
+    type: String,
+    default: '',
+  },
+  actionClass: {
+    type: String,
+    default: '',
+  },
+  title: {
+    type: String,
+    default: '',
+  },
+  icon: {
+    type: String,
+    default: '',
+  },
   maxWidth: {
     type: Number,
     default: 600,

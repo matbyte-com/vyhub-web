@@ -82,7 +82,10 @@
 
 <script>
 export default {
-  props: ['imageCardUrl', 'whiteText'],
+  props: {
+    imageCardUrl: { type: String, default: '' },
+    whiteText: { type: Boolean },
+  },
 };
 </script>
 

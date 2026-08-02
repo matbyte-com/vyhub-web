@@ -96,7 +96,10 @@
           flat
         >
           <v-card-title class="d-flex align-center pt-3">
-            <v-icon start size="small">
+            <v-icon
+              start
+              size="small"
+            >
               mdi-account-clock
             </v-icon>
             {{ $t('_search.labels.recentlyActiveUsers') }}

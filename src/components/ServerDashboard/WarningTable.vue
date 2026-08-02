@@ -104,7 +104,13 @@ import openapi from '@/api/openapi';
 import warningAddForm from '@/forms/WarningAddForm';
 
 export default {
-  props: ['warnings', 'totalItems', 'user', 'serverbundle'],
+  props: {
+    warnings: { type: Array, default: () => [] },
+    totalItems: { type: Number, default: 0 },
+    user: { type: Object, default: null },
+    serverbundle: { type: Object, default: null },
+  },
+  emits: ['edit'],
   data() {
     return {
       headers: [

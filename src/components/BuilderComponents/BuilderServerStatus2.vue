@@ -147,7 +147,10 @@
 import openapiCached from '@/api/openapiCached';
 
 export default {
-  props: ['imageCardUrl', 'whiteText'],
+  props: {
+    imageCardUrl: { type: String, default: '' },
+    whiteText: { type: Boolean },
+  },
   data() {
     return {
       servers: null,

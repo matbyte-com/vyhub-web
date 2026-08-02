@@ -241,7 +241,11 @@
 import openapi from '@/api/openapi';
 
 export default {
-  props: ['timeRange', 'currency', 'intervalItems'],
+  props: {
+    timeRange: { type: Array, default: null },
+    currency: { type: Object, default: null },
+    intervalItems: { type: Array, default: () => [] },
+  },
   data() {
     return {
       selectedSalesInterval: 'MONTH',

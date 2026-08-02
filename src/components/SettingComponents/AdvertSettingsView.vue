@@ -128,7 +128,6 @@ export default {
   components: {VueDraggable},
   data() {
     return {
-      advert: null,
       adverts: [],
       advertAddSchema: AdvertsForm,
     };

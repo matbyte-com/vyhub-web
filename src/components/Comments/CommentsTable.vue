@@ -6,9 +6,9 @@
       class="mt-3"
       :sort-desc="true"
     >
-      <template #default="comments">
+      <template #default="commentsSlot">
         <template
-          v-for="comment in comments.items"
+          v-for="comment in commentsSlot.items"
           :key="comment.raw.id"
         >
           <v-list-item
@@ -83,9 +83,18 @@ import CommentForm from '@/forms/CommentForm';
 
 export default {
   props: {
-    type: String,
-    categories: Array,
-    objId: String,
+    type: {
+      type: String,
+      default: '',
+    },
+    categories: {
+      type: Array,
+      default: () => [],
+    },
+    objId: {
+      type: String,
+      default: '',
+    },
     showSearch: Boolean,
     noAddBtn: Boolean,
     showCategory: {

@@ -48,6 +48,7 @@ import openapi from '@/api/openapi';
 import AppliedRewardSync from '@/forms/AppliedRewardSync';
 
 export default {
+  emits: ['success'],
   data() {
     return {
       appliedRewardSyncSchema: AppliedRewardSync,

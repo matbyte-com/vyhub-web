@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  emits: ['submit'],
   methods: {
     show() {
       this.$refs.cancelPurchaseConfirmationDialog.show();

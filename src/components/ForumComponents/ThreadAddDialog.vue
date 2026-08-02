@@ -80,7 +80,11 @@ import i18n from '../../plugins/i18n';
 import openapi from '../../api/openapi';
 
 export default {
-  props: ['dialogTitle', 'hideTitleInput', 'showCategory'],
+  props: {
+    dialogTitle: { type: String, default: '' },
+    hideTitleInput: { type: Boolean },
+    showCategory: { type: Boolean },
+  },
 emits: ['submit'],
   data() {
     return {

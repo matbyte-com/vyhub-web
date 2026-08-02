@@ -126,7 +126,13 @@ import banEditFormSchema from '@/forms/BanEditForm';
 import openapi from '@/api/openapi';
 
 export default {
-  props: ['bans', 'totalItems', 'user', 'serverbundle'],
+  props: {
+    bans: { type: Array, default: () => [] },
+    totalItems: { type: Number, default: 0 },
+    user: { type: Object, default: null },
+    serverbundle: { type: Object, default: null },
+  },
+  emits: ['edit'],
   data() {
     return {
       headers: [

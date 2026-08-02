@@ -6,7 +6,7 @@ import {useStore} from "vuex";
 import {notify} from "@kyvg/vue3-notification";
 import {useTemplateRef} from "vue";
 
-const props = defineProps(['noDownload']);
+const props = defineProps({ noDownload: { type: Boolean } });
 const store = useStore();
 
 const confirmDialog = useTemplateRef('confirmationDialog')

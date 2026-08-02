@@ -53,7 +53,10 @@
 <script>
 export default {
   props: {
-    link: Object,
+    link: {
+      type: Object,
+      default: () => ({}),
+    },
     subSubLink: Boolean,
   },
   computed: {

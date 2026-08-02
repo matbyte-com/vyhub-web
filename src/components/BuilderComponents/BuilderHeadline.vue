@@ -59,7 +59,18 @@
 
 <script>
 export default {
-  props: ['title', 'subtitle', 'height', 'backgroundColor2', 'imageUrl', 'buttons', 'logoUrl', 'whiteText', 'container', 'marginTop'],
+  props: {
+    title: { type: String, default: '' },
+    subtitle: { type: String, default: '' },
+    height: { type: String, default: '' },
+    backgroundColor2: { type: String, default: '' },
+    imageUrl: { type: String, default: '' },
+    buttons: { type: Array, default: () => [] },
+    logoUrl: { type: String, default: '' },
+    whiteText: { type: Boolean },
+    container: { type: Boolean },
+    marginTop: { type: String, default: '' },
+  },
   computed: {
     getBackgroundColor() {
       return this.backgroundColor2 ? this.backgroundColor2 : '';

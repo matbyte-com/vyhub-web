@@ -105,10 +105,12 @@ export default {
   name: 'JoinServer',
   props: {
     logoUrl: {
-      type: String
+      type: String,
+      default: ''
     },
     servers: {
-      type: Array
+      type: Array,
+      default: null
     },
     whiteText: {
       type: Boolean

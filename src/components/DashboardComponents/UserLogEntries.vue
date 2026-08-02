@@ -43,7 +43,12 @@
 
 <script>
 export default {
-  props: { user: Object },
+  props: {
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
   data() {
     return {
       logsShown: false,

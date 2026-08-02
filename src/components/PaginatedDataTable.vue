@@ -43,6 +43,7 @@ export default {
       default: true,
     },
   },
+  emits: ['reload'],
   data() {
     return {
       page: 1,

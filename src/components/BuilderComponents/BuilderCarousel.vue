@@ -36,7 +36,11 @@
 
 <script>
 export default {
-  props: ['height', 'slides', 'whiteText'],
+  props: {
+    height: { type: String, default: '' },
+    slides: { type: Array, default: () => [] },
+    whiteText: { type: Boolean },
+  },
 };
 </script>
 

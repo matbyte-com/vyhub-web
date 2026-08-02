@@ -8,7 +8,10 @@ const store = useStore();
 const router = useRouter();
 
 defineProps({
-  menuLinks: Array,
+  menuLinks: {
+    type: Array,
+    default: () => [],
+  },
   tile: {
     type: Boolean,
     default: false,

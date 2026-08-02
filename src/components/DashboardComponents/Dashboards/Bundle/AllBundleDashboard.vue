@@ -58,8 +58,14 @@ import BansAndWarnings from '../../BansAndWarnings.vue';
 export default {
   components: { AttributeGraph, LinkedAccounts, BansAndWarnings },
   props: {
-    user: Object,
-    bundle: Object,
+    user: {
+      type: Object,
+      default: () => ({}),
+    },
+    bundle: {
+      type: Object,
+      default: null,
+    },
   },
 };
 </script>

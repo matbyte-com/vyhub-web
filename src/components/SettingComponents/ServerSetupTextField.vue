@@ -26,7 +26,7 @@
 export default {
   name: 'ServerSetup',
   props: {
-    cmd: String,
+    cmd: { type: String, default: '' },
   },
   data() {
     return {

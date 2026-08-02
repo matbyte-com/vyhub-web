@@ -13,8 +13,14 @@
 <script>
 export default {
   props: {
-    data: Array,
-    currency: Object,
+    data: {
+      type: Array,
+      default: null,
+    },
+    currency: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {

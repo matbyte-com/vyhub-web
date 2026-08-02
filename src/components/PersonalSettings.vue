@@ -24,7 +24,10 @@ import openapi from '@/api/openapi';
 
 export default {
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      default: () => ({}),
+    },
   },
 emits: ['user-changed'],
   data() {

@@ -144,7 +144,18 @@
 <script>
 
 export default {
-  props: ['headline', 'logoUrl', 'logo_width', 'backgroundColor', 'whiteText', 'links', 'dense', 'fixed', 'backgroundImage'],
+  props: {
+    headline: { type: String, default: '' },
+    logoUrl: { type: String, default: '' },
+    // eslint-disable-next-line vue/prop-name-casing -- matches stored props_data / backend theme key
+    logo_width: { type: String, default: '' },
+    backgroundColor: { type: String, default: '' },
+    whiteText: { type: Boolean },
+    links: { type: Array, default: () => [] },
+    dense: { type: Boolean },
+    fixed: { type: Boolean },
+    backgroundImage: { type: String, default: '' },
+  },
   methods: {
     showLoginDialog() {
       this.$router.push({

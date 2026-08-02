@@ -59,7 +59,11 @@
 import openapiCached from '@/api/openapiCached';
 
 export default {
-  props: ['noIcon', 'noTitle', 'centerHeadline'],
+  props: {
+    noIcon: { type: Boolean },
+    noTitle: { type: Boolean },
+    centerHeadline: { type: Boolean },
+  },
   data() {
     return {
       lastDonators: null,

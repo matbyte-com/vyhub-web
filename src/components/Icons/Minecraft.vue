@@ -15,7 +15,7 @@
 </template>
 <script>
 export default {
-  name: 'Minecraft',
+  name: 'MinecraftIcon',
 };
 </script>
 

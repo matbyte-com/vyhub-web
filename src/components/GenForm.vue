@@ -75,7 +75,10 @@ export default {
     VJsf,
   },
   props: {
-    formSchema: Object,
+    formSchema: {
+      type: Object,
+      default: null,
+    },
     submitText: {
       type: String,
       default: i18n.global.t('submit'),
@@ -88,7 +91,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    optionsExtra: Object,
+    optionsExtra: {
+      type: Object,
+      default: null,
+    },
     settingsMode: {
       type: Boolean,
       default: false,

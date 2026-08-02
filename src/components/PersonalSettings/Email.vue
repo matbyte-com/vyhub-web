@@ -62,8 +62,8 @@ import openapi from '@/api/openapi';
 
 export default {
   props: {
-    user: null,
-    outlined: null,
+    user: { type: Object, default: null },
+    outlined: { type: Boolean, default: false },
   },
 emits: ['user-changed'],
   data() {

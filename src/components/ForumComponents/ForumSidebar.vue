@@ -8,7 +8,10 @@
       class="mb-3"
       @click="$emit('manage')"
     >
-      <v-icon size="small" start>
+      <v-icon
+        size="small"
+        start
+      >
         mdi-card-multiple
       </v-icon>
       {{ $t('_forum.manageForum') }}

@@ -75,22 +75,19 @@
 import i18n from '@/plugins/i18n';
 
 export default {
-  emits: ['submit'],
-  data() {
-    return {
-      dialog: null,
-      errorMessage: null,
-      item: null,
-      loading: false,
-      counter: 5,
-      intervalID: null,
-      confirmationTextFieldInput: null,
-    };
-  },
   props: {
-    text: String,
-    confirmationTextField: String,
-    confirmationTextFieldLabel: String,
+    text: {
+      type: String,
+      default: null,
+    },
+    confirmationTextField: {
+      type: String,
+      default: null,
+    },
+    confirmationTextFieldLabel: {
+      type: String,
+      default: '',
+    },
     useTextField: {
       type: Boolean,
       default: false,
@@ -103,8 +100,14 @@ export default {
       type: String,
       default: 'error',
     },
-    btnText: String,
-    btnCancelText: String,
+    btnText: {
+      type: String,
+      default: '',
+    },
+    btnCancelText: {
+      type: String,
+      default: '',
+    },
     width: {
       type: Number,
       default: 400,
@@ -121,6 +124,18 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  emits: ['submit'],
+  data() {
+    return {
+      dialog: null,
+      errorMessage: null,
+      item: null,
+      loading: false,
+      counter: 5,
+      intervalID: null,
+      confirmationTextFieldInput: null,
+    };
   },
   computed: {
     disabled() {

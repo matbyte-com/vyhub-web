@@ -330,7 +330,11 @@ import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 import EventBus from '@/services/EventBus';
 
 export default {
-  props: ['packet', 'cartPacket', 'hideBuyBtns'],
+  props: {
+    packet: { type: Object, default: null },
+    cartPacket: { type: Object, default: null },
+    hideBuyBtns: { type: Boolean },
+  },
   data() {
     return {
       dialog: false,

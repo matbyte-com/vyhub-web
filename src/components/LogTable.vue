@@ -57,8 +57,14 @@ import openapi from '@/api/openapi';
 
 export default {
   props: {
-    type: String,
-    objId: String,
+    type: {
+      type: String,
+      default: '',
+    },
+    objId: {
+      type: String,
+      default: '',
+    },
     showSearch: Boolean,
     showCategory: {
       type: Boolean,

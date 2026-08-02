@@ -23,7 +23,7 @@ import openapi from '@/api/openapi';
 
 export default {
   props: {
-    user: {},
+    user: { type: Object, default: null },
   },
 emits: ['user-changed'],
   data() {

@@ -47,7 +47,10 @@
 <script>
 export default {
   props: {
-    status: String,
+    status: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>

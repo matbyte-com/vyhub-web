@@ -209,7 +209,10 @@ import openapiCached from '@/api/openapiCached';
 
 export default {
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {

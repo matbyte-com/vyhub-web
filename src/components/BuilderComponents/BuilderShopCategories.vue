@@ -82,7 +82,9 @@
 import openapi from '@/api/openapi';
 
 export default {
-  props: ['callToAction'],
+  props: {
+    callToAction: { type: String, default: '' },
+  },
   data() {
     return {
       categories: null,

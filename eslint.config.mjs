@@ -18,6 +18,10 @@ export default [
             camelcase: "off",
             "@typescript-eslint/ban-types": "off",
 
+            // Page views and thin wrapper/icon components intentionally use
+            // single-word names throughout this project.
+            "vue/multi-word-component-names": "off",
+
             "vue/valid-v-slot": ["error", {
                 allowModifiers: true,
             }],

@@ -1,4 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
   <div>
     <v-row>
       <v-col>
@@ -287,7 +287,10 @@ import openapi from '@/api/openapi';
 
 export default {
   props: {
-    user: Object,
+    user: {
+      type: Object,
+      default: null,
+    },
     bundle: {
       type: Object,
       default: null,

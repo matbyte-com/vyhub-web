@@ -61,14 +61,14 @@
         >
           <v-list>
             <v-list-item
-              v-for="server in availableServerDashboards"
-              :key="server.id"
-              :active="$route.params.id === server.id"
-              @click="serverChanged(server)"
+              v-for="serverItem in availableServerDashboards"
+              :key="serverItem.id"
+              :active="$route.params.id === serverItem.id"
+              @click="serverChanged(serverItem)"
             >
               <v-icon start>
-                {{ server.serverbundle.icon }}
-              </v-icon>{{ server.name }}
+                {{ serverItem.serverbundle.icon }}
+              </v-icon>{{ serverItem.name }}
             </v-list-item>
           </v-list>
         </v-card>
