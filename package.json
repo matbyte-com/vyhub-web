@@ -9,7 +9,8 @@
     "dev": "vite",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "eslint \"src/**/*.{js,vue}\" --fix"
+    "lint": "eslint \"src/**/*.{js,vue}\" --fix",
+    "lint:ci": "eslint \"src/**/*.{js,vue}\" --max-warnings=0"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-vue": "^8.2.0",
