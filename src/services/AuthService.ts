@@ -1,10 +1,9 @@
 import axios from 'axios';
+import qs from 'qs';
 import store from '@/store';
-import api from '@/api/api';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
 import { fetchHeaders } from '@/api/overwriteFetch';
-// import { authGetTokenResponse } from '@/api/api.d';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
 import UserService from '@/services/UserService';
@@ -33,15 +32,19 @@ export default {
     // Event caught in CustomerJourney.vue
     EventBus.emit('customerJourneyUpdate');
   },
-  // was Promise<authGetTokenResponse> // TODO maybe readd again?
   async getToken(refreshToken: string): Promise {
     const sndQuery = {
       refresh_token: refreshToken,
       grant_type: 'refresh_token',
     };
 
-    // Query customer API
-    return (await api.auth.getToken(sndQuery)).data;
+    // The token endpoint reads request.form(), so the body must be
+    // application/x-www-form-urlencoded rather than JSON.
+    const rsp = await (await openapi).auth_getToken(null, qs.stringify(sndQuery), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+
+    return rsp.data;
   },
   async fetchUserData() {
     const rsp = await (await openapi).user_getCurrentUser();
@@ -49,13 +52,16 @@ export default {
     return rsp.data;
   },
   async logout() {
-    api.auth.revokeToken(store.getters.accessToken, 'access_token').then();
+    (await openapi).auth_revokeToken(null, qs.stringify({
+      token: store.getters.accessToken,
+      token_type: 'access_token',
+    }), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    }).then();
 
     await store.dispatch('logout');
-    delete api.http.defaults.headers.common.Authorization;
     delete (await openapi).defaults.headers.common.Authorization;
     delete (await openapiCached).defaults.headers.common.Authorization;
-    delete api.throttledHttp.defaults.headers.common.Authorization;
     delete axios.defaults.headers.common.Authorization;
     delete fetchHeaders.Authorization;
 
@@ -68,8 +74,6 @@ export default {
       axios.defaults.headers.common.Authorization = header;
       (await openapi).defaults.headers.common.Authorization = header;
       (await openapiCached).defaults.headers.common.Authorization = header;
-      api.http.defaults.headers.common.Authorization = header;
-      api.throttledHttp.defaults.headers.common.Authorization = header;
     }
   },
   // Tokens travel back from a social login in the URL fragment, which browsers never
