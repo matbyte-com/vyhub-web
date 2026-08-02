@@ -252,6 +252,18 @@ a:not([class]):hover::before {
   margin-left: 20px
 }
 
+/* The layered `h1..h6 { font-size: 100% }` reset above normalizes bare headings,
+   but it also flattens headings inside rich-text content (forum/ticket posts,
+   CMS, FAQ) because CKEditor ships no heading sizes of its own. Restore a heading
+   scale scoped to editor content. These rules are unlayered, so they win over the
+   `vuetify-core > base` reset regardless of specificity. */
+.ck-content h1, .ql-editor h1 { font-size: 2em; font-weight: bold; margin: 0.4em 0; }
+.ck-content h2, .ql-editor h2 { font-size: 1.5em; font-weight: bold; margin: 0.4em 0; }
+.ck-content h3, .ql-editor h3 { font-size: 1.17em; font-weight: bold; margin: 0.4em 0; }
+.ck-content h4, .ql-editor h4 { font-size: 1em; font-weight: bold; margin: 0.4em 0; }
+.ck-content h5, .ql-editor h5 { font-size: 0.83em; font-weight: bold; margin: 0.4em 0; }
+.ck-content h6, .ql-editor h6 { font-size: 0.67em; font-weight: bold; margin: 0.4em 0; }
+
 .vjsf-help-message-tooltip p {
   line-height: 1px;
 }
