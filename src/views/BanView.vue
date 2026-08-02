@@ -423,7 +423,9 @@ import openapi from '../api/openapi';
 
 export default {
   props: {
-    banId: { type: String, default: '' },
+    // Must default to null (not ''): the detail dialog opens when `banId != null`,
+    // and an empty-string default would loosely satisfy that and pop an empty dialog.
+    banId: { type: String, default: null },
   },
   data() {
     return {
