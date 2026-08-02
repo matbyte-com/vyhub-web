@@ -434,6 +434,31 @@ declare namespace Components {
             identifier: string;
         }
         /**
+         * AuthRequestModelStatus
+         * Poll response for the browser, which only holds the request id. That id travels in
+         * a URL, so it must not buy the validation_uuid a player types in game, nor the
+         * identifier of whoever confirmed the request.
+         */
+        export interface AuthRequestModelStatus {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            user_type: /* UserType */ UserType;
+            /**
+             * Created
+             */
+            created: string; // date-time
+            /**
+             * Valid
+             */
+            valid: boolean;
+            /**
+             * Confirmed
+             */
+            confirmed: boolean;
+        }
+        /**
          * BanCommentModelAdd
          */
         export interface BanCommentModelAdd {
@@ -2087,7 +2112,7 @@ declare namespace Components {
             /**
              * Amount Total
              */
-            amount_total: number;
+            amount_total: string; // ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
             currency: /* CurrencyModel */ CurrencyModel;
             user: /* UserModelShort */ UserModelShort;
             /**
@@ -2767,7 +2792,7 @@ declare namespace Components {
             /**
              * Amount
              */
-            amount?: /* Amount */ number | null;
+            amount?: /* Amount */ string /* ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$ */ | null;
         }
         /**
          * PacketModel
@@ -4183,6 +4208,21 @@ declare namespace Components {
              * Requirement Set Id
              */
             requirement_set_id: string; // uuid
+        }
+        /**
+         * RequirementModelPatch
+         */
+        export interface RequirementModelPatch {
+            type?: /* RequirementType */ RequirementType | null;
+            operator?: /* RequirementOperator */ RequirementOperator | null;
+            /**
+             * Key
+             */
+            key?: /* Key */ string | null;
+            /**
+             * Value
+             */
+            value?: /* Value */ string | null;
         }
         /**
          * RequirementOperator
@@ -6420,6 +6460,14 @@ declare namespace Components {
              * Memberships
              */
             memberships: /* MembershipModelExtraShortWithGroup */ MembershipModelExtraShortWithGroup[];
+            /**
+             * Registered On
+             */
+            registered_on: string; // date-time
+            /**
+             * Posts Total
+             */
+            posts_total: number;
         }
         /**
          * UserPropertyModel
@@ -6775,7 +6823,13 @@ declare namespace Paths {
             Parameters.Uuid;
         }
         namespace Responses {
-            export type $200 = /* AuthRequestModel */ Components.Schemas.AuthRequestModel;
+            export type $200 = /**
+             * AuthRequestModelStatus
+             * Poll response for the browser, which only holds the request id. That id travels in
+             * a URL, so it must not buy the validation_uuid a player types in game, nor the
+             * identifier of whoever confirmed the request.
+             */
+            Components.Schemas.AuthRequestModelStatus;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -9527,6 +9581,27 @@ declare namespace Paths {
         }
         namespace Responses {
             export type $200 = any;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace RequirementsEditRequirement {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* RequirementModelPatch */ Components.Schemas.RequirementModelPatch;
+        namespace Responses {
+            export type $200 = /* RequirementModel */ Components.Schemas.RequirementModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -14239,6 +14314,14 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RequirementsTestRequirementSet.Responses.$200>
   /**
+   * requirements_editRequirement - Edit Requirement
+   */
+  'requirements_editRequirement'(
+    parameters?: Parameters<Paths.RequirementsEditRequirement.PathParameters> | null,
+    data?: Paths.RequirementsEditRequirement.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.RequirementsEditRequirement.Responses.$200>
+  /**
    * requirements_deleteRequirement - Delete Requirement
    */
   'requirements_deleteRequirement'(
@@ -17018,6 +17101,14 @@ export interface PathsDictionary {
   }
   ['/requirement/{uuid}']: {
     /**
+     * requirements_editRequirement - Edit Requirement
+     */
+    'patch'(
+      parameters?: Parameters<Paths.RequirementsEditRequirement.PathParameters> | null,
+      data?: Paths.RequirementsEditRequirement.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.RequirementsEditRequirement.Responses.$200>
+    /**
      * requirements_deleteRequirement - Delete Requirement
      */
     'delete'(
@@ -17779,6 +17870,7 @@ export type AuthRequestModel = Components.Schemas.AuthRequestModel;
 export type AuthRequestModelAdd = Components.Schemas.AuthRequestModelAdd;
 export type AuthRequestModelNoID = Components.Schemas.AuthRequestModelNoID;
 export type AuthRequestModelPatch = Components.Schemas.AuthRequestModelPatch;
+export type AuthRequestModelStatus = Components.Schemas.AuthRequestModelStatus;
 export type BanCommentModelAdd = Components.Schemas.BanCommentModelAdd;
 export type BanConfigModel = Components.Schemas.BanConfigModel;
 export type BanModel = Components.Schemas.BanModel;
@@ -17921,6 +18013,7 @@ export type PurchaseStatus = Components.Schemas.PurchaseStatus;
 export type PurchaseTimeStatisticModel = Components.Schemas.PurchaseTimeStatisticModel;
 export type RequirementModel = Components.Schemas.RequirementModel;
 export type RequirementModelAdd = Components.Schemas.RequirementModelAdd;
+export type RequirementModelPatch = Components.Schemas.RequirementModelPatch;
 export type RequirementOperator = Components.Schemas.RequirementOperator;
 export type RequirementSetModel = Components.Schemas.RequirementSetModel;
 export type RequirementSetModelAdd = Components.Schemas.RequirementSetModelAdd;

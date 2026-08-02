@@ -6439,6 +6439,14 @@ declare namespace Components {
              * Memberships
              */
             memberships: /* MembershipModelExtraShortWithGroup */ MembershipModelExtraShortWithGroup[];
+            /**
+             * Registered On
+             */
+            registered_on: string; // date-time
+            /**
+             * Posts Total
+             */
+            posts_total: number;
         }
         /**
          * UserPropertyModel

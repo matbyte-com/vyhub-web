@@ -143,7 +143,7 @@
           <!-- Desktop avatar sidebar -->
           <div
             v-if="$vuetify.display.smAndUp"
-            class="pa-3 text-center flex-shrink-0"
+            class="pa-3 text-center flex-shrink-0 mt-2"
             style="width: 200px"
           >
             <router-link
@@ -152,7 +152,11 @@
               class="text-decoration-none"
               style="color: inherit"
             >
-              <v-avatar size="80">
+              <v-avatar
+                size="80"
+                class="vh-forum-avatar-ring"
+                :style="{ borderColor: highestGroup(post.creator)?.color }"
+              >
                 <v-img
                   class="mx-auto"
                   :src="post.creator.avatar"
@@ -163,7 +167,11 @@
               </div>
             </router-link>
             <div v-else>
-              <v-avatar size="80">
+              <v-avatar
+                size="80"
+                class="vh-forum-avatar-ring"
+                :style="{ borderColor: highestGroup(post.creator)?.color }"
+              >
                 <v-img
                   class="mx-auto"
                   :src="post.creator.avatar"
@@ -201,6 +209,26 @@
                 </template>
                 {{ membership.group.name }}
               </v-tooltip>
+            </div>
+            <div class="mt-3 text-caption text-medium-emphasis">
+              <div class="d-flex align-center justify-center">
+                <v-icon
+                  size="small"
+                  class="mr-1"
+                >
+                  mdi-message-text-outline
+                </v-icon>
+                <span>{{ $t('_forum.posts') }}: {{ post.creator.posts_total }}</span>
+              </div>
+              <div class="d-flex align-center justify-center mt-1">
+                <v-icon
+                  size="small"
+                  class="mr-1"
+                >
+                  mdi-calendar-account
+                </v-icon>
+                <span>{{ new Date(post.creator.registered_on).toLocaleDateString() }}</span>
+              </div>
             </div>
           </div>
           <v-divider
@@ -645,6 +673,17 @@ export default {
   },
   methods: {
     sanitizeUserHtml,
+    // Group with the highest permission level, used to color the avatar ring
+    // and the mobile username label. Returns null for users without groups.
+    highestGroup(creator) {
+      if (!creator || !creator.memberships || creator.memberships.length === 0) {
+        return null;
+      }
+
+      return creator.memberships
+        .map((m) => m.group)
+        .reduce((a, b) => (b.permission_level > a.permission_level ? b : a));
+    },
     loadVideoOnClick(event) {
       const placeholder = event.target.closest('.vh-iframe-closed');
       if (!placeholder) return;
@@ -960,5 +999,9 @@ export default {
 
 .small-card {
   height: 40px;
+}
+
+.vh-forum-avatar-ring {
+  border: 3px solid transparent;
 }
 </style>
