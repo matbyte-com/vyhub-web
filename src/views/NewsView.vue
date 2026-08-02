@@ -25,6 +25,8 @@ const messageEditDialog = useTemplateRef('messageEditDialog')
 const getNews = computed(() => news.value.filter((n) => n.type === 'DEFAULT'))
 const getNewsOfTheDay = computed(() => news.value.filter((n) => n.type === 'PINNED'))
 const shopConfig = store.state.shopConfig
+const forumEnabled = computed(() => !!(store.getters.generalConfig
+  && store.getters.generalConfig.enable_forum))
 
 onMounted(() => {
   fetchNews()
@@ -164,7 +166,7 @@ async function editMessage(message) {
           flat
         >
           <Swiper
-            :number-of-elements="3"
+            :number-of-elements="forumEnabled ? 4 : 3"
             :per-page-custom="[1,1,3,3,3,3]"
           >
             <swiper-slide
@@ -196,6 +198,9 @@ async function editMessage(message) {
               >
                 <TopDonators />
               </v-card>
+            </swiper-slide>
+            <swiper-slide v-if="forumEnabled">
+              <LatestForumPosts :outlined="true" />
             </swiper-slide>
             <swiper-slide>
               <NewUsers :outlined="true" />
@@ -423,6 +428,7 @@ async function editMessage(message) {
           >
             <TopDonators class="pt-3" />
           </v-card>
+          <LatestForumPosts v-if="forumEnabled" />
           <NewUsers class="" />
         </div>
       </v-col>
