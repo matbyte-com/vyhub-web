@@ -1,8 +1,19 @@
 <script setup>
+import {ref, watch} from "vue";
+import {useRoute} from "vue-router";
 import {useStore} from "vuex";
 
 const emit = defineEmits(['login', 'register', 'logout'])
 const store = useStore()
+const route = useRoute()
+
+const menu = ref(false)
+
+// Keep the menu open while expanding dropdown groups (close-on-content-click is
+// disabled for that reason), but dismiss it once a leaf link navigates.
+watch(route, () => {
+  menu.value = false
+})
 
 defineProps({
   navLinks: {
@@ -33,7 +44,10 @@ function emitLogout() {
 </script>
 
 <template>
-  <v-menu>
+  <v-menu
+    v-model="menu"
+    :close-on-content-click="false"
+  >
     <template #activator="{ props }">
       <v-app-bar-nav-icon v-bind="props" />
     </template>
