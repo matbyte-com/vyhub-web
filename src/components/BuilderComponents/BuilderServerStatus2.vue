@@ -38,18 +38,30 @@
               <div class="text-body-2 text-medium-emphasis">
                 {{ $t(`_server.type.${server.type}`) }}
               </div>
-              <v-spacer />
-              <v-icon size="small">
-                {{ serverTypeIcon(server.type) }}
-              </v-icon>
-              <router-link
-                style="text-decoration: none; color: inherit"
-                :to="{ name: (server.type !== 'DISCORD' && server.type
-                         !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
-                       params: { id: server.id }}"
-              >
-                <span class="text-h6 font-weight-bold">{{ server.name }}</span>
-              </router-link>
+              <div class="d-flex align-center vh-ss2-name-group">
+                <v-icon
+                  size="small"
+                  class="flex-shrink-0"
+                >
+                  {{ serverTypeIcon(server.type) }}
+                </v-icon>
+                <router-link
+                  :ref="(el) => setNameRef(server.id, el)"
+                  class="text-h6 font-weight-bold text-truncate vh-ss2-name-link"
+                  style="text-decoration: none; color: inherit"
+                  :to="{ name: (server.type !== 'DISCORD' && server.type
+                           !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
+                         params: { id: server.id }}"
+                >
+                  {{ server.name }}
+                  <v-tooltip
+                    activator="parent"
+                    location="top"
+                    :text="server.name"
+                    :disabled="!truncated[server.id]"
+                  />
+                </router-link>
+              </div>
             </div>
             <div
               class="d-flex align-center flex-wrap"
@@ -154,15 +166,53 @@ export default {
   data() {
     return {
       servers: null,
+      truncated: {},
     };
+  },
+  created() {
+    this.nameEls = {};
   },
   beforeMount() {
     this.fetchData();
   },
+  mounted() {
+    window.addEventListener('resize', this.measureTruncation);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(this.measureTruncation);
+    }
+  },
+  updated() {
+    this.measureTruncation();
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.measureTruncation);
+  },
   methods: {
+    setNameRef(id, el) {
+      if (el) {
+        this.nameEls[id] = el.$el ?? el;
+      } else {
+        delete this.nameEls[id];
+      }
+    },
+    measureTruncation() {
+      Object.entries(this.nameEls).forEach(([id, el]) => {
+        if (!el) return;
+        const isTruncated = el.scrollWidth > el.clientWidth;
+        if (this.truncated[id] !== isTruncated) {
+          this.truncated[id] = isTruncated;
+        }
+      });
+    },
+    scheduleMeasure() {
+      this.$nextTick(() => {
+        requestAnimationFrame(this.measureTruncation);
+      });
+    },
     async fetchData() {
       (await openapiCached).server_getServers().then((rsp) => {
         this.servers = rsp.data.filter((s) => !s.hidden);
+        this.scheduleMeasure();
       });
     },
     serverTypeIcon(type) {
@@ -184,5 +234,16 @@ export default {
 </script>
 
 <style scoped>
+.vh-ss2-name-group {
+  flex: 1 1 0;
+  min-width: 0;
+  gap: 8px;
+  justify-content: flex-end;
+  overflow: hidden;
+}
 
+.vh-ss2-name-link {
+  display: block;
+  min-width: 0;
+}
 </style>

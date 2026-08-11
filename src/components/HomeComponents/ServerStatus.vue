@@ -34,44 +34,54 @@
           <div
             v-for="server in getServer(bundle.id)"
             :key="server.id"
-            class="d-flex align-center flex-wrap py-2"
-            style="gap: 6px 10px"
+            class="d-flex align-center flex-wrap py-2 vh-server-row"
           >
-            <v-icon
-              :color="getStatusColor(server)"
-              size="small"
-            >
-              mdi-flash
-            </v-icon>
-            <router-link
-              style="text-decoration: none; color: inherit"
-              class="font-weight-medium text-truncate"
-              :to="{ name: (server.type !== 'DISCORD' && server.type
-                       !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
-                     params: { id: server.id }}"
-            >
-              {{ server.name }}
-            </router-link>
-            <span
-              v-if="server.status === 'UNKNOWN'"
-              class="font-italic text-disabled text-caption"
-            >
-              {{ $t('unknown') }}
-            </span>
-            <span
-              v-else
-              class="text-caption text-medium-emphasis"
-            >
-              <template v-if="server.type !== 'DISCORD'">
-                <span v-if="server.users_current != null && server.status === 'ONLINE'">{{ server.users_current }}</span>
-                <span v-else-if="server.status === 'OFFLINE'">0</span>
-                <span v-else>?</span>
-                /
-              </template>
-              {{ server.users_max ? server.users_max : '?' }}
-            </span>
-            <v-spacer />
-            <div class="d-flex align-center">
+            <!-- Flash icon + server name: stay together, name ellipses -->
+            <div class="d-flex align-center vh-server-name-group">
+              <v-icon
+                :color="getStatusColor(server)"
+                size="small"
+                class="flex-shrink-0"
+              >
+                mdi-flash
+              </v-icon>
+              <router-link
+                :ref="(el) => setNameRef(server.id, el)"
+                style="text-decoration: none; color: inherit"
+                class="font-weight-medium text-truncate vh-server-name-link"
+                :to="{ name: (server.type !== 'DISCORD' && server.type
+                         !== 'TEAMSPEAK3' ? 'ServerDashboard' : null),
+                       params: { id: server.id }}"
+              >
+                {{ server.name }}
+                <v-tooltip
+                  activator="parent"
+                  location="top"
+                  :text="server.name"
+                  :disabled="!truncated[server.id]"
+                />
+              </router-link>
+            </div>
+            <!-- Player count + actions: wrap to a second line together -->
+            <div class="d-flex align-center vh-server-actions">
+              <span
+                v-if="server.status === 'UNKNOWN'"
+                class="font-italic text-disabled text-caption vh-server-count"
+              >
+                {{ $t('unknown') }}
+              </span>
+              <span
+                v-else
+                class="text-caption text-medium-emphasis vh-server-count"
+              >
+                <template v-if="server.type !== 'DISCORD'">
+                  <span v-if="server.users_current != null && server.status === 'ONLINE'">{{ server.users_current }}</span>
+                  <span v-else-if="server.status === 'OFFLINE'">0</span>
+                  <span v-else>?</span>
+                  /
+                </template>
+                {{ server.users_max ? server.users_max : '?' }}
+              </span>
               <v-btn
                 icon="mdi-information-symbol"
                 size="x-small"
@@ -87,7 +97,6 @@
                     variant="flat"
                     v-bind="props"
                     :href="getConnectionLink(server)"
-                    class="ml-1"
                     @click="utils.copyServerAddress(server)"
                   >
                     <v-icon>
@@ -162,6 +171,7 @@ export default {
       currentServer: null,
       bundlesLoaded: false,
       serversLoaded: false,
+      truncated: {},
     };
   },
   computed: {
@@ -190,10 +200,38 @@ export default {
       }
     },
   },
+  created() {
+    this.nameEls = {};
+  },
   beforeMount() {
     this.fetchData();
   },
+  mounted() {
+    window.addEventListener('resize', this.measureTruncation);
+  },
+  updated() {
+    this.measureTruncation();
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.measureTruncation);
+  },
   methods: {
+    setNameRef(id, el) {
+      if (el) {
+        this.nameEls[id] = el.$el ?? el;
+      } else {
+        delete this.nameEls[id];
+      }
+    },
+    measureTruncation() {
+      Object.entries(this.nameEls).forEach(([id, el]) => {
+        if (!el) return;
+        const isTruncated = el.scrollWidth > el.clientWidth;
+        if (this.truncated[id] !== isTruncated) {
+          this.truncated[id] = isTruncated;
+        }
+      });
+    },
     async fetchData() {
       (await openapi).server_getServers().then((rsp) => {
         this.servers = rsp.data.filter((s) => !s.hidden);
@@ -228,5 +266,31 @@ export default {
 </script>
 
 <style scoped>
+.vh-server-row {
+  column-gap: 10px;
+  row-gap: 4px;
+}
 
+/* Flash + name grow to fill the row and drop the actions group to a second
+   line (via flex-basis) once the name would otherwise be squeezed too far.
+   min-width: 0 lets the name ellipsis within whatever width remains. */
+.vh-server-name-group {
+  flex: 1 1 16rem;
+  min-width: 0;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.vh-server-name-link {
+  min-width: 0;
+}
+
+.vh-server-actions {
+  flex: 1 1 auto;
+  gap: 6px 8px;
+}
+
+.vh-server-count {
+  margin-right: auto;
+}
 </style>
