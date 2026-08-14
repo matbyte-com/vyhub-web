@@ -9,6 +9,12 @@ const store = useStore();
 const i18n = useI18n();
 
 
+// Not part of the admin-managed navigation: the withdrawal form is a legal obligation, so its link
+// is driven by the shop setting alone and cannot be removed from the footer while it is enabled.
+const withdrawalLink = computed(() => (store.getters.shopConfig?.withdrawal_form_enabled
+  ? [{ title: i18n.t('_withdrawal.title'), link: '/withdrawal' }]
+  : []));
+
 const navLinks = computed(() => {
   if (store.getters.generalConfig?.shop_only) {
     return [{
@@ -17,15 +23,17 @@ const navLinks = computed(() => {
       {
         title: i18n.t('legal'),
         link: '/store/legal',
-      }];
+      },
+      ...withdrawalLink.value];
   }
 
   if (store.getters.navItems == null) {
-    return [];
+    return withdrawalLink.value;
   }
 
   return store.getters.navItems
-    .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || accessControlService.methods.$checkProp(l.req_prop) === true));
+    .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || accessControlService.methods.$checkProp(l.req_prop) === true))
+    .concat(withdrawalLink.value);
 })
 </script>
 

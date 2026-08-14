@@ -80,6 +80,13 @@ export default {
           'news',
         ],
       },
+      {
+        comp: 'card',
+        title: i18n.global.t('_withdrawal.title'),
+        children: [
+          'withdrawal_form_enabled',
+        ],
+      },
     ],
   },
   properties: {
@@ -108,6 +115,15 @@ export default {
       title: i18n.global.t('_shop.labels.showWidgetsOnShopPage'),
       description: i18n.global.t('_shop.labels.showWidgetsOnShopPageDesc'),
       default: 'true',
+    },
+    withdrawal_form_enabled: {
+      type: 'boolean',
+      layout: {
+        comp: 'switch',
+      },
+      title: i18n.global.t('_shop.labels.enableWithdrawalForm'),
+      description: i18n.global.t('_shop.labels.enableWithdrawalFormDesc'),
+      default: false,
     },
     donation_goal_enabled: {
       type: 'boolean',

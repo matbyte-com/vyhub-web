@@ -177,6 +177,13 @@ const routes = [
     component: () => import('../views/LegalView.vue'),
   },
   {
+    // Deliberately reachable without a login: the withdrawal must not depend on holding an account.
+    path: '/withdrawal',
+    name: 'Withdrawal',
+    meta: { title: i18n.global.t('_pageTitle.withdrawal') },
+    component: () => import('../views/WithdrawalView.vue'),
+  },
+  {
     path: '/ticket',
     name: 'Ticket',
     meta: { title: i18n.global.t('_pageTitle.ticket'), requiresAuth: true },

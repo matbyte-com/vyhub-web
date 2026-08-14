@@ -4914,6 +4914,10 @@ declare namespace Components {
              * Purchases Without Address Limit
              */
             purchases_without_address_limit?: /* Purchases Without Address Limit */ number | number;
+            /**
+             * Withdrawal Form Enabled
+             */
+            withdrawal_form_enabled?: boolean;
         }
         /**
          * ShopConfigModelPatch
@@ -5001,6 +5005,10 @@ declare namespace Components {
              * Purchases Without Address Limit
              */
             purchases_without_address_limit?: /* Purchases Without Address Limit */ number | string /* ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$ */ | null;
+            /**
+             * Withdrawal Form Enabled
+             */
+            withdrawal_form_enabled?: /* Withdrawal Form Enabled */ boolean | null;
         }
         /**
          * SocialBackendModel
@@ -6621,6 +6629,23 @@ declare namespace Components {
              * Disabled
              */
             disabled: boolean;
+        }
+        /**
+         * WithdrawalModelAdd
+         */
+        export interface WithdrawalModelAdd {
+            /**
+             * Name
+             */
+            name: string;
+            /**
+             * Email
+             */
+            email: string; // email
+            /**
+             * Text
+             */
+            text: string;
         }
     }
 }
@@ -10222,6 +10247,13 @@ declare namespace Paths {
         export type RequestBody = /* TaxModelAdd */ Components.Schemas.TaxModelAdd;
         namespace Responses {
             export type $200 = /* TaxModel */ Components.Schemas.TaxModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ShopCreateWithdrawal {
+        export type RequestBody = /* WithdrawalModelAdd */ Components.Schemas.WithdrawalModelAdd;
+        namespace Responses {
+            export type $200 = /* SuccessModel */ Components.Schemas.SuccessModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -13954,6 +13986,16 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetReportCsv.Responses.$200>
   /**
+   * shop_createWithdrawal - Create Withdrawal
+   * 
+   * Submits a right of withdrawal request as a ticket. Open to anonymous callers, because a withdrawal may not depend on holding an account.
+   */
+  'shop_createWithdrawal'(
+    parameters?: Parameters<UnknownParamsObject> | null,
+    data?: Paths.ShopCreateWithdrawal.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopCreateWithdrawal.Responses.$200>
+  /**
    * shop_getPackets - Get Packets
    * 
    * Returns all packets (in the given category) and does price calculation.
@@ -16691,6 +16733,18 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetReportCsv.Responses.$200>
   }
+  ['/shop/withdrawal']: {
+    /**
+     * shop_createWithdrawal - Create Withdrawal
+     * 
+     * Submits a right of withdrawal request as a ticket. Open to anonymous callers, because a withdrawal may not depend on holding an account.
+     */
+    'post'(
+      parameters?: Parameters<UnknownParamsObject> | null,
+      data?: Paths.ShopCreateWithdrawal.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopCreateWithdrawal.Responses.$200>
+  }
   ['/shop/packet']: {
     /**
      * shop_getPackets - Get Packets
@@ -18148,3 +18202,4 @@ export type WarningModel = Components.Schemas.WarningModel;
 export type WarningModelAdd = Components.Schemas.WarningModelAdd;
 export type WarningModelPatch = Components.Schemas.WarningModelPatch;
 export type WarningModelReduced = Components.Schemas.WarningModelReduced;
+export type WithdrawalModelAdd = Components.Schemas.WithdrawalModelAdd;

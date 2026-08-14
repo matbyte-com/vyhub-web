@@ -101,7 +101,7 @@ export default {
     },
     actionButtonTopMargin: {
       type: Number,
-      default: 0,
+      default: 2,
     },
   },
   emits: ['updated', 'mounted', 'submit', 'notValid', 'cancel'],
@@ -157,14 +157,17 @@ export default {
         }
       }, 500);
     },
-    async cancelForm() {
-      this.loading = false;
-      this.alertMessage = null;
+    reset() {
       // Remount v-jsf (via componentKey) instead of Vuetify's form.reset(). Resetting each
       // input imperatively breaks vjsf's internal node tree for oneOf schemas (a child input
       // resets after its parent oneOf node is gone -> "parent with key not found").
       this.formModel = null;
       this.componentKey += 1;
+    },
+    async cancelForm() {
+      this.loading = false;
+      this.alertMessage = null;
+      this.reset();
       this.$emit('cancel');
     },
     getData() {
