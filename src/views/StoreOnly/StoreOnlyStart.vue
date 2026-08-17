@@ -4,7 +4,7 @@ import openapiCached from "../../api/openapiCached";
 import {useStore} from "vuex";
 import openapi from "../../api/openapi";
 import {useDisplay} from "vuetify";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 onMounted(() => {
   fetchRecommendedPackets();
@@ -16,6 +16,7 @@ const categories = ref(null);
 const store = useStore();
 const display = ref(useDisplay());
 const route = useRoute();
+const router = useRouter();
 
 async function fetchRecommendedPackets() {
   (await openapiCached).shop_getPackets({recommended: true, limit: 1}).then((rsp) => {
@@ -29,9 +30,9 @@ async function fetchCategories() {
   (await openapi).packet_getCategories()
     .then((rsp) => {
       categories.value = rsp.data.filter((cat) => cat.enabled);
-      // Redirect if there is only on category TODO Fix Redirect!?
+      // Redirect if there is only one category
       if (categories.value.length === 1) {
-        this.$router.replace({name: 'StoreCategory', params: {categoryId: this.categories[0].id}});
+        router.replace({name: 'StoreCategory', params: {categoryId: categories.value[0].name}});
       }
     });
 }

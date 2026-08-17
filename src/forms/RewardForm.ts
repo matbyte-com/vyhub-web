@@ -55,7 +55,9 @@ const serversSelectField = {
   items: {
     type: 'object',
   },
-  'x-fromUrl': `${Common.apiURL}/server/?serverbundle_id={serverbundle.id}`,
+  // Optional chaining: the URL is also evaluated before a bundle is picked, and a
+  // throw here aborts the whole form's state tree.
+  'x-fromUrl': `${Common.apiURL}/server/?serverbundle_id={rootData?.serverbundle?.id}`,
   'x-itemKey': 'id',
   'x-itemTitle': 'name',
 };

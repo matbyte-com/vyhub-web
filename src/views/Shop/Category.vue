@@ -211,7 +211,6 @@ export default {
       }
 
       (await openapiCached).shop_getPackets(packetsData).then((rsp) => {
-        console.log("Set packets", packetsData);
         this.packets = rsp.data;
       });
     },

@@ -34,7 +34,9 @@ function form() {
             'x-display': 'combobox',
             type: ['string', 'null'],
             title: i18n.global.t('subcategory'),
-            'x-fromUrl': `${API_URL}/packet/category/{category.id}/subcategory`,
+            // Optional chaining: the URL is also evaluated before a category is picked, and
+            // a throw here aborts the whole form's state tree.
+            'x-fromUrl': `${API_URL}/packet/category/{rootData?.category?.id}/subcategory`,
           },
           active_for: {
             type: ['number', 'null'],
