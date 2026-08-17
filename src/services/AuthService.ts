@@ -8,6 +8,15 @@ import EventBus from '@/services/EventBus';
 import config from '@/config';
 import UserService from '@/services/UserService';
 
+// The token endpoint answers a revoked/expired/reused refresh token with
+// RFC 6749 §5.2 "400 invalid_grant", not 401.
+function isRefreshTokenRejected(err: unknown): boolean {
+  const rsp = (err as { response?: { status?: number; data?: any } })?.response;
+  if (rsp == null) return false;
+  if (rsp.status === 401) return true;
+  return rsp.status === 400 && rsp.data?.error === 'invalid_grant';
+}
+
 export default {
   async login(_refreshToken: string) {
     const { access_token, refresh_token, expires_in } = await this.getToken(_refreshToken);
@@ -130,20 +139,35 @@ export default {
       if (tryRefresh && store.getters.refreshAfter != null
         && new Date() > new Date(store.getters.refreshAfter)) {
         console.log('Trying to use refresh token to renew session in time.');
-        await this.login(store.getters.refreshToken);
-        await this.refreshUser();
+        try {
+          await this.login(store.getters.refreshToken);
+          await this.refreshUser();
+        } catch (e) {
+          if (isRefreshTokenRejected(e)) {
+            console.log('Refresh token rejected, logging out.');
+            await this.logout();
+            return;
+          }
+          throw e;
+        }
       }
     } catch (err) {
       console.log(`Error in phase user_data: ${err}`);
 
-      if (err.response.status === 401) {
+      if (isRefreshTokenRejected(err)) {
         if (tryRefresh && store.getters.refreshToken != null) {
           console.log('Trying to use refresh token to recover session.');
 
           try {
             await this.login(store.getters.refreshToken);
           } catch (e) {
-            await this.logout();
+            if (isRefreshTokenRejected(e)) {
+              console.log('Refresh token rejected, logging out.');
+              await this.logout();
+              return;
+            }
+            console.log('Refresh failed without rejection, keeping session.');
+            throw e;
           }
         } else {
           await this.logout();
