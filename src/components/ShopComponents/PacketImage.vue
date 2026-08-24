@@ -67,12 +67,13 @@ export default {
 </script>
 
 <style scoped>
-/* Fixed 4:3 (width:height) box so every card is the same height regardless of
-   image aspect ratio. */
+/* Fixed box so every card is the same height regardless of image aspect ratio. Kept at 16:9
+   because packet artwork is typically wider than tall, and a taller box only adds blurred filler
+   above and below it. */
 .packet-image-square {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 

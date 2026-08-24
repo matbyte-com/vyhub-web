@@ -1,7 +1,19 @@
 <script lang="ts" setup>
+import {computed} from "vue";
 import {useStore} from "vuex";
 
 const store = useStore();
+
+const introduction = computed(() => store.state.shopConfig?.news);
+
+const hasIntroduction = computed(() => {
+  const html = introduction.value;
+  if (!html) return false;
+  // A cleared rich-text editor still emits markup such as "<p>&nbsp;</p>", so test for
+  // renderable content rather than a non-empty string.
+  if (/<(img|iframe|video|embed)\b/i.test(html)) return true;
+  return html.replace(/<[^>]*>/g, '').replace(/&nbsp;|\s/g, '') !== '';
+});
 </script>
 
 <template>
@@ -12,13 +24,13 @@ const store = useStore();
     <v-card-text>
       <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
       <div
-        v-if="store.state.shopConfig?.news"
+        v-if="hasIntroduction"
         class="ql-editor"
-        v-html="store.state.shopConfig?.news"
+        v-html="introduction"
       />
       <!-- eslint-enable vue/no-v-html -->
       <div v-else>
-        {{ $t('noDataAvailable') }} (Shop Introduction)
+        {{ $t('_shop.labels.defaultIntroduction') }}
       </div>
     </v-card-text>
   </v-card>

@@ -25,8 +25,8 @@
               {{ getServerIcon(server1) }}
             </v-icon>
           </v-card>
-          <div class="ml-3">
-            <div class="text-h5">
+          <div class="ml-3 server-text">
+            <div class="text-h5 server-name">
               {{ server1.name }}
             </div>
             <div>{{ $t('_component.currentPlayers') }} {{ server1.users_current }}</div>
@@ -73,8 +73,8 @@
           :class="{ 'text-white': whiteText }"
           @click="connect(server2)"
         >
-          <div class="text-right mr-3">
-            <div class="text-h5">
+          <div class="text-right mr-3 server-text">
+            <div class="text-h5 server-name">
               {{ server2.name }}
             </div>
             <div>{{ $t('_component.currentPlayers') }} {{ server2.users_current }}</div>
@@ -215,6 +215,23 @@ export default {
 
 .join-btn {
   filter: brightness(100%);
+  /* Flex items shrink by default, so a long server name next to this squeezed the icon tile into a
+     narrow sliver instead of wrapping the name. */
+  flex-shrink: 0;
+}
+
+/* Without this the name cannot wrap below the flex item's content width. */
+.server-text {
+  min-width: 0;
+}
+
+/* A name long enough to wrap past two lines would otherwise grow the block out of the header. */
+.server-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 a {

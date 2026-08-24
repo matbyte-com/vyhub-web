@@ -136,12 +136,12 @@ const anyShopStatsEnabled = computed(() => {
               >
                 <v-icon
                   color="primary"
-                  size="150"
+                  class="category-placeholder-icon"
                 >
                   mdi-gift
                 </v-icon>
               </div>
-              <div class="text-center text-h5 mb-2 mt-1">
+              <div class="text-center text-h5 mb-2 mt-1 category-title">
                 {{ cat.name }}
               </div>
             </v-card>
@@ -207,20 +207,44 @@ const anyShopStatsEnabled = computed(() => {
 </template>
 
 <style scoped>
+/* Swiper sizes each slide to its own content, so a name that wraps left the cards in a row at
+   different heights. Stretching the slides makes every card as tall as the tallest one. */
+.vh-store-start-categories :deep(swiper-container)::part(wrapper) {
+  align-items: stretch;
+}
+
+.vh-store-start-categories :deep(swiper-slide) {
+  height: auto;
+}
+
 .category-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   transition: color 0.2s;
+}
+
+/* Takes the height the tallest card leaves over, so the names stay optically centred under their
+   images instead of sticking to the top of the gap. */
+.category-title {
+  flex: 1 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-wrap: anywhere;
 }
 
 .category-card:hover {
   color: rgb(var(--v-theme-primary));
 }
 
-/* Fixed 4:3 (width:height) box so every card is the same height regardless of
-   image aspect ratio or the no-image placeholder. */
+/* Fixed box so every card is the same height regardless of image aspect ratio or the no-image
+   placeholder. Kept at 16:9 because category artwork is typically wider than tall, and a taller
+   box only adds blurred filler above and below it. */
 .category-image-square {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 
@@ -228,6 +252,16 @@ const anyShopStatsEnabled = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Sized against the box rather than fixed, so it keeps its proportions at every card width instead
+   of being clipped by the shorter box on narrow ones. */
+.category-placeholder-icon {
+  font-size: 55cqh;
+}
+
+.category-image-square {
+  container-type: size;
 }
 
 .category-image-blur {
