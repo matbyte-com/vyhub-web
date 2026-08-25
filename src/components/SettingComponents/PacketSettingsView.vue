@@ -119,6 +119,11 @@
           v-bind="context"
         />
       </template>
+      <template #custom-reward-select="context">
+        <RewardSelect
+          v-bind="context"
+        />
+      </template>
     </DialogForm>
     <DialogForm
       ref="editPacketDialog"
@@ -137,6 +142,11 @@
       </template>
       <template #custom-image="context">
         <ImageUpload
+          v-bind="context"
+        />
+      </template>
+      <template #custom-reward-select="context">
+        <RewardSelect
           v-bind="context"
         />
       </template>

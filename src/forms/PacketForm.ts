@@ -198,11 +198,15 @@ function form() {
         type: 'object',
         properties: {
           rewards: {
-            ...Common.rewardSelectField,
             title: i18n.global.t('rewards'),
             type: 'array',
             items: {
               type: 'object'
+            },
+            layout: {
+              slots: {
+                component: 'custom-reward-select'
+              }
             }
           },
         },
