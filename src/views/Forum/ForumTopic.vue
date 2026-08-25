@@ -52,6 +52,10 @@
           >
             <template #header>
               <div class="d-flex align-center">
+                <SubscribeButton
+                  class="mr-8"
+                  :topic="topic"
+                />
                 <v-checkbox
                   v-model="hide_closed"
                   :label="$t('_forum.hideClosed')"

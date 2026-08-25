@@ -64,8 +64,6 @@
             </div>
             <v-spacer v-if="$vuetify.display.mdAndUp" />
             <div
-              v-if="$checkProp('forum_edit') || $checkTopicAdmin(admins)
-                || (thread.status !== 'CLOSED' && $store.getters.isLoggedIn)"
               class="d-flex align-center flex-wrap"
               :class="{ 'mt-2': $vuetify.display.smAndDown }"
             >
@@ -109,6 +107,10 @@
                   </v-icon>
                 </v-btn>
               </div>
+              <SubscribeButton
+                v-if="thread.type === 'forum_thread'"
+                :thread="thread"
+              />
               <v-btn
                 v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
                 :disabled="$checkIsForumBanned()"

@@ -16,6 +16,12 @@
       class="mt-3"
       @user-changed="refreshUser"
     />
+    <ForumNotifications
+      v-if="$store.getters.generalConfig?.enable_forum"
+      :user="userCopy"
+      class="mt-3"
+      @user-changed="refreshUser"
+    />
   </Dialog>
 </template>
 
