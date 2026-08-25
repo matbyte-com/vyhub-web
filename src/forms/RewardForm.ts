@@ -3,6 +3,8 @@ import Common from '@/forms/Common';
 import store from '@/store';
 import utilService from '@/services/UtilService';
 
+const HTTP_REWARD_DOCS_URL = 'https://docs.vyhub.net/latest/guide/shop/reward/#http-rewards';
+
 const on_event_full = [
   {
     const: 'DIRECT',
@@ -151,6 +153,11 @@ function rewardTypeFields(rewardType: string) {
         type: 'string',
         title: i18n.global.t('url'),
         pattern: '^https?://.+$',
+        layout: {
+          slots: {
+            after: `<a href="${HTTP_REWARD_DOCS_URL}" target="_blank" rel="noopener">${i18n.global.t('_reward.labels.availableReplacements')}</a>`,
+          },
+        },
       },
       max_tries: {
         type: 'integer',
