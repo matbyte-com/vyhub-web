@@ -1,12 +1,12 @@
 <script setup>
 import openapi from "../../api/openapi";
 import {ref} from "vue";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 
 const emit = defineEmits(['user-changed']);
-const store = useStore();
+const store = useVyHubStore();
 
-const user = store.state.user;
+const user = store.user;
 const userCopy = ref(user);
 
 async function refreshUser(fromChange = true) {

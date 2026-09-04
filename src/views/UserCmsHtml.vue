@@ -1,12 +1,12 @@
 <script setup>
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import openapi from "@/api/openapi";
 import {nextTick} from "vue";
 
 const route = useRoute();
-const store = useStore();
+const store = useVyHubStore();
 const html = ref(null);
 
 onMounted(() => {
@@ -14,7 +14,7 @@ onMounted(() => {
   getHtml();
 });
 
-watch(store.state.navItems, () => {
+watch(store.navItems, () => {
   getHtml();
 }, {deep: true});
 
@@ -23,7 +23,7 @@ watch(route, () => {
 });
 
 async function getHtml() {
-  if (!store.state.navItems) return;
+  if (!store.navItems) return;
 
   // Recursive function to find a navigation item by title
   function findNavItem(navItems, title) {
@@ -40,7 +40,7 @@ async function getHtml() {
   }
 
   // Get the navigation item (including sublinks)
-  const navItem = findNavItem(store.state.navItems, route.params.title.toLowerCase());
+  const navItem = findNavItem(store.navItems, route.params.title.toLowerCase());
 
   if (!navItem || !navItem.cms_page_id) {
     html.value = "Page not found or no CMS content available.";

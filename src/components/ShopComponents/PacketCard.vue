@@ -4,14 +4,14 @@ import ShopService from '@/services/ShopService';
 import UtilService from '@/services/UtilService';
 import {ref} from "vue";
 import {useDisplay} from "vuetify";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {useRoute, useRouter} from "vue-router";
 import {notify} from "@kyvg/vue3-notification";
 import {useI18n} from "vue-i18n";
 import {useUtils} from "@/services/useUtils.ts";
 
 const display = ref(useDisplay());
-const store = useStore();
+const store = useVyHubStore();
 const router = useRouter();
 const route = useRoute();
 const i18n = useI18n();
@@ -44,7 +44,7 @@ const hover = ref(false);
 const loading = ref(false);
 
 async function addToCart() {
-  if (!store.getters.isLoggedIn) {
+  if (!store.isLoggedIn) {
     await router.push({
       path: route.path,
       query: {
@@ -209,7 +209,7 @@ async function addToCart() {
             </span>
           </span>
           <span v-else-if="packet.credits">
-            {{ packet.credits }} {{ store.getters.shopConfig.credits_display_title }}
+            {{ packet.credits }} {{ store.shopConfig.credits_display_title }}
           </span>
         </div>
         <div

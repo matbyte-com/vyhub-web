@@ -12,8 +12,8 @@ import config from '@/config';
 
 let headers = {};
 
-if (store.getters.accessToken) {
-  headers = { common: { Authorization: `Bearer ${store.getters.accessToken}` } };
+if (store.accessToken) {
+  headers = { common: { Authorization: `Bearer ${store.accessToken}` } };
 }
 
 async function api() {

@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {computed} from "vue";
 
-const store = useStore();
+const store = useVyHubStore();
 
 const background = computed(() => {
-  if (store.state.theme) {
-    return store.state.theme.image;
+  if (store.theme) {
+    return store.theme.image;
   } else {
     return '';
   }
@@ -32,8 +32,8 @@ const background = computed(() => {
         md="10"
       >
         <BuilderJoinServer
-          :servers="store.state.theme.shop_only_servers"
-          :logo-url="store.state.theme.logo"
+          :servers="store.theme.shop_only_servers"
+          :logo-url="store.theme.logo"
           :white-text="true"
           :link="{ name: 'Store' }"
         />

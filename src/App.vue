@@ -126,7 +126,7 @@ import 'ckeditor5/ckeditor5.css';
 import lightThemeUrl from '@/assets/css/light.css?url';
 import darkThemeUrl from '@/assets/css/dark.css?url';
 import {computed, defineAsyncComponent, onBeforeMount, onMounted, ref} from "vue";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {useTheme} from "vuetify";
 import {notify} from "@kyvg/vue3-notification";
 import {useUtils} from "@/services/useUtils";
@@ -140,7 +140,7 @@ const background = ref('#FAFAFA');
 const backgroundImage = ref(null);
 const firstSteps = ref(false);
 const welcomeAnimation = ref(false);
-const store = useStore();
+const store = useVyHubStore();
 const theme = useTheme();
 const utils = useUtils().data().utils;
 let prefetchedComponents = {};
@@ -169,14 +169,14 @@ onMounted(() => {
 })
 
 const backgroundColor = computed(() => {
-  if (backgroundImage.value && (store.state.generalConfig && !store.state.generalConfig.shop_only)) {
+  if (backgroundImage.value && (store.generalConfig && !store.generalConfig.shop_only)) {
     return `background: url(${backgroundImage.value}) no-repeat center fixed !important; background-size: cover;`;
   }
   return `background-color: ${background.value}`;
 })
 const showLegalReminder = computed(() => {
-  const {user} = store.state;
-  const general = store.state.generalConfig;
+  const { user } = store;
+  const general = store.generalConfig;
   if (user && general) {
     if (user.admin && !general.legal_exists) {
       return true;
@@ -185,8 +185,8 @@ const showLegalReminder = computed(() => {
   return false;
 })
 const showCustomerJourney = computed(() => {
-  const {user} = store.state;
-  const general = store.state.generalConfig;
+  const { user } = store;
+  const general = store.generalConfig;
   if (user && general) {
     if (user.admin && general.enable_customer_journey) {
       return true;
@@ -195,7 +195,7 @@ const showCustomerJourney = computed(() => {
   return false;
 })
 const welcomeOverlay = computed(() => {
-  if (showCustomerJourney.value && !store.state.hideWelcomeOverlay) {
+  if (showCustomerJourney.value && !store.hideWelcomeOverlay) {
     return true;
   }
   return false;
@@ -251,7 +251,7 @@ async function setTheme() {
 
       // Cache theme and save it to VueX
       Object.assign(cachedTheme, rsp);
-      store.commit('SET_THEME', cachedTheme);
+      store.theme = cachedTheme;
 
       emitter.emit('themeUpdatedAfter');
     } catch (e) {
@@ -274,7 +274,7 @@ function prefetchComponents() {
 function closeOverlay() {
   welcomeAnimation.value = true;
   setTimeout(() => {
-    store.dispatch('setHideWelcomeOverlay', {hideWelcomeOverlay: true});
+    store.hideWelcomeOverlay = true;
     firstSteps.value = true;
   }, 350);
 }
@@ -288,7 +288,7 @@ function createStyleTag(css) {
 function setLocale() {
   // The visitor's own pick wins over the community default; the browser language is
   // deliberately ignored so an unconfigured visitor always sees the community default.
-  const locale = store.state.locale ?? store.state.generalConfig?.language;
+  const locale = store.locale ?? store.generalConfig?.language;
 
   if (locale) {
     i18n.global.locale = locale;
@@ -296,7 +296,7 @@ function setLocale() {
 }
 
 function setThemeFromCache() {
-  const cachedTheme = store.state.theme;
+  const cachedTheme = store.theme;
   if (cachedTheme) {
     backgroundImage.value = cachedTheme.image;
     background.value = cachedTheme.background;
@@ -325,7 +325,7 @@ async function getNavItems() {
   const api = await openapi;
 
   api.navigation_getNavigationLinks().then((rsp) => {
-    store.commit('SET_NAV_ITEMS', rsp.data);
+    store.navItems = rsp.data;
   }).catch((err) => console.log(`Could not query nav ${err}`));
 }
 

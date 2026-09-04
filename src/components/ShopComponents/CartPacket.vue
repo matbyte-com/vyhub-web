@@ -104,7 +104,7 @@
                 <v-col :class="(cartPacket.discount ? 'text-green' : '')">
                   <div class="text-subtitle-2">
                     {{ cartPacket.price.credits }}
-                    {{ $store.getters.shopConfig.credits_display_title }}
+                    {{ store.shopConfig.credits_display_title }}
                   </div>
                 </v-col>
               </v-row>
@@ -178,6 +178,7 @@
 <script>
 import openapi from '@/api/openapi';
 import CartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -202,6 +203,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     hasFirstCycle() {
       return this.cartPacket.price_first != null;
     },

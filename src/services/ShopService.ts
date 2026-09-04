@@ -1,15 +1,15 @@
-import store from '@/store';
+import { useVyHubStore } from '@/store';
 import router from '@/router';
 import openapi from '@/api/openapi';
 import UtilService from '@/services/UtilService';
 import openapiCached from '@/api/openapiCached';
 
+const store = useVyHubStore();
+
 export default {
   async refreshCartPacketCount() {
     (await openapi).shop_getCartPackets().then((rsp: any) => {
-      store.dispatch('setCartPacketCount', {
-        cartPacketCount: rsp.data.length,
-      });
+      store.cartPacketCount = rsp.data.length;
     }).catch((err) => {
       console.log(err);
     });
@@ -17,21 +17,19 @@ export default {
   async refreshCreditAccount() {
     const api = await openapi;
 
-    if (store.getters.user == null) {
+    if (store.user == null) {
       return;
     }
 
-    api.finance_getAccount({ uuid: store.getters.user.credit_account_id })
+    api.finance_getAccount({ uuid: store.user.credit_account_id })
       .then((rsp) => {
-        store.dispatch('setCreditAccount', {
-          creditAccount: rsp.data,
-        });
+        store.creditAccount = rsp.data;
       }).catch((err) => {
         console.log(err);
       });
   },
   selectAddress(address: object) {
-    store.dispatch('setAddress', { address });
+    store.address = address;
   },
   /* eslint-disable @typescript-eslint/no-explicit-any */
   async executeAction(debit: any, action: any) {

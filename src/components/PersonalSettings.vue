@@ -17,7 +17,7 @@
       @user-changed="refreshUser"
     />
     <ForumNotifications
-      v-if="$store.getters.generalConfig?.enable_forum"
+      v-if="store.generalConfig?.enable_forum"
       :user="userCopy"
       class="mt-3"
       @user-changed="refreshUser"
@@ -27,6 +27,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -40,6 +41,11 @@ emits: ['user-changed'],
     return {
       userCopy: Object,
     };
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
   beforeMount() {
     this.userCopy = this.user;

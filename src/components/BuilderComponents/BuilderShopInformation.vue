@@ -6,7 +6,7 @@
       class="vh-home-shop-stats"
     >
       <v-col
-        v-if="$store.getters.shopConfig.donation_goal_enabled"
+        v-if="store.shopConfig.donation_goal_enabled"
         cols="11"
         sm="8"
         md="6"
@@ -25,7 +25,7 @@
         </v-card>
       </v-col>
       <v-col
-        v-if="$store.getters.shopConfig.top_donators_enabled"
+        v-if="store.shopConfig.top_donators_enabled"
         cols="11"
         sm="8"
         md="6"
@@ -58,18 +58,18 @@
           lg="6"
         >
           <div
-            v-if="$store.getters.shopConfig.donation_goal_enabled"
+            v-if="store.shopConfig.donation_goal_enabled"
             class="card-rounded pt-2 px-2 flex-grow-1"
           >
             <DonationGoal text-classes="mt-3" />
           </div>
           <v-divider
-            v-if="$store.getters.shopConfig.donation_goal_enabled &&
-              $store.getters.shopConfig.top_donators_enabled"
+            v-if="store.shopConfig.donation_goal_enabled &&
+              store.shopConfig.top_donators_enabled"
             class="mr-6"
           />
           <div
-            v-if="$store.getters.shopConfig.top_donators_enabled"
+            v-if="store.shopConfig.top_donators_enabled"
             class="card-rounded pt-2 px-2"
           >
             <TopDonators />
@@ -81,10 +81,17 @@
 </template>
 
 <script>
+import { useVyHubStore } from '@/store';
+
 export default {
   props: {
     imageCardUrl: { type: String, default: '' },
     whiteText: { type: Boolean },
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
 };
 </script>

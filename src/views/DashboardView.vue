@@ -36,8 +36,8 @@
               General
             </v-tab>
             <v-tab
-              v-if="$store.getters.isLoggedIn &&
-                (user.id === $store.getters.user.id || $checkProp('purchase_show'))"
+              v-if="store.isLoggedIn &&
+                (user.id === store.user.id || $checkProp('purchase_show'))"
               @click="switchTab('Purchases')"
             >
               <v-icon start>
@@ -146,6 +146,7 @@ import openapiCached from '@/api/openapiCached';
 import openapi from '@/api/openapi';
 import i18n from '@/plugins/i18n';
 import { defineAsyncComponent } from "vue";
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -160,6 +161,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     componentInstance() {
       if (this.activeTab === 'Bundle' && this.activeBundle) {
         return this.dashboardImports.allBundles;

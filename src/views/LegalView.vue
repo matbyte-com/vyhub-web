@@ -37,6 +37,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -45,9 +46,12 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     removeBranding() {
-      return this.$store.getters.generalConfig != null
-        && this.$store.getters.generalConfig.remove_branding;
+      return this.store.generalConfig != null
+        && this.store.generalConfig.remove_branding;
     },
   },
   beforeMount() {

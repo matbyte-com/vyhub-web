@@ -85,6 +85,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -101,11 +102,14 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     currencyCode() {
       return this.topDonators.currency.code;
     },
     shopConfig() {
-      return this.$store.getters.shopConfig;
+      return this.store.shopConfig;
     },
   },
   beforeMount() {

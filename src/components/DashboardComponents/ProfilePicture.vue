@@ -90,7 +90,7 @@
           </span>
           <span class="justify-end">
             <v-icon
-              v-if="$store.getters.user && $store.getters.user.admin"
+              v-if="store.user && store.user.admin"
               icon="mdi-close-circle"
               variant="flat"
               color="error"
@@ -112,6 +112,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -127,6 +128,9 @@ emits: ['user-updated'],
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     users() {
       if (this.user === null) {
         return null;

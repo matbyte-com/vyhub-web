@@ -1,5 +1,7 @@
 import openapi from '@/api/openapi';
-import store from '@/store';
+import { useVyHubStore } from '@/store';
+
+const store = useVyHubStore();
 
 export default {
   userTypeIcons: {
@@ -26,11 +28,11 @@ export default {
     }
   },
   async setUserMemberships() {
-    if (!store.getters.user) return;
-    const user_id = store.getters.user.id;
+    if (!store.user) return;
+    const user_id = store.user.id;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const rsp = await (await openapi).user_getMemberships({ uuid: user_id, active: true });
-    store.commit('SET_USER_MEMBERSHIPS', rsp.data);
+    store.userMemberships = rsp.data;
   },
 };

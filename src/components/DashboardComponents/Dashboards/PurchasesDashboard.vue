@@ -32,7 +32,7 @@
               <v-icon start>
                 mdi-circle-multiple
               </v-icon>
-              {{ $store.getters.shopConfig.credits_display_title }}
+              {{ store.shopConfig.credits_display_title }}
             </v-btn>
           </div>
         </template>
@@ -168,7 +168,7 @@
     />
     <Dialog
       ref="creditHistoryDialog"
-      :title="$store.getters.shopConfig.credits_display_title"
+      :title="store.shopConfig.credits_display_title"
       icon="mdi-circle-multiple"
       :max-width="1000"
     >
@@ -179,6 +179,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -202,6 +203,11 @@ export default {
         {title: this.$t('invoice'), key: 'invoice', sortable: false},
       ],
     };
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
   watch: {
     user() {

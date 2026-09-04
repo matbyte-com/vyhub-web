@@ -10,7 +10,7 @@
     >
       <!-- Hint when linking accounts -->
       <v-card
-        v-if="$store.getters.isLoggedIn || $route.query.shop"
+        v-if="store.isLoggedIn || $route.query.shop"
         variant="outlined"
         type="info"
         dense
@@ -19,12 +19,12 @@
         <v-card-text>
           <v-row no-gutters>
             <v-col cols="10">
-              <span v-if="$store.getters.isLoggedIn">{{ $t('_user.userLinkDescription') }}</span>
+              <span v-if="store.isLoggedIn">{{ $t('_user.userLinkDescription') }}</span>
               <span v-else>{{ $t('_user.userLoginShopDescription') }}</span>
             </v-col>
             <v-col class="d-flex align-center justify-end">
               <v-icon
-                v-if="$store.getters.isLoggedIn"
+                v-if="store.isLoggedIn"
                 color="secondary"
                 size="30"
               >
@@ -159,7 +159,7 @@
       @submit="confirmLink"
       @cancel="cancelLink"
     >
-      <div v-if="userToLink && $store.getters.isLoggedIn">
+      <div v-if="userToLink && store.isLoggedIn">
         <div class="text-center my-5">
           {{ $t('_user.messages.linkAccountConfirm') }}
         </div>
@@ -176,14 +176,14 @@
               >
                 <v-avatar>
                   <v-img
-                    :src="$store.getters.user.avatar"
+                    :src="store.user.avatar"
                     alt="avatar"
                   />
                 </v-avatar>
                 <br>
-                {{ $store.getters.user.username }}
+                {{ store.user.username }}
                 <br>
-                {{ $store.getters.user.type }}
+                {{ store.user.type }}
               </v-col>
               <v-col
                 cols="12"
@@ -215,6 +215,7 @@ import UserService from '@/services/UserService';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import axios from 'axios';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -230,6 +231,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     authReqDialog: {
       get() {
         return this.authDialogType != null;
@@ -247,7 +251,7 @@ export default {
       return this.backends.find((b) => b.name === 'CENTRAL');
     },
     title() {
-      if (this.$store.getters.isLoggedIn) {
+      if (this.store.isLoggedIn) {
         return this.$t('link_account');
       }
       return this.$t('_header.labels.login');
@@ -265,7 +269,7 @@ export default {
 
       const linkRefreshToken = AuthService.getHashParam(to.hash, 'link_refresh_token');
 
-      if (linkRefreshToken != null && this.$store.getters.isLoggedIn) {
+      if (linkRefreshToken != null && this.store.isLoggedIn) {
         this.fetchUserToLink(linkRefreshToken).then((userToLink) => {
           if (userToLink != null) {
             this.$router.replace({ path: to.path, query: to.query, hash: '' });
@@ -317,7 +321,7 @@ export default {
 
       this.userToLinkAccessToken = access_token;
 
-      if (otherUser && !this.$checkLinked(otherUser, this.$store.getters.user)) {
+      if (otherUser && !this.$checkLinked(otherUser, this.store.user)) {
         this.userToLink = otherUser;
       }
 

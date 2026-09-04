@@ -1,10 +1,10 @@
 <script setup>
 import {ref, watch} from "vue";
 import {useRoute} from "vue-router";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 
 const emit = defineEmits(['login', 'register', 'logout'])
-const store = useStore()
+const store = useVyHubStore()
 const route = useRoute()
 
 const menu = ref(false)
@@ -85,13 +85,13 @@ function emitLogout() {
         />
       </v-list-group>
       <v-divider />
-      <div v-if="store.getters.isLoggedIn">
+      <div v-if="store.isLoggedIn">
         <HeaderShoppingCart :list-item="true" />
         <HeaderCredits :list-item="true" />
       </div>
       <v-divider />
       <!-- render menuTabs + Logout-->
-      <div v-if="store.getters.isLoggedIn">
+      <div v-if="store.isLoggedIn">
         <LinkAccountListItem />
         <v-list-item
           v-for="(menuLink, index) in menuLinks"

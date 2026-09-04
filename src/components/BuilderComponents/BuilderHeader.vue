@@ -108,7 +108,7 @@
         </div>
         <v-spacer />
         <v-btn
-          v-if="!$store.getters.isLoggedIn"
+          v-if="!store.isLoggedIn"
           color="primary card-rounded my-1"
           :size="$vuetify.display.mdAndUp ? 'large' : undefined"
           variant="flat"
@@ -125,7 +125,7 @@
         >
           <v-avatar start>
             <v-img
-              :src="$store.getters.user.avatar"
+              :src="store.user.avatar"
               lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
             />
           </v-avatar>
@@ -133,7 +133,7 @@
             class="ml-1 mr-1"
             :class="{ 'text-white': whiteText }"
           >
-            {{ $store.getters.user.username }}
+            {{ store.user.username }}
           </span>
         </v-chip>
       </div>
@@ -142,6 +142,7 @@
 </template>
 
 <script>
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -155,6 +156,11 @@ export default {
     dense: { type: Boolean },
     fixed: { type: Boolean },
     backgroundImage: { type: String, default: '' },
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
   methods: {
     showLoginDialog() {

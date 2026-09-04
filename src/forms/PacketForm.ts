@@ -1,7 +1,9 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
-import store from '@/store';
+import { useVyHubStore } from '@/store';
 import utilService from '@/services/UtilService';
+
+const store = useVyHubStore();
 
 const API_URL = Common.apiURL;
 
@@ -119,7 +121,7 @@ function form() {
           },
           credits: {
             type: ['integer', 'null'],
-            title: store.getters.shopConfig.credits_display_title,
+            title: store.shopConfig.credits_display_title,
             layout: {
               cols: 4,
             },

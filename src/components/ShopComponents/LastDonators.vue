@@ -57,6 +57,7 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -70,8 +71,11 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     shopConfig() {
-      return this.$store.state.shopConfig;
+      return this.store.shopConfig;
     },
   },
   beforeMount() {

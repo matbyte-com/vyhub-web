@@ -59,6 +59,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -76,6 +77,11 @@ emits: ['user-changed'],
       },
     };
   },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
+  },
   methods: {
     showInputFunc() {
       this.emailModel = this.user.email;
@@ -86,7 +92,7 @@ emits: ['user-changed'],
     },
     async updateMail() {
       if (!this.$refs.textfield.isValid) { return; }
-      (await openapi).user_editUser(this.$store.getters.user.id, { email: this.emailModel })
+      (await openapi).user_editUser(this.store.user.id, { email: this.emailModel })
         .then(() => {
           this.showInput = false;
           this.$notify({

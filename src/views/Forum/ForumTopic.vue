@@ -238,7 +238,7 @@
                 {{ $t('_forum.messages.banned') }}
               </v-tooltip>
               <v-btn
-                v-if="!topic.prohibit_create_threads && $store.getters.isLoggedIn
+                v-if="!topic.prohibit_create_threads && store.isLoggedIn
                   || ($checkProp('forum_edit') || $checkTopicAdmin(topic.admins))"
                 color="success"
                 variant="outlined"
@@ -277,6 +277,7 @@
 
 <script>
 import openapi from '../../api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -290,6 +291,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     headers() {
       if (this.$vuetify.display.mdAndUp) {
         return [

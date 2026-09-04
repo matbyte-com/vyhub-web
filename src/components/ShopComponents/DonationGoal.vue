@@ -62,6 +62,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -78,13 +79,16 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     donationProgress() {
       if (!this.donationGoal) return 0;
       if (!this.donationGoal.current) return 0;
       return Math.floor((this.donationGoal.current / this.donationGoal.goal) * 100);
     },
     shopConfig() {
-      return this.$store.state.shopConfig;
+      return this.store.shopConfig;
     },
   },
   beforeMount() {

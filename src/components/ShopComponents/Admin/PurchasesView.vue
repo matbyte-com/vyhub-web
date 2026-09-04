@@ -212,7 +212,7 @@
                       </td>
                     </tr>
                     <tr v-if="currentPurchase.credits_used">
-                      <td> {{ $store.getters.shopConfig.credits_display_title }}</td>
+                      <td> {{ store.shopConfig.credits_display_title }}</td>
                       <td>{{ currentPurchase.credits }}</td>
                     </tr>
                     <tr v-if="!currentPurchase.credits_used">
@@ -279,7 +279,7 @@
                         </td>
                         <td v-else>
                           {{ cp.credits }}
-                          {{ $store.getters.shopConfig.credits_display_title }}
+                          {{ store.shopConfig.credits_display_title }}
                         </td>
                         <td>
                           <v-chip
@@ -356,7 +356,7 @@
                       </td>
                       <td v-else>
                         {{ debit.credits }}
-                        {{ $store.getters.shopConfig.credits_display_title }}
+                        {{ store.shopConfig.credits_display_title }}
                       </td>
                       <td>
                         <v-btn
@@ -484,6 +484,7 @@
 
 <script>
 import openapi from '../../../api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -496,7 +497,7 @@ export default {
         {title: this.$t('user'), key: 'user', sortable: false},
         {title: this.$t('_purchases.labels.amountNet'), key: 'amount_net'},
         {title: this.$t('_purchases.labels.amountTotal'), key: 'amount_total'},
-        {title: this.$store.getters.shopConfig.credits_display_title, key: 'credits'},
+        {title: useVyHubStore().shopConfig.credits_display_title, key: 'credits'},
         {
           title: this.$t('actions'), key: 'actions', width: '200px', sortable: false, align: 'end',
         },
@@ -515,6 +516,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     purchaseDetailShown: {
       get() {
         return this.$route.query.purchase_id != null;

@@ -90,6 +90,7 @@
 <script>
 import EventBus from '@/services/EventBus';
 import {defineAsyncComponent} from "vue";
+import { useVyHubStore } from '@/store';
 
 export default {
 
@@ -263,6 +264,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     navigationDrawerColor() {
       if (this.$vuetify.display.mdAndDown) {
         return; // no special color on mobile devices
@@ -320,7 +324,7 @@ export default {
       }
 
       // Filter out hidden options when shop only
-      if (this.$store.getters.generalConfig.shop_only) {
+      if (this.store.generalConfig.shop_only) {
         allowed = allowed.filter((l) => l.shopOnly !== 'hidden')
       }
 

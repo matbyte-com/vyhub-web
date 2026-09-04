@@ -49,8 +49,8 @@
         >
           <v-img
             height="200"
-            :src="logoUrl ? logoUrl : $store.getters.theme.logo"
-            :alt="$store.getters.theme.logo"
+            :src="logoUrl ? logoUrl : store.theme.logo"
+            :alt="store.theme.logo"
           />
         </router-link>
         <div
@@ -59,7 +59,7 @@
           class="text-h3 d-flex align-center justify-center vh-headline"
           :class="{ 'text-white': whiteText }"
         >
-          {{ $store.getters.generalConfig.community_name }}
+          {{ store.generalConfig.community_name }}
         </div>
       </v-col>
       <v-col
@@ -100,6 +100,7 @@
 
 <script>
 import openapiCached from '@/api/openapiCached';
+import { useVyHubStore } from '@/store';
 
 export default {
   name: 'JoinServer',
@@ -128,6 +129,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     server1() {
       if (!this.servers || this.servers.length === 1) return null;
       if (this.fetchedServers) {

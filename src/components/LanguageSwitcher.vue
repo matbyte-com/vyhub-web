@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useVyHubStore } from '@/store';
 import ISO6391 from 'iso-639-1-plus';
 import i18n from '@/plugins/i18n';
 
-const store = useStore();
+const store = useVyHubStore();
 
 function nativeName(locale) {
   // Message files use "pt_BR", the lookup table expects the BCP 47 form "pt-BR".
@@ -16,14 +16,14 @@ const locales = computed(() => i18n.global.availableLocales
   .map((locale) => ({ locale, title: nativeName(locale) }))
   .sort((a, b) => a.title.localeCompare(b.title)));
 
-const current = computed(() => store.getters.locale
-  ?? store.getters.generalConfig?.language
+const current = computed(() => store.locale
+  ?? store.generalConfig?.language
   ?? i18n.global.locale);
 
 async function select(locale) {
   if (locale === current.value) return;
 
-  await store.dispatch('setLocale', { locale });
+  store.locale = locale;
   // Forms and route titles resolve their translations once at module load, so only a
   // reload switches the whole app over.
   window.location.reload();

@@ -3,10 +3,15 @@
 </template>
 
 <script>
+import { useVyHubStore } from '@/store';
+
 export default {
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     user() {
-      return this.$store.getters.user;
+      return this.store.user;
     },
   },
   watch: {

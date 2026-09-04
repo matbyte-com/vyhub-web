@@ -1,11 +1,13 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import { nextTick } from "vue";
-import store from '@/store/index';
+import { useVyHubStore } from '@/store';
 import i18n from '@/plugins/i18n';
 import UtilService from '@/services/UtilService';
 import AuthService from '@/services/AuthService';
 import AccessControlService from '@/services/AccessControlService';
 import {notify} from "@kyvg/vue3-notification";
+
+const store = useVyHubStore();
 
 const routes = [
   {
@@ -291,7 +293,7 @@ router.beforeEach(async (to, from, next) => {
   let success = false;
 
   if (refreshToken != null) {
-    if (!store.getters.isLoggedIn) {
+    if (!store.isLoggedIn) {
       // If user is not logged in, try to login with refresh token
       try {
         await AuthService.login(refreshToken);
@@ -326,7 +328,7 @@ router.beforeEach(async (to, from, next) => {
     && (to.matched.some((record) => record.meta.requiresAuth))) {
     // If the route requires auth, user is not logged in and login is not true,
     // redirect to the same page with login=true
-    if (!store.getters.isLoggedIn) {
+    if (!store.isLoggedIn) {
       console.log('Showing login dialog.');
       showLoginDialog(to, from);
     } else {
@@ -361,13 +363,13 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
-const title = (store.getters.generalConfig?.community_name
-  ? store.getters.generalConfig?.community_name : 'VyHub');
+const title = (store.generalConfig?.community_name
+  ? store.generalConfig?.community_name : 'VyHub');
 
 router.afterEach((to) => {
   nextTick(() => {
     if (to != null && to.meta != null && to.meta.title != null) {
-      if (store.getters.generalConfig) {
+      if (store.generalConfig) {
         document.title = `${to.meta.title} - ${title}`;
       } else {
         document.title = `${to.meta.title}`;

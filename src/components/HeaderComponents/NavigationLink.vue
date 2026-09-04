@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import { useVyHubStore } from '@/store';
+
 export default {
   props: {
     link: {
@@ -83,6 +85,9 @@ export default {
     noActive: Boolean
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     allowedTabs() {
       if (this.link.sublinks == null) {
         return [];
@@ -98,7 +103,7 @@ export default {
       return this.allowedTabs.some((t) => path.includes(t.link));
     },
     lightHeader() {
-      return this.$store.getters.theme && this.$store.getters.theme.light_header;
+      return this.store.theme && this.store.theme.light_header;
     },
     btnActive() {
       // SAME AS IN ListItemLink.vue

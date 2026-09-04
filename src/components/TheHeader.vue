@@ -1,5 +1,5 @@
 <script setup>
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {useDisplay} from "vuetify";
 import {useRoute, useRouter} from "vue-router";
 import {computed, onBeforeMount, onMounted, ref, useTemplateRef, watch} from "vue";
@@ -8,7 +8,7 @@ import UtilService from '@/services/UtilService';
 import AccessControlService from "@/services/AccessControlService";
 import {useI18n} from "vue-i18n";
 
-const store = useStore();
+const store = useVyHubStore();
 const display = ref(useDisplay())
 const router = useRouter()
 const route = useRoute()
@@ -25,7 +25,7 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-  if (store.getters.isLoggedIn && display.value.xs) {
+  if (store.isLoggedIn && display.value.xs) {
     linksRight.value.push({
       title: 'personalSettings',
       icon: 'mdi-account',
@@ -35,7 +35,7 @@ onMounted(() => {
 })
 
 watch(route, (to) => {
-  if (store.getters.isLoggedIn) {
+  if (store.isLoggedIn) {
     if (to.query.personal_settings === 'true') {
       userSelfSettings.value.show();
     } else {
@@ -45,7 +45,7 @@ watch(route, (to) => {
 })
 
 watch(display, () => {
-    if (display.value.xs && store.getters.isLoggedIn) {
+    if (display.value.xs && store.isLoggedIn) {
       linksRight.value.push({
         title: 'personalSettings',
         icon: 'mdi-account',
@@ -57,7 +57,7 @@ watch(display, () => {
 })
 
 const allowedLinks = computed(() => {
-  if (store.getters.generalConfig?.shop_only) {
+  if (store.generalConfig?.shop_only) {
     return [{
       "title": i18n.t('shop'),
       "icon": "mdi-store",
@@ -116,7 +116,7 @@ const allowedHelpCircleLinks = computed(() => {
 })
 
 const links = computed(() => {
-  return store.getters.navItems;
+  return store.navItems;
 })
 
 function logout() {
@@ -129,7 +129,7 @@ function refreshUser() {
 }
 
 function getNavItemsFromCache() {
-  if (store.getters.navItems) links.value = store.getters.navItems;
+  if (store.navItems) links.value = store.navItems;
 }
 
 function showLoginDialog() {
@@ -150,7 +150,7 @@ function showLoginDialog() {
       <div
         class="d-flex align-center mx-auto px-3"
         style="width: 100%"
-        :class="{ 'v-container' : store.getters.theme && store.getters.theme.header_container
+        :class="{ 'v-container' : store.theme && store.theme.header_container
           && display.xxl }"
       >
         <!-- burger menu on the left-->
@@ -165,15 +165,15 @@ function showLoginDialog() {
         </div>
 
         <!-- Logo -->
-        <div v-if="store.state.theme && store.state.theme.logo">
+        <div v-if="store.theme && store.theme.logo">
           <v-img
-            v-if="store.state.theme"
+            v-if="store.theme"
             alt="Community Logo"
             class="shrink"
-            :src="store.state.theme.logo"
+            :src="store.theme.logo"
             style="cursor: pointer"
             transition="scale-transition"
-            :width="store.state.theme?.logo_width"
+            :width="store.theme?.logo_width"
             height="50"
             @click="router.push('/')"
           />
@@ -184,12 +184,12 @@ function showLoginDialog() {
           class="mr-1"
         >
           <v-toolbar-title
-            v-if="store.state.theme?.show_community_name"
+            v-if="store.theme?.show_community_name"
             class="ml-3"
             style="cursor: pointer"
             @click="router.push('/')"
           >
-            {{ store.getters.generalConfig?.community_name }}
+            {{ store.generalConfig?.community_name }}
           </v-toolbar-title>
         </div>
         <!-- Overflow ellipsis (...) on smaller screens -->
@@ -227,7 +227,7 @@ function showLoginDialog() {
         <!-- profile icon with dropdown or login-->
         <div>
           <div
-            v-if="store.getters.isLoggedIn"
+            v-if="store.isLoggedIn"
             class="d-flex align-center"
           >
             <HeaderCredits
@@ -242,7 +242,7 @@ function showLoginDialog() {
               @logout="logout"
             />
             <Notification
-              v-if="display.smAndUp && store.getters.isLoggedIn"
+              v-if="display.smAndUp && store.isLoggedIn"
               class="ml-1"
             />
           </div>
@@ -260,9 +260,9 @@ function showLoginDialog() {
       </div>
     </v-app-bar>
     <PersonalSettings
-      v-if="store.getters.isLoggedIn"
+      v-if="store.isLoggedIn"
       ref="userSelfSettings"
-      :user="store.getters.user"
+      :user="store.user"
       @user-changed="refreshUser"
     />
   </div>

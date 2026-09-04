@@ -23,19 +23,20 @@
       </v-list-item-title>
     </v-list-item>
     <Dialog
-      v-if="$store.getters.isLoggedIn"
+      v-if="store.isLoggedIn"
       ref="creditHistoryDialog"
-      :title="$store.getters.shopConfig.credits_display_title"
+      :title="store.shopConfig.credits_display_title"
       icon="mdi-circle-multiple"
       :max-width="1000"
     >
-      <CreditHistory :user="$store.getters.user" />
+      <CreditHistory :user="store.user" />
     </Dialog>
   </div>
 </template>
 
 <script>
 import ShopService from '@/services/ShopService';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -50,12 +51,15 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     credits() {
-      if (this.$store.getters.creditAccount == null) {
+      if (this.store.creditAccount == null) {
         return 0;
       }
 
-      return this.$store.getters.creditAccount.balance;
+      return this.store.creditAccount.balance;
     },
   },
   mounted() {

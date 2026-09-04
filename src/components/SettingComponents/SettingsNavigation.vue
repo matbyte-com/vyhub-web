@@ -1,8 +1,15 @@
 <script>
+import { useVyHubStore } from '@/store';
+
 export default {
   props: {
     activeTab: { type: Object, default: null },
     allowedTabs: { type: Array, default: () => [] },
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
 }
 
@@ -25,7 +32,7 @@ export default {
         >
           <v-list-item-title
             :class="{ 'text-disabled' : (!utils.showAdvancedSettings()
-              && tab.advanced) || ($store.getters.generalConfig.shop_only && tab.shopOnly === 'disabled') }"
+              && tab.advanced) || (store.generalConfig.shop_only && tab.shopOnly === 'disabled') }"
           >
             <v-icon start>{{ tab.icon }}</v-icon>
             {{ tab.title }}

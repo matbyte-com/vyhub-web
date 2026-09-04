@@ -1,13 +1,15 @@
 import { OpenAPIClientAxios } from 'openapi-client-axios';
 // import { Client } from '@/api/openapi.d';
-import store from '@/store';
+import { useVyHubStore } from '@/store';
 import qs from 'qs';
 import config from '@/config';
 
+const store = useVyHubStore();
+
 let headers = {};
 
-if (store.getters.accessToken) {
-  headers = { common: { Authorization: `Bearer ${store.getters.accessToken}` } };
+if (store.accessToken) {
+  headers = { common: { Authorization: `Bearer ${store.accessToken}` } };
 }
 
 function api() {

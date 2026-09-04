@@ -1,7 +1,7 @@
 <script setup>
 import {computed, ref, onMounted} from "vue";
 import openapiCached from "../../api/openapiCached";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import openapi from "../../api/openapi";
 import {useDisplay} from "vuetify";
 import {useRoute, useRouter} from "vue-router";
@@ -13,7 +13,7 @@ onMounted(() => {
 
 const recommendedPackets = ref(false);
 const categories = ref(null);
-const store = useStore();
+const store = useVyHubStore();
 const display = ref(useDisplay());
 const route = useRoute();
 const router = useRouter();
@@ -38,17 +38,17 @@ async function fetchCategories() {
 }
 
 const anyShopStatsEnabled = computed(() => {
-  if (!store.state.shopConfig) {
+  if (!store.shopConfig) {
     return false;
   }
 
-  if (!store.state.shopConfig.show_widgets_on_shop_page) {
+  if (!store.shopConfig.show_widgets_on_shop_page) {
     return false;
   }
 
-  return store.state.shopConfig.last_donators_enabled
-    || store.state.shopConfig.top_donators_enabled
-    || store.state.shopConfig.donation_goal_enabled;
+  return store.shopConfig.last_donators_enabled
+    || store.shopConfig.top_donators_enabled
+    || store.shopConfig.donation_goal_enabled;
 })
 
 </script>
@@ -81,7 +81,7 @@ const anyShopStatsEnabled = computed(() => {
               <router-link
                 class="font-weight-bold nav-button"
                 :to="{ name: 'Store' }"
-                :class="{ 'button-active' : route.name === 'Store', 'nav-button-light': store.state.theme?.light_header, 'nav-button': !store.state.theme?.light_header}"
+                :class="{ 'button-active' : route.name === 'Store', 'nav-button-light': store.theme?.light_header, 'nav-button': !store.theme?.light_header}"
               >
                 {{ $t('home') }}
               </router-link>
@@ -89,7 +89,7 @@ const anyShopStatsEnabled = computed(() => {
                 v-for="cat in categories"
                 :key="cat.id"
                 class="font-weight-bold nav-button text-no-wrap"
-                :class="{ 'button-active' : route.params.categoryId === cat.name, 'nav-button-light': store.state.theme?.light_header, 'nav-button': !store.state.theme?.light_header}"
+                :class="{ 'button-active' : route.params.categoryId === cat.name, 'nav-button-light': store.theme?.light_header, 'nav-button': !store.theme?.light_header}"
                 :to="{ name: 'StoreCategory',
                        params: {categoryId: cat.name }}"
               >

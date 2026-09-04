@@ -415,7 +415,7 @@
       </v-col>
     </v-row>
     <!-- CMS Page Component-->
-    <div v-if="$store.state.generalConfig.show_advanced_settings">
+    <div v-if="store.generalConfig.show_advanced_settings">
       <SettingTitle
         doc-path="/guide/navigation"
         class="mt-10"
@@ -476,6 +476,7 @@ import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import i18n from '../../plugins/i18n';
 import {VueDraggable} from "vue-draggable-plus";
+import { useVyHubStore } from '@/store';
 
 export default {
   components: {VueDraggable},
@@ -506,6 +507,11 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
   beforeMount() {
     this.getNavItems();

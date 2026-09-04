@@ -245,7 +245,7 @@
             <div>
               <WarningTable
                 v-if="$checkProp('warning_show') ||
-                  ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.user))"
+                  (store.isLoggedIn && $checkLinked(currentUser, store.user))"
                 :warnings="currentUser.warnings"
                 :total-items="currentUser.warnings.length"
                 :user="currentUser"
@@ -256,7 +256,7 @@
             <div class="mt-4">
               <BanTable
                 v-if="$checkProp('ban_show') ||
-                  ($store.getters.isLoggedIn && $checkLinked(currentUser, $store.getters.user))"
+                  (store.isLoggedIn && $checkLinked(currentUser, store.user))"
                 :bans="currentUser.bans"
                 :total-items="currentUser.bans.length"
                 :user="currentUser"
@@ -274,6 +274,7 @@
 <script>
 import openapi from '@/api/openapi';
 import SessionService from '@/services/SessionService';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -299,6 +300,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     getStatusColor() {
       switch (this.server.status) {
         case 'UNKNOWN':

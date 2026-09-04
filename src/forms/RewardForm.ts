@@ -1,7 +1,9 @@
 import i18n from '@/plugins/i18n';
 import Common from '@/forms/Common';
-import store from '@/store';
+import { useVyHubStore } from '@/store';
 import utilService from '@/services/UtilService';
+
+const store = useVyHubStore();
 
 const HTTP_REWARD_DOCS_URL = 'https://docs.vyhub.net/latest/guide/shop/reward/#http-rewards';
 
@@ -122,7 +124,7 @@ function rewardTypeFields(rewardType: string) {
     properties = {
       credits: {
         type: 'integer',
-        title: store.getters.shopConfig.credits_display_title,
+        title: store.shopConfig.credits_display_title,
         minimum: 1,
       },
     };
@@ -337,7 +339,7 @@ function form() {
             title: i18n.global.t('_reward.labels._types.credits',
               {
                 credits_display_title:
-                  store.getters.shopConfig.credits_display_title.toLowerCase(),
+                  store.shopConfig.credits_display_title.toLowerCase(),
               }),
             ...rewardTypeFields('CREDITS'),
           },

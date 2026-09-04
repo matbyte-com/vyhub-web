@@ -92,7 +92,7 @@
               <v-divider class="ml-3" />
             </div>
             <div>
-              <div v-if="$store.getters.shopConfig.packet_list_view">
+              <div v-if="store.shopConfig.packet_list_view">
                 <PacketListEntry
                   v-for="packet in _packets"
                   :key="packet.id"
@@ -147,6 +147,7 @@
 <script>
 import openapiCached from '@/api/openapiCached';
 import openapi from '../../api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -158,6 +159,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     selectedCategory() {
       if (this.categories == null) {
         return '';
@@ -206,8 +210,8 @@ export default {
   methods: {
     async fetchPackets() {
       const packetsData = { category_id: this.$route.params.categoryId };
-      if (this.$store.getters.address != null) {
-        packetsData.country_code = this.$store.getters.address.country.code;
+      if (this.store.address != null) {
+        packetsData.country_code = this.store.address.country.code;
       }
 
       (await openapiCached).shop_getPackets(packetsData).then((rsp) => {

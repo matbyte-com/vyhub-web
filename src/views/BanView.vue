@@ -232,7 +232,7 @@
           <div
             v-if="currentBan.protests && currentBan.protests.length > 0
               && ($checkProp('ban_edit') ||
-                $checkLinked($store.getters.user, currentBan.user))"
+                $checkLinked(store.user, currentBan.user))"
             style="width: 100%"
           >
             <h6 class="text-h6 mb-2  mt-3">
@@ -319,8 +319,8 @@
       <template #actions>
         <div
           v-if="currentBan != null
-            && $store.getters.isLoggedIn
-            && $checkLinked($store.getters.user, currentBan.user)
+            && store.isLoggedIn
+            && $checkLinked(store.user, currentBan.user)
             && currentBan.active"
         >
           <v-btn
@@ -335,8 +335,8 @@
             {{ $t('_ban.labels.protestBan') }}
           </v-btn>
           <v-btn
-            v-else-if="$store.getters.generalConfig
-              && $store.getters.generalConfig['enable_ticket']"
+            v-else-if="store.generalConfig
+              && store.generalConfig['enable_ticket']"
             variant="text"
             color="primary"
             target="_blank"
@@ -420,6 +420,7 @@ import banAddFormSchema from '@/forms/BanAddForm';
 import banEditFormSchema from '@/forms/BanEditForm';
 import openapiCached from '@/api/openapiCached';
 import openapi from '../api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -454,6 +455,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     banDetailShown: {
       get() {
         return this.banId != null && (!this.$refs.banEditDialog

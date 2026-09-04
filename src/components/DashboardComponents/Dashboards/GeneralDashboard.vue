@@ -17,8 +17,8 @@
               @user-updated="userUpdated"
             >
               <BansAndWarnings
-                v-if="$store.getters.isLoggedIn &&
-                  $checkLinked($store.getters.user, user) ||
+                v-if="store.isLoggedIn &&
+                  $checkLinked(store.user, user) ||
                   ($checkProp('ban_show') && $checkProp('warning_show'))"
                 :user="user"
               />
@@ -135,6 +135,7 @@
 </template>
 
 <script>
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -151,19 +152,22 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     forumEnabled() {
-      if (this.$store.getters.generalConfig
-        && this.$store.getters.generalConfig.enable_forum) return true;
+      if (this.store.generalConfig
+        && this.store.generalConfig.enable_forum) return true;
       return false;
     },
   },
   beforeMount() {
-    if (!this.$store.getters.isLoggedIn) {
+    if (!this.store.isLoggedIn) {
       this.isCurrentUser  = false;
       return;
     }
 
-    this.isCurrentUser = this.user.id === this.$store.getters.user.id;
+    this.isCurrentUser = this.user.id === this.store.user.id;
   },
   methods: {
     userUpdated() {

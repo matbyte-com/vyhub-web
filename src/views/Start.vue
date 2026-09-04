@@ -17,21 +17,21 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
+import { useVyHubStore } from '@/store';
 import { onMounted} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import { useUtils } from "@/services/useUtils";
 
-const store = useStore();
+const store = useVyHubStore();
 const router = useRouter();
 const route = useRoute();
 const utils = useUtils().data().utils;
 
 async function redirect() {
-  if (!store.state.generalConfig) {
+  if (!store.generalConfig) {
     await utils.getGeneralConfig();
   }
-  const config = store.state.generalConfig;
+  const config = store.generalConfig;
   // Preserve query params (e.g. login=true / return_url) so redirecting through
   // this landing route does not drop the pending login dialog.
   const query = route.query;

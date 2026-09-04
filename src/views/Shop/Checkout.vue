@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- Header here because of different design between StoreOnly and Normal -->
-    <TheHeader v-if="!$store.getters.generalConfig?.shop_only" />
+    <TheHeader v-if="!store.generalConfig?.shop_only" />
     <div
-      v-if="$store.getters.generalConfig?.shop_only"
+      v-if="store.generalConfig?.shop_only"
       class="position-relative"
     >
       <StoreOnlyHeaderButtons />
@@ -49,7 +49,7 @@
                           {
                             credits: debit.credits,
                             credits_display_title:
-                              $store.getters.shopConfig.credits_display_title.toLowerCase()
+                              store.shopConfig.credits_display_title.toLowerCase()
                           }) }}
                   </div>
                   <div class="mt-5">
@@ -192,7 +192,7 @@
               v-if="debit.status !== 'FINISHED'"
               color="primary"
               variant="text"
-              @click="$store.getters.generalConfig?.shop_only ? $router.push({ name: 'StoreCart' }) : $router.push({ name: 'ShopCart' })"
+              @click="store.generalConfig?.shop_only ? $router.push({ name: 'StoreCart' }) : $router.push({ name: 'ShopCart' })"
             >
               <v-icon>mdi-arrow-left</v-icon>
               {{ $t('_shop.labels.cart') }}
@@ -201,10 +201,10 @@
               v-if="debit.status === 'FINISHED'"
               color="primary"
               variant="text"
-              @click="$store.getters.generalConfig?.shop_only ? $router.push({ name: 'Store' }) : $router.push({ name: 'Dashboard' })"
+              @click="store.generalConfig?.shop_only ? $router.push({ name: 'Store' }) : $router.push({ name: 'Dashboard' })"
             >
               <v-icon>mdi-arrow-right</v-icon>
-              {{ $store.getters.generalConfig?.shop_only ? $t('shop') : $t('dashboard') }}
+              {{ store.generalConfig?.shop_only ? $t('shop') : $t('dashboard') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -223,6 +223,7 @@
 import CheckoutCouponCodeForm from '@/forms/CheckoutCouponCodeForm';
 import openapi from '../../api/openapi';
 import ShopService from '../../services/ShopService';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -236,6 +237,11 @@ export default {
       intervalID: null,
       couponCodeSchema: CheckoutCouponCodeForm,
     };
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
   beforeUnmount() {
     if (this.intervalID != null) {
@@ -313,7 +319,7 @@ export default {
           this.errorMessage = this.$t('_shop.messages.notEnoughCredits',
             {
               credits_display_title:
-                this.$store.getters.shopConfig.credits_display_title.toLowerCase(),
+                this.store.shopConfig.credits_display_title.toLowerCase(),
             });
         } else {
           this.errorMessage = err.response.data.detail.msg;

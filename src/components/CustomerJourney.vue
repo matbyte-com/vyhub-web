@@ -133,6 +133,7 @@
 <script>
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
+import { useVyHubStore } from '@/store';
 
 export default {
   emits: ['close'],
@@ -234,6 +235,11 @@ export default {
       ],
     };
   },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
+  },
   beforeMount() {
     this.fetchData(true);
   },
@@ -263,7 +269,7 @@ export default {
       if (firstUnfulfilledStep) {
         journeyStep = firstUnfulfilledStep.journeyStep;
       }
-      this.$store.dispatch('setActiveCustomerJourneyStep', { activeCustomerJourneyStep: journeyStep });
+      this.store.dispatch('setActiveCustomerJourneyStep', { activeCustomerJourneyStep: journeyStep });
     },
     getFirstUnfulfilledStep(stepIndex) {
       const step = this.steps[stepIndex];
@@ -297,7 +303,7 @@ export default {
     },
     async disableCustomerJourney() {
       (await openapi).general_editConfig(null, { enable_customer_journey: false }).then(() => {
-        this.$store.dispatch('setActiveCustomerJourneyStep',
+        this.store.dispatch('setActiveCustomerJourneyStep',
           { activeCustomerJourneyStep: null });
       });
     },

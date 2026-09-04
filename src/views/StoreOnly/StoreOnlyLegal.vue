@@ -1,10 +1,10 @@
 <script setup>
 import openapi from '@/api/openapi';
 import {computed, onBeforeMount, ref} from "vue";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 
 const content = ref('Legal');
-const store = useStore();
+const store = useVyHubStore();
 
 async function fetchData() {
   (await openapi).general_getLegal().then((rsp) => {
@@ -17,8 +17,8 @@ onBeforeMount(() => {
 });
 
 const removeBranding = computed(() => {
-  return store.state.generalConfig != null
-    && store.state.generalConfig.remove_branding;
+  return store.generalConfig != null
+    && store.generalConfig.remove_branding;
 });
 </script>
 

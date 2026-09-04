@@ -26,7 +26,7 @@
             lg="3"
           >
             <v-row
-              v-if="$store.getters.isLoggedIn && $checkLinked($store.getters.user, user) ||
+              v-if="store.isLoggedIn && $checkLinked(store.user, user) ||
                 ($checkProp('ban_show') && $checkProp('warning_show'))"
             >
               <v-col>
@@ -54,6 +54,7 @@
 import AttributeGraph from '@/components/DashboardComponents/AttributeGraph.vue';
 import LinkedAccounts from '../../LinkedAccounts.vue';
 import BansAndWarnings from '../../BansAndWarnings.vue';
+import { useVyHubStore } from '@/store';
 
 export default {
   components: { AttributeGraph, LinkedAccounts, BansAndWarnings },
@@ -65,6 +66,11 @@ export default {
     bundle: {
       type: Object,
       default: null,
+    },
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
     },
   },
 };

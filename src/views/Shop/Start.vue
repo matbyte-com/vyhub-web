@@ -1,12 +1,12 @@
 <script setup>
 import openapiCached from '@/api/openapiCached';
 import {computed, onBeforeMount, ref} from "vue";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {useDisplay} from "vuetify";
 
 const recommendedPackets = ref(false);
 
-const store = useStore()
+const store = useVyHubStore()
 const display = ref(useDisplay());
 
 onBeforeMount( () => {
@@ -22,13 +22,13 @@ async function fetchRecommended() {
 }
 
 const anyShopStatsEnabled = computed(() => {
-  if (!store.getters.shopConfig) { return false; }
+  if (!store.shopConfig) { return false; }
 
-  if (!store.getters.shopConfig.show_widgets_on_shop_page) { return false; }
+  if (!store.shopConfig.show_widgets_on_shop_page) { return false; }
 
-  return store.getters.shopConfig.last_donators_enabled
-    || store.getters.shopConfig.top_donators_enabled
-    || store.getters.shopConfig.donation_goal_enabled;
+  return store.shopConfig.last_donators_enabled
+    || store.shopConfig.top_donators_enabled
+    || store.shopConfig.donation_goal_enabled;
 });
 </script>
 

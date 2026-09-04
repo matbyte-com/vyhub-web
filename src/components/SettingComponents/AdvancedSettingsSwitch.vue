@@ -20,6 +20,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -27,9 +28,14 @@ export default {
       model: false,
     };
   },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
+  },
   mounted() {
-    if (this.$store.getters.generalConfig) {
-      this.model = this.$store.getters.generalConfig.show_advanced_settings;
+    if (this.store.generalConfig) {
+      this.model = this.store.generalConfig.show_advanced_settings;
     } else {
       this.model = false;
     }

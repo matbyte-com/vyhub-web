@@ -41,7 +41,7 @@
     <v-row v-if="price.credits != null">
       <v-col>
         <div class="font-weight-bold">
-          {{ $store.getters.shopConfig.credits_display_title }}
+          {{ store.shopConfig.credits_display_title }}
           <div class="float-right">
             {{ price.credits }}
           </div>
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import { useVyHubStore } from '@/store';
+
 export default {
   props: {
     price: {
@@ -78,6 +80,9 @@ export default {
     },
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     displayPrice() {
       return this.priceFirst != null ? this.priceFirst : this.price;
     },

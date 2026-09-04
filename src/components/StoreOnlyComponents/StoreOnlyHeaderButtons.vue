@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import {useRoute, useRouter} from "vue-router";
 import UtilService from "../../services/UtilService";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {ref, watch} from "vue";
 
 const router = useRouter();
 const route = useRoute();
-const store = useStore();
+const store = useVyHubStore();
 
 const bouncing = ref(false);
 
@@ -17,7 +17,7 @@ function showLoginDialog() {
   });
 }
 
-watch(() => store.state.cartPacketCount, () => {
+watch(() => store.cartPacketCount, () => {
   bouncing.value = true;
   setTimeout(() => {
     bouncing.value = false;
@@ -93,7 +93,7 @@ watch(() => store.state.cartPacketCount, () => {
         </v-menu>
         <v-spacer />
         <v-card
-          v-if="store.getters.isLoggedIn"
+          v-if="store.isLoggedIn"
           rounded
         >
           <ProfileMenu
@@ -116,12 +116,12 @@ watch(() => store.state.cartPacketCount, () => {
           {{ $t("_header.labels.login") }}
         </v-btn>
         <v-btn
-          v-if="store.getters.isLoggedIn"
+          v-if="store.isLoggedIn"
           :active="false"
           :to="{name: 'StoreCart'}"
         >
           <v-badge
-            v-if="store.getters.cartPacketCount > 0"
+            v-if="store.cartPacketCount > 0"
             location="top right"
             offset-x="-5"
             offset-y="-5"
@@ -133,7 +133,7 @@ watch(() => store.state.cartPacketCount, () => {
                 style="margin-left: 1px"
                 :class="{ 'animate__heartBeat': bouncing }"
               >
-                {{ store.getters.cartPacketCount }}
+                {{ store.cartPacketCount }}
               </div>
             </template>
             <v-icon size="large">

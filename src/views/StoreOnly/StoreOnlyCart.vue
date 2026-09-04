@@ -227,7 +227,7 @@
                           ref="emailCard"
                           class="animate__animated card-rounded mt-3"
                           :outlined="true"
-                          :user="$store.getters.user"
+                          :user="store.user"
                           :class="{animate__headShake:emailWobble === true}"
                           @user-changed="refreshUser"
                         />
@@ -570,6 +570,7 @@ import EventBus from '@/services/EventBus';
 import UserService from '@/services/UserService';
 import openapi from '../../api/openapi';
 import StoreOnlyLinkedAccounts from "@/views/StoreOnly/StoreOnlyLinkedAccounts.vue";
+import { useVyHubStore } from '@/store';
 
 const images = import.meta.glob('@/assets/img/gateways/*.png', {eager: true});
 
@@ -601,14 +602,17 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     UserService() {
       return UserService;
     },
     currentAddress() {
       // Open Address Drawer when no address is set
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      if (this.$store.getters.address == null) this.billingAddressDrawer = 0;
-      return this.$store.getters.address;
+      if (this.store.address == null) this.billingAddressDrawer = 0;
+      return this.store.address;
     },
     checkboxes() {
       if (this.generalConfig == null) {
@@ -668,9 +672,9 @@ export default {
 
       let cartData = null;
 
-      if (this.$store.getters.address != null) {
+      if (this.store.address != null) {
         cartData = {
-          country_code: this.$store.getters.address.country.code,
+          country_code: this.store.address.country.code,
         };
       } else {
         cartData = {};
@@ -683,13 +687,13 @@ export default {
           this.cartPrice = rsp.data.price;
           this.cartCorrect = rsp.data.correct;
 
-          this.$store.dispatch('setCartPacketCount', {
+          this.store.dispatch('setCartPacketCount', {
             cartPacketCount: this.cartPackets.length,
           });
         });
 
       api.user_getPurchases({
-        uuid: this.$store.getters.user.id,
+        uuid: this.store.user.id,
         status: 'OPEN',
         price_calculation: true,
       })
@@ -735,10 +739,10 @@ export default {
     async queryAddresses() {
       const api = await openapi;
 
-      api.user_getAddresses({uuid: this.$store.getters.user.id}).then((rsp) => {
+      api.user_getAddresses({uuid: this.store.user.id}).then((rsp) => {
         this.addresses = rsp.data;
 
-        if (this.$store.getters.address == null && this.addresses.length > 0) {
+        if (this.store.address == null && this.addresses.length > 0) {
           ShopService.selectAddress(this.addresses[0]);
         }
       });

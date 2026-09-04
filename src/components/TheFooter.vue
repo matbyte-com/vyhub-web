@@ -1,25 +1,25 @@
 <script setup>
 import {version} from '../../package.json';
 import {computed} from "vue";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {useI18n} from "vue-i18n";
 import accessControlService from "@/services/AccessControlService";
 
-const store = useStore();
+const store = useVyHubStore();
 const i18n = useI18n();
 
 
 // Not part of the admin-managed navigation: the withdrawal form is a legal obligation, so its link
 // is driven by the shop setting alone and cannot be removed from the footer while it is enabled.
-const withdrawalLink = computed(() => (store.getters.shopConfig?.withdrawal_form_enabled
+const withdrawalLink = computed(() => (store.shopConfig?.withdrawal_form_enabled
   ? [{ title: i18n.t('_withdrawal.title'), link: '/withdrawal' }]
   : []));
 
-const communityName = computed(() => store.getters.generalConfig?.community_name);
-const showBranding = computed(() => !store.getters.generalConfig?.remove_branding);
+const communityName = computed(() => store.generalConfig?.community_name);
+const showBranding = computed(() => !store.generalConfig?.remove_branding);
 
 const navLinks = computed(() => {
-  if (store.getters.generalConfig?.shop_only) {
+  if (store.generalConfig?.shop_only) {
     return [{
       title: i18n.t('home'), link: '/store'
     },
@@ -30,11 +30,11 @@ const navLinks = computed(() => {
       ...withdrawalLink.value];
   }
 
-  if (store.getters.navItems == null) {
+  if (store.navItems == null) {
     return withdrawalLink.value;
   }
 
-  return store.getters.navItems
+  return store.navItems
     .filter((l) => l.enabled && l.location === 'FOOTER' && (!l.req_prop || accessControlService.methods.$checkProp(l.req_prop) === true))
     .concat(withdrawalLink.value);
 })

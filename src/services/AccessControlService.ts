@@ -4,8 +4,10 @@
  * It can be used out of any component by calling $checkProp(prop: string)
  * When the optional Parameter Bundle is given the Property has to exist in the given bundle
  */
-import store from '@/store/index';
+import { useVyHubStore } from '@/store';
 import config from '@/config';
+
+const store = useVyHubStore();
 
 export interface UserModel {
   id: string; // uuid
@@ -22,16 +24,16 @@ interface Property {
 export default {
   methods: {
     $checkAdmin(): boolean {
-      if (store.getters.isLoggedIn) {
-        return store.getters.user.admin === true;
+      if (store.isLoggedIn) {
+        return store.user.admin === true;
       }
 
       return false;
     },
     $checkProp(prop: string, bundleId?: string): boolean {
       // return True if user is admin
-      if (store.getters.isLoggedIn) {
-        if (store.getters.user.admin === true) {
+      if (store.isLoggedIn) {
+        if (store.user.admin === true) {
           return true;
         }
 
@@ -44,7 +46,7 @@ export default {
         return true;
       }
 
-      const { properties } = store.getters;
+      const { properties } = store;
 
       if (properties == null) {
         return false;

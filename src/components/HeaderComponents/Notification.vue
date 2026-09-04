@@ -80,11 +80,11 @@
 </template>
 
 <script>
-import store from '@/store/index';
 import openapi from '@/api/openapi';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
 import SessionService from '@/services/SessionService';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -97,6 +97,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     reqNotificationButton() {
       return Notification.permission !== 'granted';
     },
@@ -125,7 +128,7 @@ export default {
         return;
       }
 
-      if (!this.$store.getters.isLoggedIn) {
+      if (!this.store.isLoggedIn) {
         return;
       }
 
@@ -149,7 +152,7 @@ export default {
       }
     },
     startTimer() {
-      if (this.$store.getters.isLoggedIn) {
+      if (this.store.isLoggedIn) {
         this.fetchData();
         this.timer = setInterval(this.fetchData, 30000);
       }
@@ -161,8 +164,8 @@ export default {
       // TODO Fix and Enable for Production
       return;
 
-      if (store.getters.isLoggedIn && store.getters.accessToken) {
-        const header = `Bearer ${store.getters.accessToken}`;
+      if (this.store.isLoggedIn && this.store.accessToken) {
+        const header = `Bearer ${this.store.accessToken}`;
         const baseURL = `${config.backend_url}/notification/stream`;
         /*this.evtSource = new Eventsource(baseURL, {
           headers: {
@@ -225,8 +228,8 @@ export default {
         .then(console.log);
     },
     async getServerName() {
-      if (this.$store.getters.generalConfig) {
-        this.serverName = this.$store.getters.generalConfig.community_name;
+      if (this.store.generalConfig) {
+        this.serverName = this.store.generalConfig.community_name;
       }
     },
     async toggleReadStatus(item) {

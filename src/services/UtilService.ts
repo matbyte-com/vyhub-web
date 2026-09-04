@@ -1,9 +1,11 @@
 import i18n from '../plugins/i18n';
 import openapi from '../api/openapi';
-import store from '../store';
+import { useVyHubStore } from '@/store';
 import {configure, addGtag} from 'vue-gtag';
 import humanizeDuration from 'humanize-duration';
 import {notify} from "@kyvg/vue3-notification";
+
+const store = useVyHubStore();
 
 // Shared in-flight request so concurrent callers (e.g. App.vue on mount and a
 // redirect view like Start/Home) don't each fire their own /general/config GET.
@@ -140,7 +142,7 @@ export default {
           generalConfigPromise = openapi
             .then((client) => client.general_getConfig())
             .then((rsp) => {
-              store.commit('SET_GENERAL_CONFIG', rsp.data);
+              store.generalConfig = rsp.data;
             })
             .catch((err) => {
               console.log('Could not get General Settings');
@@ -153,7 +155,7 @@ export default {
         },
         async getShopConfig() {
           (await openapi).shop_getConfig().then((rsp) => {
-            store.commit('SET_SHOP_CONFIG', rsp.data);
+            store.shopConfig = rsp.data;
           }).catch((err) => {
             console.log('Could not get Shop Settings');
             throw err;
@@ -255,43 +257,43 @@ export default {
             + BigInt('76561197960265728');
         },
         customerJourneyActive(step: string | string[]) {
-          if (!step || !store.getters.generalConfig?.enable_customer_journey) {
+          if (!step || !store.generalConfig?.enable_customer_journey) {
             return false;
           }
           if (Array.isArray(step)) {
-            if (step.includes(store.getters.activeCustomerJourneyStep)) {
+            if (step.includes(store.activeCustomerJourneyStep)) {
               return true;
             }
             return false;
           }
-          if (store.getters.activeCustomerJourneyStep === step) {
+          if (store.activeCustomerJourneyStep === step) {
             return true;
           }
           return false;
         },
         enableGTag() {
-          if (!store.getters.generalConfig?.google_analytics_tag) {
+          if (!store.generalConfig?.google_analytics_tag) {
             return;
           }
           configure({
-            tagId: store.getters.generalConfig?.google_analytics_tag,
+            tagId: store.generalConfig?.google_analytics_tag,
           });
           addGtag().then(() => {
             // console.log('Analytics is ready');
           });
         },
         showAdvancedSettings() {
-          if (!store.getters.generalConfig) {
+          if (!store.generalConfig) {
             return false;
           }
           // Returns the value inverted because the button is used to show the advanced settings
-          return store.getters.generalConfig.show_advanced_settings;
+          return store.generalConfig.show_advanced_settings;
         },
         shopOnly() {
-          if (!store.getters.generalConfig) {
+          if (!store.generalConfig) {
             return false;
           }
-          return store.getters.generalConfig.shop_only;
+          return store.generalConfig.shop_only;
         },
         getConnectionLink(server: any) {
           // TODO Add New Servers here for proper functioning of the connection link

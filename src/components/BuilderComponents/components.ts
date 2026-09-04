@@ -1,6 +1,8 @@
 import i18n from '@/plugins/i18n';
-import store from '@/store';
+import { useVyHubStore } from '@/store';
 import Common from '@/forms/Common';
+
+const store = useVyHubStore();
 
 const API_URL = Common.apiURL;
 
@@ -104,7 +106,7 @@ export default {
         },
       },
       defaults: {
-        headline: store.getters.generalConfig ? store.getters.generalConfig.community_name : 'Community Name',
+        headline: store.generalConfig ? store.generalConfig.community_name : 'Community Name',
         fixed: true,
         backgroundColor: 'primary',
         flat: false,
@@ -229,7 +231,7 @@ export default {
         },
       },
       defaults: {
-        title: store.getters.generalConfig ? store.getters.generalConfig.community_name : 'Community Name',
+        title: store.generalConfig ? store.generalConfig.community_name : 'Community Name',
         subtitle: 'Welcome to our community!',
         buttons: [
           {

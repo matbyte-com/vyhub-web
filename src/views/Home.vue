@@ -256,13 +256,13 @@ import {VueDraggable} from "vue-draggable-plus";
 import {computed, onBeforeMount, ref, useTemplateRef} from "vue";
 import {useDisplay} from "vuetify";
 import {notify} from "@kyvg/vue3-notification";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
 import {useUtils} from "@/services/useUtils";
 
 const display = ref(useDisplay());
-const store = useStore();
+const store = useVyHubStore();
 const router = useRouter();
 const i18n = useI18n();
 const utils = useUtils().data().utils;
@@ -347,10 +347,10 @@ onBeforeMount(() => {
 })
 
 async function redirectWhenDisabled() {
-  if (!store.getters.generalConfig) {
+  if (!store.generalConfig) {
     await utils.getGeneralConfig();
   }
-  if (!store.getters.generalConfig?.enable_landingpage) {
+  if (!store.generalConfig?.enable_landingpage) {
     await router.replace({name: 'News'});
   }
 }

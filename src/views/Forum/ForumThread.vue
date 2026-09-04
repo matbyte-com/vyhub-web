@@ -112,7 +112,7 @@
                 :thread="thread"
               />
               <v-btn
-                v-if="thread.status !== 'CLOSED' && $store.getters.isLoggedIn"
+                v-if="thread.status !== 'CLOSED' && store.isLoggedIn"
                 :disabled="$checkIsForumBanned()"
                 variant="flat"
                 color="success"
@@ -355,7 +355,7 @@
                     <span class="mr-2 d-flex align-center">
                       <!-- BTN when logged in -->
                       <v-btn
-                        v-if="$store.getters.isLoggedIn"
+                        v-if="store.isLoggedIn"
                         :class="{ 'text-disabled':
                           getReactionAccumulated(post, icon).count === 0}"
                         size="small"
@@ -426,7 +426,7 @@
       <div
         v-if="(thread.status !== 'CLOSED'
           || ($checkProp('forum_edit') || $checkTopicAdmin(admins))) && posts.length >= 1
-          && $store.getters.isLoggedIn"
+          && store.isLoggedIn"
         class="mt-3"
       >
         <v-card
@@ -626,6 +626,7 @@ import ForumPost from '../../forms/ForumPost';
 import config from "@/config.js";
 import i18n from "@/plugins/i18n.js";
 import { sanitizeUserHtml } from '@/services/sanitizeHtml';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -650,6 +651,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     threadIcon() {
       if (!this.thread) return null;
       if (this.thread.pinned) return 'mdi-pin';
@@ -717,8 +721,8 @@ export default {
                   acc[obj.name].count += 1;
                 }
 
-                if (this.$store.getters.user) {
-                  const user_id = this.$store.getters.user.id;
+                if (this.store.user) {
+                  const user_id = this.store.user.id;
                   if (obj.user && obj.user.id === user_id) {
                     acc[obj.name].has_reacted = true;
                   }
@@ -793,9 +797,9 @@ export default {
       });
     },
     postEditable(post) {
-      if (!this.topic || !this.$store.getters.user || !this.posts) return false;
+      if (!this.topic || !this.store.user || !this.posts) return false;
       return (this.$checkProp('forum_edit') || this.$checkTopicAdmin(this.admins)
-        || (this.$store.getters.user.id === post.creator.id && this.topic.edit_post));
+        || (this.store.user.id === post.creator.id && this.topic.edit_post));
     },
     openEditPostDialog(post) {
       this.$refs.editPostDialog.show(post);
@@ -924,7 +928,7 @@ export default {
       this.cooldown = true;
       if (post.accumulated_reactions[icon].has_reacted) {
         const reaction = post.reactions
-          .find((r) => r.user && r.user.id === this.$store.getters.user.id && r.name === icon);
+          .find((r) => r.user && r.user.id === this.store.user.id && r.name === icon);
         if (!reaction) {
           console.log(`Users ${icon} reaction could not be found`);
           return;

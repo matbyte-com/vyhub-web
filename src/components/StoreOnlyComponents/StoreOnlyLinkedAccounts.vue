@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import UserService from "../../services/UserService";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 
-const store = useStore();
+const store = useVyHubStore();
 </script>
 
 <template>
@@ -15,20 +15,20 @@ const store = useStore();
       </v-icon>
       {{ $t('_shop.labels.yourAccounts') }}
     </v-card-title>
-    <v-card-text v-if="store.getters.isLoggedIn">
+    <v-card-text v-if="store.isLoggedIn">
       <div class="d-flex flex-wrap">
         <v-chip
           class="ma-1"
           variant="outlined"
         >
           <v-icon start>
-            {{ UserService.userTypeIcons[store.state.user.type] }}
+            {{ UserService.userTypeIcons[store.user.type] }}
           </v-icon>
-          {{ store.state.user.username }}
+          {{ store.user.username }}
         </v-chip>
-        <template v-if="store.state.user.linked_users">
+        <template v-if="store.user.linked_users">
           <div
-            v-for="acc in store.state.user.linked_users"
+            v-for="acc in store.user.linked_users"
             :key="acc.id"
             class="ma-1"
           >

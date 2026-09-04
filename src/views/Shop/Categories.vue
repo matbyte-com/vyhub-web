@@ -129,6 +129,7 @@
 
 <script>
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   data() {
@@ -137,8 +138,11 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     newsContent() {
-      return this.$store.getters.shopConfig.news;
+      return this.store.shopConfig.news;
     },
   },
   beforeMount() {

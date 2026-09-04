@@ -10,7 +10,7 @@
             <!-- Connect User Account -->
             <div class="vh-dashboard-link-account mb-3">
               <v-row
-                v-if="(userSelf || ($store.getters.user && $store.getters.user.admin))
+                v-if="(userSelf || (store.user && store.user.admin))
                   && !bundle"
                 no-gutters
               >
@@ -30,8 +30,8 @@
                   </v-btn>
                 </v-col>
                 <v-col
-                  v-if="$store.getters.user &&
-                    $store.getters.user.admin"
+                  v-if="store.user &&
+                    store.user.admin"
                   cols="2"
                   class="mr-1"
                 >
@@ -284,6 +284,7 @@ import userService from '@/services/UserService';
 import openapiCached from '@/api/openapiCached';
 import UtilService from '@/services/UtilService';
 import openapi from '@/api/openapi';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -309,6 +310,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     linkedUsers() {
       const res = [this.user, ...this.user.linked_users];
       if (this.bundle == null) {
@@ -363,15 +367,15 @@ export default {
       return attributes;
     },
     userSelf() {
-      if (!this.$store.getters.isLoggedIn) {
+      if (!this.store.isLoggedIn) {
         return false;
       }
 
-      if (this.$checkLinked(this.user, this.$store.getters.user)) {
+      if (this.$checkLinked(this.user, this.store.user)) {
         return true;
       }
 
-      if (this.user.id in this.$store.getters.user.linked_users.map((lu) => lu.id)) {
+      if (this.user.id in this.store.user.linked_users.map((lu) => lu.id)) {
         return true;
       }
 

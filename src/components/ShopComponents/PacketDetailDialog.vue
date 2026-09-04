@@ -122,7 +122,7 @@
                   >
                     {{ $t('or') }}
                     {{ packet.price_with_discount.credits }}
-                    {{ $store.getters.shopConfig.credits_display_title }}
+                    {{ store.shopConfig.credits_display_title }}
                   </div>
                 </div>
                 <span
@@ -190,7 +190,7 @@
                 class="mt-1"
               >
                 <v-btn
-                  v-if="!$store.getters.isLoggedIn"
+                  v-if="!store.isLoggedIn"
                   color="info"
                   size="large"
                   block
@@ -233,14 +233,14 @@
                       :rules="[v => v >= packet.price_with_discount.credits
                         || $t('_shop.messages.priceMustBeHigherThanMin')]"
                       hide-details="auto"
-                      :prefix="$store.getters.shopConfig.credits_display_title"
+                      :prefix="store.shopConfig.credits_display_title"
                       :min="packet.price_with_discount.credits"
                       @keydown.enter="addToCart()"
                     />
                   </v-form>
                 </div>
                 <div
-                  v-if="$store.getters.isLoggedIn"
+                  v-if="store.isLoggedIn"
                   class="d-flex align-center mb-1"
                 >
                   <v-btn
@@ -330,6 +330,7 @@ import openapi from '@/api/openapi';
 import ShopService from '@/services/ShopService';
 import cartPacketTargetUserForm from '@/forms/CartPacketTargetUserForm';
 import EventBus from '@/services/EventBus';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -347,6 +348,11 @@ export default {
       addToCartBtnWidth: 0,
       minPriceFormValid: true,
     };
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
   methods: {
     show() {
@@ -420,7 +426,7 @@ export default {
       });
     },
     getContentToShare() {
-      const store = this.$store.getters.generalConfig.community_name;
+      const store = this.store.generalConfig.community_name;
       const url = window.location.href;
       const text = this.$t('_shop.labels.sharePacket', {title: this.packet.title, store: store})
       return `${text} ${url}`;

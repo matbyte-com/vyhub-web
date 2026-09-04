@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted, ref, useTemplateRef} from 'vue';
 import {useDisplay, useTheme} from "vuetify";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import NewsAddForm from "@/forms/NewsAddForm";
 import openapi from "@/api/openapi";
 import {notify} from "@kyvg/vue3-notification";
@@ -9,7 +9,7 @@ import {useI18n} from "vue-i18n";
 
 const display = ref(useDisplay())
 const theme = ref(useTheme())
-const store = useStore()
+const store = useVyHubStore()
 const i18n = useI18n()
 
 const news = ref([])
@@ -24,9 +24,9 @@ const messageEditDialog = useTemplateRef('messageEditDialog')
 
 const getNews = computed(() => news.value.filter((n) => n.type === 'DEFAULT'))
 const getNewsOfTheDay = computed(() => news.value.filter((n) => n.type === 'PINNED'))
-const shopConfig = store.state.shopConfig
-const forumEnabled = computed(() => !!(store.getters.generalConfig
-  && store.getters.generalConfig.enable_forum))
+const shopConfig = store.shopConfig
+const forumEnabled = computed(() => !!(store.generalConfig
+  && store.generalConfig.enable_forum))
 
 onMounted(() => {
   fetchNews()
@@ -180,19 +180,19 @@ async function editMessage(message) {
               />
             </swiper-slide>
             <swiper-slide
-              v-if="store.getters.shopConfig &&
-                (store.getters.shopConfig.donation_goal_enabled ||
-                  store.getters.shopConfig.top_donators_enabled)"
+              v-if="store.shopConfig &&
+                (store.shopConfig.donation_goal_enabled ||
+                  store.shopConfig.top_donators_enabled)"
             >
               <v-card
-                v-if="store.getters.shopConfig.donation_goal_enabled"
+                v-if="store.shopConfig.donation_goal_enabled"
                 class="card-rounded pt-3"
                 border
               >
                 <DonationGoal />
               </v-card>
               <v-card
-                v-if="store.getters.shopConfig.top_donators_enabled"
+                v-if="store.shopConfig.top_donators_enabled"
                 class="card-rounded mt-3 pt-3"
                 border
               >
@@ -413,16 +413,16 @@ async function editMessage(message) {
             @loaded="updateServerWidget"
           />
           <v-card
-            v-if="store.getters.shopConfig &&
-              store.getters.shopConfig.donation_goal_enabled"
+            v-if="store.shopConfig &&
+              store.shopConfig.donation_goal_enabled"
             class="mb-3 card-rounded vh-news-donation-goal"
             flat
           >
             <DonationGoal class="pt-3" />
           </v-card>
           <v-card
-            v-if="store.getters.shopConfig &&
-              store.getters.shopConfig.top_donators_enabled"
+            v-if="store.shopConfig &&
+              store.shopConfig.top_donators_enabled"
             class="mb-3 card-rounded vh-news-top-donators"
             flat
           >

@@ -73,6 +73,7 @@
 <script>
 import openapi from '@/api/openapi';
 import TransactionAddForm from '@/forms/TransactionAddForm';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -94,12 +95,17 @@ export default {
       transactionAddSchema: TransactionAddForm,
     };
   },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
+  },
   beforeMount() {
     this.fetchData();
   },
   methods: {
     async fetchData() {
-      if (!this.$store.getters.user) return;
+      if (!this.store.user) return;
       const id = this.user.credit_account_id;
       (await openapi).finance_getAccount(id).then((rsp) => {
         this.account = rsp.data;

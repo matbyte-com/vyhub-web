@@ -43,6 +43,7 @@
 import openapi from '@/api/openapi';
 import GenForm from '@/components/GenForm.vue';
 import WithdrawalForm from '@/forms/WithdrawalForm';
+import { useVyHubStore } from '@/store';
 
 export default {
   name: 'WithdrawalView',
@@ -54,6 +55,11 @@ export default {
       schema: WithdrawalForm,
     };
   },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
+  },
   mounted() {
     this.prefill();
   },
@@ -61,7 +67,7 @@ export default {
     prefill() {
       // The endpoint only accepts an address that has bought something, so the account's own one is
       // the address a logged-in visitor almost certainly needs.
-      const user = this.$store.getters.user;
+      const user = this.store.user;
 
       if (user?.email) {
         this.$refs.form.setData({ email: user.email });
@@ -92,7 +98,7 @@ export default {
       try {
         await (await openapi).shop_createWithdrawal(null, this.buildPayload(form.getData()));
 
-        if (this.$store.getters.isLoggedIn) {
+        if (this.store.isLoggedIn) {
           // The ticket is theirs, so send them to it rather than leaving them on a form they are
           // done with.
           this.$router.push({ name: 'Ticket' });

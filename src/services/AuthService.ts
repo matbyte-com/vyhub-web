@@ -1,12 +1,14 @@
 import axios from 'axios';
 import qs from 'qs';
-import store from '@/store';
+import { useVyHubStore } from '@/store';
 import openapi from '@/api/openapi';
 import openapiCached from '@/api/openapiCached';
 import { fetchHeaders } from '@/api/overwriteFetch';
 import EventBus from '@/services/EventBus';
 import config from '@/config';
 import UserService from '@/services/UserService';
+
+const store = useVyHubStore();
 
 // The token endpoint answers a revoked/expired/reused refresh token with
 // RFC 6749 §5.2 "400 invalid_grant", not 401.
@@ -27,11 +29,7 @@ export default {
       refreshAfter.setSeconds(refreshAfter.getSeconds() + expires_in / 2);
     }
 
-    await store.dispatch('login', {
-      accessToken: access_token,
-      refreshToken: refresh_token,
-      refreshAfter,
-    });
+    store.login(access_token, refresh_token, refreshAfter);
 
     await this.setAuthTokens();
     await this.refreshUser();
@@ -62,13 +60,13 @@ export default {
   },
   async logout() {
     (await openapi).auth_revokeToken(null, qs.stringify({
-      token: store.getters.accessToken,
+      token: store.accessToken,
       token_type: 'access_token',
     }), {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     }).then();
 
-    await store.dispatch('logout');
+    store.logout();
     delete (await openapi).defaults.headers.common.Authorization;
     delete (await openapiCached).defaults.headers.common.Authorization;
     delete axios.defaults.headers.common.Authorization;
@@ -77,8 +75,8 @@ export default {
     EventBus.emit('logout');
   },
   async setAuthTokens() {
-    if (store.getters.accessToken) {
-      const header = `Bearer ${store.getters.accessToken}`;
+    if (store.accessToken) {
+      const header = `Bearer ${store.accessToken}`;
       fetchHeaders.Authorization = header;
       axios.defaults.headers.common.Authorization = header;
       (await openapi).defaults.headers.common.Authorization = header;
@@ -113,19 +111,15 @@ export default {
   async setProperties() {
     const api_client = await openapi;
 
-    let properties = null;
-
-    if (store.getters.isLoggedIn) {
+    if (store.isLoggedIn) {
       api_client.user_getCurrentProperties(
-        { uuid: store.getters.user.id },
+        { uuid: store.user.id },
       ).then((rsp) => {
-        properties = rsp.data;
-        store.dispatch('setProperties', { properties });
+        store.properties = rsp.data;
       }).catch((e) => console.log(`Could not query current properties: ${e}`));
     } else {
       api_client.user_getUnauthProperties().then((rsp) => {
-        properties = rsp.data;
-        store.dispatch('setProperties', { properties });
+        store.properties = rsp.data;
       }).catch((e) => console.log(`Could not query unauth properties: ${e}`));
     }
   },
@@ -134,13 +128,13 @@ export default {
       const user: object = await this.fetchUserData();
       await UserService.setUserMemberships();
 
-      await store.dispatch('setUserData', { user });
+      store.user = user;
 
-      if (tryRefresh && store.getters.refreshAfter != null
-        && new Date() > new Date(store.getters.refreshAfter)) {
+      if (tryRefresh && store.refreshAfter != null
+        && new Date() > new Date(store.refreshAfter)) {
         console.log('Trying to use refresh token to renew session in time.');
         try {
-          await this.login(store.getters.refreshToken);
+          await this.login(store.refreshToken);
           await this.refreshUser();
         } catch (e) {
           if (isRefreshTokenRejected(e)) {
@@ -155,11 +149,11 @@ export default {
       console.log(`Error in phase user_data: ${err}`);
 
       if (isRefreshTokenRejected(err)) {
-        if (tryRefresh && store.getters.refreshToken != null) {
+        if (tryRefresh && store.refreshToken != null) {
           console.log('Trying to use refresh token to recover session.');
 
           try {
-            await this.login(store.getters.refreshToken);
+            await this.login(store.refreshToken);
           } catch (e) {
             if (isRefreshTokenRejected(e)) {
               console.log('Refresh token rejected, logging out.');

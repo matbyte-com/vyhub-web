@@ -30,8 +30,8 @@
                   <v-btn
                     v-if="($checkProp(`${type}_comment_edit`) &&
                       comment.raw.creator_id &&
-                      $store.getters.user &&
-                      $store.getters.user.id === comment.raw.creator_id) ||
+                      store.user &&
+                      store.user.id === comment.raw.creator_id) ||
                       ($checkProp(`${type}_comment_delete`))"
                     variant="outlined"
                     color="error"
@@ -80,6 +80,7 @@
 <script>
 import openapi from '@/api/openapi';
 import CommentForm from '@/forms/CommentForm';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -108,6 +109,11 @@ export default {
       search: null,
       CommentForm,
     };
+  },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
   },
   watch: {
     objId() {

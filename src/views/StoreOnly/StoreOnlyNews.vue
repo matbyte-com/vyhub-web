@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {computed} from "vue";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 
-const store = useStore();
+const store = useVyHubStore();
 
-const introduction = computed(() => store.state.shopConfig?.news);
+const introduction = computed(() => store.shopConfig?.news);
 
 const hasIntroduction = computed(() => {
   const html = introduction.value;

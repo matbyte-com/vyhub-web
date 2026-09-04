@@ -1,9 +1,9 @@
 <script setup>
 import {useRouter, useRoute} from 'vue-router';
-import {useStore} from 'vuex';
+import { useVyHubStore } from '@/store';
 
 // Vuex store and Vue Router
-const store = useStore();
+const store = useVyHubStore();
 const router = useRouter();
 const route = useRoute();
 

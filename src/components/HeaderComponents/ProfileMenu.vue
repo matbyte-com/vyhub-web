@@ -1,10 +1,10 @@
 <script setup>
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {onBeforeMount} from "vue";
 import {useRouter} from "vue-router";
 import AuthService from "@/services/AuthService";
 
-const store = useStore();
+const store = useVyHubStore();
 const router = useRouter();
 
 defineProps({
@@ -55,12 +55,12 @@ function logout() {
             :class="{ 'rounded-lg' : tile, 'margin-sides' : tile }"
           >
             <v-img
-              :src="store.state.user.avatar"
+              :src="store.user.avatar"
               lazy-src="https://cdn.vyhub.net/vyhub/avatars/default.png"
             />
           </v-avatar>
           <span class="ml-1 mr-1">
-            {{ store.state.user.username }}
+            {{ store.user.username }}
           </span>
         </v-chip>
       </template>

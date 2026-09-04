@@ -202,6 +202,7 @@ import EventBus from '@/services/EventBus';
 import { VueDraggable } from 'vue-draggable-plus';
 import openapi from '../../api/openapi';
 import GatewayForm from '../../forms/PaymentGatewayForm';
+import { useVyHubStore } from '@/store';
 
 export default {
   components: { VueDraggable },
@@ -223,7 +224,7 @@ export default {
           icon: 'mdi-credit-card-outline',
         },
         CREDITS: {
-          label: this.$store.getters.shopConfig.credits_display_title,
+          label: useVyHubStore().shopConfig.credits_display_title,
           icon: 'mdi-circle-multiple',
         },
         PAYSAFECARD: {
@@ -240,6 +241,9 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     gatewaySchema() {
       return GatewayForm(this.gatewayType);
     },

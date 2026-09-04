@@ -2,12 +2,12 @@
 import themes from '@/assets/predefinedThemes/index';
 import EventBus from "@/services/EventBus";
 import openapi from "@/api/openapi";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {notify} from "@kyvg/vue3-notification";
 import {useTemplateRef} from "vue";
 
 const props = defineProps({ noDownload: { type: Boolean } });
-const store = useStore();
+const store = useVyHubStore();
 
 const confirmDialog = useTemplateRef('confirmationDialog')
 
@@ -37,12 +37,12 @@ async function downloadTheme() {
   res.description = 'Test';
   res.preview_img = 'https://picsum.photos/200/300';
   res.data = {};
-  res['data']['general'] = store.state.generalConfig;
-  res['data']['theme'] = store.state.theme;
-  res['data']['shop_settings'] = store.state.shopConfig;
+  res['data']['general'] = store.generalConfig;
+  res['data']['theme'] = store.theme;
+  res['data']['shop_settings'] = store.shopConfig;
 
   // Download Homepage Content if enabled
-  if (store.state.generalConfig.enable_landingpage) {
+  if (store.generalConfig.enable_landingpage) {
     const rsp = await (await openapi).design_getSections()
     res['data']['page_builder'] = rsp.data;
   }

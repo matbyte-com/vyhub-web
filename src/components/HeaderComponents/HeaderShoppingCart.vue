@@ -8,7 +8,7 @@
       :to="{ name: 'ShopCart' }"
     >
       <v-badge
-        v-if="$store.getters.cartPacketCount > 0"
+        v-if="store.cartPacketCount > 0"
         location="bottom right"
         color="error"
       >
@@ -17,7 +17,7 @@
             class="animate__animated"
             :class="{ 'animate__heartBeat': bouncing }"
           >
-            {{ $store.getters.cartPacketCount }}
+            {{ store.cartPacketCount }}
           </div>
         </template>
         <v-icon>mdi-cart-variant</v-icon>
@@ -38,8 +38,8 @@
           icon="mdi-cart-variant"
         />
         {{ $t('_shop.labels.cart') }}
-        <span v-if="listItem && $store.getters.cartPacketCount > 0">
-          ({{ $store.getters.cartPacketCount }})
+        <span v-if="listItem && store.cartPacketCount > 0">
+          ({{ store.cartPacketCount }})
         </span>
       </v-list-item-title>
     </v-list-item>
@@ -48,6 +48,7 @@
 
 <script>
 import ShopService from '@/services/ShopService';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -61,8 +62,13 @@ export default {
       bouncing: false,
     };
   },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
+  },
   watch: {
-    '$store.getters.cartPacketCount': function () {
+    'store.cartPacketCount': function () {
       this.bouncing = true;
       setTimeout(() => {
         this.bouncing = false;

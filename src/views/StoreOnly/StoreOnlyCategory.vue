@@ -1,6 +1,6 @@
 <script setup>
 import {computed, onMounted, ref, watch} from "vue";
-import {useStore} from "vuex";
+import { useVyHubStore } from '@/store';
 import {useRoute} from "vue-router";
 import openapiCached from "../../api/openapiCached";
 
@@ -9,7 +9,7 @@ onMounted(() => {
 })
 
 const packets = ref(null);
-const store = useStore();
+const store = useVyHubStore();
 const route = useRoute();
 
 watch(() => route.params.categoryId, () => {
@@ -19,8 +19,8 @@ watch(() => route.params.categoryId, () => {
 
 async function fetchPackets() {
   const packetsData = {category_id: route.params.categoryId};
-  if (store.state.address != null) {
-    packetsData.country_code = store.state.address.country.code;
+  if (store.address != null) {
+    packetsData.country_code = store.address.country.code;
   }
 
   (await openapiCached).shop_getPackets(packetsData).then((rsp) => {
@@ -58,7 +58,7 @@ const subcategories = computed(() => {
 <template>
   <div>
     <div>
-      <div v-if="store.state.shopConfig.packet_list_view">
+      <div v-if="store.shopConfig.packet_list_view">
         <template v-if="packets == null">
           <v-skeleton-loader
             v-for="index in 3"

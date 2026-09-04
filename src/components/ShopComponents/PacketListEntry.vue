@@ -177,6 +177,7 @@
 import openapi from '@/api/openapi';
 import ShopService from '@/services/ShopService';
 import UtilService from '@/services/UtilService';
+import { useVyHubStore } from '@/store';
 
 export default {
   props: {
@@ -203,9 +204,14 @@ export default {
       loading: false,
     };
   },
+  computed: {
+    store() {
+      return useVyHubStore();
+    },
+  },
   methods: {
     async addToCart() {
-      if (!this.$store.getters.isLoggedIn) {
+      if (!this.store.isLoggedIn) {
         this.$router.push({
           path: this.$route.path,
           query: { login: 'true', return_url: UtilService.data().utils.getFullUrl(this.$route.path), shop: true },

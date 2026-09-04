@@ -9,7 +9,7 @@
       :show-arrows="false"
     >
       <v-tab
-        v-if="$store.getters.shopConfig.donation_goal_enabled"
+        v-if="store.shopConfig.donation_goal_enabled"
         min-width="40px"
         class="square"
       >
@@ -18,7 +18,7 @@
         </v-icon>
       </v-tab>
       <v-tab
-        v-if="$store.getters.shopConfig.top_donators_enabled"
+        v-if="store.shopConfig.top_donators_enabled"
         min-width="40px"
         class="square"
       >
@@ -27,7 +27,7 @@
         </v-icon>
       </v-tab>
       <v-tab
-        v-if="$store.getters.shopConfig.last_donators_enabled"
+        v-if="store.shopConfig.last_donators_enabled"
         min-width="40px"
         class="square"
       >
@@ -40,7 +40,7 @@
       <v-tabs-window
         v-model="tab"
       >
-        <v-tabs-window-item v-if="$store.getters.shopConfig.donation_goal_enabled">
+        <v-tabs-window-item v-if="store.shopConfig.donation_goal_enabled">
           <DonationGoal
             :no-shop-btn="true"
             class="mt-3 vh-shop-donation-goal"
@@ -48,14 +48,14 @@
             :center-headline="true"
           />
         </v-tabs-window-item>
-        <v-tabs-window-item v-if="$store.getters.shopConfig.top_donators_enabled">
+        <v-tabs-window-item v-if="store.shopConfig.top_donators_enabled">
           <TopDonators
             class="mt-3 vh-shop-top-donators"
             :no-icon="true"
             :center-headline="true"
           />
         </v-tabs-window-item>
-        <v-tabs-window-item v-if="$store.getters.shopConfig.last_donators_enabled">
+        <v-tabs-window-item v-if="store.shopConfig.last_donators_enabled">
           <LastDonators
             class="mt-3 vh-shop-last-donators"
             :no-icon="true"
@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import { useVyHubStore } from '@/store';
+
 export default {
   data() {
     return {
@@ -75,12 +77,15 @@ export default {
     };
   },
   computed: {
+    store() {
+      return useVyHubStore();
+    },
     numberOfTabs() {
-      if (!this.$store.getters.shopConfig) return 0;
+      if (!this.store.shopConfig) return 0;
       let count = 0;
-      if (this.$store.getters.shopConfig.donation_goal_enabled) count += 1;
-      if (this.$store.getters.shopConfig.top_donators_enabled) count += 1;
-      if (this.$store.getters.shopConfig.last_donators_enabled) count += 1;
+      if (this.store.shopConfig.donation_goal_enabled) count += 1;
+      if (this.store.shopConfig.top_donators_enabled) count += 1;
+      if (this.store.shopConfig.last_donators_enabled) count += 1;
       return count;
     },
     iconSize() {
