@@ -286,8 +286,12 @@ function createStyleTag(css) {
 }
 
 function setLocale() {
-  if (store.state.generalConfig) {
-    i18n.global.locale = store.state.generalConfig.language;
+  // The visitor's own pick wins over the community default; the browser language is
+  // deliberately ignored so an unconfigured visitor always sees the community default.
+  const locale = store.state.locale ?? store.state.generalConfig?.language;
+
+  if (locale) {
+    i18n.global.locale = locale;
   }
 }
 

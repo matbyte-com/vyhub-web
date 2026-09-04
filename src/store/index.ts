@@ -18,6 +18,8 @@ const getDefaultState = () => ({
   hideWelcomeOverlay: null,
   homePageComponents: null,
   userMemberships: null,
+  // Visitor's manual language choice. Null means "follow the community default".
+  locale: null,
 });
 
 const store = createStore({
@@ -42,6 +44,7 @@ const store = createStore({
     hideWelcomeOverlay: (state) => state.hideWelcomeOverlay,
     homePageComponents: (state) => state.homePageComponents,
     userMemberships: (state) => state.userMemberships,
+    locale: (state) => state.locale,
   },
   mutations: {
     RESET: (state) => {
@@ -91,6 +94,9 @@ const store = createStore({
     SET_USER_MEMBERSHIPS: (state, userMemberships) => {
       state.userMemberships = userMemberships;
     },
+    SET_LOCALE: (state, locale) => {
+      state.locale = locale;
+    },
     LOGOUT: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -137,6 +143,9 @@ const store = createStore({
     },
     setUserMemberships: ({ commit }, { userMemberships }) => {
       commit('SET_USER_MEMBERSHIPS', userMemberships);
+    },
+    setLocale: ({ commit }, { locale }) => {
+      commit('SET_LOCALE', locale);
     },
   },
   modules: {

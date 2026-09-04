@@ -15,6 +15,9 @@ const withdrawalLink = computed(() => (store.getters.shopConfig?.withdrawal_form
   ? [{ title: i18n.t('_withdrawal.title'), link: '/withdrawal' }]
   : []));
 
+const communityName = computed(() => store.getters.generalConfig?.community_name);
+const showBranding = computed(() => !store.getters.generalConfig?.remove_branding);
+
 const navLinks = computed(() => {
   if (store.getters.generalConfig?.shop_only) {
     return [{
@@ -42,27 +45,30 @@ const navLinks = computed(() => {
     color="footer-lighten-1"
     class="d-flex flex-column vh-footer ma-0 pa-0"
   >
-    <div class="d-flex my-2 flex-wrap justify-center">
+    <div class="d-flex my-2 flex-wrap justify-center align-center ga-1">
       <NavigationLink
         v-for="(link, index) in navLinks"
         :key="index"
-        class="ml-1 no-active"
+        class="no-active"
         :no-active="true"
         :link="link"
         :dark="true"
       />
+      <LanguageSwitcher />
     </div>
     <div
-      class="bg-footer py-4 text-center"
+      class="bg-footer py-4 px-4 d-flex flex-wrap justify-center align-center gc-1 gr-2 text-center"
       style="width: 100%"
     >
+      <!-- Two groups instead of one long line: a narrow screen then breaks between the
+           community and the branding rather than in the middle of either. -->
       <strong>
         {{ new Date().getFullYear() }}
-        <span v-if="store.getters.generalConfig != null">
-          — {{ store.getters.generalConfig.community_name }}
-        </span>
-        <span v-if="!store.state.generalConfig?.remove_branding">
-          —
+        <template v-if="communityName">— {{ communityName }}</template>
+      </strong>
+      <strong>
+        <span class="d-none d-sm-inline">—</span>
+        <template v-if="showBranding">
           <a
             class="text-decoration-none"
             style="color: #fff"
@@ -70,8 +76,8 @@ const navLinks = computed(() => {
           >
             Powered by VyHub
           </a>
-        </span>
-        —
+          —
+        </template>
         {{ version }}
       </strong>
     </div>
