@@ -46,8 +46,38 @@ const vuetify = createVuetify({
     }
   },
   defaults: {
+    // Consistent, slightly softer corner radius across the main surfaces. Keeps
+    // the existing look-and-feel but unifies the mix of 4px/10px/sharp corners
+    // into one modern radius. Theme-agnostic: only affects geometry, not color.
+    VCard: {
+      rounded: 'lg',
+    },
+    VBtn: {
+      rounded: 'lg',
+    },
+    VTextField: {
+      rounded: 'lg',
+    },
+    VSelect: {
+      rounded: 'lg',
+    },
+    VAutocomplete: {
+      rounded: 'lg',
+    },
+    VTextarea: {
+      rounded: 'lg',
+    },
+    VSheet: {
+      rounded: 'lg',
+    },
+    VDialog: {
+      VCard: {
+        rounded: 'lg',
+      },
+    },
     VMenu: {
       openDelay: 100,
+      rounded: 'lg',
     },
     // vjsf reads the time picker's clock format from the global VTimePicker default
     // (it ignores its own timePickerProps option), so set it here to follow the locale.

@@ -5,11 +5,10 @@
     :flat="flat"
   >
     <v-card-title class="d-flex pt-3">
-      <div>
-        <h2 class="text-h6">
-          {{ $t('_shop.labels.recommended') }}
-        </h2>
-      </div>
+      <CardTitle
+        icon="mdi-star-outline"
+        :title="$t('_shop.labels.recommended')"
+      />
     </v-card-title>
     <v-card-text>
       <div v-if="$vuetify.display.mdAndUp || storeOnly">

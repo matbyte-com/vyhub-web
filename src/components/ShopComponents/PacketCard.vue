@@ -83,7 +83,7 @@ async function addToCart() {
   <v-card
     class="flex-column d-flex vh-packet-card"
     border
-    :class="{'card-rounded': display.smAndDown}"
+    :class="{'card-rounded': display.smAndDown, 'vh-hover-lift': !disableHover}"
     height="100%"
     :color="flat ? 'transparent' : ''"
     :flat="flat"

@@ -9,6 +9,7 @@ import router from './router';
 import { pinia } from './store';
 import vuetify from './plugins/vuetify';
 import i18n from './plugins/i18n';
+import '@fontsource-variable/inter';
 import '@/assets/css/main.scss';
 import 'animate.css';
 import AccessControlService from "@/services/AccessControlService";

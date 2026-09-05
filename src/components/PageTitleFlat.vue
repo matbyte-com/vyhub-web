@@ -1,17 +1,15 @@
 <template>
   <v-card
     flat
-    color="primary"
-    class="card-rounded-top d-flex align-center vh-page-title overflow-visible"
-    :class="{ 'title-card': !hideTriangle,
-              'no-bottom-border-radius': noBottomBorderRadius,
-              'card-rounded': !isMenu, 'card-rounded-bottom': isMenu &&
-                !noBottomBorderRadius}"
+    :color="attached ? 'primary' : 'transparent'"
+    class="d-flex align-center vh-page-title overflow-visible"
+    :class="cardClasses"
     style="min-height: 30px"
   >
     <v-card-text
       v-if="!$slots.empty"
-      class="pa-2 ml-1 text-white"
+      class="pa-2 ml-1"
+      :class="{ 'text-white': attached }"
       style="min-width: 0"
     >
       <div
@@ -42,7 +40,7 @@
             <v-icon
               v-if="icon"
               :size="!$vuetify.display.smAndDown ? 'large' : undefined"
-              color="white"
+              :color="attached ? 'white' : 'primary'"
               start
             >
               {{ icon }}
@@ -99,6 +97,24 @@ export default {
     },
   },
   computed: {
+    // "Attached" titles sit directly on top of a card/menu below them (tabs,
+    // cart, mobile search) and form one visual unit, so they keep the familiar
+    // filled primary header. Standalone page titles use the cleaner, more modern
+    // accent-bar heading (transparent background, bold heading, primary left bar).
+    attached() {
+      return this.isMenu || this.noBottomBorderRadius;
+    },
+    cardClasses() {
+      if (!this.attached) {
+        return 'vh-page-title--accent';
+      }
+      return {
+        'card-rounded-top': true,
+        'no-bottom-border-radius': this.noBottomBorderRadius,
+        'card-rounded': !this.isMenu,
+        'card-rounded-bottom': this.isMenu && !this.noBottomBorderRadius,
+      };
+    },
     headlineClasses() {
       let res = '';
       if (this.title && this.title.length > 20 && this.$vuetify.display.smAndDown) res = 'text-h6';
@@ -113,5 +129,14 @@ export default {
 .absolute {
   position: absolute;
   opacity: 0;
+}
+
+/* Standalone page title: a bold heading on the page surface with a primary-colored
+   left accent bar. Reads as modern on any theme because the heading text keeps the
+   default on-background color (always legible) while the brand color shows in the
+   accent bar and icon. */
+.vh-page-title--accent {
+  border-left: 4px solid rgb(var(--v-theme-primary));
+  border-radius: 0 8px 8px 0;
 }
 </style>

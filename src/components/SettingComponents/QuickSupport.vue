@@ -28,12 +28,10 @@
             >
               <div>
                 <v-card-title class="d-flex">
-                  <v-icon
-                    start
-                  >
-                    {{ m.icon }}
-                  </v-icon>
-                  {{ m.title }}
+                  <CardTitle
+                    :icon="m.icon"
+                    :title="m.title"
+                  />
                 </v-card-title>
                 <v-card-text>
                   <p class="text-justify">

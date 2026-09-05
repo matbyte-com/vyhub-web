@@ -1,79 +1,88 @@
 <template>
   <div v-if="server">
-    <div>
-      <v-menu
-        v-model="menuOpen"
-        location="bottom"
-      >
-        <template #activator="{ props }">
-          <div v-bind="props">
-            <PageTitleFlat
-              :title="server.name"
-              :hide-triangle="true"
-              :is-menu="true"
-              class="pageTitleFlat"
-              :no-bottom-border-radius="$vuetify.display.mdAndDown || menuOpen"
+    <PageTitleFlat
+      :title="server.name"
+      icon="mdi-server"
+    >
+      <template #end>
+        <div class="d-flex align-center flex-wrap justify-end ga-2">
+          <!-- Online / offline status; shows the live player count when online -->
+          <v-chip
+            :color="getStatusColor || undefined"
+            variant="flat"
+            size="small"
+            class="font-weight-bold"
+          >
+            <v-icon
+              start
+              size="small"
             >
-              <template #start_or_above>
-                <v-card
-                  v-if="server.status === 'ONLINE'"
-                  class="pa-1"
-                  flat
+              {{ statusIcon }}
+            </v-icon>
+            <template v-if="server.status === 'ONLINE'">
+              {{ server.users_current ?? '?' }} / {{ server.users_max ?? '?' }}
+            </template>
+            <template v-else>
+              {{ statusLabel }}
+            </template>
+          </v-chip>
+          <!-- Explicit server switcher (only when more than one server exists) -->
+          <v-menu
+            v-if="availableServerDashboards && availableServerDashboards.length > 1"
+            v-model="menuOpen"
+            location="bottom end"
+          >
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                variant="tonal"
+                size="small"
+                append-icon="mdi-unfold-more-horizontal"
+              >
+                {{ $t('_serverDashboard.switchServer') }}
+              </v-btn>
+            </template>
+            <v-card
+              class="card-rounded mt-1"
+              min-width="220"
+              max-width="360"
+            >
+              <v-list density="compact">
+                <v-list-item
+                  v-for="serverItem in availableServerDashboards"
+                  :key="serverItem.id"
+                  :active="$route.params.id === serverItem.id"
+                  @click="serverChanged(serverItem)"
                 >
-                  <v-progress-linear
-                    bg-opacity="0.6"
-                    rounded
-                    :model-value="getPlayerOnlineProgress(server)"
-                    height="18"
-                    color="primary"
-                  >
-                    <strong v-if="server.status === 'ONLINE'">
-                      <span v-if="server.users_current != null">
-                        {{ server.users_current }}
-                      </span>
-                      <span v-else>
-                        ?
-                      </span>
-                      /
-                      <span v-if="server.users_max != null">
-                        {{ server.users_max }}
-                      </span>
-                      <span v-else>
-                        ?
-                      </span>
-                    </strong>
-                  </v-progress-linear>
-                </v-card>
-                <div v-else />
-              </template>
-              <template #end>
-                <div class="text-right">
-                  <v-icon color="white">
-                    mdi-unfold-more-horizontal
-                  </v-icon>
-                </div>
-              </template>
-            </PageTitleFlat>
-          </div>
-        </template>
-        <v-card
-          class="card-rounded-bottom"
-        >
-          <v-list>
-            <v-list-item
-              v-for="serverItem in availableServerDashboards"
-              :key="serverItem.id"
-              :active="$route.params.id === serverItem.id"
-              @click="serverChanged(serverItem)"
-            >
-              <v-icon start>
-                {{ serverItem.serverbundle.icon }}
-              </v-icon>{{ serverItem.name }}
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-menu>
-    </div>
+                  <template #prepend>
+                    <v-icon size="small">
+                      {{ serverItem.serverbundle.icon }}
+                    </v-icon>
+                  </template>
+                  <v-list-item-title class="text-body-2 text-truncate">
+                    {{ serverItem.name }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+        </div>
+      </template>
+      <template
+        v-if="server.status === 'ONLINE'"
+        #subtitle
+      >
+        <v-progress-linear
+          bg-opacity="0.6"
+          rounded
+          :model-value="getPlayerOnlineProgress(server)"
+          height="6"
+          color="primary"
+          class="mt-2"
+          style="max-width: 420px"
+        />
+      </template>
+    </PageTitleFlat>
     <v-row
       dense
       :class="{ 'mt-3': !$vuetify.display.mdAndDown }"
@@ -315,6 +324,26 @@ export default {
           return '';
       }
     },
+    statusIcon() {
+      switch (this.server.status) {
+        case 'ONLINE':
+          return 'mdi-check-circle';
+        case 'OFFLINE':
+          return 'mdi-close-circle';
+        default:
+          return 'mdi-help-circle';
+      }
+    },
+    statusLabel() {
+      switch (this.server.status) {
+        case 'ONLINE':
+          return this.$t('_serverDashboard.online');
+        case 'OFFLINE':
+          return this.$t('_serverDashboard.offline');
+        default:
+          return this.$t('unknown');
+      }
+    },
     returnUsers() {
       if (this.userSearchModel === null || this.userSearchModel === '') {
         return this.users;
@@ -418,7 +447,4 @@ export default {
 </script>
 
 <style scoped>
-.pageTitleFlat {
-  transition: all 0.3s ease;
-}
 </style>

@@ -1,24 +1,20 @@
 <template>
   <div>
-    <v-row>
+    <PageTitleFlat :title="$t('_pageTitle.search')" />
+    <v-row class="mt-3">
       <v-col
         cols="12"
         md="8"
       >
-        <PageTitleFlat
-          :title="$t('_pageTitle.search')"
-          :hide-triangle="$vuetify.display.smAndDown"
-          :no-bottom-border-radius="$vuetify.display.smAndDown"
-        />
         <v-card
-          class="mt-3 card-rounded"
+          class="card-rounded"
           flat
         >
           <v-card-title class="pt-3">
-            <v-icon start>
-              mdi-magnify
-            </v-icon>
-            {{ $t('_search.labels.searchUsers') }}
+            <CardTitle
+              icon="mdi-magnify"
+              :title="$t('_search.labels.searchUsers')"
+            />
           </v-card-title>
           <v-card-text>
             <PaginatedDataTable
@@ -96,13 +92,10 @@
           flat
         >
           <v-card-title class="d-flex align-center pt-3">
-            <v-icon
-              start
-              size="small"
-            >
-              mdi-account-clock
-            </v-icon>
-            {{ $t('_search.labels.recentlyActiveUsers') }}
+            <CardTitle
+              icon="mdi-account-clock"
+              :title="$t('_search.labels.recentlyActiveUsers')"
+            />
           </v-card-title>
           <v-card-text>
             <div v-if="recentUsers != null">

@@ -5,10 +5,10 @@
     :border="outlined"
   >
     <v-card-title class="d-flex align-center">
-      <v-icon start>
-        mdi-email
-      </v-icon>
-      {{ $t('email') }}
+      <CardTitle
+        icon="mdi-email"
+        :title="$t('email')"
+      />
     </v-card-title>
     <v-card-text class="text-body-1 mb-0 pb-0">
       <div v-if="!showInput">

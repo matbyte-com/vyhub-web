@@ -1,10 +1,7 @@
 <template>
   <div>
     <div v-if="user">
-      <PageTitleFlat
-        :title="user.username"
-        :no-bottom-border-radius="true"
-      >
+      <PageTitleFlat :title="user.username">
         <template #end>
           <span
             v-if="$checkAdmin()"
@@ -21,7 +18,7 @@
         </template>
       </PageTitleFlat>
       <v-card
-        class="vh-dashboard-tabs card-rounded-bottom no-top-border-radius"
+        class="vh-dashboard-tabs card-rounded mt-3"
         flat
       >
         <v-card-text>
@@ -75,9 +72,9 @@
     </div>
     <!-- Skeleton Loaders -->
     <div v-else>
-      <PageTitleFlat :no-bottom-border-radius="true" />
+      <PageTitleFlat />
       <v-card
-        class="no-top-border-radius card-rounded-bottom"
+        class="card-rounded mt-3"
         flat
       >
         <v-card-text>

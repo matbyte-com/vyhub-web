@@ -14,15 +14,10 @@
       >
         <!-- Unfinished Purchases -->
         <div v-if="openPurchase">
-          <PageTitleFlat
-            :title="$t('_shop.labels.unfinishedPurchase')"
-            :hide-triangle="true"
-            :no-bottom-border-radius="true"
-          />
+          <PageTitleFlat :title="$t('_shop.labels.unfinishedPurchase')" />
           <v-card
-            class="vh-cart-packets-open-purchase card-rounded-bottom"
+            class="vh-cart-packets-open-purchase card-rounded mt-3"
             flat
-            style="border-top-right-radius: 0; border-top-left-radius: 0"
           >
             <v-card-text>
               <transition-group name="packet-list">
@@ -62,16 +57,11 @@
           :class="{ 'mt-3': openPurchase }"
         >
           <!-- Cart Packets -->
-          <PageTitleFlat
-            :title="$t('_shop.labels.cart')"
-            :hide-triangle="true"
-            :no-bottom-border-radius="true"
-          />
+          <PageTitleFlat :title="$t('_shop.labels.cart')" />
           <!-- Either show cart-packets or open-purchase packets -->
           <v-card
-            class="vh-cart-packets card-rounded-bottom"
+            class="vh-cart-packets card-rounded mt-3"
             flat
-            style="border-top-right-radius: 0; border-top-left-radius: 0"
           >
             <v-card-text>
               <transition-group name="packet-list">
@@ -319,8 +309,12 @@
         xl="3"
       >
         <!-- Cart total -->
+        <PageTitleFlat
+          icon="mdi-cart"
+          :title="openPurchase ? $t('_shop.labels.total') : $t('_shop.labels.cartTotal')"
+        />
         <v-card
-          class="vh-cart-total card-rounded"
+          class="vh-cart-total card-rounded mt-3"
           flat
         >
           <v-alert
@@ -329,15 +323,6 @@
           >
             {{ errorMessage }}
           </v-alert>
-          <v-card-title class="d-flex align-center">
-            <v-icon
-              start
-              size="small"
-            >
-              mdi-cart
-            </v-icon>
-            {{ openPurchase ? $t('_shop.labels.total') : $t('_shop.labels.cartTotal') }}
-          </v-card-title>
           <v-card-text class="text-body-1">
             <CartTotal
               :price="price"

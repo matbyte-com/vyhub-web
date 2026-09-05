@@ -10,10 +10,10 @@ const store = useVyHubStore();
     class="vh-cart-accounts card-rounded mt-3"
   >
     <v-card-title class="d-flex">
-      <v-icon start>
-        mdi-account-group
-      </v-icon>
-      {{ $t('_shop.labels.yourAccounts') }}
+      <CardTitle
+        icon="mdi-account-group"
+        :title="$t('_shop.labels.yourAccounts')"
+      />
     </v-card-title>
     <v-card-text v-if="store.isLoggedIn">
       <div class="d-flex flex-wrap">

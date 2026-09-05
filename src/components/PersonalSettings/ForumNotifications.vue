@@ -1,10 +1,10 @@
 <template>
   <v-card class="vh-forum-notifications card-rounded">
     <v-card-title class="d-flex align-center">
-      <v-icon start>
-        mdi-forum
-      </v-icon>
-      {{ $t('_personalSettings.forumNotifications') }}
+      <CardTitle
+        icon="mdi-forum"
+        :title="$t('_personalSettings.forumNotifications')"
+      />
     </v-card-title>
     <v-card-text class="text-body-1">
       <v-switch

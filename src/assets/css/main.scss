@@ -22,6 +22,14 @@
   }
 }
 
+/* Modern, crisp UI font. The app previously fell back to the OS default sans
+   (Roboto was a dependency but never imported), so Inter is a clean, contemporary
+   upgrade that stays theme-agnostic. Keeps a system-font fallback stack. */
+.v-application,
+.v-overlay-container {
+  font-family: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
 .text-h1 { font-size: 6rem; font-weight: 300; line-height: 1; letter-spacing: -0.015625em; }
 .text-h2 { font-size: 3.75rem; font-weight: 300; line-height: 1.05; letter-spacing: -0.0083333333em; }
 .text-h3 { font-size: 3rem; font-weight: 400; line-height: 1.05; letter-spacing: normal; }
@@ -102,23 +110,73 @@
   border-radius: 3px !important;
 }
 
+/* Corner radius unified with the global Vuetify `rounded: 'lg'` (8px) default so
+   cards, buttons and inputs share one consistent, modern radius. */
 .card-rounded {
-  border-radius: 10px !important;
+  border-radius: 8px !important;
 }
 
 .card-rounded-bottom {
-  border-bottom-left-radius: 10px !important;
-  border-bottom-right-radius: 10px !important;
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
 }
 
 .card-rounded-top {
-  border-top-left-radius: 10px !important;
-  border-top-right-radius: 10px !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
 }
 
 .no-bottom-border-radius {
   border-bottom-right-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+
+/* --- Depth & elevation ---------------------------------------------------
+   Most cards in the app use `flat`, so they sit at nearly the same value as the
+   page background - especially on dark themes - and read as one flat plane with
+   no separation. Give flat surfaces a hairline border plus a very soft shadow
+   so they gain definition on ANY palette without touching the theme colors.
+   The border uses Vuetify's per-theme border-color token, so it stays subtle on
+   both light and dark. Transparent cards opt out. */
+:root {
+  --vh-shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --vh-shadow-raised: 0 6px 24px rgba(0, 0, 0, 0.14);
+}
+
+.v-card.v-card--variant-flat:not(.transparent):not(.bg-transparent):not(.vh-page-title) {
+  border: thin solid rgba(var(--v-border-color), 0.08);
+  box-shadow: var(--vh-shadow-soft);
+}
+
+/* Interactive tiles (shop packets, clickable cards) gently lift on hover for a
+   more tactile, modern feel. Opt-in via class so static cards stay calm. */
+.vh-hover-lift {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.vh-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--vh-shadow-raised) !important;
+}
+
+/* --- Unified card headers ------------------------------------------------
+   Card titles were authored inconsistently across the app (the shared CardTitle
+   component, raw <v-card-title> + icon, bare <h2 class="text-h6">, various sizes
+   and weights). Normalize every card header to one size/weight/spacing so they
+   read as a single system. Unlayered, so it wins over Vuetify's layered default
+   regardless of specificity. */
+.v-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.0125em;
+}
+
+/* Leading icon in a plain card header takes the theme accent, matching the
+   CardTitle component. Colored headers (e.g. dialog headers with `bg-primary`)
+   opt out so their contrasting icon color is preserved. */
+.v-card-title:not([class*="bg-"]) > .v-icon:first-child {
+  color: rgb(var(--v-theme-primary));
 }
 
 .no-top-border-radius {

@@ -6,8 +6,17 @@
     >
       <v-card
         v-if="packet"
-        class="card-rounded"
+        class="card-rounded position-relative"
       >
+        <v-btn
+          icon="mdi-close"
+          variant="text"
+          density="comfortable"
+          class="position-absolute"
+          style="top: 8px; right: 8px; z-index: 2;"
+          :aria-label="$t('close')"
+          @click="close"
+        />
         <v-card-text class="pa-5">
           <v-row>
             <!-- Image column -->
@@ -23,7 +32,7 @@
                 <PacketImage
                   :cover="true"
                   :packet="packet"
-                  style="border-radius: 3px"
+                  style="border-radius: 8px"
                 >
                   <div
                     class="d-flex"
@@ -282,24 +291,20 @@
             </v-col>
           </v-row>
           <!-- Description -->
+          <v-divider
+            v-if="packet.description"
+            class="mt-2 mb-4"
+          />
           <v-card
             v-if="packet.description"
             class="flex d-flex flex-column vh-shop-package-description bg-transparent"
             flat
           >
             <v-card-title class="px-0 mx-0 align-center d-flex">
-              <v-icon
-                color="primary"
-                start
-              >
-                mdi-star-four-points
-              </v-icon>
-              <span
-                class="font-weight-bold"
-                style="font-size: larger;"
-              >
-                {{ $t('_shop.labels.productDescription') }}
-              </span>
+              <CardTitle
+                icon="mdi-star-four-points"
+                :title="$t('_shop.labels.productDescription')"
+              />
             </v-card-title>
             <!-- eslint-disable vue/no-v-html -- trusted admin/staff-authored content -->
             <span
@@ -453,6 +458,6 @@ export default {
 
 <style>
 .button-rounded {
-  border-radius: 7px;
+  border-radius: 8px;
 }
 </style>

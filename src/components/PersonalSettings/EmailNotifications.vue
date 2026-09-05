@@ -1,10 +1,10 @@
 <template>
   <v-card class="vh-email-notifications card-rounded">
     <v-card-title class="d-flex align-center">
-      <v-icon start>
-        mdi-bell-badge
-      </v-icon>
-      {{ $t('_personalSettings.emailNotifications') }}
+      <CardTitle
+        icon="mdi-bell-badge"
+        :title="$t('_personalSettings.emailNotifications')"
+      />
     </v-card-title>
     <v-card-text class="text-body-1">
       <v-switch

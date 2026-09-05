@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-center flex-grow-1">
+  <div class="d-flex align-center flex-grow-1 vh-card-title">
     <v-spacer v-if="centered" />
     <v-icon
       v-if="!noIcon"
@@ -9,10 +9,8 @@
     >
       {{ icon }}
     </v-icon>
-    <!--<v-sheet vertical color="primary" width="2" height="25" v-if="!noIcon">
-    </v-sheet>-->
     <span
-      class="mr-1"
+      class="mr-1 vh-card-title__text"
       style="white-space: nowrap"
     >
       {{ title }}
@@ -39,5 +37,14 @@ export default {
 </script>
 
 <style scoped>
-
+/* Canonical card-heading typography. Mirrors the global `.v-card-title` rule in
+   main.scss so headers look identical whether authored via this component or as
+   a raw <v-card-title>. Kept explicit here so CardTitle is self-contained even
+   when used outside a <v-card-title> wrapper. */
+.vh-card-title__text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.0125em;
+}
 </style>

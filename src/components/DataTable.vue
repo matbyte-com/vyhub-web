@@ -45,6 +45,22 @@
         />
       </div>
     </template>
+    <!-- Friendly empty state instead of the bare "No data available" text.
+         Skipped when the caller supplies its own no-data slot. -->
+    <template
+      v-if="!$slots['no-data']"
+      #no-data
+    >
+      <div class="d-flex flex-column align-center justify-center text-medium-emphasis py-8">
+        <v-icon
+          size="40"
+          class="mb-2"
+        >
+          mdi-database-off-outline
+        </v-icon>
+        <span>{{ $t('noDataAvailable') }}</span>
+      </div>
+    </template>
     <template
       v-for="(_, slot) of inheritSlots"
       #[slot]="scope"
