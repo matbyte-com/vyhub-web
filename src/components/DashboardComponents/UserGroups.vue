@@ -35,7 +35,7 @@
         <v-icon start>
           mdi-shield
         </v-icon>
-        {{ $t('properties') }}
+        {{ $t('permissions') }}
       </v-tab>
     </v-tabs>
 
@@ -46,42 +46,52 @@
           class="card-rounded"
           flat
         >
-          <v-row>
-            <v-col>
-              <v-table>
-                <tbody v-if="serverBundles != null">
-                  <tr
-                    v-for="bundle in serverBundles"
-                    :key="bundle.id"
+          <v-table v-if="bundlesWithGroups.length > 0">
+            <tbody>
+              <tr
+                v-for="bundle in bundlesWithGroups"
+                :key="bundle.id"
+              >
+                <td
+                  class="text-medium-emphasis"
+                  style="white-space: nowrap; vertical-align: middle"
+                >
+                  <v-icon
+                    v-if="bundle.icon"
+                    start
                   >
-                    <td>
-                      <v-icon
-                        v-if="bundle.icon"
-                        start
-                      >
-                        {{ bundle.icon }}
-                      </v-icon>
-                      {{ bundle.name }}
-                    </td>
-                    <td>
-                      <v-chip
-                        v-for="group in getUserActiveGroupsByBundle(bundle)"
-                        :key="group.id"
-                        :color="group.color ? group.color : '#000000'"
-                        variant="outlined"
-                        class="ml-1 mb-1 a mt-1"
-                        :class="checkGroups(group)"
-                      >
-                        <!-- @mouseover="setActiveProps(group)"
-                       @mouseleave="resetActives" -->
-                        {{ group.name }}
-                      </v-chip>
-                    </td>
-                  </tr>
-                </tbody>
-              </v-table>
-            </v-col>
-          </v-row>
+                    {{ bundle.icon }}
+                  </v-icon>
+                  {{ bundle.name }}
+                </td>
+                <td>
+                  <v-chip
+                    v-for="group in getUserActiveGroupsByBundle(bundle)"
+                    :key="group.id"
+                    :color="group.color || undefined"
+                    variant="outlined"
+                    size="small"
+                    class="ml-1 mb-1 a mt-1"
+                    :class="checkGroups(group)"
+                  >
+                    {{ group.name }}
+                  </v-chip>
+                </td>
+              </tr>
+            </tbody>
+          </v-table>
+          <v-card-text
+            v-else
+            class="text-medium-emphasis text-center py-6"
+          >
+            <v-icon
+              size="40"
+              class="mb-2 d-block mx-auto"
+            >
+              mdi-account-group-outline
+            </v-icon>
+            {{ $t('_dashboard.labels.noGroups') }}
+          </v-card-text>
           <v-card-text>
             <v-btn
               v-if="$checkProp('user_edit')"
@@ -158,6 +168,19 @@
                 hide-details="auto"
                 :label="$t('_membership.labels.showInactive')"
               />
+            </template>
+            <template #no-data>
+              <div class="d-flex flex-column align-center justify-center text-medium-emphasis py-6">
+                <v-icon
+                  size="40"
+                  class="mb-2"
+                >
+                  mdi-timer-off-outline
+                </v-icon>
+                <span>{{ showPassedMemberships
+                  ? $t('_membership.labels.noMemberships')
+                  : $t('_membership.labels.noActiveMemberships') }}</span>
+              </div>
             </template>
           </v-data-table>
           <v-card-text>
@@ -242,6 +265,13 @@ export default {
   computed: {
     allGroups() {
       return this.userActiveGroups.map((gs) => gs.group);
+    },
+    // Only serverbundles in which the user actually holds a group - empty
+    // bundles just add noise to the panel.
+    bundlesWithGroups() {
+      if (this.serverBundles == null) return [];
+      return this.serverBundles
+        .filter((bundle) => this.getUserActiveGroupsByBundle(bundle).length > 0);
     },
     computedHeaders() {
       if (this.$checkProp('user_edit')) {
