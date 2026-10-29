@@ -181,7 +181,7 @@
       v-model="purchaseDetailShown"
       icon="mdi-currency-usd"
       :title="$t('_purchases.labels.details')"
-      :max-width="700"
+      :max-width="1100"
     >
       <template #default>
         <div v-if="currentPurchase != null">
@@ -330,13 +330,19 @@
                         {{ $t('amount') }}
                       </th>
                       <th>
+                        {{ $t('status') }}
+                      </th>
+                      <th>
+                        {{ $t('_purchases.labels.refunded') }}
+                      </th>
+                      <th>
                         {{ $t('invoice') }}
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr
-                      v-for="debit in filterFinishedDebits(currentPurchase.debits)"
+                      v-for="debit in filterShownDebits(currentPurchase.debits)"
                       :key="debit.id"
                     >
                       <td>{{ new Date(debit.date).toLocaleString() }}</td>
@@ -359,6 +365,23 @@
                         {{ store.shopConfig.credits_display_title }}
                       </td>
                       <td>
+                        <v-chip
+                          v-if="debit.status !== 'FINISHED'"
+                          class="text-white"
+                          color="info"
+                          size="small"
+                        >
+                          {{ $t(`_shop.debitStatus.${debit.status.toLowerCase()}`) }}
+                        </v-chip>
+                        <span v-else>-</span>
+                      </td>
+                      <td>
+                        <span v-if="debitRefundedText(debit) != null">
+                          {{ debitRefundedText(debit) }}
+                        </span>
+                        <span v-else>-</span>
+                      </td>
+                      <td>
                         <v-btn
                           color="primary"
                           variant="outlined"
@@ -368,6 +391,19 @@
                         >
                           <v-icon>
                             mdi-file-download
+                          </v-icon>
+                        </v-btn>
+                        <v-btn
+                          v-if="debit.refundable && $checkProp('purchase_edit')"
+                          class="ml-2"
+                          color="error"
+                          variant="outlined"
+                          size="small"
+                          :title="$t('_purchases.labels.refundPayment')"
+                          @click="showRefundDebitDialog(debit)"
+                        >
+                          <v-icon>
+                            mdi-cash-refund
                           </v-icon>
                         </v-btn>
                       </td>
@@ -455,6 +491,25 @@
       :btn-text="$t('_purchases.labels.refund')"
       @submit="refundPurchase"
     />
+    <DialogForm
+      ref="refundDebitDialog"
+      :form-schema="refundDebitSchema"
+      icon="mdi-cash-refund"
+      :submit-text="$t('_purchases.labels.refund')"
+      :title="$t('_purchases.labels.refundPayment')"
+      @submit="refundDebit"
+    >
+      <template #form-before>
+        <v-alert
+          class="mb-4"
+          type="info"
+          variant="tonal"
+          density="compact"
+        >
+          {{ $t('_purchases.messages.refundPaymentConfirm') }}
+        </v-alert>
+      </template>
+    </DialogForm>
     <DeleteConfirmationDialog
       ref="confirmDeleteDialog"
       :text="$t('_purchases.messages.deleteConfirm')"
@@ -513,6 +568,7 @@ export default {
       bulkAction: null,
       bulkActionItems: [],
       bulkConfirmText: null,
+      refundDebitTarget: null,
     };
   },
   computed: {
@@ -532,6 +588,36 @@ export default {
     bulkConfirmBtnText() {
       const cfg = this.bulkActions[this.bulkAction];
       return cfg?.label ?? this.$t('confirm');
+    },
+    refundDebitSchema() {
+      const debit = this.refundDebitTarget;
+      const credits = debit != null && debit.credits != null;
+      const maximum = debit?.refundable_amount;
+
+      return {
+        type: 'object',
+        properties: {
+          amount: {
+            type: ['number', 'null'],
+            title: credits
+              ? this.store.shopConfig.credits_display_title
+              : this.$t('_purchases.labels.refundAmount'),
+            description: this.$t('_purchases.messages.refundAmountDescription', {
+              amount: debit != null ? this.debitAmountText(debit, maximum) : '',
+            }),
+            minimum: 0,
+            maximum: maximum ?? undefined,
+            // Credits are indivisible.
+            multipleOf: credits ? 1 : undefined,
+            layout: {
+              props: {
+                hideDetails: 'auto',
+                clearable: true,
+              },
+            },
+          },
+        },
+      };
     },
     bulkActions() {
       return {
@@ -611,8 +697,51 @@ export default {
     showDetails(purchase) {
       this.$router.push({query: {purchase_id: purchase.id}});
     },
-    filterFinishedDebits(debits) {
-      return debits.filter((debit) => debit.status === 'FINISHED');
+    filterShownDebits(debits) {
+      // Refunds are usually not settled right away (Stripe, PayPal), so pending ones are shown
+      // too - otherwise an initiated refund would be invisible until the provider confirms it.
+      return debits.filter((debit) => debit.status === 'FINISHED'
+        || (debit.refund_for_debit_id != null && ['STARTED', 'APPROVED'].includes(debit.status)));
+    },
+    debitAmountText(debit, amount) {
+      // Debits are settled either in money or in credits, never in both.
+      return debit.credits != null
+        ? `${amount} ${this.store.shopConfig.credits_display_title}`
+        : this.utils.formatCurrency(amount, this.currentPurchase.currency.code);
+    },
+    debitRefundedText(debit) {
+      if (!debit.refunded_amount || debit.refunded_amount <= 0) {
+        return null;
+      }
+
+      return this.debitAmountText(debit, debit.refunded_amount);
+    },
+    showRefundDebitDialog(debit) {
+      this.refundDebitTarget = debit;
+      this.$refs.refundDebitDialog.show(debit, {amount: debit.refundable_amount});
+    },
+    async refundDebit(debit) {
+      const api = await openapi;
+      const data = this.$refs.refundDebitDialog.getData();
+
+      const body = {};
+
+      // An empty amount refunds everything that is left of the payment.
+      if (data.amount != null && data.amount !== '') {
+        body.amount = Number(data.amount);
+      }
+
+      api.shop_refundDebit({uuid: debit.id}, body).then(() => {
+        this.$notify({
+          title: this.$t('_purchases.messages.refundInitSuccess'),
+          type: 'success',
+        });
+        this.fetchData();
+        this.$refs.refundDebitDialog.closeAndReset();
+      }).catch((err) => {
+        console.log(err);
+        this.$refs.refundDebitDialog.setError(err);
+      });
     },
     async downloadInvoice(debit) {
       (await openapi).shop_getDebitInvoice(

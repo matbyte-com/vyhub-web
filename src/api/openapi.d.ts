@@ -1127,6 +1127,22 @@ declare namespace Components {
             extra?: /* Extra */ {
                 [name: string]: any;
             } | null;
+            /**
+             * Refundable
+             */
+            refundable: boolean;
+            /**
+             * Refund For Debit Id
+             */
+            refund_for_debit_id?: /* Refund For Debit Id */ string /* uuid */ | null;
+            /**
+             * Refunded Amount
+             */
+            refunded_amount: /* Refunded Amount */ number | number;
+            /**
+             * Refundable Amount
+             */
+            refundable_amount: /* Refundable Amount */ number | number;
             purchase: /* PurchaseModelShort */ PurchaseModelShort;
         }
         /**
@@ -1189,6 +1205,22 @@ declare namespace Components {
             extra?: /* Extra */ {
                 [name: string]: any;
             } | null;
+            /**
+             * Refundable
+             */
+            refundable: boolean;
+            /**
+             * Refund For Debit Id
+             */
+            refund_for_debit_id?: /* Refund For Debit Id */ string /* uuid */ | null;
+            /**
+             * Refunded Amount
+             */
+            refunded_amount: /* Refunded Amount */ number | number;
+            /**
+             * Refundable Amount
+             */
+            refundable_amount: /* Refundable Amount */ number | number;
         }
         /**
          * DebitModelStatistic
@@ -1214,6 +1246,15 @@ declare namespace Components {
              * Credits
              */
             credits?: /* Credits */ number | null;
+        }
+        /**
+         * DebitRefundModel
+         */
+        export interface DebitRefundModel {
+            /**
+             * Amount
+             */
+            amount?: /* Amount */ number | string /* ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$ */ | null;
         }
         /**
          * DebitStatus
@@ -1706,6 +1747,34 @@ declare namespace Components {
              * Reactions Count
              */
             reactions_count: number;
+        }
+        /**
+         * ForumSubscriptionModel
+         */
+        export interface ForumSubscriptionModel {
+            /**
+             * Id
+             */
+            id: string; // uuid
+            /**
+             * Active
+             */
+            active: boolean;
+            /**
+             * Created
+             */
+            created: string; // date-time
+            topic?: /* TopicModelExtraShort */ TopicModelExtraShort | null;
+            thread?: /* ThreadModelExtraShort */ ThreadModelExtraShort | null;
+        }
+        /**
+         * ForumSubscriptionModelPut
+         */
+        export interface ForumSubscriptionModelPut {
+            /**
+             * Active
+             */
+            active: boolean;
         }
         /**
          * FrontendURLModel
@@ -4050,6 +4119,10 @@ declare namespace Components {
              */
             refundable: boolean;
             /**
+             * Refunded Amount
+             */
+            refunded_amount: /* Refunded Amount */ number | number;
+            /**
              * Ext Subscription Id
              */
             ext_subscription_id?: /* Ext Subscription Id */ string | null;
@@ -5373,6 +5446,10 @@ declare namespace Components {
              * Is Read
              */
             is_read?: boolean;
+            /**
+             * Subscribed
+             */
+            subscribed?: boolean;
             last_post?: /* PostModelExtraShort */ PostModelExtraShort | null;
             /**
              * Posts Total
@@ -5617,6 +5694,10 @@ declare namespace Components {
              */
             title: string;
             /**
+             * Subscribed
+             */
+            subscribed?: boolean;
+            /**
              * Description
              */
             description?: /* Description */ string | null;
@@ -5754,6 +5835,10 @@ declare namespace Components {
              * Title
              */
             title: string;
+            /**
+             * Subscribed
+             */
+            subscribed?: boolean;
             /**
              * Description
              */
@@ -6224,6 +6309,10 @@ declare namespace Components {
              */
             email_notification: boolean;
             /**
+             * Forum Notification
+             */
+            forum_notification: boolean;
+            /**
              * Activities
              */
             activities: /* UserActivityModel */ UserActivityModel[];
@@ -6375,6 +6464,10 @@ declare namespace Components {
              */
             email_notification: boolean;
             /**
+             * Forum Notification
+             */
+            forum_notification: boolean;
+            /**
              * Activities
              */
             activities: /* UserActivityModel */ UserActivityModel[];
@@ -6412,6 +6505,10 @@ declare namespace Components {
              * Email Notification
              */
             email_notification?: /* Email Notification */ boolean | null;
+            /**
+             * Forum Notification
+             */
+            forum_notification?: /* Forum Notification */ boolean | null;
             /**
              * Admin
              */
@@ -7835,6 +7932,24 @@ declare namespace Paths {
             export type $200 = /* SubforumModel */ Components.Schemas.SubforumModel[];
         }
     }
+    namespace ForumGetSubscriptions {
+        namespace Parameters {
+            /**
+             * Active
+             */
+            export type Active = boolean;
+        }
+        export interface QueryParameters {
+            active?: /* Active */ Parameters.Active;
+        }
+        namespace Responses {
+            /**
+             * Response Forum Getsubscriptions
+             */
+            export type $200 = /* ForumSubscriptionModel */ Components.Schemas.ForumSubscriptionModel[];
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace ForumGetThread {
         namespace Parameters {
             /**
@@ -8098,6 +8213,27 @@ declare namespace Paths {
             export type $200 = /* TopicModel */ Components.Schemas.TopicModel[];
         }
     }
+    namespace ForumSetThreadSubscription {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* ForumSubscriptionModelPut */ Components.Schemas.ForumSubscriptionModelPut;
+        namespace Responses {
+            export type $200 = /* ForumSubscriptionModel */ Components.Schemas.ForumSubscriptionModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace ForumSetTicketCategory {
         namespace Parameters {
             /**
@@ -8116,6 +8252,27 @@ declare namespace Paths {
         export type RequestBody = /* Body_forum_setTicketCategory */ Components.Schemas.BodyForumSetTicketCategory;
         namespace Responses {
             export type $200 = /* ThreadModel */ Components.Schemas.ThreadModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
+    namespace ForumSetTopicSubscription {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* ForumSubscriptionModelPut */ Components.Schemas.ForumSubscriptionModelPut;
+        namespace Responses {
+            export type $200 = /* ForumSubscriptionModel */ Components.Schemas.ForumSubscriptionModel;
             export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
         }
     }
@@ -11001,6 +11158,27 @@ declare namespace Paths {
             export type $200 = /* TopDonatorModelWithCurrency */ Components.Schemas.TopDonatorModelWithCurrency;
         }
     }
+    namespace ShopRefundDebit {
+        namespace Parameters {
+            /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            export type Uuid = any;
+        }
+        export interface PathParameters {
+            uuid: /**
+             * Uuid
+             * The UUID of the referenced object.
+             */
+            Parameters.Uuid;
+        }
+        export type RequestBody = /* DebitRefundModel */ Components.Schemas.DebitRefundModel;
+        namespace Responses {
+            export type $200 = /* DebitModel */ Components.Schemas.DebitModel;
+            export type $422 = /* HTTPValidationError */ Components.Schemas.HTTPValidationError;
+        }
+    }
     namespace ShopRemoveDiscount {
         namespace Parameters {
             /**
@@ -13732,6 +13910,16 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ShopGetDebit.Responses.$200>
   /**
+   * shop_refundDebit - Refund Debit
+   * 
+   * Refund a single payment, fully or partially. The amount is in the unit the payment was settled in (money, or credits for a credits payment). Leave it empty to refund everything that is left of the payment.
+   */
+  'shop_refundDebit'(
+    parameters?: Parameters<Paths.ShopRefundDebit.PathParameters> | null,
+    data?: Paths.ShopRefundDebit.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ShopRefundDebit.Responses.$200>
+  /**
    * shop_addCouponCodes - Add Coupon Codes
    * 
    * Save user entered coupons to the specified debit
@@ -14683,6 +14871,32 @@ export interface OperationMethods {
     data?: Paths.ForumUpdateTicketCategoryOrder.RequestBody,
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ForumUpdateTicketCategoryOrder.Responses.$200>
+  /**
+   * forum_getSubscriptions - Get Subscriptions
+   * 
+   * The caller's subscriptions, including those made from a linked account.
+   */
+  'forum_getSubscriptions'(
+    parameters?: Parameters<Paths.ForumGetSubscriptions.QueryParameters> | null,
+    data?: any,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumGetSubscriptions.Responses.$200>
+  /**
+   * forum_setTopicSubscription - Set Topic Subscription
+   */
+  'forum_setTopicSubscription'(
+    parameters?: Parameters<Paths.ForumSetTopicSubscription.PathParameters> | null,
+    data?: Paths.ForumSetTopicSubscription.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumSetTopicSubscription.Responses.$200>
+  /**
+   * forum_setThreadSubscription - Set Thread Subscription
+   */
+  'forum_setThreadSubscription'(
+    parameters?: Parameters<Paths.ForumSetThreadSubscription.PathParameters> | null,
+    data?: Paths.ForumSetThreadSubscription.RequestBody,
+    config?: AxiosRequestConfig  
+  ): OperationResponse<Paths.ForumSetThreadSubscription.Responses.$200>
   /**
    * forum_getTopicThreads - Get Topic Threads
    */
@@ -16437,6 +16651,18 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ShopGetDebit.Responses.$200>
   }
+  ['/shop/debit/{uuid}/refund']: {
+    /**
+     * shop_refundDebit - Refund Debit
+     * 
+     * Refund a single payment, fully or partially. The amount is in the unit the payment was settled in (money, or credits for a credits payment). Leave it empty to refund everything that is left of the payment.
+     */
+    'post'(
+      parameters?: Parameters<Paths.ShopRefundDebit.PathParameters> | null,
+      data?: Paths.ShopRefundDebit.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ShopRefundDebit.Responses.$200>
+  }
   ['/shop/debit/{uuid}/coupon']: {
     /**
      * shop_addCouponCodes - Add Coupon Codes
@@ -17545,6 +17771,38 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ForumUpdateTicketCategoryOrder.Responses.$200>
   }
+  ['/forum/subscription']: {
+    /**
+     * forum_getSubscriptions - Get Subscriptions
+     * 
+     * The caller's subscriptions, including those made from a linked account.
+     */
+    'get'(
+      parameters?: Parameters<Paths.ForumGetSubscriptions.QueryParameters> | null,
+      data?: any,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumGetSubscriptions.Responses.$200>
+  }
+  ['/forum/topic/{uuid}/subscription']: {
+    /**
+     * forum_setTopicSubscription - Set Topic Subscription
+     */
+    'put'(
+      parameters?: Parameters<Paths.ForumSetTopicSubscription.PathParameters> | null,
+      data?: Paths.ForumSetTopicSubscription.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumSetTopicSubscription.Responses.$200>
+  }
+  ['/forum/thread/{uuid}/subscription']: {
+    /**
+     * forum_setThreadSubscription - Set Thread Subscription
+     */
+    'put'(
+      parameters?: Parameters<Paths.ForumSetThreadSubscription.PathParameters> | null,
+      data?: Paths.ForumSetThreadSubscription.RequestBody,
+      config?: AxiosRequestConfig  
+    ): OperationResponse<Paths.ForumSetThreadSubscription.Responses.$200>
+  }
   ['/forum/topic/{uuid}/threads']: {
     /**
      * forum_getTopicThreads - Get Topic Threads
@@ -17990,6 +18248,7 @@ export type DBImportResult = Components.Schemas.DBImportResult;
 export type DebitModel = Components.Schemas.DebitModel;
 export type DebitModelNoPurchase = Components.Schemas.DebitModelNoPurchase;
 export type DebitModelStatistic = Components.Schemas.DebitModelStatistic;
+export type DebitRefundModel = Components.Schemas.DebitRefundModel;
 export type DebitStatus = Components.Schemas.DebitStatus;
 export type DiscountModel = Components.Schemas.DiscountModel;
 export type DiscountModelAdd = Components.Schemas.DiscountModelAdd;
@@ -18003,6 +18262,8 @@ export type FAQModelPatch = Components.Schemas.FAQModelPatch;
 export type FeedbackMailModel = Components.Schemas.FeedbackMailModel;
 export type FinanceReportEntry = Components.Schemas.FinanceReportEntry;
 export type ForumStatsModel = Components.Schemas.ForumStatsModel;
+export type ForumSubscriptionModel = Components.Schemas.ForumSubscriptionModel;
+export type ForumSubscriptionModelPut = Components.Schemas.ForumSubscriptionModelPut;
 export type FrontendURLModel = Components.Schemas.FrontendURLModel;
 export type GExtensionImportModel = Components.Schemas.GExtensionImportModel;
 export type GExtensionPacketModel = Components.Schemas.GExtensionPacketModel;
