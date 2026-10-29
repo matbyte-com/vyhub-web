@@ -29,7 +29,7 @@
             >
               <template #activator="{ props }">
                 <v-text-field
-                  v-model="startDateString"
+                  :model-value="startDate.toLocaleDateString()"
                   variant="underlined"
                   :label="$t('start')"
                   prepend-icon="mdi-calendar"
@@ -88,7 +88,7 @@
             >
               <template #activator="{ props }">
                 <v-text-field
-                  v-model="endDateString"
+                  :model-value="endDate.toLocaleDateString()"
                   class="ml-5"
                   variant="underlined"
                   :label="$t('end')"
@@ -411,9 +411,7 @@ export default {
       logs: null,
       totalItems: 0,
       startDate: new Date(Date.now() - 86400000 * 7),
-      startDateString: new Date(Date.now() - 86400000 * 7).toISOString().split('T')[0],
       endDate: new Date(),
-      endDateString: new Date().toISOString().split('T')[0],
       startTime: '00:00',
       endTime: '23:59',
       labels: {},
@@ -435,10 +433,10 @@ export default {
   },
   computed: {
     start() {
-      return new Date(`${this.startDate.toISOString().split('T')[0]}T${this.startTime}`);
+      return this.combineDateTime(this.startDate, this.startTime);
     },
     end() {
-      return new Date(`${this.endDate.toISOString().split('T')[0]}T${this.endTime}`);
+      return this.combineDateTime(this.endDate, this.endTime);
     },
     categories() {
       if ('category' in this.labels) {
@@ -509,7 +507,6 @@ export default {
         const newDate = new Date(this.endDate);
         newDate.setDate(newDate.getDate() - this.maxIntervalDays);
         this.startDate = newDate;
-        this.startDateString = newDate.toISOString().split('T')[0];
       }
     },
     startDate() {
@@ -522,7 +519,6 @@ export default {
         const newDate = new Date(this.startDate);
         newDate.setDate(newDate.getDate() + this.maxIntervalDays);
         this.endDate = newDate;
-        this.endDateString = newDate.toISOString().split('T')[0];
       }
     },
   },
@@ -583,6 +579,12 @@ export default {
     applyAdvancedFilters() {
       this.selectedFilters = this.$refs.labelFilterDialog.getData();
       this.$refs.labelFilterDialog.close();
+    },
+    combineDateTime(date, time) {
+      const [hours, minutes] = time.split(':').map(Number);
+      const result = new Date(date);
+      result.setHours(hours, minutes, 0, 0);
+      return result;
     },
     datediff(first, second) {
       return Math.round((second - first) / (1000 * 60 * 60 * 24));
