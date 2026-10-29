@@ -58,12 +58,13 @@
       <v-card-text class="pt-1">
         <v-tabs
           v-if="$vuetify.display.mdAndUp"
-          v-model="tab"
+          :model-value="selectedCategory?.name"
           color="primary"
         >
           <v-tab
             v-for="c in categories"
             :key="c.id"
+            :value="c.name"
             class="animate__animated"
             @click="$router.push({ params: { categoryId: c.name } });"
           >
@@ -152,7 +153,6 @@ import { useVyHubStore } from '@/store';
 export default {
   data() {
     return {
-      tab: null,
       packets: null,
       categories: null,
       navigationDrawer: null,
@@ -222,8 +222,6 @@ export default {
       (await openapi).packet_getCategories()
         .then((rsp) => {
           this.categories = rsp.data.filter((cat) => cat.enabled);
-          this.tab = rsp.data.findIndex((cat) => cat.id === this.$route.params.categoryId
-            || cat.name === this.$route.params.categoryId);
         });
     },
     insertCategoryIntoArray(sourceArray, index) {
